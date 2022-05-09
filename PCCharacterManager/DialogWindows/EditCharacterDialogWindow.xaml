@@ -1,0 +1,158 @@
+﻿<Window x:Class="PCCharacterManager.DialogWindows.EditCharacterDialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PCCharacterManager.DialogWindows"
+        xmlns:v="clr-namespace:PCCharacterManager.Views"
+        mc:Ignorable="d"
+        ResizeMode="NoResize"
+        ShowInTaskbar="false"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource ViewBackgroundColor}"
+        Title="EditCharacterDialogWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1"
+                   Style="{StaticResource h3}"
+                   Text="Languages"/>
+        <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="4"
+                  Background="{StaticResource BackGroundColorDark}" Foreground="White"
+                  BorderBrush="White" BorderThickness="1" Margin="3" Padding="5" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  HorizontalContentAlignment="Stretch"
+                  SelectedItem="{Binding Language}"
+                  ItemsSource="{Binding Character.Languages}" />
+        <Button Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Command="{Binding AddLanguageCommand}"
+                Content="Add Language"/>
+        <Button Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Command="{Binding RemoveLanguageCommand}"
+                Content="Remove Language"/>
+
+        <TextBlock Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource h3}"
+                   Text="Movement"/>
+        <ListView Grid.Column="2" Grid.Row="1"  Grid.ColumnSpan="2" Grid.RowSpan="4"
+                  Background="{StaticResource BackGroundColorDark}" Foreground="White"
+                  BorderBrush="White" BorderThickness="1" Margin="3" Padding="5" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  HorizontalContentAlignment="Stretch"
+                  SelectedItem="{Binding Movement}"
+                  ItemsSource="{Binding Character.MovementTypes_Speeds}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <v:PropertyDisplayView/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Command="{Binding AddMovementCommand}"
+                Content="Add Movement"/>
+        <Button Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Command="{Binding RemoveMovementCommand}"
+                Content="Remove Movement"/>
+
+        <TextBlock Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1"
+                   Style="{StaticResource h3}"
+                   Text="Weapon Profs"/>
+        <ListView Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="4"
+                  Background="{StaticResource BackGroundColorDark}" Foreground="White"
+                  BorderBrush="White" BorderThickness="1" Margin="3" Padding="5" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  HorizontalContentAlignment="Stretch"
+                  SelectedItem="{Binding Weapon}"
+                  ItemsSource="{Binding Character.WeaponProficiencies}" />
+        <Button Grid.Column="4" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Command="{Binding AddWeaponCommand}"
+                Content="Add Weapon"/>
+        <Button Grid.Column="5" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Command="{Binding RemoveWeaponCommand}"
+                Content="Remove Weapon"/>
+
+        <TextBlock Grid.Column="6" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource h3}"
+                   Text="Armor Profs"/>
+        <ListView Grid.Column="6" Grid.Row="1"  Grid.ColumnSpan="2" Grid.RowSpan="4"
+                  Background="{StaticResource BackGroundColorDark}" Foreground="White"
+                  BorderBrush="White" BorderThickness="1" Margin="3" Padding="5" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  HorizontalContentAlignment="Stretch"
+                  SelectedItem="{Binding Armor}"
+                  ItemsSource="{Binding Character.ArmorProficiencies}"/>
+        <Button Grid.Column="6" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Command="{Binding AddArmorCommand}"
+                Content="Add Armor"/>
+        <Button Grid.Column="7" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Command="{Binding RemoveArmorCommand}"
+                Content="Remove Armor"/>
+
+        <TextBlock Grid.Column="8" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1"
+                   Style="{StaticResource h3}"
+                   Text="Tool Profs"/>
+        <ListView Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="4"
+                  Background="{StaticResource BackGroundColorDark}" Foreground="White"
+                  BorderBrush="White" BorderThickness="1" Margin="3" Padding="5" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  HorizontalContentAlignment="Stretch"
+                  SelectedItem="{Binding Tool}"
+                  ItemsSource="{Binding Character.ToolProficiences}" />
+        <Button Grid.Column="8" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Command="{Binding AddToolCommand}"
+                Content="Add Tool"/>
+        <Button Grid.Column="9" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Command="{Binding RemoveToolCommand}"
+                Content="Remove Tool"/>
+
+        <TextBlock Grid.Column="10" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource h3}"
+                   Text="Other Profs"/>
+        <ListView Grid.Column="10" Grid.Row="1"  Grid.ColumnSpan="2" Grid.RowSpan="4"
+                  Background="{StaticResource BackGroundColorDark}" Foreground="White"
+                  BorderBrush="White" BorderThickness="1" Margin="3" Padding="5" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  HorizontalContentAlignment="Stretch"
+                  SelectedItem="{Binding OtherProf}"
+                  ItemsSource="{Binding Character.OtherProficiences}"/>
+        <Button Grid.Column="10" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Command="{Binding AddOtherProfCommand}"
+                Content="Add OtherProf"/>
+        <Button Grid.Column="11" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Command="{Binding RemoveOtherProfCommand}"
+                Content="Remove OtherProf"/>
+
+        <Button Grid.Column="10" Grid.Row="9" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Command="{Binding CancelCommand}"
+                IsCancel="True"
+                Content="Cancel"/>
+
+        <Button Grid.Column="11" Grid.Row="9" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Command="{Binding OkCommand}"
+                IsDefault="True"
+                Content="Ok"/>
+    </Grid>
+</Window>

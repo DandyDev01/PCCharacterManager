@@ -1,0 +1,55 @@
+﻿<Window x:Class="PCCharacterManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PCCharacterManager"
+        xmlns:v="clr-namespace:PCCharacterManager.Views" 
+        xmlns:vm="clr-namespace:PCCharacterManager.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" MinHeight="500" MinWidth="800" Height="650" Width="1300" Background="{StaticResource ViewBackgroundColor}">
+
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCharactersCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewCharacterCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="R" Command="{Binding LongRestCommand}"/>
+    </Window.InputBindings>
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Menu Padding="5" Grid.ColumnSpan="2">
+            <MenuItem Header="File" Style="{StaticResource MenuItem}">
+                <MenuItem x:Name="menuNew" Header="New" Command="{Binding NewCharacterCommand}"
+                          InputGestureText="Ctrl+N" Style="{StaticResource MenuItem}"/>
+                <MenuItem x:Name="menuOpen" Header="Open" Command="ApplicationCommands.Open"
+                          InputGestureText="Ctrl+O" Style="{StaticResource MenuItem}"/>
+                <MenuItem x:Name="menuSave" Header="Save" Command="{Binding SaveCharactersCommand}"
+                          InputGestureText="Ctrl+S" Style="{StaticResource MenuItem}"/>
+                <MenuItem x:Name="menuShowAll" Header="List *Characters" 
+                          Style="{StaticResource MenuItem}"/>
+                <MenuItem x:Name="menuClose" Header="Exit" Command="ApplicationCommands.Close" 
+                          Style="{StaticResource MenuItem}"/>
+            </MenuItem>
+            <MenuItem Header="Edit" Style="{StaticResource MenuItem}">
+                <MenuItem x:Name="menuDuplicate" Header="Duplicate Character" 
+                          InputGestureText="Ctrl+D" Style="{StaticResource MenuItem}"/>
+                <MenuItem x:Name="menuAddCompanion" Header="Add Companion" 
+                          InputGestureText="Ctrl+N+C" Style="{StaticResource MenuItem}"/>
+                <MenuItem x:Name="menuLevel" Header="Level Character" Command="{Binding LevelCharacterCommand}"
+                          InputGestureText="Ctrl+L" Style="{StaticResource MenuItem}"/>
+                <MenuItem Header="Long Rest" Command="{Binding LongRestCommand}"
+                          InputGestureText="Ctrl+R" Style="{StaticResource MenuItem}"/>
+            </MenuItem>
+        </Menu>
+
+        <ContentControl Grid.Row="1" Content="{Binding CurrView}"/>
+    </Grid>
+</Window>

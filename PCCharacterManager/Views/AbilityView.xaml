@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="PCCharacterManager.Views.AbilityView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PCCharacterManager.Views"
+             xmlns:v="clr-namespace:PCCharacterManager.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="320" 
+             BorderBrush="{StaticResource LightText}" BorderThickness="0,3,0,0" Padding="20,0,20,0">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <!--#region Name-->
+        <TextBlock Style="{StaticResource h1}" Text="{Binding Name, FallbackValue=Name}" 
+                    ToolTip="{Binding Description}"
+                   Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="1"/>
+        <!--#endregion-->
+        <!--#region Score-->
+        <TextBlock Style="{StaticResource h3}" Text="Score" 
+                   Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+        <TextBox   Text="{Binding Score, FallbackValue=20, UpdateSourceTrigger=PropertyChanged}" 
+                   Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+        <!--#endregion-->
+        <!--#region Modifier-->
+        <TextBlock Style="{StaticResource h3}" Text="Modifier" 
+                   Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+        <TextBlock Style="{StaticResource h4}" 
+                   Text="{Binding Modifier, FallbackValue=4, UpdateSourceTrigger=PropertyChanged}" 
+                   Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+        <!--#endregion-->
+        <!--#region Save-->
+        <TextBlock Style="{StaticResource h3}" Text="Save" 
+                   Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+        <TextBlock Style="{StaticResource h4}" 
+                   Text="{Binding Save, FallbackValue=4, UpdateSourceTrigger=PropertyChanged}" 
+                   Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+        <!--#endregion-->
+        <!--#region Proficience-->
+        <TextBlock Style="{StaticResource h3}" Text="Proficience" 
+                   Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+        <TextBlock Style="{StaticResource h4}" 
+                   Text="{Binding ProfSave, FallbackValue=false}" 
+                   Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                   Cursor="Hand">
+            <TextBlock.InputBindings>
+                <MouseBinding Command="{Binding UpdateProfSaveCommand}" MouseAction="LeftClick"/>
+            </TextBlock.InputBindings>
+        </TextBlock>
+        <!--#endregion-->
+        <!--#region Skill list-->
+        <ListView Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Grid.RowSpan="1"
+                  ItemsSource="{Binding Skills}" Background="{StaticResource BackGroundColorDark}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <v:AbilitySkillView/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <!--#endregion-->
+    </Grid>
+</UserControl>

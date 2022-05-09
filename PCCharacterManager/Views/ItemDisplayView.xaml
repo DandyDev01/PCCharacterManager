@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="PCCharacterManager.Views.ItemDisplayView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PCCharacterManager.Views"
+             mc:Ignorable="d" 
+             Background="{StaticResource ItemBackgroundColor}"
+             Padding="3"
+             Height="auto" d:DesignWidth="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.ColumnSpan="1" Style="{StaticResource Title}"
+                   Margin="3"
+                   Text="{Binding ItemName, FallbackValue=Name}"/>
+
+        <TextBlock Grid.Column="1" Grid.ColumnSpan="3" Style="{StaticResource h3}"
+                   Margin="3"
+                   HorizontalAlignment="Left"
+                   Text=""/>
+
+        <TextBlock Grid.Column="5" Grid.ColumnSpan="1" Style="{StaticResource h3}"
+                   Margin="3"
+                   Text="{Binding ItemQuantity, FallbackValue=1}"/>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,54 @@
+﻿<Window x:Class="PCCharacterManager.DialogWindows.StringInputDialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PCCharacterManager.DialogWindows"
+        mc:Ignorable="d"
+        MinHeight="200"
+        MinWidth="300"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        ShowInTaskbar="false"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource ViewBackgroundColor}"
+        Title="StringInputDialogWindow">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="01" Grid.RowSpan="1"
+                   Text="{Binding Message}"/>
+
+        <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="01" Grid.RowSpan="1"
+               Content="Input"/>
+
+        <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="1"
+                 Margin="5"
+                 Text="{Binding Answer, UpdateSourceTrigger=PropertyChanged}"
+                 Height="35"/>
+
+        <!--#Region Buttons-->
+        <Button Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Margin="3"
+                IsDefault="True"
+                Content="OK" 
+                Command="{Binding OkCommand}"/>
+
+        <Button Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                Margin="3"
+                IsCancel="True"
+                Content="Cancel"
+                Command="{Binding CloseCommand}"/>
+        <!--#endregion-->
+    </Grid>
+</Window>

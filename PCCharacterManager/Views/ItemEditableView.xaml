@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="PCCharacterManager.Views.ItemEditableView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PCCharacterManager.Views"
+             xmlns:v="clr-namespace:PCCharacterManager.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="600"
+             Background="{StaticResource ItemBackgroundColor}"
+             BorderBrush="White" BorderThickness="0,5,0,0">
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="Add Property" InputGestureText="Ctrl+LShift+D" Command="{Binding AddPropertyCommand}"/>
+            <MenuItem Header="Remove Selected Property" InputGestureText="Ctrl+LShift+N" Command="{Binding RemovePropertyCommand}"/>
+        </ContextMenu>
+    </UserControl.ContextMenu>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition MinHeight="50" MaxHeight="75"/>
+        </Grid.RowDefinitions>
+
+        <!--#region Name-->
+        <TextBlock Text="{Binding DisplayName, FallbackValue=Name}" Grid.ColumnSpan="2"
+                   Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}"
+                   Grid.Row="0" Grid.Column="0" Style="{StaticResource leftAlign}" FontSize="20"
+                   TextDecorations="Underline"
+                   MaxWidth="400"/>
+
+        <TextBox Text="{Binding DisplayName, UpdateSourceTrigger=PropertyChanged}" Height="Auto" MaxWidth="400" TextWrapping="Wrap"
+                 Grid.ColumnSpan="2" Padding="10"
+                 Visibility="{Binding IsEditMode, Converter={StaticResource IsEditConverter}}"
+                 Grid.Row="0" Grid.Column="0" FontSize="20"/>
+
+        <!--#endregion-->
+        <!--#region Desc-->
+        <TextBlock Text="{Binding DisplayDesc, FallbackValue=LongLostText}" Padding="0,10,0,0"
+                   Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}"
+                   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource leftAlign}"
+                   MaxWidth="400"/>
+
+        <TextBox Text="{Binding DisplayDesc, UpdateSourceTrigger=PropertyChanged}" Height="Auto" MaxWidth="400" TextWrapping="Wrap"
+                 Grid.ColumnSpan="2" Padding="10" AcceptsReturn="True" AcceptsTab="True"
+                 Visibility="{Binding IsEditMode, Converter={StaticResource IsEditConverter}}"
+                 Grid.Row="1" Grid.Column="0" FontSize="20"/>
+        <!--#endregion-->
+        <!--#region Quantity-->
+        <TextBlock Text="{Binding DisplayQuantity, FallbackValue=Quantiy}" 
+                   Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}"
+                   Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource leftAlign}"/>
+
+        <TextBox Text="{Binding DisplayQuantity, UpdateSourceTrigger=PropertyChanged}" Height="35" MaxWidth="50"
+                 Visibility="{Binding IsEditMode, Converter={StaticResource IsEditConverter}}"
+                 Grid.Row="2" Grid.Column="0" FontSize="20" Padding="10"/>
+        <!--#endregion-->
+
+        <ListView Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2" Margin="7"
+                  Background="{StaticResource BackGroundColor}"
+                  ItemsSource="{Binding Properties}" SelectedValue="{Binding SelectedProperty}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <v:PropertyEditableView/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Grid.Column="2" Grid.Row="2" Height="25" Width="100"
+                Content="Remove" Command="{Binding RemoveCommand}"
+                 Visibility="{Binding IsEditMode, Converter={StaticResource IsEditConverter}}"/>
+
+        <Button Grid.Column="3" Grid.Row="2" Height="25" Width="100" Content="Add property"
+                Command="{Binding AddPropertyCommand}"
+                 Visibility="{Binding IsEditMode, Converter={StaticResource IsEditConverter}}"/>
+        <Button Grid.Column="4" Grid.Row="2" Height="25" Width="100" Content="remove property"
+                Command="{Binding RemovePropertyCommand}"
+                 Visibility="{Binding IsEditMode, Converter={StaticResource IsEditConverter}}"/>
+
+    </Grid>
+</UserControl>
