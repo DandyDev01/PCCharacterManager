@@ -106,8 +106,8 @@ namespace PCCharacterManager.ViewModels
 		private SpellItemEditableViewModel prevSelectedSpell;
 		private SpellItemEditableViewModel prevSelectedCantrip;
 
-		private readonly List<SpellItemEditableViewModel> spellItems;
-		private readonly List<SpellItemEditableViewModel> cantripItems;
+		private readonly List<SpellItemEditableViewModel> spellItems;	// used to store all spells wrapped
+		private readonly List<SpellItemEditableViewModel> cantripItems;	// used to store all cantrips wrapped
 
 		public ObservableCollection<SpellItemEditableViewModel> SpellsToDisplay { get; private set; }
 		public ObservableCollection<SpellItemEditableViewModel> CantripsToDisplay { get; private set; }

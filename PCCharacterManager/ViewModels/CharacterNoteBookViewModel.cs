@@ -4,6 +4,7 @@ using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,22 +37,7 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private List<Property> raceFeatures;
-		public List<Property> RaceFeatures
-		{
-			get { return raceFeatures; }
-			set
-			{
-				OnPropertyChaged(ref raceFeatures, value);
-			}
-		}
-
-		private List<Note> notes;
-		public List<Note> Notes
-		{
-			get { return notes; }
-			set { OnPropertyChaged(ref notes, value); }
-		}
+		public ObservableCollection<Note> NotesToDisplay { get; }
 
 		private Note selectedNote;
 		public Note SelectedNote
@@ -66,54 +52,55 @@ namespace PCCharacterManager.ViewModels
 		public CharacterNoteBookViewModel(CharacterStore _characterStore, ICharacterDataService _dataService, Character _selectedCharacter = null) : base(_characterStore, _dataService, _selectedCharacter)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
-			raceFeatures = new List<Property>();
+
+			NotesToDisplay = new ObservableCollection<Note>();
 
 			AddNoteCommand = new RelayCommand(AddNote);
 			DeleteNoteCommand = new RelayCommand(DeleteNote);
-			notes = new List<Note>();
 		}
 
 		protected override void OnCharacterChanged(Character newCharacter)
 		{
 			base.OnCharacterChanged(newCharacter);
 
-			raceFeatures.Clear();
-			List<Property> temp = new List<Property>();
-			temp.AddRange(newCharacter.Race.Features);
-			temp.AddRange(newCharacter.Race.RaceVariant.Properties);
-			RaceFeatures = new List<Property>(temp);
+			NotesToDisplay.Clear();
 
-			Notes = new List<Note>();
-			Notes.AddRange(selectedCharacter.NoteManager.Notes);
-			SelectedNote = Notes[0];
+			foreach (var note in selectedCharacter.NoteManager.Notes)
+			{
+				NotesToDisplay.Add(note);
+			}
+
+			SelectedNote = NotesToDisplay[0];
 		}
 
 		private void Search(string term)
 		{
-			List<Note> found = new List<Note>();
+			NotesToDisplay.Clear();
 
 			if (term == String.Empty || string.IsNullOrWhiteSpace(SearchTerm))
-				found.AddRange(selectedCharacter.NoteManager.Notes);
-			else
 			{
 				foreach (var note in selectedCharacter.NoteManager.Notes)
 				{
+					NotesToDisplay.Add(note);
+				}
+			}
+			else
+			{
+				foreach (var note in selectedCharacter.NoteManager.Notes.OrderBy(x => x.Title))
+				{
 					if (note.Title.ToLower().Contains(term.ToLower()))
 					{
-						found.Add(note);
+						NotesToDisplay.Add(note);
 					}
 				}
 			}
-
-			Notes = new List<Note>();
-			Notes.AddRange(found);
 		}
+
 		private void AddNote()
 		{
 			selectedCharacter.NoteManager.NewNote();
 
-			Notes = new List<Note>();
-			Notes.AddRange(selectedCharacter.NoteManager.Notes);
+			NotesToDisplay.Add(selectedCharacter.NoteManager.Notes.Last());
 		}
 		private void DeleteNote()
 		{
@@ -124,11 +111,8 @@ namespace PCCharacterManager.ViewModels
 			if (result == MessageBoxResult.No)
 				return;
 
-
+			NotesToDisplay.Remove(selectedNote);
 			selectedCharacter.NoteManager.DeleteNote(selectedNote);
-
-			Notes = new List<Note>();
-			Notes.AddRange(selectedCharacter.NoteManager.Notes);
 		}
 	}
 }

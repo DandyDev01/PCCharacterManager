@@ -130,14 +130,8 @@ namespace PCCharacterManager.ViewModels
 
 			window.ShowDialog();
 
-			foreach (var item in selectedCharacter.Inventory.All.OrderBy(x => x.Name))
-			{
-				if (item.Tag == selectedFilter)
-				{
-					ItemDisplayViewModel itemVM = new ItemDisplayViewModel(item);
-					ItemsToShow.Add(itemVM);
-				}
-			}
+			ItemsToShow.Add(new ItemDisplayViewModel(selectedCharacter.Inventory.All.Last()));
+
 		}
 
 		private void Search()

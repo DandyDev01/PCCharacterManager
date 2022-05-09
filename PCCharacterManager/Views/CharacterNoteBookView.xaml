@@ -43,16 +43,11 @@
         </Menu>
 
         <ListView Grid.Column="5" Grid.Row="1" Grid.RowSpan="2"
-                      ItemsSource="{Binding Notes}"
+                      ItemsSource="{Binding NotesToDisplay}"
                       SelectedIndex="0" 
                       SelectedItem="{Binding SelectedNote}"
                       SelectedValue="{Binding SelectedNote}"
                       DisplayMemberPath="Title"/>
-        <!--<ListView.ItemTemplate>
-            <DataTemplate>
-                <v:NoteSelectableView/>
-            </DataTemplate>
-        </ListView.ItemTemplate>-->
 
 
         <TextBox Text="{Binding SelectedNote.Title}" 
