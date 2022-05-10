@@ -125,6 +125,8 @@ namespace PCCharacterManager.ViewModels
 					ItemsToShow.Add(itemVM);
 				}
 			}
+			if(ItemsToShow.Count > 0)
+				SelectedItem = ItemsToShow[0];
 		}
 
 		private void AddItemWindow()

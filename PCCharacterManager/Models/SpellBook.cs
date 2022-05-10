@@ -38,16 +38,16 @@ namespace PCCharacterManager.Models
 				int temp = slotNine;
 				slotNine = value;
 
-				if (value > slotNine)
+				if (value > temp)
 				{
-					for (int i = 0; i < (value - slotNine); i++)
+					for (int i = 0; i < (value - temp); i++)
 					{
 						NinethLvl.Add(false);
 					}
 				}
 				else if (value < temp)
 				{
-					for (int i = 0; i < (slotNine - value); i++)
+					for (int i = 0; i < (temp - value); i++)
 					{
 						NinethLvl.RemoveAt(NinethLvl.Count() - 1);
 					}
@@ -75,16 +75,16 @@ namespace PCCharacterManager.Models
 				int temp = slotEight;
 				slotEight = value;
 
-				if (value > slotEight)
+				if (value > temp)
 				{
-					for (int i = 0; i < (value - slotEight); i++)
+					for (int i = 0; i < (value - temp); i++)
 					{
 						EightLvl.Add(false);
 					}
 				}
 				else if (value < temp)
 				{
-					for (int i = 0; i < (slotEight - value); i++)
+					for (int i = 0; i < (temp - value); i++)
 					{
 						EightLvl.RemoveAt(EightLvl.Count() - 1);
 					}
@@ -112,16 +112,16 @@ namespace PCCharacterManager.Models
 				int temp = slotSeven;
 				slotSeven = value;
 
-				if (value > slotSeven)
+				if (value > temp)
 				{
-					for (int i = 0; i < (value - slotSeven); i++)
+					for (int i = 0; i < (value - temp); i++)
 					{
 						SeventhLvl.Add(false);
 					}
 				}
 				else if (value < temp)
 				{
-					for (int i = 0; i < (slotSeven - value); i++)
+					for (int i = 0; i < (temp - value); i++)
 					{
 						SeventhLvl.RemoveAt(SeventhLvl.Count() - 1);
 					}
@@ -149,16 +149,16 @@ namespace PCCharacterManager.Models
 				int temp = slotSix;
 				slotSix = value;
 
-				if (value > slotSix)
+				if (value > temp)
 				{
-					for (int i = 0; i < (value - slotSix); i++)
+					for (int i = 0; i < (value - temp); i++)
 					{
 						SixLvl.Add(false);
 					}
 				}
 				else if (value < temp)
 				{
-					for (int i = 0; i < (slotSix - value); i++)
+					for (int i = 0; i < (temp - value); i++)
 					{
 						SixLvl.RemoveAt(SixLvl.Count() - 1);
 					}
