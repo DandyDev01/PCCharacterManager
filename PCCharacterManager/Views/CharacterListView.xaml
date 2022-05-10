@@ -17,7 +17,6 @@
 
         <!--disable the selected item thingyyy??-->
         <ListView ItemsSource="{Binding CharacterItems}"  
-                      SelectedItem="{Binding CharacterItemVM.BoundCharacter}"
                       Background="{StaticResource BackGroundColorDark}"
                       HorizontalContentAlignment="Stretch">
             <ListView.ItemTemplate>

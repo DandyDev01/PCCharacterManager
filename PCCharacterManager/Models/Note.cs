@@ -23,7 +23,11 @@ namespace PCCharacterManager.Models
 			set { OnPropertyChaged(ref title, value); }
 		}
 
-		public Note() { }
+		public Note() 
+		{
+			notes = string.Empty;
+			title = string.Empty;
+		}
 
 		public Note(string _title)
 		{

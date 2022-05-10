@@ -36,8 +36,8 @@ namespace PCCharacterManager.ViewModels
 			get { return !isEditMode; }
 		}
 
-		private SpellItemEditableViewModel selectedSpell;
-		public SpellItemEditableViewModel SelectedSpell
+		private SpellItemEditableViewModel? selectedSpell;
+		public SpellItemEditableViewModel? SelectedSpell
 		{
 			get { return selectedSpell; }
 			set
@@ -49,14 +49,14 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private SpellItemEditableViewModel selectedCantrip;
-		public SpellItemEditableViewModel SelectedCantrip
+		private SpellItemEditableViewModel? selectedCantrip;
+		public SpellItemEditableViewModel? SelectedCantrip
 		{
 			get { return selectedCantrip; }
 			set
 			{
 				OnPropertyChaged(ref selectedCantrip, value);
-				selectedCantrip.Edit();
+				selectedCantrip?.Edit();
 				prevSelectedCantrip = selectedCantrip;
 				selectedCantrip = null;
 			}
@@ -103,8 +103,8 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private SpellItemEditableViewModel prevSelectedSpell;
-		private SpellItemEditableViewModel prevSelectedCantrip;
+		private SpellItemEditableViewModel? prevSelectedSpell;
+		private SpellItemEditableViewModel? prevSelectedCantrip;
 
 		private readonly List<SpellItemEditableViewModel> spellItems;	// used to store all spells wrapped
 		private readonly List<SpellItemEditableViewModel> cantripItems;	// used to store all cantrips wrapped
@@ -121,6 +121,11 @@ namespace PCCharacterManager.ViewModels
 			CantripsToDisplay = new ObservableCollection<SpellItemEditableViewModel>();
 			spellItems = new List<SpellItemEditableViewModel>();
 			cantripItems = new List<SpellItemEditableViewModel>();
+
+			spellBook = new SpellBook();
+			spellBookNote = spellBook.Note;
+
+			searchTerm = string.Empty;
 
 			AddSpellCommand = new RelayCommand(AddSpellWindow);
 			AddCantripCommand = new RelayCommand(AddCantripWindow);
@@ -266,6 +271,9 @@ namespace PCCharacterManager.ViewModels
 
 		private void DeleteSpell()
 		{
+			if (prevSelectedSpell == null)
+				return;
+
 			var messageBox = MessageBox.Show("Are you sure you want to delete " + prevSelectedSpell.Spell.Name, "Delete Spell", MessageBoxButton.YesNo);
 			if (messageBox == MessageBoxResult.No)
 				return;
@@ -276,6 +284,9 @@ namespace PCCharacterManager.ViewModels
 
 		private void DeleteCantrip()
 		{
+			if (prevSelectedCantrip == null)
+				return;
+
 			var messageBox = MessageBox.Show("Are you sure you want to delete " + prevSelectedCantrip.Spell.Name, "Delete Spell", MessageBoxButton.YesNo);
 			if (messageBox == MessageBoxResult.No)
 				return;

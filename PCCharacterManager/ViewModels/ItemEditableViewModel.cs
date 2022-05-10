@@ -2,6 +2,7 @@
 using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,22 +68,17 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private List<PropertyEditableViewModel> properties;
-		public List<PropertyEditableViewModel> Properties
-		{
-			get { return properties; }
-			set { OnPropertyChaged(ref properties, value); }
-		}
+		public ObservableCollection<PropertyEditableViewModel> Properties { get; private set; }	
 
-		public Action<Item> RemoveAction { get; set; }
+		public Action<Item>? RemoveAction { get; set; }
 
 		public ICommand EditCommand { get; private set; }
 		public ICommand RemoveCommand { get; private set; }
 		public ICommand AddPropertyCommand { get; private set; }
 		public ICommand RemovePropertyCommand { get; private set; }
 
-		private PropertyEditableViewModel selectedProperty;
-		public PropertyEditableViewModel SelectedProperty
+		private PropertyEditableViewModel? selectedProperty;
+		public PropertyEditableViewModel? SelectedProperty
 		{
 			get { return selectedProperty; }
 			set
@@ -103,43 +99,33 @@ namespace PCCharacterManager.ViewModels
 			AddPropertyCommand = new RelayCommand(AddProperty);
 			RemovePropertyCommand = new RelayCommand(RemoveProperty);
 			RemoveCommand = new RelayCommand(Remove);
-			Properties = new List<PropertyEditableViewModel>();
-			PopulateProperties();
-		}
+			Properties = new ObservableCollection<PropertyEditableViewModel>();
 
-		private void AddProperty()
-		{
-
-			BoundItem.AddProperty(new Property()
-			{
-				Name = "",
-				Desc = ""
-			});
-
-			PopulateProperties();
-		}
-
-		private void RemoveProperty()
-		{
-			BoundItem.RemoveProperty(SelectedProperty.BoundProperty);
-
-			PopulateProperties();
-		}
-
-		private void PopulateProperties()
-		{
-
-			if (BoundItem == null) return;
-			if (BoundItem.Properties == null) return;
-
-			Properties = new List<PropertyEditableViewModel>();
-
-			foreach (var property in BoundItem.Properties)
+			foreach (var property in boundItem.Properties)
 			{
 				PropertyEditableViewModel temp = new PropertyEditableViewModel(property);
 				temp.IsEditMode = IsEditMode;
 				Properties.Add(temp);
 			}
+		}
+
+		private void AddProperty()
+		{
+			Property newProperty = new Property()
+			{
+				Name = "",
+				Desc = ""
+			};
+			BoundItem.AddProperty(newProperty);
+			Properties.Add(new PropertyEditableViewModel(newProperty));
+		}
+
+		private void RemoveProperty()
+		{
+			if (SelectedProperty == null) return;
+
+			BoundItem.RemoveProperty(SelectedProperty.BoundProperty);
+			Properties.Remove(SelectedProperty);
 		}
 
 		private void Remove()

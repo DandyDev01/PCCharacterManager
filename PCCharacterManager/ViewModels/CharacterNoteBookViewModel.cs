@@ -49,16 +49,23 @@ namespace PCCharacterManager.ViewModels
 		public ICommand AddNoteCommand { get; private set; }
 		public ICommand DeleteNoteCommand { get; private set; }
 
-		public CharacterNoteBookViewModel(CharacterStore _characterStore, ICharacterDataService _dataService, Character _selectedCharacter = null) : base(_characterStore, _dataService, _selectedCharacter)
+		public CharacterNoteBookViewModel(CharacterStore _characterStore, ICharacterDataService _dataService) : base(_characterStore, _dataService)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			NotesToDisplay = new ObservableCollection<Note>();
+			searchTerm = string.Empty;
+			highlightTerm = string.Empty;
+			selectedNote = new Note();
 
 			AddNoteCommand = new RelayCommand(AddNote);
 			DeleteNoteCommand = new RelayCommand(DeleteNote);
 		}
 
+		/// <summary>
+		/// What to do when the selectedCharacter changes
+		/// </summary>
+		/// <param name="newCharacter">the newly selected character</param>
 		protected override void OnCharacterChanged(Character newCharacter)
 		{
 			base.OnCharacterChanged(newCharacter);
@@ -73,6 +80,10 @@ namespace PCCharacterManager.ViewModels
 			SelectedNote = NotesToDisplay[0];
 		}
 
+		/// <summary>
+		/// Finds all notes whose title contains a search term
+		/// </summary>
+		/// <param name="term">term looking for</param>
 		private void Search(string term)
 		{
 			NotesToDisplay.Clear();
@@ -96,12 +107,21 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// Used to create a new Note
+		/// </summary>
 		private void AddNote()
 		{
 			selectedCharacter.NoteManager.NewNote();
-
-			NotesToDisplay.Add(selectedCharacter.NoteManager.Notes.Last());
+			Note newNote = selectedCharacter.NoteManager.Notes.Last();
+			NotesToDisplay.Add(newNote);
+			SelectedNote = newNote;
+			
 		}
+
+		/// <summary>
+		/// used by the deleteNoteCommand to remove the selectedNote. Sets the selectedNote to the 1st element after
+		/// </summary>
 		private void DeleteNote()
 		{
 			var result = MessageBox.Show("Are you sure you want to delete " +
@@ -113,6 +133,7 @@ namespace PCCharacterManager.ViewModels
 
 			NotesToDisplay.Remove(selectedNote);
 			selectedCharacter.NoteManager.DeleteNote(selectedNote);
+			SelectedNote = selectedCharacter.NoteManager.Notes.First();
 		}
 	}
 }

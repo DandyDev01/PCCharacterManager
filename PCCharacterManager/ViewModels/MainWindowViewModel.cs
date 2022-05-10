@@ -42,9 +42,13 @@ namespace PCCharacterManager.ViewModels
 
 		public MainWindowViewModel()
 		{
-
 			characterStore = new CharacterStore();
 			dataService = new JsonCharacterDataService(characterStore);
+
+			while(dataService.GetCharacters().Count() < 1)
+			{
+				CreateCharacterWindow();
+			}
 
 			tabVM = new TabControlViewModel(characterStore, dataService);
 
@@ -87,9 +91,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void SaveCharacters()
 		{
-			List<Character> characters = CharacterListViewModel.Characters.ToList();
-			// will not work
-			dataService.Save(characters);
+			dataService.Save(tabVM.CharacterListVM.Characters);
 		}
 	}
 }

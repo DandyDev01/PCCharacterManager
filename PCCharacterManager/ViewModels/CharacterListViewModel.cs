@@ -13,54 +13,33 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterListViewModel : ObservableObject
 	{
-		private ICharacterDataService dataService;
-
 		private readonly CharacterStore characterStore;
 
-		private CharacterItemViewModel characterItemVM;
-		public CharacterItemViewModel CharacterItemVM
-		{
-			get { return characterItemVM; }
-			set { OnPropertyChaged(ref characterItemVM, value); }
-		}
-
-
-		// ObservableCollection is a wpf friendly list
-		public static ObservableCollection<Character> Characters { get; private set; }
+		public ObservableCollection<Character> Characters { get; private set; }
 		public ObservableCollection<CharacterItemViewModel> CharacterItems { get; private set; }
 
-		public CharacterListViewModel(ICharacterDataService dataService, CharacterStore _characterStore)
+		public CharacterListViewModel(ICharacterDataService _dataService, CharacterStore _characterStore)
 		{
-
 			characterStore = _characterStore;
-			this.dataService = dataService;
 
-			LoadCharacters();
-
-			characterStore.CharacterCreate += LoadCharacters;
-
-		}
-
-		public void LoadCharacters(Character character = null)
-		{
-
-			Characters = new ObservableCollection<Character>(dataService.GetCharacters());
+			Characters = new ObservableCollection<Character>(_dataService.GetCharacters());
 
 			CharacterItems = new ObservableCollection<CharacterItemViewModel>();
 
-			Character[] characterArray = Characters.ToArray();
-
-
-			for (int i = 0; i < Characters.Count; i++)
+			foreach (var character in Characters)
 			{
-				CharacterItems.Add(new CharacterItemViewModel(characterStore, characterArray[i]));
+				CharacterItems.Add(new CharacterItemViewModel(characterStore, character));
 			}
 
-			if (Characters.Count > 0)
-				characterStore.CharacterChange(Characters[0]);
+			characterStore.CharacterChange(Characters[0]);
 
-
-			OnPropertyChaged("CharacterItems");
+			characterStore.CharacterCreate += LoadCharacters;
 		}
-	}
+
+		private void LoadCharacters(Character _character)
+		{
+			Characters.Add(_character);
+			CharacterItems.Add(new CharacterItemViewModel(characterStore, _character));
+		}
+	} // end class
 }

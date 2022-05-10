@@ -80,6 +80,7 @@ namespace PCCharacterManager.Models
 		public Ability()
 		{
 			Name = string.Empty;
+			Description = string.Empty;
 			Score = 1;
 			SetProfBonus(2);
 			Skills = Array.Empty<AbilitySkill>();
@@ -250,8 +251,7 @@ namespace PCCharacterManager.Models
 				if (item.Name.ToLower().Equals(name.ToLower()))
 					return item;
 			}
-			Console.WriteLine("Could not find Ability " + name);
-			return null;
+			throw new Exception("Could not find Ability " + name);
 		}
 
 		/// <summary>
@@ -273,8 +273,7 @@ namespace PCCharacterManager.Models
 				}
 			}
 
-			Console.WriteLine("Could not find Ability with skill " + skill.Name);
-			return null;
+			throw new Exception("Could not find Ability with skill " + skill.Name);
 		}
 
 		/// <summary>
@@ -295,9 +294,7 @@ namespace PCCharacterManager.Models
 				}
 			}
 
-			Console.WriteLine("Could not find the skill " + skillName);
-			return null;
-
+			throw new Exception("no skill with name " + skillName + " exists");
 		}
 
 		/// <summary>
@@ -319,8 +316,6 @@ namespace PCCharacterManager.Models
 			}
 
 			throw new Exception("no skill with name " + skillName + " exists");
-
-
 		}
 
 		/// <summary>

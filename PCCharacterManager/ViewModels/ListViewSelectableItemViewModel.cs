@@ -9,8 +9,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class ListViewSelectableItemViewModel : ObservableObject
 	{
-		public Action<ListViewSelectableItemViewModel> OnSelect { get; set; }
-		public Action<ListViewSelectableItemViewModel> OnDeselect { get; set; }
+		public Action<ListViewSelectableItemViewModel>? OnSelect { get; set; }
+		public Action<ListViewSelectableItemViewModel>? OnDeselect { get; set; }
 
 		private string boundItem;
 		public string BoundItem

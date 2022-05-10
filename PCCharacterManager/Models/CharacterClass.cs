@@ -48,7 +48,12 @@ namespace PCCharacterManager.Models
 			set;
 		}
 
-		public CharacterClass() { }
+		public CharacterClass() 
+		{
+			name = string.Empty;
+			level = new CharacterClassLevel();
+			Features = new ObservableCollection<CharacterClassFeature>();
+		}
 
 		public CharacterClass(CharacterClassData data)
 		{

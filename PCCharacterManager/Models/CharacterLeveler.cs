@@ -64,7 +64,9 @@ namespace PCCharacterManager.Models
 			var classes = ReadWriteJsonCollection<CharacterClassData>.ReadCollection(Resources.CharacterClassDataJson);
 
 			// find character class
-			CharacterClassData data = classes.Find(x => x.Name.Equals(character.CharacterClass.Name));
+			CharacterClassData? data = classes.Find(x => x.Name.Equals(character.CharacterClass.Name));
+
+			if (data == null) return;
 
 			foreach (var item in data.Features)
 			{

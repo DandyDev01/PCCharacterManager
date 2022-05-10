@@ -21,8 +21,8 @@ namespace PCCharacterManager.ViewModels
 		public ICommand AddPropertyCommand { get; private set; }
 		public ICommand RemovePropertyCommand { get; private set; }
 
-		private ItemDisplayViewModel selectedItem;
-		public ItemDisplayViewModel SelectedItem
+		private ItemDisplayViewModel? selectedItem;
+		public ItemDisplayViewModel? SelectedItem
 		{
 			get { return selectedItem; }
 			set
@@ -44,14 +44,16 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private PropertyEditableViewModel selectedProperty;
-		public PropertyEditableViewModel SelectedProperty
+		private PropertyEditableViewModel? prevSelectedProperty;
+		private PropertyEditableViewModel? selectedProperty;
+		public PropertyEditableViewModel? SelectedProperty
 		{
 			get { return selectedProperty; }
 			set
 			{
 				OnPropertyChaged(ref selectedProperty, value);
 				selectedProperty?.Edit();
+				prevSelectedProperty = selectedProperty;
 				selectedProperty = null;
 			}
 		}
@@ -96,6 +98,10 @@ namespace PCCharacterManager.ViewModels
 
 			ItemsToShow = new ObservableCollection<ItemDisplayViewModel>();
 			filteredItems = new List<ItemDisplayViewModel>();
+			prevSelectedProperty = new PropertyEditableViewModel(new Property());
+
+			searchTerm = string.Empty;
+
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			SelectedItemProperties = new ObservableCollection<PropertyEditableViewModel>();
@@ -198,9 +204,12 @@ namespace PCCharacterManager.ViewModels
 
 		private void AddProperty()
 		{
+			if (SelectedItem == null)
+				return;
+
 			SelectedItem.BoundItem.AddProperty(new Property("name", "desc"));
 			SelectedItemProperties.Clear();
-			foreach (var property in selectedItem.BoundItem.Properties)
+			foreach (var property in SelectedItem.BoundItem.Properties)
 			{
 				SelectedItemProperties.Add(new PropertyEditableViewModel(property));
 			}
@@ -208,23 +217,25 @@ namespace PCCharacterManager.ViewModels
 
 		private void RemoveProperty()
 		{
-			SelectedItem.BoundItem.RemoveProperty(selectedProperty.BoundProperty);
-			SelectedItemProperties.Clear();
-			foreach (var property in selectedItem.BoundItem.Properties)
-			{
-				SelectedItemProperties.Add(new PropertyEditableViewModel(property));
-			}
+			if (SelectedItem == null || prevSelectedProperty == null)
+				return;
+
+			SelectedItem.BoundItem.RemoveProperty(prevSelectedProperty.BoundProperty);
+			SelectedItemProperties.Remove(prevSelectedProperty);
 		}
 
 		private void RemoveItem()
 		{
-			var messageBox = MessageBox.Show("Are you sure you want to remove " + selectedItem.ItemName, "Remove Item", MessageBoxButton.YesNo);
+			if (SelectedItem == null)
+				return;
+
+			var messageBox = MessageBox.Show("Are you sure you want to remove " + SelectedItem.ItemName, "Remove Item", MessageBoxButton.YesNo);
 
 			if (messageBox == MessageBoxResult.No)
 				return;
 
-			selectedCharacter.Inventory.Remove(selectedItem.BoundItem);
-			ItemsToShow.Remove(selectedItem);
+			selectedCharacter.Inventory.Remove(SelectedItem.BoundItem);
+			ItemsToShow.Remove(SelectedItem);
 		}
 
 	} // end class

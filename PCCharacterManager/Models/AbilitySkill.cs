@@ -9,8 +9,8 @@ namespace PCCharacterManager.Models
 {
 	public class AbilitySkill : ObservableObject
 	{
-		private string name;
-		private string desc;
+		private string name = string.Empty;
+		private string desc = string.Empty;
 		private int score;
 		private int miscBonus;
 		private bool skillProficiency;

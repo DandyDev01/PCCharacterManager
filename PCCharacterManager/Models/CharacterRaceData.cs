@@ -28,5 +28,21 @@ namespace PCCharacterManager.Models
 
 		public List<Property> Features { get; set; }
 		public List<CharacterRaceVariant> Variants { get; set; }
+
+		public CharacterRaceData()
+		{
+			Name = string.Empty;
+			Speed = string.Empty;
+			AgeRange = string.Empty;
+			RaceVariant = new CharacterRaceVariant();
+			Features = Array.Empty<Property>().ToList();
+			Variants = Array.Empty<CharacterRaceVariant>().ToList();
+
+			AbilityScoreIncreases = Array.Empty<string>();
+			Languages = Array.Empty<string>();
+			ArmorProficiencies = Array.Empty<string>();
+			WeaponProficiencies = Array.Empty<string>();
+			ToolProficiences = Array.Empty<string>();
+		}
 	}
 }

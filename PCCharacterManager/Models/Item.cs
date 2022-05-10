@@ -58,11 +58,11 @@ namespace PCCharacterManager.Models
 
 		public Item()
 		{
-			Name = string.Empty;
-			Desc = string.Empty;
-			Cost = string.Empty;
-			Weight = string.Empty;
-			Quantity = 1;
+			name = string.Empty;
+			desc = string.Empty;
+			cost = string.Empty;
+			weight = string.Empty;
+			quantity = 1;
 			properties = new ObservableCollection<Property>();
 		}
 

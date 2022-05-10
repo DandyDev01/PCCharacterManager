@@ -26,14 +26,14 @@ namespace PCCharacterManager.Models
 
 		public Property(string _name, string _desc)
 		{
-			Name = _name;
-			Desc = _desc;
+			name = _name;
+			desc = _desc;
 		}
 
 		public Property()
 		{
-			Name = string.Empty;
-			Desc = string.Empty;
+			name = string.Empty;
+			desc = string.Empty;
 		}
 
 	}

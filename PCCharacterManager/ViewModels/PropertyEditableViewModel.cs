@@ -35,7 +35,7 @@ namespace PCCharacterManager.ViewModels
 
 		public PropertyEditableViewModel(Property _boundProperty)
 		{
-			BoundProperty = _boundProperty;
+			boundProperty = _boundProperty;
 			IsEditMode = false;
 		}
 

@@ -96,10 +96,18 @@ namespace PCCharacterManager.Models
 			SpellBook = new SpellBook();
 			noteManager = new NoteBook();
 			MovementTypes_Speeds = new ObservableCollection<Property>();
+			WeaponProficiencies = new ObservableCollection<string>();
+			ArmorProficiencies = new ObservableCollection<string>();
 			Languages = new ObservableCollection<string>();
 			abilities = ReadWriteJsonCollection<Ability>.ReadCollection(Resources.AbilitiesJson).ToArray();
 			Level = new CharacterLevel();
 			Health = new Health(1);
+			CharacterClass = new CharacterClass();
+			Race = new CharacterRace();
+
+			name = string.Empty;
+			background = string.Empty;
+			armorClass = string.Empty;
 		}
 
 		public Character(CharacterClassData classData, CharacterRaceData raceData, BackgroundData backgroundData)
@@ -125,6 +133,10 @@ namespace PCCharacterManager.Models
 			AddLanguages(raceData.Languages);
 			WeaponProficiencies = new ObservableCollection<string>(classData.WeaponProficiencies);
 			ArmorProficiencies = new ObservableCollection<string>(classData.ArmorProficiencies);
+
+			name = string.Empty;
+			background = string.Empty;
+			armorClass = string.Empty;
 		}
 
 		/// <summary>

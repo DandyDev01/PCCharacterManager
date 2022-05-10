@@ -42,7 +42,7 @@ namespace PCCharacterManager.ViewModels
 		}
 
 		public ICommand PrepareCommand { get; set; }
-		public Action<Spell> Prepare;
+		public Action<Spell>? Prepare;
 
 
 		public SpellItemEditableViewModel(Spell _spell)

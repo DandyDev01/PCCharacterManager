@@ -11,26 +11,22 @@ namespace PCCharacterManager.ViewModels
 {
 	public class TabControlViewModel : TabItemViewModel
 	{
-
 		public CharacterStatsViewModel CharacterStatsVM { get; private set; }
 		public CharacterListViewModel CharacterListVM { get; private set; }
 		public CharacterInventoryViewModel InventoryVM { get; private set; }
 		public CharacterSpellBookViewModel SpellBookVM { get; private set; }
 		public CharacterNoteBookViewModel NotesVM { get; private set; }
 
-
-		public TabControlViewModel(CharacterStore _characterStore, ICharacterDataService _dataService, Character _selectedCharacter = null)
-			: base(_characterStore, _dataService, _selectedCharacter)
+		public TabControlViewModel(CharacterStore _characterStore, ICharacterDataService _dataService)
+			: base(_characterStore, _dataService)
 		{
+			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			CharacterStatsVM = new CharacterStatsViewModel(_characterStore, dataService);
 			InventoryVM = new CharacterInventoryViewModel(_characterStore, dataService);
 			SpellBookVM = new CharacterSpellBookViewModel(_characterStore, dataService);
 			NotesVM = new CharacterNoteBookViewModel(_characterStore, dataService);
 			CharacterListVM = new CharacterListViewModel(dataService, _characterStore);
-
-			characterStore.SelectedCharacterChange += OnCharacterChanged;
-
 		}
 	}
 }

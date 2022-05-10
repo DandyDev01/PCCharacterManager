@@ -14,7 +14,12 @@ namespace PCCharacterManager.Models
 		public CharacterRaceVariant RaceVariant { get; set; }
 		public List<Property> Features { get; set; }
 
-		public CharacterRace() { }
+		public CharacterRace() 
+		{
+			Name = string.Empty;
+			RaceVariant = new CharacterRaceVariant();
+			Features = new List<Property>();	
+		}
 
 		public CharacterRace(CharacterRaceData data)
 		{

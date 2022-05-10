@@ -124,12 +124,13 @@ namespace PCCharacterManager.ViewModels
 			RaceVariantsToDisplay = new ObservableCollection<CharacterRaceVariant>();
 			AlignmentsToDisplay = Enum.GetValues(typeof(Alignment));
 
-			name = String.Empty;
+			name = string.Empty;
 			selectedCharacterClass = CharacterClassesToDisplay[0];
 			selectedBackground = BackgroundsToDisplay[0];
 			selectedRace = RacesToDisplay[0];
 			selectedRaceVariant = selectedRace.Variants[0];
 			selectedClassSkillProfs = new ListViewMultiSelectItemsLimitedCountViewModel(selectedCharacterClass.NumOfSkillProficiences, selectedCharacterClass.PossibleSkillProficiences.ToList());
+			notAnOption = new List<string>();
 
 			SelectedStartingEquipmentVMs = new ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel>();
 			AbilityScores = new ObservableCollection<int>(RollDie.DefaultAbilityScores);
@@ -229,7 +230,8 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			// set skill prof, Background
-			notAnOption = SelectedClassSkillProfs.SelectedItems.ToList();
+			notAnOption.Clear();
+			notAnOption.AddRange(SelectedClassSkillProfs.SelectedItems);
 			foreach (var str in selectedBackground.SkillProfs)
 			{
 				// you can choose one of at least 2

@@ -67,15 +67,25 @@ namespace PCCharacterManager.Models
 			{
 				var builder = new StringBuilder();
 
-				if (Components == null)
-					return null;
-
 				foreach (var item in Components)
 				{
 					builder.Append(item.ToString());
 				}
 				return builder.ToString();
 			}
+		}
+
+		public Spell()
+		{
+			level = string.Empty;
+			level = string.Empty;
+			castingTime = string.Empty;
+			range_Area = string.Empty;
+			damage_Effect = string.Empty;
+			attack_Save = string.Empty;
+			school = string.Empty;
+			duration = string.Empty;
+			Components = new ObservableCollection<char>();
 		}
 	}
 }
