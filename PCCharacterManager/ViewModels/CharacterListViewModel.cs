@@ -23,7 +23,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			characterStore = _characterStore;
 			updateHandler = new UpdateHandler();
-			updateHandler.HandleCharacterFormatChanges(_dataService);
+			//updateHandler.HandleCharacterFormatChanges(_dataService);
 
 			Characters = new ObservableCollection<Character>(_dataService.GetCharacters());
 

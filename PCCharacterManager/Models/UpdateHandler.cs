@@ -11,21 +11,21 @@ namespace PCCharacterManager.Models
 	{
 		public void HandleCharacterFormatChanges(ICharacterDataService _dataService)
 		{
-			IEnumerable<Character> enumerable = _dataService.GetCharacters();
+			//IEnumerable<Character> enumerable = _dataService.GetCharacters();
 
-			foreach (var character in enumerable)
-			{
-				if(character.Inventory.All.Count > 0)
-				{
-					foreach (var item in character.Inventory.All)
-					{
-						character.Inventory.Add(item);
-					}
-					character.Inventory.All.Clear();
-				}
-			}
+			//foreach (var character in enumerable)
+			//{
+			//	if(character.Inventory.All.Count > 0)
+			//	{
+			//		foreach (var item in character.Inventory.All)
+			//		{
+			//			character.Inventory.Add(item);
+			//		}
+			//		character.Inventory.All.Clear();
+			//	}
+			//}
 
-			_dataService.Save(enumerable);
+			//_dataService.Save(enumerable);
 		}
 	}
 }

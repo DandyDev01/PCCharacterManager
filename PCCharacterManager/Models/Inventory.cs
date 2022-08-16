@@ -9,18 +9,19 @@ namespace PCCharacterManager.Models
 {
 	public class Inventory
 	{
-		public ObservableCollection<Item> All { get; private set; }
+		//[Obsolete("Use Items")]
+		//public ObservableCollection<Item> All { get; private set; }
 	    public Dictionary<char, ObservableCollection<Item>> Items { get; private set; }
 
 		public Inventory()
 		{
-			All = new ObservableCollection<Item>();
+			//All = new ObservableCollection<Item>();
 			Items = new Dictionary<char, ObservableCollection<Item>>();
 		}
 
 		public Inventory(IEnumerable<Item> items)
 		{
-			All = new ObservableCollection<Item>();
+			//All = new ObservableCollection<Item>();
 			Items = new Dictionary<char, ObservableCollection<Item>>();
 		}
 
