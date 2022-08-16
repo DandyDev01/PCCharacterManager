@@ -61,6 +61,7 @@
             </ListView.ItemTemplate>
         </ListView>
 
+        <!--#region Selected Item-->
         <TextBox Grid.Row="1" Grid.Column="6" Grid.RowSpan="1" Grid.ColumnSpan="3"
                  Text="{Binding SelectedItem.ItemName, UpdateSourceTrigger=PropertyChanged}"/>
 
@@ -71,6 +72,7 @@
                  Style="{StaticResource Document}"
                  Text="{Binding SelectedItem.ItemDesc, UpdateSourceTrigger=PropertyChanged}"/>
 
+        <!--#region Properties-->
         <Button Grid.Column="10" Grid.Row="1" 
                 Content="Add Property"
                 Command="{Binding AddPropertyCommand}"/>
@@ -87,6 +89,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
+        <!--#endregion-->
+        <!--#endregion-->
     </Grid>
 </UserControl>

@@ -3,6 +3,7 @@ using PCCharacterManager.Models;
 using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -82,6 +83,13 @@ namespace PCCharacterManager.ViewModels
 			OkCommand = new RelayCommand(Ok);
 			CancelCommand = new RelayCommand(Cancel);
 
+			language = string.Empty;
+			weapon = string.Empty;
+			armor = string.Empty;
+			tool = string.Empty;
+			otherProf = string.Empty;
+			movement = new Property();
+
 			AddLanguageCommand = new RelayCommand(AddLanguage);
 			RemoveLanguageCommand = new RelayCommand(RemoveLanguage);
 			AddMovementCommand = new RelayCommand(AddMovement);
@@ -108,14 +116,7 @@ namespace PCCharacterManager.ViewModels
 
 		public void AddLanguage()
 		{
-			Window window = new StringInputDialogWindow();
-			StringInputDialogWindowViewModel windowVM = new StringInputDialogWindowViewModel(window);
-			window.ShowDialog();
-
-			if (window.DialogResult == false)
-				return;
-
-			character.Languages.Add(windowVM.Answer);
+			AddTo(character.Languages);
 		}
 		public void RemoveLanguage()
 		{
@@ -124,14 +125,16 @@ namespace PCCharacterManager.ViewModels
 		public void AddMovement()
 		{
 			Window window = new StringInputDialogWindow();
-			StringInputDialogWindowViewModel windowVM = new StringInputDialogWindowViewModel(window, "Movement type i.e. FLY");
+			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window, "Movement type i.e. FLY");
+			window.DataContext = windowVM;
 			window.ShowDialog();
 
 			if (window.DialogResult == false)
 				return;
 
 			Window window1 = new StringInputDialogWindow();
-			StringInputDialogWindowViewModel windowVM1 = new StringInputDialogWindowViewModel(window1, "Movement Speed i.e. 30ft");
+			DialogWindowStringInputViewModel windowVM1 = new DialogWindowStringInputViewModel(window1, "Movement Speed i.e. 30ft");
+			window.DataContext = windowVM;
 			window1.ShowDialog();
 
 			if (window1.DialogResult == false)
@@ -145,14 +148,7 @@ namespace PCCharacterManager.ViewModels
 		}
 		public void AddWeapon()
 		{
-			Window window = new StringInputDialogWindow();
-			StringInputDialogWindowViewModel windowVM = new StringInputDialogWindowViewModel(window);
-			window.ShowDialog();
-
-			if (window.DialogResult == false)
-				return;
-
-			character.WeaponProficiencies.Add(windowVM.Answer);
+			AddTo(character.WeaponProficiencies);
 		}
 		public void RemoveWeapon()
 		{
@@ -160,14 +156,7 @@ namespace PCCharacterManager.ViewModels
 		}
 		public void AddArmor()
 		{
-			Window window = new StringInputDialogWindow();
-			StringInputDialogWindowViewModel windowVM = new StringInputDialogWindowViewModel(window);
-			window.ShowDialog();
-
-			if (window.DialogResult == false)
-				return;
-
-			character.ArmorProficiencies.Add(windowVM.Answer);
+			AddTo(character.ArmorProficiencies);
 		}
 		public void RemoveArmor()
 		{
@@ -175,14 +164,7 @@ namespace PCCharacterManager.ViewModels
 		}
 		public void AddTool()
 		{
-			Window window = new StringInputDialogWindow();
-			StringInputDialogWindowViewModel windowVM = new StringInputDialogWindowViewModel(window);
-			window.ShowDialog();
-
-			if (window.DialogResult == false)
-				return;
-
-			character.ToolProficiences.Add(windowVM.Answer);
+			AddTo(character.ToolProficiences);
 		}
 		public void RemoveTool()
 		{
@@ -190,18 +172,24 @@ namespace PCCharacterManager.ViewModels
 		}
 		public void AddOtherProf()
 		{
+			AddTo(character.OtherProficiences);
+		}
+		public void RemoveOtherProf()
+		{
+			character.OtherProficiences.Remove(otherProf);
+		}
+
+		private void AddTo(in ObservableCollection<string> addTo)
+		{
 			Window window = new StringInputDialogWindow();
-			StringInputDialogWindowViewModel windowVM = new StringInputDialogWindowViewModel(window);
+			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window);
+			window.DataContext = windowVM;
 			window.ShowDialog();
 
 			if (window.DialogResult == false)
 				return;
 
-			character.OtherProficiences.Add(windowVM.Answer);
-		}
-		public void RemoveOtherProf()
-		{
-			character.OtherProficiences.Remove(otherProf);
+			addTo.Add(windowVM.Answer);
 		}
 	}
 }

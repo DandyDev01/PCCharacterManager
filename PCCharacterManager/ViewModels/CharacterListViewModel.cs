@@ -14,6 +14,7 @@ namespace PCCharacterManager.ViewModels
 	public class CharacterListViewModel : ObservableObject
 	{
 		private readonly CharacterStore characterStore;
+		private readonly UpdateHandler updateHandler;
 
 		public ObservableCollection<Character> Characters { get; private set; }
 		public ObservableCollection<CharacterItemViewModel> CharacterItems { get; private set; }
@@ -21,6 +22,8 @@ namespace PCCharacterManager.ViewModels
 		public CharacterListViewModel(ICharacterDataService _dataService, CharacterStore _characterStore)
 		{
 			characterStore = _characterStore;
+			updateHandler = new UpdateHandler();
+			updateHandler.HandleCharacterFormatChanges(_dataService);
 
 			Characters = new ObservableCollection<Character>(_dataService.GetCharacters());
 

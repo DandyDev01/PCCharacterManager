@@ -143,37 +143,37 @@
                     <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
                            Content="Stength"/>
                     <TextBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"
-                             Text="{Binding AbilityScores[0], UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding NewCharacter.Abilities[0].Score, UpdateSourceTrigger=PropertyChanged}"/>
                     <!--#endregion-->
                     <!--#region Dex-->
                     <Label Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2"
                            Content="Dexterity"/>
                     <TextBox Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="2"
-                             Text="{Binding AbilityScores[1], UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding NewCharacter.Abilities[1].Score, UpdateSourceTrigger=PropertyChanged}"/>
                     <!--#endregion-->
                     <!--#region Con-->
                     <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"
                            Content="Constitution"/>
                     <TextBox Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2"
-                             Text="{Binding AbilityScores[2], UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding NewCharacter.Abilities[2].Score, UpdateSourceTrigger=PropertyChanged}"/>
                     <!--#endregion-->
                     <!--#region Int-->
                     <Label Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2"
                            Content="Intelligence"/>
                     <TextBox Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="2"
-                             Text="{Binding AbilityScores[3], UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding NewCharacter.Abilities[3].Score, UpdateSourceTrigger=PropertyChanged}"/>
                     <!--#endregion-->
                     <!--#region Wis-->
                     <Label Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2"
                            Content="Wisdom"/>
                     <TextBox Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2"
-                             Text="{Binding AbilityScores[4], UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding NewCharacter.Abilities[4].Score, UpdateSourceTrigger=PropertyChanged}"/>
                     <!--#endregion-->
                     <!--#region Char-->
                     <Label Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="2"
                            Content="Charisma"/>
                     <TextBox Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="2"
-                             Text="{Binding AbilityScores[5], UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding NewCharacter.Abilities[5].Score, UpdateSourceTrigger=PropertyChanged}"/>
                     <!--#endregion-->
                 </Grid>
             </ContentControl>

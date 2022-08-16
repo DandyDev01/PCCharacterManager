@@ -124,6 +124,8 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void DeleteNote()
 		{
+			if (selectedNote == null) return;
+
 			var result = MessageBox.Show("Are you sure you want to delete " +
 				 selectedNote.Title + "?", "Permenently Delete Note",
 				 MessageBoxButton.YesNo, MessageBoxImage.Question);

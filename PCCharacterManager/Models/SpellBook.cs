@@ -395,11 +395,6 @@ namespace PCCharacterManager.Models
 			PreparedSpells.Add(spell);
 		}
 
-		public void CastSpell(Spell spell)
-		{
-			PreparedSpells.Remove(spell);
-		}
-
 		public void ClearPreparedSpells()
 		{
 			foreach (var spell in PreparedSpells)

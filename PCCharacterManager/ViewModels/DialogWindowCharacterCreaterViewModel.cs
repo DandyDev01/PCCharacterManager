@@ -182,8 +182,10 @@ namespace PCCharacterManager.ViewModels
 
 		private void Create()
 		{
+			Character tempCharacter = newCharacter;
 			newCharacter = new Character(SelectedCharacterClass, SelectedRace, SelectedBackground);
 			newCharacter.Name = Name;
+			newCharacter.Abilities = tempCharacter.Abilities;
 
 			List<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(Resources.ItemsJson);
 

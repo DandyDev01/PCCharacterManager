@@ -62,6 +62,26 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		private Spell? selectedPreparedSpell;
+		public Spell? SelectedPreparedSpell
+		{
+			get { return selectedPreparedSpell; }
+			set
+			{
+				if (value == null) return;
+				
+				if (value.Name.Equals(searchTerm))
+				{
+					SearchTerm = "";
+					selectedPreparedSpell = null;
+					return;
+				}
+
+				selectedPreparedSpell = value;
+				SearchTerm = value.Name;
+			}
+		}
+
 		private string searchTerm;
 		public string SearchTerm
 		{

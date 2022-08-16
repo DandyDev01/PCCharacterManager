@@ -13,9 +13,9 @@ namespace PCCharacterManager.Models
 	{
 		public void LevelCharacter(Character character)
 		{
+			UpdateMaxHealth(character);
 			character.Level.LevelUp();
 			character.CharacterClass.Level.LevelUp();
-			UpdateMaxHealth(character);
 			UnLockClassFeatures(character);
 
 			foreach (var ability in character.Abilities)
@@ -26,17 +26,18 @@ namespace PCCharacterManager.Models
 
 		private void UpdateMaxHealth(Character character)
 		{
-
 			var message = MessageBox.Show("Would you like to manually enter a new max health",
 				"", MessageBoxButton.YesNo);
 
 			if (message == MessageBoxResult.Yes)
 			{
 				Window window = new StringInputDialogWindow();
-				StringInputDialogWindowViewModel windowVM =
-					new StringInputDialogWindowViewModel(window);
+				DialogWindowStringInputViewModel windowVM =
+					new DialogWindowStringInputViewModel(window);
 				window.DataContext = windowVM;
 				window.ShowDialog();
+
+				if (window.DialogResult == false) return;
 
 				int amount = int.Parse(windowVM.Answer);
 				character.Health.SetMaxHealth(amount);
@@ -55,8 +56,6 @@ namespace PCCharacterManager.Models
 
 				character.Health.SetMaxHealth(currHealth + numToAddToHealth);
 			}
-
-
 		}
 
 		private void UnLockClassFeatures(Character character)
@@ -66,7 +65,7 @@ namespace PCCharacterManager.Models
 			// find character class
 			CharacterClassData? data = classes.Find(x => x.Name.Equals(character.CharacterClass.Name));
 
-			if (data == null) return;
+			if (data == null) throw new Exception("The class " + character.CharacterClass.Name + " does not exist");
 
 			foreach (var item in data.Features)
 			{
@@ -79,7 +78,6 @@ namespace PCCharacterManager.Models
 					}
 
 					character.CharacterClass.Features.Add(item);
-
 				}
 			}
 		}

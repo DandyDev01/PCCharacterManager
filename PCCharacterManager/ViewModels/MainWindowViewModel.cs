@@ -29,8 +29,8 @@ namespace PCCharacterManager.ViewModels
 			set { OnPropertyChaged(ref tabVM, value); }
 		}
 
-		CharacterStore characterStore;
-		ICharacterDataService dataService;
+		private CharacterStore characterStore;
+		private ICharacterDataService dataService;
 
 		public ICommand NewCharacterCommand { get; private set; }
 		public ICommand SaveCharactersCommand { get; private set; }

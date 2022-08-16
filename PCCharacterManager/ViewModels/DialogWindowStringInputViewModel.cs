@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
-	public class StringInputDialogWindowViewModel : ObservableObject
+	public class DialogWindowStringInputViewModel : ObservableObject
 	{
 		private readonly Window dialogWindowl;
 
@@ -33,7 +33,7 @@ namespace PCCharacterManager.ViewModels
 		/// 
 		/// </summary>
 		/// <param name="_dialogWindow">the dialog window that opens</param>
-		public StringInputDialogWindowViewModel(Window _dialogWindow)
+		public DialogWindowStringInputViewModel(Window _dialogWindow)
 		{
 			answer = string.Empty;
 			message = string.Empty;
@@ -43,7 +43,7 @@ namespace PCCharacterManager.ViewModels
 			CloseCommand = new RelayCommand(Close);
 		}
 
-		public StringInputDialogWindowViewModel(Window _dialogWindow, string _message)
+		public DialogWindowStringInputViewModel(Window _dialogWindow, string _message)
 		{
 			answer = string.Empty;
 			message = _message;

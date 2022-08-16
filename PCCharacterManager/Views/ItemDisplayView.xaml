@@ -21,14 +21,9 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Column="0" Grid.ColumnSpan="1" Style="{StaticResource Title}"
+        <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Title}"
                    Margin="3"
                    Text="{Binding ItemName, FallbackValue=Name}"/>
-
-        <TextBlock Grid.Column="1" Grid.ColumnSpan="3" Style="{StaticResource h3}"
-                   Margin="3"
-                   HorizontalAlignment="Left"
-                   Text=""/>
 
         <TextBlock Grid.Column="5" Grid.ColumnSpan="1" Style="{StaticResource h3}"
                    Margin="3"

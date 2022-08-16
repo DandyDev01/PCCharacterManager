@@ -23,7 +23,7 @@ namespace PCCharacterManager.ViewModels
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			CharacterStatsVM = new CharacterStatsViewModel(_characterStore, dataService);
-			InventoryVM = new CharacterInventoryViewModel(_characterStore, dataService);
+			InventoryVM = new CharacterInventoryViewModel(_characterStore, dataService); 
 			SpellBookVM = new CharacterSpellBookViewModel(_characterStore, dataService);
 			NotesVM = new CharacterNoteBookViewModel(_characterStore, dataService);
 			CharacterListVM = new CharacterListViewModel(dataService, _characterStore);
