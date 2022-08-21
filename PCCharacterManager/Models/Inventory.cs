@@ -30,7 +30,9 @@ namespace PCCharacterManager.Models
 			char firstLetter = Char.ToLower(item.Name.First());
 
 			if (Items.ContainsKey(firstLetter))
+			{
 				Items[firstLetter].Add(item);
+			}
 			else
 				Items.Add(firstLetter, new ObservableCollection<Item> { item });
 

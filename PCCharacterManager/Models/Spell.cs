@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
+	public enum SpellSchool { ALL, CONJURATION, NECROMANCY, EVOCATION, ABJURATION, TRANSMUTATION, DIVINATION, ENCHANTMENT, ILLUSION };
+
 	public class Spell : Item
 	{
 		private string level = "1"; // can be a max of 9 regular 5e
@@ -14,7 +16,7 @@ namespace PCCharacterManager.Models
 		private string range_Area;
 		private string damage_Effect;
 		private string attack_Save;
-		private string school;
+		private SpellSchool school;
 		private string duration;
 		private bool isPrepared = false;
 
@@ -43,7 +45,8 @@ namespace PCCharacterManager.Models
 			get { return attack_Save; }
 			set { OnPropertyChaged(ref attack_Save, value); }
 		}
-		public string School
+		[Newtonsoft.Json.JsonProperty("School")]
+		public SpellSchool School
 		{
 			get { return school; }
 			set { OnPropertyChaged(ref school, value); }
@@ -83,7 +86,7 @@ namespace PCCharacterManager.Models
 			range_Area = string.Empty;
 			damage_Effect = string.Empty;
 			attack_Save = string.Empty;
-			school = string.Empty;
+			school = SpellSchool.EVOCATION;
 			duration = string.Empty;
 			Components = new ObservableCollection<char>();
 		}

@@ -56,8 +56,9 @@
 
         <!--#region row 2-->
         <Label Content="School" Grid.Column="0" Grid.Row="3"/>
-        <TextBox Grid.Column="0" Grid.Row="4" Margin="10" Padding="5" Height="40"
-                 Text="{Binding NewSpell.School}"/>
+        <ComboBox Grid.Column="0" Grid.Row="4" Margin="10" Padding="5" Height="40"
+                  ItemsSource="{Binding SpellSchools}"
+                  SelectedItem="{Binding SelectedSchool, Mode=OneWayToSource}"/>
 
         <Label Content="Duration" Grid.Column="1" Grid.Row="3"/>
         <TextBox Grid.Column="1" Grid.Row="4" Margin="10" Padding="5" Height="40"

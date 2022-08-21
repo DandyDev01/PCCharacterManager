@@ -45,6 +45,8 @@
             <MenuItem Header="Add Cantrip" Command="{Binding AddCantripCommand}"/>
             <TextBox Text="{Binding SearchTerm, FallbackValue=search, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource Search}"/>
+            <ComboBox ItemsSource="{Binding SearchFilters}" SelectedIndex="0" 
+                      SelectedValue="{Binding SelectedSearchFilter}"/>
             <ComboBox ItemsSource="{Binding Filters}" SelectedIndex="0" 
                       SelectedValue="{Binding SelectedFilter}"/>
         </Menu>

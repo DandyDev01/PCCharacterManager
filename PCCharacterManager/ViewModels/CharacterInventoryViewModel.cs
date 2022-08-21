@@ -72,6 +72,7 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		private readonly ItemSearch search;
 		private string searchTerm;
 		public string SearchTerm
 		{
@@ -79,7 +80,11 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChaged(ref searchTerm, value);
+				searchTerm = searchTerm.ToLower();
 				Search();
+				//float timePassed = (float)DateTime.Now.Subtract(lastSearchTime).TotalSeconds;
+				//searchTimer.Tick(timePassed);
+				//lastSearchTime = DateTime.Now;
 			}
 		}
 
@@ -104,6 +109,7 @@ namespace PCCharacterManager.ViewModels
 			prevSelectedProperty = new PropertyEditableViewModel(new Property());
 
 			searchTerm = string.Empty;
+			search = new ItemSearch();
 
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
@@ -128,38 +134,14 @@ namespace PCCharacterManager.ViewModels
 		private void Search()
 		{
 			ItemsToShow.Clear();
-
-			// there is nothing to search for
-			if (searchTerm == string.Empty || string.IsNullOrWhiteSpace(SearchTerm))
+			ItemDisplayViewModel[] items = search.Search(searchTerm, filteredItems[selectedFilter]).ToArray();
+			foreach (var item in items)
 			{
-				Filter();
+				ItemsToShow.Add(item);
 			}
-			// search for items that contain searchTerm
-			else
-			{
-				foreach (var item in filteredItems[selectedFilter].OrderBy(x => x.ItemName))
-				{
-					if (item.BoundItem.Name.ToLower().Contains(searchTerm.ToLower()))
-					{
-						ItemsToShow.Add(item);
-						continue;
-					}
 
-					// the item name did not contain the search term
-					// check the properties for the search term
-					if (item.BoundItem.Properties != null)
-					{
-						foreach (var property in item.BoundItem.Properties)
-						{
-							if (property.Name.ToLower().Contains(SearchTerm.ToLower()))
-							{
-								ItemsToShow.Add(item);
-								break;
-							}
-						}
-					}
-				}
-			} // end if
+			if (ItemsToShow.Count > 0)
+				SelectedItem = ItemsToShow[0];
 		} // end search
 
 		private void SetFilteredItemsDictionary()
@@ -176,15 +158,23 @@ namespace PCCharacterManager.ViewModels
 					filteredItems[item.Tag].Add(new ItemDisplayViewModel(item));
 				}
 			}
+
+			filteredItems[ItemType.Item] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Item].OrderBy(x => x.ItemName));
+			filteredItems[ItemType.Weapon] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Weapon].OrderBy(x => x.ItemName));
+			filteredItems[ItemType.Armor] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Armor].OrderBy(x => x.ItemName));
+			filteredItems[ItemType.Ammunition] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Ammunition].OrderBy(x => x.ItemName));
 		}
 
 		private void Filter()
 		{
 			ItemsToShow.Clear();
-			foreach (var item in filteredItems[selectedFilter].OrderBy(x => x.ItemName))
+			foreach (var item in filteredItems[selectedFilter])
 			{
 				ItemsToShow.Add(item);
 			}
+
+			if(ItemsToShow.Count > 0)
+				SelectedItem = ItemsToShow[0];
 		} // end Filter
 
 		private void AddProperty()
@@ -235,6 +225,5 @@ namespace PCCharacterManager.ViewModels
 			selectedCharacter.Inventory.Remove(SelectedItem.BoundItem);
 			ItemsToShow.Remove(SelectedItem);
 		}
-
 	} // end class
 }

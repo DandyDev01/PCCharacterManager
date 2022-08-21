@@ -93,11 +93,7 @@
                    Text="School"/>
         <TextBlock Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" 
                    Style="{StaticResource h4}"
-                   Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}" 
                    Text="{Binding Spell.School, FallbackValue=Abjuration}"/>
-        <TextBox Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" 
-                 Visibility="{Binding IsEditMode, Converter={StaticResource IsEditConverter}}"  
-                   Text="{Binding Spell.School, FallbackValue=Name}"/>
         <!--#endregion-->
         <!--#region Duration-->
         <TextBlock Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" 

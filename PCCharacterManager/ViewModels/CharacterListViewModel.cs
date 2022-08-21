@@ -24,7 +24,7 @@ namespace PCCharacterManager.ViewModels
 			characterStore = _characterStore;
 			updateHandler = new UpdateHandler();
 			//updateHandler.HandleCharacterFormatChanges(_dataService);
-
+			
 			Characters = new ObservableCollection<Character>(_dataService.GetCharacters());
 
 			CharacterItems = new ObservableCollection<CharacterItemViewModel>();

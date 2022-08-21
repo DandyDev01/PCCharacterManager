@@ -14,7 +14,7 @@ namespace PCCharacterManager.ViewModels
 {
 	public class DialogWindowAddSpellViewModel : TabItemViewModel
 	{
-		private SpellFilterType spellFilterType;
+		private SpellType spellFilterType;
 		private Spell newSpell;
 		public Spell NewSpell
 		{
@@ -34,12 +34,22 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		public Array SpellSchools { get; private set; } = Enum.GetValues(typeof(SpellSchool));
+		private SpellSchool selectedSchool;
+		public SpellSchool SelectedSchool 
+		{
+			set
+			{
+				selectedSchool = value;
+			}
+		}
+
 		private SpellBook spellBook;
 
 		public ICommand AddSpellCommand { get; private set; }
 		public ICommand CancelCommand { get; private set; }
 
-		public DialogWindowAddSpellViewModel(Window _window, CharacterStore _characterStore, SpellFilterType _spellFilterType,
+		public DialogWindowAddSpellViewModel(Window _window, CharacterStore _characterStore, SpellType _spellFilterType,
 			ICharacterDataService _dataService, Character _selectedCharacter = null) : base(_characterStore, _dataService, _selectedCharacter)
 		{
 			window = _window;
@@ -54,13 +64,13 @@ namespace PCCharacterManager.ViewModels
 
 		private void AddNewSpell()
 		{
-
+			newSpell.School = selectedSchool;
 			switch (spellFilterType)
 			{
-				case SpellFilterType.SPELL:
+				case SpellType.SPELL:
 					spellBook.AddSpell(newSpell);
 					break;
-				case SpellFilterType.CANTRIP:
+				case SpellType.CANTRIP:
 					newSpell.IsPrepared = true;
 					spellBook.AddContrip(newSpell);
 					break;

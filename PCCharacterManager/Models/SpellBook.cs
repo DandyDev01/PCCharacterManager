@@ -10,7 +10,7 @@ namespace PCCharacterManager.Models
 {
 	public class SpellBook : ObservableObject
 	{
-		public ObservableCollection<Spell> SpellsKnown { get; private set; }
+		public Dictionary<SpellSchool, ObservableCollection<Spell>> SpellsKnown { get; private set; }
 		public ObservableCollection<Spell> CantripsKnown { get; private set; }
 		public ObservableCollection<Spell> PreparedSpells { get; private set; }
 
@@ -367,7 +367,13 @@ namespace PCCharacterManager.Models
 
 		public SpellBook()
 		{
-			SpellsKnown = new ObservableCollection<Spell>();
+			SpellsKnown = new Dictionary<SpellSchool, ObservableCollection<Spell>>();
+
+			foreach (SpellSchool item in Enum.GetValues(typeof(SpellSchool)))
+			{
+				SpellsKnown.Add(item, new ObservableCollection<Spell>());
+			}
+
 			CantripsKnown = new ObservableCollection<Spell>();
 			PreparedSpells = new ObservableCollection<Spell>();
 
@@ -407,7 +413,7 @@ namespace PCCharacterManager.Models
 
 		public void AddSpell(Spell spell)
 		{
-			SpellsKnown.Add(spell);
+			SpellsKnown[spell.School].Add(spell);
 		}
 
 		public void AddContrip(Spell spell)
@@ -420,7 +426,7 @@ namespace PCCharacterManager.Models
 			if (PreparedSpells.Contains(spell))
 				PreparedSpells.Remove(spell);
 
-			SpellsKnown.Remove(spell);
+			SpellsKnown[spell.School].Remove(spell);
 		}
 
 		public void RemoveCantrip(Spell spell)
