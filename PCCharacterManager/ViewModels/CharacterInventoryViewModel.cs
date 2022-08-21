@@ -1,4 +1,5 @@
-﻿using PCCharacterManager.DialogWindows;
+﻿using PCCharacterManager.Commands;
+using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
@@ -44,7 +45,7 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private PropertyEditableViewModel? prevSelectedProperty;
+		public PropertyEditableViewModel? PrevSelectedProperty { get; private set; }
 		private PropertyEditableViewModel? selectedProperty;
 		public PropertyEditableViewModel? SelectedProperty
 		{
@@ -53,7 +54,7 @@ namespace PCCharacterManager.ViewModels
 			{
 				OnPropertyChaged(ref selectedProperty, value);
 				selectedProperty?.Edit();
-				prevSelectedProperty = selectedProperty;
+				PrevSelectedProperty = selectedProperty;
 				selectedProperty = null;
 			}
 		}
@@ -95,10 +96,10 @@ namespace PCCharacterManager.ViewModels
 		public CharacterInventoryViewModel(CharacterStore _characterStore, ICharacterDataService dataService)
 			: base(_characterStore, dataService)
 		{
-			AddItemCommand = new RelayCommand(AddItemWindow);
-			RemoveItemCommand = new RelayCommand(RemoveItem);
-			AddPropertyCommand = new RelayCommand(AddProperty);
-			RemovePropertyCommand = new RelayCommand(RemoveProperty);
+			AddItemCommand = new AddItemToInventoryCommand(this);
+			RemoveItemCommand = new RemoveItemFromInventoryCommand(this);
+			AddPropertyCommand = new AddPropertyToItemCommand(this);
+			RemovePropertyCommand = new RemovePropertyFromItemCommand(this);
 
 			filteredItems = new Dictionary<ItemType, ObservableCollection<ItemDisplayViewModel>>();
 			filteredItems.Add(ItemType.Weapon, new ObservableCollection<ItemDisplayViewModel>());
@@ -106,7 +107,7 @@ namespace PCCharacterManager.ViewModels
 			filteredItems.Add(ItemType.Ammunition, new ObservableCollection<ItemDisplayViewModel>());
 			filteredItems.Add(ItemType.Item, new ObservableCollection<ItemDisplayViewModel>());
 			ItemsToShow = new ObservableCollection<ItemDisplayViewModel>();
-			prevSelectedProperty = new PropertyEditableViewModel(new Property());
+			PrevSelectedProperty = new PropertyEditableViewModel(new Property());
 
 			searchTerm = string.Empty;
 			search = new ItemSearch();
@@ -176,54 +177,5 @@ namespace PCCharacterManager.ViewModels
 			if(ItemsToShow.Count > 0)
 				SelectedItem = ItemsToShow[0];
 		} // end Filter
-
-		private void AddProperty()
-		{
-			if (SelectedItem == null)
-				return;
-
-			SelectedItem.BoundItem.AddProperty(new Property("name", "desc"));
-			SelectedItemProperties.Clear();
-			foreach (var property in SelectedItem.BoundItem.Properties)
-			{
-				SelectedItemProperties.Add(new PropertyEditableViewModel(property));
-			}
-		}
-
-		private void RemoveProperty()
-		{
-			if (SelectedItem == null || prevSelectedProperty == null)
-				return;
-
-			SelectedItem.BoundItem.RemoveProperty(prevSelectedProperty.BoundProperty);
-			SelectedItemProperties.Remove(prevSelectedProperty);
-		}
-
-		private void AddItemWindow()
-		{
-			Window window = new AddItemDialogWindow();
-			DialogWindowAddItemViewModel dialogContext =
-				new DialogWindowAddItemViewModel(dataService, characterStore, window, selectedCharacter);
-			window.DataContext = dialogContext;
-
-			window.ShowDialog();
-
-			ItemsToShow.Add(new ItemDisplayViewModel(dialogContext.SelectedItem.BoundItem));
-			ItemsToShow.OrderBy(x => x.ItemName);
-		}
-
-		private void RemoveItem()
-		{
-			if (SelectedItem == null)
-				return;
-
-			var messageBox = MessageBox.Show("Are you sure you want to remove " + SelectedItem.ItemName, "Remove Item", MessageBoxButton.YesNo);
-
-			if (messageBox == MessageBoxResult.No)
-				return;
-
-			selectedCharacter.Inventory.Remove(SelectedItem.BoundItem);
-			ItemsToShow.Remove(SelectedItem);
-		}
 	} // end class
 }

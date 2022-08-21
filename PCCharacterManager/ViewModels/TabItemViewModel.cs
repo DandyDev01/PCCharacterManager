@@ -22,6 +22,9 @@ namespace PCCharacterManager.ViewModels
 		protected readonly CharacterStore characterStore;
 		protected readonly ICharacterDataService dataService;
 
+		public CharacterStore CharacterStore { get { return characterStore; } }
+		public ICharacterDataService DataService { get { return dataService; } }
+
 		public TabItemViewModel(CharacterStore _characterStore, ICharacterDataService _dataService,
 			Character _selectedCharacter = null)
 		{
