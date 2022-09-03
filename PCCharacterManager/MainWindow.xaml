@@ -29,23 +29,23 @@
             <MenuItem Header="File" Style="{StaticResource MenuItem}">
                 <MenuItem x:Name="menuNew" Header="New" Command="{Binding NewCharacterCommand}"
                           InputGestureText="Ctrl+N" Style="{StaticResource MenuItem}"/>
-                <MenuItem x:Name="menuOpen" Header="Open" Command="ApplicationCommands.Open"
+                <MenuItem x:Name="menuOpen" Header="Open" IsEnabled="False"
                           InputGestureText="Ctrl+O" Style="{StaticResource MenuItem}"/>
                 <MenuItem x:Name="menuSave" Header="Save" Command="{Binding SaveCharactersCommand}"
                           InputGestureText="Ctrl+S" Style="{StaticResource MenuItem}"/>
-                <MenuItem x:Name="menuShowAll" Header="List *Characters" 
+                <MenuItem x:Name="menuShowAll" Header="List *Characters" IsEnabled="False"
                           Style="{StaticResource MenuItem}"/>
                 <MenuItem x:Name="menuClose" Header="Exit" Command="ApplicationCommands.Close" 
                           Style="{StaticResource MenuItem}"/>
             </MenuItem>
             <MenuItem Header="Edit" Style="{StaticResource MenuItem}">
-                <MenuItem x:Name="menuDuplicate" Header="Duplicate Character" 
+                <MenuItem x:Name="menuDuplicate" Header="Duplicate Character" IsEnabled="False"
                           InputGestureText="Ctrl+D" Style="{StaticResource MenuItem}"/>
-                <MenuItem x:Name="menuAddCompanion" Header="Add Companion" 
+                <MenuItem x:Name="menuAddCompanion" Header="Add Companion" IsEnabled="False"
                           InputGestureText="Ctrl+N+C" Style="{StaticResource MenuItem}"/>
                 <MenuItem x:Name="menuLevel" Header="Level Character" Command="{Binding LevelCharacterCommand}"
                           InputGestureText="Ctrl+L" Style="{StaticResource MenuItem}"/>
-                <MenuItem Header="Long Rest" Command="{Binding LongRestCommand}"
+                <MenuItem Header="Long Rest" Command="{Binding LongRestCommand}" IsEnabled="False"
                           InputGestureText="Ctrl+R" Style="{StaticResource MenuItem}"/>
             </MenuItem>
         </Menu>
