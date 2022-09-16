@@ -7,6 +7,7 @@ using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -134,6 +135,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand ClearPreparedSpellsCommand { get; private set; }
 		public ICommand DeleteSpellCommand { get; private set; }
 		public ICommand DeleteCantripCommand { get; private set; }
+		public ICommand UnprepareSpellCommand { get; private set; }
 
 		private SpellBook spellBook;
 		public SpellBook SpellBook
@@ -180,6 +182,7 @@ namespace PCCharacterManager.ViewModels
 			AddSpellCommand = new AddItemToSpellBookCommand(this, dataService, characterStore, SpellType.SPELL);
 			AddCantripCommand = new AddItemToSpellBookCommand(this, dataService, characterStore, SpellType.CANTRIP);
 			ClearPreparedSpellsCommand = new RelayCommand(ClearPreparedSpells);
+			UnprepareSpellCommand = new RelayCommand(RemovePreparedSpell);
 			DeleteSpellCommand = new RemoveItemFromSpellBookCommand(this, SpellType.SPELL);
 			DeleteCantripCommand = new RemoveItemFromSpellBookCommand(this, SpellType.CANTRIP);
 		}
@@ -237,6 +240,23 @@ namespace PCCharacterManager.ViewModels
 			foreach (var spellItemView in SpellsToDisplay)
 			{
 				spellItemView.IsPrepared = false;
+			}
+		}
+
+		private void RemovePreparedSpell()
+		{
+			Trace.WriteLine("Remove called");
+			if (selectedPreparedSpell == null) return;
+			Trace.WriteLine("Remove called");
+
+			if (spellBook.PreparedSpells.Contains(selectedPreparedSpell))
+			{
+				selectedPreparedSpell.IsPrepared = false;
+				spellBook.PreparedSpells.Remove(selectedPreparedSpell);
+				List<SpellItemEditableViewModel> spells = SpellsToDisplay.ToList();
+				SpellItemEditableViewModel? s = spells.Find(x => x.Spell.Name.Equals(selectedPreparedSpell.Name));
+				s.IsPrepared = false;
+				selectedPreparedSpell = null;
 			}
 		}
 

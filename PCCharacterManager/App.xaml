@@ -454,6 +454,15 @@
         </Style>
         <!--#endregion-->
 
+        <Style TargetType="ContextMenu">
+            <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
+        </Style>
+
+        <Style TargetType="MenuItem">
+            <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
+            <Setter Property="Foreground" Value="{StaticResource DarkText}"/>
+        </Style>
+
         <Style TargetType="ToolTip">
             <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
             <Setter Property="Foreground" Value="{StaticResource DarkText}"/>

@@ -8,6 +8,12 @@
              d:DesignHeight="50" d:DesignWidth="175" MinWidth="100" 
              BorderThickness="0,5,0,0" BorderBrush="White">
     <Grid>
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Add" Command="{Binding}"/>
+                <MenuItem Header="Remove" Command="{Binding}"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
         <TextBlock Style="{StaticResource h2}" Text="{Binding }" TextWrapping="WrapWithOverflow"/>
     </Grid>
 </UserControl>
