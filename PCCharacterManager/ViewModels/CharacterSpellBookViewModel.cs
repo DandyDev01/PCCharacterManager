@@ -243,11 +243,13 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// remove the selected prepared spell from the prepared spells list
+		/// in the view and in the spellbook model
+		/// </summary>
 		private void RemovePreparedSpell()
 		{
-			Trace.WriteLine("Remove called");
 			if (selectedPreparedSpell == null) return;
-			Trace.WriteLine("Remove called");
 
 			if (spellBook.PreparedSpells.Contains(selectedPreparedSpell))
 			{

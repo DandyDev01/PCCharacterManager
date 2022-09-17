@@ -54,6 +54,13 @@
                   ItemsSource="{Binding ItemsToShow}"
                   SelectedIndex="0"
                   SelectedItem="{Binding SelectedItem}">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add Item" Command="{Binding AddItemCommand}"/>
+                    <MenuItem Header="Remove Item" Command="{Binding RemoveItemCommand}"
+                              IsEnabled="{Binding SelectedItem, Converter={StaticResource NullToEnabledConverter}}"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <v:ItemDisplayView/>

@@ -33,6 +33,7 @@ namespace PCCharacterManager.ViewModels
 		private ICharacterDataService dataService;
 
 		public ICommand NewCharacterCommand { get; private set; }
+		public ICommand DeleteCharacterCommand { get; private set; }
 		public ICommand SaveCharactersCommand { get; private set; }
 		public ICommand LevelCharacterCommand { get; private set; }
 		public ICommand LongRestCommand { get; private set; }
@@ -56,12 +57,15 @@ namespace PCCharacterManager.ViewModels
 
 
 			NewCharacterCommand = new RelayCommand(CreateCharacterWindow);
-
+			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
 			SaveCharactersCommand = new RelayCommand(SaveCharacters);
-
 			LevelCharacterCommand = new RelayCommand(LevelCharacter);
-
 			LongRestCommand = new RelayCommand(LongRest);
+		}
+
+		private void DeleteCharacter()
+		{
+			tabVM.CharacterListVM.DeleteCharacter();
 		}
 
 		private void LongRest()
@@ -83,10 +87,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void CreateCharacterWindow()
 		{
-			Window newCharacterWindow = new CreateCharacterDialogWindow();
-			newCharacterWindow.DataContext = new DialogWindowCharacterCreaterViewModel(dataService, characterStore, newCharacterWindow);
-
-			newCharacterWindow.ShowDialog();
+			tabVM.CharacterListVM.CreateCharacterWindow();
 		}
 
 		private void SaveCharacters()

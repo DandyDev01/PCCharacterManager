@@ -32,6 +32,7 @@
         <helper:BoolToVisibilityConverter x:Key="IsEditConverter"/>
         <helper:NullToVisibilityConverter x:Key="SelectedItemConverter"/>
         <helper:InverseBooleanConverter x:Key="InverseBoolConverter"/>
+        <helper:NullToEnabledConverter x:Key="NullToEnabledConverter"/>
 
         <SolidColorBrush x:Key="BackGroundColorDark" Color="#333333"/>
         <SolidColorBrush x:Key="BackGroundColor" Color="#181a1b"/>

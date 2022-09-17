@@ -40,7 +40,6 @@ namespace PCCharacterManager.ViewModels
 							SelectedItemProperties.Add(new PropertyEditableViewModel(property));
 						}
 					}
-
 				}
 			}
 		}

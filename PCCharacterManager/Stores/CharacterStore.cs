@@ -26,5 +26,11 @@ namespace PCCharacterManager.Stores
 			// this is here because it is the fastest way to set the pointer
 
 		}
+
+		public void SetSelectedCharacter(Character character)
+		{
+			SelectedCharacterChange?.Invoke(character);
+			SelectedCharacter = character;
+		}
 	}
 }
