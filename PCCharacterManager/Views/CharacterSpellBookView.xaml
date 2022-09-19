@@ -57,7 +57,8 @@
                           SelectedValue="{Binding SelectedPreparedSpell}">
                     <ListView.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Remove" Command="{Binding UnprepareSpellCommand}"/>
+                            <MenuItem Header="{Binding PreparedSpellText}" Command="{Binding UnprepareSpellCommand}"/>
+                            <MenuItem Header="Clear" Command="{Binding ClearPreparedSpellsCommand}"/>
                         </ContextMenu>
                     </ListView.ContextMenu>
                 </ListView>

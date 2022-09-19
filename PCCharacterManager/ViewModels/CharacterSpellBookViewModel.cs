@@ -73,7 +73,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				if (value == null) return;
-				
+
 				if (value.Name.Equals(searchTerm))
 				{
 					SearchTerm = "";
@@ -83,6 +83,7 @@ namespace PCCharacterManager.ViewModels
 
 				selectedPreparedSpell = value;
 				SearchTerm = value.Name;
+				PreparedSpellText = "Unprepare " + selectedPreparedSpell.Name;
 			}
 		}
 
@@ -94,6 +95,16 @@ namespace PCCharacterManager.ViewModels
 			{
 				OnPropertyChaged(ref searchTerm, value);
 				Search(searchTerm);
+			}
+		}
+
+		private string preparedSpellText;
+		public string PreparedSpellText
+		{
+			get { return preparedSpellText; }
+			set
+			{
+				OnPropertyChaged(ref preparedSpellText, value);
 			}
 		}
 
