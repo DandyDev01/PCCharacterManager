@@ -22,7 +22,7 @@ namespace PCCharacterManager.Commands
 				return;
 
 			vm.SelectedItem.BoundItem.RemoveProperty(vm.PrevSelectedProperty.BoundProperty);
-			vm.SelectedItemProperties.Remove(vm.PrevSelectedProperty);
+			vm.PropertiesToDisplay.Remove(vm.PrevSelectedProperty);
 		}
 	}
 }

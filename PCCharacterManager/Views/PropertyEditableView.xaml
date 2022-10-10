@@ -35,5 +35,11 @@
         <TextBox Text="{Binding BoundProperty.Desc, FallbackValue=Desc}"
                  Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" 
                  Visibility="{Binding IsEditMode, Converter={StaticResource IsEditConverter}}"/>
+
+        <CheckBox Grid.Row="0" Grid.Column="2"
+                  ToolTip="weather or not the property is hidden"
+                  VerticalAlignment="Center" HorizontalAlignment="Center"
+                  IsChecked="{Binding BoundProperty.Hidden}"
+                  Visibility="{Binding IsEditMode, Converter={StaticResource IsEditConverter}}"/>
     </Grid>
 </UserControl>

@@ -45,6 +45,8 @@
             <MenuItem Header="Remove Item" Command="{Binding RemoveItemCommand}"/>
             <TextBox Text="{Binding SearchTerm, FallbackValue=search, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource Search}"/>
+            <CheckBox ToolTip="Show Hidden Properties of selected item?"
+                      IsChecked="{Binding ShowHiddenProperties}"/>
             <ComboBox ItemsSource="{Binding Filters}" 
                       SelectedIndex="2" 
                       SelectedItem="{Binding SelectedFilter}"/>
@@ -88,7 +90,7 @@
                 Command="{Binding RemovePropertyCommand}"/>
 
         <ListView Grid.Row="2" Grid.Column="9" Grid.ColumnSpan="4" Grid.RowSpan="6"
-                  ItemsSource="{Binding SelectedItemProperties}" 
+                  ItemsSource="{Binding PropertiesToDisplay}" 
                   SelectedItem="{Binding SelectedProperty}">
             <ListView.ItemTemplate>
                 <DataTemplate>

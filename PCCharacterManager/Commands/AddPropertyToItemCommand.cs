@@ -23,10 +23,10 @@ namespace PCCharacterManager.Commands
 				return;
 
 			vm.SelectedItem.BoundItem.AddProperty(new Property("name", "desc"));
-			vm.SelectedItemProperties.Clear();
+			vm.PropertiesToDisplay.Clear();
 			foreach (var property in vm.SelectedItem.BoundItem.Properties)
 			{
-				vm.SelectedItemProperties.Add(new PropertyEditableViewModel(property));
+				vm.PropertiesToDisplay.Add(new PropertyEditableViewModel(property));
 			}
 		}
 	}

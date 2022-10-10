@@ -7,6 +7,7 @@ using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,18 +30,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChaged(ref selectedItem, value);
-				SelectedItemProperties.Clear();
-
-				if (selectedItem != null)
-				{
-					if (selectedItem.BoundItem.Properties != null)
-					{
-						foreach (var property in selectedItem.BoundItem.Properties)
-						{
-							SelectedItemProperties.Add(new PropertyEditableViewModel(property));
-						}
-					}
-				}
+				PopulatePropertiesToDisplay();
 			}
 		}
 
@@ -58,7 +48,7 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public ObservableCollection<PropertyEditableViewModel> SelectedItemProperties { get; private set; }
+		public ObservableCollection<PropertyEditableViewModel> PropertiesToDisplay { get; private set; }
 
 		public Array Filters { get; private set; } = Enum.GetValues(typeof(ItemType));
 		private ItemType selectedFilter;
@@ -88,6 +78,17 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		private bool showHiddenProperties = false;
+		public bool ShowHiddenProperties
+		{
+			get { return showHiddenProperties; }
+			set 
+			{
+				OnPropertyChaged(ref showHiddenProperties, value);
+				PopulatePropertiesToDisplay();
+			}
+		}
+
 		public ObservableCollection<ItemDisplayViewModel> ItemsToShow { get; private set; }
 
 		private Dictionary<ItemType, ObservableCollection<ItemDisplayViewModel>> filteredItems;
@@ -113,7 +114,7 @@ namespace PCCharacterManager.ViewModels
 
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
-			SelectedItemProperties = new ObservableCollection<PropertyEditableViewModel>();
+			PropertiesToDisplay = new ObservableCollection<PropertyEditableViewModel>();
 		}
 
 		protected override void OnCharacterChanged(Character newCharacter)
@@ -122,7 +123,7 @@ namespace PCCharacterManager.ViewModels
 			SetFilteredItemsDictionary();
 
 			ItemsToShow.Clear();
-			SelectedItemProperties.Clear();
+			PropertiesToDisplay.Clear();
 			SelectedProperty = null;
 
 			Filter();
@@ -176,5 +177,31 @@ namespace PCCharacterManager.ViewModels
 			if(ItemsToShow.Count > 0)
 				SelectedItem = ItemsToShow[0];
 		} // end Filter
+
+		private void PopulatePropertiesToDisplay()
+		{
+			PropertiesToDisplay.Clear();
+
+			if (selectedItem == null) return;
+			if (selectedItem.BoundItem.Properties == null) return;
+
+			foreach (var property in selectedItem.BoundItem.Properties)
+			{
+				// do not show hidden propertiess
+				if (!showHiddenProperties)
+				{
+					// property is not hidden show it
+					if (!property.Hidden)
+					{
+						PropertiesToDisplay.Add(new PropertyEditableViewModel(property));
+					}
+				}
+				else
+				{
+					PropertiesToDisplay.Add(new PropertyEditableViewModel(property));
+				}
+
+			}
+		}
 	} // end class
 }
