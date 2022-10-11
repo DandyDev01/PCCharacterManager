@@ -34,6 +34,7 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		public ObservableCollection<PropertyEditableViewModel> PropertiesToDisplay { get; private set; }
 		public PropertyEditableViewModel? PrevSelectedProperty { get; private set; }
 		private PropertyEditableViewModel? selectedProperty;
 		public PropertyEditableViewModel? SelectedProperty
@@ -43,12 +44,25 @@ namespace PCCharacterManager.ViewModels
 			{
 				OnPropertyChaged(ref selectedProperty, value);
 				selectedProperty?.Edit();
+
+				if (selectedProperty == null) return;
+
 				PrevSelectedProperty = selectedProperty;
 				selectedProperty = null;
+
+				if (showHiddenProperties) return;
+				
+				// property was just marked to be hidden
+				if (PrevSelectedProperty.BoundProperty.Hidden)
+				{
+					// is in the display listm, remove it.
+					if (PropertiesToDisplay.Contains(PrevSelectedProperty))
+					{
+						PropertiesToDisplay.Remove(PrevSelectedProperty);
+					}
+				}
 			}
 		}
-
-		public ObservableCollection<PropertyEditableViewModel> PropertiesToDisplay { get; private set; }
 
 		public Array Filters { get; private set; } = Enum.GetValues(typeof(ItemType));
 		private ItemType selectedFilter;
@@ -90,7 +104,6 @@ namespace PCCharacterManager.ViewModels
 		}
 
 		public ObservableCollection<ItemDisplayViewModel> ItemsToShow { get; private set; }
-
 		private Dictionary<ItemType, ObservableCollection<ItemDisplayViewModel>> filteredItems;
 
 		public CharacterInventoryViewModel(CharacterStore _characterStore, ICharacterDataService dataService)
