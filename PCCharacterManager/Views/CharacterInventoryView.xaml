@@ -8,6 +8,10 @@
              mc:Ignorable="d" 
              Background="{StaticResource ViewBackgroundColor}"
              d:DesignHeight="1080" d:DesignWidth="1920">
+    <UserControl.InputBindings>
+        <KeyBinding Modifiers="Shift" Key="Tab" Command="{Binding NextFilterCommand}"/>
+    </UserControl.InputBindings>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -43,7 +47,8 @@
         <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="13" Grid.RowSpan="1">
             <MenuItem Header="Add Item" Command="{Binding AddItemCommand}"/>
             <MenuItem Header="Remove Item" Command="{Binding RemoveItemCommand}"/>
-            <TextBox Text="{Binding SearchTerm, FallbackValue=search, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox x:Name="searchBox"
+                     Text="{Binding SearchTerm, FallbackValue=search, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource Search}"/>
             <CheckBox ToolTip="Show Hidden Properties of selected item?"
                       IsChecked="{Binding ShowHiddenProperties}"/>

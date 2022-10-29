@@ -22,7 +22,7 @@ namespace PCCharacterManager.ViewModels
 	public class CharacterSpellBookViewModel : TabItemViewModel
 	{
 		public Array SearchFilters { get; private set; } = Enum.GetValues(typeof(SpellType));
-		public Array Filters { get; private set; } = Enum.GetValues(typeof(SpellSchool));
+		public SpellSchool[] Filters { get; private set; } = (SpellSchool[])Enum.GetValues(typeof(SpellSchool));
 
 		private bool isEditMode;
 		public bool IsEditMode
@@ -147,6 +147,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand DeleteSpellCommand { get; private set; }
 		public ICommand DeleteCantripCommand { get; private set; }
 		public ICommand UnprepareSpellCommand { get; private set; }
+		public ICommand NextFilterCommand { get; private set; }
 
 		private SpellBook spellBook;
 		public SpellBook SpellBook
@@ -174,7 +175,6 @@ namespace PCCharacterManager.ViewModels
 		public ObservableCollection<SpellItemEditableViewModel> SpellsToDisplay { get; private set; }
 		public ObservableCollection<SpellItemEditableViewModel> CantripsToDisplay { get; private set; }
 
-
 		public CharacterSpellBookViewModel(CharacterStore _characterStore, ICharacterDataService _dataService)
 			: base(_characterStore, _dataService)
 		{
@@ -196,6 +196,7 @@ namespace PCCharacterManager.ViewModels
 			UnprepareSpellCommand = new RelayCommand(RemovePreparedSpell);
 			DeleteSpellCommand = new RemoveItemFromSpellBookCommand(this, SpellType.SPELL);
 			DeleteCantripCommand = new RemoveItemFromSpellBookCommand(this, SpellType.CANTRIP);
+			NextFilterCommand = new RelayCommand(NextFilter);
 		}
 
 		protected override void OnCharacterChanged(Character newCharacter)
@@ -367,6 +368,20 @@ namespace PCCharacterManager.ViewModels
 					CantripsToDisplay.Add(item);
 				}
 			}
+		}
+
+		private void NextFilter()
+		{
+			int currentIndex = (int)selectedFilter;
+			int nextIndex = currentIndex + 1;
+			if (nextIndex > Filters.Length - 1)
+			{
+				currentIndex = 0;
+				SelectedFilter = Filters[currentIndex];
+				return;
+			}
+
+			SelectedFilter = Filters[nextIndex];
 		}
 	} // end class
 }

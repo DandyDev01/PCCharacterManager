@@ -22,6 +22,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand RemoveItemCommand { get; private set; }
 		public ICommand AddPropertyCommand { get; private set; }
 		public ICommand RemovePropertyCommand { get; private set; }
+		public ICommand NextFilterCommand { get; private set; }
 
 		private ItemDisplayViewModel? selectedItem;
 		public ItemDisplayViewModel? SelectedItem
@@ -36,6 +37,7 @@ namespace PCCharacterManager.ViewModels
 
 		public ObservableCollection<PropertyEditableViewModel> PropertiesToDisplay { get; private set; }
 		public PropertyEditableViewModel? PrevSelectedProperty { get; private set; }
+
 		private PropertyEditableViewModel? selectedProperty;
 		public PropertyEditableViewModel? SelectedProperty
 		{
@@ -64,7 +66,7 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public Array Filters { get; private set; } = Enum.GetValues(typeof(ItemType));
+		public ItemType[] Filters { get; private set; } = (ItemType[])Enum.GetValues(typeof(ItemType));
 		private ItemType selectedFilter;
 		public ItemType SelectedFilter
 		{
@@ -76,7 +78,7 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private readonly ItemSearch search;
+		private readonly ItemSearch search; 
 		private string searchTerm;
 		public string SearchTerm
 		{
@@ -113,6 +115,7 @@ namespace PCCharacterManager.ViewModels
 			RemoveItemCommand = new RemoveItemFromInventoryCommand(this);
 			AddPropertyCommand = new AddPropertyToItemCommand(this);
 			RemovePropertyCommand = new RemovePropertyFromItemCommand(this);
+			NextFilterCommand = new RelayCommand(NextFilter);
 
 			filteredItems = new Dictionary<ItemType, ObservableCollection<ItemDisplayViewModel>>();
 			filteredItems.Add(ItemType.Weapon, new ObservableCollection<ItemDisplayViewModel>());
@@ -215,6 +218,20 @@ namespace PCCharacterManager.ViewModels
 				}
 
 			}
+		}
+
+		private void NextFilter()
+		{
+			int currentIndex = (int)selectedFilter;
+			int nextIndex = currentIndex + 1;
+			if(nextIndex > Filters.Length -1)
+			{
+				currentIndex = 0;
+				SelectedFilter = Filters[currentIndex];
+				return;
+			} 
+
+			SelectedFilter = Filters[nextIndex];
 		}
 	} // end class
 }

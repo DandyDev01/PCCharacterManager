@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCCharacterManager.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,18 @@ namespace PCCharacterManager.Views
 	/// </summary>
 	public partial class CharacterInventoryView : UserControl
 	{
+		private ICommand focusSearchCommand;
+
 		public CharacterInventoryView()
 		{
 			InitializeComponent();
+			focusSearchCommand = new RelayCommand(FocusSearch);
+			this.InputBindings.Add(new KeyBinding(focusSearchCommand, Key.F, ModifierKeys.Control));
+		}
+
+		public void FocusSearch()
+		{
+			this.searchBox.Focus();
 		}
 	}
 }
