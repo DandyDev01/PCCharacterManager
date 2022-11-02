@@ -4,6 +4,7 @@ using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -134,7 +135,7 @@ namespace PCCharacterManager.ViewModels
 
 			Window window1 = new StringInputDialogWindow();
 			DialogWindowStringInputViewModel windowVM1 = new DialogWindowStringInputViewModel(window1, "Movement Speed i.e. 30ft");
-			window.DataContext = windowVM;
+			window1.DataContext = windowVM1;
 			window1.ShowDialog();
 
 			if (window1.DialogResult == false)

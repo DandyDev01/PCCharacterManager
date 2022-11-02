@@ -213,7 +213,7 @@
                   ItemsSource="{Binding MovementTypes_Speeds}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <v:PropertyDisplayView/>
+                        <v:PropertyDisplayHorizontalView/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
