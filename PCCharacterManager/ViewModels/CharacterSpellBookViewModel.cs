@@ -333,7 +333,9 @@ namespace PCCharacterManager.ViewModels
 				{
 					foreach (var item in FilteredSpells[school].OrderBy(x => x.Spell.Name))
 					{
-						if (item.Spell.Name.ToLower().Contains(term.ToLower()))
+						bool nameContainsSearchTerm = item.Spell.Name.ToLower().Contains(term.ToLower());
+						bool schoolContainsSearchTerm = item.Spell.School.ToString().ToLower().Contains(term.ToLower());
+						if (nameContainsSearchTerm || schoolContainsSearchTerm)
 						{
 							SpellsToDisplay.Add(item);
 						}
