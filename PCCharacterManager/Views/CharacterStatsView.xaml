@@ -39,11 +39,11 @@
                       Command="{Binding EditCharacterCommand}"/>
         </Menu>
 
-        <ContentControl Grid.Column="0"  Grid.Row="1" Grid.ColumnSpan="6" Grid.RowSpan="8">
+        <ContentControl Grid.Column="0"  Grid.Row="1" Grid.ColumnSpan="8" Grid.RowSpan="8">
             <v:CharacterInfoView DataContext="{Binding SelectedCharacter}"/>
         </ContentControl>
 
-        <DockPanel Grid.Column="6" Grid.Row="4" Grid.ColumnSpan="6" Grid.RowSpan="4" >
+        <DockPanel Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="7" >
             <ContentControl>
                 <v:CharacterAbilitiesView DataContext="{Binding SelectedCharacter}"/>
             </ContentControl>
