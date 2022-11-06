@@ -1,4 +1,5 @@
-﻿using PCCharacterManager.Models;
+﻿using PCCharacterManager.Commands;
+using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
@@ -58,8 +59,8 @@ namespace PCCharacterManager.ViewModels
 			highlightTerm = string.Empty;
 			selectedNote = new Note();
 
-			AddNoteCommand = new RelayCommand(AddNote);
-			DeleteNoteCommand = new RelayCommand(DeleteNote);
+			AddNoteCommand = new AddNoteToNoteBookCommand(this);
+			DeleteNoteCommand = new RemoveNoteFromNoteBookCommand(this);
 		}
 
 		/// <summary>
@@ -105,37 +106,6 @@ namespace PCCharacterManager.ViewModels
 					}
 				}
 			}
-		}
-
-		/// <summary>
-		/// Used to create a new Note
-		/// </summary>
-		private void AddNote()
-		{
-			selectedCharacter.NoteManager.NewNote();
-			Note newNote = selectedCharacter.NoteManager.Notes.Last();
-			NotesToDisplay.Add(newNote);
-			SelectedNote = newNote;
-			
-		}
-
-		/// <summary>
-		/// used by the deleteNoteCommand to remove the selectedNote. Sets the selectedNote to the 1st element after
-		/// </summary>
-		private void DeleteNote()
-		{
-			if (selectedNote == null) return;
-
-			var result = MessageBox.Show("Are you sure you want to delete " +
-				 selectedNote.Title + "?", "Permenently Delete Note",
-				 MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-			if (result == MessageBoxResult.No)
-				return;
-
-			NotesToDisplay.Remove(selectedNote);
-			selectedCharacter.NoteManager.DeleteNote(selectedNote);
-			SelectedNote = selectedCharacter.NoteManager.Notes.First();
 		}
 	}
 }

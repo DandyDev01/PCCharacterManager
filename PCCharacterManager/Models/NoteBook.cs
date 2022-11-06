@@ -15,9 +15,10 @@ namespace PCCharacterManager.Models
 			Notes = new List<Note>();
 		}
 
-		public void NewNote()
+		public Note NewNote()
 		{
 			Notes.Add(new Note("New Note"));
+			return Notes.Last();
 		}
 
 		public void NewNote(Note _note)
