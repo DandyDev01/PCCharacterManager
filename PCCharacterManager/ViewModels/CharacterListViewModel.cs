@@ -44,7 +44,6 @@ namespace PCCharacterManager.ViewModels
 			foreach (var character in Characters)
 			{
 				CharacterItems.Add(new CharacterItemViewModel(characterStore, character));
-				dataService.Save(character);
 			}
 
 			characterStore.CharacterChange(Characters[0]);
