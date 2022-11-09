@@ -92,7 +92,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void SaveCharacters()
 		{
-			dataService.Save(tabVM.CharacterListVM.Characters);
+			dataService.Save(characterStore.SelectedCharacter);
 		}
 	}
 }

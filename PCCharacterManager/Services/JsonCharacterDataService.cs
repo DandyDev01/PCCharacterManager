@@ -13,6 +13,7 @@ namespace PCCharacterManager.Services
 	public class JsonCharacterDataService : ICharacterDataService
 	{
 		private readonly string filePath = @"Resources\characterdata.json";
+		private readonly string characterDataFolder = @"Resources\CharacterData";
 		private readonly CharacterStore characterStore;
 
 		public JsonCharacterDataService(CharacterStore characterStore)
@@ -24,32 +25,47 @@ namespace PCCharacterManager.Services
 
 		public void Add(Character newCharacter)
 		{
-			List<Character> characterList = GetCharacters().ToList();
-			characterList.Add(newCharacter);
-			Save(characterList);
+			Save(newCharacter);
 		}
 
 		public IEnumerable<Character> GetCharacters()
 		{
-
-			if (!File.Exists(filePath))
+			List<Character> characters = new List<Character>();	
+			string[] characterEntries = Directory.GetFiles(characterDataFolder);
+			foreach (string characterEntry in characterEntries)
 			{
-				File.Create(filePath).Close();
+				var character = ReadWriteJsonFile<Character>.ReadFile(characterEntry);
+				if(character != null) characters.Add(character);
 			}
 
-			var serializedCharacters = File.ReadAllText(filePath);
-			var characters = JsonConvert.DeserializeObject<IEnumerable<Character>>(serializedCharacters);
-
-			if (characters == null)
-				return new List<Character>();
-
 			return characters;
-
 		}
 
 		public void Save(IEnumerable<Character> characters)
 		{
 			ReadWriteJsonCollection<Character>.WriteCollection(filePath, characters);
+		}
+
+		public void Save(Character character)
+		{
+			// character data folder does not exist
+			if (!Directory.Exists(characterDataFolder))
+			{
+				Directory.CreateDirectory(characterDataFolder);
+			}
+
+			ReadWriteJsonFile<Character>.WriteFile(characterDataFolder + "/" + character.Name + ".json", character);
+		}
+
+		public bool Delete(Character character)
+		{
+			if (File.Exists(characterDataFolder + "/" + character.Name + ".json"))
+			{
+				File.Delete(characterDataFolder + "/" + character.Name + ".json");
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

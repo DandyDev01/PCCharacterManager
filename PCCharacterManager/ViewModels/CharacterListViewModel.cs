@@ -44,6 +44,7 @@ namespace PCCharacterManager.ViewModels
 			foreach (var character in Characters)
 			{
 				CharacterItems.Add(new CharacterItemViewModel(characterStore, character));
+				dataService.Save(character);
 			}
 
 			characterStore.CharacterChange(Characters[0]);
@@ -81,7 +82,7 @@ namespace PCCharacterManager.ViewModels
 
 			CharacterItems.Remove(item);
 			Characters.Remove(character);
-			dataService.Save(Characters);
+			dataService.Delete(characterStore.SelectedCharacter);
 			characterStore.SetSelectedCharacter(Characters[0]);
 		}
 

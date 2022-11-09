@@ -12,6 +12,10 @@ namespace PCCharacterManager.Services
 		IEnumerable<Character> GetCharacters();
 		void Save(IEnumerable<Character> characters);
 
+		void Save(Character character);
+
 		void Add(Character newCharacter);
+
+		bool Delete(Character character);
 	}
 }

@@ -10,18 +10,19 @@ namespace PCCharacterManager.Models
 {
 	public class StringFormater
 	{
-		// break a string into a group of strings
+		/// <summary>
+		/// foreach input string, create a group and add it to a table
+		/// </summary>
+		/// <param name="inputString">string array to group</param>
+		/// <param name="breakPoints">characters that define where breaks should be</param>
+		/// <returns>List of string arrays</returns>
 		public static List<string[]> CreateTableGroup(string[] inputString, params char[] breakPoints)
 		{
 			List<string[]> table = new List<string[]>();
 
 			foreach (var item in inputString)
 			{
-				string[] group = item.Split(breakPoints);
-				for (int i = 0; i < group.Length; i++)
-				{
-					group[i] = group[i].Trim();
-				}
+				string[] group = CreateGroup(item, breakPoints);
 				table.Add(group);
 			}
 
@@ -29,6 +30,12 @@ namespace PCCharacterManager.Models
 
 		}
 
+		/// <summary>
+		/// break a string into a collection of strings at break points
+		/// </summary>
+		/// <param name="input">string to break apart</param>
+		/// <param name="breakPoints">char that defines where to break at</param>
+		/// <returns></returns>
 		public static string[] CreateGroup(string input, params char[] breakPoints)
 		{
 			string[] group = input.Split(breakPoints);
@@ -42,7 +49,7 @@ namespace PCCharacterManager.Models
 		/// <summary>
 		/// can only find positive numbers, format of quantity x1
 		/// </summary>
-		/// <param name="input">a string with 'x11111' at the end</param>
+		/// <param name="input">a string with 'x11111' at the end. Arrowx2 for example</param>
 		/// <returns></returns>
 		public static string RemoveQuantity(string input)
 		{
@@ -61,8 +68,11 @@ namespace PCCharacterManager.Models
 			return input.Trim();
 		}
 
-		// format x1
-		// can only find positive numbers
+		/// <summary>
+		/// finds a numerical character at the end of a string
+		/// </summary>
+		/// <param name="input">string that ends with x1111. Arrowx2</param>
+		/// <returns>the numerical value at the end of the string</returns>
 		public static int FindQuantity(string input)
 		{
 			char[] characters = input.ToLower().ToArray();
@@ -143,4 +153,31 @@ namespace PCCharacterManager.Models
 		}
 
 	} // end ReadJsonCollection
+
+	public static class ReadWriteJsonFile<T>
+	{
+		/// <summary>
+		/// returns deserialized json object, null if can't
+		/// </summary>
+		/// <param name="filePath"></param>
+		/// <returns></returns>
+		public static T? ReadFile(string filePath)
+		{
+			var serializedObject = File.ReadAllText(filePath);
+			var objectType = JsonConvert.DeserializeObject<T>(serializedObject);
+
+			return objectType;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="filePath">where to store the file</param>
+		/// <param name="classType"></param>
+		public static void WriteFile(string filePath, T classType)
+		{
+			var serializedObject = JsonConvert.SerializeObject(classType);
+			File.WriteAllText(filePath, serializedObject);
+		}
+	}
 }
