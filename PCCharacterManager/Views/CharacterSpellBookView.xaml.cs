@@ -1,6 +1,7 @@
 ﻿using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,26 @@ namespace PCCharacterManager.Views
 		public void FocusSearch()
 		{
 			this.searchBox.Focus();
+		}
+
+		private void SpellComboBox_OnMouseEnter(Object sender, MouseEventArgs e)
+		{
+			spellComboBox.IsDropDownOpen = true;	
+		}
+
+		private void CantripComboBox_OnMouseEnter(Object sender, MouseEventArgs e)
+		{
+			cantripComboBox.IsDropDownOpen = true;
+		}
+
+		private void cantripComboBox_MouseLeave(object sender, MouseEventArgs e)
+		{
+			cantripComboBox.IsDropDownOpen= false;
+		}
+
+		private void spellComboBox_MouseLeave(object sender, MouseEventArgs e)
+		{
+			spellComboBox.IsDropDownOpen = false;
 		}
 	}
 }

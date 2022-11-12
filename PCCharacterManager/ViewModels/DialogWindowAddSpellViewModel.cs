@@ -78,11 +78,13 @@ namespace PCCharacterManager.ViewModels
 					throw new ArgumentOutOfRangeException();
 			}
 
+			window.DialogResult = true;
 			window.Close();
 		}
 
 		private void Close()
 		{
+			window.DialogResult = false;
 			window.Close();
 		}
 	}

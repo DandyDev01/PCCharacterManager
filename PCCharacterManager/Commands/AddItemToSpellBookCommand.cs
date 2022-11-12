@@ -49,10 +49,12 @@ namespace PCCharacterManager.Commands
 			Window window = new AddSpellDialogWindow();
 			DialogWindowAddSpellViewModel data = new DialogWindowAddSpellViewModel(window, characterStore, SpellType.SPELL,
 				dataService, characterStore.SelectedCharacter);
-
 			window.DataContext = data;
 
-			window.ShowDialog();
+			var result = window.ShowDialog();
+
+			if (result == false) return;
+
 			SpellItemEditableViewModel temp = new SpellItemEditableViewModel(data.NewSpell);
 			vm.FilteredSpells[temp.Spell.School].Add(temp);
 			vm.SpellsToDisplay.Add(temp);
@@ -66,10 +68,12 @@ namespace PCCharacterManager.Commands
 			Window window = new AddSpellDialogWindow();
 			DialogWindowAddSpellViewModel data = new DialogWindowAddSpellViewModel(window, characterStore, SpellType.CANTRIP,
 				dataService, characterStore.SelectedCharacter);
-
 			window.DataContext = data;
 
-			window.ShowDialog();
+			var result = window.ShowDialog();
+			
+			if(result == false) return;
+
 			SpellItemEditableViewModel temp = new SpellItemEditableViewModel(data.NewSpell);
 			vm.CantripItems.Add(temp);
 			vm.CantripsToDisplay.Add(temp);
