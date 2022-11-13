@@ -63,9 +63,9 @@ namespace PCCharacterManager.ViewModels
 			selectedNote = new Note();
 
 			AddNoteCommand = new AddNoteToNoteBookCommand(this);
-			AddNoteSectionCommand = new RelayCommand(AddNoteSection);
+			AddNoteSectionCommand = new AddNoteSectionToNoteBookCommand(this);
 			DeleteNoteCommand = new RemoveNoteFromNoteBookCommand(this);
-			DeleteNoteSectionCommand = new RelayCommand(DeleteNoteSection);
+			DeleteNoteSectionCommand = new DeleteNoteSectionFromNoteBookCommand(this);
 		}
 
 		
@@ -85,30 +85,9 @@ namespace PCCharacterManager.ViewModels
 				NoteSectionsToDisplay.Add(noteSection);
 			}
 
-			if (NoteSectionsToDisplay.Count < 0) return;
+			if (selectedCharacter.NoteManager.NoteSections.Count <= 0) return;
 
 			SelectedNote = NoteSectionsToDisplay[0].Notes[0];
-		}
-
-		private void AddNoteSection()
-		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window);
-			window.DataContext = windowVM;
-
-			var result = window.ShowDialog();
-
-			if (result == false) return;
-
-			string sectionTitle = windowVM.Answer;
-			NoteSection newNoteSection = new NoteSection(sectionTitle);
-			selectedCharacter.NoteManager.NewNoteSection(newNoteSection);
-			NoteSectionsToDisplay.Add(newNoteSection);
-		}
-
-		private void DeleteNoteSection()
-		{
-			throw new NotImplementedException();
 		}
 
 		/// <summary>

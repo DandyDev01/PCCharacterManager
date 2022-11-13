@@ -28,6 +28,10 @@ namespace PCCharacterManager.Models
 			Notes = new ObservableCollection<Note>();
 		}
 
+		/// <summary>
+		/// adds a given note to the section
+		/// </summary>
+		/// <param name="_note">note to remove</param>
 		public void Add(Note _note)
 		{
 			if (_note == null) return;
@@ -35,6 +39,10 @@ namespace PCCharacterManager.Models
 			Notes.Add(_note);
 		}
 
+		/// <summary>
+		/// removes a given note from the section
+		/// </summary>
+		/// <param name="_note">note to remove</param>
 		public void Remove(Note _note)
 		{
 			if(_note == null || !Notes.Contains(_note)) return;

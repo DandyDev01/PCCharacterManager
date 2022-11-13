@@ -22,10 +22,18 @@ namespace PCCharacterManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			//NoteSection newNote = viewModel.SelectedCharacter.NoteManager.NewNoteSection();
-			//newNote.Add(new Note());
-			//viewModel.NoteSectionsToDisplay.Add(newNote);
-			//viewModel.SelectedNote = newNote.Notes[0];
+			if(viewModel.SelectedCharacter.NoteManager.NoteSections.Count == 0)
+			{
+				MessageBox.Show("You need to create a notes section before creating any notes", 
+					"need at least 1 notes section", MessageBoxButton.OK, MessageBoxImage.Information);
+				return;
+			}
+
+			if(viewModel.SelectedCharacter.NoteManager.NoteSections.Count == 1)
+			{
+				viewModel.SelectedCharacter.NoteManager.NoteSections.First().Add(new Note("new Note"));
+				return;
+			}
 
 			string[] sectionTitles = new string[viewModel.SelectedCharacter.NoteManager.NoteSections.Count];
 			for (int i = 0; i < sectionTitles.Length; i++)
