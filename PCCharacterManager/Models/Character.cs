@@ -128,7 +128,8 @@ namespace PCCharacterManager.Models
 			Background = backgroundData.Name;
 			Size = raceData.Size;
 			Alignment = Alignment;
-			NoteManager.NewNote(new Note(backgroundData.Name, backgroundData.Desc));
+			NoteManager.NewNoteSection(new NoteSection("Character"));
+			NoteManager.GetSection("Character").Add(new Note(backgroundData.Name, backgroundData.Desc));
 			AddMovementType(new Property(MovementType.WALK.ToString(), raceData.Speed));
 			AddLanguages(raceData.Languages);
 			WeaponProficiencies = new ObservableCollection<string>(classData.WeaponProficiencies);

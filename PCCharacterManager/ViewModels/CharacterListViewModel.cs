@@ -46,7 +46,7 @@ namespace PCCharacterManager.ViewModels
 				CharacterItems.Add(new CharacterItemViewModel(characterStore, character));
 			}
 
-			characterStore.CharacterChange(Characters[0]);
+			if(Characters.Count > 0) characterStore.CharacterChange(Characters[0]);
 
 			characterStore.CharacterCreate += LoadCharacters;
 		}

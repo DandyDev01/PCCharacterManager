@@ -5,6 +5,7 @@ using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,15 +46,16 @@ namespace PCCharacterManager.ViewModels
 		{
 			characterStore = new CharacterStore();
 			dataService = new JsonCharacterDataService(characterStore);
-
-			while(dataService.GetCharacters().Count() < 1)
-			{
-				CreateCharacterWindow();
-			}
-
+			
 			tabVM = new TabControlViewModel(characterStore, dataService);
 
 			currView = tabVM;
+
+			while(dataService.GetCharacters().Count() < 1)
+			{
+				Trace.WriteLine("test");
+				CreateCharacterWindow();
+			}
 
 
 			NewCharacterCommand = new RelayCommand(CreateCharacterWindow);

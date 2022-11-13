@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PCCharacterManager.ViewModels;
+using PCCharacterManager.Models;
 
 namespace PCCharacterManager.Views
 {
@@ -33,6 +35,17 @@ namespace PCCharacterManager.Views
 		public void FocusSearch()
 		{
 			this.searchBox.Focus();
+		}
+
+		private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+		{
+			CharacterNoteBookViewModel? temp = DataContext as CharacterNoteBookViewModel;
+			
+			if (temp == null) return;
+
+			if (treeView.SelectedItem is not Note) return;
+
+			temp.SelectedNote = treeView.SelectedItem as Note;
 		}
 	}
 }

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              xmlns:v="clr-namespace:PCCharacterManager.Views"
+             xmlns:m="clr-namespace:PCCharacterManager.Models"
              mc:Ignorable="d" 
              Background="{StaticResource ViewBackgroundColor}"
              d:DesignHeight="1080" d:DesignWidth="1920">
@@ -36,19 +37,44 @@
 
         <!--<Label Grid.Column="3" Grid.Row="0" Content="Notes"/>-->
         <Menu Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="3">
-            <MenuItem Header="Add Note" Command="{Binding AddNoteCommand}"/>
-            <MenuItem Header="Delete Note" Command="{Binding DeleteNoteCommand}"/>
+            <ComboBox>
+                <MenuItem Header="Add Section" Command="{Binding AddNoteSectionCommand}"/>
+                <MenuItem Header="Add Note" Command="{Binding AddNoteCommand}"/>
+            </ComboBox>
+            <ComboBox>
+                <MenuItem Header="Delete Section" Command="{Binding DeleteNoteSectionCommand}"/>
+                <MenuItem Header="Delete Note" Command="{Binding DeleteNoteCommand}"/>
+            </ComboBox>
             <TextBox x:Name="searchBox"
                      Text="{Binding SearchTerm, FallbackValue=search, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource Search}"/>
         </Menu>
 
-        <ListView Grid.Column="5" Grid.Row="1" Grid.RowSpan="2"
+        <!--<ListView Grid.Column="5" Grid.Row="1" Grid.RowSpan="2" 
                       ItemsSource="{Binding NotesToDisplay}"
                       SelectedIndex="0" 
                       SelectedItem="{Binding SelectedNote}"
                       SelectedValue="{Binding SelectedNote}"
-                      DisplayMemberPath="Title"/>
+                      DisplayMemberPath="Title"/>-->
+
+        <TreeView Grid.Column="5" Grid.Row="1" Grid.RowSpan="2"
+                  x:Name="treeView"
+                  ItemsSource="{Binding NoteSectionsToDisplay}"
+                  Background="{StaticResource BackGroundColorDark}"
+                  SelectedValuePath="{Binding SelectedNote}"
+                  SelectedItemChanged="TreeView_SelectedItemChanged">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Notes}"
+                                          DataType="{x:Type m:NoteSection}">
+                    <Label Content="{Binding SectionTitle}"/>
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type m:Note}">
+                            <Label Content="{Binding Title}"/>
+                        </HierarchicalDataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
 
 
         <TextBox Text="{Binding SelectedNote.Title}" 

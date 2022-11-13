@@ -36,6 +36,7 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void AddSelected()
 		{
+			dialogWindow.DialogResult = true;
 			dialogWindow.Close();
 		}
 
@@ -44,6 +45,7 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void Close()
 		{
+			dialogWindow.DialogResult = false;
 			dialogWindow.Close();
 		}
 	}
