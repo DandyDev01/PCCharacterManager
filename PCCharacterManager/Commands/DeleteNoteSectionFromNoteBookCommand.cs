@@ -40,9 +40,9 @@ namespace PCCharacterManager.Commands
 			{
 				if (viewModel.SelectedCharacter.NoteManager.NoteSections[i].SectionTitle.Equals(selectedSections[i]))
 				{
-					//NoteSection noteSectionToRemove = viewModel.SelectedCharacter.NoteManager.NoteSections[i];
-					viewModel.SelectedCharacter.NoteManager.NoteSections.RemoveAt(i);
-					viewModel.NoteSectionsToDisplay.RemoveAt(i);
+					NoteSection noteSectionToRemove = viewModel.SelectedCharacter.NoteManager.NoteSections[i];
+					viewModel.SelectedCharacter.NoteManager.NoteSections.Remove(noteSectionToRemove);
+					viewModel.NoteSectionsToDisplay.Remove(noteSectionToRemove);
 				}
 			}
 		}

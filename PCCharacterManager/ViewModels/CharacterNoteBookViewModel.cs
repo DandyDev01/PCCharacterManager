@@ -40,6 +40,7 @@ namespace PCCharacterManager.ViewModels
 		}
 
 		public ObservableCollection<NoteSection> NoteSectionsToDisplay { get; }
+		public ObservableCollection<Note> SearchResults { get; }
 
 		private Note selectedNote;
 		public Note SelectedNote
@@ -58,6 +59,7 @@ namespace PCCharacterManager.ViewModels
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			NoteSectionsToDisplay = new ObservableCollection<NoteSection>();
+			SearchResults = new ObservableCollection<Note>();
 			searchTerm = string.Empty;
 			highlightTerm = string.Empty;
 			selectedNote = new Note();
@@ -96,25 +98,35 @@ namespace PCCharacterManager.ViewModels
 		/// <param name="term">term looking for</param>
 		private void Search(string term)
 		{
-			//NoteSectionsToDisplay.Clear();
+			SearchResults.Clear();
 
-			//if (term == String.Empty || string.IsNullOrWhiteSpace(SearchTerm))
-			//{
-			//	foreach (var note in selectedCharacter.NoteManager.NoteSections)
-			//	{
-			//		NoteSectionsToDisplay.Add(note);
-			//	}
-			//}
-			//else
-			//{
-			//	foreach (var note in selectedCharacter.NoteManager.NoteSections.OrderBy(x => x.Title))
-			//	{
-			//		if (note.Title.ToLower().Contains(term.ToLower()))
-			//		{
-			//			NoteSectionsToDisplay.Add(note);
-			//		}
-			//	}
-			//}
+			if (term == String.Empty || string.IsNullOrWhiteSpace(SearchTerm))
+			{
+				SearchResults.Clear();
+			}
+			else if(term == "*")
+			{
+				foreach (var section in selectedCharacter.NoteManager.NoteSections.OrderBy(x => x.SectionTitle))
+				{
+					foreach (var note in section.Notes)
+					{
+						SearchResults.Add(note);
+					}
+				}
+			}
+			else
+			{
+				foreach (var section in selectedCharacter.NoteManager.NoteSections.OrderBy(x => x.SectionTitle))
+				{
+					foreach (var note in section.Notes)
+					{
+						if (note.Title.ToLower().Contains(term.ToLower()))
+						{
+							SearchResults.Add(note);
+						}
+					}
+				}
+			}
 		}
 	}
 }

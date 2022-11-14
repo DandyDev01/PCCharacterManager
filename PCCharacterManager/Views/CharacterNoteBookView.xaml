@@ -50,12 +50,13 @@
                      Style="{StaticResource Search}"/>
         </Menu>
 
-        <!--<ListView Grid.Column="5" Grid.Row="1" Grid.RowSpan="2" 
-                      ItemsSource="{Binding NotesToDisplay}"
-                      SelectedIndex="0" 
-                      SelectedItem="{Binding SelectedNote}"
-                      SelectedValue="{Binding SelectedNote}"
-                      DisplayMemberPath="Title"/>-->
+        <ListView Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2"
+                  Margin="50"
+                  ItemsSource="{Binding SearchResults}"
+                  SelectedIndex="0" 
+                  SelectedItem="{Binding SelectedNote}"
+                  SelectedValue="{Binding SelectedNote}"
+                  DisplayMemberPath="Title"/>
 
         <TreeView Grid.Column="5" Grid.Row="1" Grid.RowSpan="2"
                   x:Name="treeView"
