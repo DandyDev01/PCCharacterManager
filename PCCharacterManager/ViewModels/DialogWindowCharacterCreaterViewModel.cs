@@ -187,7 +187,7 @@ namespace PCCharacterManager.ViewModels
 			newCharacter.Name = Name;
 			newCharacter.Abilities = tempCharacter.Abilities;
 
-			List<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(Resources.ItemsJson);
+			List<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(Resources.AllItemsJson);
 
 			// iterate over all SelectedStartingEquipmentVMs
 			foreach (var viewModel in SelectedStartingEquipmentVMs)

@@ -31,7 +31,7 @@ namespace PCCharacterManager.Commands
 			window.ShowDialog();
 
 			if (dialogContext.SelectedItem != null) vm.ItemsToShow.Add(new ItemDisplayViewModel(dialogContext.SelectedItem.BoundItem));
-			vm.ItemsToShow.OrderBy(x => x.ItemName);
+			vm.ItemsToShow.OrderBy(x => x.DisplayName);
 		}
 	}
 }

@@ -29,7 +29,7 @@
         <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="1"
               Background="{StaticResource BackGroundColorDark}">
             <ComboBox ItemsSource="{Binding ItemTypes}" 
-                      SelectedIndex="0"
+                      SelectedIndex="2"
                       SelectedItem="{Binding SelectedItemType, Mode=OneWayToSource}"/>
             <TextBox Width="150"
                      Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"/>

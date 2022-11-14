@@ -41,6 +41,6 @@
         <Button Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="1" 
                 Width="60" 
                 Content="Cancel" IsCancel="True"
-                Command="{Binding CancelCommand}"/>
+                Command="{Binding CloseCommand}"/>
     </Grid>
 </Window>

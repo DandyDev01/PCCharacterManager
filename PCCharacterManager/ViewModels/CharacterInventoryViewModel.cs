@@ -151,10 +151,10 @@ namespace PCCharacterManager.ViewModels
 		private void Search()
 		{
 			ItemsToShow.Clear();
-			ItemDisplayViewModel[] items = search.Search(searchTerm, filteredItems[selectedFilter]).ToArray();
+			ItemViewModel[] items = search.Search(searchTerm, filteredItems[selectedFilter]).ToArray();
 			foreach (var item in items)
 			{
-				ItemsToShow.Add(item);
+				ItemsToShow.Add((ItemDisplayViewModel)item);
 			}
 
 			if (ItemsToShow.Count > 0)
@@ -176,10 +176,10 @@ namespace PCCharacterManager.ViewModels
 				}
 			}
 
-			filteredItems[ItemType.Item] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Item].OrderBy(x => x.ItemName));
-			filteredItems[ItemType.Weapon] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Weapon].OrderBy(x => x.ItemName));
-			filteredItems[ItemType.Armor] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Armor].OrderBy(x => x.ItemName));
-			filteredItems[ItemType.Ammunition] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Ammunition].OrderBy(x => x.ItemName));
+			filteredItems[ItemType.Item] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Item].OrderBy(x => x.DisplayName));
+			filteredItems[ItemType.Weapon] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Weapon].OrderBy(x => x.DisplayName));
+			filteredItems[ItemType.Armor] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Armor].OrderBy(x => x.DisplayName));
+			filteredItems[ItemType.Ammunition] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Ammunition].OrderBy(x => x.DisplayName));
 		}
 
 		private void Filter()

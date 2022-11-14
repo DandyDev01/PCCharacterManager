@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-	public class ItemSearch : ISearch<ItemDisplayViewModel>
+	public class ItemSearch : ISearch<ItemViewModel>
 	{
-		public IEnumerable<ItemDisplayViewModel> Search(string searchTerm, IEnumerable<ItemDisplayViewModel> itemsToSearch)
+		public IEnumerable<ItemViewModel> Search(string searchTerm, IEnumerable<ItemViewModel> itemsToSearch)
 		{
-			List<ItemDisplayViewModel> result = new List<ItemDisplayViewModel>();
+			//searchTerm = searchTerm.ToLower();
+
+			List<ItemViewModel> result = new List<ItemViewModel>();
 
 			if (searchTerm == string.Empty || string.IsNullOrWhiteSpace(searchTerm))
 			{
@@ -36,8 +38,13 @@ namespace PCCharacterManager.Models
 							result.Add(item);
 							break;
 						}
-					}
-				}
+						else if (property.Desc.ToLower().Contains(searchTerm))
+						{
+							result.Add(item);
+							break;
+						}
+					} // end property check
+				} // end item name check
 			} // end if
 
 			return result;

@@ -31,9 +31,9 @@ namespace PCCharacterManager.ViewModels
 				OnPropertyChaged(ref selectedItemType, value);
 				// Change the item listing
 				ItemsToDisplay.Clear();
-				foreach (var item in PopulateItemsToDisplay(value))
+				foreach (var item in PopulateItemsToDisplay())
 				{
-					ItemsToDisplay.Add(new ItemEditableViewModel(item));
+					ItemsToDisplay.Add(item);
 				}
 
 			}
@@ -66,7 +66,8 @@ namespace PCCharacterManager.ViewModels
 		public ICommand AddToInventoryCommand { get; private set; }
 		public ICommand CancelCommand { get; private set; }
 
-		private List<Item> allItems;
+		private List<ItemEditableViewModel> allItemsViewModel;
+		private ItemSearch itemSearch;
 
 		public DialogWindowAddItemViewModel(ICharacterDataService dataService, CharacterStore characterStore,
 			Window addItemWindow, Character character) : base(characterStore, dataService, character)
@@ -74,10 +75,17 @@ namespace PCCharacterManager.ViewModels
 			ItemsToDisplay = new ObservableCollection<ItemEditableViewModel>();
 			this.addItemWindow = addItemWindow;
 			selectedCharacter = character;
+			itemSearch = new ItemSearch();
 			AddToInventoryCommand = new RelayCommand(AddItem);
 			CancelCommand = new RelayCommand(Close);
 
-			allItems = ReadWriteJsonCollection<Item>.ReadCollection(Resources.ItemsJson);
+			List<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(Resources.AllItemsJson);
+			allItemsViewModel = new List<ItemEditableViewModel>();
+
+			foreach (Item item in allItems)
+			{
+				allItemsViewModel.Add(new ItemEditableViewModel(item));
+			}
 
 			selectedItem = new ItemEditableViewModel(allItems[0]);
 		}
@@ -95,41 +103,18 @@ namespace PCCharacterManager.ViewModels
 
 		private void Search()
 		{
-
-			if (String.IsNullOrWhiteSpace(SearchTerm))
-			{
-				PopulateItemsToDisplay(SelectedItemType);
-				return;
-			}
-
-			List<ItemEditableViewModel> items = new List<ItemEditableViewModel>();
-			foreach (var item in PopulateItemsToDisplay(SelectedItemType))
-			{
-				if (item.Name.ToLower().Contains(SearchTerm))
-				{
-					items.Add(new ItemEditableViewModel(item));
-				}
-			}
+			var results = itemSearch.Search(SearchTerm, PopulateItemsToDisplay());
 
 			ItemsToDisplay.Clear();
-			foreach (var item in items)
+			foreach (var item in results)
 			{
-				ItemsToDisplay.Add(item);
+				ItemsToDisplay.Add((ItemEditableViewModel)item);
 			}
 		}
 
-		private List<Item> PopulateItemsToDisplay(ItemType itemtype)
+		private List<ItemEditableViewModel> PopulateItemsToDisplay()
 		{
-			List<Item> temp = new List<Item>();
-			foreach (var item in allItems)
-			{
-				if (item.Tag.Equals(itemtype))
-				{
-					temp.Add(item);
-				}
-			}
-
-			return temp;
+			return allItemsViewModel.FindAll(item => item.BoundItem.Tag == selectedItemType);
 		}
 	}
 }

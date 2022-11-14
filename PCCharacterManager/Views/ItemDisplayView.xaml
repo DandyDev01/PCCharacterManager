@@ -23,11 +23,11 @@
 
         <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Title}"
                    Margin="3"
-                   Text="{Binding ItemName, FallbackValue=Name}"/>
+                   Text="{Binding DisplayName, FallbackValue=Name}"/>
 
         <TextBlock Grid.Column="5" Grid.ColumnSpan="1" Style="{StaticResource h3}"
                    Margin="3"
-                   Text="{Binding ItemQuantity, FallbackValue=1}"/>
+                   Text="{Binding DisplayQuantity, FallbackValue=1}"/>
 
     </Grid>
 </UserControl>

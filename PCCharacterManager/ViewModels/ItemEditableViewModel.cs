@@ -10,64 +10,8 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
-	public class ItemEditableViewModel : ObservableObject
+	public class ItemEditableViewModel : ItemViewModel
 	{
-		private Item boundItem;
-		public Item BoundItem
-		{
-			get { return boundItem; }
-			set { OnPropertyChaged(ref boundItem, value); }
-		}
-
-		private bool isEditMode;
-		public bool IsEditMode
-		{
-			get { return isEditMode; }
-			set
-			{
-				OnPropertyChaged(ref isEditMode, value);
-				OnPropertyChaged("IsDisplayMode");
-			}
-		}
-
-		public bool IsDisplayMode
-		{
-			get { return !isEditMode; }
-		}
-
-		private string displayName;
-		public string DisplayName
-		{
-			get { return displayName; }
-			set
-			{
-				boundItem.Name = value;
-				OnPropertyChaged(ref displayName, value);
-			}
-		}
-
-		private string displayDesc;
-		public string DisplayDesc
-		{
-			get { return displayDesc; }
-			set
-			{
-				boundItem.Desc = value;
-				OnPropertyChaged(ref displayDesc, value);
-			}
-		}
-
-		private int displayQuantity;
-		public int DisplayQuantity
-		{
-			get { return displayQuantity; }
-			set
-			{
-				BoundItem.Quantity = value;
-				OnPropertyChaged(ref displayQuantity, value);
-			}
-		}
-
 		public ObservableCollection<PropertyEditableViewModel> Properties { get; private set; }	
 
 		public Action<Item>? RemoveAction { get; set; }

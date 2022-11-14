@@ -22,7 +22,7 @@ namespace PCCharacterManager.Commands
 			if (vm.SelectedItem == null)
 				return;
 
-			var messageBox = MessageBox.Show("Are you sure you want to remove " + vm.SelectedItem.ItemName, "Remove Item", MessageBoxButton.YesNo);
+			var messageBox = MessageBox.Show("Are you sure you want to remove " + vm.SelectedItem.DisplayName, "Remove Item", MessageBoxButton.YesNo);
 
 			if (messageBox == MessageBoxResult.No)
 				return;
