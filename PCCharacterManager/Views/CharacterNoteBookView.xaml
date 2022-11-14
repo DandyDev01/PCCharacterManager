@@ -55,8 +55,13 @@
                   ItemsSource="{Binding SearchResults}"
                   SelectedIndex="0" 
                   SelectedItem="{Binding SelectedNote}"
-                  SelectedValue="{Binding SelectedNote}"
-                  DisplayMemberPath="Title"/>
+                  SelectedValue="{Binding SelectedNote}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <v:NoteDisplayView/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
         <TreeView Grid.Column="5" Grid.Row="1" Grid.RowSpan="2"
                   x:Name="treeView"
