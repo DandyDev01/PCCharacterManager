@@ -19,7 +19,6 @@ namespace PCCharacterManager.ViewModels
 		public Array ItemTypes { get; private set; } = Enum.GetValues(typeof(ItemType));
 		public ObservableCollection<ItemEditableViewModel> ItemsToDisplay { get; set; }
 
-
 		private ItemType selectedItemType;
 		// has the code to update the items in the ItemListing
 		// probably change this

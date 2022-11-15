@@ -29,29 +29,19 @@ namespace PCCharacterManager.Commands
 			}
 
 			Window dialogWindow = new SelectStringValueDialogWindow();
-			DialogWindowListViewSelectItemViewModel dataContext = new DialogWindowListViewSelectItemViewModel(dialogWindow, sectionTitles, sectionTitles.Length);
+			DialogWindowListViewSelectItemViewModel dataContext = 
+				new DialogWindowListViewSelectItemViewModel(dialogWindow, sectionTitles, sectionTitles.Length);
 			dialogWindow.DataContext = dataContext;
 			var result = dialogWindow.ShowDialog();
-
-			Trace.WriteLine(result);
 
 			if (result == false) return;
 
 			string[] selectedSections = dataContext.SelectedItems.ToArray();
-			List<NoteSection> sectionsToRemove = new List<NoteSection>();
-			for (int i = 0; i < selectedSections.Length; i++)
-			{
-				if (viewModel.SelectedCharacter.NoteManager.NoteSections[i].SectionTitle.Equals(selectedSections[i]))
-				{
-					NoteSection noteSectionToRemove = viewModel.SelectedCharacter.NoteManager.NoteSections[i];
-					sectionsToRemove.Add(noteSectionToRemove);
-					Trace.WriteLine("added " + noteSectionToRemove.SectionTitle);
-				}
-			}
-
+			List<NoteSection> sectionsToRemove = viewModel.SelectedCharacter.NoteManager.NoteSections.
+				Where(x => selectedSections.Contains(x.SectionTitle)).ToList();
+		
 			foreach (var item in sectionsToRemove)
 			{
-				Trace.WriteLine(item.SectionTitle);
 				viewModel.SelectedCharacter.NoteManager.NoteSections.Remove(item);
 				viewModel.NoteSectionsToDisplay.Remove(item);
 			}

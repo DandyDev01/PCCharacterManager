@@ -70,8 +70,6 @@ namespace PCCharacterManager.ViewModels
 			DeleteNoteSectionCommand = new DeleteNoteSectionFromNoteBookCommand(this);
 		}
 
-		
-
 		/// <summary>
 		/// What to do when the selectedCharacter changes
 		/// </summary>
