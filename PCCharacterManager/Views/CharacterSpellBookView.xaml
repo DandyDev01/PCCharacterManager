@@ -41,9 +41,14 @@
                      Text="{Binding SearchTerm, FallbackValue=search, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource Search}"/>
             <ComboBox ItemsSource="{Binding SearchFilters}" SelectedIndex="0" 
-                      SelectedValue="{Binding SelectedSearchFilter}"/>
+                      SelectedValue="{Binding SelectedSearchFilter}"
+                      ToolTip="searchs filter spells, cantrips, or both"/>
             <ComboBox ItemsSource="{Binding Filters}" SelectedIndex="0" 
-                      SelectedValue="{Binding SelectedFilter}"/>
+                      SelectedValue="{Binding SelectedFilter}"
+                      ToolTip="Filter Spells to display by school"/>
+            <ComboBox ItemsSource="{Binding OrderByOptions}" SelectedIndex="0"
+                      SelectedValue="{Binding SelectedOrderByOption}"
+                      ToolTip="how to order display items"/>
         </Menu>
 
         <!--#region Left-->

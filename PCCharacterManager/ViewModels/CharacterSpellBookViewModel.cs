@@ -18,10 +18,12 @@ namespace PCCharacterManager.ViewModels
 {
 	//SpellSearchFilter
 	public enum SpellType { SPELL, CANTRIP, BOTH }
+	public enum OrderByOptions { ALPHABETICAL, SCHOOL, PREPARED, LEVEL, DURATION }
 
 	public class CharacterSpellBookViewModel : TabItemViewModel
 	{
 		public Array SearchFilters { get; private set; } = Enum.GetValues(typeof(SpellType));
+		public Array OrderByOptions { get; private set; } = Enum.GetValues(typeof(OrderByOptions));	
 		public SpellSchool[] Filters { get; private set; } = (SpellSchool[])Enum.GetValues(typeof(SpellSchool));
 
 		private bool isEditMode;
@@ -115,6 +117,17 @@ namespace PCCharacterManager.ViewModels
 			set { OnPropertyChaged(ref selectedSearchFilter, value); }
 		}
 
+		private OrderByOptions selectedOrderByOption;
+		public OrderByOptions SelectedOrderByOption
+		{
+			get { return selectedOrderByOption; }
+			set 
+			{ 
+				OnPropertyChaged(ref selectedOrderByOption, value);
+				PopulateSpellsToDisplay(FilteredSpells[selectedFilter]);
+			}
+		}
+
 		private SpellSchool selectedFilter;
 		public SpellSchool SelectedFilter
 		{
@@ -122,22 +135,8 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChaged(ref selectedFilter, value);
-				if(selectedFilter == SpellSchool.ALL)
-				{
-					SpellsToDisplay.Clear();
-					foreach (SpellSchool school in Filters)
-					{
-						foreach (var spell in FilteredSpells[school].OrderBy(x => x.Spell.Name))
-						{
-							SpellsToDisplay.Add(spell);
-						}
-					}
-				}
-				else
-				{
-					PopulateSpellsToDisplay(FilteredSpells[selectedFilter]);
-					OnPropertyChaged("SpellsToDisplay");
-				}
+				PopulateSpellsToDisplay(FilteredSpells[selectedFilter]);
+				OnPropertyChaged("SpellsToDisplay");
 			}
 		}
 
@@ -220,10 +219,25 @@ namespace PCCharacterManager.ViewModels
 		private void PopulateSpellsToDisplay(IEnumerable<SpellItemEditableViewModel> items)
 		{
 			SpellsToDisplay.Clear();
-			foreach (var spell in items.OrderBy(x => x.Spell.Name))
+			switch (selectedOrderByOption)
 			{
-				SpellsToDisplay.Add(spell);
+				case ViewModels.OrderByOptions.ALPHABETICAL:
+					foreach (var spell in items.OrderBy(x => x.Spell.Name)) SpellsToDisplay.Add(spell);
+					break;
+				case ViewModels.OrderByOptions.LEVEL:
+					foreach (var spell in items.OrderBy(x => x.Spell.Level)) SpellsToDisplay.Add(spell);
+					break;
+				case ViewModels.OrderByOptions.DURATION:
+					foreach (var spell in items.OrderBy(x => x.Spell.Duration)) SpellsToDisplay.Add(spell);
+					break;
+				case ViewModels.OrderByOptions.SCHOOL:
+					foreach (var spell in items.OrderBy(x => x.Spell.School)) SpellsToDisplay.Add(spell);
+					break;
+				case ViewModels.OrderByOptions.PREPARED:
+					foreach (var spell in items.OrderBy(x => !x.Spell.IsPrepared)) SpellsToDisplay.Add(spell);
+					break;
 			}
+
 		}
 
 		/// <summary>
@@ -297,6 +311,17 @@ namespace PCCharacterManager.ViewModels
 				}
 			}
 
+			foreach (SpellSchool item in Filters)
+			{
+				foreach (var spell in selectedCharacter.SpellBook.SpellsKnown[item])
+				{
+					SpellItemEditableViewModel temp = new SpellItemEditableViewModel(spell);
+					temp.Prepare += selectedCharacter.SpellBook.PrepareSpell;
+					temp.IsPrepared = spell.IsPrepared;
+					results[SpellSchool.ALL].Add(temp);
+				}
+			}
+
 			return results;
 		}
 
@@ -333,9 +358,17 @@ namespace PCCharacterManager.ViewModels
 				{
 					foreach (var item in FilteredSpells[school].OrderBy(x => x.Spell.Name))
 					{
+						bool schoolContainsSearchTerm = false;
+						bool levelContainsSearchTerm = false;
 						bool nameContainsSearchTerm = item.Spell.Name.ToLower().Contains(term.ToLower());
-						bool schoolContainsSearchTerm = item.Spell.School.ToString().ToLower().Contains(term.ToLower());
-						if (nameContainsSearchTerm || schoolContainsSearchTerm)
+
+						if(!nameContainsSearchTerm)
+							schoolContainsSearchTerm = item.Spell.School.ToString().ToLower().Contains(term.ToLower());
+
+						if(!schoolContainsSearchTerm && !nameContainsSearchTerm)
+							levelContainsSearchTerm = item.Spell.Level.ToString().Contains(term);
+
+						if (nameContainsSearchTerm || schoolContainsSearchTerm || levelContainsSearchTerm)
 						{
 							SpellsToDisplay.Add(item);
 						}
