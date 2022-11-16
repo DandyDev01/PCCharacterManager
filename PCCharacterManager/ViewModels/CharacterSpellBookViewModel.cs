@@ -22,6 +22,8 @@ namespace PCCharacterManager.ViewModels
 
 	public class CharacterSpellBookViewModel : TabItemViewModel
 	{
+		private readonly SpellSearch spellSearch;
+
 		public Array SearchFilters { get; private set; } = Enum.GetValues(typeof(SpellType));
 		public Array OrderByOptions { get; private set; } = Enum.GetValues(typeof(OrderByOptions));	
 		public SpellSchool[] Filters { get; private set; } = (SpellSchool[])Enum.GetValues(typeof(SpellSchool));
@@ -177,6 +179,8 @@ namespace PCCharacterManager.ViewModels
 			: base(_characterStore, _dataService)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
+
+			spellSearch = new SpellSearch();
 
 			FilteredSpells = new Dictionary<SpellSchool, ObservableCollection<SpellItemEditableViewModel>>();
 			SpellsToDisplay = new ObservableCollection<SpellItemEditableViewModel>();
@@ -343,35 +347,11 @@ namespace PCCharacterManager.ViewModels
 			SpellsToDisplay.Clear();
 			term = term.ToLower();
 
-			if (selectedFilter == SpellSchool.ALL)
+			IEnumerable<SpellItemEditableViewModel> results = spellSearch.Search(term, FilteredSpells[selectedFilter]);
+
+			foreach (SpellItemEditableViewModel spellVM in results)
 			{
-				foreach (var item in FilteredSpells[SpellSchool.ALL])
-				{
-					bool schoolContainsSearchTerm = false;
-					bool levelContainsSearchTerm = false;
-					bool nameContainsSearchTerm = item.Spell.Name.ToLower().Contains(term);
-
-					if (!nameContainsSearchTerm)
-						schoolContainsSearchTerm = item.Spell.School.ToString().ToLower().Contains(term);
-
-					if (!schoolContainsSearchTerm && !nameContainsSearchTerm)
-						levelContainsSearchTerm = item.Spell.Level.ToString().Contains(term);
-
-					if (nameContainsSearchTerm || schoolContainsSearchTerm || levelContainsSearchTerm)
-					{
-						SpellsToDisplay.Add(item);
-					}
-				}
-
-				return;
-			} // end all
-
-			foreach (var item in FilteredSpells[selectedFilter])
-			{
-				if (item.Spell.Name.ToLower().Contains(term))
-				{
-					SpellsToDisplay.Add(item);
-				}
+				SpellsToDisplay.Add(spellVM);
 			}
 		}
 
