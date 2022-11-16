@@ -10,7 +10,7 @@ namespace PCCharacterManager.Utility
 {
 	public class ObservableObject : INotifyPropertyChanged
 	{
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		protected virtual void OnPropertyChaged(string propertyName)
 		{

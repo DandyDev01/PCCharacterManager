@@ -191,6 +191,7 @@ namespace PCCharacterManager.ViewModels
 			spellBookNote = spellBook.Note;
 
 			searchTerm = string.Empty;
+			preparedSpellText = string.Empty;
 
 			AddSpellCommand = new AddItemToSpellBookCommand(this, dataService, characterStore, SpellType.SPELL);
 			AddCantripCommand = new AddItemToSpellBookCommand(this, dataService, characterStore, SpellType.CANTRIP);
@@ -286,6 +287,7 @@ namespace PCCharacterManager.ViewModels
 				spellBook.PreparedSpells.Remove(selectedPreparedSpell);
 				List<SpellItemEditableViewModel> spells = SpellsToDisplay.ToList();
 				SpellItemEditableViewModel? s = spells.Find(x => x.Spell.Name.Equals(selectedPreparedSpell.Name));
+				if (s == null) return;
 				s.IsPrepared = false;
 				selectedPreparedSpell = null;
 			}
