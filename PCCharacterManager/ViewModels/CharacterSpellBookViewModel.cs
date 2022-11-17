@@ -23,6 +23,7 @@ namespace PCCharacterManager.ViewModels
 	public class CharacterSpellBookViewModel : TabItemViewModel
 	{
 		private readonly SpellSearch spellSearch;
+		private readonly SpellItemEditableVMPool spellItemPool;
 
 		public Array SearchFilters { get; private set; } = Enum.GetValues(typeof(SpellType));
 		public Array OrderByOptions { get; private set; } = Enum.GetValues(typeof(OrderByOptions));	
@@ -181,6 +182,7 @@ namespace PCCharacterManager.ViewModels
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			spellSearch = new SpellSearch();
+			spellItemPool = new SpellItemEditableVMPool(20);
 
 			FilteredSpells = new Dictionary<SpellSchool, ObservableCollection<SpellItemEditableViewModel>>();
 			SpellsToDisplay = new ObservableCollection<SpellItemEditableViewModel>();
@@ -204,6 +206,17 @@ namespace PCCharacterManager.ViewModels
 
 		protected override void OnCharacterChanged(Character newCharacter)
 		{
+			foreach (SpellSchool school in Filters)
+			{
+				if (!FilteredSpells.ContainsKey(school)) continue;
+				foreach (SpellItemEditableViewModel spellItemVM in FilteredSpells[school])
+				{
+					spellItemVM.Prepare -= selectedCharacter.SpellBook.PrepareSpell;
+					spellItemPool.Return(spellItemVM);
+				}
+			}
+
+			CantripsToDisplay.Clear();
 			base.OnCharacterChanged(newCharacter);
 			FilteredSpells = PopulateFilteredSpells();
 			SelectedFilter = SpellSchool.ALL;
@@ -305,7 +318,8 @@ namespace PCCharacterManager.ViewModels
 				results.Add(school, new ObservableCollection<SpellItemEditableViewModel>());
 				foreach (Spell spell in selectedCharacter.SpellBook.SpellsKnown[school])
 				{
-					SpellItemEditableViewModel spellItemViewModel = new SpellItemEditableViewModel(spell);
+					SpellItemEditableViewModel spellItemViewModel = spellItemPool.GetItem();
+					spellItemViewModel.Bind(spell);
 					spellItemViewModel.Prepare += selectedCharacter.SpellBook.PrepareSpell;
 					spellItemViewModel.IsPrepared = spell.IsPrepared;
 					results[school].Add(spellItemViewModel);

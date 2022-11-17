@@ -21,7 +21,6 @@ namespace PCCharacterManager.ViewModels
 		private readonly ICharacterDataService dataService;
 		private readonly UpdateHandler updateHandler;
 
-		public ObservableCollection<Character> Characters { get; private set; }
 		public ObservableCollection<CharacterItemViewModel> CharacterItems { get; private set; }
 
 		public ICommand CreateCharacterCommand {get;}
@@ -37,16 +36,17 @@ namespace PCCharacterManager.ViewModels
 			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
 			//updateHandler.HandleCharacterFormatChanges(_dataService);
 			
-			Characters = new ObservableCollection<Character>(_dataService.GetCharacters());
+			List<Character> characters = new List<Character>(_dataService.GetCharacters());
 
 			CharacterItems = new ObservableCollection<CharacterItemViewModel>();
 
-			foreach (var character in Characters)
+			string[] characterPaths = _dataService.GetCharacterFilePaths().ToArray();
+			for (int i = 0; i < characters.Count; i++)
 			{
-				CharacterItems.Add(new CharacterItemViewModel(characterStore, character));
+				CharacterItems.Add(new CharacterItemViewModel(characterStore, characters[i], characterPaths[i]));
 			}
 
-			if(Characters.Count > 0) characterStore.CharacterChange(Characters[0]);
+			if(characters.Count > 0) characterStore.CharacterChange(characters[0]);
 
 			characterStore.CharacterCreate += LoadCharacters;
 		}
@@ -64,31 +64,44 @@ namespace PCCharacterManager.ViewModels
 			if (characterStore.SelectedCharacter == null) return;
 
 			var results = MessageBox.Show("are you sure you want to delete the character " + characterStore.SelectedCharacter.Name + "?", 
-				"Delete Character", MessageBoxButton.YesNo);
+				"Delete Character", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
 			if (results == MessageBoxResult.No) return;
 
 			Character character = characterStore.SelectedCharacter;
-			CharacterItemViewModel item = null;
+			CharacterItemViewModel? item = null;
 			foreach (CharacterItemViewModel _item in CharacterItems)
 			{
-				if (_item.BoundCharacter == character)
+				if (_item.CharacterName == character.Name)
 				{
 					item = _item;
 					break;
 				}
 			}
 
+			if(item == null)
+			{
+				MessageBox.Show("no character with name " + characterStore.SelectedCharacter.Name + " exists", "Could not find Character", 
+					MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
 			CharacterItems.Remove(item);
-			Characters.Remove(character);
 			dataService.Delete(characterStore.SelectedCharacter);
-			characterStore.SetSelectedCharacter(Characters[0]);
+
+			if(CharacterItems.Count <= 0)
+			{
+				CreateCharacterWindow();
+				return;
+			}
+
+
+			CharacterItems[0].SelectCharacterCommand?.Execute(null);
 		}
 
 		private void LoadCharacters(Character _character)
 		{
-			Characters.Add(_character);
-			CharacterItems.Add(new CharacterItemViewModel(characterStore, _character));
+			CharacterItems.Add(new CharacterItemViewModel(characterStore, _character, Resources.CharacterDataDir + "/" + _character.Name + ".json"));
 		}
 	} // end class
 }

@@ -19,11 +19,11 @@
         <Border Grid.Column="2" BorderBrush="{StaticResource LightText}" BorderThickness="0,0,3,0"/>
 
         <Label FontSize="18" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
-               Content="{Binding BoundCharacter.Name, FallbackValue=N/A}"/>
+               Content="{Binding CharacterName, FallbackValue=NAME}"/>
         <Label FontSize="18" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"  
-               Content="{Binding BoundCharacter.CharacterClass.Name, FallbackValue=N/A}"/>
+               Content="{Binding CharacterClass, FallbackValue=CLASS}"/>
         <Label FontSize="18" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  
-               Content="{Binding BoundCharacter.Level.Level, FallbackValue=N/A}"/>
+               Content="{Binding CharacterLevel, FallbackValue=LEVEL}"/>
 
         <Button Content="select" FontSize="18" Grid.Column="3"
                 Command="{Binding SelectCharacterCommand}"/>

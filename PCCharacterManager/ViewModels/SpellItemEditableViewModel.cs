@@ -11,8 +11,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class SpellItemEditableViewModel : ObservableObject
 	{
-		private Spell spell;
-		public Spell Spell
+		private Spell? spell;
+		public Spell? Spell
 		{
 			get { return spell; }
 			set { OnPropertyChaged(ref spell, value); }
@@ -44,6 +44,11 @@ namespace PCCharacterManager.ViewModels
 		public ICommand PrepareCommand { get; set; }
 		public Action<Spell>? Prepare;
 
+		public SpellItemEditableViewModel()
+		{
+			PrepareCommand = new RelayCommand(InvokePrepare);
+			isEditMode = false;
+		}
 
 		public SpellItemEditableViewModel(Spell _spell)
 		{
@@ -61,6 +66,12 @@ namespace PCCharacterManager.ViewModels
 		public void Edit()
 		{
 			IsEditMode = !isEditMode;
+		}
+
+		public void Bind(Spell _spell)
+		{
+			spell = _spell;
+			isEditMode = false;
 		}
 	}
 }

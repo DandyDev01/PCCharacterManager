@@ -10,6 +10,9 @@ namespace PCCharacterManager.Services
 	public interface ICharacterDataService
 	{
 		IEnumerable<Character> GetCharacters();
+
+		IEnumerable<string> GetCharacterFilePaths();
+
 		void Save(IEnumerable<Character> characters);
 
 		void Save(Character character);

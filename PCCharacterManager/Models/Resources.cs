@@ -8,6 +8,7 @@ namespace PCCharacterManager.Models
 {
 	public static class Resources
 	{
+		public const string CharacterDataDir = @"Resources\CharacterData";
 		public const string AllItemsJson = @"Resources\Items.json";
 		public const string CharacterClassDataJson = @"Resources\CharacterClassData.json";
 		public const string AbilitiesJson = @"Resources\Abilities.json";

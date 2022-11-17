@@ -13,22 +13,28 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterItemViewModel : ObservableObject
 	{
-		private Character boundCharacter;
-		public Character BoundCharacter
-		{
-			get { return boundCharacter; }
-			set { OnPropertyChaged(ref boundCharacter, value); }
-		}
+		private readonly string characterPath;
+
+		private string characterName;
+		public string CharacterName => characterName;
+
+		private string characterClass;
+		public string CharacterClass => characterClass;
+
+		private string characterLevel;
+		public string CharacterLevel => characterLevel;
 
 		public ICommand SelectCharacterCommand { get; private set; }
 
 		//TODO: get the characterStore from BookVM
-		public CharacterItemViewModel(CharacterStore characterStore, Character character)
+		public CharacterItemViewModel(CharacterStore characterStore, Character character, string _characterPath)
 		{
-			boundCharacter = character;
+			characterName = character.Name;
+			characterClass = character.CharacterClass.Name;
+			characterLevel = character.Level.Level.ToString();
+			characterPath = _characterPath;
 
-			SelectCharacterCommand = new SelectCharacterCommand(characterStore, this,
-				boundCharacter);
+			SelectCharacterCommand = new SelectCharacterCommand(characterStore, characterPath);
 		}
 	}
 }

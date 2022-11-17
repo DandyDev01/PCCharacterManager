@@ -12,8 +12,6 @@ namespace PCCharacterManager.Services
 {
 	public class JsonCharacterDataService : ICharacterDataService
 	{
-		private readonly string filePath = @"Resources\characterdata.json";
-		private readonly string characterDataFolder = @"Resources\CharacterData";
 		private readonly CharacterStore characterStore;
 
 		public JsonCharacterDataService(CharacterStore characterStore)
@@ -31,7 +29,7 @@ namespace PCCharacterManager.Services
 		public IEnumerable<Character> GetCharacters()
 		{
 			List<Character> characters = new List<Character>();	
-			string[] characterEntries = Directory.GetFiles(characterDataFolder);
+			string[] characterEntries = Directory.GetFiles(Resources.CharacterDataDir);
 			foreach (string characterEntry in characterEntries)
 			{
 				var character = ReadWriteJsonFile<Character>.ReadFile(characterEntry);
@@ -41,27 +39,35 @@ namespace PCCharacterManager.Services
 			return characters;
 		}
 
+		public IEnumerable<string> GetCharacterFilePaths()
+		{
+			return Directory.GetFiles(Resources.CharacterDataDir);
+		}
+
 		public void Save(IEnumerable<Character> characters)
 		{
-			ReadWriteJsonCollection<Character>.WriteCollection(filePath, characters);
+			foreach (Character character in characters)
+			{
+				ReadWriteJsonFile<Character>.WriteFile(Resources.CharacterDataDir + "/" + character.Name + ".json", character);
+			}
 		}
 
 		public void Save(Character character)
 		{
 			// character data folder does not exist
-			if (!Directory.Exists(characterDataFolder))
+			if (!Directory.Exists(Resources.CharacterDataDir))
 			{
-				Directory.CreateDirectory(characterDataFolder);
+				Directory.CreateDirectory(Resources.CharacterDataDir);
 			}
 
-			ReadWriteJsonFile<Character>.WriteFile(characterDataFolder + "/" + character.Name + ".json", character);
+			ReadWriteJsonFile<Character>.WriteFile(Resources.CharacterDataDir + "/" + character.Name + ".json", character);
 		}
 
 		public bool Delete(Character character)
 		{
-			if (File.Exists(characterDataFolder + "/" + character.Name + ".json"))
+			if (File.Exists(Resources.CharacterDataDir + "/" + character.Name + ".json"))
 			{
-				File.Delete(characterDataFolder + "/" + character.Name + ".json");
+				File.Delete(Resources.CharacterDataDir + "/" + character.Name + ".json");
 				return true;
 			}
 
