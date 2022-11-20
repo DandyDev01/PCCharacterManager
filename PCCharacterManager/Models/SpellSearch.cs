@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
+	public enum SpellType { SPELL, CANTRIP, BOTH }
+	public enum OrderByOption { ALPHABETICAL, SCHOOL, PREPARED, LEVEL, DURATION }
+
 	public class SpellSearch : ISearch<SpellItemEditableViewModel>
 	{
 		public IEnumerable<SpellItemEditableViewModel> Search(string searchTerm, IEnumerable<SpellItemEditableViewModel> itemsToSearch)

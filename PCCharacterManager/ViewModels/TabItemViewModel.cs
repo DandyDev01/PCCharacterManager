@@ -18,7 +18,7 @@ namespace PCCharacterManager.ViewModels
 			get { return selectedCharacter; }
 			set { OnPropertyChaged(ref selectedCharacter, value); }
 		}
-
+		
 		protected readonly CharacterStore characterStore;
 		protected readonly ICharacterDataService dataService;
 

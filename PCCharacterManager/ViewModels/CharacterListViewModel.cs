@@ -26,11 +26,16 @@ namespace PCCharacterManager.ViewModels
 		public ICommand CreateCharacterCommand {get;}
 		public ICommand DeleteCharacterCommand {get;}
 
-		public CharacterListViewModel(ICharacterDataService _dataService, CharacterStore _characterStore)
+		public CharacterListViewModel(CharacterStore _characterStore, ICharacterDataService _dataService)
 		{
 			characterStore = _characterStore;
 			dataService = _dataService;
 			updateHandler = new UpdateHandler();
+
+			while (_dataService.GetCharacters().Count() < 1)
+			{
+				CreateCharacterWindow();
+			}
 
 			CreateCharacterCommand = new RelayCommand(CreateCharacterWindow);
 			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
@@ -46,9 +51,11 @@ namespace PCCharacterManager.ViewModels
 				CharacterItems.Add(new CharacterItemViewModel(characterStore, characters[i], characterPaths[i]));
 			}
 
-			if(characters.Count > 0) characterStore.CharacterChange(characters[0]);
+			CharacterItems[0].SelectCharacterCommand.Execute(null);
+			if (characters.Count > 0) characterStore.BindSelectedCharacter(characters[0]);
 
 			characterStore.CharacterCreate += LoadCharacters;
+			
 		}
 
 		public void CreateCharacterWindow()

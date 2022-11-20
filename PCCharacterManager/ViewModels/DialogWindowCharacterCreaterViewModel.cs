@@ -418,11 +418,13 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			characterStore.CreateCharacter(newCharacter);
+			window.DialogResult = true;
 			window.Close();
 		}
 
 		private void Close()
 		{
+			window.DialogResult = false;
 			window.Close();
 		}
 

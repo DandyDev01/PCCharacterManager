@@ -60,6 +60,8 @@ namespace PCCharacterManager.Services
 				Directory.CreateDirectory(Resources.CharacterDataDir);
 			}
 
+			if (character == null) return;
+
 			ReadWriteJsonFile<Character>.WriteFile(Resources.CharacterDataDir + "/" + character.Name + ".json", character);
 		}
 

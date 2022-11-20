@@ -16,17 +16,13 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
-	//SpellSearchFilter
-	public enum SpellType { SPELL, CANTRIP, BOTH }
-	public enum OrderByOptions { ALPHABETICAL, SCHOOL, PREPARED, LEVEL, DURATION }
-
 	public class CharacterSpellBookViewModel : TabItemViewModel
 	{
 		private readonly SpellSearch spellSearch;
 		private readonly SpellItemEditableVMPool spellItemPool;
 
 		public Array SearchFilters { get; private set; } = Enum.GetValues(typeof(SpellType));
-		public Array OrderByOptions { get; private set; } = Enum.GetValues(typeof(OrderByOptions));	
+		public Array OrderByOptions { get; private set; } = Enum.GetValues(typeof(OrderByOption));	
 		public SpellSchool[] Filters { get; private set; } = (SpellSchool[])Enum.GetValues(typeof(SpellSchool));
 
 		private bool isEditMode;
@@ -120,8 +116,8 @@ namespace PCCharacterManager.ViewModels
 			set { OnPropertyChaged(ref selectedSearchFilter, value); }
 		}
 
-		private OrderByOptions selectedOrderByOption;
-		public OrderByOptions SelectedOrderByOption
+		private OrderByOption selectedOrderByOption;
+		public OrderByOption SelectedOrderByOption
 		{
 			get { return selectedOrderByOption; }
 			set 
@@ -197,25 +193,16 @@ namespace PCCharacterManager.ViewModels
 
 			AddSpellCommand = new AddItemToSpellBookCommand(this, dataService, characterStore, SpellType.SPELL);
 			AddCantripCommand = new AddItemToSpellBookCommand(this, dataService, characterStore, SpellType.CANTRIP);
-			ClearPreparedSpellsCommand = new RelayCommand(ClearPreparedSpells);
-			UnprepareSpellCommand = new RelayCommand(RemovePreparedSpell);
 			DeleteSpellCommand = new RemoveItemFromSpellBookCommand(this, SpellType.SPELL);
 			DeleteCantripCommand = new RemoveItemFromSpellBookCommand(this, SpellType.CANTRIP);
+			UnprepareSpellCommand = new RelayCommand(RemovePreparedSpell);
+			ClearPreparedSpellsCommand = new RelayCommand(ClearPreparedSpells);
 			NextFilterCommand = new RelayCommand(NextFilter);
 		}
 
 		protected override void OnCharacterChanged(Character newCharacter)
 		{
-			foreach (SpellSchool school in Filters)
-			{
-				if (!FilteredSpells.ContainsKey(school)) continue;
-				foreach (SpellItemEditableViewModel spellItemVM in FilteredSpells[school])
-				{
-					spellItemVM.Prepare -= selectedCharacter.SpellBook.PrepareSpell;
-					spellItemPool.Return(spellItemVM);
-				}
-			}
-
+			ReleaseSpellItems();
 			CantripsToDisplay.Clear();
 			base.OnCharacterChanged(newCharacter);
 			FilteredSpells = PopulateFilteredSpells();
@@ -230,6 +217,22 @@ namespace PCCharacterManager.ViewModels
 		}
 
 		/// <summary>
+		/// returns spell items back to their pool and unsubscribs any methods
+		/// </summary>
+		private void ReleaseSpellItems()
+		{
+			foreach (SpellSchool school in Filters)
+			{
+				if (!FilteredSpells.ContainsKey(school)) continue;
+				foreach (SpellItemEditableViewModel spellItemVM in FilteredSpells[school])
+				{
+					spellItemVM.Prepare -= selectedCharacter.SpellBook.PrepareSpell;
+					spellItemPool.Return(spellItemVM);
+				}
+			}
+		}
+
+		/// <summary>
 		/// sets the items in spells to display
 		/// </summary>
 		/// <param name="items">the items to display</param>
@@ -238,19 +241,19 @@ namespace PCCharacterManager.ViewModels
 			SpellsToDisplay.Clear();
 			switch (selectedOrderByOption)
 			{
-				case ViewModels.OrderByOptions.ALPHABETICAL:
+				case OrderByOption.ALPHABETICAL:
 					foreach (var spell in items) SpellsToDisplay.Add(spell);
 					break;
-				case ViewModels.OrderByOptions.LEVEL:
+				case OrderByOption.LEVEL:
 					foreach (var spell in items.OrderBy(x => x.Spell.Level)) SpellsToDisplay.Add(spell);
 					break;
-				case ViewModels.OrderByOptions.DURATION:
+				case OrderByOption.DURATION:
 					foreach (var spell in items.OrderBy(x => x.Spell.Duration)) SpellsToDisplay.Add(spell);
 					break;
-				case ViewModels.OrderByOptions.SCHOOL:
+				case OrderByOption.SCHOOL:
 					foreach (var spell in items.OrderBy(x => x.Spell.School)) SpellsToDisplay.Add(spell);
 					break;
-				case ViewModels.OrderByOptions.PREPARED:
+				case OrderByOption.PREPARED:
 					foreach (var spell in items.OrderBy(x => !x.Spell.IsPrepared)) SpellsToDisplay.Add(spell);
 					break;
 			}

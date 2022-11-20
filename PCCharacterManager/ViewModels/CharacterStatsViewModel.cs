@@ -22,12 +22,6 @@ namespace PCCharacterManager.ViewModels
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 			EditCharacterCommand = new RelayCommand(EditCharacter);
-
-		}
-
-		protected override void OnCharacterChanged(Character newCharacter)
-		{
-			SelectedCharacter = newCharacter;
 		}
 
 		private void EditCharacter()

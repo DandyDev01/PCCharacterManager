@@ -32,7 +32,7 @@ namespace PCCharacterManager.Commands
 				return;
 			}
 
-			characterStore.CharacterChange(selectedCharacter);
+			characterStore.BindSelectedCharacter(selectedCharacter);
 
 		}
 	}

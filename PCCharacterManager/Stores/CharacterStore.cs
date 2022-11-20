@@ -9,28 +9,23 @@ namespace PCCharacterManager.Stores
 {
 	public class CharacterStore
 	{
-		public Character SelectedCharacter { get; private set; }
-		public event Action<Character> CharacterCreate;
-		public event Action<Character> SelectedCharacterChange;
+		public Character? SelectedCharacter { get; private set; }
+		public event Action<Character>? CharacterCreate;
+		public event Action<Character>? SelectedCharacterChange;
 
 		public void CreateCharacter(Character character)
 		{
 			CharacterCreate?.Invoke(character);
 		}
 
-		public void CharacterChange(Character newCharacter)
+		/// <summary>
+		/// binds the selected character to a specified character
+		/// </summary>
+		/// <param name="characterToBind">character to bind to</param>
+		public void BindSelectedCharacter(Character characterToBind)
 		{
-			SelectedCharacterChange?.Invoke(newCharacter);
-			SelectedCharacter = newCharacter;
-			// NOTE: this is gross...find better way
-			// this is here because it is the fastest way to set the pointer
-
-		}
-
-		public void SetSelectedCharacter(Character character)
-		{
-			SelectedCharacterChange?.Invoke(character);
-			SelectedCharacter = character;
+			SelectedCharacterChange?.Invoke(characterToBind);
+			SelectedCharacter = characterToBind;
 		}
 	}
 }

@@ -46,17 +46,17 @@ namespace PCCharacterManager.ViewModels
 		{
 			characterStore = new CharacterStore();
 			dataService = new JsonCharacterDataService(characterStore);
-			
+
+			characterStore.SelectedCharacterChange += SaveCharacter;
+
 			tabVM = new TabControlViewModel(characterStore, dataService);
 
 			currView = tabVM;
 
-			while(dataService.GetCharacters().Count() < 1)
-			{
-				Trace.WriteLine("test");
-				CreateCharacterWindow();
-			}
-
+			//while(dataService.GetCharacters().Count() < 1)
+			//{
+			//	CreateCharacterWindow();
+			//}
 
 			NewCharacterCommand = new RelayCommand(CreateCharacterWindow);
 			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
@@ -93,6 +93,11 @@ namespace PCCharacterManager.ViewModels
 		}
 
 		private void SaveCharacters()
+		{
+			dataService.Save(characterStore.SelectedCharacter);
+		}
+
+		private void SaveCharacter(Character c = null)
 		{
 			dataService.Save(characterStore.SelectedCharacter);
 		}
