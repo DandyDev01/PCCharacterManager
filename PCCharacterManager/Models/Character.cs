@@ -31,7 +31,10 @@ namespace PCCharacterManager.Models
 		public string Name
 		{
 			get { return name; }
-			set { OnPropertyChaged(ref name, value); }
+			set 
+			{ 
+				OnPropertyChaged(ref name, value); 
+			}
 		}
 		public string Background
 		{
