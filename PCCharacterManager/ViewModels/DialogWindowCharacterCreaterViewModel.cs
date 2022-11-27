@@ -417,6 +417,8 @@ namespace PCCharacterManager.ViewModels
 					break;
 			}
 
+			newCharacter.DateModified = DateTime.Now.ToString();
+
 			characterStore.CreateCharacter(newCharacter);
 			window.DialogResult = true;
 			window.Close();

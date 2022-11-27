@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCCharacterManager.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,13 @@ namespace PCCharacterManager.Views
 		public CharacterListView()
 		{
 			InitializeComponent();
+		}
+
+		private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			CharacterItemViewModel vm = ListView.SelectedItem as CharacterItemViewModel;
+
+			vm.SelectCharacterCommand?.Execute(null);
 		}
 	}
 }

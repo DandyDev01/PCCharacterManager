@@ -62,6 +62,8 @@ namespace PCCharacterManager.Services
 
 			if (character == null) return;
 
+			character.DateModified = DateTime.Now.ToString();
+
 			ReadWriteJsonFile<Character>.WriteFile(Resources.CharacterDataDir + "/" + character.Name + ".json", character);
 		}
 

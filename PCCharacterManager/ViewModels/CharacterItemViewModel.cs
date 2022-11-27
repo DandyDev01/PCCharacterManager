@@ -24,6 +24,9 @@ namespace PCCharacterManager.ViewModels
 		private string characterLevel;
 		public string CharacterLevel => characterLevel;
 
+		private string characterDateModified;
+		public string CharacterDateModified => characterDateModified;
+
 		public ICommand SelectCharacterCommand { get; private set; }
 
 		//TODO: get the characterStore from BookVM
@@ -32,6 +35,7 @@ namespace PCCharacterManager.ViewModels
 			characterName = character.Name;
 			characterClass = character.CharacterClass.Name;
 			characterLevel = character.Level.Level.ToString();
+			characterDateModified = character.DateModified;
 			characterPath = _characterPath;
 
 			SelectCharacterCommand = new SelectCharacterCommand(characterStore, characterPath);

@@ -21,6 +21,7 @@ namespace PCCharacterManager.Models
 		private string name;
 		private string background;
 		private string armorClass;
+		private string dateModified;
 		private int initiative;
 		private int passivePerception;
 		private int passiveInsight;
@@ -41,6 +42,11 @@ namespace PCCharacterManager.Models
 		{
 			get { return armorClass; }
 			set { OnPropertyChaged(ref armorClass, value); }
+		}
+		public string DateModified
+		{
+			get { return dateModified; }	
+			set { OnPropertyChaged(ref dateModified, value); }
 		}
 		public int Initiative
 		{

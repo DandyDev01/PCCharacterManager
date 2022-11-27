@@ -6,11 +6,13 @@ using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
@@ -19,12 +21,18 @@ namespace PCCharacterManager.ViewModels
 	{
 		private readonly CharacterStore characterStore;
 		private readonly ICharacterDataService dataService;
+		private readonly CollectionViewPropertySort collectionViewPropertySort;
 		private readonly UpdateHandler updateHandler;
 
 		public ObservableCollection<CharacterItemViewModel> CharacterItems { get; private set; }
+		public ICollectionView CharacterCollectionView { get; }
 
 		public ICommand CreateCharacterCommand {get;}
 		public ICommand DeleteCharacterCommand {get;}
+		public ICommand NameSortCommand { get; }
+		public ICommand LevelSortCommand { get; }
+		public ICommand ClassSortCommand { get; }
+		public ICommand DataModifiedSortCommand { get; }
 
 		public CharacterListViewModel(CharacterStore _characterStore, ICharacterDataService _dataService)
 		{
@@ -37,13 +45,14 @@ namespace PCCharacterManager.ViewModels
 				CreateCharacterWindow();
 			}
 
-			CreateCharacterCommand = new RelayCommand(CreateCharacterWindow);
-			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
 			//updateHandler.HandleCharacterFormatChanges(_dataService);
 			
 			List<Character> characters = new List<Character>(_dataService.GetCharacters());
 
 			CharacterItems = new ObservableCollection<CharacterItemViewModel>();
+			CharacterCollectionView = CollectionViewSource.GetDefaultView(CharacterItems);
+			collectionViewPropertySort = new CollectionViewPropertySort(CharacterCollectionView);
+			CharacterCollectionView.SortDescriptions.Add(new SortDescription(nameof(CharacterItemViewModel.CharacterDateModified), ListSortDirection.Descending));
 
 			string[] characterPaths = _dataService.GetCharacterFilePaths().ToArray();
 			for (int i = 0; i < characters.Count; i++)
@@ -51,11 +60,34 @@ namespace PCCharacterManager.ViewModels
 				CharacterItems.Add(new CharacterItemViewModel(characterStore, characters[i], characterPaths[i]));
 			}
 
-			CharacterItems[0].SelectCharacterCommand.Execute(null);
-			if (characters.Count > 0) characterStore.BindSelectedCharacter(characters[0]);
+			CreateCharacterCommand = new RelayCommand(CreateCharacterWindow);
+			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
+			NameSortCommand = new RelayCommand(NameSort);
+			LevelSortCommand = new RelayCommand(LevelSort);
+			ClassSortCommand = new RelayCommand(ClassSort);
+			DataModifiedSortCommand = new RelayCommand(DataModifiedSort);
 
-			characterStore.CharacterCreate += LoadCharacters;
-			
+			characterStore.CharacterCreate += LoadCharacters;			
+		}
+
+		private void DataModifiedSort()
+		{
+			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterDateModified));
+		}
+
+		private void ClassSort()
+		{
+			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterClass));
+		}
+
+		private void LevelSort()
+		{
+			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterLevel));
+		}
+
+		public void NameSort()
+		{
+			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterName));
 		}
 
 		public void CreateCharacterWindow()

@@ -13,6 +13,7 @@
         <ContextMenu>
             <MenuItem Header="New Note" InputGestureText="Ctrl+LShift+N" Command="{Binding AddNoteCommand}"/>
             <MenuItem Header="Delete Note" InputGestureText="Ctrl+LShift+D" Command="{Binding DeleteNoteCommand}"/>
+            <MenuItem Header="Edit Section Title" InputGestureText="N/A" Command="{Binding EditSectionTitleCommand}"/>
         </ContextMenu>
     </UserControl.ContextMenu>
     <UserControl.InputBindings>

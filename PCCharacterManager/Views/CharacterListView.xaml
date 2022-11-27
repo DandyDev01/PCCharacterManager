@@ -22,15 +22,56 @@
         </Grid.ColumnDefinitions>
 
         <!--disable the selected item thingyyy??-->
-        <ListView ItemsSource="{Binding CharacterItems}"  
-                      Background="{StaticResource BackGroundColorDark}"
-                      HorizontalContentAlignment="Stretch">
-            <ListView.ItemTemplate>
+        <ListView ItemsSource="{Binding CharacterCollectionView}"  
+                  x:Name="ListView"
+                  SelectedIndex="0"
+                  SelectionChanged="ListView_SelectionChanged"
+                  Background="{StaticResource BackGroundColorDark}"
+                  HorizontalContentAlignment="Stretch">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn>
+                        <GridViewColumnHeader Content="Name" Command="{Binding NameSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CharacterName}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumnHeader Content="Level" Command="{Binding ClassSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CharacterLevel}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumnHeader Content="Class" Command="{Binding LevelSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CharacterClass}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumnHeader Content="Date Modified" Command="{Binding DataModifiedSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CharacterDateModified}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+            <!--<ListView.ItemTemplate>
                 <DataTemplate>
                     <v:CharacterItemView Grid.Column="0"/>
                 </DataTemplate>
-            </ListView.ItemTemplate>
+            </ListView.ItemTemplate>-->
         </ListView>
+        
+        
 
     </Grid>
 </UserControl>

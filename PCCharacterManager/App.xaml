@@ -441,6 +441,12 @@
             <Setter Property="BorderBrush" Value="{StaticResource LightText}"/>
             <Setter Property="BorderThickness" Value="0,3,0,0"/>
         </Style>
+
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="Background" Value="{StaticResource BackGroundColor}"/>
+            <Setter Property="BorderThickness" Value="0 0 0 0"/>
+            <Setter Property="Padding" Value="2 2 2 2"/>
+        </Style>
         <!--#endregion-->
 
         <!--#region Button-->

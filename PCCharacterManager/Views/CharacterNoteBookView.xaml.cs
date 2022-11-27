@@ -39,13 +39,20 @@ namespace PCCharacterManager.Views
 
 		private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
-			CharacterNoteBookViewModel? temp = DataContext as CharacterNoteBookViewModel;
+			CharacterNoteBookViewModel? viewModel = DataContext as CharacterNoteBookViewModel;
 			
-			if (temp == null) return;
+			if (viewModel == null) return;
+
+			if(treeView.SelectedItem is NoteSection)
+			{
+				viewModel.SelectedSection = treeView.SelectedItem as NoteSection;
+				return;
+			}
 
 			if (treeView.SelectedItem is not Note) return;
 
-			temp.SelectedNote = treeView.SelectedItem as Note;
+			viewModel.SelectedNote = treeView.SelectedItem as Note;
+			viewModel.SelectedSection = null;
 		}
 	}
 }

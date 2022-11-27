@@ -12,7 +12,7 @@ namespace PCCharacterManager.Models
 		public IEnumerable<ItemViewModel> Search(string searchTerm, IEnumerable<ItemViewModel> itemsToSearch)
 		{
 			//searchTerm = searchTerm.ToLower();
-
+			
 			List<ItemViewModel> result = new List<ItemViewModel>();
 
 			if (searchTerm == string.Empty || string.IsNullOrWhiteSpace(searchTerm))

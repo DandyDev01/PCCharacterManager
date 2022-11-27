@@ -49,10 +49,18 @@ namespace PCCharacterManager.ViewModels
 			set { OnPropertyChaged(ref selectedNote, value); }
 		}
 
+		private NoteSection? selectedSection;
+		public NoteSection? SelectedSection
+		{
+			get { return selectedSection; }
+			set { OnPropertyChaged(ref selectedSection, value); }
+		}
+
 		public ICommand AddNoteCommand { get; private set; }
 		public ICommand AddNoteSectionCommand { get; private set; }
 		public ICommand DeleteNoteCommand { get; private set; }
 		public ICommand DeleteNoteSectionCommand { get; private set; }
+		public ICommand EditSectionTitleCommand { get; private set; }
 
 		public CharacterNoteBookViewModel(CharacterStore _characterStore, ICharacterDataService _dataService) : base(_characterStore, _dataService)
 		{
@@ -68,6 +76,28 @@ namespace PCCharacterManager.ViewModels
 			AddNoteSectionCommand = new AddNoteSectionToNoteBookCommand(this);
 			DeleteNoteCommand = new RemoveNoteFromNoteBookCommand(this);
 			DeleteNoteSectionCommand = new DeleteNoteSectionFromNoteBookCommand(this);
+			EditSectionTitleCommand = new RelayCommand(EditSectionTitle);
+		}
+
+		private void EditSectionTitle()
+		{
+			if(selectedSection == null)
+			{
+				MessageBox.Show("No section selected", "Requres selected section", 
+					MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			Window window = new StringInputDialogWindow();
+			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel(window);
+			window.DataContext = dataContext;
+
+			bool? result = window.ShowDialog();
+
+			if ((bool)!result) return;
+
+			string inputTitle = dataContext.Answer;
+			selectedSection.SectionTitle = inputTitle;
 		}
 
 		/// <summary>
