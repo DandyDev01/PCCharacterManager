@@ -12,19 +12,59 @@ namespace PCCharacterManager.Models
 
 	public class SpellSearch : ISearch<SpellItemEditableViewModel>
 	{
-		public IEnumerable<SpellItemEditableViewModel> Search(string searchTerm, IEnumerable<SpellItemEditableViewModel> itemsToSearch)
+		protected override void ORSearch(ref List<SpellItemEditableViewModel> results, IEnumerable<SpellItemEditableViewModel> itemsToSearch, string[] searchTerms)
 		{
-			List<SpellItemEditableViewModel> results = new List<SpellItemEditableViewModel>();
+			foreach (SpellItemEditableViewModel spellItem in itemsToSearch)
+			{
+				bool schoolContainsSearchTerm = false;
+				bool levelContainsSearchTerm = false;
+				bool nameContainsSearchTerm = spellItem.Spell.Name.ToLower().Contains(searchTerms[0]) ||
+					spellItem.Spell.Name.ToLower().Contains(searchTerms[1]);
 
+				if (!nameContainsSearchTerm)
+					schoolContainsSearchTerm = spellItem.Spell.School.ToString().ToLower().Contains(searchTerms[0]) ||
+						spellItem.Spell.Name.ToLower().Contains(searchTerms[1]);
+
+				if (!schoolContainsSearchTerm && !nameContainsSearchTerm)
+					levelContainsSearchTerm = spellItem.Spell.Level.ToString().Contains(searchTerms[0]) ||
+						spellItem.Spell.Name.ToLower().Contains(searchTerms[1]);
+
+				if(nameContainsSearchTerm || schoolContainsSearchTerm || levelContainsSearchTerm)
+					results.Add(spellItem);
+			}
+		}
+
+		protected override void ANDSearch(ref List<SpellItemEditableViewModel> results, IEnumerable<SpellItemEditableViewModel> itemsToSearch, string[] searchTerms)
+		{
+			foreach (SpellItemEditableViewModel spellItem in itemsToSearch)
+			{
+				bool schoolContainsSearchTerm = false;
+				bool levelContainsSearchTerm = false;
+				bool nameContainsSearchTerm = spellItem.Spell.Name.ToLower().Contains(searchTerms[0]) &&
+					spellItem.Spell.Name.ToLower().Contains(searchTerms[1]);
+
+				if (!nameContainsSearchTerm)
+					schoolContainsSearchTerm = spellItem.Spell.School.ToString().ToLower().Contains(searchTerms[0]) &&
+						spellItem.Spell.Name.ToLower().Contains(searchTerms[1]);
+
+				if (!schoolContainsSearchTerm && !nameContainsSearchTerm)
+					levelContainsSearchTerm = spellItem.Spell.Level.ToString().Contains(searchTerms[0]) &&
+						spellItem.Spell.Name.ToLower().Contains(searchTerms[1]);
+
+				if (nameContainsSearchTerm || schoolContainsSearchTerm || levelContainsSearchTerm)
+					results.Add(spellItem);
+			}
+		}
+
+		protected override void DefaultSearch(ref List<SpellItemEditableViewModel> results, IEnumerable<SpellItemEditableViewModel> itemsToSearch, string searchTerm)
+		{
 			foreach (SpellItemEditableViewModel spellVM in itemsToSearch)
 			{
-				if(ContainsSearchTerm(spellVM.Spell, searchTerm))
+				if (ContainsSearchTerm(spellVM.Spell, searchTerm))
 				{
 					results.Add(spellVM);
 				}
 			}
-
-			return results;
 		}
 
 		private bool ContainsSearchTerm(Spell spell, string searchTerm)
