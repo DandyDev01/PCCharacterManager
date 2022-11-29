@@ -69,6 +69,13 @@ namespace PCCharacterManager.Commands
 				MultiFileExport(characterItems, savePath, selectedCharacterNames, characterPaths);
 		}
 
+		/// <summary>
+		/// export the characters to a single file
+		/// </summary>
+		/// <param name="characterItems"></param>
+		/// <param name="savePath"></param>
+		/// <param name="selectedCharacterNames"></param>
+		/// <param name="characterPaths"></param>
 		private void SingleFileExport(CharacterItemViewModel[] characterItems, string savePath, string[] selectedCharacterNames, string[] characterPaths)
 		{
 			for (int i = 0; i < selectedCharacterNames.Length; i++)
@@ -95,6 +102,13 @@ namespace PCCharacterManager.Commands
 			ReadWriteJsonCollection<Character>.WriteCollection(savePath, characters);
 		}
 
+		/// <summary>
+		/// eport characters to seperate files
+		/// </summary>
+		/// <param name="characterItems"></param>
+		/// <param name="savePath"></param>
+		/// <param name="selectedCharacterNames"></param>
+		/// <param name="characterPaths"></param>
 		private void MultiFileExport(CharacterItemViewModel[] characterItems, string savePath, string[] selectedCharacterNames, string[] characterPaths)
 		{
 			for (int i = 0; i < selectedCharacterNames.Length; i++)

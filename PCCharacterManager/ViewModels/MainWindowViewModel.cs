@@ -37,6 +37,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand LevelCharacterCommand { get; private set; }
 		public ICommand LongRestCommand { get; private set; }
 		public ICommand ExportCharacterCommand { get; }
+		public ICommand OpenCommand { get; }
 
 		//NOTE: because of the way that CharacterCreateWindow is made the program does
 		//		not end when main window is closed. 
@@ -57,6 +58,7 @@ namespace PCCharacterManager.ViewModels
 			LevelCharacterCommand = new RelayCommand(LevelCharacter);
 			LongRestCommand = new RelayCommand(LongRest);
 			ExportCharacterCommand = new CharacterExportCommand(characterStore, tabVM);
+			OpenCommand = new OpenCharacterCommand(characterStore);
 		}
 
 		private void DeleteCharacter()
