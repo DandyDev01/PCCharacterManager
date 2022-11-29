@@ -14,6 +14,7 @@ namespace PCCharacterManager.ViewModels
 	public class CharacterItemViewModel : ObservableObject
 	{
 		private readonly string characterPath;
+		public string CharacterPath => characterPath;
 
 		private string characterName;
 		public string CharacterName => characterName;

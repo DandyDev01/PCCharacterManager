@@ -37,6 +37,8 @@
                           Style="{StaticResource MenuItem}"/>
                 <MenuItem x:Name="menuClose" Header="Exit" Command="ApplicationCommands.Close" 
                           Style="{StaticResource MenuItem}"/>
+                <MenuItem x:Name="menuExport" Header="Export Character(s)" Command="{Binding ExportCharacterCommand}"
+                          Style="{StaticResource MenuItem}"/>
             </MenuItem>
             <MenuItem Header="Edit" Style="{StaticResource MenuItem}">
                 <MenuItem x:Name="menuDuplicate" Header="Duplicate Character" IsEnabled="False"

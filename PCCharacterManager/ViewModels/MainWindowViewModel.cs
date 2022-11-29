@@ -1,14 +1,12 @@
-﻿using PCCharacterManager.DialogWindows;
+﻿using Microsoft.Win32;
+using PCCharacterManager.Commands;
+using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -38,6 +36,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand SaveCharactersCommand { get; private set; }
 		public ICommand LevelCharacterCommand { get; private set; }
 		public ICommand LongRestCommand { get; private set; }
+		public ICommand ExportCharacterCommand { get; }
 
 		//NOTE: because of the way that CharacterCreateWindow is made the program does
 		//		not end when main window is closed. 
@@ -50,19 +49,14 @@ namespace PCCharacterManager.ViewModels
 			characterStore.SelectedCharacterChange += SaveCharacter;
 
 			tabVM = new TabControlViewModel(characterStore, dataService);
-
 			currView = tabVM;
-
-			//while(dataService.GetCharacters().Count() < 1)
-			//{
-			//	CreateCharacterWindow();
-			//}
 
 			NewCharacterCommand = new RelayCommand(CreateCharacterWindow);
 			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
 			SaveCharactersCommand = new RelayCommand(SaveCharacters);
 			LevelCharacterCommand = new RelayCommand(LevelCharacter);
 			LongRestCommand = new RelayCommand(LongRest);
+			ExportCharacterCommand = new CharacterExportCommand(characterStore, tabVM);
 		}
 
 		private void DeleteCharacter()
@@ -101,5 +95,6 @@ namespace PCCharacterManager.ViewModels
 		{
 			dataService.Save(characterStore.SelectedCharacter);
 		}
+
 	}
 }
