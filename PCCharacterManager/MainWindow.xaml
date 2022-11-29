@@ -12,7 +12,6 @@
     <Window.InputBindings>
         <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCharactersCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewCharacterCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="R" Command="{Binding LongRestCommand}"/>
     </Window.InputBindings>
 
     <Window.DataContext>
@@ -46,8 +45,6 @@
                           InputGestureText="Ctrl+N+C" Style="{StaticResource MenuItem}"/>
                 <MenuItem x:Name="menuLevel" Header="Level Character" Command="{Binding LevelCharacterCommand}"
                           InputGestureText="Ctrl+L" Style="{StaticResource MenuItem}"/>
-                <MenuItem Header="Long Rest" Command="{Binding LongRestCommand}" IsEnabled="False"
-                          InputGestureText="Ctrl+R" Style="{StaticResource MenuItem}"/>
             </MenuItem>
         </Menu>
 
