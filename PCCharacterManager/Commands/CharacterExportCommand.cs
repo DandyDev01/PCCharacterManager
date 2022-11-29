@@ -30,6 +30,7 @@ namespace PCCharacterManager.Commands
 			string savePath = string.Empty;
 			SaveFileDialog saveFile = new SaveFileDialog();
 			saveFile.Filter = "Json files|*.json";
+			saveFile.FileName = "PCManager_Export.json";
 
 			// get all character names
 			for (int i = 0; i < characterItems.Length; i++)
@@ -88,10 +89,10 @@ namespace PCCharacterManager.Commands
 					characters[i] = characterStore.SelectedCharacter;
 					continue;
 				}
-				characters[i] = ReadWriteJsonFile<Character>.ReadFile(Resources.CharacterDataDir + "/" + characterPaths[i]);
+				characters[i] = ReadWriteJsonFile<Character>.ReadFile(characterPaths[i]);
 			}
 
-			ReadWriteJsonCollection<Character>.WriteCollection(savePath + "_" + DateTime.Now.ToString(), characters);
+			ReadWriteJsonCollection<Character>.WriteCollection(savePath, characters);
 		}
 
 		private void MultiFileExport(CharacterItemViewModel[] characterItems, string savePath, string[] selectedCharacterNames, string[] characterPaths)
@@ -106,13 +107,16 @@ namespace PCCharacterManager.Commands
 
 			for (int i = 0; i < characterPaths.Length; i++)
 			{
+				savePath = savePath.Substring(0, savePath.IndexOf('.'));
 				if (characterPaths[i].Contains(characterStore.SelectedCharacter.Name))
 				{
-					ReadWriteJsonFile<Character>.WriteFile(savePath + "/" + characterStore.SelectedCharacter.Name, characterStore.SelectedCharacter);
+					ReadWriteJsonFile<Character>.WriteFile(savePath + "_" + characterStore.SelectedCharacter.Name + ".json", characterStore.SelectedCharacter);
+					savePath += ".json";
 					continue;
 				}
-				Character character = ReadWriteJsonFile<Character>.ReadFile(Resources.CharacterDataDir + "/" + characterPaths[i]);
-				ReadWriteJsonFile<Character>.WriteFile(savePath + "/" + character.Name, character);
+				Character character = ReadWriteJsonFile<Character>.ReadFile(characterPaths[i]);
+				ReadWriteJsonFile<Character>.WriteFile(savePath + "_" + character.Name + ".json", character);
+				savePath += ".json";
 			}
 		}
 	}
