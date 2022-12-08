@@ -91,7 +91,6 @@ namespace PCCharacterManager.ViewModels
 
 		private void AddItem()
 		{
-			selectedCharacter.Inventory.Add(SelectedItem.BoundItem);
 			addItemWindow.Close();
 		}
 

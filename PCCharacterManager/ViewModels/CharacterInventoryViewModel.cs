@@ -7,11 +7,13 @@ using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
@@ -106,7 +108,7 @@ namespace PCCharacterManager.ViewModels
 		}
 
 		public ObservableCollection<ItemDisplayViewModel> ItemsToShow { get; private set; }
-		private Dictionary<ItemType, ObservableCollection<ItemDisplayViewModel>> filteredItems;
+		public Dictionary<ItemType, ObservableCollection<ItemDisplayViewModel>> FilteredItems { get; private set; }
 
 		public CharacterInventoryViewModel(CharacterStore _characterStore, ICharacterDataService dataService)
 			: base(_characterStore, dataService)
@@ -117,11 +119,11 @@ namespace PCCharacterManager.ViewModels
 			RemovePropertyCommand = new RemovePropertyFromItemCommand(this);
 			NextFilterCommand = new RelayCommand(NextFilter);
 
-			filteredItems = new Dictionary<ItemType, ObservableCollection<ItemDisplayViewModel>>();
-			filteredItems.Add(ItemType.Weapon, new ObservableCollection<ItemDisplayViewModel>());
-			filteredItems.Add(ItemType.Armor, new ObservableCollection<ItemDisplayViewModel>());
-			filteredItems.Add(ItemType.Ammunition, new ObservableCollection<ItemDisplayViewModel>());
-			filteredItems.Add(ItemType.Item, new ObservableCollection<ItemDisplayViewModel>());
+			FilteredItems = new Dictionary<ItemType, ObservableCollection<ItemDisplayViewModel>>();
+			FilteredItems.Add(ItemType.Weapon, new ObservableCollection<ItemDisplayViewModel>());
+			FilteredItems.Add(ItemType.Armor, new ObservableCollection<ItemDisplayViewModel>());
+			FilteredItems.Add(ItemType.Ammunition, new ObservableCollection<ItemDisplayViewModel>());
+			FilteredItems.Add(ItemType.Item, new ObservableCollection<ItemDisplayViewModel>());
 			ItemsToShow = new ObservableCollection<ItemDisplayViewModel>();
 			PrevSelectedProperty = new PropertyEditableViewModel(new Property());
 
@@ -151,7 +153,7 @@ namespace PCCharacterManager.ViewModels
 		private void Search()
 		{
 			ItemsToShow.Clear();
-			ItemViewModel[] items = search.Search(searchTerm, filteredItems[selectedFilter]).ToArray();
+			ItemViewModel[] items = search.Search(searchTerm, FilteredItems[selectedFilter]).ToArray();
 			foreach (var item in items)
 			{
 				ItemsToShow.Add((ItemDisplayViewModel)item);
@@ -163,7 +165,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void SetFilteredItemsDictionary()
 		{
-			foreach (var item in filteredItems)
+			foreach (var item in FilteredItems)
 			{
 				item.Value.Clear();
 			}
@@ -172,20 +174,20 @@ namespace PCCharacterManager.ViewModels
 			{
 				foreach (var item in pair.Value)
 				{
-					filteredItems[item.Tag].Add(new ItemDisplayViewModel(item));
+					FilteredItems[item.Tag].Add(new ItemDisplayViewModel(item));
 				}
 			}
 
-			filteredItems[ItemType.Item] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Item].OrderBy(x => x.DisplayName));
-			filteredItems[ItemType.Weapon] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Weapon].OrderBy(x => x.DisplayName));
-			filteredItems[ItemType.Armor] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Armor].OrderBy(x => x.DisplayName));
-			filteredItems[ItemType.Ammunition] = new ObservableCollection<ItemDisplayViewModel>(filteredItems[ItemType.Ammunition].OrderBy(x => x.DisplayName));
+			FilteredItems[ItemType.Item] = new ObservableCollection<ItemDisplayViewModel>(FilteredItems[ItemType.Item].OrderBy(x => x.DisplayName));
+			FilteredItems[ItemType.Weapon] = new ObservableCollection<ItemDisplayViewModel>(FilteredItems[ItemType.Weapon].OrderBy(x => x.DisplayName));
+			FilteredItems[ItemType.Armor] = new ObservableCollection<ItemDisplayViewModel>(FilteredItems[ItemType.Armor].OrderBy(x => x.DisplayName));
+			FilteredItems[ItemType.Ammunition] = new ObservableCollection<ItemDisplayViewModel>(FilteredItems[ItemType.Ammunition].OrderBy(x => x.DisplayName));
 		}
 
 		private void Filter()
 		{
 			ItemsToShow.Clear();
-			foreach (var item in filteredItems[selectedFilter])
+			foreach (var item in FilteredItems[selectedFilter])
 			{
 				ItemsToShow.Add(item);
 			}

@@ -30,7 +30,13 @@ namespace PCCharacterManager.Commands
 
 			window.ShowDialog();
 
-			if (dialogContext.SelectedItem != null) vm.ItemsToShow.Add(new ItemDisplayViewModel(dialogContext.SelectedItem.BoundItem));
+			if (dialogContext.SelectedItem == null) return;
+
+			Item selectedItem = dialogContext.SelectedItem.BoundItem;
+			ItemDisplayViewModel displayVM = new ItemDisplayViewModel(selectedItem);
+			vm.SelectedCharacter.Inventory.Add(selectedItem);
+			vm.ItemsToShow.Add(displayVM);
+			vm.FilteredItems[selectedItem.Tag].Add(displayVM);
 			vm.ItemsToShow.OrderBy(x => x.DisplayName);
 		}
 	}

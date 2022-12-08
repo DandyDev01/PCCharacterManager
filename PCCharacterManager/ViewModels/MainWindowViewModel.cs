@@ -6,6 +6,7 @@ using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
