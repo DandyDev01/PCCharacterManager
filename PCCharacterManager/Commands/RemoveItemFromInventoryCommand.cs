@@ -28,8 +28,10 @@ namespace PCCharacterManager.Commands
 				return;
 
 			vm.SelectedCharacter.Inventory.Remove(vm.SelectedItem.BoundItem);
-			vm.ItemsToShow.Remove(vm.SelectedItem);
-			vm.SelectedItem = vm.ItemsToShow[0];
+			vm.ItemDisplayVms.Remove(vm.SelectedItem);
+			vm.SelectedItem = vm.ItemDisplayVms[0];
+			//vm.ItemsToShow.Remove(vm.SelectedItem);
+			//vm.SelectedItem = vm.ItemsToShow[0];
 		}
 	}
 }

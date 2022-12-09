@@ -35,9 +35,10 @@ namespace PCCharacterManager.Commands
 			Item selectedItem = dialogContext.SelectedItem.BoundItem;
 			ItemDisplayViewModel displayVM = new ItemDisplayViewModel(selectedItem);
 			vm.SelectedCharacter.Inventory.Add(selectedItem);
-			vm.ItemsToShow.Add(displayVM);
-			vm.FilteredItems[selectedItem.Tag].Add(displayVM);
-			vm.ItemsToShow.OrderBy(x => x.DisplayName);
+			vm.ItemDisplayVms.Add(displayVM);
+			//vm.ItemsToShow.Add(displayVM);
+			//vm.FilteredItems[selectedItem.Tag].Add(displayVM);
+			//vm.ItemsToShow.OrderBy(x => x.DisplayName);
 		}
 	}
 }

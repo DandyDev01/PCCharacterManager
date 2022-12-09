@@ -26,6 +26,9 @@ namespace PCCharacterManager.ViewModels
 		public ICommand RemovePropertyCommand { get; private set; }
 		public ICommand NextFilterCommand { get; private set; }
 
+		public ICollectionView ItemsCollectionView { get; private set; }
+		public ObservableCollection<ItemDisplayViewModel> ItemDisplayVms { get; private set; }
+
 		private ItemDisplayViewModel? selectedItem;
 		public ItemDisplayViewModel? SelectedItem
 		{
@@ -68,6 +71,7 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+
 		public ItemType[] Filters { get; private set; } = (ItemType[])Enum.GetValues(typeof(ItemType));
 		private ItemType selectedFilter;
 		public ItemType SelectedFilter
@@ -76,7 +80,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChaged(ref selectedFilter, value);
-				Filter();
+				ItemsCollectionView.Refresh();
 			}
 		}
 
@@ -88,11 +92,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChaged(ref searchTerm, value);
-				searchTerm = searchTerm.ToLower();
-				Search();
-				//float timePassed = (float)DateTime.Now.Subtract(lastSearchTime).TotalSeconds;
-				//searchTimer.Tick(timePassed);
-				//lastSearchTime = DateTime.Now;
+				ItemsCollectionView.Refresh();
 			}
 		}
 
@@ -107,9 +107,6 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public ObservableCollection<ItemDisplayViewModel> ItemsToShow { get; private set; }
-		public Dictionary<ItemType, ObservableCollection<ItemDisplayViewModel>> FilteredItems { get; private set; }
-
 		public CharacterInventoryViewModel(CharacterStore _characterStore, ICharacterDataService dataService)
 			: base(_characterStore, dataService)
 		{
@@ -119,12 +116,11 @@ namespace PCCharacterManager.ViewModels
 			RemovePropertyCommand = new RemovePropertyFromItemCommand(this);
 			NextFilterCommand = new RelayCommand(NextFilter);
 
-			FilteredItems = new Dictionary<ItemType, ObservableCollection<ItemDisplayViewModel>>();
-			FilteredItems.Add(ItemType.Weapon, new ObservableCollection<ItemDisplayViewModel>());
-			FilteredItems.Add(ItemType.Armor, new ObservableCollection<ItemDisplayViewModel>());
-			FilteredItems.Add(ItemType.Ammunition, new ObservableCollection<ItemDisplayViewModel>());
-			FilteredItems.Add(ItemType.Item, new ObservableCollection<ItemDisplayViewModel>());
-			ItemsToShow = new ObservableCollection<ItemDisplayViewModel>();
+			ItemDisplayVms = new ObservableCollection<ItemDisplayViewModel>();
+			ItemsCollectionView = CollectionViewSource.GetDefaultView(ItemDisplayVms);
+			ItemsCollectionView.Filter = FilterItems;
+			ItemsCollectionView.SortDescriptions.Add(new SortDescription(nameof(ItemDisplayViewModel.DisplayName), ListSortDirection.Ascending));
+
 			PrevSelectedProperty = new PropertyEditableViewModel(new Property());
 
 			searchTerm = string.Empty;
@@ -138,63 +134,46 @@ namespace PCCharacterManager.ViewModels
 		protected override void OnCharacterChanged(Character newCharacter)
 		{
 			selectedCharacter = newCharacter;
-			SetFilteredItemsDictionary();
 
-			ItemsToShow.Clear();
+			ItemDisplayVms.Clear();
 			PropertiesToDisplay.Clear();
 			SelectedProperty = null;
 
-			Filter();
-
-			if (ItemsToShow.Count > 0)
-				SelectedItem = ItemsToShow[0];
-		}
-
-		private void Search()
-		{
-			ItemsToShow.Clear();
-			ItemViewModel[] items = search.Search(searchTerm, FilteredItems[selectedFilter]).ToArray();
-			foreach (var item in items)
-			{
-				ItemsToShow.Add((ItemDisplayViewModel)item);
-			}
-
-			if (ItemsToShow.Count > 0)
-				SelectedItem = ItemsToShow[0];
-		} // end search
-
-		private void SetFilteredItemsDictionary()
-		{
-			foreach (var item in FilteredItems)
-			{
-				item.Value.Clear();
-			}
 
 			foreach (var pair in selectedCharacter.Inventory.Items)
 			{
 				foreach (var item in pair.Value)
 				{
-					FilteredItems[item.Tag].Add(new ItemDisplayViewModel(item));
+					ItemDisplayVms.Add(new ItemDisplayViewModel(item));
 				}
 			}
 
-			FilteredItems[ItemType.Item] = new ObservableCollection<ItemDisplayViewModel>(FilteredItems[ItemType.Item].OrderBy(x => x.DisplayName));
-			FilteredItems[ItemType.Weapon] = new ObservableCollection<ItemDisplayViewModel>(FilteredItems[ItemType.Weapon].OrderBy(x => x.DisplayName));
-			FilteredItems[ItemType.Armor] = new ObservableCollection<ItemDisplayViewModel>(FilteredItems[ItemType.Armor].OrderBy(x => x.DisplayName));
-			FilteredItems[ItemType.Ammunition] = new ObservableCollection<ItemDisplayViewModel>(FilteredItems[ItemType.Ammunition].OrderBy(x => x.DisplayName));
+			if (ItemDisplayVms.Count > 0)
+				SelectedItem = ItemDisplayVms[0];
+
+			ItemsCollectionView = CollectionViewSource.GetDefaultView(ItemDisplayVms);
 		}
 
-		private void Filter()
+		private bool FilterItems(object obj)
 		{
-			ItemsToShow.Clear();
-			foreach (var item in FilteredItems[selectedFilter])
+			if(obj is ItemDisplayViewModel displayVM)
 			{
-				ItemsToShow.Add(item);
+				Item item = displayVM.BoundItem;
+				if (!item.Tag.Equals(selectedFilter)) return false;
+
+				if (searchTerm.Equals(string.Empty)) return true;
+
+				if (item.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
+
+				foreach (Property property in item.Properties)
+				{
+					if (property.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
+					if (property.Desc.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
+				}
 			}
 
-			if(ItemsToShow.Count > 0)
-				SelectedItem = ItemsToShow[0];
-		} // end Filter
+			return false;
+		}
 
 		private void PopulatePropertiesToDisplay()
 		{
