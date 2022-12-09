@@ -9,7 +9,7 @@
              Background="{StaticResource ViewBackgroundColor}"
              d:DesignHeight="1080" d:DesignWidth="1920">
     <UserControl.InputBindings>
-        <KeyBinding Modifiers="Shift" Key="Tab" Command="{Binding NextFilterCommand}"/>
+        <KeyBinding Modifiers="Shift" Key="Tab" Command="{Binding NextItemTypeCommand}"/>
     </UserControl.InputBindings>
     
     <Grid>
@@ -52,9 +52,9 @@
                      Style="{StaticResource Search}"/>
             <CheckBox ToolTip="Show Hidden Properties of selected item?"
                       IsChecked="{Binding ShowHiddenProperties}"/>
-            <ComboBox ItemsSource="{Binding Filters}" 
+            <ComboBox ItemsSource="{Binding ItemTypes}" 
                       SelectedIndex="2" 
-                      SelectedItem="{Binding SelectedFilter}"/>
+                      SelectedItem="{Binding SelectedItemType}"/>
         </Menu>
 
         <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6" Grid.RowSpan="12" 

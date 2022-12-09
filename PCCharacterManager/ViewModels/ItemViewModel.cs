@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.ViewModels
 {
-	public abstract class ItemViewModel : ObservableObject
+	public class ItemViewModel : ObservableObject
 	{
 		protected Item boundItem;
 		public Item BoundItem

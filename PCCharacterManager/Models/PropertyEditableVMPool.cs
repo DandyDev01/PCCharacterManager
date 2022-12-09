@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-	public class SpellItemEditableVMPool : IPool<SpellItemEditableViewModel>
+	public class PropertyEditableVMPool : IPool<PropertyEditableViewModel>
 	{
-		public SpellItemEditableVMPool(int count)
+		public PropertyEditableVMPool(int count)
 		{
-			items = new List<SpellItemEditableViewModel>();
-
+			items = new List<PropertyEditableViewModel>();
 			Add(count);
 		}
 
@@ -20,7 +19,7 @@ namespace PCCharacterManager.Models
 		{
 			for (int i = 0; i < count; i++)
 			{
-				items.Add(new SpellItemEditableViewModel());
+				items.Add(new PropertyEditableViewModel());
 				FreeItems++;
 			}
 		}

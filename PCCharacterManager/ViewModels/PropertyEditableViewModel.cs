@@ -17,6 +17,39 @@ namespace PCCharacterManager.ViewModels
 			set { OnPropertyChaged(ref boundProperty, value); }
 		}
 
+		private string displayName;
+		public string DisplayName
+		{
+			get { return displayName; }
+			set
+			{ 
+				OnPropertyChaged(ref displayName, value); 
+				boundProperty.Name = value;
+			}
+		}
+
+		private string displayDesc;
+		public string DisplayDesc
+		{
+			get { return displayDesc; }
+			set
+			{
+				OnPropertyChaged(ref displayDesc, value);
+				boundProperty.Desc = value;
+			}
+		}
+
+		private bool displayHidden;
+		public bool DisplayHidden
+		{
+			get { return displayHidden; }
+			set
+			{
+				OnPropertyChaged(ref displayHidden, value);
+				boundProperty.Hidden = value;
+			}
+		}
+
 		private bool isEditMode;
 		public bool IsEditMode
 		{
@@ -33,10 +66,29 @@ namespace PCCharacterManager.ViewModels
 			get { return !isEditMode; }
 		}
 
-		public PropertyEditableViewModel(Property _boundProperty)
+		public PropertyEditableViewModel(Property _property)
 		{
-			boundProperty = _boundProperty;
+			boundProperty = _property;
+			displayDesc = _property.Desc;
+			displayName = _property.Name;
+			displayHidden = _property.Hidden;
 			IsEditMode = false;
+		}
+
+		public PropertyEditableViewModel() 
+		{
+			displayName = string.Empty;
+			displayDesc = string.Empty;
+			displayHidden = false;
+		}
+
+		public void Bind(Property _property)
+		{
+			boundProperty = _property;
+			DisplayDesc = _property.Desc;
+			DisplayName = _property.Name;
+			DisplayHidden = _property.Hidden;
+			IsEditMode = _property.Hidden;
 		}
 
 		public void Edit()

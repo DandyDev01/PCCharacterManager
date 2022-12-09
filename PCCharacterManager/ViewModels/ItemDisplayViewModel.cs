@@ -17,6 +17,18 @@ namespace PCCharacterManager.ViewModels
 			displayName = _item.Name;
 			displayDesc = _item.Desc;
 			displayQuantity = _item.Quantity;
+			
+		}
+
+		public ItemDisplayViewModel() { }
+
+		public void Bind(Item _item)
+		{
+			boundItem = _item;
+
+			displayName = _item.Name;
+			displayDesc = _item.Desc;
+			displayQuantity = _item.Quantity;
 		}
 	}
 }

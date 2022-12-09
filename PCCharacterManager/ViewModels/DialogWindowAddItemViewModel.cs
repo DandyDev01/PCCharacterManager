@@ -5,19 +5,22 @@ using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
 	public class DialogWindowAddItemViewModel : TabItemViewModel
 	{
+		private readonly PropertyEditableVMPool propertyVMPool;
 		private Window addItemWindow; // need this in order to close the window
 		public Array ItemTypes { get; private set; } = Enum.GetValues(typeof(ItemType));
-		public ObservableCollection<ItemEditableViewModel> ItemsToDisplay { get; set; }
+		public ICollectionView ItemsCollectionView { get; private set; }
 
 		private ItemType selectedItemType;
 		// has the code to update the items in the ItemListing
@@ -28,13 +31,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChaged(ref selectedItemType, value);
-				// Change the item listing
-				ItemsToDisplay.Clear();
-				foreach (var item in PopulateItemsToDisplay())
-				{
-					ItemsToDisplay.Add(item);
-				}
-
+				ItemsCollectionView.Refresh();
 			}
 		}
 
@@ -45,7 +42,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChaged(ref searchTerm, value);
-				Search();
+				ItemsCollectionView.Refresh();
 			}
 		}
 
@@ -65,54 +62,64 @@ namespace PCCharacterManager.ViewModels
 		public ICommand AddToInventoryCommand { get; private set; }
 		public ICommand CancelCommand { get; private set; }
 
-		private List<ItemEditableViewModel> allItemsViewModel;
-		private ItemSearch itemSearch;
+		private List<ItemEditableViewModel> AllItemVMs;
 
 		public DialogWindowAddItemViewModel(ICharacterDataService dataService, CharacterStore characterStore,
-			Window addItemWindow, Character character) : base(characterStore, dataService, character)
+			Window _addItemWindow, Character character) : base(characterStore, dataService, character)
 		{
-			ItemsToDisplay = new ObservableCollection<ItemEditableViewModel>();
-			this.addItemWindow = addItemWindow;
+			propertyVMPool = new PropertyEditableVMPool(160);
+			addItemWindow = _addItemWindow;
 			selectedCharacter = character;
-			itemSearch = new ItemSearch();
+			searchTerm = string.Empty;
 			AddToInventoryCommand = new RelayCommand(AddItem);
 			CancelCommand = new RelayCommand(Close);
 
 			List<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(Resources.AllItemsJson);
-			allItemsViewModel = new List<ItemEditableViewModel>();
+			AllItemVMs = new List<ItemEditableViewModel>();
 
 			foreach (Item item in allItems)
 			{
-				allItemsViewModel.Add(new ItemEditableViewModel(item));
+				AllItemVMs.Add(new ItemEditableViewModel(item, propertyVMPool));
 			}
 
-			selectedItem = new ItemEditableViewModel(allItems[0]);
+			ItemsCollectionView = CollectionViewSource.GetDefaultView(AllItemVMs);
+			ItemsCollectionView.Filter = FilterItems;
+			ItemsCollectionView.SortDescriptions.Add(
+				new SortDescription(nameof(ItemEditableViewModel.DisplayName), ListSortDirection.Ascending));
+
+			selectedItem = AllItemVMs[0];
 		}
 
 		private void AddItem()
 		{
+			addItemWindow.DialogResult = true;
 			addItemWindow.Close();
 		}
 
 		private void Close()
 		{
+			addItemWindow.DialogResult = false;
 			addItemWindow.Close();
 		}
 
-		private void Search()
+		private bool FilterItems(object obj)
 		{
-			var results = itemSearch.Search(SearchTerm, PopulateItemsToDisplay());
-
-			ItemsToDisplay.Clear();
-			foreach (var item in results)
+			if (obj is ItemViewModel itemVM)
 			{
-				ItemsToDisplay.Add((ItemEditableViewModel)item);
-			}
-		}
+				if (!itemVM.BoundItem.Tag.Equals(selectedItemType)) return false;
 
-		private List<ItemEditableViewModel> PopulateItemsToDisplay()
-		{
-			return allItemsViewModel.FindAll(item => item.BoundItem.Tag == selectedItemType);
+				if (searchTerm.Equals(string.Empty)) return true;
+
+				if (itemVM.BoundItem.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
+
+				foreach (Property property in itemVM.BoundItem.Properties)
+				{
+					if (property.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
+					if (property.Desc.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
+				}
+			}
+
+			return false;
 		}
 	}
 }

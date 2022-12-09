@@ -20,14 +20,17 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterInventoryViewModel : TabItemViewModel
 	{
-		public ICommand AddItemCommand { get; private set; }
-		public ICommand RemoveItemCommand { get; private set; }
-		public ICommand AddPropertyCommand { get; private set; }
-		public ICommand RemovePropertyCommand { get; private set; }
-		public ICommand NextFilterCommand { get; private set; }
+		private readonly ItemDisplayVMPool itemVMPool;
+		private readonly PropertyEditableVMPool propertyVMPool;
+
+		public ICommand AddItemCommand { get; }
+		public ICommand RemoveItemCommand { get; }
+		public ICommand AddPropertyCommand { get; }
+		public ICommand RemovePropertyCommand { get; }
+		public ICommand NextItemTypeCommand { get; }
 
 		public ICollectionView ItemsCollectionView { get; private set; }
-		public ObservableCollection<ItemDisplayViewModel> ItemDisplayVms { get; private set; }
+		public ObservableCollection<ItemDisplayViewModel> ItemDisplayVms { get; }
 
 		private ItemDisplayViewModel? selectedItem;
 		public ItemDisplayViewModel? SelectedItem
@@ -39,10 +42,7 @@ namespace PCCharacterManager.ViewModels
 				PopulatePropertiesToDisplay();
 			}
 		}
-
-		public ObservableCollection<PropertyEditableViewModel> PropertiesToDisplay { get; private set; }
-		public PropertyEditableViewModel? PrevSelectedProperty { get; private set; }
-
+		
 		private PropertyEditableViewModel? selectedProperty;
 		public PropertyEditableViewModel? SelectedProperty
 		{
@@ -71,20 +71,21 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		public ObservableCollection<PropertyEditableViewModel> PropertiesToDisplay { get; }
+		public PropertyEditableViewModel? PrevSelectedProperty { get; private set; }
 
-		public ItemType[] Filters { get; private set; } = (ItemType[])Enum.GetValues(typeof(ItemType));
-		private ItemType selectedFilter;
-		public ItemType SelectedFilter
+		public ItemType[] ItemTypes { get; } = (ItemType[])Enum.GetValues(typeof(ItemType));
+		private ItemType selectedItemType;
+		public ItemType SelectedItemType
 		{
-			get { return selectedFilter; }
+			get { return selectedItemType; }
 			set
 			{
-				OnPropertyChaged(ref selectedFilter, value);
+				OnPropertyChaged(ref selectedItemType, value);
 				ItemsCollectionView.Refresh();
 			}
 		}
 
-		private readonly ItemSearch search; 
 		private string searchTerm;
 		public string SearchTerm
 		{
@@ -110,22 +111,25 @@ namespace PCCharacterManager.ViewModels
 		public CharacterInventoryViewModel(CharacterStore _characterStore, ICharacterDataService dataService)
 			: base(_characterStore, dataService)
 		{
+			itemVMPool = new ItemDisplayVMPool(10);
+			propertyVMPool = new PropertyEditableVMPool(5);
+
 			AddItemCommand = new AddItemToInventoryCommand(this);
 			RemoveItemCommand = new RemoveItemFromInventoryCommand(this);
 			AddPropertyCommand = new AddPropertyToItemCommand(this);
 			RemovePropertyCommand = new RemovePropertyFromItemCommand(this);
-			NextFilterCommand = new RelayCommand(NextFilter);
+			NextItemTypeCommand = new RelayCommand(NextItemType);
 
 			ItemDisplayVms = new ObservableCollection<ItemDisplayViewModel>();
 			ItemsCollectionView = CollectionViewSource.GetDefaultView(ItemDisplayVms);
 			ItemsCollectionView.Filter = FilterItems;
-			ItemsCollectionView.SortDescriptions.Add(new SortDescription(nameof(ItemDisplayViewModel.DisplayName), ListSortDirection.Ascending));
+			ItemsCollectionView.SortDescriptions.Add(
+				new SortDescription(nameof(ItemDisplayViewModel.DisplayName), ListSortDirection.Ascending));
 
 			PrevSelectedProperty = new PropertyEditableViewModel(new Property());
 
 			searchTerm = string.Empty;
-			search = new ItemSearch();
-
+			
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			PropertiesToDisplay = new ObservableCollection<PropertyEditableViewModel>();
@@ -135,6 +139,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			selectedCharacter = newCharacter;
 
+			ReturnItemVMsToPool();
 			ItemDisplayVms.Clear();
 			PropertiesToDisplay.Clear();
 			SelectedProperty = null;
@@ -144,7 +149,9 @@ namespace PCCharacterManager.ViewModels
 			{
 				foreach (var item in pair.Value)
 				{
-					ItemDisplayVms.Add(new ItemDisplayViewModel(item));
+					ItemDisplayViewModel temp = itemVMPool.GetItem();
+					temp.Bind(item);
+					ItemDisplayVms.Add(temp);
 				}
 			}
 
@@ -154,18 +161,25 @@ namespace PCCharacterManager.ViewModels
 			ItemsCollectionView = CollectionViewSource.GetDefaultView(ItemDisplayVms);
 		}
 
+		private void ReturnItemVMsToPool()
+		{
+			foreach (ItemDisplayViewModel itemDisplayViewModel in ItemDisplayVms)
+			{
+				itemVMPool.Return(itemDisplayViewModel);
+			}
+		}
+
 		private bool FilterItems(object obj)
 		{
-			if(obj is ItemDisplayViewModel displayVM)
+			if(obj is ItemViewModel itemVM)
 			{
-				Item item = displayVM.BoundItem;
-				if (!item.Tag.Equals(selectedFilter)) return false;
+				if (!itemVM.BoundItem.Tag.Equals(selectedItemType)) return false;
 
 				if (searchTerm.Equals(string.Empty)) return true;
 
-				if (item.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
+				if (itemVM.BoundItem.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
 
-				foreach (Property property in item.Properties)
+				foreach (Property property in itemVM.BoundItem.Properties)
 				{
 					if (property.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
 					if (property.Desc.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
@@ -184,35 +198,36 @@ namespace PCCharacterManager.ViewModels
 
 			foreach (var property in selectedItem.BoundItem.Properties)
 			{
-				// do not show hidden propertiess
+				// only show properties that are not marked HIDDEN
 				if (!showHiddenProperties)
 				{
-					// property is not hidden show it
-					if (!property.Hidden)
-					{
-						PropertiesToDisplay.Add(new PropertyEditableViewModel(property));
-					}
-				}
-				else
-				{
-					PropertiesToDisplay.Add(new PropertyEditableViewModel(property));
+					if (property.Hidden) continue;
+
+					PropertyEditableViewModel temp1 = propertyVMPool.GetItem();
+					temp1.Bind(property);
+					PropertiesToDisplay.Add(temp1);
+
+					continue;
 				}
 
+				PropertyEditableViewModel temp = propertyVMPool.GetItem();
+				temp.Bind(property);
+				PropertiesToDisplay.Add(temp);
 			}
 		}
 
-		private void NextFilter()
+		private void NextItemType()
 		{
-			int currentIndex = (int)selectedFilter;
+			int currentIndex = (int)selectedItemType;
 			int nextIndex = currentIndex + 1;
-			if(nextIndex > Filters.Length -1)
+			if(nextIndex > ItemTypes.Length -1)
 			{
 				currentIndex = 0;
-				SelectedFilter = Filters[currentIndex];
+				SelectedItemType = ItemTypes[currentIndex];
 				return;
 			} 
 
-			SelectedFilter = Filters[nextIndex];
+			SelectedItemType = ItemTypes[nextIndex];
 		}
 	} // end class
 }

@@ -21,19 +21,19 @@
         </Grid.RowDefinitions>
 
 
-        <TextBlock Text="{Binding BoundProperty.Name, FallbackValue=Name}" 
+        <TextBlock Text="{Binding DisplayName, FallbackValue=Name}" 
                    Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
                    Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}"/>
 
-        <TextBox Text="{Binding BoundProperty.Name, FallbackValue=test}"
+        <TextBox Text="{Binding DisplayName, FallbackValue=test}"
                  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
                  Visibility="{Binding IsEditMode, Converter={StaticResource IsEditConverter}}"/>
 
-        <TextBlock Text="{Binding BoundProperty.Desc, FallbackValue=Desc}" 
+        <TextBlock Text="{Binding DisplayDesc, FallbackValue=Desc}" 
                    Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" 
                    Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}"/>
 
-        <TextBox Text="{Binding BoundProperty.Desc, FallbackValue=Desc}"
+        <TextBox Text="{Binding DisplayDesc, FallbackValue=Desc}"
                  Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" 
                  Visibility="{Binding IsEditMode, Converter={StaticResource IsEditConverter}}"/>
 
@@ -44,7 +44,7 @@
                   Padding="10"
                   ToolTip="weather or not the property is hidden"
                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                  IsChecked="{Binding BoundProperty.Hidden}"
+                  IsChecked="{Binding DisplayHidden}"
                   Visibility="{Binding IsEditMode, Converter={StaticResource IsEditConverter}}"/>
     </Grid>
 </UserControl>
