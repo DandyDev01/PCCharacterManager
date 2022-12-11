@@ -14,7 +14,7 @@ namespace PCCharacterManager.ViewModels
 	{
 		private readonly PropertyEditableVMPool propertyVMPool;
 
-		public ObservableCollection<PropertyEditableViewModel> Properties { get; private set; }	
+		public ObservableCollection<PropertyEditableViewModel> DisplayProperties { get; }	
 
 		public ICommand EditCommand { get; private set; }
 		public ICommand RemoveCommand { get; private set; }
@@ -39,19 +39,19 @@ namespace PCCharacterManager.ViewModels
 			displayQuantity = boundItem.Quantity;
 			displayDesc = boundItem.Desc;
 			displayName = boundItem.Name;
+			DisplayProperties = new ObservableCollection<PropertyEditableViewModel>();
 
 			EditCommand = new RelayCommand(Edit);
 			AddPropertyCommand = new RelayCommand(AddProperty);
 			RemovePropertyCommand = new RelayCommand(RemoveProperty);
 			RemoveCommand = new RelayCommand(Remove);
-			Properties = new ObservableCollection<PropertyEditableViewModel>();
 
 			foreach (var property in boundItem.Properties)
 			{
 				PropertyEditableViewModel temp = propertyVMPool.GetItem();
 				temp.Bind(property);
 				temp.IsEditMode = IsEditMode;
-				Properties.Add(temp);
+				DisplayProperties.Add(temp);
 			}
 		}
 
@@ -67,7 +67,16 @@ namespace PCCharacterManager.ViewModels
 			AddPropertyCommand = new RelayCommand(AddProperty);
 			RemovePropertyCommand = new RelayCommand(RemoveProperty);
 			RemoveCommand = new RelayCommand(Remove);
-			Properties = new ObservableCollection<PropertyEditableViewModel>();
+			DisplayProperties = new ObservableCollection<PropertyEditableViewModel>();
+		}
+
+		public void Bind(Item item)
+		{
+			BoundItem = item;
+			displayQuantity = item.Quantity;
+			displayDesc = item.Desc;
+			displayName = item.Name;
+			DisplayProperties.Clear();
 		}
 
 		private void AddProperty()
@@ -83,7 +92,7 @@ namespace PCCharacterManager.ViewModels
 			temp.Bind(newProperty);
 
 			BoundItem.AddProperty(newProperty);
-			Properties.Add(temp);
+			DisplayProperties.Add(temp);
 		}
 
 		private void RemoveProperty()
@@ -91,7 +100,7 @@ namespace PCCharacterManager.ViewModels
 			if (SelectedProperty == null) return;
 
 			BoundItem.RemoveProperty(SelectedProperty.BoundProperty);
-			Properties.Remove(SelectedProperty);
+			DisplayProperties.Remove(SelectedProperty);
 			propertyVMPool.Return(SelectedProperty);
 		}
 
@@ -105,7 +114,7 @@ namespace PCCharacterManager.ViewModels
 
 			IsEditMode = !isEditMode;
 
-			foreach (var property in Properties)
+			foreach (var property in DisplayProperties)
 			{
 				property.IsEditMode = IsEditMode;
 			}

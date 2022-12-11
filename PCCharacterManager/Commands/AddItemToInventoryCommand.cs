@@ -30,7 +30,7 @@ namespace PCCharacterManager.Commands
 
 			window.ShowDialog();
 
-			if (window.DialogResult == false) return;
+			if (window.DialogResult == false || dialogContext.SelectedItem == null) return;
 
 			Item selectedItem = dialogContext.SelectedItem.BoundItem;
 			ItemDisplayViewModel displayVM = new ItemDisplayViewModel(selectedItem);

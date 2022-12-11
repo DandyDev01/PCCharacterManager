@@ -167,6 +167,11 @@ namespace PCCharacterManager.ViewModels
 			{
 				itemVMPool.Return(itemDisplayViewModel);
 			}
+
+			foreach (PropertyEditableViewModel propertyEditableVM in PropertiesToDisplay)
+			{
+				propertyVMPool.Return(propertyEditableVM);
+			}
 		}
 
 		private bool FilterItems(object obj)

@@ -65,7 +65,7 @@
 
         <ListView Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2" Margin="7"
                   Background="{StaticResource BackGroundColor}"
-                  ItemsSource="{Binding Properties}" SelectedValue="{Binding SelectedProperty}">
+                  ItemsSource="{Binding DisplayProperties}" SelectedValue="{Binding SelectedProperty}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <v:PropertyEditableView/>

@@ -18,6 +18,7 @@ namespace PCCharacterManager.ViewModels
 	public class DialogWindowAddItemViewModel : TabItemViewModel
 	{
 		private readonly PropertyEditableVMPool propertyVMPool;
+		private readonly ItemEditableVMPool itemVMPool;
 		private Window addItemWindow; // need this in order to close the window
 		public Array ItemTypes { get; private set; } = Enum.GetValues(typeof(ItemType));
 		public ICollectionView ItemsCollectionView { get; private set; }
@@ -62,24 +63,27 @@ namespace PCCharacterManager.ViewModels
 		public ICommand AddToInventoryCommand { get; private set; }
 		public ICommand CancelCommand { get; private set; }
 
-		private List<ItemEditableViewModel> AllItemVMs;
+		private ObservableCollection<ItemEditableViewModel> AllItemVMs;
 
 		public DialogWindowAddItemViewModel(ICharacterDataService dataService, CharacterStore characterStore,
 			Window _addItemWindow, Character character) : base(characterStore, dataService, character)
 		{
 			propertyVMPool = new PropertyEditableVMPool(160);
+			itemVMPool = new ItemEditableVMPool(74, propertyVMPool);
 			addItemWindow = _addItemWindow;
 			selectedCharacter = character;
 			searchTerm = string.Empty;
 			AddToInventoryCommand = new RelayCommand(AddItem);
 			CancelCommand = new RelayCommand(Close);
 
-			List<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(Resources.AllItemsJson);
-			AllItemVMs = new List<ItemEditableViewModel>();
+			IEnumerable<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(Resources.AllItemsJson);
+			AllItemVMs = new ObservableCollection<ItemEditableViewModel>();
 
 			foreach (Item item in allItems)
 			{
-				AllItemVMs.Add(new ItemEditableViewModel(item, propertyVMPool));
+				ItemEditableViewModel temp = itemVMPool.GetItem();
+				temp.Bind(item);
+				AllItemVMs.Add(temp);
 			}
 
 			ItemsCollectionView = CollectionViewSource.GetDefaultView(AllItemVMs);
@@ -98,8 +102,22 @@ namespace PCCharacterManager.ViewModels
 
 		private void Close()
 		{
+			ReturnToPool();
 			addItemWindow.DialogResult = false;
 			addItemWindow.Close();
+		}
+
+		private void ReturnToPool()
+		{
+			foreach (var item in AllItemVMs)
+			{
+				foreach (var propertyEditableViewModel in item.DisplayProperties)
+				{
+					propertyVMPool.Return(propertyEditableViewModel);
+				}
+
+				itemVMPool.Return(item);
+			}
 		}
 
 		private bool FilterItems(object obj)
