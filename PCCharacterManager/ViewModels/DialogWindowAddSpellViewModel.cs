@@ -12,16 +12,18 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
-	public class DialogWindowAddSpellViewModel : TabItemViewModel
+	public class DialogWindowAddSpellViewModel : ObservableObject
 	{
-		private SpellType spellFilterType;
+		public Array SpellSchools { get; } = Enum.GetValues(typeof(SpellSchool));
+		private readonly SpellType spellFilterType;
+		private readonly Window window;
+
 		private Spell newSpell;
 		public Spell NewSpell
 		{
 			get { return newSpell; }
 			set { OnPropertyChaged(ref newSpell, value); }
 		}
-		private readonly Window window;
 
 		private string spellComponents;
 		public string SpellComponents
@@ -34,7 +36,6 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public Array SpellSchools { get; private set; } = Enum.GetValues(typeof(SpellSchool));
 		private SpellSchool selectedSchool;
 		public SpellSchool SelectedSchool 
 		{
@@ -44,17 +45,14 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private SpellBook spellBook;
-
 		public ICommand AddSpellCommand { get; private set; }
 		public ICommand CancelCommand { get; private set; }
 
-		public DialogWindowAddSpellViewModel(Window _window, CharacterStore _characterStore, SpellType _spellFilterType,
-			ICharacterDataService _dataService, Character _selectedCharacter = null) : base(_characterStore, _dataService, _selectedCharacter)
+		public DialogWindowAddSpellViewModel(Window _window, SpellType _spellFilterType)
 		{
 			window = _window;
 			newSpell = new Spell();
-			spellBook = selectedCharacter.SpellBook;
+			spellComponents = string.Empty;
 
 			spellFilterType = _spellFilterType;
 
@@ -65,18 +63,7 @@ namespace PCCharacterManager.ViewModels
 		private void AddNewSpell()
 		{
 			newSpell.School = selectedSchool;
-			switch (spellFilterType)
-			{
-				case SpellType.SPELL:
-					spellBook.AddSpell(newSpell);
-					break;
-				case SpellType.CANTRIP:
-					newSpell.IsPrepared = true;
-					spellBook.AddContrip(newSpell);
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
+			if (spellFilterType == SpellType.CANTRIP) newSpell.IsPrepared = true;
 
 			window.DialogResult = true;
 			window.Close();

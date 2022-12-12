@@ -27,7 +27,7 @@ namespace PCCharacterManager.Commands
 			if (messageBox == MessageBoxResult.No)
 				return;
 
-			vm.SelectedCharacter.Inventory.Remove(vm.SelectedItem.BoundItem);
+			vm.Inventory.Remove(vm.SelectedItem.BoundItem);
 			vm.ItemDisplayVms.Remove(vm.SelectedItem);
 			vm.SelectedItem = vm.ItemDisplayVms[0];
 		}

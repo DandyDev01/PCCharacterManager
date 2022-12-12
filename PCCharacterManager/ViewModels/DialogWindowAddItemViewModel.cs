@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
-	public class DialogWindowAddItemViewModel : TabItemViewModel
+	public class DialogWindowAddItemViewModel : ObservableObject
 	{
 		private readonly PropertyEditableVMPool propertyVMPool;
 		private readonly ItemEditableVMPool itemVMPool;
@@ -65,13 +65,11 @@ namespace PCCharacterManager.ViewModels
 
 		private ObservableCollection<ItemEditableViewModel> AllItemVMs;
 
-		public DialogWindowAddItemViewModel(ICharacterDataService dataService, CharacterStore characterStore,
-			Window _addItemWindow, Character character) : base(characterStore, dataService, character)
+		public DialogWindowAddItemViewModel(Window _addItemWindow)
 		{
 			propertyVMPool = new PropertyEditableVMPool(160);
 			itemVMPool = new ItemEditableVMPool(74, propertyVMPool);
 			addItemWindow = _addItemWindow;
-			selectedCharacter = character;
 			searchTerm = string.Empty;
 			AddToInventoryCommand = new RelayCommand(AddItem);
 			CancelCommand = new RelayCommand(Close);

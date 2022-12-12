@@ -25,7 +25,7 @@ namespace PCCharacterManager.ViewModels
 		}
 
 		private void EditCharacter()
-		{
+		{ 
 			Window window = new EditCharacterDialogWindow();
 			DialogWindowEditCharacterViewModel windowVM = new DialogWindowEditCharacterViewModel(window, SelectedCharacter);
 			window.DataContext = windowVM;

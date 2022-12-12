@@ -29,7 +29,7 @@ namespace PCCharacterManager.Commands
 			if (result == MessageBoxResult.No)
 				return;
 
-			foreach (NoteSection noteSection in viewModel.SelectedCharacter.NoteManager.NoteSections)
+			foreach (NoteSection noteSection in viewModel.NoteBook.NoteSections)
 			{
 				if (noteSection.Notes.Contains(viewModel.SelectedNote))
 				{

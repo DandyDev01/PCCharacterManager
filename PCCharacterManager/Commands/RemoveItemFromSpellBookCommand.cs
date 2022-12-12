@@ -47,6 +47,7 @@ namespace PCCharacterManager.Commands
 
 			vm.SpellBook.RemoveSpell(vm.PrevSelectedSpell.Spell);
 			vm.SpellsToDisplay.Remove(vm.PrevSelectedSpell);
+			vm.FilteredSpells[vm.PrevSelectedSpell.Spell.School].Remove(vm.PrevSelectedSpell);
 		}
 
 		/// <summary>
@@ -61,6 +62,7 @@ namespace PCCharacterManager.Commands
 			if (messageBox == MessageBoxResult.No)
 				return;
 
+			vm.FilteredSpells[vm.PrevSelectedCantrip.Spell.School].Remove(vm.PrevSelectedCantrip);
 			vm.SpellBook.RemoveCantrip(vm.PrevSelectedCantrip.Spell);
 			vm.CantripsToDisplay.Remove(vm.PrevSelectedCantrip);
 		}

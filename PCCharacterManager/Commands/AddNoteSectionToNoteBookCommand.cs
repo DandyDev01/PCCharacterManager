@@ -31,7 +31,7 @@ namespace PCCharacterManager.Commands
 
 			string sectionTitle = windowVM.Answer;
 			NoteSection newNoteSection = new NoteSection(sectionTitle);
-			viewModel.SelectedCharacter.NoteManager.NewNoteSection(newNoteSection);
+			viewModel.NoteBook.NewNoteSection(newNoteSection);
 			viewModel.NoteSectionsToDisplay.Add(newNoteSection);
 		}
 	}

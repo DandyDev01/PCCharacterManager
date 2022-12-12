@@ -22,23 +22,23 @@ namespace PCCharacterManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			if(viewModel.SelectedCharacter.NoteManager.NoteSections.Count == 0)
+			if(viewModel.NoteBook.NoteSections.Count == 0)
 			{
 				MessageBox.Show("You need to create a notes section before creating any notes", 
 					"need at least 1 notes section", MessageBoxButton.OK, MessageBoxImage.Information);
 				return;
 			}
 
-			if(viewModel.SelectedCharacter.NoteManager.NoteSections.Count == 1)
+			if(viewModel.NoteBook.NoteSections.Count == 1)
 			{
-				viewModel.SelectedCharacter.NoteManager.NoteSections.First().Add(new Note("new Note"));
+				viewModel.NoteBook.NoteSections.First().Add(new Note("new Note"));
 				return;
 			}
 
-			string[] sectionTitles = new string[viewModel.SelectedCharacter.NoteManager.NoteSections.Count];
+			string[] sectionTitles = new string[viewModel.NoteBook.NoteSections.Count];
 			for (int i = 0; i < sectionTitles.Length; i++)
 			{
-				sectionTitles[i] = viewModel.SelectedCharacter.NoteManager.NoteSections[i].SectionTitle;
+				sectionTitles[i] = viewModel.NoteBook.NoteSections[i].SectionTitle;
 			}
 
 			Window dialogWindow = new SelectStringValueDialogWindow();
@@ -50,7 +50,7 @@ namespace PCCharacterManager.Commands
 
 			string selectedSection = dataContext.SelectedItems.First();
 
-			foreach (NoteSection noteSection in viewModel.SelectedCharacter.NoteManager.NoteSections)
+			foreach (NoteSection noteSection in viewModel.NoteBook.NoteSections)
 			{
 				if (noteSection.SectionTitle.Equals(selectedSection))
 				{

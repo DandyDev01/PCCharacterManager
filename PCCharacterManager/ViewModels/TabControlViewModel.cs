@@ -22,11 +22,11 @@ namespace PCCharacterManager.ViewModels
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
-			CharacterStatsVM = new CharacterStatsViewModel(_characterStore, dataService);
-			InventoryVM = new CharacterInventoryViewModel(_characterStore, dataService); 
-			SpellBookVM = new CharacterSpellBookViewModel(_characterStore, dataService);
-			NotesVM = new CharacterNoteBookViewModel(_characterStore, dataService);
 			CharacterListVM = new CharacterListViewModel(_characterStore, dataService);
+			CharacterStatsVM = new CharacterStatsViewModel(_characterStore, dataService);
+			InventoryVM = new CharacterInventoryViewModel(_characterStore, dataService, _characterStore.SelectedCharacter.Inventory);
+			SpellBookVM = new CharacterSpellBookViewModel(_characterStore, dataService);
+			NotesVM = new CharacterNoteBookViewModel(_characterStore, dataService, _characterStore.SelectedCharacter.NoteManager);
 		}
 	}
 }

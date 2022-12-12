@@ -22,10 +22,10 @@ namespace PCCharacterManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			string[] sectionTitles = new string[viewModel.SelectedCharacter.NoteManager.NoteSections.Count];
+			string[] sectionTitles = new string[viewModel.NoteBook.NoteSections.Count];
 			for (int i = 0; i < sectionTitles.Length; i++)
 			{
-				sectionTitles[i] = viewModel.SelectedCharacter.NoteManager.NoteSections[i].SectionTitle;
+				sectionTitles[i] = viewModel.NoteBook.NoteSections[i].SectionTitle;
 			}
 
 			Window dialogWindow = new SelectStringValueDialogWindow();
@@ -37,12 +37,12 @@ namespace PCCharacterManager.Commands
 			if (result == false) return;
 
 			string[] selectedSections = dataContext.SelectedItems.ToArray();
-			List<NoteSection> sectionsToRemove = viewModel.SelectedCharacter.NoteManager.NoteSections.
+			List<NoteSection> sectionsToRemove = viewModel.NoteBook.NoteSections.
 				Where(x => selectedSections.Contains(x.SectionTitle)).ToList();
 		
 			foreach (var item in sectionsToRemove)
 			{
-				viewModel.SelectedCharacter.NoteManager.NoteSections.Remove(item);
+				viewModel.NoteBook.NoteSections.Remove(item);
 				viewModel.NoteSectionsToDisplay.Remove(item);
 			}
 		}

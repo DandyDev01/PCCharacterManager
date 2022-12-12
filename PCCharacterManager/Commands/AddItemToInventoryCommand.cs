@@ -25,7 +25,7 @@ namespace PCCharacterManager.Commands
 		{
 			Window window = new AddItemDialogWindow();
 			DialogWindowAddItemViewModel dialogContext =
-				new DialogWindowAddItemViewModel(vm.DataService, vm.CharacterStore, window, vm.SelectedCharacter);
+				new DialogWindowAddItemViewModel(window);
 			window.DataContext = dialogContext;
 
 			window.ShowDialog();
@@ -34,7 +34,7 @@ namespace PCCharacterManager.Commands
 
 			Item selectedItem = dialogContext.SelectedItem.BoundItem;
 			ItemDisplayViewModel displayVM = new ItemDisplayViewModel(selectedItem);
-			vm.SelectedCharacter.Inventory.Add(selectedItem);
+			vm.Inventory.Add(selectedItem);
 			vm.ItemDisplayVms.Add(displayVM);
 		}
 	}

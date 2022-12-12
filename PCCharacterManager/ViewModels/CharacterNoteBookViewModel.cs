@@ -17,6 +17,9 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterNoteBookViewModel : TabItemViewModel
 	{
+		private NoteBook noteBook;
+		public NoteBook NoteBook => noteBook;
+
 		private string searchTerm;
 		public string SearchTerm
 		{
@@ -62,8 +65,11 @@ namespace PCCharacterManager.ViewModels
 		public ICommand DeleteNoteSectionCommand { get; private set; }
 		public ICommand EditSectionTitleCommand { get; private set; }
 
-		public CharacterNoteBookViewModel(CharacterStore _characterStore, ICharacterDataService _dataService) : base(_characterStore, _dataService)
+		public CharacterNoteBookViewModel(CharacterStore _characterStore, ICharacterDataService _dataService, NoteBook _noteBook) 
+			: base(_characterStore, _dataService)
 		{
+			noteBook = _noteBook;
+
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			NoteSectionsToDisplay = new ObservableCollection<NoteSection>();
@@ -77,6 +83,26 @@ namespace PCCharacterManager.ViewModels
 			DeleteNoteCommand = new RemoveNoteFromNoteBookCommand(this);
 			DeleteNoteSectionCommand = new DeleteNoteSectionFromNoteBookCommand(this);
 			EditSectionTitleCommand = new RelayCommand(EditSectionTitle);
+		}
+
+		/// <summary>
+		/// What to do when the selectedCharacter changes
+		/// </summary>
+		/// <param name="newCharacter">the newly selected character</param>
+		protected override void OnCharacterChanged(Character newCharacter)
+		{
+			noteBook = newCharacter.NoteManager;
+
+			NoteSectionsToDisplay.Clear();
+
+			foreach (var noteSection in noteBook.NoteSections)
+			{
+				NoteSectionsToDisplay.Add(noteSection);
+			}
+
+			if (noteBook.NoteSections.Count <= 0) return;
+
+			SelectedNote = NoteSectionsToDisplay[0].Notes[0];
 		}
 
 		private void EditSectionTitle()
@@ -99,27 +125,7 @@ namespace PCCharacterManager.ViewModels
 			string inputTitle = dataContext.Answer;
 			selectedSection.SectionTitle = inputTitle;
 		}
-
-		/// <summary>
-		/// What to do when the selectedCharacter changes
-		/// </summary>
-		/// <param name="newCharacter">the newly selected character</param>
-		protected override void OnCharacterChanged(Character newCharacter)
-		{
-			base.OnCharacterChanged(newCharacter);
-
-			NoteSectionsToDisplay.Clear();
-
-			foreach (var noteSection in selectedCharacter.NoteManager.NoteSections)
-			{
-				NoteSectionsToDisplay.Add(noteSection);
-			}
-
-			if (selectedCharacter.NoteManager.NoteSections.Count <= 0) return;
-
-			SelectedNote = NoteSectionsToDisplay[0].Notes[0];
-		}
-
+		
 		/// <summary>
 		/// Finds all notes whose title contains a search term
 		/// </summary>
@@ -134,7 +140,7 @@ namespace PCCharacterManager.ViewModels
 			}
 			else if(term == "*")
 			{
-				foreach (var section in selectedCharacter.NoteManager.NoteSections.OrderBy(x => x.SectionTitle))
+				foreach (var section in noteBook.NoteSections.OrderBy(x => x.SectionTitle))
 				{
 					foreach (var note in section.Notes)
 					{
@@ -144,7 +150,7 @@ namespace PCCharacterManager.ViewModels
 			}
 			else
 			{
-				foreach (var section in selectedCharacter.NoteManager.NoteSections.OrderBy(x => x.SectionTitle))
+				foreach (var section in noteBook.NoteSections.OrderBy(x => x.SectionTitle))
 				{
 					foreach (var note in section.Notes)
 					{

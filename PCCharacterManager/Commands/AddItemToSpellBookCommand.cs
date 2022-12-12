@@ -16,16 +16,11 @@ namespace PCCharacterManager.Commands
 	{
 		private readonly CharacterSpellBookViewModel vm;
 		private readonly SpellType spellType;
-		private readonly ICharacterDataService dataService;
-		private readonly CharacterStore characterStore;
 
-		public AddItemToSpellBookCommand(CharacterSpellBookViewModel _vm, ICharacterDataService _dataService,
-				CharacterStore _characterStore, SpellType _spellType)
+		public AddItemToSpellBookCommand(CharacterSpellBookViewModel _vm, SpellType _spellType)
 		{
 			vm = _vm;
 			spellType = _spellType;
-			dataService = _dataService;
-			characterStore = _characterStore;
 		}
 
 		public override void Execute(object parameter)
@@ -47,8 +42,7 @@ namespace PCCharacterManager.Commands
 		private void AddSpellWindow()
 		{
 			Window window = new AddSpellDialogWindow();
-			DialogWindowAddSpellViewModel data = new DialogWindowAddSpellViewModel(window, characterStore, SpellType.SPELL,
-				dataService, characterStore.SelectedCharacter);
+			DialogWindowAddSpellViewModel data = new DialogWindowAddSpellViewModel(window, SpellType.SPELL);
 			window.DataContext = data;
 
 			var result = window.ShowDialog();
@@ -56,8 +50,9 @@ namespace PCCharacterManager.Commands
 			if (result == false) return;
 
 			SpellItemEditableViewModel temp = new SpellItemEditableViewModel(data.NewSpell);
-			vm.FilteredSpells[temp.Spell.School].Add(temp);
+			vm.FilteredSpells[data.NewSpell.School].Add(temp);
 			vm.SpellsToDisplay.Add(temp);
+			vm.SpellBook.AddSpell(data.NewSpell);
 		}
 
 		/// <summary>
@@ -66,8 +61,7 @@ namespace PCCharacterManager.Commands
 		private void AddCantripWindow()
 		{
 			Window window = new AddSpellDialogWindow();
-			DialogWindowAddSpellViewModel data = new DialogWindowAddSpellViewModel(window, characterStore, SpellType.CANTRIP,
-				dataService, characterStore.SelectedCharacter);
+			DialogWindowAddSpellViewModel data = new DialogWindowAddSpellViewModel(window, SpellType.CANTRIP);
 			window.DataContext = data;
 
 			var result = window.ShowDialog();
@@ -77,6 +71,7 @@ namespace PCCharacterManager.Commands
 			SpellItemEditableViewModel temp = new SpellItemEditableViewModel(data.NewSpell);
 			vm.CantripItems.Add(temp);
 			vm.CantripsToDisplay.Add(temp);
+			vm.SpellBook.AddContrip(data.NewSpell);
 		}
 	}
 }

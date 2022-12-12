@@ -22,6 +22,7 @@ namespace PCCharacterManager.ViewModels
 	{
 		private readonly ItemDisplayVMPool itemVMPool;
 		private readonly PropertyEditableVMPool propertyVMPool;
+		public Inventory Inventory { get; private set; }
 
 		public ICommand AddItemCommand { get; }
 		public ICommand RemoveItemCommand { get; }
@@ -108,11 +109,12 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public CharacterInventoryViewModel(CharacterStore _characterStore, ICharacterDataService dataService)
+		public CharacterInventoryViewModel(CharacterStore _characterStore, ICharacterDataService dataService, Inventory _inventory)
 			: base(_characterStore, dataService)
 		{
 			itemVMPool = new ItemDisplayVMPool(10);
 			propertyVMPool = new PropertyEditableVMPool(5);
+			Inventory = _inventory;
 
 			AddItemCommand = new AddItemToInventoryCommand(this);
 			RemoveItemCommand = new RemoveItemFromInventoryCommand(this);
@@ -137,7 +139,7 @@ namespace PCCharacterManager.ViewModels
 
 		protected override void OnCharacterChanged(Character newCharacter)
 		{
-			selectedCharacter = newCharacter;
+			Inventory = newCharacter.Inventory;
 
 			ReturnItemVMsToPool();
 			ItemDisplayVms.Clear();
@@ -145,7 +147,7 @@ namespace PCCharacterManager.ViewModels
 			SelectedProperty = null;
 
 
-			foreach (var pair in selectedCharacter.Inventory.Items)
+			foreach (var pair in Inventory.Items)
 			{
 				foreach (var item in pair.Value)
 				{

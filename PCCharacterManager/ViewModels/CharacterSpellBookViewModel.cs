@@ -169,8 +169,8 @@ namespace PCCharacterManager.ViewModels
 		public readonly List<SpellItemEditableViewModel> CantripItems; // used to store all cantrips wrapped
 		public Dictionary<SpellSchool, ObservableCollection<SpellItemEditableViewModel>> FilteredSpells { get; private set; } // used to store all spells
 
-		public ObservableCollection<SpellItemEditableViewModel> SpellsToDisplay { get; private set; }
-		public ObservableCollection<SpellItemEditableViewModel> CantripsToDisplay { get; private set; }
+		public ObservableCollection<SpellItemEditableViewModel> SpellsToDisplay { get; }
+		public ObservableCollection<SpellItemEditableViewModel> CantripsToDisplay { get; }
 
 		public CharacterSpellBookViewModel(CharacterStore _characterStore, ICharacterDataService _dataService)
 			: base(_characterStore, _dataService)
@@ -191,8 +191,8 @@ namespace PCCharacterManager.ViewModels
 			searchTerm = string.Empty;
 			preparedSpellText = string.Empty;
 
-			AddSpellCommand = new AddItemToSpellBookCommand(this, dataService, characterStore, SpellType.SPELL);
-			AddCantripCommand = new AddItemToSpellBookCommand(this, dataService, characterStore, SpellType.CANTRIP);
+			AddSpellCommand = new AddItemToSpellBookCommand(this, SpellType.SPELL);
+			AddCantripCommand = new AddItemToSpellBookCommand(this, SpellType.CANTRIP);
 			DeleteSpellCommand = new RemoveItemFromSpellBookCommand(this, SpellType.SPELL);
 			DeleteCantripCommand = new RemoveItemFromSpellBookCommand(this, SpellType.CANTRIP);
 			UnprepareSpellCommand = new RelayCommand(RemovePreparedSpell);
@@ -204,16 +204,16 @@ namespace PCCharacterManager.ViewModels
 		{
 			ReleaseSpellItems();
 			CantripsToDisplay.Clear();
-			base.OnCharacterChanged(newCharacter);
+			SpellBook = newCharacter.SpellBook;
+			SpellBookNote = spellBook.Note;
+
 			FilteredSpells = PopulateFilteredSpells();
 			SelectedFilter = SpellSchool.ALL;
 			CantripItems.Clear();
 
-			SpellBook = selectedCharacter.SpellBook;
 
 			PopulateCantripsToShow();
 
-			SpellBookNote = spellBook.Note;
 		}
 
 		/// <summary>
@@ -226,7 +226,7 @@ namespace PCCharacterManager.ViewModels
 				if (!FilteredSpells.ContainsKey(school)) continue;
 				foreach (SpellItemEditableViewModel spellItemVM in FilteredSpells[school])
 				{
-					spellItemVM.Prepare -= selectedCharacter.SpellBook.PrepareSpell;
+					spellItemVM.Prepare -= spellBook.PrepareSpell;
 					spellItemPool.Return(spellItemVM);
 				}
 			}
@@ -319,11 +319,11 @@ namespace PCCharacterManager.ViewModels
 			foreach (SpellSchool school in Filters)
 			{
 				results.Add(school, new ObservableCollection<SpellItemEditableViewModel>());
-				foreach (Spell spell in selectedCharacter.SpellBook.SpellsKnown[school])
+				foreach (Spell spell in spellBook.SpellsKnown[school])
 				{
 					SpellItemEditableViewModel spellItemViewModel = spellItemPool.GetItem();
 					spellItemViewModel.Bind(spell);
-					spellItemViewModel.Prepare += selectedCharacter.SpellBook.PrepareSpell;
+					spellItemViewModel.Prepare += spellBook.PrepareSpell;
 					spellItemViewModel.IsPrepared = spell.IsPrepared;
 					results[school].Add(spellItemViewModel);
 					results[SpellSchool.ALL].Add(spellItemViewModel);

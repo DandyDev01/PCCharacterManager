@@ -22,7 +22,6 @@ namespace PCCharacterManager.ViewModels
 		private readonly CharacterStore characterStore;
 		private readonly ICharacterDataService dataService;
 		private readonly CollectionViewPropertySort collectionViewPropertySort;
-		private readonly UpdateHandler updateHandler;
 
 		public ObservableCollection<CharacterItemViewModel> CharacterItems { get; private set; }
 		public ICollectionView CharacterCollectionView { get; }
@@ -38,15 +37,12 @@ namespace PCCharacterManager.ViewModels
 		{
 			characterStore = _characterStore;
 			dataService = _dataService;
-			updateHandler = new UpdateHandler();
 
 			while (_dataService.GetCharacters().Count() < 1)
 			{
 				CreateCharacterWindow();
 			}
 
-			//updateHandler.HandleCharacterFormatChanges(_dataService);
-			
 			List<Character> characters = new List<Character>(_dataService.GetCharacters());
 
 			CharacterItems = new ObservableCollection<CharacterItemViewModel>();
@@ -67,7 +63,8 @@ namespace PCCharacterManager.ViewModels
 			ClassSortCommand = new RelayCommand(ClassSort);
 			DataModifiedSortCommand = new RelayCommand(DataModifiedSort);
 
-			characterStore.CharacterCreate += LoadCharacters;			
+			characterStore.CharacterCreate += LoadCharacters;
+			CharacterItems.OrderBy(x => x.CharacterDateModified).First().SelectCharacterCommand.Execute(null);
 		}
 
 		private void DataModifiedSort()
