@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-	public class Property : ObservableObject
+	public class Property : ObservableObject, ICloneable
 	{
 
 		private string name;
@@ -51,5 +51,14 @@ namespace PCCharacterManager.Models
 			hidden = false;
 		}
 
+		public object Clone()
+		{
+			return new Property
+			{
+				name = name,
+				desc = desc,
+				hidden = hidden
+			};
+		}
 	}
 }

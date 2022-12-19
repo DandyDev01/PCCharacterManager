@@ -20,8 +20,8 @@ namespace PCCharacterManager.ViewModels
 		private readonly PropertyEditableVMPool propertyVMPool;
 		private readonly ItemEditableVMPool itemVMPool;
 		private Window addItemWindow; // need this in order to close the window
-		public Array ItemTypes { get; private set; } = Enum.GetValues(typeof(ItemType));
-		public ICollectionView ItemsCollectionView { get; private set; }
+		public ObservableCollection<ItemType> ItemTypes { get; } = new ObservableCollection<ItemType>((IEnumerable<ItemType>)Enum.GetValues(typeof(ItemType)));
+		public ICollectionView ItemsCollectionView { get; }
 
 		private ItemType selectedItemType;
 		// has the code to update the items in the ItemListing
@@ -60,10 +60,12 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public ICommand AddToInventoryCommand { get; private set; }
-		public ICommand CancelCommand { get; private set; }
+		public Item SelectedItemCopy => (Item)selectedItem.BoundItem.Clone();
 
-		private ObservableCollection<ItemEditableViewModel> AllItemVMs;
+		public ICommand AddToInventoryCommand { get; }
+		public ICommand CancelCommand { get; }
+
+		private ObservableCollection<ItemEditableViewModel> AllItemVMs { get; }
 
 		public DialogWindowAddItemViewModel(Window _addItemWindow)
 		{

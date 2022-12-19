@@ -65,8 +65,8 @@ namespace PCCharacterManager.ViewModels
 		public ICommand DeleteNoteSectionCommand { get; private set; }
 		public ICommand EditSectionTitleCommand { get; private set; }
 
-		public CharacterNoteBookViewModel(CharacterStore _characterStore, ICharacterDataService _dataService, NoteBook _noteBook) 
-			: base(_characterStore, _dataService)
+		public CharacterNoteBookViewModel(CharacterStore _characterStore, ICharacterDataService _dataService, 
+			NoteBook _noteBook) : base(_characterStore, _dataService)
 		{
 			noteBook = _noteBook;
 
@@ -82,7 +82,7 @@ namespace PCCharacterManager.ViewModels
 			AddNoteSectionCommand = new AddNoteSectionToNoteBookCommand(this);
 			DeleteNoteCommand = new RemoveNoteFromNoteBookCommand(this);
 			DeleteNoteSectionCommand = new DeleteNoteSectionFromNoteBookCommand(this);
-			EditSectionTitleCommand = new RelayCommand(EditSectionTitle);
+			EditSectionTitleCommand = new EditNoteSectionTitleCommand(this);
 		}
 
 		/// <summary>
@@ -105,27 +105,6 @@ namespace PCCharacterManager.ViewModels
 			SelectedNote = NoteSectionsToDisplay[0].Notes[0];
 		}
 
-		private void EditSectionTitle()
-		{
-			if(selectedSection == null)
-			{
-				MessageBox.Show("No section selected", "Requres selected section", 
-					MessageBoxButton.OK, MessageBoxImage.Error);
-				return;
-			}
-
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel(window);
-			window.DataContext = dataContext;
-
-			bool? result = window.ShowDialog();
-
-			if ((bool)!result) return;
-
-			string inputTitle = dataContext.Answer;
-			selectedSection.SectionTitle = inputTitle;
-		}
-		
 		/// <summary>
 		/// Finds all notes whose title contains a search term
 		/// </summary>
@@ -134,7 +113,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			SearchResults.Clear();
 
-			if (term == String.Empty || string.IsNullOrWhiteSpace(SearchTerm))
+			if (term == string.Empty || string.IsNullOrWhiteSpace(SearchTerm))
 			{
 				SearchResults.Clear();
 			}

@@ -72,11 +72,17 @@ namespace PCCharacterManager.ViewModels
 
 		public void Bind(Item item)
 		{
+			DisplayProperties.Clear();
 			BoundItem = item;
 			displayQuantity = item.Quantity;
 			displayDesc = item.Desc;
 			displayName = item.Name;
-			DisplayProperties.Clear();
+			foreach (Property property in item.Properties)
+			{
+				PropertyEditableViewModel temp = propertyVMPool.GetItem();
+				temp.Bind(property);
+				DisplayProperties.Add(temp);
+			}
 		}
 
 		private void AddProperty()

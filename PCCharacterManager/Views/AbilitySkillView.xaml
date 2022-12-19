@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="200" MinWidth="200">
+             d:DesignHeight="100" d:DesignWidth="200" MaxWidth="200">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition MinWidth="30" MaxWidth="30"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -22,7 +22,7 @@
         <!--#region Score-->
 
         <TextBlock Style="{StaticResource h4}" Text="{Binding Score, FallbackValue=3}" 
-                   Margin="10,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center"
+                   Margin="10,0,0,0" VerticalAlignment="Center"
                    Grid.Column="1"/>
         <!--#endregion-->
 

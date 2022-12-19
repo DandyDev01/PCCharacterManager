@@ -7,53 +7,55 @@
              xmlns:v="clr-namespace:PCCharacterManager.Views"
              mc:Ignorable="d" 
              d:DesignHeight="540" d:DesignWidth="640">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <!--#region row 1-->
-        <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1" >
-            <ContentControl>
-                <v:AbilityView DataContext="{Binding Abilities[0]}"/>
-            </ContentControl>
-        </DockPanel>
-        <DockPanel Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1" >
-            <ContentControl>
-                <v:AbilityView DataContext="{Binding Abilities[1]}"/>
-            </ContentControl>
-        </DockPanel>
-        <!--#endregion-->
-        <!--#region row 2-->
-        <DockPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1" >
-            <ContentControl>
-                <v:AbilityView DataContext="{Binding Abilities[2]}"/>
-            </ContentControl>
-        </DockPanel>
-        <DockPanel Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1" >
-            <ContentControl>
-                <v:AbilityView DataContext="{Binding Abilities[3]}"/>
-            </ContentControl>
-        </DockPanel>
-        <!--#endregion-->
-        <!--#region row 3-->
-        <DockPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="1" >
-            <ContentControl>
-                <v:AbilityView DataContext="{Binding Abilities[4]}"/>
-            </ContentControl>
-        </DockPanel>
-        <DockPanel Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="1" >
-            <ContentControl>
-                <v:AbilityView DataContext="{Binding Abilities[5]}"/>
-            </ContentControl>
-        </DockPanel>
-        <!--#endregion-->
-    </Grid>
+    <ScrollViewer>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!--#region row 1-->
+            <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1" >
+                <ContentControl>
+                    <v:AbilityView DataContext="{Binding Abilities[0]}"/>
+                </ContentControl>
+            </DockPanel>
+            <DockPanel Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1" >
+                <ContentControl>
+                    <v:AbilityView DataContext="{Binding Abilities[1]}"/>
+                </ContentControl>
+            </DockPanel>
+            <!--#endregion-->
+            <!--#region row 2-->
+            <DockPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1" >
+                <ContentControl>
+                    <v:AbilityView DataContext="{Binding Abilities[2]}"/>
+                </ContentControl>
+            </DockPanel>
+            <DockPanel Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1" >
+                <ContentControl>
+                    <v:AbilityView DataContext="{Binding Abilities[3]}"/>
+                </ContentControl>
+            </DockPanel>
+            <!--#endregion-->
+            <!--#region row 3-->
+            <DockPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="1" >
+                <ContentControl>
+                    <v:AbilityView DataContext="{Binding Abilities[4]}"/>
+                </ContentControl>
+            </DockPanel>
+            <DockPanel Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="1" >
+                <ContentControl>
+                    <v:AbilityView DataContext="{Binding Abilities[5]}"/>
+                </ContentControl>
+            </DockPanel>
+            <!--#endregion-->
+        </Grid>
+    </ScrollViewer>
 </UserControl>
