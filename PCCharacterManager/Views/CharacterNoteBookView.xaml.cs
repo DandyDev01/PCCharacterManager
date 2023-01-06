@@ -30,6 +30,23 @@ namespace PCCharacterManager.Views
 			InitializeComponent();
 			focusSearchCommand = new RelayCommand(FocusSearch);
 			this.InputBindings.Add(new KeyBinding(focusSearchCommand, Key.F, ModifierKeys.Control));
+
+			ExpandAll(treeView, true);
+		}
+
+		private void ExpandAll(ItemsControl treeView, bool expand)
+		{
+			foreach (object obj in treeView.Items)
+			{
+				ItemsControl childControl = treeView.ItemContainerGenerator.ContainerFromItem(obj) as ItemsControl;
+				if (childControl != null)
+				{
+					ExpandAll(childControl, expand);
+				}
+				TreeViewItem item = childControl as TreeViewItem;
+				if (item != null)
+					item.IsExpanded = true;
+			}
 		}
 
 		public void FocusSearch()
