@@ -26,7 +26,7 @@ namespace PCCharacterManager.ViewModels
 			get { return searchTerm; }
 			set
 			{
-				OnPropertyChaged(ref searchTerm, value);
+				OnPropertyChanged(ref searchTerm, value);
 				Search(searchTerm);
 			}
 		}
@@ -37,7 +37,7 @@ namespace PCCharacterManager.ViewModels
 			get { return searchTerm; }
 			set
 			{
-				OnPropertyChaged(ref highlightTerm, value);
+				OnPropertyChanged(ref highlightTerm, value);
 				Search(highlightTerm);
 			}
 		}
@@ -49,14 +49,14 @@ namespace PCCharacterManager.ViewModels
 		public Note SelectedNote
 		{
 			get { return selectedNote; }
-			set { OnPropertyChaged(ref selectedNote, value); }
+			set { OnPropertyChanged(ref selectedNote, value); }
 		}
 
 		private NoteSection? selectedSection;
 		public NoteSection? SelectedSection
 		{
 			get { return selectedSection; }
-			set { OnPropertyChaged(ref selectedSection, value); }
+			set { OnPropertyChanged(ref selectedSection, value); }
 		}
 
 		public ICommand AddNoteCommand { get; private set; }

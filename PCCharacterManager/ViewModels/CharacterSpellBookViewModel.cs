@@ -31,7 +31,7 @@ namespace PCCharacterManager.ViewModels
 			get { return isEditMode; }
 			set
 			{
-				OnPropertyChaged(ref isEditMode, value);
+				OnPropertyChanged(ref isEditMode, value);
 				OnPropertyChaged("IsDisplayMode");
 			}
 		}
@@ -47,7 +47,7 @@ namespace PCCharacterManager.ViewModels
 			get { return selectedSpell; }
 			set
 			{
-				OnPropertyChaged(ref selectedSpell, value);
+				OnPropertyChanged(ref selectedSpell, value);
 				selectedSpell?.Edit();
 				PrevSelectedSpell = selectedSpell;
 				selectedSpell = null;
@@ -60,7 +60,7 @@ namespace PCCharacterManager.ViewModels
 			get { return selectedCantrip; }
 			set
 			{
-				OnPropertyChaged(ref selectedCantrip, value);
+				OnPropertyChanged(ref selectedCantrip, value);
 				selectedCantrip?.Edit();
 				PrevSelectedCantrip = selectedCantrip;
 				selectedCantrip = null;
@@ -94,7 +94,7 @@ namespace PCCharacterManager.ViewModels
 			get { return searchTerm; }
 			set
 			{
-				OnPropertyChaged(ref searchTerm, value);
+				OnPropertyChanged(ref searchTerm, value);
 				Search(searchTerm);
 			}
 		}
@@ -105,7 +105,7 @@ namespace PCCharacterManager.ViewModels
 			get { return preparedSpellText; }
 			set
 			{
-				OnPropertyChaged(ref preparedSpellText, value);
+				OnPropertyChanged(ref preparedSpellText, value);
 			}
 		}
 
@@ -113,7 +113,7 @@ namespace PCCharacterManager.ViewModels
 		public SpellType SelectedSearchFilter
 		{
 			get { return selectedSearchFilter; }
-			set { OnPropertyChaged(ref selectedSearchFilter, value); }
+			set { OnPropertyChanged(ref selectedSearchFilter, value); }
 		}
 
 		private OrderByOption selectedOrderByOption;
@@ -122,7 +122,7 @@ namespace PCCharacterManager.ViewModels
 			get { return selectedOrderByOption; }
 			set 
 			{ 
-				OnPropertyChaged(ref selectedOrderByOption, value);
+				OnPropertyChanged(ref selectedOrderByOption, value);
 				PopulateSpellsToDisplay(FilteredSpells[selectedFilter]);
 			}
 		}
@@ -133,7 +133,7 @@ namespace PCCharacterManager.ViewModels
 			get { return selectedFilter; }
 			set
 			{
-				OnPropertyChaged(ref selectedFilter, value);
+				OnPropertyChanged(ref selectedFilter, value);
 				PopulateSpellsToDisplay(FilteredSpells[selectedFilter]);
 			}
 		}
@@ -150,7 +150,7 @@ namespace PCCharacterManager.ViewModels
 		public SpellBook SpellBook
 		{
 			get { return spellBook; }
-			set { OnPropertyChaged(ref spellBook, value); }
+			set { OnPropertyChanged(ref spellBook, value); }
 		}
 
 		private Note spellBookNote;
@@ -159,7 +159,7 @@ namespace PCCharacterManager.ViewModels
 			get { return spellBookNote; }
 			set
 			{
-				OnPropertyChaged(ref spellBookNote, value);
+				OnPropertyChanged(ref spellBookNote, value);
 			}
 		}
 

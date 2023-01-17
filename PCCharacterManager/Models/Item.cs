@@ -23,27 +23,27 @@ namespace PCCharacterManager.Models
 		public string Name
 		{
 			get { return name; }
-			set { OnPropertyChaged(ref name, value); }
+			set { OnPropertyChanged(ref name, value); }
 		}
 		public string Desc
 		{
 			get { return desc; }
-			set { OnPropertyChaged(ref desc, value); }
+			set { OnPropertyChanged(ref desc, value); }
 		}
 		public string Cost
 		{
 			get { return cost; }
-			set { OnPropertyChaged(ref cost, value); }
+			set { OnPropertyChanged(ref cost, value); }
 		}
 		public string Weight
 		{
 			get { return weight; }
-			set { OnPropertyChaged(ref weight, value); }
+			set { OnPropertyChanged(ref weight, value); }
 		}
 		public int Quantity
 		{
 			get { return quantity; }
-			set { OnPropertyChaged(ref quantity, value); }
+			set { OnPropertyChanged(ref quantity, value); }
 		}
 		public IEnumerable<Property> Properties
 		{

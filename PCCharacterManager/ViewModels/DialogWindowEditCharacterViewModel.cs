@@ -27,37 +27,37 @@ namespace PCCharacterManager.ViewModels
 		public string Language
 		{
 			get { return language; }
-			set { OnPropertyChaged(ref language, value); }
+			set { OnPropertyChanged(ref language, value); }
 		}
 		private string weapon;
 		public string Weapon
 		{
 			get { return weapon; }
-			set { OnPropertyChaged(ref weapon, value); }
+			set { OnPropertyChanged(ref weapon, value); }
 		}
 		private string armor;
 		public string Armor
 		{
 			get { return armor; }
-			set { OnPropertyChaged(ref armor, value); }
+			set { OnPropertyChanged(ref armor, value); }
 		}
 		private string tool;
 		public string Tool
 		{
 			get { return tool; }
-			set { OnPropertyChaged(ref tool, value); }
+			set { OnPropertyChanged(ref tool, value); }
 		}
 		private string otherProf;
 		public string OtherProf
 		{
 			get { return otherProf; }
-			set { OnPropertyChaged(ref otherProf, value); }
+			set { OnPropertyChanged(ref otherProf, value); }
 		}
 		public Property movement;
 		public Property Movement
 		{
 			get { return movement; }
-			set { OnPropertyChaged(ref movement, value); }
+			set { OnPropertyChanged(ref movement, value); }
 		}
 
 		public ICommand OkCommand { get; private set; }

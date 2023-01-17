@@ -20,37 +20,37 @@ namespace PCCharacterManager.Models
 		public string Name
 		{
 			get { return name; }
-			set { OnPropertyChaged(ref name, value); }
+			set { OnPropertyChanged(ref name, value); }
 		}
 		public string Desc
 		{
 			get { return desc; }
-			set { OnPropertyChaged(ref desc, value); }
+			set { OnPropertyChanged(ref desc, value); }
 		}
 		public int Score
 		{
 			get { return score; }
-			set { OnPropertyChaged(ref score, value); }
+			set { OnPropertyChanged(ref score, value); }
 		}
 		public int MiscBonus
 		{
 			get { return miscBonus; }
-			set { OnPropertyChaged(ref miscBonus, value); }
+			set { OnPropertyChanged(ref miscBonus, value); }
 		}
 		public bool SkillProficiency
 		{
 			get { return skillProficiency; }
-			set { OnPropertyChaged(ref skillProficiency, value); }
+			set { OnPropertyChanged(ref skillProficiency, value); }
 		}
 		public bool DoubleSkillProficiency
 		{
 			get { return doubleSkillProficiency; }
-			set { OnPropertyChaged(ref doubleSkillProficiency, value); }
+			set { OnPropertyChanged(ref doubleSkillProficiency, value); }
 		}
 		public bool HalfSkillProficiency
 		{
 			get { return halfSkillProficiency; }
-			set { OnPropertyChaged(ref halfSkillProficiency, value); }
+			set { OnPropertyChanged(ref halfSkillProficiency, value); }
 		}
 	}
 }

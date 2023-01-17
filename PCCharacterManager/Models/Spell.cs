@@ -23,43 +23,43 @@ namespace PCCharacterManager.Models
 		public string Level
 		{
 			get { return level; }
-			set { OnPropertyChaged(ref level, value); }
+			set { OnPropertyChanged(ref level, value); }
 		}
 		public string CastingTime
 		{
 			get { return castingTime; }
-			set { OnPropertyChaged(ref castingTime, value); }
+			set { OnPropertyChanged(ref castingTime, value); }
 		}
 		public string Range_Area
 		{
 			get { return range_Area; }
-			set { OnPropertyChaged(ref range_Area, value); }
+			set { OnPropertyChanged(ref range_Area, value); }
 		}
 		public string Damage_Effect
 		{
 			get { return damage_Effect; }
-			set { OnPropertyChaged(ref damage_Effect, value); }
+			set { OnPropertyChanged(ref damage_Effect, value); }
 		}
 		public string Attack_Save
 		{
 			get { return attack_Save; }
-			set { OnPropertyChaged(ref attack_Save, value); }
+			set { OnPropertyChanged(ref attack_Save, value); }
 		}
 		[Newtonsoft.Json.JsonProperty("School")]
 		public SpellSchool School
 		{
 			get { return school; }
-			set { OnPropertyChaged(ref school, value); }
+			set { OnPropertyChanged(ref school, value); }
 		}
 		public string Duration
 		{
 			get { return duration; }
-			set { OnPropertyChaged(ref duration, value); }
+			set { OnPropertyChanged(ref duration, value); }
 		}
 		public bool IsPrepared
 		{
 			get { return isPrepared; }
-			set { OnPropertyChaged(ref isPrepared, value); }
+			set { OnPropertyChanged(ref isPrepared, value); }
 		}
 		// physical requirements needed to cast the spell
 		// Verbal (V), Somatic (S) or Material (M)

@@ -14,7 +14,7 @@ namespace PCCharacterManager.ViewModels
 		public Item BoundItem
 		{
 			get { return boundItem; }
-			set { OnPropertyChaged(ref boundItem, value); }
+			set { OnPropertyChanged(ref boundItem, value); }
 		}
 
 		protected bool isEditMode;
@@ -23,7 +23,7 @@ namespace PCCharacterManager.ViewModels
 			get { return isEditMode; }
 			set
 			{
-				OnPropertyChaged(ref isEditMode, value);
+				OnPropertyChanged(ref isEditMode, value);
 				OnPropertyChaged("IsDisplayMode");
 			}
 		}
@@ -40,7 +40,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				boundItem.Name = value;
-				OnPropertyChaged(ref displayName, value);
+				OnPropertyChanged(ref displayName, value);
 			}
 		}
 
@@ -51,7 +51,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				boundItem.Desc = value;
-				OnPropertyChaged(ref displayDesc, value);
+				OnPropertyChanged(ref displayDesc, value);
 			}
 		}
 
@@ -62,7 +62,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				BoundItem.Quantity = value;
-				OnPropertyChaged(ref displayQuantity, value);
+				OnPropertyChanged(ref displayQuantity, value);
 			}
 		}
 	}

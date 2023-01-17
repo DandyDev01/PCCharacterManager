@@ -17,17 +17,17 @@ namespace PCCharacterManager.Models
 		public string Name
 		{
 			get { return name; }
-			set { OnPropertyChaged(ref name, value); }
+			set { OnPropertyChanged(ref name, value); }
 		}
 		public string Desc
 		{
 			get { return desc; }
-			set { OnPropertyChaged(ref desc, value); }
+			set { OnPropertyChanged(ref desc, value); }
 		}
 		public bool Hidden
 		{
 			get { return hidden; }
-			set { OnPropertyChaged(ref hidden, value); }
+			set { OnPropertyChanged(ref hidden, value); }
 		}
 
 		public Property(string _name, string _desc)

@@ -26,7 +26,7 @@ namespace PCCharacterManager.ViewModels
 		public Character NewCharacter
 		{
 			get { return newCharacter; }
-			set { OnPropertyChaged(ref newCharacter, value); }
+			set { OnPropertyChanged(ref newCharacter, value); }
 		}
 
 		#region private members
@@ -54,14 +54,14 @@ namespace PCCharacterManager.ViewModels
 		public BackgroundData SelectedBackground
 		{
 			get { return selectedBackground; }
-			set { OnPropertyChaged(ref selectedBackground, value); }
+			set { OnPropertyChanged(ref selectedBackground, value); }
 		}
 		public CharacterClassData SelectedCharacterClass
 		{
 			get { return selectedCharacterClass; }
 			set
 			{
-				OnPropertyChaged(ref selectedCharacterClass, value);
+				OnPropertyChanged(ref selectedCharacterClass, value);
 				SelectedClassSkillProfs.PopulateItems(selectedCharacterClass.NumOfSkillProficiences, selectedCharacterClass.PossibleSkillProficiences.ToList());
 				UpdateSelectClassSkillProfs();
 				UpdateSelectedClassStartEquipment();
@@ -72,7 +72,7 @@ namespace PCCharacterManager.ViewModels
 			get { return selectedRace; }
 			set
 			{
-				OnPropertyChaged(ref selectedRace, value);
+				OnPropertyChanged(ref selectedRace, value);
 				UpdateRaceVariantsToDisplay();
 			}
 		}
@@ -81,27 +81,27 @@ namespace PCCharacterManager.ViewModels
 			get { return selectedRaceVariant; }
 			set
 			{
-				OnPropertyChaged(ref selectedRaceVariant, value);
+				OnPropertyChanged(ref selectedRaceVariant, value);
 				SelectedRace.RaceVariant = value;
 			}
 		}
 		public Alignment SelectedAlignment
 		{
 			get { return selectedAlignment; }
-			set { OnPropertyChaged(ref selectedAlignment, value); }
+			set { OnPropertyChanged(ref selectedAlignment, value); }
 		}
 		#endregion
 		public ListViewMultiSelectItemsLimitedCountViewModel SelectedClassSkillProfs
 		{
 			get { return selectedClassSkillProfs; }
-			set { OnPropertyChaged(ref selectedClassSkillProfs, value); }
+			set { OnPropertyChanged(ref selectedClassSkillProfs, value); }
 		}
 		public ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel> SelectedStartingEquipmentVMs { get; private set; }
 
 		public string Name
 		{
 			get { return name; }
-			set { OnPropertyChaged(ref name, value); }
+			set { OnPropertyChanged(ref name, value); }
 		}
 		#endregion
 

@@ -15,14 +15,14 @@ namespace PCCharacterManager.ViewModels
 		public Spell? Spell
 		{
 			get { return spell; }
-			set { OnPropertyChaged(ref spell, value); }
+			set { OnPropertyChanged(ref spell, value); }
 		}
 
 		private bool isPrepared;
 		public bool IsPrepared
 		{
 			get { return isPrepared; }
-			set { OnPropertyChaged(ref isPrepared, value); }
+			set { OnPropertyChanged(ref isPrepared, value); }
 		}
 
 		private bool isEditMode;
@@ -31,7 +31,7 @@ namespace PCCharacterManager.ViewModels
 			get { return isEditMode; }
 			private set
 			{
-				OnPropertyChaged(ref isEditMode, value);
+				OnPropertyChanged(ref isEditMode, value);
 				OnPropertyChaged("IsDisplayMode");
 			}
 		}

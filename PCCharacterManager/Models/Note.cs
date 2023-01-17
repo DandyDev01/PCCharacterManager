@@ -13,14 +13,14 @@ namespace PCCharacterManager.Models
 		public string Notes
 		{
 			get { return notes; }
-			set { OnPropertyChaged(ref notes, value); }
+			set { OnPropertyChanged(ref notes, value); }
 		}
 
 		private string title;
 		public string Title
 		{
 			get { return title; }
-			set { OnPropertyChaged(ref title, value); }
+			set { OnPropertyChanged(ref title, value); }
 		}
 
 		public Note() 

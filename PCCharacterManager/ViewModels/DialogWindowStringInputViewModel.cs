@@ -18,7 +18,7 @@ namespace PCCharacterManager.ViewModels
 		public string Answer
 		{
 			get { return answer; }
-			set { OnPropertyChaged(ref answer, value); }
+			set { OnPropertyChanged(ref answer, value); }
 		}
 
 		private string message;

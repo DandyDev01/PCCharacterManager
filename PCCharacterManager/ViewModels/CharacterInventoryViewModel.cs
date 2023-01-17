@@ -39,7 +39,7 @@ namespace PCCharacterManager.ViewModels
 			get { return selectedItem; }
 			set
 			{
-				OnPropertyChaged(ref selectedItem, value);
+				OnPropertyChanged(ref selectedItem, value);
 				PopulatePropertiesToDisplay();
 			}
 		}
@@ -50,7 +50,7 @@ namespace PCCharacterManager.ViewModels
 			get { return selectedProperty; }
 			set
 			{
-				OnPropertyChaged(ref selectedProperty, value);
+				OnPropertyChanged(ref selectedProperty, value);
 				selectedProperty?.Edit();
 
 				if (selectedProperty == null) return;
@@ -82,7 +82,7 @@ namespace PCCharacterManager.ViewModels
 			get { return selectedItemType; }
 			set
 			{
-				OnPropertyChaged(ref selectedItemType, value);
+				OnPropertyChanged(ref selectedItemType, value);
 				ItemsCollectionView.Refresh();
 			}
 		}
@@ -93,7 +93,7 @@ namespace PCCharacterManager.ViewModels
 			get { return searchTerm; }
 			set
 			{
-				OnPropertyChaged(ref searchTerm, value);
+				OnPropertyChanged(ref searchTerm, value);
 				ItemsCollectionView.Refresh();
 			}
 		}
@@ -104,7 +104,7 @@ namespace PCCharacterManager.ViewModels
 			get { return showHiddenProperties; }
 			set 
 			{
-				OnPropertyChaged(ref showHiddenProperties, value);
+				OnPropertyChanged(ref showHiddenProperties, value);
 				PopulatePropertiesToDisplay();
 			}
 		}

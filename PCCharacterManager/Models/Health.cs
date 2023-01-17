@@ -16,7 +16,7 @@ namespace PCCharacterManager.Models
 			get { return currHealth; }
 			set
 			{
-				OnPropertyChaged(ref currHealth, value);
+				OnPropertyChanged(ref currHealth, value);
 			}
 		}
 
@@ -25,14 +25,14 @@ namespace PCCharacterManager.Models
 		public int MaxHealth
 		{
 			get { return maxHealth; }
-			private set { OnPropertyChaged(ref maxHealth, value); }
+			private set { OnPropertyChanged(ref maxHealth, value); }
 		}
 
 		private int tempHitPoints;
 		public int TempHitPoints
 		{
 			get { return tempHitPoints; }
-			set { OnPropertyChaged(ref tempHitPoints, value); }
+			set { OnPropertyChanged(ref tempHitPoints, value); }
 		}
 
 		public Health(int _maxHealth)

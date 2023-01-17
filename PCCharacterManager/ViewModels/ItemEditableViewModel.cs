@@ -27,7 +27,7 @@ namespace PCCharacterManager.ViewModels
 			get { return selectedProperty; }
 			set
 			{
-				OnPropertyChaged(ref selectedProperty, value);
+				OnPropertyChanged(ref selectedProperty, value);
 			}
 		}
 

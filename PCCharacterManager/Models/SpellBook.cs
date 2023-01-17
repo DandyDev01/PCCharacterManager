@@ -60,7 +60,7 @@ namespace PCCharacterManager.Models
 						NinethLvl.RemoveAt(NinethLvl.Count() - 1);
 					}
 				}
-				OnPropertyChaged(ref slotNine, value);
+				OnPropertyChanged(ref slotNine, value);
 			}
 		}
 
@@ -97,7 +97,7 @@ namespace PCCharacterManager.Models
 						EightLvl.RemoveAt(EightLvl.Count() - 1);
 					}
 				}
-				OnPropertyChaged(ref slotEight, value);
+				OnPropertyChanged(ref slotEight, value);
 			}
 		}
 
@@ -134,7 +134,7 @@ namespace PCCharacterManager.Models
 						SeventhLvl.RemoveAt(SeventhLvl.Count() - 1);
 					}
 				}
-				OnPropertyChaged(ref slotSeven, value);
+				OnPropertyChanged(ref slotSeven, value);
 			}
 		}
 
@@ -171,7 +171,7 @@ namespace PCCharacterManager.Models
 						SixLvl.RemoveAt(SixLvl.Count() - 1);
 					}
 				}
-				OnPropertyChaged(ref slotSix, value);
+				OnPropertyChanged(ref slotSix, value);
 			}
 		}
 
@@ -208,7 +208,7 @@ namespace PCCharacterManager.Models
 						FifthLvl.RemoveAt(FifthLvl.Count() - 1);
 					}
 				}
-				OnPropertyChaged(ref slotFive, value);
+				OnPropertyChanged(ref slotFive, value);
 			}
 		}
 
@@ -245,7 +245,7 @@ namespace PCCharacterManager.Models
 						FourthLvl.RemoveAt(FourthLvl.Count() - 1);
 					}
 				}
-				OnPropertyChaged(ref slotFour, value);
+				OnPropertyChanged(ref slotFour, value);
 			}
 		}
 
@@ -282,7 +282,7 @@ namespace PCCharacterManager.Models
 						ThirdLvl.RemoveAt(ThirdLvl.Count() - 1);
 					}
 				}
-				OnPropertyChaged(ref slotThree, value);
+				OnPropertyChanged(ref slotThree, value);
 			}
 		}
 
@@ -319,7 +319,7 @@ namespace PCCharacterManager.Models
 						SecondLvl.RemoveAt(SecondLvl.Count() - 1);
 					}
 				}
-				OnPropertyChaged(ref slotTwo, value);
+				OnPropertyChanged(ref slotTwo, value);
 			}
 		}
 
@@ -359,7 +359,7 @@ namespace PCCharacterManager.Models
 						FirstLvl.RemoveAt(FirstLvl.Count() - 1);
 					}
 				}
-				OnPropertyChaged(ref slotOne, value);
+				OnPropertyChanged(ref slotOne, value);
 
 			}
 		}

@@ -19,14 +19,14 @@ namespace PCCharacterManager.ViewModels
 		public Object CurrView
 		{
 			get { return currView; }
-			set { OnPropertyChaged(ref currView, value); }
+			set { OnPropertyChanged(ref currView, value); }
 		}
 
 		private TabControlViewModel tabVM;
 		public TabControlViewModel TabVM
 		{
 			get { return tabVM; }
-			set { OnPropertyChaged(ref tabVM, value); }
+			set { OnPropertyChanged(ref tabVM, value); }
 		}
 
 		private CharacterStore characterStore;

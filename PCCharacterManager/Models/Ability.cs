@@ -30,7 +30,7 @@ namespace PCCharacterManager.Models
 				if (value < 1)
 					value = 1;
 
-				OnPropertyChaged(ref score, value);
+				OnPropertyChanged(ref score, value);
 				SetMod();
 				UpdateSkillInfo(profBonus);
 				SetSave(profBonus);
@@ -46,7 +46,7 @@ namespace PCCharacterManager.Models
 			get { return modifier; }
 			private set
 			{
-				OnPropertyChaged(ref modifier, value);
+				OnPropertyChanged(ref modifier, value);
 			}
 		}
 		[JsonProperty]
@@ -55,7 +55,7 @@ namespace PCCharacterManager.Models
 			get { return save; }
 			private set
 			{
-				OnPropertyChaged(ref save, value);
+				OnPropertyChanged(ref save, value);
 			}
 		}
 		public bool ProfSave
@@ -64,7 +64,7 @@ namespace PCCharacterManager.Models
 			set
 			{
 
-				OnPropertyChaged(ref profSave, value);
+				OnPropertyChanged(ref profSave, value);
 				if (profSave)
 					Save = modifier + profBonus;
 				else

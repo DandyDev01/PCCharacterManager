@@ -17,7 +17,7 @@ namespace PCCharacterManager.Utility
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		protected virtual bool OnPropertyChaged<T>(ref T backingField, T value,
+		protected virtual bool OnPropertyChanged<T>(ref T backingField, T value,
 			[CallerMemberName] string propertyName = "")
 		{
 			if (EqualityComparer<T>.Default.Equals(backingField, value))

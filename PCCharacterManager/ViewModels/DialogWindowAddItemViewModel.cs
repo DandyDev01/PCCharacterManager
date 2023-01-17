@@ -31,7 +31,7 @@ namespace PCCharacterManager.ViewModels
 			get { return selectedItemType; }
 			set
 			{
-				OnPropertyChaged(ref selectedItemType, value);
+				OnPropertyChanged(ref selectedItemType, value);
 				ItemsCollectionView.Refresh();
 			}
 		}
@@ -42,7 +42,7 @@ namespace PCCharacterManager.ViewModels
 			get { return searchTerm; }
 			set
 			{
-				OnPropertyChaged(ref searchTerm, value);
+				OnPropertyChanged(ref searchTerm, value);
 				ItemsCollectionView.Refresh();
 			}
 		}
@@ -55,7 +55,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				selectedItem?.Edit();
-				OnPropertyChaged(ref selectedItem, value);
+				OnPropertyChanged(ref selectedItem, value);
 				selectedItem?.Edit();
 			}
 		}

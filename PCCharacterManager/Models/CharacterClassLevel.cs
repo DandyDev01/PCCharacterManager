@@ -14,7 +14,7 @@ namespace PCCharacterManager.Models
 		public int Level
 		{
 			get { return level; }
-			set { OnPropertyChaged(ref level, value); }
+			set { OnPropertyChanged(ref level, value); }
 		}
 
 		public void LevelUp()

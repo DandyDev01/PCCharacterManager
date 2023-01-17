@@ -24,7 +24,7 @@ namespace PCCharacterManager.Models
 
 				level = value;
 				SetProfBonus(this);
-				OnPropertyChaged(ref level, value);
+				OnPropertyChanged(ref level, value);
 			}
 		}
 		public int ExperiencePoints
@@ -32,7 +32,7 @@ namespace PCCharacterManager.Models
 			get { return experiencePoints; }
 			set
 			{
-				OnPropertyChaged(ref experiencePoints, value);
+				OnPropertyChanged(ref experiencePoints, value);
 			}
 		}
 		public int ProficiencyBonus
@@ -40,7 +40,7 @@ namespace PCCharacterManager.Models
 			get { return proficiencyBonus; }
 			set
 			{
-				OnPropertyChaged(ref proficiencyBonus, value);
+				OnPropertyChanged(ref proficiencyBonus, value);
 			}
 		}
 

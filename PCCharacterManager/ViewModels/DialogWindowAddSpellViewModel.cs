@@ -22,7 +22,7 @@ namespace PCCharacterManager.ViewModels
 		public Spell NewSpell
 		{
 			get { return newSpell; }
-			set { OnPropertyChaged(ref newSpell, value); }
+			set { OnPropertyChanged(ref newSpell, value); }
 		}
 
 		private string spellComponents;
@@ -31,7 +31,7 @@ namespace PCCharacterManager.ViewModels
 			get { return spellComponents; }
 			set
 			{
-				OnPropertyChaged(ref spellComponents, value);
+				OnPropertyChanged(ref spellComponents, value);
 
 			}
 		}

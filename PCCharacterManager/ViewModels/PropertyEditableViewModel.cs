@@ -14,7 +14,7 @@ namespace PCCharacterManager.ViewModels
 		public Property BoundProperty
 		{
 			get { return boundProperty; }
-			set { OnPropertyChaged(ref boundProperty, value); }
+			set { OnPropertyChanged(ref boundProperty, value); }
 		}
 
 		private string displayName;
@@ -23,7 +23,7 @@ namespace PCCharacterManager.ViewModels
 			get { return displayName; }
 			set
 			{ 
-				OnPropertyChaged(ref displayName, value); 
+				OnPropertyChanged(ref displayName, value); 
 				boundProperty.Name = value;
 			}
 		}
@@ -34,7 +34,7 @@ namespace PCCharacterManager.ViewModels
 			get { return displayDesc; }
 			set
 			{
-				OnPropertyChaged(ref displayDesc, value);
+				OnPropertyChanged(ref displayDesc, value);
 				boundProperty.Desc = value;
 			}
 		}
@@ -45,7 +45,7 @@ namespace PCCharacterManager.ViewModels
 			get { return displayHidden; }
 			set
 			{
-				OnPropertyChaged(ref displayHidden, value);
+				OnPropertyChanged(ref displayHidden, value);
 				boundProperty.Hidden = value;
 			}
 		}
@@ -56,7 +56,7 @@ namespace PCCharacterManager.ViewModels
 			get { return isEditMode; }
 			set
 			{
-				OnPropertyChaged(ref isEditMode, value);
+				OnPropertyChanged(ref isEditMode, value);
 				OnPropertyChaged("IsDisplayMode");
 			}
 		}

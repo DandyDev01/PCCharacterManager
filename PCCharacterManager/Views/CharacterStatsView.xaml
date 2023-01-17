@@ -40,7 +40,7 @@
         </Menu>
 
         <ContentControl Grid.Column="0"  Grid.Row="1" Grid.ColumnSpan="8" Grid.RowSpan="8">
-            <v:CharacterInfoView DataContext="{Binding SelectedCharacter}"/>
+            <v:CharacterInfoView DataContext="{Binding CharacterInfoViewModel}"/>
         </ContentControl>
 
         <DockPanel Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="7" >

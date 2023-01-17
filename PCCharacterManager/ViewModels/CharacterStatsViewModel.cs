@@ -17,10 +17,15 @@ namespace PCCharacterManager.ViewModels
 	{
 		public ICommand EditCharacterCommand { get; private set; }
 
+		public CharacterInfoViewModel CharacterInfoViewModel { get; }
+
 		public CharacterStatsViewModel(CharacterStore _characterStore, ICharacterDataService dataService)
 			: base(_characterStore, dataService)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
+
+			CharacterInfoViewModel = new CharacterInfoViewModel(_characterStore, dataService);
+
 			EditCharacterCommand = new RelayCommand(EditCharacter);
 		}
 

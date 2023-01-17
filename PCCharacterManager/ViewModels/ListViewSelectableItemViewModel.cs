@@ -16,7 +16,7 @@ namespace PCCharacterManager.ViewModels
 		public string BoundItem
 		{
 			get { return boundItem; }
-			set { OnPropertyChaged(ref boundItem, value); }
+			set { OnPropertyChanged(ref boundItem, value); }
 		}
 
 		private bool isSelected;
@@ -25,7 +25,7 @@ namespace PCCharacterManager.ViewModels
 			get { return isSelected; }
 			set
 			{
-				OnPropertyChaged(ref isSelected, !isSelected);
+				OnPropertyChanged(ref isSelected, !isSelected);
 				if (isSelected)
 					OnSelect?.Invoke(this);
 				else

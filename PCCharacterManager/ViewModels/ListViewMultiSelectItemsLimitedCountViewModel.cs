@@ -20,7 +20,7 @@ namespace PCCharacterManager.ViewModels
 		public int AmountToBeSelected
 		{
 			get { return amountToBeSelected; }
-			set { OnPropertyChaged(ref amountToBeSelected, value); }
+			set { OnPropertyChanged(ref amountToBeSelected, value); }
 		}
 
 		/// <summary>
@@ -29,7 +29,7 @@ namespace PCCharacterManager.ViewModels
 		public string ListSelectedItem
 		{
 			get { return listSelectedItem; }
-			set { OnPropertyChaged(ref listSelectedItem, value); }
+			set { OnPropertyChanged(ref listSelectedItem, value); }
 		}
 
 		public IEnumerable<string> SelectedItems { get { return selectedItems; } }

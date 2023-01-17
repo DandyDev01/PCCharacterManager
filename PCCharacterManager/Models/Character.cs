@@ -33,38 +33,38 @@ namespace PCCharacterManager.Models
 			get { return name; }
 			set 
 			{ 
-				OnPropertyChaged(ref name, value); 
+				OnPropertyChanged(ref name, value); 
 			}
 		}
 		public string Background
 		{
 			get { return background; }
-			set { OnPropertyChaged(ref background, value); }
+			set { OnPropertyChanged(ref background, value); }
 		}
 		public string ArmorClass
 		{
 			get { return armorClass; }
-			set { OnPropertyChaged(ref armorClass, value); }
+			set { OnPropertyChanged(ref armorClass, value); }
 		}
 		public string DateModified
 		{
 			get { return dateModified; }	
-			set { OnPropertyChaged(ref dateModified, value); }
+			set { OnPropertyChanged(ref dateModified, value); }
 		}
 		public int Initiative
 		{
 			get { return initiative; }
-			set { OnPropertyChaged(ref initiative, value); }
+			set { OnPropertyChanged(ref initiative, value); }
 		}
 		public int PassivePerception
 		{
 			get { return passivePerception; }
-			set { OnPropertyChaged(ref passivePerception, value); }
+			set { OnPropertyChanged(ref passivePerception, value); }
 		}
 		public int PassiveInsight
 		{
 			get { return passiveInsight; }
-			set { OnPropertyChaged(ref passiveInsight, value); }
+			set { OnPropertyChanged(ref passiveInsight, value); }
 		}
 		[JsonProperty("Size")]
 		[JsonConverter(typeof(StringEnumConverter))]

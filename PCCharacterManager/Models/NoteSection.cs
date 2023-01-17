@@ -16,7 +16,7 @@ namespace PCCharacterManager.Models
 			get { return sectionTitle; }
 			set
 			{
-				OnPropertyChaged(ref sectionTitle, value);
+				OnPropertyChanged(ref sectionTitle, value);
 			}
 		}
 
