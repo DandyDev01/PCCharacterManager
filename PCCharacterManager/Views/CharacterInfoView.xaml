@@ -41,123 +41,123 @@
 
             <!--#region Name and Age-->
             <TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="1"
-                 Text="{Binding SelectedCharacter.Name, FallbackValue=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding SelectedCharacter.Name, FallbackValue=Name, UpdateSourceTrigger=PropertyChanged}"/>
 
             <TextBox Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                 ToolTip="Age"
-                 Text="{Binding SelectedCharacter.Race.Age, FallbackValue=20, UpdateSourceTrigger=PropertyChanged}"/>
+                     ToolTip="Age"
+                     Text="{Binding SelectedCharacter.Race.Age, FallbackValue=20, UpdateSourceTrigger=PropertyChanged}"/>
             <!--#endregion-->
 
             <!--#region Alignment and Size-->
             <TextBlock Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2" Style="{StaticResource h3}"
-                   Text="{Binding SelectedCharacter.Alignment,FallbackValue=good}"/>
+                       Text="{Binding SelectedCharacter.Alignment,FallbackValue=good}"/>
 
             <TextBlock Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="2" Style="{StaticResource h3}"
-                   Text="{Binding SelectedCharacter.Size, FallbackValue=small}"/>
+                       Text="{Binding SelectedCharacter.Size, FallbackValue=small}"/>
             <!--#endregion-->
 
             <!--#region Hit Points-->
             <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource h3}"
-                   ToolTip="{Binding SelectedCharacter.Health.MaxHealth}"
-                   Text="Health"/>
+                       ToolTip="{Binding SelectedCharacter.Health.MaxHealth}"
+                       Text="Health"/>
             <TextBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1"
-                 ToolTip="Current Hit Points"
-                 Text="{Binding SelectedCharacter.Health.CurrHealth, FallbackValue=22, UpdateSourceTrigger=PropertyChanged}"/>
+                     ToolTip="Current Hit Points"
+                     Text="{Binding SelectedCharacter.Health.CurrHealth, FallbackValue=22, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1"
-                 ToolTip="Temporary Hit Points"
-                 Text="{Binding SelectedCharacter.Health.TempHitPoints, FallbackValue=22, UpdateSourceTrigger=PropertyChanged}"/>
+                     ToolTip="Temporary Hit Points"
+                     Text="{Binding SelectedCharacter.Health.TempHitPoints, FallbackValue=22, UpdateSourceTrigger=PropertyChanged}"/>
             <!--#endregion-->
 
             <!--#region EXP-->
             <TextBlock Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                   Text="EXP"/>
+                       Text="EXP"/>
             <TextBox Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                   Text="{Binding SelectedCharacter.Level.ExperiencePoints, FallbackValue=400, UpdateSourceTrigger=PropertyChanged}" />
+                     Text="{Binding SelectedCharacter.Level.ExperiencePoints, FallbackValue=400, UpdateSourceTrigger=PropertyChanged}" />
             <!--#endregion-->
 
             <!--#region Armor Class-->
             <TextBlock Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                   Text="AC"/>
+                     Text="AC"/>
             <TextBox Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                 Text="{Binding SelectedCharacter.ArmorClass, FallbackValue=1, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding SelectedCharacter.ArmorClass, FallbackValue=1, UpdateSourceTrigger=PropertyChanged}"/>
             <!--#endregion-->
 
             <!--#region Initiative-->
             <TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1" 
-                   ToolTip="your Dex Mod"
-                   Text="Initiative"/>
+                       ToolTip="your Dex Mod"
+                       Text="Initiative"/>
             <TextBox Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="1" 
-                 ToolTip="your Dex Mod"
-                 Text="{Binding SelectedCharacter.Initiative, FallbackValue=3, UpdateSourceTrigger=PropertyChanged}"/>
+                     ToolTip="your Dex Mod"
+                     Text="{Binding SelectedCharacter.Initiative, FallbackValue=3, UpdateSourceTrigger=PropertyChanged}"/>
             <!--#endregion-->
 
             <!--#region Passive Skills-->
             <TextBlock Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" 
-                   ToolTip="Passive Perception"
-                   Text="Passive Perc"/>
+                       ToolTip="Passive Perception"
+                       Text="Passive Perc"/>
             <TextBox Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="1" 
-                 ToolTip="10 + skill score (+ 5 if you have advantage w/ skill checks)"
-                 Text="{Binding SelectedCharacter.PassivePerception, FallbackValue=3, UpdateSourceTrigger=PropertyChanged}"/>
+                       ToolTip="10 + skill score (+ 5 if you have advantage w/ skill checks)"
+                       Text="{Binding SelectedCharacter.PassivePerception, FallbackValue=3, UpdateSourceTrigger=PropertyChanged}"/>
 
             <TextBlock Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="1" 
-                   ToolTip="Passive Insight"
-                   Text="Passive Insi"/>
+                       ToolTip="Passive Insight"
+                       Text="Passive Insi"/>
             <TextBox Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="1" 
-                 ToolTip="10 + skill score (+ 5 if you have advantage w/ skill checks)"
-                 Text="{Binding SelectedCharacter.PassiveInsight, FallbackValue=3, UpdateSourceTrigger=PropertyChanged}"/>
+                       ToolTip="10 + skill score (+ 5 if you have advantage w/ skill checks)"
+                       Text="{Binding SelectedCharacter.PassiveInsight, FallbackValue=3, UpdateSourceTrigger=PropertyChanged}"/>
             <!--#endregion-->
 
             <!--#region ProfBonus-->
             <TextBlock Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="1"
-                   Text="profBonus"/>
+                       Text="profBonus"/>
             <TextBlock Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="1"
-                   Text="{Binding SelectedCharacter.Level.ProficiencyBonus, FallbackValue=3}"/>
+                       Text="{Binding SelectedCharacter.Level.ProficiencyBonus, FallbackValue=3}"/>
             <!--#endregion-->
 
             <!--#region Level-->
             <TextBlock Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                   Text="Level"/>
+                       Text="Level"/>
             <TextBlock Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                   Text="{Binding SelectedCharacter.Level.Level, FallbackValue=1, UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
+                       Text="{Binding SelectedCharacter.Level.Level, FallbackValue=1, UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
             <!--#endregion-->
 
             <!--#region Class and Background-->
             <TextBlock Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2"
-                   ToolTip="Background"
-                   Text="{Binding SelectedCharacter.Background, FallbackValue=Investigator}"/>
+                       ToolTip="Background"
+                       Text="{Binding SelectedCharacter.Background, FallbackValue=Investigator}"/>
 
             <TextBlock Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2"
-                   ToolTip="Class"
-                   Text="{Binding SelectedCharacter.CharacterClass.Name, FallbackValue=Barbarian}"/>
+                       ToolTip="Class"
+                       Text="{Binding SelectedCharacter.CharacterClass.Name, FallbackValue=Barbarian}"/>
 
             <TextBlock Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="1"
-                   Text="Hit Die"/>
+                       Text="Hit Die"/>
             <TextBlock Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="1"
-                   ToolTip="Used for calculating Hit Points"
-                   Text="{Binding SelectedCharacter.CharacterClass.HitDie, FallbackValue=D6}"/>
+                       ToolTip="Used for calculating Hit Points"
+                       Text="{Binding SelectedCharacter.CharacterClass.HitDie, FallbackValue=D6}"/>
 
             <TextBlock Grid.Column="1" Grid.Row="5"  Grid.ColumnSpan="1"
-                   Text="Class Level"/>
+                       Text="Class Level"/>
             <TextBlock Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="1"
-                   ToolTip="Class"
-                   Text="{Binding SelectedCharacter.CharacterClass.Level.Level, FallbackValue=1}"/>
+                       ToolTip="Class"
+                       Text="{Binding SelectedCharacter.CharacterClass.Level.Level, FallbackValue=1}"/>
             <!--#endregion-->
 
             <!--#region Race and Race Varient-->
             <TextBlock Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2"
-                   ToolTip="Race Bariant"
-                   Text="{Binding SelectedCharacter.Race.RaceVariant.Name, FallbackValue=Blue}"/>
+                       ToolTip="Race Bariant"
+                       Text="{Binding SelectedCharacter.Race.RaceVariant.Name, FallbackValue=Blue}"/>
 
             <TextBlock Grid.Column="2" Grid.Row="8" Grid.ColumnSpan="2"
-                   ToolTip="Race"
-                   Text="{Binding SelectedCharacter.Race.Name, FallbackValue=DragonBorn}"/>
+                       ToolTip="Race"
+                       Text="{Binding SelectedCharacter.Race.Name, FallbackValue=DragonBorn}"/>
             <!--#endregion-->
 
             <!--#region Class, Race, Race Variant features-->
             <TextBlock Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="3" Grid.RowSpan="1"
-                   Text="Class Features"/>
+                       Text="Class Features"/>
             <ListView Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="3" Grid.RowSpan="1"
-                  ItemsSource="{Binding SelectedCharacter.CharacterClass.Features}">
+                      ItemsSource="{Binding SelectedCharacter.CharacterClass.Features}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <v:PropertyDisplayView/>
@@ -166,9 +166,9 @@
             </ListView>
 
             <TextBlock Grid.Column="3" Grid.Row="11" Grid.ColumnSpan="3" Grid.RowSpan="1"
-                   Text="Race Features"/>
+                       Text="Race Features"/>
             <ListView Grid.Column="3" Grid.Row="12" Grid.ColumnSpan="3" Grid.RowSpan="1"
-                  ItemsSource="{Binding SelectedCharacter.Race.Features}" >
+                      ItemsSource="{Binding SelectedCharacter.Race.Features}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <v:PropertyDisplayView/>
@@ -177,9 +177,9 @@
             </ListView>
 
             <TextBlock Grid.Column="6" Grid.Row="11" Grid.ColumnSpan="3" Grid.RowSpan="1"
-                   Text="Race Variant Features"/>
+                       Text="Race Variant Features"/>
             <ListView Grid.Column="6" Grid.Row="12" Grid.ColumnSpan="3" Grid.RowSpan="1"
-                  ItemsSource="{Binding SelectedCharacter.Race.RaceVariant.Properties}" >
+                      ItemsSource="{Binding SelectedCharacter.Race.RaceVariant.Properties}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <v:PropertyDisplayView/>
@@ -202,7 +202,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                   Text="Languages"/>
+                           Text="Languages"/>
                 <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
                           SelectedIndex="0"
                           SelectedItem="{Binding SelectedLanguage}"
@@ -216,11 +216,11 @@
                 </ListView>
 
                 <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1" 
-                   Text="Movement"/>
+                           Text="Movement"/>
                 <ListView Grid.Column="1" Grid.Row="1"  Grid.ColumnSpan="1" Grid.RowSpan="1"
                           SelectedIndex="0"
                           SelectedItem="{Binding SelectedMovementType}"
-                  ItemsSource="{Binding SelectedCharacter.MovementTypes_Speeds}">
+                          ItemsSource="{Binding SelectedCharacter.MovementTypes_Speeds}">
                     <ListView.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="{Binding SelectedMovementType}" Command="{Binding RemoveMovementTypeCommand}"/>
@@ -235,7 +235,7 @@
                 </ListView>
 
                 <TextBlock Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1" 
-                   Text="Other Profs"/>
+                           Text="Other Profs"/>
                 <ListView Grid.Column="2" Grid.Row="1"  Grid.ColumnSpan="1" Grid.RowSpan="1"
                           SelectedIndex="0"
                           SelectedItem="{Binding SelectedOtherProf}"
@@ -249,11 +249,11 @@
                 </ListView>
 
                 <TextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                   Text="Weapon Profs"/>
+                           Text="Weapon Profs"/>
                 <ListView Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
                           SelectedIndex="0"
                           SelectedItem="{Binding SelectedWeaponProf}"
-                  ItemsSource="{Binding SelectedCharacter.WeaponProficiencies}" >
+                          ItemsSource="{Binding SelectedCharacter.WeaponProficiencies}" >
                     <ListView.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="{Binding SelectedWeaponProf}" Command="{Binding RemoveWeaponProfCommand}"/>
@@ -263,11 +263,11 @@
                 </ListView>
 
                 <TextBlock Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" 
-                   Text="Armor Profs"/>
+                           Text="Armor Profs"/>
                 <ListView Grid.Column="1" Grid.Row="3"  Grid.ColumnSpan="1" Grid.RowSpan="1"
                           SelectedIndex="0"
                           SelectedItem="{Binding SelectedArmorProf}"
-                  ItemsSource="{Binding SelectedCharacter.ArmorProficiencies}">
+                          ItemsSource="{Binding SelectedCharacter.ArmorProficiencies}">
                     <ListView.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="{Binding SelectedArmorProf}" Command="{Binding RemoveArmorProfCommand}"/>
@@ -277,11 +277,11 @@
                 </ListView>
 
                 <TextBlock Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                   Text="Tool Profs"/>
+                           Text="Tool Profs"/>
                 <ListView Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
                           SelectedIndex="0"
                           SelectedItem="{Binding SelectedToolProf}"
-                  ItemsSource="{Binding SelectedCharacter.ToolProficiences}">
+                          ItemsSource="{Binding SelectedCharacter.ToolProficiences}">
                     <ListView.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="{Binding SelectedToolProf}" Command="{Binding RemoveToolProfCommand}"/>

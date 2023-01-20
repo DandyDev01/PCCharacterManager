@@ -7,6 +7,7 @@ using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,11 +35,13 @@ namespace PCCharacterManager.ViewModels
 		private string highlightTerm;
 		public string HighlightTerm
 		{
-			get { return searchTerm; }
+			get
+			{
+				return highlightTerm;
+			}
 			set
 			{
 				OnPropertyChanged(ref highlightTerm, value);
-				Search(highlightTerm);
 			}
 		}
 
@@ -49,7 +52,11 @@ namespace PCCharacterManager.ViewModels
 		public Note SelectedNote
 		{
 			get { return selectedNote; }
-			set { OnPropertyChanged(ref selectedNote, value); }
+			set 
+			{
+				OnPropertyChanged(ref selectedNote, value);
+				selectedNoteChange?.Invoke(value);
+			}
 		}
 
 		private NoteSection? selectedSection;
@@ -59,11 +66,15 @@ namespace PCCharacterManager.ViewModels
 			set { OnPropertyChanged(ref selectedSection, value); }
 		}
 
-		public ICommand AddNoteCommand { get; private set; }
-		public ICommand AddNoteSectionCommand { get; private set; }
-		public ICommand DeleteNoteCommand { get; private set; }
-		public ICommand DeleteNoteSectionCommand { get; private set; }
-		public ICommand EditSectionTitleCommand { get; private set; }
+		public ICommand AddNoteCommand { get; }
+		public ICommand AddNoteSectionCommand { get; }
+		public ICommand DeleteNoteCommand { get; }
+		public ICommand DeleteNoteSectionCommand { get; }
+		public ICommand EditSectionTitleCommand { get; }
+		public ICommand FindInNoteCommand { get; }
+
+		public Action<Note> selectedNoteChange;
+		public Action characterChange;
 
 		public CharacterNoteBookViewModel(CharacterStore _characterStore, ICharacterDataService _dataService, 
 			NoteBook _noteBook) : base(_characterStore, _dataService)
@@ -83,6 +94,19 @@ namespace PCCharacterManager.ViewModels
 			DeleteNoteCommand = new RemoveNoteFromNoteBookCommand(this);
 			DeleteNoteSectionCommand = new DeleteNoteSectionFromNoteBookCommand(this);
 			EditSectionTitleCommand = new EditNoteSectionTitleCommand(this);
+			FindInNoteCommand = new RelayCommand(FindInNote);
+		}
+
+		private void FindInNote()
+		{
+			if (selectedNote == null) return;
+			if(!selectedNote.Notes.Contains(highlightTerm)) return;
+
+			// open small window in corner area.
+			// window cannot be moved
+			// window will have a textbox for the term to look for
+			// highlight the term in the note textbox
+			// show a count for the term
 		}
 
 		/// <summary>
@@ -103,6 +127,8 @@ namespace PCCharacterManager.ViewModels
 			if (noteBook.NoteSections.Count <= 0) return;
 
 			SelectedNote = NoteSectionsToDisplay[0].Notes[0];
+
+			characterChange?.Invoke();
 		}
 
 		/// <summary>

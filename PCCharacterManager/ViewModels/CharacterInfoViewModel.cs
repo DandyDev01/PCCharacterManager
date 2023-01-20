@@ -17,164 +17,6 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterInfoViewModel : TabItemViewModel
 	{
-		private string name;
-		public string Name
-		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-				OnPropertyChanged(ref name, value);
-			}
-		}
-
-		private string armorClass;
-		public string ArmorClass
-		{
-			get
-			{
-				return armorClass;
-			}
-			set
-			{
-				armorClass = value;
-				OnPropertyChanged(ref armorClass, value);
-			}
-		}
-
-		private string age;
-		public string Age
-		{
-			get
-			{
-				return age;
-			}
-			set
-			{
-				age = value;
-				OnPropertyChanged(ref age, value);
-			}
-		}
-
-		private string currentHitPoints;
-		public string CurrentHitPoints
-		{
-			get
-			{
-				return currentHitPoints;
-			}
-			set
-			{
-				currentHitPoints = value;
-				OnPropertyChanged(ref currentHitPoints, value);
-			}
-		}
-
-		private string temporaryHitPoints;
-		public string TemporaryHitPoints
-		{
-			get
-			{
-				return temporaryHitPoints;
-			}
-			set
-			{
-				temporaryHitPoints = value;
-				OnPropertyChanged(ref temporaryHitPoints, value);
-			}
-		}
-
-		private string experiencePoints;
-		public string ExperiencePoints
-		{
-			get
-			{
-				return experiencePoints;
-			}
-			set
-			{
-				experiencePoints = value;
-				OnPropertyChanged(ref experiencePoints, value);
-			}
-		}
-
-		private string initiative;
-		public string Initiative
-		{
-			get
-			{
-				return initiative;
-			}
-			set
-			{
-				initiative = value;
-				OnPropertyChanged(ref initiative, value);
-			}
-		}
-
-		private string passivePerception;
-		public string PassivePerception
-		{
-			get
-			{
-				return passivePerception;
-			}
-			set
-			{
-				passivePerception = value;
-				OnPropertyChanged(ref passivePerception, value);
-			}
-		}
-
-		private string background;
-		public string Background
-		{
-			get
-			{
-				return background;
-			}
-			set
-			{
-				background = value;
-				OnPropertyChanged(ref background, value);
-			}
-		}
-
-		private string race;
-		public string Race
-		{
-			get
-			{
-				return race;
-			}
-			set
-			{
-				race = value;
-				OnPropertyChanged(ref race, value);
-			}
-		}
-
-		private string raceVarient;
-		public string RaceVarient
-		{
-			get
-			{
-				return raceVarient;
-			}
-			set
-			{
-				raceVarient = value;
-				OnPropertyChanged(ref raceVarient, value);
-			}
-		}
-
-		public ObservableCollection<Property> ClassFeatures { get; }
-		public ObservableCollection<Property> RaceFeatures { get; }
-		public ObservableCollection<Property> RaceVarientFeatures { get; }
-
 		private string selectedLanguage;
 		public string SelectedLanguage
 		{
@@ -193,7 +35,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			get
 			{
-				return "Remove" + selectedWeaponProf;
+				return "Remove " + selectedWeaponProf;
 			}
 			set
 			{
@@ -206,7 +48,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			get
 			{
-				return "Remove" + selectedArmorProf;
+				return "Remove " + selectedArmorProf;
 			}
 			set
 			{
@@ -219,7 +61,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			get
 			{
-				return "Remove" + selectedOtherProf;
+				return "Remove " + selectedOtherProf;
 			}
 			set
 			{
@@ -232,7 +74,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			get
 			{
-				return "Remove" + selectedToolProf;
+				return "Remove " + selectedToolProf;
 			}
 			set
 			{
@@ -272,21 +114,12 @@ namespace PCCharacterManager.ViewModels
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
-			name = string.Empty;
-			armorClass = string.Empty;
-			age = string.Empty;
-			currentHitPoints = string.Empty;
-			temporaryHitPoints = string.Empty;
-			experiencePoints = string.Empty;
-			initiative = string.Empty;
-			passivePerception = string.Empty;
-			background = string.Empty;
-			race = string.Empty;
-			raceVarient = string.Empty;
-
-			ClassFeatures = new ObservableCollection<Property>();
-			RaceFeatures = new ObservableCollection<Property>();
-			RaceVarientFeatures = new ObservableCollection<Property>();
+			selectedArmorProf = string.Empty;
+			selectedLanguage = string.Empty;
+			selectedMovementType = null;
+			selectedOtherProf = string.Empty;
+			selectedToolProf = string.Empty;
+			selectedWeaponProf = string.Empty;
 
 			RemoveLanguageCommand = new RelayCommand(RemoveLanguage);
 			RemoveArmorProfCommand = new RelayCommand(RemoveArmorProf);
@@ -301,6 +134,15 @@ namespace PCCharacterManager.ViewModels
 			AddArmorProfCommand = new RelayCommand(AddArmor);
 			AddToolProfCommand = new RelayCommand(AddTool);
 			AddOtherProfCommand = new RelayCommand(AddOtherProf);
+		}
+
+		/// <summary>
+		/// What to do when the selectedCharacter changes
+		/// </summary>
+		/// <param name="newCharacter">the newly selected character</param>
+		protected override void OnCharacterChanged(Character newCharacter)
+		{
+			SelectedCharacter = newCharacter;
 		}
 
 		private void RemoveLanguage()
@@ -333,12 +175,12 @@ namespace PCCharacterManager.ViewModels
 			base.selectedCharacter.MovementTypes_Speeds.Remove(selectedMovementType);
 		}
 
-		public void AddLanguage()
+		private void AddLanguage()
 		{
 			AddTo(selectedCharacter.Languages);
 		}
 
-		public void AddMovement()
+		private void AddMovement()
 		{
 			Window window = new StringInputDialogWindow();
 			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window, "Movement type i.e. FLY");
@@ -359,59 +201,24 @@ namespace PCCharacterManager.ViewModels
 			selectedCharacter.MovementTypes_Speeds.Add(new Property(windowVM.Answer, windowVM1.Answer));
 		}
 
-		public void AddWeapon()
+		private void AddWeapon()
 		{
 			AddTo(selectedCharacter.WeaponProficiencies);
 		}
 
-		public void AddArmor()
+		private void AddArmor()
 		{
 			AddTo(selectedCharacter.ArmorProficiencies);
 		}
 
-		public void AddTool()
+		private void AddTool()
 		{
 			AddTo(selectedCharacter.ToolProficiences);
 		}
 
-		public void AddOtherProf()
+		private void AddOtherProf()
 		{
 			AddTo(selectedCharacter.OtherProficiences);
-		}
-
-		/// <summary>
-		/// What to do when the selectedCharacter changes
-		/// </summary>
-		/// <param name="newCharacter">the newly selected character</param>
-		protected override void OnCharacterChanged(Character newCharacter)
-		{
-			name = newCharacter.Name;
-			armorClass = newCharacter.ArmorClass;
-			age = newCharacter.Race.Age.ToString();
-			currentHitPoints = newCharacter.Health.CurrHealth.ToString();
-			temporaryHitPoints = newCharacter.Health.TempHitPoints.ToString();
-			experiencePoints = newCharacter.Level.ExperiencePoints.ToString();
-			passivePerception = newCharacter.PassivePerception.ToString();
-			background = newCharacter.Background;
-			race = newCharacter.Race.Name;
-			RaceVarient = newCharacter.Race.RaceVariant.Name;
-
-			foreach (var item in newCharacter.CharacterClass.Features)
-			{
-				ClassFeatures.Add(item);
-			}
-
-			foreach (var item in newCharacter.Race.Features)
-			{
-				RaceFeatures.Add(item);
-			}
-
-			foreach (var item in newCharacter.Race.RaceVariant.Properties)
-			{
-				RaceVarientFeatures.Add(item);
-			}
-
-			SelectedCharacter = newCharacter;
 		}
 
 		private void AddTo(in ObservableCollection<string> addTo)
@@ -426,8 +233,5 @@ namespace PCCharacterManager.ViewModels
 
 			addTo.Add(windowVM.Answer);
 		}
-
-
-		
 	}
 }

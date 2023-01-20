@@ -22,6 +22,7 @@ namespace PCCharacterManager.Commands
 
 		public override void Execute(object parameter)
 		{
+			// there are no note sections
 			if(viewModel.NoteBook.NoteSections.Count == 0)
 			{
 				MessageBox.Show("You need to create a notes section before creating any notes", 
@@ -29,12 +30,21 @@ namespace PCCharacterManager.Commands
 				return;
 			}
 
+			// there is only 1 note section, so you don't need to select one
 			if(viewModel.NoteBook.NoteSections.Count == 1)
 			{
 				viewModel.NoteBook.NoteSections.First().Add(new Note("new Note"));
 				return;
 			}
 
+			// a note section is selected, add a new note to it
+			if(viewModel.SelectedSection != null)
+			{
+				viewModel.SelectedSection.Add(new Note("new note"));
+				return;
+			}
+
+			#region select section(s) to add new note to
 			string[] sectionTitles = new string[viewModel.NoteBook.NoteSections.Count];
 			for (int i = 0; i < sectionTitles.Length; i++)
 			{
@@ -57,6 +67,7 @@ namespace PCCharacterManager.Commands
 					noteSection.Add(new Note("new note"));
 				}
 			}
+			#endregion
 		}
 	}
 }
