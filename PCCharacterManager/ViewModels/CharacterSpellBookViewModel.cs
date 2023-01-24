@@ -16,7 +16,7 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
-	public class CharacterSpellBookViewModel : TabItemViewModel
+	public class CharacterSpellBookViewModel : ObservableObject
 	{
 		private readonly SpellSearch spellSearch;
 		private readonly SpellItemEditableVMPool spellItemPool;
@@ -172,10 +172,9 @@ namespace PCCharacterManager.ViewModels
 		public ObservableCollection<SpellItemEditableViewModel> SpellsToDisplay { get; }
 		public ObservableCollection<SpellItemEditableViewModel> CantripsToDisplay { get; }
 
-		public CharacterSpellBookViewModel(CharacterStore _characterStore, ICharacterDataService _dataService)
-			: base(_characterStore, _dataService)
+		public CharacterSpellBookViewModel(CharacterStore _characterStore)
 		{
-			characterStore.SelectedCharacterChange += OnCharacterChanged;
+			_characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			spellSearch = new SpellSearch();
 			spellItemPool = new SpellItemEditableVMPool(20);
@@ -200,20 +199,18 @@ namespace PCCharacterManager.ViewModels
 			NextFilterCommand = new RelayCommand(NextFilter);
 		}
 
-		protected override void OnCharacterChanged(Character newCharacter)
+		private void OnCharacterChanged(Character newCharacter)
 		{
 			ReleaseSpellItems();
 			CantripsToDisplay.Clear();
 			SpellBook = newCharacter.SpellBook;
-			SpellBookNote = spellBook.Note;
+			SpellBookNote = SpellBook.Note;
 
 			FilteredSpells = PopulateFilteredSpells();
 			SelectedFilter = SpellSchool.ALL;
 			CantripItems.Clear();
 
-
 			PopulateCantripsToShow();
-
 		}
 
 		/// <summary>

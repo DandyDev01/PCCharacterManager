@@ -15,8 +15,21 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
-	public class CharacterInfoViewModel : TabItemViewModel
+	public class CharacterInfoViewModel : ObservableObject
 	{
+		private Character selectedCharacter;
+		public Character SelectedCharacter
+		{
+			get
+			{
+				return selectedCharacter;
+			}
+			set
+			{
+				OnPropertyChanged(ref selectedCharacter, value);
+			}
+		}
+
 		private string selectedLanguage;
 		public string SelectedLanguage
 		{
@@ -109,10 +122,9 @@ namespace PCCharacterManager.ViewModels
 		public ICommand AddToolProfCommand { get; }
 		public ICommand RemoveToolProfCommand { get; }
 
-		public CharacterInfoViewModel(CharacterStore _characterStore, ICharacterDataService _dataService) 
-			: base(_characterStore, _dataService)
+		public CharacterInfoViewModel(CharacterStore _characterStore) 
 		{
-			characterStore.SelectedCharacterChange += OnCharacterChanged;
+			_characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			selectedArmorProf = string.Empty;
 			selectedLanguage = string.Empty;
@@ -140,39 +152,39 @@ namespace PCCharacterManager.ViewModels
 		/// What to do when the selectedCharacter changes
 		/// </summary>
 		/// <param name="newCharacter">the newly selected character</param>
-		protected override void OnCharacterChanged(Character newCharacter)
+		private void OnCharacterChanged(Character newCharacter)
 		{
 			SelectedCharacter = newCharacter;
 		}
 
 		private void RemoveLanguage()
 		{
-			base.selectedCharacter.Languages.Remove(selectedLanguage);
+			SelectedCharacter.Languages.Remove(selectedLanguage);
 		}
 
 		private void RemoveArmorProf()
 		{
-			base.selectedCharacter.ArmorProficiencies.Remove(selectedArmorProf);
+			SelectedCharacter.ArmorProficiencies.Remove(selectedArmorProf);
 		}
 
 		private void RemoveWeaponProf()
 		{
-			base.selectedCharacter.WeaponProficiencies.Remove(selectedWeaponProf);
+			SelectedCharacter.WeaponProficiencies.Remove(selectedWeaponProf);
 		}
 
 		private void RemoveOtherProf()
 		{
-			base.selectedCharacter.OtherProficiences.Remove(selectedOtherProf);
+			SelectedCharacter.OtherProficiences.Remove(selectedOtherProf);
 		}
 
 		private void RemoveToolProf()
 		{
-			base.selectedCharacter.ToolProficiences.Remove(selectedToolProf);
+			SelectedCharacter.ToolProficiences.Remove(selectedToolProf);
 		}
 
 		private void RemoveMovementType()
 		{
-			base.selectedCharacter.MovementTypes_Speeds.Remove(selectedMovementType);
+			SelectedCharacter.MovementTypes_Speeds.Remove(selectedMovementType);
 		}
 
 		private void AddLanguage()

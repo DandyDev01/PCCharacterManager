@@ -353,7 +353,7 @@ namespace PCCharacterManager.Models
 
 		public static List<string> GetSkillNames()
 		{
-			var abilities = ReadWriteJsonCollection<Ability>.ReadCollection(Resources.AbilitiesJson);
+			var abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson);
 			List<string> skillNames = new List<string>();
 			foreach (var ability in abilities)
 			{

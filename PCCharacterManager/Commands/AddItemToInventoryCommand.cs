@@ -32,7 +32,7 @@ namespace PCCharacterManager.Commands
 
 			if (window.DialogResult == false || dialogContext.SelectedItem == null) return;
 
-			Item selectedItem = dialogContext.SelectedItemCopy;
+			Item selectedItem = dialogContext.SelectedItem.BoundItem;
 			ItemDisplayViewModel displayVM = new ItemDisplayViewModel(selectedItem);
 			vm.Inventory.Add(selectedItem);
 			vm.ItemDisplayVms.Add(displayVM);

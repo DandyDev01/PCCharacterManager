@@ -15,18 +15,17 @@ namespace PCCharacterManager.Models
 	public enum MovementType { BURROW, CLIMB, FLY, SWIM, WALK }
 	public enum DamageType { SLASHING, PIERCING, BLUDGENING, POISON, ACID, FIRE, COLD, RADIANT, NECROTIC, LIGHTING, THUNDER, FORCE, PSYCHIC };
 	public enum CreatureSize { TINY, SMALL, MEDIUM, LARGE, HUGE, GARGANTUAN }
+	public enum CharacterType { DnD5e, starfinder }
 
 	public class Character : ObservableObject
 	{
-		private string name;
-		private string background;
-		private string armorClass;
-		private string dateModified;
-		private int initiative;
-		private int passivePerception;
-		private int passiveInsight;
-		private readonly NoteBook noteManager;
-		private Ability[] abilities;
+		protected string name;
+		protected string background;
+		protected string dateModified;
+		protected int initiative;
+		protected int passivePerception;
+		protected int passiveInsight;
+		protected Ability[] abilities;
 
 		public string Name
 		{
@@ -40,11 +39,6 @@ namespace PCCharacterManager.Models
 		{
 			get { return background; }
 			set { OnPropertyChanged(ref background, value); }
-		}
-		public string ArmorClass
-		{
-			get { return armorClass; }
-			set { OnPropertyChanged(ref armorClass, value); }
 		}
 		public string DateModified
 		{
@@ -66,29 +60,30 @@ namespace PCCharacterManager.Models
 			get { return passiveInsight; }
 			set { OnPropertyChanged(ref passiveInsight, value); }
 		}
+
 		[JsonProperty("Size")]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public CreatureSize Size { get; set; }
+		[JsonProperty("CharacterType")]
+		[JsonConverter(typeof(StringEnumConverter))]
+		public CharacterType CharacterType { get; set; }
+		[JsonProperty("Alignment")]
+		[JsonConverter(typeof(StringEnumConverter))]
+		public Alignment Alignment { get; set; }
 
+		public ArmorClass ArmorClass { get; set; }
 		public CharacterClass CharacterClass { get; set; }
 		public CharacterRace Race { get; set; }
 		public Inventory Inventory { get; set; }
 		public SpellBook SpellBook { get; set; }
 		public Health Health { get; set; }
-		public NoteBook NoteManager
-		{
-			get { return noteManager; }
-		}
+		public NoteBook NoteManager { get; set; }
 		public Ability[] Abilities
 		{
 			get { return abilities; }
 			set { abilities = value; }
 		}
 		public CharacterLevel Level { get; set; }
-
-		[JsonProperty("Alignment")]
-		[JsonConverter(typeof(StringEnumConverter))]
-		public Alignment Alignment { get; set; }
 
 		public ObservableCollection<string> Languages { get; set; }
 		public ObservableCollection<string> ToolProficiences { get; set; }
@@ -103,12 +98,12 @@ namespace PCCharacterManager.Models
 			ToolProficiences = new ObservableCollection<string>();
 			OtherProficiences = new ObservableCollection<string>();
 			SpellBook = new SpellBook();
-			noteManager = new NoteBook();
+			NoteManager = new NoteBook();
 			MovementTypes_Speeds = new ObservableCollection<Property>();
 			WeaponProficiencies = new ObservableCollection<string>();
 			ArmorProficiencies = new ObservableCollection<string>();
 			Languages = new ObservableCollection<string>();
-			abilities = ReadWriteJsonCollection<Ability>.ReadCollection(Resources.AbilitiesJson).ToArray();
+			abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 			Level = new CharacterLevel();
 			Health = new Health(1);
 			CharacterClass = new CharacterClass();
@@ -116,7 +111,7 @@ namespace PCCharacterManager.Models
 
 			name = string.Empty;
 			background = string.Empty;
-			armorClass = string.Empty;
+			CharacterType = CharacterType.DnD5e;
 		}
 
 		public Character(CharacterClassData classData, CharacterRaceData raceData, BackgroundData backgroundData)
@@ -124,10 +119,10 @@ namespace PCCharacterManager.Models
 			ToolProficiences = new ObservableCollection<string>();
 			OtherProficiences = new ObservableCollection<string>();
 			SpellBook = new SpellBook();
-			noteManager = new NoteBook();
+			NoteManager = new NoteBook();
 			MovementTypes_Speeds = new ObservableCollection<Property>();
 			Languages = new ObservableCollection<string>();
-			abilities = ReadWriteJsonCollection<Ability>.ReadCollection(Resources.AbilitiesJson).ToArray();
+			abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 			Level = new CharacterLevel();
 			Health = new Health(1);
 			Inventory = new Inventory();
@@ -146,7 +141,7 @@ namespace PCCharacterManager.Models
 
 			name = string.Empty;
 			background = string.Empty;
-			armorClass = string.Empty;
+			CharacterType = CharacterType.DnD5e;
 		}
 
 		/// <summary>

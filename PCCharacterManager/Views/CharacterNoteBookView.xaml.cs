@@ -36,6 +36,9 @@ namespace PCCharacterManager.Views
 			findButton.Command = new RelayCommand(Find);
 			this.InputBindings.Add(new KeyBinding(focusSearchCommand, Key.Q, ModifierKeys.Control));
 			DataContextChanged += Sub;
+
+			richTextBox.Document.LineHeight = 1;
+			ExpandAllHelper();
 		}
 
 		private void UpdateDocument(Note note)
@@ -50,7 +53,7 @@ namespace PCCharacterManager.Views
 
 			//clear up highlighted text before starting a new search
 			textRange.ClearAllProperties();
-			//lbl_Status.Content = "";
+			highLightLabel.Content = "";
 
 			//get the richtextbox text
 			string textBoxText = textRange.Text;
@@ -108,11 +111,11 @@ namespace PCCharacterManager.Views
 			//update the label text with count
 			if (count_MatchFound > 0)
 			{
-				//lbl_Status.Content = "Total Match Found : " + count_MatchFound;
+				highLightLabel.Content = "Total Match Found : " + count_MatchFound;
 			}
 			else
 			{
-				//lbl_Status.Content = "No Match Found !";
+				highLightLabel.Content = "No Match Found !";
 			}
 		}
 
@@ -149,6 +152,7 @@ namespace PCCharacterManager.Views
 			viewModel.selectedNoteChange += UpdateDocument;
 			viewModel.characterChange += ExpandAllHelper;
 			richTextBox.TextChanged += UpdateNote;
+			ExpandAllHelper();
 		}
 
 		private void UpdateNote(object sender, TextChangedEventArgs e)

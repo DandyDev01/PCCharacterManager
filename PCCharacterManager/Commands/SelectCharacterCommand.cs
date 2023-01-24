@@ -23,10 +23,17 @@ namespace PCCharacterManager.Commands
 
 		public override void Execute(object parameter)
 		{
+			Character? selectedCharacter;
 			//Console.WriteLine("selected character is: " + characterToSelect.Name);
-			Character? selectedCharacter = ReadWriteJsonFile<Character>.ReadFile(characterPath);
-
-			if(selectedCharacter == null)
+			if (characterPath.Contains("dnd5e", StringComparison.OrdinalIgnoreCase))
+			{
+				selectedCharacter = ReadWriteJsonFile<Character>.ReadFile(characterPath);
+			}
+			else if(characterPath.Contains("starfinder", StringComparison.OrdinalIgnoreCase))
+			{
+				selectedCharacter = ReadWriteJsonFile<StarfinderCharacter>.ReadFile(characterPath);
+			}
+			else
 			{
 				MessageBox.Show("there is a problem with the character you wish to select", "character select problem", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;

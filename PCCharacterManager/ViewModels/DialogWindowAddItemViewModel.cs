@@ -60,8 +60,6 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public Item SelectedItemCopy => (Item)selectedItem.BoundItem.Clone();
-
 		public ICommand AddToInventoryCommand { get; }
 		public ICommand CancelCommand { get; }
 
@@ -76,7 +74,7 @@ namespace PCCharacterManager.ViewModels
 			AddToInventoryCommand = new RelayCommand(AddItem);
 			CancelCommand = new RelayCommand(Close);
 
-			IEnumerable<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(Resources.AllItemsJson);
+			IEnumerable<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(DnD5eResources.AllItemsJson);
 			AllItemVMs = new ObservableCollection<ItemEditableViewModel>();
 
 			foreach (Item item in allItems)

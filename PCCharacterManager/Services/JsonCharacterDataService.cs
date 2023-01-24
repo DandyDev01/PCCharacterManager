@@ -29,7 +29,7 @@ namespace PCCharacterManager.Services
 		public IEnumerable<Character> GetCharacters()
 		{
 			List<Character> characters = new List<Character>();	
-			string[] characterEntries = Directory.GetFiles(Resources.CharacterDataDir);
+			string[] characterEntries = Directory.GetFiles(DnD5eResources.CharacterDataDir);
 			foreach (string characterEntry in characterEntries)
 			{
 				var character = ReadWriteJsonFile<Character>.ReadFile(characterEntry);
@@ -41,37 +41,37 @@ namespace PCCharacterManager.Services
 
 		public IEnumerable<string> GetCharacterFilePaths()
 		{
-			return Directory.GetFiles(Resources.CharacterDataDir);
+			return Directory.GetFiles(DnD5eResources.CharacterDataDir);
 		}
 
 		public void Save(IEnumerable<Character> characters)
 		{
 			foreach (Character character in characters)
 			{
-				ReadWriteJsonFile<Character>.WriteFile(Resources.CharacterDataDir + "/" + character.Name + ".json", character);
+				ReadWriteJsonFile<Character>.WriteFile(DnD5eResources.CharacterDataDir + "/" + character.Name + ".json", character);
 			}
 		}
 
 		public void Save(Character character)
 		{
 			// character data folder does not exist
-			if (!Directory.Exists(Resources.CharacterDataDir))
+			if (!Directory.Exists(DnD5eResources.CharacterDataDir))
 			{
-				Directory.CreateDirectory(Resources.CharacterDataDir);
+				Directory.CreateDirectory(DnD5eResources.CharacterDataDir);
 			}
 
 			if (character == null) return;
 
 			character.DateModified = DateTime.Now.ToString();
 
-			ReadWriteJsonFile<Character>.WriteFile(Resources.CharacterDataDir + "/" + character.Name + ".json", character);
+			ReadWriteJsonFile<Character>.WriteFile(DnD5eResources.CharacterDataDir + "/" + character.Name + ".json", character);
 		}
 
 		public bool Delete(Character character)
 		{
-			if (File.Exists(Resources.CharacterDataDir + "/" + character.Name + ".json"))
+			if (File.Exists(DnD5eResources.CharacterDataDir + "/" + character.Name + ".json"))
 			{
-				File.Delete(Resources.CharacterDataDir + "/" + character.Name + ".json");
+				File.Delete(DnD5eResources.CharacterDataDir + "/" + character.Name + ".json");
 				return true;
 			}
 

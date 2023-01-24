@@ -13,26 +13,76 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
-	public class CharacterStatsViewModel : TabItemViewModel
+	public class CharacterStatsViewModel : ObservableObject
 	{
+		private Character selectedCharacter;
+		public Character SelectedCharacter 
+		{ 
+			get { return selectedCharacter; }
+			set { OnPropertyChanged(ref selectedCharacter, value); }
+		}
+
 		public ICommand EditCharacterCommand { get; private set; }
 
 		public CharacterInfoViewModel CharacterInfoViewModel { get; }
+		public StarfinderCharacterInfoViewModel StarfinderCharacterInfoViewModel { get; }
 
-		public CharacterStatsViewModel(CharacterStore _characterStore, ICharacterDataService dataService)
-			: base(_characterStore, dataService)
+		private bool is5e;
+		public bool Is5e
 		{
-			characterStore.SelectedCharacterChange += OnCharacterChanged;
+			get
+			{
+				return is5e;
+			}
+			set
+			{
+				OnPropertyChanged(ref is5e, value);
+			}
+		}
 
-			CharacterInfoViewModel = new CharacterInfoViewModel(_characterStore, dataService);
+		private bool isStarfinder;
+		public bool IsStarfinder
+		{
+			get
+			{
+				return isStarfinder;
+			}
+			set
+			{
+				OnPropertyChanged(ref isStarfinder, value);
+			}
+		}
+
+		public CharacterStatsViewModel(CharacterStore _characterStore)
+		{
+			_characterStore.SelectedCharacterChange += OnCharacterChanged;
+
+			CharacterInfoViewModel = new CharacterInfoViewModel(_characterStore);
+			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(); 
 
 			EditCharacterCommand = new RelayCommand(EditCharacter);
+		}
+
+		private void OnCharacterChanged(Character newCharacter)
+		{
+			SelectedCharacter = newCharacter;
+
+			if(selectedCharacter is StarfinderCharacter)
+			{
+				Is5e = false;
+				IsStarfinder = true;
+			}
+			else if(selectedCharacter is Character)
+			{
+				Is5e = true;
+				IsStarfinder = false;
+			}
 		}
 
 		private void EditCharacter()
 		{ 
 			Window window = new EditCharacterDialogWindow();
-			DialogWindowEditCharacterViewModel windowVM = new DialogWindowEditCharacterViewModel(window, SelectedCharacter);
+			DialogWindowEditCharacterViewModel windowVM = new DialogWindowEditCharacterViewModel(window, selectedCharacter);
 			window.DataContext = windowVM;
 
 			window.ShowDialog();

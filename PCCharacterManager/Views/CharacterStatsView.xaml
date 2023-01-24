@@ -5,9 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              xmlns:v="clr-namespace:PCCharacterManager.Views"
+             xmlns:vm="clr-namespace:PCCharacterManager.ViewModels"
              mc:Ignorable="d" 
              Background="{StaticResource ViewBackgroundColor}"
              d:DesignHeight="1080" d:DesignWidth="1920">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type vm:CharacterInfoViewModel}">
+            <v:CharacterInfoView DataContext="{Binding CharacterInfoViewModel}"/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:StarfinderCharacterInfoViewModel}">
+            <v:CharacterInfoView DataContext="{Binding StarfinderCharacterInfoViewModel}"/>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -39,14 +48,18 @@
                       Command="{Binding EditCharacterCommand}"/>
         </Menu>
 
-        <ContentControl Grid.Column="0"  Grid.Row="1" Grid.ColumnSpan="8" Grid.RowSpan="8">
+        <ContentControl Grid.Column="0"  Grid.Row="1" Grid.ColumnSpan="8" Grid.RowSpan="7"
+                        Visibility="{Binding Is5e, Converter={StaticResource IsEditConverter} }">
             <v:CharacterInfoView DataContext="{Binding CharacterInfoViewModel}"/>
         </ContentControl>
 
-        <DockPanel Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="7" >
-            <ContentControl>
-                <v:CharacterAbilitiesView DataContext="{Binding SelectedCharacter}"/>
-            </ContentControl>
-        </DockPanel>
+        <ContentControl Grid.Column="0"  Grid.Row="1" Grid.ColumnSpan="8" Grid.RowSpan="7"
+                        Visibility="{Binding IsStarFinder, Converter={StaticResource IsEditConverter} }">
+            <v:StarfinderCharacterInfoView DataContext="{Binding StarfinderCharacterInfoViewModel}"/>
+        </ContentControl>
+
+        <ContentControl Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="7" >
+            <v:CharacterAbilitiesView DataContext="{Binding SelectedCharacter}"/>
+        </ContentControl>
     </Grid>
 </UserControl>

@@ -118,9 +118,9 @@ namespace PCCharacterManager.ViewModels
 			characterStore = _characterStore;
 			window = _window;
 
-			BackgroundsToDisplay = ReadWriteJsonCollection<BackgroundData>.ReadCollection(Resources.BackgroundDataJson);
-			CharacterClassesToDisplay = ReadWriteJsonCollection<CharacterClassData>.ReadCollection(Resources.CharacterClassDataJson);
-			RacesToDisplay = ReadWriteJsonCollection<CharacterRaceData>.ReadCollection(Resources.RaceDataJson);
+			BackgroundsToDisplay = ReadWriteJsonCollection<BackgroundData>.ReadCollection(DnD5eResources.BackgroundDataJson);
+			CharacterClassesToDisplay = ReadWriteJsonCollection<CharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson);
+			RacesToDisplay = ReadWriteJsonCollection<CharacterRaceData>.ReadCollection(DnD5eResources.RaceDataJson);
 			RaceVariantsToDisplay = new ObservableCollection<CharacterRaceVariant>();
 			AlignmentsToDisplay = Enum.GetValues(typeof(Alignment));
 
@@ -187,7 +187,7 @@ namespace PCCharacterManager.ViewModels
 			newCharacter.Name = Name;
 			newCharacter.Abilities = tempCharacter.Abilities;
 
-			List<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(Resources.AllItemsJson);
+			List<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(DnD5eResources.AllItemsJson);
 
 			// iterate over all SelectedStartingEquipmentVMs
 			foreach (var viewModel in SelectedStartingEquipmentVMs)
@@ -343,7 +343,7 @@ namespace PCCharacterManager.ViewModels
 				{
 					int amount = StringFormater.FindQuantity(str);
 
-					var languages = ReadWriteJsonCollection<string>.ReadCollection(Resources.LanguagesJson);
+					var languages = ReadWriteJsonCollection<string>.ReadCollection(DnD5eResources.LanguagesJson);
 					List<string> options = new List<string>();
 					foreach (var language in languages)
 					{

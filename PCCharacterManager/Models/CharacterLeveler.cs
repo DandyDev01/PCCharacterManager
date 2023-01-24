@@ -60,7 +60,7 @@ namespace PCCharacterManager.Models
 
 		private void UnLockClassFeatures(Character character)
 		{
-			var classes = ReadWriteJsonCollection<CharacterClassData>.ReadCollection(Resources.CharacterClassDataJson);
+			var classes = ReadWriteJsonCollection<CharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson);
 
 			// find character class
 			CharacterClassData? data = classes.Find(x => x.Name.Equals(character.CharacterClass.Name));

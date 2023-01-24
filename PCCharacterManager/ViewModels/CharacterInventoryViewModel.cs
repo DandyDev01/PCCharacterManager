@@ -18,7 +18,7 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
-	public class CharacterInventoryViewModel : TabItemViewModel
+	public class CharacterInventoryViewModel : ObservableObject
 	{
 		private readonly ItemDisplayVMPool itemVMPool;
 		private readonly PropertyEditableVMPool propertyVMPool;
@@ -109,12 +109,10 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public CharacterInventoryViewModel(CharacterStore _characterStore, ICharacterDataService dataService, Inventory _inventory)
-			: base(_characterStore, dataService)
+		public CharacterInventoryViewModel(CharacterStore _characterStore)
 		{
 			itemVMPool = new ItemDisplayVMPool(10);
 			propertyVMPool = new PropertyEditableVMPool(5);
-			Inventory = _inventory;
 
 			AddItemCommand = new AddItemToInventoryCommand(this);
 			RemoveItemCommand = new RemoveItemFromInventoryCommand(this);
@@ -132,12 +130,12 @@ namespace PCCharacterManager.ViewModels
 
 			searchTerm = string.Empty;
 			
-			characterStore.SelectedCharacterChange += OnCharacterChanged;
+			_characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			PropertiesToDisplay = new ObservableCollection<PropertyEditableViewModel>();
 		}
 
-		protected override void OnCharacterChanged(Character newCharacter)
+		private void OnCharacterChanged(Character newCharacter)
 		{
 			Inventory = newCharacter.Inventory;
 

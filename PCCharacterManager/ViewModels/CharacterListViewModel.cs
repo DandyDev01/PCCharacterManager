@@ -21,6 +21,7 @@ namespace PCCharacterManager.ViewModels
 	{
 		private readonly CharacterStore characterStore;
 		private readonly ICharacterDataService dataService;
+		private readonly IDataService<StarfinderCharacter> starfinderDataService;
 		private readonly CollectionViewPropertySort collectionViewPropertySort;
 
 		public ObservableCollection<CharacterItemViewModel> CharacterItems { get; private set; }
@@ -36,6 +37,7 @@ namespace PCCharacterManager.ViewModels
 		public CharacterListViewModel(CharacterStore _characterStore, ICharacterDataService _dataService)
 		{
 			characterStore = _characterStore;
+			starfinderDataService = new JsonStarFinderCharacterDataService();
 			dataService = _dataService;
 
 			while (_dataService.GetCharacters().Count() < 1)
@@ -44,13 +46,22 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			List<Character> characters = new List<Character>(_dataService.GetCharacters());
+			List<StarfinderCharacter> starfinderCharacters = 
+				new List<StarfinderCharacter>(starfinderDataService.GetItems());
+
+			foreach (var item in starfinderCharacters)
+			{
+				characters.Add(item);
+			}
 
 			CharacterItems = new ObservableCollection<CharacterItemViewModel>();
 			CharacterCollectionView = CollectionViewSource.GetDefaultView(CharacterItems);
 			collectionViewPropertySort = new CollectionViewPropertySort(CharacterCollectionView);
 			CharacterCollectionView.SortDescriptions.Add(new SortDescription(nameof(CharacterItemViewModel.CharacterDateModified), ListSortDirection.Descending));
 
-			string[] characterPaths = _dataService.GetCharacterFilePaths().ToArray();
+			List<string> characterPaths = _dataService.GetCharacterFilePaths().ToList();
+			List<string> starfinderPaths = starfinderDataService.GetByFilePaths().ToList();
+			characterPaths.AddRange(starfinderPaths);
 			for (int i = 0; i < characters.Count; i++)
 			{
 				CharacterItems.Add(new CharacterItemViewModel(characterStore, characters[i], characterPaths[i]));
@@ -137,7 +148,12 @@ namespace PCCharacterManager.ViewModels
 
 		private void LoadCharacters(Character _character)
 		{
-			CharacterItems.Add(new CharacterItemViewModel(characterStore, _character, Resources.CharacterDataDir + "/" + _character.Name + ".json"));
+			CharacterItems.Add(new CharacterItemViewModel(characterStore, _character, DnD5eResources.CharacterDataDir + "/" + _character.Name + ".json"));
+		}
+
+		public void SaveCharacter()
+		{
+			dataService.Save(characterStore.SelectedCharacter);
 		}
 	} // end class
 }

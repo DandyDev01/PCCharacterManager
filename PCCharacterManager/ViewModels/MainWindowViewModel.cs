@@ -72,7 +72,9 @@ namespace PCCharacterManager.ViewModels
 
 		private void SaveCharacter(Character c = null)
 		{
-			dataService.Save(characterStore.SelectedCharacter);
+			if (tabVM == null) return;
+
+			tabVM.CharacterListVM.SaveCharacter();
 		}
 	}
 }

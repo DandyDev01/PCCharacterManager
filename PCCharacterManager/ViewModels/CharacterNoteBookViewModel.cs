@@ -16,7 +16,7 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
-	public class CharacterNoteBookViewModel : TabItemViewModel
+	public class CharacterNoteBookViewModel : ObservableObject
 	{
 		private NoteBook noteBook;
 		public NoteBook NoteBook => noteBook;
@@ -73,15 +73,13 @@ namespace PCCharacterManager.ViewModels
 		public ICommand EditSectionTitleCommand { get; }
 		public ICommand FindInNoteCommand { get; }
 
+		// for talking to the view about the richtextbox.document
 		public Action<Note> selectedNoteChange;
 		public Action characterChange;
 
-		public CharacterNoteBookViewModel(CharacterStore _characterStore, ICharacterDataService _dataService, 
-			NoteBook _noteBook) : base(_characterStore, _dataService)
+		public CharacterNoteBookViewModel(CharacterStore _characterStore)
 		{
-			noteBook = _noteBook;
-
-			characterStore.SelectedCharacterChange += OnCharacterChanged;
+			_characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			NoteSectionsToDisplay = new ObservableCollection<NoteSection>();
 			SearchResults = new ObservableCollection<Note>();
@@ -113,7 +111,7 @@ namespace PCCharacterManager.ViewModels
 		/// What to do when the selectedCharacter changes
 		/// </summary>
 		/// <param name="newCharacter">the newly selected character</param>
-		protected override void OnCharacterChanged(Character newCharacter)
+		private void OnCharacterChanged(Character newCharacter)
 		{
 			noteBook = newCharacter.NoteManager;
 
