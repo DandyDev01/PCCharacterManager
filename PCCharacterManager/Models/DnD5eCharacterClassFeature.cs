@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-	public class CharacterClassFeature : Property
+	public class DnD5eCharacterClassFeature : Property
 	{
 		public int Level { get; set; }
 
-		public CharacterClassFeature()
+		public DnD5eCharacterClassFeature()
 		{
 			Level = 0;
 		}

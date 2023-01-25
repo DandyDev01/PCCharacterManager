@@ -27,7 +27,7 @@ namespace PCCharacterManager.Commands
 			string path = openFile.FileName;
 			try
 			{
-				Character c = ReadWriteJsonFile<Character>.ReadFile(path);
+				DnD5eCharacter c = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(path);
 				characterStore.BindSelectedCharacter(c);
 
 			}

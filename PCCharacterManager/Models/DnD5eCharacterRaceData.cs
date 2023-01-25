@@ -8,7 +8,7 @@ using Newtonsoft.Json.Converters;
 
 namespace PCCharacterManager.Models
 {
-	public class CharacterRaceData
+	public class DnD5eCharacterRaceData
 	{
 		public string Name { get; set; }
 
@@ -24,19 +24,19 @@ namespace PCCharacterManager.Models
 		public string[] WeaponProficiencies { get; set; }
 		public string[] ToolProficiences { get; set; }
 
-		public CharacterRaceVariant RaceVariant { get; set; }
+		public DnD5eCharacterRaceVariant RaceVariant { get; set; }
 
 		public List<Property> Features { get; set; }
-		public List<CharacterRaceVariant> Variants { get; set; }
+		public List<DnD5eCharacterRaceVariant> Variants { get; set; }
 
-		public CharacterRaceData()
+		public DnD5eCharacterRaceData()
 		{
 			Name = string.Empty;
 			Speed = string.Empty;
 			AgeRange = string.Empty;
-			RaceVariant = new CharacterRaceVariant();
+			RaceVariant = new DnD5eCharacterRaceVariant();
 			Features = Array.Empty<Property>().ToList();
-			Variants = Array.Empty<CharacterRaceVariant>().ToList();
+			Variants = Array.Empty<DnD5eCharacterRaceVariant>().ToList();
 
 			AbilityScoreIncreases = Array.Empty<string>();
 			Languages = Array.Empty<string>();

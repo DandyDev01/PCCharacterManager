@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-	public class BackgroundData
+	public class DnD5eBackgroundData
 	{
 		public string Name { get; set; } = string.Empty;
 		public string Desc { get; set; } = string.Empty;

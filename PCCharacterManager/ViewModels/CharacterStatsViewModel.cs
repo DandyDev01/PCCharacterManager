@@ -15,8 +15,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterStatsViewModel : ObservableObject
 	{
-		private Character selectedCharacter;
-		public Character SelectedCharacter 
+		private DnD5eCharacter selectedCharacter;
+		public DnD5eCharacter SelectedCharacter 
 		{ 
 			get { return selectedCharacter; }
 			set { OnPropertyChanged(ref selectedCharacter, value); }
@@ -58,12 +58,12 @@ namespace PCCharacterManager.ViewModels
 			_characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			CharacterInfoViewModel = new CharacterInfoViewModel(_characterStore);
-			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(); 
+			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(_characterStore); 
 
 			EditCharacterCommand = new RelayCommand(EditCharacter);
 		}
 
-		private void OnCharacterChanged(Character newCharacter)
+		private void OnCharacterChanged(DnD5eCharacter newCharacter)
 		{
 			SelectedCharacter = newCharacter;
 
@@ -72,7 +72,7 @@ namespace PCCharacterManager.ViewModels
 				Is5e = false;
 				IsStarfinder = true;
 			}
-			else if(selectedCharacter is Character)
+			else if(selectedCharacter is DnD5eCharacter)
 			{
 				Is5e = true;
 				IsStarfinder = false;

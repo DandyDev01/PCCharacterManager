@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-	public class CharacterRaceVariant
+	public class DnD5eCharacterRaceVariant
 	{
-		public CharacterRaceVariant(string name, List<Property> properties)
+		public DnD5eCharacterRaceVariant(string name, List<Property> properties)
 		{
 			Name = name;
 			Properties = properties;
 		}
 
-		public CharacterRaceVariant()
+		public DnD5eCharacterRaceVariant()
 		{
 			Name = "Name";
 			Properties = new List<Property>();

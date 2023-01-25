@@ -54,7 +54,7 @@ namespace PCCharacterManager.ViewModels
 
 			NewCharacterCommand = new RelayCommand(CreateCharacterWindow);
 			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
-			SaveCharactersCommand = new SaveCharacterCommand(dataService, characterStore);
+			SaveCharactersCommand = new SaveCharacterCommand(this);
 			LevelCharacterCommand = new LevelCharacterCommand(characterStore);
 			ExportCharacterCommand = new CharacterExportCommand(characterStore, tabVM);
 			OpenCommand = new OpenCharacterCommand(characterStore);
@@ -70,7 +70,7 @@ namespace PCCharacterManager.ViewModels
 			tabVM.CharacterListVM.CreateCharacterWindow();
 		}
 
-		private void SaveCharacter(Character c = null)
+		private void SaveCharacter(DnD5eCharacter c = null)
 		{
 			if (tabVM == null) return;
 

@@ -9,16 +9,16 @@ namespace PCCharacterManager.Services
 {
 	public interface ICharacterDataService
 	{
-		IEnumerable<Character> GetCharacters();
+		IEnumerable<DnD5eCharacter> GetCharacters();
 
 		IEnumerable<string> GetCharacterFilePaths();
 
-		void Save(IEnumerable<Character> characters);
+		void Save(IEnumerable<DnD5eCharacter> characters);
 
-		void Save(Character character);
+		void Save(DnD5eCharacter character);
 
-		void Add(Character newCharacter);
+		void Add(DnD5eCharacter newCharacter);
 
-		bool Delete(Character character);
+		bool Delete(DnD5eCharacter character);
 	}
 }

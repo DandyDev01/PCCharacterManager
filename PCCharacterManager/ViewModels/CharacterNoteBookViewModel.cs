@@ -111,7 +111,7 @@ namespace PCCharacterManager.ViewModels
 		/// What to do when the selectedCharacter changes
 		/// </summary>
 		/// <param name="newCharacter">the newly selected character</param>
-		private void OnCharacterChanged(Character newCharacter)
+		private void OnCharacterChanged(DnD5eCharacter newCharacter)
 		{
 			noteBook = newCharacter.NoteManager;
 

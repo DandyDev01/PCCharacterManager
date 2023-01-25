@@ -16,9 +16,9 @@ namespace PCCharacterManager.ViewModels
 	public class DialogWindowEditCharacterViewModel : ObservableObject
 	{
 		private readonly Window window;
-		private readonly Character character;
+		private readonly DnD5eCharacter character;
 
-		public Character Character
+		public DnD5eCharacter Character
 		{
 			get { return character; }
 		}
@@ -76,7 +76,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand AddOtherProfCommand { get; private set; }
 		public ICommand RemoveOtherProfCommand { get; private set; }
 
-		public DialogWindowEditCharacterViewModel(Window _window, Character _character)
+		public DialogWindowEditCharacterViewModel(Window _window, DnD5eCharacter _character)
 		{
 			window = _window;
 			character = _character;

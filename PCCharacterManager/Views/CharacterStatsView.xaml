@@ -54,7 +54,7 @@
         </ContentControl>
 
         <ContentControl Grid.Column="0"  Grid.Row="1" Grid.ColumnSpan="8" Grid.RowSpan="7"
-                        Visibility="{Binding IsStarFinder, Converter={StaticResource IsEditConverter} }">
+                        Visibility="{Binding IsStarfinder, Converter={StaticResource IsEditConverter} }">
             <v:StarfinderCharacterInfoView DataContext="{Binding StarfinderCharacterInfoViewModel}"/>
         </ContentControl>
 

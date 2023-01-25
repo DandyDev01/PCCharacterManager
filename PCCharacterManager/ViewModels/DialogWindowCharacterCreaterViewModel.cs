@@ -22,8 +22,8 @@ namespace PCCharacterManager.ViewModels
 		private readonly CharacterStore characterStore;
 		private readonly Window window;
 
-		private Character newCharacter;
-		public Character NewCharacter
+		private DnD5eCharacter newCharacter;
+		public DnD5eCharacter NewCharacter
 		{
 			get { return newCharacter; }
 			set { OnPropertyChanged(ref newCharacter, value); }
@@ -33,10 +33,10 @@ namespace PCCharacterManager.ViewModels
 		private string name;
 		private ListViewMultiSelectItemsLimitedCountViewModel selectedClassSkillProfs;
 		#region Selected Items
-		private BackgroundData selectedBackground;
-		private CharacterClassData selectedCharacterClass;
-		private CharacterRaceData selectedRace;
-		private CharacterRaceVariant selectedRaceVariant;
+		private DnD5eBackgroundData selectedBackground;
+		private DnD5eCharacterClassData selectedCharacterClass;
+		private DnD5eCharacterRaceData selectedRace;
+		private DnD5eCharacterRaceVariant selectedRaceVariant;
 		private Alignment selectedAlignment;
 		#endregion
 		#endregion
@@ -44,19 +44,19 @@ namespace PCCharacterManager.ViewModels
 		#region public members
 		#region Collection Item Sources
 		public Array AlignmentsToDisplay { get; private set; }
-		public List<BackgroundData> BackgroundsToDisplay { get; private set; }
-		public List<CharacterClassData> CharacterClassesToDisplay { get; private set; }
-		public List<CharacterRaceData> RacesToDisplay { get; private set; }
-		public ObservableCollection<CharacterRaceVariant> RaceVariantsToDisplay { get; private set; }
+		public List<DnD5eBackgroundData> BackgroundsToDisplay { get; private set; }
+		public List<DnD5eCharacterClassData> CharacterClassesToDisplay { get; private set; }
+		public List<DnD5eCharacterRaceData> RacesToDisplay { get; private set; }
+		public ObservableCollection<DnD5eCharacterRaceVariant> RaceVariantsToDisplay { get; private set; }
 		public ObservableCollection<int> AbilityScores { get; private set; }
 		#endregion
 		#region Selected Items
-		public BackgroundData SelectedBackground
+		public DnD5eBackgroundData SelectedBackground
 		{
 			get { return selectedBackground; }
 			set { OnPropertyChanged(ref selectedBackground, value); }
 		}
-		public CharacterClassData SelectedCharacterClass
+		public DnD5eCharacterClassData SelectedCharacterClass
 		{
 			get { return selectedCharacterClass; }
 			set
@@ -67,7 +67,7 @@ namespace PCCharacterManager.ViewModels
 				UpdateSelectedClassStartEquipment();
 			}
 		}
-		public CharacterRaceData SelectedRace
+		public DnD5eCharacterRaceData SelectedRace
 		{
 			get { return selectedRace; }
 			set
@@ -76,7 +76,7 @@ namespace PCCharacterManager.ViewModels
 				UpdateRaceVariantsToDisplay();
 			}
 		}
-		public CharacterRaceVariant SelectedRaceVariant
+		public DnD5eCharacterRaceVariant SelectedRaceVariant
 		{
 			get { return selectedRaceVariant; }
 			set
@@ -113,15 +113,15 @@ namespace PCCharacterManager.ViewModels
 
 		public DialogWindowCharacterCreaterViewModel(ICharacterDataService _dataService, CharacterStore _characterStore, Window _window)
 		{
-			newCharacter = new Character();
+			newCharacter = new DnD5eCharacter();
 			dataService = _dataService;
 			characterStore = _characterStore;
 			window = _window;
 
-			BackgroundsToDisplay = ReadWriteJsonCollection<BackgroundData>.ReadCollection(DnD5eResources.BackgroundDataJson);
-			CharacterClassesToDisplay = ReadWriteJsonCollection<CharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson);
-			RacesToDisplay = ReadWriteJsonCollection<CharacterRaceData>.ReadCollection(DnD5eResources.RaceDataJson);
-			RaceVariantsToDisplay = new ObservableCollection<CharacterRaceVariant>();
+			BackgroundsToDisplay = ReadWriteJsonCollection<DnD5eBackgroundData>.ReadCollection(DnD5eResources.BackgroundDataJson);
+			CharacterClassesToDisplay = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson);
+			RacesToDisplay = ReadWriteJsonCollection<DnD5eCharacterRaceData>.ReadCollection(DnD5eResources.RaceDataJson);
+			RaceVariantsToDisplay = new ObservableCollection<DnD5eCharacterRaceVariant>();
 			AlignmentsToDisplay = Enum.GetValues(typeof(Alignment));
 
 			name = string.Empty;
@@ -182,8 +182,8 @@ namespace PCCharacterManager.ViewModels
 
 		private void Create()
 		{
-			Character tempCharacter = newCharacter;
-			newCharacter = new Character(SelectedCharacterClass, SelectedRace, SelectedBackground);
+			DnD5eCharacter tempCharacter = newCharacter;
+			newCharacter = new DnD5eCharacter(SelectedCharacterClass, SelectedRace, SelectedBackground);
 			newCharacter.Name = Name;
 			newCharacter.Abilities = tempCharacter.Abilities;
 

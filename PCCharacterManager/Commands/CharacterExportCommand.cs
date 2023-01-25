@@ -86,7 +86,7 @@ namespace PCCharacterManager.Commands
 				}
 			}
 
-			Character[] characters = new Character[characterPaths.Length];
+			DnD5eCharacter[] characters = new DnD5eCharacter[characterPaths.Length];
 
 			for (int i = 0; i < characters.Length; i++)
 			{
@@ -96,10 +96,10 @@ namespace PCCharacterManager.Commands
 					characters[i] = characterStore.SelectedCharacter;
 					continue;
 				}
-				characters[i] = ReadWriteJsonFile<Character>.ReadFile(characterPaths[i]);
+				characters[i] = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterPaths[i]);
 			}
 
-			ReadWriteJsonCollection<Character>.WriteCollection(savePath, characters);
+			ReadWriteJsonCollection<DnD5eCharacter>.WriteCollection(savePath, characters);
 		}
 
 		/// <summary>
@@ -124,12 +124,12 @@ namespace PCCharacterManager.Commands
 				savePath = savePath.Substring(0, savePath.IndexOf('.'));
 				if (characterPaths[i].Contains(characterStore.SelectedCharacter.Name))
 				{
-					ReadWriteJsonFile<Character>.WriteFile(savePath + "_" + characterStore.SelectedCharacter.Name + ".json", characterStore.SelectedCharacter);
+					ReadWriteJsonFile<DnD5eCharacter>.WriteFile(savePath + "_" + characterStore.SelectedCharacter.Name + ".json", characterStore.SelectedCharacter);
 					savePath += ".json";
 					continue;
 				}
-				Character character = ReadWriteJsonFile<Character>.ReadFile(characterPaths[i]);
-				ReadWriteJsonFile<Character>.WriteFile(savePath + "_" + character.Name + ".json", character);
+				DnD5eCharacter character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterPaths[i]);
+				ReadWriteJsonFile<DnD5eCharacter>.WriteFile(savePath + "_" + character.Name + ".json", character);
 				savePath += ".json";
 			}
 		}

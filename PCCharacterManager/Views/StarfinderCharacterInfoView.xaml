@@ -7,6 +7,137 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="Hello"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <!--5-->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="auto"/>
+            <!--10-->
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="439"/>
+        </Grid.RowDefinitions>
+
+        <!--#region Name and Age-->
+        <TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="1"
+                     Text="{Binding SelectedCharacter.Name, FallbackValue=Name, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1"
+                     Text="{Binding SelectedCharacter.HomeWorld, FallbackValue=homeworld, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <TextBlock Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="1" Style="{StaticResource h3}"
+                       Text="age"/>
+        <TextBox Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                     ToolTip="Age"
+                     Text="{Binding SelectedCharacter.Race.Age, FallbackValue=20, UpdateSourceTrigger=PropertyChanged}"/>
+        <!--#endregion-->
+
+        <!--#region Alignment and Size-->
+        <TextBlock Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2" Style="{StaticResource h3}"
+                       Text="{Binding SelectedCharacter.Alignment,FallbackValue=good}"/>
+
+        <TextBlock Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="2" Style="{StaticResource h3}"
+                       Text="{Binding SelectedCharacter.Size, FallbackValue=small}"/>
+        <!--#endregion-->
+
+        <!--#region Hit Points-->
+        <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource h3}"
+                       ToolTip="{Binding SelectedCharacter.Health.MaxHealth}"
+                       Text="Health"/>
+        <TextBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1"
+                     ToolTip="Current Hit Points"
+                     Text="{Binding SelectedCharacter.Health.CurrHealth, FallbackValue=22, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1"
+                     ToolTip="Temporary Hit Points"
+                     Text="{Binding SelectedCharacter.Health.TempHitPoints, FallbackValue=22, UpdateSourceTrigger=PropertyChanged}"/>
+        <!--#endregion-->
+
+        <!--#region EXP-->
+        <TextBlock Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                       Text="EXP"/>
+        <TextBox Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                     Text="{Binding SelectedCharacter.Level.ExperiencePoints, FallbackValue=400, UpdateSourceTrigger=PropertyChanged}" />
+        <!--#endregion-->
+
+        <!--#region Armor Class-->
+        <TextBlock Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="1"
+                     Text="Armor Class"/>
+        <!--#region energy-->
+        <TextBox Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                 ToolTip="base (10) + bonus + MiscMod + DexMod"
+                 Text="{Binding SelectedCharacter.ArmorClass.EnergyArmorClassValue}"/>
+        <TextBox Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                 ToolTip="Dex Mod"
+                 Text="{Binding SelectedCharacter.ArmorClass.EnergyDexMod, FallbackValue=1, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                 ToolTip="Dex Mod"
+                 Text="{Binding SelectedCharacter.ArmorClass.EnergyMiscMod, FallbackValue=1, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="6" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                 ToolTip="Dex Mod"
+                 Text="{Binding SelectedCharacter.ArmorClass.EnergyArmorBonus, FallbackValue=1, UpdateSourceTrigger=PropertyChanged}"/>
+        <!--#endregion-->
+        <!--#region kinetic-->
+        <TextBox Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                 ToolTip="base (10) + bonus + MiscMod + DexMod"
+                 Text="{Binding SelectedCharacter.ArmorClass.KineticArmorClassValue}"/>
+        <TextBox Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                 ToolTip="Dex Mod"
+                 Text="{Binding SelectedCharacter.ArmorClass.KineticDexMod, FallbackValue=1, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                 ToolTip="Dex Mod"
+                 Text="{Binding SelectedCharacter.ArmorClass.KineticMiscMod, FallbackValue=1, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="6" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                 ToolTip="Dex Mod"
+                 Text="{Binding SelectedCharacter.ArmorClass.KineticArmorBonus, FallbackValue=1, UpdateSourceTrigger=PropertyChanged}"/>
+        <!--#endregion-->
+        <!--#endregion-->
+
+        <!--#region Initiative-->
+        <TextBlock Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="1" 
+                       ToolTip="your Dex Mod"
+                       Text="Initiative"/>
+        <TextBox Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="1" 
+                     ToolTip="your Dex Mod"
+                     Text="{Binding SelectedCharacter.Initiative, FallbackValue=3, UpdateSourceTrigger=PropertyChanged}"/>
+        <!--#endregion-->
+        <!--#region stamina Points-->
+        <TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource h3}"
+                       ToolTip="{Binding SelectedCharacter.Health.MaxHealth}"
+                       Text="stamina points"/>
+        <TextBox Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="1"
+                     ToolTip="total stamina points"
+                     Text="{Binding SelectedCharacter.StaminaPoints.Name, FallbackValue=22, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="1"
+                     ToolTip="current stamina points"
+                     Text="{Binding SelectedCharacter.StaminaPoints.Desc, FallbackValue=22, UpdateSourceTrigger=PropertyChanged}"/>
+        <!--#endregion-->
+        <!--#region resolve Points-->
+        <TextBlock Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource h3}"
+                       ToolTip="{Binding SelectedCharacter.Health.MaxHealth}"
+                       Text="resolve points"/>
+        <TextBox Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="1"
+                     ToolTip="total resolve points"
+                     Text="{Binding SelectedCharacter.ResolvePoints.Name, FallbackValue=22, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="1"
+                     ToolTip="current resolve points"
+                     Text="{Binding SelectedCharacter.ResolvePoints.Desc, FallbackValue=22, UpdateSourceTrigger=PropertyChanged}"/>
+        <!--#endregion-->
     </Grid>
 </UserControl>

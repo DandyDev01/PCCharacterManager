@@ -199,7 +199,7 @@ namespace PCCharacterManager.ViewModels
 			NextFilterCommand = new RelayCommand(NextFilter);
 		}
 
-		private void OnCharacterChanged(Character newCharacter)
+		private void OnCharacterChanged(DnD5eCharacter newCharacter)
 		{
 			ReleaseSpellItems();
 			CantripsToDisplay.Clear();

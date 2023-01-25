@@ -17,7 +17,7 @@ namespace PCCharacterManager.Models
 	public enum CreatureSize { TINY, SMALL, MEDIUM, LARGE, HUGE, GARGANTUAN }
 	public enum CharacterType { DnD5e, starfinder }
 
-	public class Character : ObservableObject
+	public class DnD5eCharacter : ObservableObject
 	{
 		protected string name;
 		protected string background;
@@ -72,8 +72,8 @@ namespace PCCharacterManager.Models
 		public Alignment Alignment { get; set; }
 
 		public ArmorClass ArmorClass { get; set; }
-		public CharacterClass CharacterClass { get; set; }
-		public CharacterRace Race { get; set; }
+		public DnD5eCharacterClass CharacterClass { get; set; }
+		public DnD5eCharacterRace Race { get; set; }
 		public Inventory Inventory { get; set; }
 		public SpellBook SpellBook { get; set; }
 		public Health Health { get; set; }
@@ -92,7 +92,7 @@ namespace PCCharacterManager.Models
 		public ObservableCollection<string> ArmorProficiencies { get; set; }
 		public ObservableCollection<Property> MovementTypes_Speeds { get; set; }
 
-		public Character()
+		public DnD5eCharacter()
 		{
 			Inventory = new Inventory();
 			ToolProficiences = new ObservableCollection<string>();
@@ -106,15 +106,15 @@ namespace PCCharacterManager.Models
 			abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 			Level = new CharacterLevel();
 			Health = new Health(1);
-			CharacterClass = new CharacterClass();
-			Race = new CharacterRace();
+			CharacterClass = new DnD5eCharacterClass();
+			Race = new DnD5eCharacterRace();
 
 			name = string.Empty;
 			background = string.Empty;
 			CharacterType = CharacterType.DnD5e;
 		}
 
-		public Character(CharacterClassData classData, CharacterRaceData raceData, BackgroundData backgroundData)
+		public DnD5eCharacter(DnD5eCharacterClassData classData, DnD5eCharacterRaceData raceData, DnD5eBackgroundData backgroundData)
 		{
 			ToolProficiences = new ObservableCollection<string>();
 			OtherProficiences = new ObservableCollection<string>();
@@ -127,8 +127,8 @@ namespace PCCharacterManager.Models
 			Health = new Health(1);
 			Inventory = new Inventory();
 
-			CharacterClass = new CharacterClass(classData);
-			Race = new CharacterRace(raceData);
+			CharacterClass = new DnD5eCharacterClass(classData);
+			Race = new DnD5eCharacterRace(raceData);
 			Background = backgroundData.Name;
 			Size = raceData.Size;
 			Alignment = Alignment;

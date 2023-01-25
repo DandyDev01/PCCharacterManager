@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-	public class AttackBonus : ObservableObject
+	public class StarfinderAttackBonus : ObservableObject
 	{
 		public string Total
 		{
@@ -59,7 +59,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		public AttackBonus()
+		public StarfinderAttackBonus()
 		{
 			baseAttackBonus = "0";
 			skillMod = "0";

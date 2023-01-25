@@ -135,7 +135,7 @@ namespace PCCharacterManager.ViewModels
 			PropertiesToDisplay = new ObservableCollection<PropertyEditableViewModel>();
 		}
 
-		private void OnCharacterChanged(Character newCharacter)
+		private void OnCharacterChanged(DnD5eCharacter newCharacter)
 		{
 			Inventory = newCharacter.Inventory;
 

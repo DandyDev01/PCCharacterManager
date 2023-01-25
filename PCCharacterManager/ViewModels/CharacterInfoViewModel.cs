@@ -17,8 +17,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterInfoViewModel : ObservableObject
 	{
-		private Character selectedCharacter;
-		public Character SelectedCharacter
+		private DnD5eCharacter selectedCharacter;
+		public DnD5eCharacter SelectedCharacter
 		{
 			get
 			{
@@ -152,7 +152,7 @@ namespace PCCharacterManager.ViewModels
 		/// What to do when the selectedCharacter changes
 		/// </summary>
 		/// <param name="newCharacter">the newly selected character</param>
-		private void OnCharacterChanged(Character newCharacter)
+		private void OnCharacterChanged(DnD5eCharacter newCharacter)
 		{
 			SelectedCharacter = newCharacter;
 		}

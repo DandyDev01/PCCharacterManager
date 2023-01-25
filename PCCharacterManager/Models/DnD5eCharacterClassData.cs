@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-	public class CharacterClassData
+	public class DnD5eCharacterClassData
 	{
 		private string name;
 		private HitDie hitDie;
-		private CharacterClassLevel level;
+		private DnD5eCharacterClassLevel level;
 
 		[JsonProperty("HitDie")]
 		[JsonConverter(typeof(StringEnumConverter))]
@@ -32,7 +32,7 @@ namespace PCCharacterManager.Models
 				name = value;
 			}
 		}
-		public CharacterClassLevel Level
+		public DnD5eCharacterClassLevel Level
 		{
 			get { return level; }
 			set
@@ -60,7 +60,7 @@ namespace PCCharacterManager.Models
 			get;
 			set;
 		}
-		public CharacterClassFeature[] Features
+		public DnD5eCharacterClassFeature[] Features
 		{
 			get;
 			set;
@@ -80,18 +80,18 @@ namespace PCCharacterManager.Models
 		}
 		private int numOfSkillProficiences;
 
-		public CharacterClassData()
+		public DnD5eCharacterClassData()
 		{
 			name = string.Empty;
 			hitDie = HitDie.D4;
-			level = new CharacterClassLevel();
+			level = new DnD5eCharacterClassLevel();
 			ArmorProficiencies = Array.Empty<string>();
 			WeaponProficiencies = Array.Empty<string>();
 			ToolProficiencies = Array.Empty<string>();
 			SavingThrows = Array.Empty<string>();
 			StartEquipment = Array.Empty<string>();
 			PossibleSkillProficiences = Array.Empty<string>();
-			Features = Array.Empty<CharacterClassFeature>();
+			Features = Array.Empty<DnD5eCharacterClassFeature>();
 		}
 	}
 }

@@ -45,7 +45,7 @@ namespace PCCharacterManager.ViewModels
 				CreateCharacterWindow();
 			}
 
-			List<Character> characters = new List<Character>(_dataService.GetCharacters());
+			List<DnD5eCharacter> characters = new List<DnD5eCharacter>(_dataService.GetCharacters());
 			List<StarfinderCharacter> starfinderCharacters = 
 				new List<StarfinderCharacter>(starfinderDataService.GetItems());
 
@@ -115,7 +115,7 @@ namespace PCCharacterManager.ViewModels
 
 			if (results == MessageBoxResult.No) return;
 
-			Character character = characterStore.SelectedCharacter;
+			DnD5eCharacter character = characterStore.SelectedCharacter;
 			CharacterItemViewModel? item = null;
 			foreach (CharacterItemViewModel _item in CharacterItems)
 			{
@@ -146,14 +146,21 @@ namespace PCCharacterManager.ViewModels
 			CharacterItems[0].SelectCharacterCommand?.Execute(null);
 		}
 
-		private void LoadCharacters(Character _character)
+		private void LoadCharacters(DnD5eCharacter _character)
 		{
 			CharacterItems.Add(new CharacterItemViewModel(characterStore, _character, DnD5eResources.CharacterDataDir + "/" + _character.Name + ".json"));
 		}
 
 		public void SaveCharacter()
 		{
-			dataService.Save(characterStore.SelectedCharacter);
+			if(characterStore.SelectedCharacter is StarfinderCharacter)
+			{
+				starfinderDataService.Save(characterStore.SelectedCharacter as StarfinderCharacter);
+			}
+			else if(characterStore.SelectedCharacter is DnD5eCharacter)
+			{
+				dataService.Save(characterStore.SelectedCharacter);
+			}
 		}
 	} // end class
 }

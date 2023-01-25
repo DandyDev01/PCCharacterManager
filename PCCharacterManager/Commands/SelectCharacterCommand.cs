@@ -23,11 +23,11 @@ namespace PCCharacterManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			Character? selectedCharacter;
+			DnD5eCharacter? selectedCharacter;
 			//Console.WriteLine("selected character is: " + characterToSelect.Name);
 			if (characterPath.Contains("dnd5e", StringComparison.OrdinalIgnoreCase))
 			{
-				selectedCharacter = ReadWriteJsonFile<Character>.ReadFile(characterPath);
+				selectedCharacter = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterPath);
 			}
 			else if(characterPath.Contains("starfinder", StringComparison.OrdinalIgnoreCase))
 			{

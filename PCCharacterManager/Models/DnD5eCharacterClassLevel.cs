@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-	public class CharacterClassLevel : ObservableObject, ILevel
+	public class DnD5eCharacterClassLevel : ObservableObject, ILevel
 	{
 		private int level;
 

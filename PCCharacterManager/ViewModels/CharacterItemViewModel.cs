@@ -31,7 +31,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand SelectCharacterCommand { get; private set; }
 
 		//TODO: get the characterStore from BookVM
-		public CharacterItemViewModel(CharacterStore characterStore, Character character, string _characterPath)
+		public CharacterItemViewModel(CharacterStore characterStore, DnD5eCharacter character, string _characterPath)
 		{
 			characterName = character.Name;
 			characterClass = character.CharacterClass.Name;

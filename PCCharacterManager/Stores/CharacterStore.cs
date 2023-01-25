@@ -9,11 +9,11 @@ namespace PCCharacterManager.Stores
 {
 	public class CharacterStore
 	{
-		public Character? SelectedCharacter { get; private set; }
-		public event Action<Character>? CharacterCreate;
-		public event Action<Character>? SelectedCharacterChange;
+		public DnD5eCharacter? SelectedCharacter { get; private set; }
+		public event Action<DnD5eCharacter>? CharacterCreate;
+		public event Action<DnD5eCharacter>? SelectedCharacterChange;
 
-		public void CreateCharacter(Character character)
+		public void CreateCharacter(DnD5eCharacter character)
 		{
 			CharacterCreate?.Invoke(character);
 		}
@@ -22,7 +22,7 @@ namespace PCCharacterManager.Stores
 		/// binds the selected character to a specified character
 		/// </summary>
 		/// <param name="characterToBind">character to bind to</param>
-		public void BindSelectedCharacter(Character characterToBind)
+		public void BindSelectedCharacter(DnD5eCharacter characterToBind)
 		{
 			SelectedCharacterChange?.Invoke(characterToBind);
 			SelectedCharacter = characterToBind;
