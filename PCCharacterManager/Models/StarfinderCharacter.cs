@@ -12,20 +12,26 @@ namespace PCCharacterManager.Models
 		public Property StaminaPoints { get; set; }
 		public Property ResolvePoints { get; set; }
 		public StarfinderTheme Theme { get; set; }
-		public StarfinderAttackBonus MeleeAttack { get; set; }
-		public StarfinderAttackBonus RangedAttack { get; set; }
-		public StarfinderAttackBonus ThrownAttack { get; set; }
+		public StarfinderStatBlock MeleeAttack { get; set; }
+		public StarfinderStatBlock RangedAttack { get; set; }
+		public StarfinderStatBlock ThrownAttack { get; set; }
+		public StarfinderStatBlock SavingThrowWill { get; set; }
+		public StarfinderStatBlock SavingThrowReflex { get; set; }
+		public StarfinderStatBlock SavingThrowFortitude { get; set; }
 		public new StarfinderArmorClass ArmorClass { get; set; }
 
 		public StarfinderCharacter() : base()
 		{
 			CharacterType = CharacterType.starfinder;
-			ArmorClass = new StarfinderArmorClass();
 			StaminaPoints = new Property();
 			ResolvePoints = new Property();
-			MeleeAttack = new StarfinderAttackBonus();
-			RangedAttack = new StarfinderAttackBonus();
-			ThrownAttack = new StarfinderAttackBonus();
+			ArmorClass = new StarfinderArmorClass();
+			MeleeAttack = new StarfinderStatBlock();
+			RangedAttack = new StarfinderStatBlock();
+			ThrownAttack = new StarfinderStatBlock();
+			SavingThrowWill = new StarfinderStatBlock();
+			SavingThrowReflex = new StarfinderStatBlock();
+			SavingThrowFortitude = new StarfinderStatBlock();
 			Theme = new StarfinderTheme();
 		}
 
@@ -33,12 +39,15 @@ namespace PCCharacterManager.Models
 			DnD5eBackgroundData backgroundData) : base(classData, raceData, backgroundData)
 		{
 			CharacterType = CharacterType.starfinder;
-			ArmorClass = new StarfinderArmorClass();
 			StaminaPoints = new Property();
 			ResolvePoints = new Property();
-			MeleeAttack = new StarfinderAttackBonus();
-			RangedAttack = new StarfinderAttackBonus();
-			ThrownAttack = new StarfinderAttackBonus();
+			ArmorClass = new StarfinderArmorClass();
+			MeleeAttack = new StarfinderStatBlock();
+			RangedAttack = new StarfinderStatBlock();
+			ThrownAttack = new StarfinderStatBlock();
+			SavingThrowWill = new StarfinderStatBlock();
+			SavingThrowReflex = new StarfinderStatBlock();
+			SavingThrowFortitude = new StarfinderStatBlock();
 			Theme = new StarfinderTheme();
 		}
 	}

@@ -8,38 +8,31 @@ namespace PCCharacterManager.Models
 {
 	public class StarfinderArmorClass : ArmorClass
 	{
-		public const string energyArmorClassBase = "10";
-		public const string kineticArmorClassBase = "10";
-		public const string acVsCombatManeuversBase = "8 + KAC";
+		public const int energyArmorClassBase = 10;
+		public const int kineticArmorClassBase = 10;
+		public const int acVsCombatManeuversBase = 8;
 
-		private string energyArmorClassValue = string.Empty;
-		public string EnergyArmorClassValue
+		public int EnergyArmorTotal
 		{
 			get
 			{
-				return energyArmorClassValue;
-			}
-			set
-			{
-				OnPropertyChanged(ref energyArmorClassValue, value);
+				return energyArmorBonus + energyArmorClassBase + energyDexMod + energyMiscMod;
 			}
 		}
-
-		private string kineticArmorClassValue = string.Empty;
-		public string KineticArmorClassValue
+		public int KineticArmorTotal
 		{
 			get
 			{
-				return kineticArmorClassValue;
-			}
-			set
-			{
-				OnPropertyChanged(ref kineticArmorClassValue, value);
+				return kineticDexMod + kineticMiscMod + kineticArmorClassBase + kineticArmorBonus;
 			}
 		}
+		public int AcVsCombatManeuvers
+		{
+			get { return acVsCombatManeuversBase + KineticArmorTotal; }
+		}
 
-		private string energyArmorBonus = string.Empty;	
-		public string EnergyArmorBonus
+		private int energyArmorBonus;	
+		public int EnergyArmorBonus
 		{
 			get
 			{
@@ -48,24 +41,26 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref energyArmorBonus, value);
+				OnPropertyChaged("energyArmorTotal");
 			}
 		}
 
-		private string energyDexMod = string.Empty;
-		public string EnergyDexMod
+		private int energyDexMod;
+		public int EnergyDexMod
 		{
 			get
 			{
-				return energyDexMod = string.Empty;
+				return energyDexMod;
 			}
 			set
 			{
 				OnPropertyChanged(ref energyDexMod, value);
+				OnPropertyChaged("energyArmorTotal");
 			}
 		}
 
-		private string energyMiscMod = string.Empty;
-		public string EnergyMiscMod
+		private int energyMiscMod;
+		public int EnergyMiscMod
 		{
 			get
 			{
@@ -74,11 +69,12 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref energyMiscMod, value);
+				OnPropertyChaged("energyArmorTotal");
 			}
 		}
 
-		private string kineticArmorBonus = string.Empty;
-		public string KineticArmorBonus
+		private int kineticArmorBonus;
+		public int KineticArmorBonus
 		{
 			get
 			{
@@ -87,24 +83,28 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref kineticArmorBonus, value);
+				OnPropertyChaged("KineticArmorTotal");
+				OnPropertyChaged("AcVsCombatManeuvers");
 			}
 		}
 
-		private string kineticDexMod = string.Empty;
-		public string KineticDexMod
+		private int kineticDexMod;
+		public int KineticDexMod
 		{
 			get
 			{
-				return kineticDexMod = string.Empty;
+				return kineticDexMod;
 			}
 			set
 			{
 				OnPropertyChanged(ref kineticDexMod, value);
+				OnPropertyChaged("KineticArmorTotal");
+				OnPropertyChaged("AcVsCombatManeuvers");
 			}
 		}
 
-		private string kineticMiscMod = string.Empty;
-		public string KineticMiscMod
+		private int kineticMiscMod;
+		public int KineticMiscMod
 		{
 			get
 			{
@@ -113,6 +113,8 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref kineticMiscMod, value);
+				OnPropertyChaged("KineticArmorTotal");
+				OnPropertyChaged("AcVsCombatManeuvers");
 			}
 		}
 	}
