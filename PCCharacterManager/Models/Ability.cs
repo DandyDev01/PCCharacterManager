@@ -19,9 +19,9 @@ namespace PCCharacterManager.Models
 		private int profBonus = 2;
 
 		[JsonProperty]
-		public string Name { get; private set; }
+		public string Name { get; protected set; }
 		[JsonProperty]
-		public string Description { get; private set; }
+		public string Description { get; protected set; }
 		public int Score
 		{
 			get { return score; }
@@ -75,7 +75,7 @@ namespace PCCharacterManager.Models
 		[JsonProperty]
 		public AbilitySkill[] Skills { get; private set; }
 
-		public ICommand UpdateProfSaveCommand { get; private set; }
+		public ICommand UpdateProfSaveCommand { get; protected set; }
 
 		public Ability()
 		{
@@ -233,7 +233,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		private void SetProfSave()
+		protected void SetProfSave()
 		{
 			ProfSave = !ProfSave;
 		}

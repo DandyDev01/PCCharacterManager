@@ -64,9 +64,11 @@ namespace PCCharacterManager.Models
 		[JsonProperty("Size")]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public CreatureSize Size { get; set; }
+
 		[JsonProperty("CharacterType")]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public CharacterType CharacterType { get; set; }
+		
 		[JsonProperty("Alignment")]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public Alignment Alignment { get; set; }

@@ -9,6 +9,8 @@ namespace PCCharacterManager.Models
 {
 	public class StarfinderCharacter : DnD5eCharacter
 	{
+		private new StarfinderAbility[] abilities;
+
 		public Property StaminaPoints { get; set; }
 		public Property ResolvePoints { get; set; }
 		public StarfinderTheme Theme { get; set; }
@@ -19,6 +21,11 @@ namespace PCCharacterManager.Models
 		public StarfinderStatBlock SavingThrowReflex { get; set; }
 		public StarfinderStatBlock SavingThrowFortitude { get; set; }
 		public new StarfinderArmorClass ArmorClass { get; set; }
+		public new StarfinderAbility[] Abilities
+		{
+			get { return abilities; }
+			set { abilities = value; }
+		}
 
 		public StarfinderCharacter() : base()
 		{
@@ -33,6 +40,7 @@ namespace PCCharacterManager.Models
 			SavingThrowReflex = new StarfinderStatBlock();
 			SavingThrowFortitude = new StarfinderStatBlock();
 			Theme = new StarfinderTheme();
+			abilities = ReadWriteJsonCollection<StarfinderAbility>.ReadCollection(StarfinderResources.AbilitiesJson).ToArray();
 		}
 
 		public StarfinderCharacter(StarfinderClassData classData, StarfinderRaceData raceData, 
@@ -49,6 +57,7 @@ namespace PCCharacterManager.Models
 			SavingThrowReflex = new StarfinderStatBlock();
 			SavingThrowFortitude = new StarfinderStatBlock();
 			Theme = new StarfinderTheme();
+			abilities = ReadWriteJsonCollection<StarfinderAbility>.ReadCollection(StarfinderResources.AbilitiesJson).ToArray();
 		}
 	}
 }
