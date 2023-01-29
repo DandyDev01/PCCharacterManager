@@ -13,96 +13,49 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
-	public class StarfinderCharacterInfoViewModel : ObservableObject
+	public class StarfinderCharacterInfoViewModel : CharacterInfoViewModel
 	{
-		private StarfinderCharacter starfinderCharacter;
-		public StarfinderCharacter SelectedCharacter
+		private new StarfinderCharacter selectedCharacter;
+		public new StarfinderCharacter SelectedCharacter
 		{
 			get
 			{
-				return starfinderCharacter;
+				return selectedCharacter;
 			}
 			set
 			{
-				OnPropertyChanged(ref starfinderCharacter, value);
+				OnPropertyChanged(ref selectedCharacter, value);
 			}
 		}
 
-		private string selectedLanguage;
-		public string SelectedLanguage
+		public string SelectedThemeFeatureName
+		{
+			get; set;
+		}
+
+		private Property selectedThemeFeature;
+		public Property SelectedThemeFeature
 		{
 			get
 			{
-				return "Remove " + selectedLanguage;
+				return selectedThemeFeature;
 			}
 			set
 			{
-				OnPropertyChanged(ref selectedLanguage, value);
+				OnPropertyChanged(ref selectedThemeFeature, value);
+				SelectedThemeFeatureName = "Remove " + SelectedThemeFeature.Name;
+				OnPropertyChaged("SelectedThemeFeatureName");
 			}
 		}
 
-		private string selectedWeaponProf;
-		public string SelectedWeaponProf
-		{
-			get
-			{
-				return "Remove " + selectedWeaponProf;
-			}
-			set
-			{
-				OnPropertyChanged(ref selectedWeaponProf, value);
-			}
-		}
+		public ICommand AddThemeFeatureCommand { get; }
+		public ICommand RemoveThemeFeatureCommand { get; }
 
-		private string selectedArmorProf;
-		public string SelectedArmorProf
-		{
-			get
-			{
-				return "Remove " + selectedArmorProf;
-			}
-			set
-			{
-				OnPropertyChanged(ref selectedArmorProf, value);
-			}
-		}
-
-		private Property selectedMovementType;
-		public Property SelectedMovementType
-		{
-			get
-			{
-				return selectedMovementType;
-			}
-			set
-			{
-				selectedMovementType = value;
-				OnPropertyChanged(ref selectedMovementType, value);
-			}
-		}
-
-		public ICommand AddLanguageCommand { get; }
-		public ICommand RemoveLanguageCommand { get; }
-		public ICommand AddMovementTypeCommand { get; }
-		public ICommand RemoveMovementTypeCommand { get; }
-		public ICommand AddWeaponProfCommand { get; }
-		public ICommand RemoveWeaponProfCommand { get; }
-		public ICommand AddArmorProfCommand { get; }
-		public ICommand RemoveArmorProfCommand { get; }
-
-		public StarfinderCharacterInfoViewModel(CharacterStore _characterStore)
+		public StarfinderCharacterInfoViewModel(CharacterStore _characterStore) : base(_characterStore)
 		{
 			_characterStore.SelectedCharacterChange += OnCharacterChange;
-
-			RemoveLanguageCommand = new RelayCommand(RemoveLanguage);
-			RemoveArmorProfCommand = new RelayCommand(RemoveArmorProf);
-			RemoveWeaponProfCommand = new RelayCommand(RemoveWeaponProf);
-			RemoveMovementTypeCommand = new RelayCommand(RemoveMovementType);
-
-			AddLanguageCommand = new RelayCommand(AddLanguage);
-			AddMovementTypeCommand = new RelayCommand(AddMovement);
-			AddWeaponProfCommand = new RelayCommand(AddWeapon);
-			AddArmorProfCommand = new RelayCommand(AddArmor);
+			AddThemeFeatureCommand = new RelayCommand(AddThemeFeature);
+			RemoveThemeFeatureCommand = new RelayCommand(RemoveThemeFeature);
 		}
 
 		private void OnCharacterChange(DnD5eCharacter newCharacter)
@@ -110,35 +63,10 @@ namespace PCCharacterManager.ViewModels
 			SelectedCharacter = newCharacter as StarfinderCharacter;
 		}
 
-		private void RemoveLanguage()
-		{
-			SelectedCharacter.Languages.Remove(selectedLanguage);
-		}
-
-		private void RemoveArmorProf()
-		{
-			SelectedCharacter.ArmorProficiencies.Remove(selectedArmorProf);
-		}
-
-		private void RemoveWeaponProf()
-		{
-			SelectedCharacter.WeaponProficiencies.Remove(selectedWeaponProf);
-		}
-
-		private void RemoveMovementType()
-		{
-			SelectedCharacter.MovementTypes_Speeds.Remove(selectedMovementType);
-		}
-
-		private void AddLanguage()
-		{
-			AddTo(starfinderCharacter.Languages);
-		}
-
-		private void AddMovement()
+		private void AddThemeFeature()
 		{
 			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window, "Movement type i.e. FLY");
+			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window, "Feature Name");
 			window.DataContext = windowVM;
 			window.ShowDialog();
 
@@ -146,37 +74,19 @@ namespace PCCharacterManager.ViewModels
 				return;
 
 			Window window1 = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM1 = new DialogWindowStringInputViewModel(window1, "Movement Speed i.e. 30ft");
+			DialogWindowStringInputViewModel windowVM1 = new DialogWindowStringInputViewModel(window1, "Feature Description");
 			window1.DataContext = windowVM1;
 			window1.ShowDialog();
 
 			if (window1.DialogResult == false)
 				return;
 
-			starfinderCharacter.MovementTypes_Speeds.Add(new Property(windowVM.Answer, windowVM1.Answer));
+			selectedCharacter.Theme.Features.Add(new Property(windowVM.Answer, windowVM1.Answer));
 		}
 
-		private void AddWeapon()
+		private void RemoveThemeFeature()
 		{
-			AddTo(starfinderCharacter.WeaponProficiencies);
-		}
-
-		private void AddArmor()
-		{
-			AddTo(starfinderCharacter.ArmorProficiencies);
-		}
-
-		private void AddTo(in ObservableCollection<string> addTo)
-		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window);
-			window.DataContext = windowVM;
-			window.ShowDialog();
-
-			if (window.DialogResult == false)
-				return;
-
-			addTo.Add(windowVM.Answer);
+			selectedCharacter.Theme.Features.Remove(selectedThemeFeature);
 		}
 	}
 }
