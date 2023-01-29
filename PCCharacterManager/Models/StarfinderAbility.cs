@@ -1,4 +1,5 @@
-﻿using PCCharacterManager.Utility;
+﻿using Newtonsoft.Json;
+using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace PCCharacterManager.Models
 {
 	public class StarfinderAbility : Ability
 	{
+		[JsonProperty]
 		public new StarfinderSkill[] Skills { get; private set; }
 
 		private int upgradedScore;
@@ -21,7 +23,26 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref upgradedScore, value);
-				SetMod();
+				SetUpgradedMod();
+				UpdateSkillInfo();
+			}
+		}
+
+		private void UpdateSkillInfo()
+		{
+			if (Skills == null)
+				return;
+
+			foreach (var skill in Skills)
+			{
+
+				if (skill.SkillProficiency)
+				{
+					skill.Score = upgradedModifier;
+					continue;
+				}
+
+				skill.Score = upgradedModifier;
 			}
 		}
 
@@ -48,7 +69,7 @@ namespace PCCharacterManager.Models
 			Skills = Array.Empty<StarfinderSkill>();
 		}
 
-		private void SetMod()
+		private void SetUpgradedMod()
 		{
 			switch (upgradedScore)
 			{
@@ -147,5 +168,40 @@ namespace PCCharacterManager.Models
 					break;
 			}
 		}
+
+		protected override void UpdateSkillInfo(int profBonus)
+		{
+			if (Skills == null)
+				return;
+
+			foreach (var skill in Skills)
+			{
+
+				if (skill.SkillProficiency)
+				{
+					skill.Score = profBonus + Modifier;
+					continue;
+				}
+
+				skill.Score = Modifier;
+			}
+		}
+
+		/// <summary>
+		/// gets all skills under abilities
+		/// </summary>
+		/// <param name="abilities">abilities to search</param>
+		/// <returns></returns>
+		public static StarfinderSkill[] GetSkills(StarfinderAbility[] abilities)
+		{
+			List<StarfinderSkill> skills = new List<StarfinderSkill>();
+			foreach (var item in abilities)
+			{
+				skills.AddRange(item.Skills);
+			}
+
+			return skills.ToArray();
+		}
+
 	}
 }

@@ -215,7 +215,7 @@ namespace PCCharacterManager.Models
 		/// update info for the skills
 		/// </summary>
 		/// <param name="profBonus">proficiency bonus from character level</param>
-		private void UpdateSkillInfo(int profBonus)
+		protected virtual void UpdateSkillInfo(int profBonus)
 		{
 			if (Skills == null)
 				return;

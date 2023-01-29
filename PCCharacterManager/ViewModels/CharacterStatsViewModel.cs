@@ -26,6 +26,7 @@ namespace PCCharacterManager.ViewModels
 
 		public CharacterInfoViewModel CharacterInfoViewModel { get; }
 		public StarfinderCharacterInfoViewModel StarfinderCharacterInfoViewModel { get; }
+		public StarfinderAbilitiesAndSkillsViewModel StarfinderAbilitiesAndSkillsVM { get; }
 
 		private bool is5e;
 		public bool Is5e
@@ -59,6 +60,7 @@ namespace PCCharacterManager.ViewModels
 
 			CharacterInfoViewModel = new CharacterInfoViewModel(_characterStore);
 			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(_characterStore); 
+			StarfinderAbilitiesAndSkillsVM = new StarfinderAbilitiesAndSkillsViewModel(_characterStore);
 
 			EditCharacterCommand = new RelayCommand(EditCharacter);
 		}

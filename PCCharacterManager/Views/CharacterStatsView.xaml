@@ -58,8 +58,14 @@
             <v:StarfinderCharacterInfoView DataContext="{Binding StarfinderCharacterInfoViewModel}"/>
         </ContentControl>
 
-        <ContentControl Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="7" >
+        <ContentControl Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="7" 
+                        Visibility="{Binding Is5e, Converter={StaticResource IsEditConverter} }">
             <v:CharacterAbilitiesView DataContext="{Binding SelectedCharacter}"/>
+        </ContentControl>
+        
+        <ContentControl Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="7" 
+                        Visibility="{Binding IsStarfinder, Converter={StaticResource IsEditConverter} }">
+            <v:StarfinderCharacterAbilitysAndSkillsView DataContext="{Binding StarfinderAbilitiesAndSkillsVM}"/>
         </ContentControl>
     </Grid>
 </UserControl>

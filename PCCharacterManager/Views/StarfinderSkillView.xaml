@@ -17,10 +17,10 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <RadioButton Grid.Column="0"
+        <CheckBox Grid.Column="0"
                      IsChecked="{Binding TrainedOnly}"
                      ToolTip="trained only" VerticalAlignment="Center"/>
-        <RadioButton Grid.Column="1"
+        <CheckBox Grid.Column="1"
                      IsChecked="{Binding ClassSkill}"
                      ToolTip="class skill" VerticalAlignment="Center"/>
         <TextBlock Grid.Column="2"
@@ -40,6 +40,6 @@
                  Text="{Binding Score}"/>
         <TextBox Grid.Column="7" Margin="10" VerticalContentAlignment="Center"
                  ToolTip="Misc mod"
-                 Text="{Binding MiscMod}"/>
+                 Text="{Binding MiscBonus}"/>
     </Grid>
 </UserControl>
