@@ -50,12 +50,14 @@ namespace PCCharacterManager.ViewModels
 
 		public ICommand AddThemeFeatureCommand { get; }
 		public ICommand RemoveThemeFeatureCommand { get; }
+		public ICommand EditThemeFeatureCommand { get; }
 
 		public StarfinderCharacterInfoViewModel(CharacterStore _characterStore) : base(_characterStore)
 		{
 			_characterStore.SelectedCharacterChange += OnCharacterChange;
 			AddThemeFeatureCommand = new RelayCommand(AddThemeFeature);
 			RemoveThemeFeatureCommand = new RelayCommand(RemoveThemeFeature);
+			EditThemeFeatureCommand = new RelayCommand(EditThemeFeature);
 		}
 
 		private void OnCharacterChange(DnD5eCharacter newCharacter)
@@ -82,6 +84,21 @@ namespace PCCharacterManager.ViewModels
 				return;
 
 			selectedCharacter.Theme.Features.Add(new Property(windowVM.Answer, windowVM1.Answer));
+		}
+
+		private void EditThemeFeature()
+		{
+			Window window = new StringInputDialogWindow();
+			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window, "Edit " + selectedThemeFeature.Name);
+
+			windowVM.Answer = selectedThemeFeature.Desc;
+			window.DataContext = windowVM;
+			window.ShowDialog();
+
+			if (window.DialogResult == false)
+				return;
+
+			selectedThemeFeature.Desc = windowVM.Answer;
 		}
 
 		private void RemoveThemeFeature()

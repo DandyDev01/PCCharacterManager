@@ -162,6 +162,7 @@
                 <ListView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="{Binding SelectedClassFeatureName}" Command="{Binding RemoveClassFeatureCommand}"/>
+                        <MenuItem Header="Edit selected" Command="{Binding EditClassFeatureCommand}"/>
                         <MenuItem Header="Add class feature" Command="{Binding AddClassFeatureCommand}"/>
                     </ContextMenu>
                 </ListView.ContextMenu>
@@ -180,6 +181,7 @@
                 <ListView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="{Binding SelectedRaceFeatureName}" Command="{Binding RemoveRaceFeatureCommand}"/>
+                        <MenuItem Header="Edit selected" Command="{Binding EditRaceFeatureCommand}"/>
                         <MenuItem Header="Add Race Feature" Command="{Binding AddRaceFeatureCommand}"/>
                     </ContextMenu>
                 </ListView.ContextMenu>

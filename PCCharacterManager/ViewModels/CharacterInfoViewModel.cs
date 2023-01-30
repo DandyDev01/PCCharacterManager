@@ -177,8 +177,10 @@ namespace PCCharacterManager.ViewModels
 		public ICommand RemoveToolProfCommand { get; }
 		public ICommand AddRaceFeatureCommand { get; }
 		public ICommand RemoveRaceFeatureCommand { get; }
+		public ICommand EditRaceFeatureCommand { get; }
 		public ICommand AddClassFeatureCommand { get; }
 		public ICommand RemoveClassFeatureCommand { get; }
+		public ICommand EditClassFeatureCommand { get; }
 
 		public CharacterInfoViewModel(CharacterStore _characterStore) 
 		{
@@ -208,6 +210,9 @@ namespace PCCharacterManager.ViewModels
 			AddOtherProfCommand = new RelayCommand(AddOtherProf);
 			AddClassFeatureCommand = new RelayCommand(AddClassFeature);
 			AddRaceFeatureCommand = new RelayCommand(AddRaceFeature);
+
+			EditClassFeatureCommand = new RelayCommand(EditClassFeature);
+			EditRaceFeatureCommand = new RelayCommand(EditRaceFeature);
 		}
 
 		/// <summary>
@@ -364,6 +369,38 @@ namespace PCCharacterManager.ViewModels
 		private void AddOtherProf()
 		{
 			AddTo(selectedCharacter.OtherProficiences);
+		}
+
+		private void EditClassFeature()
+		{
+			Window window = new StringInputDialogWindow();
+			DialogWindowStringInputViewModel windowVM = 
+				new DialogWindowStringInputViewModel(window, "Edit " + selectedClassFeature.Name);
+
+			windowVM.Answer = selectedClassFeature.Desc;
+			window.DataContext = windowVM;
+			window.ShowDialog();
+
+			if (window.DialogResult == false)
+				return;
+
+			selectedClassFeature.Desc = windowVM.Answer;
+		}
+
+		private void EditRaceFeature()
+		{
+			Window window = new StringInputDialogWindow();
+			DialogWindowStringInputViewModel windowVM = 
+				new DialogWindowStringInputViewModel(window, "Edit " + selectedRaceFeature.Name);
+
+			windowVM.Answer = selectedRaceFeature.Desc;
+			window.DataContext = windowVM;
+			window.ShowDialog();
+
+			if (window.DialogResult == false)
+				return;
+
+			selectedRaceFeature.Desc = windowVM.Answer;
 		}
 
 		private void AddTo(in ObservableCollection<string> addTo)
