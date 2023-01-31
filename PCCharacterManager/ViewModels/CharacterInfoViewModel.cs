@@ -30,180 +30,19 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private string selectedLanguage;
-		public string SelectedLanguage
-		{
-			get
-			{
-				return "Remove " + selectedLanguage;
-			}
-			set
-			{
-				OnPropertyChanged(ref selectedLanguage, value);
-			}
-		}
-
-		private string selectedWeaponProf;
-		public string SelectedWeaponProf
-		{
-			get
-			{
-				return "Remove " + selectedWeaponProf;
-			}
-			set
-			{
-				OnPropertyChanged(ref selectedWeaponProf, value);
-			}
-		}
-
-		private string selectedArmorProf;
-		public string SelectedArmorProf
-		{
-			get
-			{
-				return "Remove " + selectedArmorProf;
-			}
-			set
-			{
-				OnPropertyChanged(ref selectedArmorProf, value);
-			}
-		}
-
-		private string selectedOtherProf;
-		public string SelectedOtherProf
-		{
-			get
-			{
-				return "Remove " + selectedOtherProf;
-			}
-			set
-			{
-				OnPropertyChanged(ref selectedOtherProf, value);
-			}
-		}
-
-		private string selectedToolProf;
-		public string SelectedToolProf
-		{
-			get
-			{
-				return "Remove " + selectedToolProf;
-			}
-			set
-			{
-				OnPropertyChanged(ref selectedToolProf, value);
-			}
-		}
-
-		private string  selectedClassFeatureName;
-		public string  SelectedClassFeatureName
-		{
-			get
-			{
-				return selectedClassFeatureName;
-			}
-			set
-			{
-				OnPropertyChanged(ref selectedClassFeatureName, value);
-			}
-		}
-
-		private string selectedRaceFeatureName;
-		public string SelectedRaceFeatureName
-		{
-			get
-			{
-				return selectedRaceFeatureName;
-			}
-			set
-			{
-				OnPropertyChanged(ref selectedRaceFeatureName, value);
-			}
-		}
-
-		private Property selectedMovementType;
-		public Property SelectedMovementType
-		{
-			get
-			{
-				return selectedMovementType;
-			}
-			set
-			{
-				selectedMovementType = value;
-				OnPropertyChanged(ref selectedMovementType, value);
-			}
-		}
-
-		private Property selectedRaceFeature;
-		public Property SelectedRaceFeature
-		{
-			get
-			{
-				return selectedRaceFeature;
-			}
-			set
-			{
-				OnPropertyChanged(ref selectedRaceFeature, value);
-				SelectedRaceFeatureName = "Remove " + value.Name;
-			}
-		}
-
-		private DnD5eCharacterClassFeature selectedClassFeature;
-		public DnD5eCharacterClassFeature SelectedClassFeature
-		{
-			get
-			{
-				return selectedClassFeature;
-			}
-			set
-			{
-				OnPropertyChanged(ref selectedClassFeature, value);
-				SelectedClassFeatureName = "Remove " + value.Name;
-			}
-		}
-
 		public PropertyListViewModel RaceFeatureListVM { get; protected set; }
 		public PropertyListViewModel ClassFeatureListVM { get; protected set; }
+		public PropertyListViewModel MovementTypesListVM { get; protected set; }
 
-		public ICommand AddLanguageCommand { get; }
-		public ICommand RemoveLanguageCommand { get; }
-		public ICommand AddMovementTypeCommand { get; }
-		public ICommand RemoveMovementTypeCommand { get; }
-		public ICommand AddOtherProfCommand { get; }
-		public ICommand RemoveOtherProfCommand { get; }
-		public ICommand AddWeaponProfCommand { get; }
-		public ICommand RemoveWeaponProfCommand { get; }
-		public ICommand AddArmorProfCommand { get; }
-		public ICommand RemoveArmorProfCommand { get; }
-		public ICommand AddToolProfCommand { get; }
-		public ICommand RemoveToolProfCommand { get; }
-		public ICommand AddRaceFeatureCommand { get; }
+		public StringListViewModel LanguagesVM { get; protected set; }
+		public StringListViewModel ArmorProfsVM { get; protected set; }
+		public StringListViewModel WeaponProfsVM { get; protected set; }
+		public StringListViewModel ToolProfsVM { get; protected set; }
+		public StringListViewModel OtherProfsVM { get; protected set; }
 
 		public CharacterInfoViewModel(CharacterStore _characterStore) 
 		{
 			_characterStore.SelectedCharacterChange += OnCharacterChanged;
-
-			selectedArmorProf = string.Empty;
-			selectedLanguage = string.Empty;
-			selectedMovementType = null;
-			selectedOtherProf = string.Empty;
-			selectedToolProf = string.Empty;
-			selectedWeaponProf = string.Empty;
-
-			RemoveLanguageCommand = new RelayCommand(RemoveLanguage);
-			RemoveArmorProfCommand = new RelayCommand(RemoveArmorProf);
-			RemoveWeaponProfCommand = new RelayCommand(RemoveWeaponProf);
-			RemoveToolProfCommand = new RelayCommand(RemoveToolProf);
-			RemoveOtherProfCommand = new RelayCommand(RemoveOtherProf);
-			RemoveMovementTypeCommand = new RelayCommand(RemoveMovementType);
-
-			AddLanguageCommand = new RelayCommand(AddLanguage);
-			AddMovementTypeCommand = new RelayCommand(AddMovement);
-			AddWeaponProfCommand = new RelayCommand(AddWeapon);
-			AddArmorProfCommand = new RelayCommand(AddArmor);
-			AddToolProfCommand = new RelayCommand(AddTool);
-			AddOtherProfCommand = new RelayCommand(AddOtherProf);
 		}
 
 		/// <summary>
@@ -215,97 +54,20 @@ namespace PCCharacterManager.ViewModels
 			SelectedCharacter = newCharacter;
 			ClassFeatureListVM = new DnDClassFeatureListViewModel("Class Features", SelectedCharacter.CharacterClass.Features);
 			RaceFeatureListVM = new PropertyListViewModel("Race Features", SelectedCharacter.Race.Features);
+			MovementTypesListVM = new PropertyListViewModel("Movement", SelectedCharacter.MovementTypes_Speeds);
+			LanguagesVM = new StringListViewModel("Languages", selectedCharacter.Languages);
+			ToolProfsVM = new StringListViewModel("Tool Profs", selectedCharacter.ToolProficiences);
+			ArmorProfsVM = new StringListViewModel("Armor Profs", selectedCharacter.ArmorProficiencies);
+			OtherProfsVM = new StringListViewModel("Other Profs", selectedCharacter.OtherProficiences);
+			WeaponProfsVM = new StringListViewModel("Weapon Profs", selectedCharacter.WeaponProficiencies);
 			OnPropertyChaged("ClassFeatureListVM");
 			OnPropertyChaged("RaceFeatureListVM");
-		}
-
-		private void RemoveLanguage()
-		{
-			SelectedCharacter.Languages.Remove(selectedLanguage);
-		}
-
-		private void RemoveArmorProf()
-		{
-			SelectedCharacter.ArmorProficiencies.Remove(selectedArmorProf);
-		}
-
-		private void RemoveWeaponProf()
-		{
-			SelectedCharacter.WeaponProficiencies.Remove(selectedWeaponProf);
-		}
-
-		private void RemoveOtherProf()
-		{
-			SelectedCharacter.OtherProficiences.Remove(selectedOtherProf);
-		}
-
-		private void RemoveToolProf()
-		{
-			SelectedCharacter.ToolProficiences.Remove(selectedToolProf);
-		}
-
-		private void RemoveMovementType()
-		{
-			SelectedCharacter.MovementTypes_Speeds.Remove(selectedMovementType);
-		}
-
-		private void AddLanguage()
-		{
-			AddTo(selectedCharacter.Languages);
-		}
-
-		private void AddMovement()
-		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window, "Movement type i.e. FLY");
-			window.DataContext = windowVM;
-			window.ShowDialog();
-
-			if (window.DialogResult == false)
-				return;
-
-			Window window1 = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM1 = new DialogWindowStringInputViewModel(window1, "Movement Speed i.e. 30ft");
-			window1.DataContext = windowVM1;
-			window1.ShowDialog();
-
-			if (window1.DialogResult == false)
-				return;
-
-			selectedCharacter.MovementTypes_Speeds.Add(new Property(windowVM.Answer, windowVM1.Answer));
-		}
-
-		private void AddWeapon()
-		{
-			AddTo(selectedCharacter.WeaponProficiencies);
-		}
-
-		private void AddArmor()
-		{
-			AddTo(selectedCharacter.ArmorProficiencies);
-		}
-
-		private void AddTool()
-		{
-			AddTo(selectedCharacter.ToolProficiences);
-		}
-
-		private void AddOtherProf()
-		{
-			AddTo(selectedCharacter.OtherProficiences);
-		}
-
-		private void AddTo(in ObservableCollection<string> addTo)
-		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window);
-			window.DataContext = windowVM;
-			window.ShowDialog();
-
-			if (window.DialogResult == false)
-				return;
-
-			addTo.Add(windowVM.Answer);
+			OnPropertyChaged("MovementTypesListVM");
+			OnPropertyChaged("LanguagesVM");
+			OnPropertyChaged("ArmorProfsVM");
+			OnPropertyChaged("WeaponProfsVM");
+			OnPropertyChaged("ToolProfsVM");
+			OnPropertyChaged("OtherProfsVM");
 		}
 	}
 }

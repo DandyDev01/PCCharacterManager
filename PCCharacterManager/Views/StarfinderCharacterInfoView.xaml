@@ -359,66 +359,21 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                           Text="Languages"/>
-                <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                          SelectedIndex="0"
-                          SelectedItem="{Binding SelectedLanguage}"
-                          ItemsSource="{Binding SelectedCharacter.Languages}">
-                    <ListView.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="{Binding SelectedLanguage}" Command="{Binding RemoveLanguageCommand}"/>
-                            <MenuItem Header="Add Language" Command="{Binding AddLanguageCommand}"/>
-                        </ContextMenu>
-                    </ListView.ContextMenu>
-                </ListView>
+                <ContentControl  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="2">
+                    <v:StringListView DataContext="{Binding LanguagesVM}"/>
+                </ContentControl>
 
-                <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1" 
-                           Text="Movement"/>
-                <ListView Grid.Column="1" Grid.Row="1"  Grid.ColumnSpan="1" Grid.RowSpan="1"
-                          SelectedIndex="0"
-                          SelectedItem="{Binding SelectedMovementType}"
-                          ItemsSource="{Binding SelectedCharacter.MovementTypes_Speeds}">
-                    <ListView.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="{Binding SelectedMovementType}" Command="{Binding RemoveMovementTypeCommand}"/>
-                            <MenuItem Header="Add Movement" Command="{Binding AddMovementTypeCommand}"/>
-                        </ContextMenu>
-                    </ListView.ContextMenu>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <v:PropertyDisplayHorizontalView/>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <ContentControl Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="2">
+                    <v:PropertyListView DataContext="{Binding MovementTypesListVM}"/>
+                </ContentControl>
+                
+                <ContentControl  Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="2">
+                    <v:StringListView DataContext="{Binding WeaponProfsVM}"/>
+                </ContentControl>
 
-                <TextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                           Text="Weapon Profs"/>
-                <ListView Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                          SelectedIndex="0"
-                          SelectedItem="{Binding SelectedWeaponProf}"
-                          ItemsSource="{Binding SelectedCharacter.WeaponProficiencies}" >
-                    <ListView.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="{Binding SelectedWeaponProf}" Command="{Binding RemoveWeaponProfCommand}"/>
-                            <MenuItem Header="Add WeaponProf" Command="{Binding AddWeaponProfCommand}"/>
-                        </ContextMenu>
-                    </ListView.ContextMenu>
-                </ListView>
-
-                <TextBlock Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" 
-                           Text="Armor Profs"/>
-                <ListView Grid.Column="1" Grid.Row="3"  Grid.ColumnSpan="1" Grid.RowSpan="1"
-                          SelectedIndex="0"
-                          SelectedItem="{Binding SelectedArmorProf}"
-                          ItemsSource="{Binding SelectedCharacter.ArmorProficiencies}">
-                    <ListView.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="{Binding SelectedArmorProf}" Command="{Binding RemoveArmorProfCommand}"/>
-                            <MenuItem Header="Add ArmorProf" Command="{Binding AddArmorProfCommand}"/>
-                        </ContextMenu>
-                    </ListView.ContextMenu>
-                </ListView>
+                <ContentControl  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1"  Grid.RowSpan="2">
+                    <v:StringListView DataContext="{Binding ArmorProfsVM}"/>
+                </ContentControl>
             </Grid>
             <!--#endregion-->
         </Grid>
