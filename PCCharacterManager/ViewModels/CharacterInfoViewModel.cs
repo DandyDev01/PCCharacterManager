@@ -163,6 +163,9 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		public PropertyListViewModel RaceFeatureListVM { get; protected set; }
+		public PropertyListViewModel ClassFeatureListVM { get; protected set; }
+
 		public ICommand AddLanguageCommand { get; }
 		public ICommand RemoveLanguageCommand { get; }
 		public ICommand AddMovementTypeCommand { get; }
@@ -176,11 +179,6 @@ namespace PCCharacterManager.ViewModels
 		public ICommand AddToolProfCommand { get; }
 		public ICommand RemoveToolProfCommand { get; }
 		public ICommand AddRaceFeatureCommand { get; }
-		public ICommand RemoveRaceFeatureCommand { get; }
-		public ICommand EditRaceFeatureCommand { get; }
-		public ICommand AddClassFeatureCommand { get; }
-		public ICommand RemoveClassFeatureCommand { get; }
-		public ICommand EditClassFeatureCommand { get; }
 
 		public CharacterInfoViewModel(CharacterStore _characterStore) 
 		{
@@ -199,8 +197,6 @@ namespace PCCharacterManager.ViewModels
 			RemoveToolProfCommand = new RelayCommand(RemoveToolProf);
 			RemoveOtherProfCommand = new RelayCommand(RemoveOtherProf);
 			RemoveMovementTypeCommand = new RelayCommand(RemoveMovementType);
-			RemoveClassFeatureCommand = new RelayCommand(RemoveClassFeature);
-			RemoveRaceFeatureCommand = new RelayCommand(RemoveRaceFeature);
 
 			AddLanguageCommand = new RelayCommand(AddLanguage);
 			AddMovementTypeCommand = new RelayCommand(AddMovement);
@@ -208,11 +204,6 @@ namespace PCCharacterManager.ViewModels
 			AddArmorProfCommand = new RelayCommand(AddArmor);
 			AddToolProfCommand = new RelayCommand(AddTool);
 			AddOtherProfCommand = new RelayCommand(AddOtherProf);
-			AddClassFeatureCommand = new RelayCommand(AddClassFeature);
-			AddRaceFeatureCommand = new RelayCommand(AddRaceFeature);
-
-			EditClassFeatureCommand = new RelayCommand(EditClassFeature);
-			EditRaceFeatureCommand = new RelayCommand(EditRaceFeature);
 		}
 
 		/// <summary>
@@ -222,6 +213,10 @@ namespace PCCharacterManager.ViewModels
 		private void OnCharacterChanged(DnD5eCharacter newCharacter)
 		{
 			SelectedCharacter = newCharacter;
+			ClassFeatureListVM = new DnDClassFeatureListViewModel("Class Features", SelectedCharacter.CharacterClass.Features);
+			RaceFeatureListVM = new PropertyListViewModel("Race Features", SelectedCharacter.Race.Features);
+			OnPropertyChaged("ClassFeatureListVM");
+			OnPropertyChaged("RaceFeatureListVM");
 		}
 
 		private void RemoveLanguage()
@@ -254,16 +249,6 @@ namespace PCCharacterManager.ViewModels
 			SelectedCharacter.MovementTypes_Speeds.Remove(selectedMovementType);
 		}
 
-		private void RemoveClassFeature()
-		{
-			SelectedCharacter.CharacterClass.Features.Remove(selectedClassFeature);
-		}
-
-		private void RemoveRaceFeature()
-		{
-			SelectedCharacter.Race.Features.Remove(selectedRaceFeature);
-		}
-
 		private void AddLanguage()
 		{
 			AddTo(selectedCharacter.Languages);
@@ -290,67 +275,6 @@ namespace PCCharacterManager.ViewModels
 			selectedCharacter.MovementTypes_Speeds.Add(new Property(windowVM.Answer, windowVM1.Answer));
 		}
 
-		private void AddClassFeature()
-		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window, "Feature Name");
-			window.DataContext = windowVM;
-			window.ShowDialog();
-
-			if (window.DialogResult == false)
-				return;
-
-			Window window1 = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM1 = new DialogWindowStringInputViewModel(window1, "Feature Description");
-			window1.DataContext = windowVM1;
-			window1.ShowDialog();
-
-			if (window1.DialogResult == false)
-				return;
-
-			Window window2 = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM2 = new DialogWindowStringInputViewModel(window2, "Feature Level");
-			window2.DataContext = windowVM2;
-			window2.ShowDialog();
-
-			if (window2.DialogResult == false)
-				return;
-
-			int level = 0;
-			try
-			{
-				 level = int.Parse(windowVM2.Answer);
-			} catch(Exception e)
-			{
-				MessageBox.Show(e.Message);
-				return;
-			}
-			DnD5eCharacterClassFeature feature =
-				new DnD5eCharacterClassFeature(windowVM.Answer, windowVM1.Answer, level);
-			selectedCharacter.CharacterClass.Features.Add(feature);
-		}
-
-		private void AddRaceFeature()
-		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window, "Feature Name");
-			window.DataContext = windowVM;
-			window.ShowDialog();
-
-			if (window.DialogResult == false)
-				return;
-
-			Window window1 = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM1 = new DialogWindowStringInputViewModel(window1, "Feature Description");
-			window1.DataContext = windowVM1;
-			window1.ShowDialog();
-
-			if (window1.DialogResult == false)
-				return;
-
-			selectedCharacter.Race.Features.Add(new Property(windowVM.Answer, windowVM1.Answer));
-		}
-
 		private void AddWeapon()
 		{
 			AddTo(selectedCharacter.WeaponProficiencies);
@@ -369,38 +293,6 @@ namespace PCCharacterManager.ViewModels
 		private void AddOtherProf()
 		{
 			AddTo(selectedCharacter.OtherProficiences);
-		}
-
-		private void EditClassFeature()
-		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = 
-				new DialogWindowStringInputViewModel(window, "Edit " + selectedClassFeature.Name);
-
-			windowVM.Answer = selectedClassFeature.Desc;
-			window.DataContext = windowVM;
-			window.ShowDialog();
-
-			if (window.DialogResult == false)
-				return;
-
-			selectedClassFeature.Desc = windowVM.Answer;
-		}
-
-		private void EditRaceFeature()
-		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = 
-				new DialogWindowStringInputViewModel(window, "Edit " + selectedRaceFeature.Name);
-
-			windowVM.Answer = selectedRaceFeature.Desc;
-			window.DataContext = windowVM;
-			window.ShowDialog();
-
-			if (window.DialogResult == false)
-				return;
-
-			selectedRaceFeature.Desc = windowVM.Answer;
 		}
 
 		private void AddTo(in ObservableCollection<string> addTo)

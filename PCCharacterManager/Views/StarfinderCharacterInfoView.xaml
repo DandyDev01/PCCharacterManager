@@ -329,66 +329,21 @@
             <!--#endregion-->
 
             <!--region class features-->
-            <TextBlock Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="4" Grid.RowSpan="1"
-                   Text="class features"/>
-            <ListView Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="4" Grid.RowSpan="1"
-                      SelectedItem="{Binding SelectedClassFeature}"
-                  ItemsSource="{Binding SelectedCharacter.CharacterClass.Features}">
-                <ListView.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="{Binding SelectedClassFeatureName}" Command="{Binding RemoveClassFeatureCommand}"/>
-                        <MenuItem Header="Edit selected" Command="{Binding EditClassFeatureCommand}"/>
-                        <MenuItem Header="Add class feature" Command="{Binding AddClassFeatureCommand}"/>
-                    </ContextMenu>
-                </ListView.ContextMenu>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <v:PropertyDisplayView/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <ContentControl Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="4" Grid.RowSpan="2">
+                <v:PropertyListView DataContext="{Binding ClassFeatureListVM}"/>
+            </ContentControl>
             <!--#endregion-->
 
             <!--region race features-->
-            <TextBlock Grid.Column="4" Grid.Row="9" Grid.ColumnSpan="4" Grid.RowSpan="1"
-                   Text="race features"/>
-            <ListView Grid.Column="4" Grid.Row="10" Grid.ColumnSpan="4" Grid.RowSpan="1"
-                      SelectedItem="{Binding SelectedRaceFeature}"
-                  ItemsSource="{Binding SelectedCharacter.Race.Features}">
-                <ListView.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="{Binding SelectedRaceFeatureName}" Command="{Binding RemoveRaceFeatureCommand}"/>
-                        <MenuItem Header="Edit selected" Command="{Binding EditRaceFeatureCommand}"/>
-                        <MenuItem Header="Add Race Feature" Command="{Binding AddRaceFeatureCommand}"/>
-                    </ContextMenu>
-                </ListView.ContextMenu>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <v:PropertyDisplayView/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <ContentControl Grid.Column="4" Grid.Row="9" Grid.ColumnSpan="4" Grid.RowSpan="2">
+                <v:PropertyListView DataContext="{Binding RaceFeatureListVM}"/>
+            </ContentControl>
             <!--#endregion-->
 
             <!--region themefeatures-->
-            <TextBlock Grid.Column="8" Grid.Row="9" Grid.ColumnSpan="4" Grid.RowSpan="1"
-                   Text="theme features"/>
-            <ListView Grid.Column="8" Grid.Row="10" Grid.ColumnSpan="4" Grid.RowSpan="1"
-                      SelectedItem="{Binding SelectedThemeFeature}"
-                  ItemsSource="{Binding SelectedCharacter.Theme.Features}">
-                <ListView.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="{Binding SelectedThemeFeatureName}" Command="{Binding RemoveThemeFeatureCommand}"/>
-                        <MenuItem Header="Edit selected" Command="{Binding EditThemeFeatureCommand}"/>
-                        <MenuItem Header="Add Theme Feature" Command="{Binding AddThemeFeatureCommand}"/>
-                    </ContextMenu>
-                </ListView.ContextMenu>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <v:PropertyDisplayView/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <ContentControl Grid.Column="8" Grid.Row="9" Grid.ColumnSpan="4" Grid.RowSpan="2">
+                <v:PropertyListView DataContext="{Binding ThemeListVM}"/>
+            </ContentControl>
             <!--#endregion-->
 
             <!--#region OtherProfs-->

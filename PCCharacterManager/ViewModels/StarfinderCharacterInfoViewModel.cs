@@ -52,6 +52,8 @@ namespace PCCharacterManager.ViewModels
 		public ICommand RemoveThemeFeatureCommand { get; }
 		public ICommand EditThemeFeatureCommand { get; }
 
+		public PropertyListViewModel ThemeListVM { get; private set; }
+
 		public StarfinderCharacterInfoViewModel(CharacterStore _characterStore) : base(_characterStore)
 		{
 			_characterStore.SelectedCharacterChange += OnCharacterChange;
@@ -62,7 +64,15 @@ namespace PCCharacterManager.ViewModels
 
 		private void OnCharacterChange(DnD5eCharacter newCharacter)
 		{
+			if (newCharacter is not StarfinderCharacter) return;
+
 			SelectedCharacter = newCharacter as StarfinderCharacter;
+			ThemeListVM = new PropertyListViewModel("Themes", selectedCharacter.Theme.Features);
+			ClassFeatureListVM = new DnDClassFeatureListViewModel("Class Features", SelectedCharacter.CharacterClass.Features);
+			RaceFeatureListVM = new PropertyListViewModel("Race Features", SelectedCharacter.Race.Features);
+			OnPropertyChaged("ClassFeatureListVM");
+			OnPropertyChaged("RaceFeatureListVM");
+			OnPropertyChaged("ThemeListVM");
 		}
 
 		private void AddThemeFeature()
