@@ -55,6 +55,9 @@ namespace PCCharacterManager.ViewModels
 			EditItemCommand = new RelayCommand(EditItem);
 		}
 
+		/// <summary>
+		/// Add item to provided ObservableCollection
+		/// </summary>
 		private void AddItem()
 		{
 			Window window = new StringInputDialogWindow();
@@ -69,11 +72,17 @@ namespace PCCharacterManager.ViewModels
 			ItemsToDisplay.Add(windowVM.Answer);
 		}
 
+		/// <summary>
+		/// Remove item from provided ObservableCollection
+		/// </summary>
 		private void RemoveItem()
 		{
 			ItemsToDisplay.Remove(selectedItem);
 		}
 
+		/// <summary>
+		/// Edit an item in provided ObserbvableCollection
+		/// </summary>
 		private void EditItem()
 		{
 			Window window = new StringInputDialogWindow();
@@ -84,10 +93,13 @@ namespace PCCharacterManager.ViewModels
 			window.DataContext = windowVM;
 			window.ShowDialog();
 
+			ItemsToDisplay.Remove(selectedItem);
+
 			if (window.DialogResult == false)
 				return;
 
 			selectedItem = windowVM.Answer;
+			ItemsToDisplay.Add(selectedItem);
 		}
 
 	}
