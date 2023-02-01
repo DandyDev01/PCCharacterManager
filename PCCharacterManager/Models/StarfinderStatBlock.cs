@@ -27,7 +27,7 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref baseValue, value);
-				OnPropertyChaged("Total");
+				OnPropertyChanged("Total");
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref abilityMod, value);
-				OnPropertyChaged("Total");
+				OnPropertyChanged("Total");
 			}
 		}
 
@@ -55,7 +55,7 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref miscMod, value);
-				OnPropertyChaged("Total");
+				OnPropertyChanged("Total");
 			}
 		}
 

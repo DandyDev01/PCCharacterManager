@@ -33,6 +33,7 @@ namespace PCCharacterManager.ViewModels
 		public PropertyListViewModel RaceFeatureListVM { get; protected set; }
 		public PropertyListViewModel ClassFeatureListVM { get; protected set; }
 		public PropertyListViewModel MovementTypesListVM { get; protected set; }
+		public PropertyListViewModel RaceVarientListVM { get; protected set; }
 
 		public StringListViewModel LanguagesVM { get; protected set; }
 		public StringListViewModel ArmorProfsVM { get; protected set; }
@@ -54,20 +55,22 @@ namespace PCCharacterManager.ViewModels
 			SelectedCharacter = newCharacter;
 			ClassFeatureListVM = new DnDClassFeatureListViewModel("Class Features", SelectedCharacter.CharacterClass.Features);
 			RaceFeatureListVM = new PropertyListViewModel("Race Features", SelectedCharacter.Race.Features);
+			RaceVarientListVM = new PropertyListViewModel("Race Variant Features", selectedCharacter.Race.RaceVariant.Properties);
 			MovementTypesListVM = new PropertyListViewModel("Movement", SelectedCharacter.MovementTypes_Speeds);
 			LanguagesVM = new StringListViewModel("Languages", selectedCharacter.Languages);
 			ToolProfsVM = new StringListViewModel("Tool Profs", selectedCharacter.ToolProficiences);
 			ArmorProfsVM = new StringListViewModel("Armor Profs", selectedCharacter.ArmorProficiencies);
 			OtherProfsVM = new StringListViewModel("Other Profs", selectedCharacter.OtherProficiences);
 			WeaponProfsVM = new StringListViewModel("Weapon Profs", selectedCharacter.WeaponProficiencies);
-			OnPropertyChaged("ClassFeatureListVM");
-			OnPropertyChaged("RaceFeatureListVM");
-			OnPropertyChaged("MovementTypesListVM");
-			OnPropertyChaged("LanguagesVM");
-			OnPropertyChaged("ArmorProfsVM");
-			OnPropertyChaged("WeaponProfsVM");
-			OnPropertyChaged("ToolProfsVM");
-			OnPropertyChaged("OtherProfsVM");
+			OnPropertyChanged("ClassFeatureListVM");
+			OnPropertyChanged("RaceFeatureListVM");
+			OnPropertyChanged("MovementTypesListVM");
+			OnPropertyChanged("LanguagesVM");
+			OnPropertyChanged("ArmorProfsVM");
+			OnPropertyChanged("WeaponProfsVM");
+			OnPropertyChanged("ToolProfsVM");
+			OnPropertyChanged("OtherProfsVM");
+			OnPropertyChanged("RaceVarientListVM");
 		}
 	}
 }

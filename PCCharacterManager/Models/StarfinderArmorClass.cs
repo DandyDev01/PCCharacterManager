@@ -41,7 +41,7 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref energyArmorBonus, value);
-				OnPropertyChaged("energyArmorTotal");
+				OnPropertyChanged("energyArmorTotal");
 			}
 		}
 
@@ -55,7 +55,7 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref energyDexMod, value);
-				OnPropertyChaged("energyArmorTotal");
+				OnPropertyChanged("energyArmorTotal");
 			}
 		}
 
@@ -69,7 +69,7 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref energyMiscMod, value);
-				OnPropertyChaged("energyArmorTotal");
+				OnPropertyChanged("energyArmorTotal");
 			}
 		}
 
@@ -83,8 +83,8 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref kineticArmorBonus, value);
-				OnPropertyChaged("KineticArmorTotal");
-				OnPropertyChaged("AcVsCombatManeuvers");
+				OnPropertyChanged("KineticArmorTotal");
+				OnPropertyChanged("AcVsCombatManeuvers");
 			}
 		}
 
@@ -98,8 +98,8 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref kineticDexMod, value);
-				OnPropertyChaged("KineticArmorTotal");
-				OnPropertyChaged("AcVsCombatManeuvers");
+				OnPropertyChanged("KineticArmorTotal");
+				OnPropertyChanged("AcVsCombatManeuvers");
 			}
 		}
 
@@ -113,8 +113,8 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref kineticMiscMod, value);
-				OnPropertyChaged("KineticArmorTotal");
-				OnPropertyChaged("AcVsCombatManeuvers");
+				OnPropertyChanged("KineticArmorTotal");
+				OnPropertyChanged("AcVsCombatManeuvers");
 			}
 		}
 	}

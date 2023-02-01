@@ -24,25 +24,7 @@ namespace PCCharacterManager.Models
 			{
 				OnPropertyChanged(ref upgradedScore, value);
 				SetUpgradedMod();
-				UpdateSkillInfo();
-			}
-		}
-
-		private void UpdateSkillInfo()
-		{
-			if (Skills == null)
-				return;
-
-			foreach (var skill in Skills)
-			{
-
-				if (skill.SkillProficiency)
-				{
-					skill.Score = upgradedModifier;
-					continue;
-				}
-
-				skill.Score = upgradedModifier;
+				UpdateSkillInfo(0);
 			}
 		}
 
@@ -179,11 +161,11 @@ namespace PCCharacterManager.Models
 
 				if (skill.SkillProficiency)
 				{
-					skill.Score = profBonus + Modifier;
+					skill.Score = profBonus + UpgradedModifier;
 					continue;
 				}
 
-				skill.Score = Modifier;
+				skill.Score = UpgradedModifier;
 			}
 		}
 

@@ -30,10 +30,10 @@ namespace PCCharacterManager.ViewModels
 			if (selectedCharacter == null) return;
 
 			Skills = StarfinderAbility.GetSkills(selectedCharacter.Abilities);
-			OnPropertyChaged("Skills");
+			OnPropertyChanged("Skills");
 
 			Abilities = selectedCharacter.Abilities;
-			OnPropertyChaged("Abilities");
+			OnPropertyChanged("Abilities");
 		}
 	}
 }

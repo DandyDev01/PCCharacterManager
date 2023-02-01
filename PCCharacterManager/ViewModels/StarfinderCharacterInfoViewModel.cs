@@ -44,7 +44,7 @@ namespace PCCharacterManager.ViewModels
 			{
 				OnPropertyChanged(ref selectedThemeFeature, value);
 				SelectedThemeFeatureName = "Remove " + SelectedThemeFeature.Name;
-				OnPropertyChaged("SelectedThemeFeatureName");
+				OnPropertyChanged("SelectedThemeFeatureName");
 			}
 		}
 
@@ -76,17 +76,17 @@ namespace PCCharacterManager.ViewModels
 			ArmorProfsVM = new StringListViewModel("Armor Profs", selectedCharacter.ArmorProficiencies);
 			OtherProfsVM = new StringListViewModel("Other Profs", selectedCharacter.OtherProficiences);
 			WeaponProfsVM = new StringListViewModel("Weapon Profs", selectedCharacter.WeaponProficiencies);
-			OnPropertyChaged("ClassFeatureListVM");
-			OnPropertyChaged("RaceFeatureListVM");
-			OnPropertyChaged("MovementTypesListVM");
-			OnPropertyChaged("LanguagesVM"); 
-			OnPropertyChaged("ArmorProfsVM");
-			OnPropertyChaged("WeaponProfsVM");
-			OnPropertyChaged("ToolProfsVM");
-			OnPropertyChaged("OtherProfsVM");
-			OnPropertyChaged("ClassFeatureListVM");
-			OnPropertyChaged("RaceFeatureListVM");
-			OnPropertyChaged("ThemeListVM");
+			OnPropertyChanged("ClassFeatureListVM");
+			OnPropertyChanged("RaceFeatureListVM");
+			OnPropertyChanged("MovementTypesListVM");
+			OnPropertyChanged("LanguagesVM"); 
+			OnPropertyChanged("ArmorProfsVM");
+			OnPropertyChanged("WeaponProfsVM");
+			OnPropertyChanged("ToolProfsVM");
+			OnPropertyChanged("OtherProfsVM");
+			OnPropertyChanged("ClassFeatureListVM");
+			OnPropertyChanged("RaceFeatureListVM");
+			OnPropertyChanged("ThemeListVM");
 
 		}
 

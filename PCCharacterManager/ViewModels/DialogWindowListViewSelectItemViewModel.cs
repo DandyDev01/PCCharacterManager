@@ -28,7 +28,7 @@ namespace PCCharacterManager.ViewModels
 			AddSelectedCommand = new RelayCommand(AddSelected);
 			CloseCommand = new RelayCommand(Close);
 
-			OnPropertyChaged("MonsterNPCsToDisplay");
+			OnPropertyChanged("MonsterNPCsToDisplay");
 		}
 
 		/// <summary>

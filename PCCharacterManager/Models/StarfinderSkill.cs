@@ -18,7 +18,7 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref ranks, value);
-				OnPropertyChaged("Total");
+				OnPropertyChanged("Total");
 			}
 		}
 
@@ -32,7 +32,20 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref classBonus, value);
-				OnPropertyChaged("Total");
+				OnPropertyChanged("Total");
+			}
+		}
+
+		public int Score
+		{
+			get
+			{
+				return score;
+			}
+			set
+			{
+				OnPropertyChanged(ref score, value);
+				OnPropertyChanged("Total");
 			}
 		}
 
