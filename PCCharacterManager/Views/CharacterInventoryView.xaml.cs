@@ -31,6 +31,7 @@ namespace PCCharacterManager.Views
 			focusSearchCommand = new RelayCommand(FocusSearch);
 			deleteSelectedItemsCommand = new RelayCommand(DeleteSelectedItems);
 			removeContextButton.Command = new RelayCommand(DeleteSelectedItems);
+			delKeyBinding.Command = new RelayCommand(DeleteSelectedItems);
 
 			this.InputBindings.Add(new KeyBinding(focusSearchCommand, Key.F, ModifierKeys.Control));
 			removeButton.Command = deleteSelectedItemsCommand;
