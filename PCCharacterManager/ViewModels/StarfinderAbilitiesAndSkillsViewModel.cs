@@ -30,6 +30,7 @@ namespace PCCharacterManager.ViewModels
 			if (selectedCharacter == null) return;
 
 			Skills = StarfinderAbility.GetSkills(selectedCharacter.Abilities);
+			Skills = Skills.OrderBy(x => x.Name).ToArray();
 			OnPropertyChanged("Skills");
 
 			Abilities = selectedCharacter.Abilities;

@@ -5,17 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="600">
+             d:DesignHeight="25" d:DesignWidth="600">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="80"/>
         </Grid.ColumnDefinitions>
         <CheckBox Grid.Column="0"
                      IsChecked="{Binding TrainedOnly}"
@@ -29,16 +29,16 @@
         <TextBlock Grid.Column="3"
                    VerticalAlignment="Center"
                    Text="{Binding Total, FallbackValue=10}"/>
-        <TextBox Grid.Column="4" Margin="10" VerticalContentAlignment="Center"
+        <TextBox Grid.Column="4" VerticalContentAlignment="Center"
                  ToolTip="Ranks"
                  Text="{Binding Ranks}"/>
-        <TextBox Grid.Column="5" Margin="10" VerticalContentAlignment="Center"
+        <TextBox Grid.Column="5" VerticalContentAlignment="Center"
                  ToolTip="class bonus"
                  Text="{Binding ClassBonus}"/>
-        <TextBox Grid.Column="6" Margin="10" VerticalContentAlignment="Center"
+        <TextBox Grid.Column="6" VerticalContentAlignment="Center"
                  ToolTip="ability mod"
                  Text="{Binding Score}"/>
-        <TextBox Grid.Column="7" Margin="10" VerticalContentAlignment="Center"
+        <TextBox Grid.Column="7" VerticalContentAlignment="Center"
                  ToolTip="Misc mod"
                  Text="{Binding MiscBonus}"/>
     </Grid>

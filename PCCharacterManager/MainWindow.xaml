@@ -45,6 +45,8 @@
                           InputGestureText="Ctrl+N+C" Style="{StaticResource MenuItem}"/>
                 <MenuItem x:Name="menuLevel" Header="Level Character" Command="{Binding LevelCharacterCommand}"
                           InputGestureText="Ctrl+L" Style="{StaticResource MenuItem}"/>
+                <MenuItem x:Name="editCharacter" Header="Edit Character" Command="{Binding EditCharacterCommand}"
+                          InputGestureText="N/A" Style="{StaticResource MenuItem}"/>
             </MenuItem>
         </Menu>
 

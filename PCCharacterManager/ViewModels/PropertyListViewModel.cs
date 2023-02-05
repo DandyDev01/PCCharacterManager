@@ -1,6 +1,7 @@
 ﻿using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
 using PCCharacterManager.Utility;
+using PCCharacterManager.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -45,6 +46,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand AddItemCommand { get; protected set; }
 		public ICommand RemoveItemCommand { get; protected set; }
 		public ICommand EditItemCommand { get; protected set; }
+		public ICommand PropertyItemReceivedCommand { get; }
 
 		public PropertyListViewModel(string _listName, ObservableCollection<Property> _item)
 		{
@@ -54,6 +56,7 @@ namespace PCCharacterManager.ViewModels
 			AddItemCommand = new RelayCommand(AddItem);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
 			EditItemCommand = new RelayCommand(EditItem);
+			PropertyItemReceivedCommand = new PropertyItemReceivedCommand();
 		}
 
 		public PropertyListViewModel(string listName)
@@ -62,6 +65,7 @@ namespace PCCharacterManager.ViewModels
 			AddItemCommand = new RelayCommand(AddItem);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
 			EditItemCommand = new RelayCommand(EditItem);
+			PropertyItemReceivedCommand = new PropertyItemReceivedCommand();
 		}
 
 		/// <summary>

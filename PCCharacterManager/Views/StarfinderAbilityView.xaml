@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="35" d:DesignWidth="600">
+             d:DesignHeight="30" d:DesignWidth="600">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -25,7 +25,7 @@
         <TextBlock Grid.Column="2"
                  ToolTip="mod"
                  Text="{Binding Modifier}"/>
-        <TextBox Grid.Column="3" Margin="10" VerticalContentAlignment="Center"
+        <TextBox Grid.Column="3" VerticalContentAlignment="Center"
                  ToolTip="upgraded score"
                  Text="{Binding UpgradedScore}"/>
         <TextBlock Grid.Column="4" 

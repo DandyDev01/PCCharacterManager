@@ -32,12 +32,13 @@ namespace PCCharacterManager.ViewModels
 		private CharacterStore characterStore;
 		private ICharacterDataService dataService;
 
-		public ICommand NewCharacterCommand { get; private set; }
-		public ICommand DeleteCharacterCommand { get; private set; }
-		public ICommand SaveCharactersCommand { get; private set; }
-		public ICommand LevelCharacterCommand { get; private set; }
+		public ICommand NewCharacterCommand { get; }
+		public ICommand DeleteCharacterCommand { get; }
+		public ICommand SaveCharactersCommand { get; }
+		public ICommand LevelCharacterCommand { get; }
 		public ICommand ExportCharacterCommand { get; }
 		public ICommand OpenCommand { get; }
+		public ICommand EditCharacterCommand { get; }
 
 		//NOTE: because of the way that CharacterCreateWindow is made the program does
 		//		not end when main window is closed. 
@@ -58,6 +59,7 @@ namespace PCCharacterManager.ViewModels
 			LevelCharacterCommand = new LevelCharacterCommand(characterStore);
 			ExportCharacterCommand = new CharacterExportCommand(characterStore, tabVM);
 			OpenCommand = new OpenCharacterCommand(characterStore);
+			EditCharacterCommand = new RelayCommand(EditCharacter);
 		}
 
 		private void DeleteCharacter()
@@ -75,6 +77,15 @@ namespace PCCharacterManager.ViewModels
 			if (tabVM == null) return;
 
 			tabVM.CharacterListVM.SaveCharacter();
+		}
+
+		private void EditCharacter()
+		{
+			Window window = new EditCharacterDialogWindow();
+			DialogWindowEditCharacterViewModel windowVM = new DialogWindowEditCharacterViewModel(window, characterStore.SelectedCharacter);
+			window.DataContext = windowVM;
+
+			window.ShowDialog();
 		}
 	}
 }

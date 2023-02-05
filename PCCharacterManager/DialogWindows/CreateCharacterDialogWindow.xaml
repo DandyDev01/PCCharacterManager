@@ -483,13 +483,13 @@
 
             <Grid Grid.Column="3" Grid.Row="19">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="300"/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Grid.Row="19" Grid.ColumnSpan="1"
                         HorizontalAlignment="Right"
                         IsCancel="True"
-                        Width="auto"
+                        Width="200"
                         Height="auto"
                         Content="Close"
                         Command="{Binding CloseCommand}"/>
@@ -497,7 +497,7 @@
                 <Button Grid.Column="1" Grid.Row="19" Grid.ColumnSpan="1"
                         HorizontalAlignment="Right"
                         IsDefault="True"
-                        Width="auto"
+                        Width="200"
                         Height="auto"
                         Content="Create"
                         Command="{Binding CreateCommand}"/>

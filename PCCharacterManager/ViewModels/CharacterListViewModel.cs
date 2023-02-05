@@ -33,6 +33,8 @@ namespace PCCharacterManager.ViewModels
 		public ICommand LevelSortCommand { get; }
 		public ICommand ClassSortCommand { get; }
 		public ICommand DataModifiedSortCommand { get; }
+		public ICommand CharacterTypeSortCommand { get; }
+		public RelayCommand CharacterRaceSortCommand { get; }
 
 		public CharacterListViewModel(CharacterStore _characterStore, ICharacterDataService _dataService)
 		{
@@ -73,9 +75,16 @@ namespace PCCharacterManager.ViewModels
 			LevelSortCommand = new RelayCommand(LevelSort);
 			ClassSortCommand = new RelayCommand(ClassSort);
 			DataModifiedSortCommand = new RelayCommand(DataModifiedSort);
+			CharacterTypeSortCommand = new RelayCommand(CharacterTypeSort);
+			CharacterRaceSortCommand = new RelayCommand(CharacterRaceSort);
 
 			characterStore.CharacterCreate += LoadCharacters;
 			CharacterItems.OrderBy(x => x.CharacterDateModified).First().SelectCharacterCommand.Execute(null);
+		}
+
+		private void CharacterRaceSort()
+		{
+			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterRace));
 		}
 
 		private void DataModifiedSort()
@@ -96,6 +105,11 @@ namespace PCCharacterManager.ViewModels
 		public void NameSort()
 		{
 			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterName));
+		}
+
+		private void CharacterTypeSort()
+		{
+			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterType));
 		}
 
 		public void CreateCharacterWindow()

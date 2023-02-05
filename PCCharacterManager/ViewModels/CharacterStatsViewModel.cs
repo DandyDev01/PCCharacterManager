@@ -22,8 +22,6 @@ namespace PCCharacterManager.ViewModels
 			set { OnPropertyChanged(ref selectedCharacter, value); }
 		}
 
-		public ICommand EditCharacterCommand { get; private set; }
-
 		public CharacterInfoViewModel CharacterInfoViewModel { get; }
 		public StarfinderCharacterInfoViewModel StarfinderCharacterInfoViewModel { get; }
 		public StarfinderAbilitiesAndSkillsViewModel StarfinderAbilitiesAndSkillsVM { get; }
@@ -61,8 +59,6 @@ namespace PCCharacterManager.ViewModels
 			CharacterInfoViewModel = new CharacterInfoViewModel(_characterStore);
 			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(_characterStore); 
 			StarfinderAbilitiesAndSkillsVM = new StarfinderAbilitiesAndSkillsViewModel(_characterStore);
-
-			EditCharacterCommand = new RelayCommand(EditCharacter);
 		}
 
 		private void OnCharacterChanged(DnD5eCharacter newCharacter)
@@ -79,15 +75,6 @@ namespace PCCharacterManager.ViewModels
 				Is5e = true;
 				IsStarfinder = false;
 			}
-		}
-
-		private void EditCharacter()
-		{ 
-			Window window = new EditCharacterDialogWindow();
-			DialogWindowEditCharacterViewModel windowVM = new DialogWindowEditCharacterViewModel(window, selectedCharacter);
-			window.DataContext = windowVM;
-
-			window.ShowDialog();
 		}
 	}
 }

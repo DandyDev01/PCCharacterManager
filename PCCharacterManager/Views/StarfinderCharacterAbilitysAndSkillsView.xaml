@@ -24,8 +24,30 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <!--#region abilities-->
-            <TextBlock Grid.Column="0" Grid.Row="0" 
-                   Text="Abilities"/>
+           
+            <Grid Grid.Column="0" Grid.Row="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1"
+                           Text="Abilities"/>
+                <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1"
+                           FontSize="15"
+                           Text="Score"/>
+                <TextBlock Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1"
+                           FontSize="15"
+                           Text="Mod"/>
+                <TextBlock Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1"
+                           FontSize="15"
+                           Text="Upgraded Score"/>
+                <TextBlock Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="1"
+                           FontSize="15"
+                           Text="Upgraded Mod"/>
+            </Grid>
             <!--#region row 1-->
             <DockPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1" >
                 <ContentControl>
@@ -64,8 +86,38 @@
             <!--#endregion-->
             <!--#endregion-->
             <!--#region skills-->
-            <TextBlock Grid.Column="0" Grid.Row="7" 
-                   Text="skills"/>
+            <Grid Grid.Column="0" Grid.Row="7" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1"
+                   Text="Skills"/>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1"
+                               FontSize="14"
+                               HorizontalAlignment="Center"
+                               Text="Ranks"/>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1"
+                               FontSize="14"
+                               HorizontalAlignment="Center"
+                               Text="Class Bonus"/>
+                    <TextBlock Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1"
+                               FontSize="14"
+                               HorizontalAlignment="Center"
+                               Text="Ability Mod"/>
+                    <TextBlock Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1"
+                               FontSize="14"
+                               HorizontalAlignment="Center"
+                               Text="Misc Mod"/>
+                </Grid>
+            </Grid>
             <ContentControl Grid.Column="0" Grid.Row="8">
                 <Grid>
                     <Grid.ColumnDefinitions>

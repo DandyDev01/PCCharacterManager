@@ -33,7 +33,6 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
@@ -43,27 +42,22 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Menu Grid.ColumnSpan="12">
-            <MenuItem Header="Edit character"
-                      Command="{Binding EditCharacterCommand}"/>
-        </Menu>
-
-        <ContentControl Grid.Column="0"  Grid.Row="1" Grid.ColumnSpan="8" Grid.RowSpan="7"
+        <ContentControl Grid.Column="0"  Grid.Row="0" Grid.ColumnSpan="8" Grid.RowSpan="7"
                         Visibility="{Binding Is5e, Converter={StaticResource IsEditConverter} }">
             <v:CharacterInfoView DataContext="{Binding CharacterInfoViewModel}"/>
         </ContentControl>
 
-        <ContentControl Grid.Column="0"  Grid.Row="1" Grid.ColumnSpan="8" Grid.RowSpan="7"
+        <ContentControl Grid.Column="0"  Grid.Row="0" Grid.ColumnSpan="8" Grid.RowSpan="7"
                         Visibility="{Binding IsStarfinder, Converter={StaticResource IsEditConverter} }">
             <v:StarfinderCharacterInfoView DataContext="{Binding StarfinderCharacterInfoViewModel}"/>
         </ContentControl>
 
-        <ContentControl Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="7" 
+        <ContentControl Grid.Column="8" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="7" 
                         Visibility="{Binding Is5e, Converter={StaticResource IsEditConverter} }">
             <v:CharacterAbilitiesView DataContext="{Binding SelectedCharacter}"/>
         </ContentControl>
         
-        <ContentControl Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="7" 
+        <ContentControl Grid.Column="8" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="7" 
                         Visibility="{Binding IsStarfinder, Converter={StaticResource IsEditConverter} }">
             <v:StarfinderCharacterAbilitysAndSkillsView DataContext="{Binding StarfinderAbilitiesAndSkillsVM}"/>
         </ContentControl>
