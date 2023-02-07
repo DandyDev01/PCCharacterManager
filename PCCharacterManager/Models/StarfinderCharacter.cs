@@ -27,6 +27,8 @@ namespace PCCharacterManager.Models
 			set { abilities = value; }
 		}
 
+		public string HomeWorld { get; set; }
+
 		public StarfinderCharacter() : base()
 		{
 			CharacterType = CharacterType.starfinder;
