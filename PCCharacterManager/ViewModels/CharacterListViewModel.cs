@@ -104,7 +104,7 @@ namespace PCCharacterManager.ViewModels
 		public void CreateCharacterWindow()
 		{
 			Window newCharacterWindow = new CreateCharacterDialogWindow();
-			newCharacterWindow.DataContext = new DialogWindowCharacterCreaterViewModel(dataService, characterStore, newCharacterWindow);
+			newCharacterWindow.DataContext = new DialogWindowCharacterCreaterViewModel(characterStore, newCharacterWindow);
 
 			newCharacterWindow.ShowDialog();
 		}

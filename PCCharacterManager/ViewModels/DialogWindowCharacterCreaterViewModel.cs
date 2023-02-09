@@ -60,6 +60,7 @@ namespace PCCharacterManager.ViewModels
 		}
 
 		public CharacterCreatoreViewModel DnD5eCharacterCreator { get; }
+		public StarfinderCharacterCreatorViewModel StarfinderCharacterCreatorVM { get; }
 		public Array CharacterTypes { get; } = Enum.GetValues(typeof(CharacterType));
 
 		#region Commands
@@ -67,9 +68,10 @@ namespace PCCharacterManager.ViewModels
 		public ICommand CloseCommand { get; private set; }
 		#endregion
 
-		public DialogWindowCharacterCreaterViewModel(ICharacterDataService _dataService, CharacterStore _characterStore, Window _window)
+		public DialogWindowCharacterCreaterViewModel(CharacterStore _characterStore, Window _window)
 		{
-			DnD5eCharacterCreator = new CharacterCreatoreViewModel(_dataService, _characterStore);
+			DnD5eCharacterCreator = new CharacterCreatoreViewModel();
+			StarfinderCharacterCreatorVM = new StarfinderCharacterCreatorViewModel();
 
 			window = _window;
 			characterStore = _characterStore;

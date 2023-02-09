@@ -11,15 +11,16 @@ namespace PCCharacterManager.Models
 	public class DnD5eCharacterRaceData
 	{
 		public string Name { get; set; }
-
 		public string Speed { get; set; }
+		public string AgeRange { get; set; }
+	
 		[JsonProperty("Size")]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public CreatureSize Size { get; set; }
+		
 		public int Age { get; set; }
 		public string[] AbilityScoreIncreases { get; set; }
 		public string[] Languages { get; set; }
-		public string AgeRange { get; set; }
 		public string[] ArmorProficiencies { get; set; }
 		public string[] WeaponProficiencies { get; set; }
 		public string[] ToolProficiences { get; set; }

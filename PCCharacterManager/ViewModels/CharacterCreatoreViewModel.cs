@@ -18,9 +18,6 @@ namespace PCCharacterManager.ViewModels
 	{
 		List<string> notAnOption;
 
-		private readonly ICharacterDataService dataService;
-		private readonly CharacterStore characterStore;
-
 		private ListViewMultiSelectItemsLimitedCountViewModel selectedClassSkillProfs;
 		private DnD5eBackgroundData selectedBackground;
 		private DnD5eCharacterClassData selectedCharacterClass;
@@ -98,11 +95,9 @@ namespace PCCharacterManager.ViewModels
 
 		public ICommand RollAbilityScoresCommand { get; private set; }
 
-		public CharacterCreatoreViewModel(ICharacterDataService _dataService, CharacterStore _characterStore)
+		public CharacterCreatoreViewModel()
 		{
 			newCharacter = new DnD5eCharacter();
-			dataService = _dataService;
-			characterStore = _characterStore;
 
 			BackgroundsToDisplay = ReadWriteJsonCollection<DnD5eBackgroundData>.ReadCollection(DnD5eResources.BackgroundDataJson);
 			CharacterClassesToDisplay = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson);

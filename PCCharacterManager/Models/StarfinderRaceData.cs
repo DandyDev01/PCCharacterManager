@@ -2,5 +2,6 @@
 {
 	public class StarfinderRaceData : DnD5eCharacterRaceData
 	{
+		public int HitPoitns { get; set; }
 	}
 }

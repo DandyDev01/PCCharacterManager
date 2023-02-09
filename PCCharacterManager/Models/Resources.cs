@@ -36,5 +36,6 @@ namespace PCCharacterManager.Models
 		public const string armorItemsJson = @"Resources\starfinder\Items\armorItems.json";
 		public const string ItemsJson = @"Resources\Items\starfinder\Items.json";
 		public const string amunitionItemsJson = @"Resources\starfinder\Items\amunitionItems.json";
+		public const string ThemeDataJson = @"Resources\starfinder\ThemeData.json";
 	}
 }
