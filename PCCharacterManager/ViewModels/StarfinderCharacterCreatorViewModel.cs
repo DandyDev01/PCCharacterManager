@@ -52,16 +52,16 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private StarfinderThemeData selectedTheme;
-		public StarfinderThemeData SelectedTheme
+		private StarfinderThemeData selectedThemeData;
+		public StarfinderThemeData SelectedThemeData
 		{
 			get
 			{
-				return selectedTheme;
+				return selectedThemeData;
 			}
 			set
 			{
-				OnPropertyChanged(ref selectedTheme, value);
+				OnPropertyChanged(ref selectedThemeData, value);
 			}
 		}
 
@@ -69,9 +69,9 @@ namespace PCCharacterManager.ViewModels
 		public string[] ClassNamesToDisplay { get; private set; }
 		public string[] ThemeNamesToDisplay { get; private set; }
 
-		private StarfinderRaceData[] races;
-		private StarfinderClassData[] classes;
-		private StarfinderThemeData[] themes;
+		private readonly StarfinderRaceData[] races;
+		private readonly StarfinderClassData[] classes;
+		private readonly StarfinderThemeData[] themes;
 
 		public StarfinderCharacterCreatorViewModel()
 		{
@@ -79,9 +79,15 @@ namespace PCCharacterManager.ViewModels
 			classes = ReadWriteJsonCollection<StarfinderClassData>.ReadCollection(StarfinderResources.CharacterClassDataJson).ToArray();
 			themes = ReadWriteJsonCollection<StarfinderThemeData>.ReadCollection(StarfinderResources.ThemeDataJson).ToArray();
 
+			// NOTE: will probably remove properties and bind to property in combo box.
 			RaceNamesToDisplay = Utilitys.GetPropertyValue<string>(races, nameof(StarfinderRaceData.Name));
 			ClassNamesToDisplay = Utilitys.GetPropertyValue<string>(classes, nameof(StarfinderClassData.Name));
 			ThemeNamesToDisplay = Utilitys.GetPropertyValue<string>(themes, nameof(StarfinderThemeData.Name));
+
+			name = string.Empty;
+			selectedRaceData = races[0];
+			selectedClassData = classes[0];
+			selectedThemeData = themes[0];
 		}
 	}
 }
