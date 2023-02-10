@@ -46,7 +46,7 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private bool isDnD5eCharacter;
+		private bool isDnD5eCharacter = true;
 		public bool IsDnD5eCharacter
 		{
 			get
