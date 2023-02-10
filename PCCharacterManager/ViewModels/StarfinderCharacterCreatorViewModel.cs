@@ -65,29 +65,20 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public string[] RaceNamesToDisplay { get; private set; }
-		public string[] ClassNamesToDisplay { get; private set; }
-		public string[] ThemeNamesToDisplay { get; private set; }
-
-		private readonly StarfinderRaceData[] races;
-		private readonly StarfinderClassData[] classes;
-		private readonly StarfinderThemeData[] themes;
+		public StarfinderRaceData[] RaceNamesToDisplay { get; }
+		public StarfinderClassData[] ClassNamesToDisplay { get; }
+		public StarfinderThemeData[] ThemeNamesToDisplay { get; }
 
 		public StarfinderCharacterCreatorViewModel()
 		{
-			races = ReadWriteJsonCollection<StarfinderRaceData>.ReadCollection(StarfinderResources.RaceDataJson).ToArray();
-			classes = ReadWriteJsonCollection<StarfinderClassData>.ReadCollection(StarfinderResources.CharacterClassDataJson).ToArray();
-			themes = ReadWriteJsonCollection<StarfinderThemeData>.ReadCollection(StarfinderResources.ThemeDataJson).ToArray();
-
-			// NOTE: will probably remove properties and bind to property in combo box.
-			RaceNamesToDisplay = Utilitys.GetPropertyValue<string>(races, nameof(StarfinderRaceData.Name));
-			ClassNamesToDisplay = Utilitys.GetPropertyValue<string>(classes, nameof(StarfinderClassData.Name));
-			ThemeNamesToDisplay = Utilitys.GetPropertyValue<string>(themes, nameof(StarfinderThemeData.Name));
+			RaceNamesToDisplay = ReadWriteJsonCollection<StarfinderRaceData>.ReadCollection(StarfinderResources.RaceDataJson).ToArray();
+			ClassNamesToDisplay = ReadWriteJsonCollection<StarfinderClassData>.ReadCollection(StarfinderResources.CharacterClassDataJson).ToArray();
+			ThemeNamesToDisplay = ReadWriteJsonCollection<StarfinderThemeData>.ReadCollection(StarfinderResources.ThemeDataJson).ToArray();
 
 			name = string.Empty;
-			selectedRaceData = races[0];
-			selectedClassData = classes[0];
-			selectedThemeData = themes[0];
+			selectedRaceData = RaceNamesToDisplay[0];
+			selectedClassData = ClassNamesToDisplay[0];
+			selectedThemeData = ThemeNamesToDisplay[0];
 		}
 	}
 }

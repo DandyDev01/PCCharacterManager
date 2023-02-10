@@ -32,7 +32,7 @@
             <v:CharacterCreatorView DataContext="{Binding DnD5eCharacterCreator}"/>
         </ContentControl>
         <ContentControl Grid.Row="1"
-                        Visibility="{Binding IsStarfinderChatacter, Converter={StaticResource IsEditConverter}}">
+                        Visibility="{Binding IsStarfinderCharacter, Converter={StaticResource IsEditConverter}}">
             <v:StarfinderCharacterCreatorView DataContext="{Binding StarfinderCharacterCreatorVM}"/>
         </ContentControl>
         
