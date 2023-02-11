@@ -136,7 +136,6 @@ namespace PCCharacterManager.ViewModels
 				return;
 			}
 
-			CharacterItems.Remove(item);
 			dataService.Delete(characterStore.SelectedCharacter);
 
 			if(CharacterItems.Count <= 0)
@@ -147,6 +146,7 @@ namespace PCCharacterManager.ViewModels
 
 
 			CharacterItems[0].SelectCharacterCommand?.Execute(null);
+			CharacterItems.Remove(item);
 		}
 
 		private void LoadCharacters(DnD5eCharacter _character)

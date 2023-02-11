@@ -30,6 +30,11 @@ namespace PCCharacterManager.Views
 		{
 			CharacterItemViewModel vm = ListView.SelectedItem as CharacterItemViewModel;
 
+			if(vm == null)
+			{
+				vm = ListView.Items[0] as CharacterItemViewModel;
+			}
+
 			vm.SelectCharacterCommand?.Execute(null);
 		}
 	}

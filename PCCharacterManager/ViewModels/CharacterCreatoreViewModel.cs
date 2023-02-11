@@ -16,27 +16,25 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterCreatoreViewModel : ObservableObject
 	{
-		List<string> notAnOption;
+		private List<string> notAnOption;
 
 		private ListViewMultiSelectItemsLimitedCountViewModel selectedClassSkillProfs;
-		private DnD5eBackgroundData selectedBackground;
-		private DnD5eCharacterClassData selectedCharacterClass;
-		private DnD5eCharacterRaceData selectedRace;
-		private DnD5eCharacterRaceVariant selectedRaceVariant;
 
 		public Array AlignmentsToDisplay { get; private set; }
+		public List<DnD5eCharacterRaceData> RacesToDisplay { get; private set; }
 		public List<DnD5eBackgroundData> BackgroundsToDisplay { get; private set; }
 		public List<DnD5eCharacterClassData> CharacterClassesToDisplay { get; private set; }
-		public List<DnD5eCharacterRaceData> RacesToDisplay { get; private set; }
+		
+		public ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel> SelectedStartingEquipmentVMs { get; private set; }
+		public ObservableCollection<DnD5eCharacterRaceVariant> RaceVariantsToDisplay { get; private set; }
+		public ObservableCollection<int> AbilityScores { get; private set; }
 		public ListViewMultiSelectItemsLimitedCountViewModel SelectedClassSkillProfs
 		{
 			get { return selectedClassSkillProfs; }
 			set { OnPropertyChanged(ref selectedClassSkillProfs, value); }
 		}
-		public ObservableCollection<int> AbilityScores { get; private set; }
-		public ObservableCollection<DnD5eCharacterRaceVariant> RaceVariantsToDisplay { get; private set; }
-		public ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel> SelectedStartingEquipmentVMs { get; private set; }
 		
+		private DnD5eCharacterRaceVariant selectedRaceVariant;
 		public DnD5eCharacterRaceVariant SelectedRaceVariant
 		{
 			get { return selectedRaceVariant; }
@@ -46,6 +44,8 @@ namespace PCCharacterManager.ViewModels
 				SelectedRace.RaceVariant = value;
 			}
 		}
+		
+		private DnD5eCharacterClassData selectedCharacterClass;
 		public DnD5eCharacterClassData SelectedCharacterClass
 		{
 			get { return selectedCharacterClass; }
@@ -57,6 +57,8 @@ namespace PCCharacterManager.ViewModels
 				UpdateSelectedClassStartEquipment();
 			}
 		}
+		
+		private DnD5eCharacterRaceData selectedRace;
 		public DnD5eCharacterRaceData SelectedRace
 		{
 			get { return selectedRace; }
@@ -66,6 +68,8 @@ namespace PCCharacterManager.ViewModels
 				UpdateRaceVariantsToDisplay();
 			}
 		}
+		
+		private DnD5eBackgroundData selectedBackground;
 		public DnD5eBackgroundData SelectedBackground
 		{
 			get { return selectedBackground; }
@@ -125,7 +129,7 @@ namespace PCCharacterManager.ViewModels
 			newCharacter = new DnD5eCharacter(SelectedCharacterClass, SelectedRace, SelectedBackground);
 			newCharacter.Name = Name;
 			newCharacter.Abilities = tempCharacter.Abilities;
-
+			newCharacter.Level.ProficiencyBonus = 2;
 			List<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(DnD5eResources.AllItemsJson);
 
 			// iterate over all SelectedStartingEquipmentVMs
@@ -167,7 +171,10 @@ namespace PCCharacterManager.ViewModels
 			// class selected skill profs
 			foreach (var item in selectedClassSkillProfs.SelectedItems)
 			{
-				Ability.FindSkill(newCharacter.Abilities, item).SkillProficiency = true;
+				AbilitySkill s = Ability.FindSkill(newCharacter.Abilities, item);
+				s.SkillProficiency = true;
+				Ability a = Ability.FindAbility(newCharacter.Abilities, s);
+				a.SetProfBonus(2);
 			}
 
 			// set skill prof, Background
@@ -207,8 +214,10 @@ namespace PCCharacterManager.ViewModels
 
 						foreach (var item in windowVM.SelectedItems)
 						{
-							AbilitySkill temp = Ability.FindSkill(newCharacter.Abilities, item);
-							temp.SkillProficiency = true;
+							AbilitySkill s = Ability.FindSkill(newCharacter.Abilities, item);
+							s.SkillProficiency = true;
+							Ability a = Ability.FindAbility(newCharacter.Abilities, s);
+							a.SetProfBonus(2);
 							notAnOption.Add(item);
 							selectedSkills.Add(item);
 						}
@@ -230,7 +239,10 @@ namespace PCCharacterManager.ViewModels
 					}
 					else // class does not give prof to skill
 					{
-						Ability.FindSkill(newCharacter.Abilities, str).SkillProficiency = true;
+						AbilitySkill s = Ability.FindSkill(newCharacter.Abilities, str);
+						s.SkillProficiency = true;
+						Ability a = Ability.FindAbility(newCharacter.Abilities, s);
+						a.SetProfBonus(2);
 						notAnOption.Add(str);
 					}
 
@@ -358,6 +370,14 @@ namespace PCCharacterManager.ViewModels
 
 			newCharacter.DateModified = DateTime.Now.ToString();
 
+			// there is a issue when the skill scores are not setting properly unless this is done
+			foreach (var item in newCharacter.Abilities)
+			{
+				int temp = item.Score;
+				item.Score = 1;
+				item.Score = temp;
+			}
+
 			return newCharacter;
 		}
 
@@ -425,7 +445,10 @@ namespace PCCharacterManager.ViewModels
 
 			foreach (var item in windowVM.SelectedItems)
 			{
-				Ability.FindSkill(newCharacter.Abilities, item).SkillProficiency = true;
+				AbilitySkill s = Ability.FindSkill(newCharacter.Abilities, item);
+				s.SkillProficiency = true;
+				Ability a = Ability.FindAbility(newCharacter.Abilities, s);
+				a.SetProfBonus(2);
 				notAnOption.Add(item);
 			}
 
