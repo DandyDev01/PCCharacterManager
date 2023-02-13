@@ -24,6 +24,8 @@ namespace PCCharacterManager.Models
 		}
 
 		private string abilityScoreImprovement;
+		private StarfinderThemeData themeData;
+
 		public string AbilityScoreImprovement
 		{
 			get
@@ -52,5 +54,9 @@ namespace PCCharacterManager.Models
 			Features = new ObservableCollection<Property>();
 		}
 
+		public StarfinderTheme(StarfinderThemeData themeData)
+		{
+			this.themeData = themeData;
+		}
 	}
 }

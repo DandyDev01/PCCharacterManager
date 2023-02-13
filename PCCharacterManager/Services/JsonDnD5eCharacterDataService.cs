@@ -17,8 +17,6 @@ namespace PCCharacterManager.Services
 		public JsonDnD5eCharacterDataService(CharacterStore characterStore)
 		{
 			this.characterStore = characterStore;
-
-			characterStore.CharacterCreate += Add;
 		}
 
 		public void Add(DnD5eCharacter newCharacter)

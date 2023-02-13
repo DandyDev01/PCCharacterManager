@@ -61,5 +61,28 @@ namespace PCCharacterManager.Models
 			Theme = new StarfinderTheme();
 			abilities = ReadWriteJsonCollection<StarfinderAbility>.ReadCollection(StarfinderResources.AbilitiesJson).ToArray();
 		}
+
+		public StarfinderCharacter(StarfinderClassData classData, StarfinderRaceData raceData, StarfinderThemeData themeData)
+		{
+			CharacterClass = new DnD5eCharacterClass(classData);
+			Race = new DnD5eCharacterRace(raceData);
+			Theme = new StarfinderTheme(themeData);
+
+			CharacterType = CharacterType.starfinder;
+			StaminaPoints = new Property();
+			ResolvePoints = new Property();
+			ArmorClass = new StarfinderArmorClass();
+			MeleeAttack = new StarfinderStatBlock();
+			RangedAttack = new StarfinderStatBlock();
+			ThrownAttack = new StarfinderStatBlock();
+			SavingThrowWill = new StarfinderStatBlock();
+			SavingThrowReflex = new StarfinderStatBlock();
+			SavingThrowFortitude = new StarfinderStatBlock();
+			abilities = ReadWriteJsonCollection<StarfinderAbility>.ReadCollection(StarfinderResources.AbilitiesJson).ToArray();
+
+
+			Languages = new ObservableCollection<string>(raceData.Languages);
+			HomeWorld = raceData.HomeWorld;
+		}
 	}
 }

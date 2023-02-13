@@ -18,6 +18,8 @@ namespace PCCharacterManager.Services
 		{
 			_dnD5echaracterDataService = new JsonDnD5eCharacterDataService(characterStore);
 			_starFinderCharacterDataService = new JsonStarFinderCharacterDataService();
+
+			characterStore.CharacterCreate += Add;
 		}
 
 		public void Add(DnD5eCharacter newCharacter)

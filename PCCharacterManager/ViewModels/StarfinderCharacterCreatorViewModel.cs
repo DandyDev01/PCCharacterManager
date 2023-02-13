@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PCCharacterManager.ViewModels
 {
@@ -79,6 +80,25 @@ namespace PCCharacterManager.ViewModels
 			selectedRaceData = RaceNamesToDisplay[0];
 			selectedClassData = ClassNamesToDisplay[0];
 			selectedThemeData = ThemeNamesToDisplay[0];
+		}
+
+		public StarfinderCharacter Create()
+		{
+			bool validName = string.IsNullOrWhiteSpace(name) ? false : !string.IsNullOrEmpty(name);
+
+			if (!validName)
+			{
+				MessageBox.Show("Name cannot be empty or only whitespace", "Invalid Name", 
+					MessageBoxButton.OK, MessageBoxImage.Error);
+
+				return null;
+			}
+
+			StarfinderCharacter character = new StarfinderCharacter(SelectedClassData, SelectedRaceData, selectedThemeData);
+
+			character.Name = name;
+
+			return character;
 		}
 	}
 }

@@ -87,8 +87,15 @@ namespace PCCharacterManager.Models
 			UpdateProfSaveCommand = new RelayCommand(SetProfSave);
 		}
 
+		/// <summary>
+		/// set the proficiency bonus and update associated skill info and ability save info
+		/// </summary>
+		/// <param name="_profBonus">value to set profBonus too</param>
+		/// <exception cref="Exception">when _profBonus is below 0</exception>
 		public void SetProfBonus(int _profBonus)
 		{
+			if (_profBonus <= 0) throw new Exception("param _profBonus must be greater than 0");
+
 			if (_profBonus < 2)
 				_profBonus = 2;
 
@@ -281,30 +288,14 @@ namespace PCCharacterManager.Models
 		/// </summary>
 		/// <param name="skillName">skill wanted</param>
 		/// <param name="abilities">abilities to search</param>
-		/// <returns></returns>
-		public static AbilitySkill FindSkill(string skillName, Ability[] abilities)
-		{
-
-			foreach (var ability in abilities)
-			{
-				foreach (var skill in ability.Skills)
-				{
-					if (skill.Name.ToLower().Equals(skillName.ToLower()))
-						return skill;
-				}
-			}
-
-			throw new Exception("no skill with name " + skillName + " exists");
-		}
-
-		/// <summary>
-		/// looks for a skill in a collection of abilities
-		/// </summary>
-		/// <param name="abilities">collection to search</param>
-		/// <param name="skillName">skill you are looking for</param>
-		/// <returns>null if no skill exists or skill with specified name</returns>
+		/// <returns>ability that has the skill skillName</returns>
+		/// <exception cref="ArgumentNullException">when skillName is null or empty</exception>
+		/// <exception cref="Exception">when skillName is null or whitespace</exception>
+		/// <exception cref="Exception">when there is no ability with the skill skillName</exception>
 		public static AbilitySkill FindSkill(Ability[] abilities, string skillName)
 		{
+			if (string.IsNullOrEmpty(skillName)) throw new ArgumentNullException("param skillName cannot be null or empty");
+			if (string.IsNullOrWhiteSpace(skillName)) throw new Exception("param skillName cannot be null or whiteSpace");
 
 			foreach (var ability in abilities)
 			{

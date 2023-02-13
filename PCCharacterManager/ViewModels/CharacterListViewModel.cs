@@ -151,7 +151,17 @@ namespace PCCharacterManager.ViewModels
 
 		private void LoadCharacters(DnD5eCharacter _character)
 		{
-			CharacterItems.Add(new CharacterItemViewModel(characterStore, _character, DnD5eResources.CharacterDataDir + "/" + _character.Name + ".json"));
+			if(_character is StarfinderCharacter starfinder)
+			{
+				CharacterItems.Add(new CharacterItemViewModel(characterStore, _character,
+					StarfinderResources.CharacterDataDir + "/" + _character.Name + ".json"));
+			}
+			else if(_character is DnD5eCharacter)
+			{
+				CharacterItems.Add(new CharacterItemViewModel(characterStore, _character, 
+					DnD5eResources.CharacterDataDir + "/" + _character.Name + ".json"));
+			}
+
 		}
 
 		public void SaveCharacter()
