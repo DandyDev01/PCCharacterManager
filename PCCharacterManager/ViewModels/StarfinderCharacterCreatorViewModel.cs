@@ -97,6 +97,16 @@ namespace PCCharacterManager.ViewModels
 			StarfinderCharacter character = new StarfinderCharacter(SelectedClassData, SelectedRaceData, selectedThemeData);
 
 			character.Name = name;
+			int hitPoints = selectedRaceData.HitPoitns + selectedClassData.HitPoints;
+			int staminaPoints = selectedClassData.StaminaPoints;
+
+			character.StaminaPoints.Desc = staminaPoints.ToString();
+			character.Health.SetMaxHealth(hitPoints);
+
+			foreach (var classSkill in selectedClassData.ClassSkills)
+			{
+				StarfinderAbility.FindSkill(character.Abilities, classSkill).ClassSkill = true;
+			}
 
 			return character;
 		}

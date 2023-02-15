@@ -185,5 +185,31 @@ namespace PCCharacterManager.Models
 			return skills.ToArray();
 		}
 
+		/// <summary>
+		/// find a skill by name
+		/// </summary>
+		/// <param name="skillName">skill wanted</param>
+		/// <param name="abilities">abilities to search</param>
+		/// <returns>ability that has the skill skillName</returns>
+		/// <exception cref="ArgumentNullException">when skillName is null or empty</exception>
+		/// <exception cref="Exception">when skillName is null or whitespace</exception>
+		/// <exception cref="Exception">when there is no ability with the skill skillName</exception>
+		public static StarfinderSkill FindSkill(StarfinderAbility[] abilities, string skillName)
+		{
+			if (string.IsNullOrEmpty(skillName)) throw new ArgumentNullException("param skillName cannot be null or empty");
+			if (string.IsNullOrWhiteSpace(skillName)) throw new Exception("param skillName cannot be null or whiteSpace");
+
+			foreach (var ability in abilities)
+			{
+				foreach (var skill in ability.Skills)
+				{
+					if (skill.Name.ToLower().Equals(skillName.ToLower()))
+						return skill;
+				}
+			}
+
+			throw new Exception("no skill with name " + skillName + " exists");
+		}
+
 	}
 }
