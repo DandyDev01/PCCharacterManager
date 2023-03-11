@@ -49,5 +49,22 @@ namespace PCCharacterManager.ViewModels
 
 			SelectCharacterCommand = new SelectCharacterCommand(characterStore, characterPath);
 		}
+
+		public void Update(DnD5eCharacter character)
+		{
+			characterName = character.Name;
+			characterClass = character.CharacterClass.Name;
+			characterLevel = character.Level.Level.ToString();
+			characterDateModified = character.DateModified;
+			characterType = character.CharacterType;
+			characterRace = character.Race.Name;
+
+			OnPropertyChanged("characterName");
+			OnPropertyChanged("characterClass");
+			OnPropertyChanged("characterLevel");
+			OnPropertyChanged("characterDateModified");
+			OnPropertyChanged("characterType");
+			OnPropertyChanged("characterRace");
+		}
 	}
 }

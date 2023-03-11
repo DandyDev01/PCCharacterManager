@@ -28,6 +28,7 @@ namespace PCCharacterManager.Models
 		}
 
 		public string HomeWorld { get; set; }
+		public string KeyAbilityScore { get; set; }
 
 		public StarfinderCharacter() : base()
 		{

@@ -49,7 +49,7 @@ namespace PCCharacterManager.Models
 		/// <summary>
 		/// can only find positive numbers, format of quantity x1
 		/// </summary>
-		/// <param name="input">a string with 'x11111' at the end. Arrowx2 for example</param>
+		/// <param name="input">a string with 'x11111' at the end. Arrow x2 for example</param>
 		/// <returns></returns>
 		public static string RemoveQuantity(string input)
 		{
@@ -66,6 +66,81 @@ namespace PCCharacterManager.Models
 				}
 			}
 			return input.Trim();
+		}
+
+		/// <summary>
+		/// removes all integer char from string
+		/// </summary>
+		/// <param name="input">string to remove int chars from</param>
+		/// <returns>string without int chars</returns>
+		public static string RemoveInt(string input)
+		{
+			StringBuilder str = new StringBuilder();
+			foreach (char c in input)
+			{
+				if (char.IsDigit(c)) continue;
+
+				str.Append(c);
+			}
+			return input.Trim();
+		}
+
+		/// <summary>
+		/// removes all integer chars that come after breakPoint
+		/// </summary>
+		/// <param name="input">string to remove int from</param>
+		/// <param name="breakPoint">indicates where int starts</param>
+		/// <returns>string with int chars removed</returns>
+		public static string RemoveInt(string input, char breakPoint)
+		{
+			return input.Substring(0, input.IndexOf(breakPoint)).Trim();
+		}
+
+		public static int GetUnsignedInt(string input, char breakPoint = 'x')
+		{
+			int indexOfBreakPoint = input.IndexOf(breakPoint);
+			int offSet = 1;
+			string number = string.Empty;
+			if (input.Substring(indexOfBreakPoint).Contains('-')) offSet = 2;
+			foreach (char c in input.Substring(indexOfBreakPoint + offSet))
+			{
+				if (char.IsDigit(c))
+				{
+					number += c;
+				}
+				else
+				{
+					throw new Exception("input has improper format");
+				}
+			}
+
+			return Int32.Parse(number);
+		}
+
+		public static int GetInt(string input, char breakPoint = 'x')
+		{
+			int indexOfBreakPoint = input.IndexOf(breakPoint);
+			int offSet = 1;
+			string number = string.Empty;
+			if (input.Substring(indexOfBreakPoint).Contains('-'))
+			{
+				offSet = 2;
+				number += "-";
+			}
+			string stringToSearch = input.Substring(indexOfBreakPoint + offSet);
+			foreach (char c in stringToSearch)
+			{
+				if (char.IsDigit(c))
+				{
+					number += c;
+				}
+				else
+				{
+					throw new Exception("input has improper format");
+				}
+			}
+
+			return Int32.Parse(number);
 		}
 
 		/// <summary>

@@ -17,6 +17,9 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
+	/// <summary>
+	/// this class is responsible for the logic of displaying characters in the database to a list
+	/// </summary>
 	public class CharacterListViewModel : ObservableObject
 	{
 		private readonly CharacterStore characterStore;
@@ -33,7 +36,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand ClassSortCommand { get; }
 		public ICommand DataModifiedSortCommand { get; }
 		public ICommand CharacterTypeSortCommand { get; }
-		public RelayCommand CharacterRaceSortCommand { get; }
+		public ICommand CharacterRaceSortCommand { get; }
 
 		public CharacterListViewModel(CharacterStore _characterStore, ICharacterDataService _dataService)
 		{
@@ -67,40 +70,61 @@ namespace PCCharacterManager.ViewModels
 			CharacterTypeSortCommand = new RelayCommand(CharacterTypeSort);
 			CharacterRaceSortCommand = new RelayCommand(CharacterRaceSort);
 
-			characterStore.CharacterCreate += LoadCharacters;
+			characterStore.CharacterCreate += LoadCharacter;
 			CharacterItems.OrderBy(x => x.CharacterDateModified).First().SelectCharacterCommand.Execute(null);
 		}
 
+		/// <summary>
+		/// sorts the characters displayed by their race
+		/// </summary>
 		private void CharacterRaceSort()
 		{
 			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterRace));
 		}
 
+		/// <summary>
+		/// sorts the characters displayed by modified data
+		/// </summary>
 		private void DataModifiedSort()
 		{
 			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterDateModified));
 		}
 
+		/// <summary>
+		/// sorts the characters displayed by their class
+		/// </summary>
 		private void ClassSort()
 		{
 			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterClass));
 		}
 
+		/// <summary>
+		/// sorts the characters displayed by their levels
+		/// </summary>
 		private void LevelSort()
 		{
 			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterLevel));
 		}
 
+		/// <summary>
+		/// sorts the characters displayed by their names
+		/// </summary>
 		public void NameSort()
 		{
 			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterName));
 		}
 
+		/// <summary>
+		/// sorts the characters displayed by their character type
+		/// </summary>
 		private void CharacterTypeSort()
 		{
 			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterType));
 		}
 
+		/// <summary>
+		/// opens a dialog window to create a new character
+		/// </summary>
 		public void CreateCharacterWindow()
 		{
 			Window newCharacterWindow = new CreateCharacterDialogWindow();
@@ -109,6 +133,39 @@ namespace PCCharacterManager.ViewModels
 			newCharacterWindow.ShowDialog();
 		}
 
+		/// <summary>
+		/// creates a CharacterItemViewModel for the given character and adds them to the list of
+		/// characters to display
+		/// </summary>
+		/// <param name="_character">character to add</param>
+		private void LoadCharacter(DnD5eCharacter _character)
+		{
+			if(_character is StarfinderCharacter starfinder)
+			{
+				CharacterItems.Add(new CharacterItemViewModel(characterStore, _character,
+					StarfinderResources.CharacterDataDir + "/" + _character.Name + ".json"));
+			}
+			else if(_character is DnD5eCharacter)
+			{
+				CharacterItems.Add(new CharacterItemViewModel(characterStore, _character, 
+					DnD5eResources.CharacterDataDir + "/" + _character.Name + ".json"));
+			}
+
+		}
+
+		/// <summary>
+		/// Updates the characterItem of the selected character
+		/// </summary>
+		private void Update()
+		{
+			CharacterItemViewModel characterItem = CharacterItems.First(c => c.CharacterName == characterStore.SelectedCharacter.Name);
+			characterItem.Update(characterStore.SelectedCharacter);
+		}
+		
+		/// <summary>
+		/// Delete the selected character for the database and select a new one.
+		/// Opens character creator if there are no more characters in the database.
+		/// </summary>
 		public void DeleteCharacter()
 		{
 			if (characterStore.SelectedCharacter == null) return;
@@ -149,24 +206,16 @@ namespace PCCharacterManager.ViewModels
 			CharacterItems.Remove(item);
 		}
 
-		private void LoadCharacters(DnD5eCharacter _character)
-		{
-			if(_character is StarfinderCharacter starfinder)
-			{
-				CharacterItems.Add(new CharacterItemViewModel(characterStore, _character,
-					StarfinderResources.CharacterDataDir + "/" + _character.Name + ".json"));
-			}
-			else if(_character is DnD5eCharacter)
-			{
-				CharacterItems.Add(new CharacterItemViewModel(characterStore, _character, 
-					DnD5eResources.CharacterDataDir + "/" + _character.Name + ".json"));
-			}
 
-		}
-
+		/// <summary>
+		/// Saves the selected character to the database
+		/// </summary>
 		public void SaveCharacter()
 		{
 			dataService.Save(characterStore.SelectedCharacter);
+			Update();
 		}
+
+
 	} // end class
 }

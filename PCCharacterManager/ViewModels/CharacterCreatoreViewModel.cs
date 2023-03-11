@@ -14,6 +14,9 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
+	/// <summary>
+	/// resbolsible for the logic of creating a new DnD5e character
+	/// </summary>
 	public class CharacterCreatoreViewModel : ObservableObject
 	{
 		private List<string> notAnOption;
@@ -123,6 +126,10 @@ namespace PCCharacterManager.ViewModels
 			RollAbilityScoresCommand = new RelayCommand(AbilityRoll);
 		}
 		
+		/// <summary>
+		/// builds a new character with inputed data
+		/// </summary>
+		/// <returns>new character that was created</returns>
 		public DnD5eCharacter Create()
 		{
 			DnD5eCharacter tempCharacter = newCharacter;
@@ -234,6 +241,10 @@ namespace PCCharacterManager.ViewModels
 					// class give prof to skill
 					if (selectedClassSkillProfs.SelectedItems.Contains(str))
 					{
+						MessageBox.Show("class and background both give skill prof to " + str + 
+							" please select a different skill to have prof in", "cannot double prof in skill",
+							MessageBoxButton.OK, MessageBoxImage.Information);
+
 						if (!CreateHelper())
 							return null;
 					}

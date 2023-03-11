@@ -2,6 +2,7 @@
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
+using PCCharacterManager.DialogWindows;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -84,6 +85,9 @@ namespace PCCharacterManager.ViewModels
 
 		public StarfinderCharacter Create()
 		{
+			int increseAmount = 0;
+			string abilityName = string.Empty;
+
 			bool validName = string.IsNullOrWhiteSpace(name) ? false : !string.IsNullOrEmpty(name);
 
 			if (!validName)
@@ -103,9 +107,81 @@ namespace PCCharacterManager.ViewModels
 			character.StaminaPoints.Desc = staminaPoints.ToString();
 			character.Health.SetMaxHealth(hitPoints);
 
+			// set class skills
 			foreach (var classSkill in selectedClassData.ClassSkills)
 			{
-				StarfinderAbility.FindSkill(character.Abilities, classSkill).ClassSkill = true;
+				if (classSkill.Contains("Profession")) continue;
+
+				try
+				{
+					StarfinderAbility.FindSkill(character.Abilities, classSkill).ClassSkill = true;
+				} 
+				catch (Exception e)
+				{
+					MessageBox.Show(e.Message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
+					return null;
+				}
+			}
+
+			// class skill profrssion
+			string[] skill = selectedClassData.ClassSkills.Where(x => x.Contains("Profession")).ToArray();
+			foreach (var item in skill)
+			{
+				string[] options = StringFormater.CreateGroup(item, '^');
+				options[0] = options[0].Substring(options[0].IndexOf('(') + 1);
+				options[options.Length - 1] = options[options.Length - 1].Substring(0, options[options.Length - 1].Length - 1);
+				foreach (var option in options)
+				{
+					Window window = new SelectStringValueDialogWindow();
+					DialogWindowSelectStingValue windowVM = new DialogWindowSelectStingValue(window, options);
+					window.DataContext = windowVM;
+					window.ShowDialog();
+
+					string selected = windowVM.SelectedItems.First();
+					try
+					{
+						//StarfinderAbility.FindSkill(character.Abilities, selected).ClassSkill = true;
+					}
+					catch(Exception e)
+					{
+						MessageBox.Show(e.Message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
+						return null;
+					}
+				}
+			}
+
+			character.KeyAbilityScore = selectedClassData.KeyAbilityScore;
+
+			// race ability score increases
+			foreach (var item in selectedRaceData.AbilityScoreIncreases)
+			{
+				increseAmount = StringFormater.GetInt(item);
+				abilityName = StringFormater.RemoveInt(item, 'x');
+				try
+				{
+					Ability.FindAbility(character.Abilities, abilityName).Score += increseAmount;
+				}
+				catch (Exception e)
+				{
+					MessageBox.Show(e.Message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
+					return null;
+				}
+			}
+
+			// race features
+
+			// theme ability score improvements
+			increseAmount = StringFormater.FindQuantity(selectedThemeData.AbilityScoreImprovement);
+			abilityName = StringFormater.RemoveQuantity(selectedThemeData.AbilityScoreImprovement);
+
+			try
+			{
+				Ability.FindAbility(character.Abilities, abilityName).Score += increseAmount;
+			}
+			catch(Exception e)
+			{
+				MessageBox.Show(e.Message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
+				return null;
 			}
 
 			return character;

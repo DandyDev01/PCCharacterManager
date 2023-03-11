@@ -18,6 +18,9 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
+	/// <summary>
+	/// logic for displaying characters inventory contents
+	/// </summary>
 	public class CharacterInventoryViewModel : ObservableObject
 	{
 		private readonly ItemDisplayVMPool itemVMPool;
