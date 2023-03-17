@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
@@ -71,6 +72,10 @@ namespace PCCharacterManager.ViewModels
 		public StarfinderClassData[] ClassNamesToDisplay { get; }
 		public StarfinderThemeData[] ThemeNamesToDisplay { get; }
 
+		public int[] AbilityScores { get; } = new int[6];
+
+		public ICommand RollAbilityScoresCommand { get; private set; }
+
 		public StarfinderCharacterCreatorViewModel()
 		{
 			RaceNamesToDisplay = ReadWriteJsonCollection<StarfinderRaceData>.ReadCollection(StarfinderResources.RaceDataJson).ToArray();
@@ -81,6 +86,8 @@ namespace PCCharacterManager.ViewModels
 			selectedRaceData = RaceNamesToDisplay[0];
 			selectedClassData = ClassNamesToDisplay[0];
 			selectedThemeData = ThemeNamesToDisplay[0];
+
+			RollAbilityScoresCommand = new RelayCommand(AbilityRoll);
 		}
 
 		public StarfinderCharacter Create()
@@ -107,6 +114,12 @@ namespace PCCharacterManager.ViewModels
 			character.StaminaPoints.Desc = staminaPoints.ToString();
 			character.Health.SetMaxHealth(hitPoints);
 
+			// set ability scores
+			for (int i = 0; i < AbilityScores.Length; i++)
+			{
+				character.Abilities[i].Score = AbilityScores[i];
+			}
+
 			// set class skills
 			foreach (var classSkill in selectedClassData.ClassSkills)
 			{
@@ -124,30 +137,21 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			// class skill profrssion
-			string[] skill = selectedClassData.ClassSkills.Where(x => x.Contains("Profession")).ToArray();
-			foreach (var item in skill)
+			string[] skills = selectedClassData.ClassSkills.Where(x => x.Contains("Profession")).ToArray();
+			foreach (var item in skills)
 			{
 				string[] options = StringFormater.CreateGroup(item, '^');
 				options[0] = options[0].Substring(options[0].IndexOf('(') + 1);
 				options[options.Length - 1] = options[options.Length - 1].Substring(0, options[options.Length - 1].Length - 1);
-				foreach (var option in options)
-				{
-					Window window = new SelectStringValueDialogWindow();
-					DialogWindowSelectStingValue windowVM = new DialogWindowSelectStingValue(window, options);
-					window.DataContext = windowVM;
-					window.ShowDialog();
+				
+				Window window = new SelectStringValueDialogWindow();
+				DialogWindowSelectStingValue windowVM = new DialogWindowSelectStingValue(window, options);
+				window.DataContext = windowVM;
+				window.ShowDialog();
 
-					string selected = windowVM.SelectedItems.First();
-					try
-					{
-						//StarfinderAbility.FindSkill(character.Abilities, selected).ClassSkill = true;
-					}
-					catch(Exception e)
-					{
-						MessageBox.Show(e.Message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
-						return null;
-					}
-				}
+				string selected = windowVM.SelectedItems.First();
+
+				character.CharacterClass.Features.Add(new DnD5eCharacterClassFeature("Class skill profession", selected, 1));
 			}
 
 			character.KeyAbilityScore = selectedClassData.KeyAbilityScore;
@@ -155,8 +159,8 @@ namespace PCCharacterManager.ViewModels
 			// race ability score increases
 			foreach (var item in selectedRaceData.AbilityScoreIncreases)
 			{
-				increseAmount = StringFormater.GetInt(item);
-				abilityName = StringFormater.RemoveInt(item, 'x');
+				increseAmount = StringFormater.FindQuantity(item);
+				abilityName = StringFormater.RemoveQuantity(item);
 				try
 				{
 					Ability.FindAbility(character.Abilities, abilityName).Score += increseAmount;
@@ -169,6 +173,11 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			// race features
+			foreach (var item in selectedRaceData.Features)
+			{
+				character.Race.Features.Add(item);
+			}
+
 
 			// theme ability score improvements
 			increseAmount = StringFormater.FindQuantity(selectedThemeData.AbilityScoreImprovement);
@@ -185,6 +194,17 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			return character;
+		}
+
+		private void AbilityRoll()
+		{
+			RollDie rollDie = new RollDie();
+
+			for (int i = 0; i < 6; i++)
+			{
+				AbilityScores[i] = rollDie.AbilityScoreRoll();
+				OnPropertyChanged("AbilityScores");
+			}
 		}
 	}
 }

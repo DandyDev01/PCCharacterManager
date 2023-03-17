@@ -12,7 +12,7 @@ namespace PCCharacterManager.Models
 {
 	public enum ItemType { Weapon, Armor, Item, Ammunition }
 
-	public class Item : ObservableObject, ICloneable
+	public class Item : ObservableObject
 	{
 		private string name;
 		private string desc;
@@ -96,18 +96,6 @@ namespace PCCharacterManager.Models
 		public void RemoveProperty(Property property)
 		{
 			properties.Remove(property);
-		}
-
-		public object Clone()
-		{
-			return new Item(properties)
-			{
-				name = name,
-				desc = desc,
-				cost = cost,
-				weight = weight,
-				quantity = quantity
-			};
 		}
 	}
 }

@@ -162,8 +162,8 @@
         <Style x:Key="Title" TargetType="TextBlock">
             <Setter Property="Typography.Capitals" Value="AllPetiteCaps"/>
             <Setter Property="Foreground" Value="{StaticResource LightText}"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="HorizontalAlignment" Value="left"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
         </Style>
