@@ -1,4 +1,5 @@
 ﻿using PCCharacterManager.Utility;
+using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,6 +30,7 @@ namespace PCCharacterManager.Views
 			InitializeComponent();
 			focusSearchCommand = new RelayCommand(FocusSearch);
 			this.InputBindings.Add(new KeyBinding(focusSearchCommand, Key.F, ModifierKeys.Control));
+			delKeyBinding.Command = new RelayCommand(DeleteItem);
 		}
 
 		public void FocusSearch()
@@ -54,6 +56,14 @@ namespace PCCharacterManager.Views
 		private void spellComboBox_MouseLeave(object sender, MouseEventArgs e)
 		{
 			spellComboBox.IsDropDownOpen = false;
+		}
+
+		private void DeleteItem()
+		{
+			CharacterSpellBookViewModel vm = DataContext as CharacterSpellBookViewModel;
+
+			vm.DeleteSpellCommand.Execute(null);
+			vm.DeleteCantripCommand.Execute(null);
 		}
 	}
 }

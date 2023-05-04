@@ -13,11 +13,16 @@ namespace PCCharacterManager.Commands
 	{
 		private readonly CharacterSpellBookViewModel vm;
 		private readonly SpellType spellType;
+		private double lastSpellRemoveTimeInSeconds;
+		private double lastCantripRemoveTimeInSeconds;
 
 		public RemoveItemFromSpellBookCommand(CharacterSpellBookViewModel _vm, SpellType _spellType)
 		{
 			vm = _vm;
 			spellType = _spellType;
+			TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
+			lastSpellRemoveTimeInSeconds = timeSpan.TotalSeconds - 10;
+			lastCantripRemoveTimeInSeconds = timeSpan.TotalSeconds - 10;
 		}
 
 		public override void Execute(object parameter)
@@ -41,13 +46,22 @@ namespace PCCharacterManager.Commands
 			if (vm.PrevSelectedSpell == null)
 				return;
 
-			var messageBox = MessageBox.Show("Are you sure you want to delete " + vm.PrevSelectedSpell.Spell.Name, "Delete Spell", MessageBoxButton.YesNo);
-			if (messageBox == MessageBoxResult.No)
-				return;
+			double currTimeSeconds = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
+			double timePassed = currTimeSeconds - lastSpellRemoveTimeInSeconds;
+			if (timePassed > 5)
+			{
+				var messageBox = MessageBox.Show("Are you sure you want to delete " + vm.PrevSelectedSpell.Spell.Name, "Delete Spell", MessageBoxButton.YesNo);
+				if (messageBox == MessageBoxResult.No)
+					return;
+			}
 
 			vm.SpellBook.RemoveSpell(vm.PrevSelectedSpell.Spell);
 			vm.SpellsToDisplay.Remove(vm.PrevSelectedSpell);
 			vm.FilteredSpells[vm.PrevSelectedSpell.Spell.School].Remove(vm.PrevSelectedSpell);
+			vm.SelectedSpell = null;
+
+			TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
+			lastSpellRemoveTimeInSeconds = timeSpan.TotalSeconds;
 		}
 
 		/// <summary>
@@ -58,13 +72,22 @@ namespace PCCharacterManager.Commands
 			if (vm.PrevSelectedCantrip == null)
 				return;
 
-			var messageBox = MessageBox.Show("Are you sure you want to delete " + vm.PrevSelectedCantrip.Spell.Name, "Delete Spell", MessageBoxButton.YesNo);
-			if (messageBox == MessageBoxResult.No)
-				return;
+			double currTimeSeconds = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
+			double timePassed = currTimeSeconds - lastSpellRemoveTimeInSeconds;
+			if (timePassed > 5)
+			{
+				var messageBox = MessageBox.Show("Are you sure you want to delete " + vm.PrevSelectedCantrip.Spell.Name, "Delete Spell", MessageBoxButton.YesNo);
+				if (messageBox == MessageBoxResult.No)
+					return;
+			}
 
 			vm.FilteredSpells[vm.PrevSelectedCantrip.Spell.School].Remove(vm.PrevSelectedCantrip);
 			vm.SpellBook.RemoveCantrip(vm.PrevSelectedCantrip.Spell);
 			vm.CantripsToDisplay.Remove(vm.PrevSelectedCantrip);
+			vm.SelectedCantrip = null;
+
+			TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
+			lastSpellRemoveTimeInSeconds = timeSpan.TotalSeconds;
 		}
 	}
 }
