@@ -24,6 +24,7 @@ namespace PCCharacterManager.Views
 	{
 		private ICommand focusSearchCommand;
 		private ICommand deleteSelectedItemsCommand;
+		private double lastItemRemoveTimeInSeconds;
 
 		public CharacterInventoryView()
 		{
@@ -35,6 +36,8 @@ namespace PCCharacterManager.Views
 
 			this.InputBindings.Add(new KeyBinding(focusSearchCommand, Key.F, ModifierKeys.Control));
 			removeButton.Command = deleteSelectedItemsCommand;
+			TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
+			lastItemRemoveTimeInSeconds = timeSpan.TotalSeconds - 10;
 		}
 
 		public void FocusSearch()
@@ -75,15 +78,23 @@ namespace PCCharacterManager.Views
 				if (vm.SelectedItem == null)
 					return;
 
-				var messageBox = MessageBox.Show("Are you sure you want to remove " + 
-					vm.SelectedItem.DisplayName, "Remove Item", MessageBoxButton.YesNo);
+				double currTimeSeconds = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
+				double timePassed = currTimeSeconds - lastItemRemoveTimeInSeconds;
+				if (timePassed > 5)
+				{
+					var messageBox = MessageBox.Show("Are you sure you want to remove " + 
+						vm.SelectedItem.DisplayName, "Remove Item", MessageBoxButton.YesNo);
 
-				if (messageBox == MessageBoxResult.No)
-					return;
+					if (messageBox == MessageBoxResult.No)
+						return;
+				}
 
 				vm.Inventory.Remove(vm.SelectedItem.BoundItem);
 				vm.ItemDisplayVms.Remove(vm.SelectedItem);
 			}
+
+			TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
+			lastItemRemoveTimeInSeconds = timeSpan.TotalSeconds;
 
 			if (vm.ItemDisplayVms.Count < 1) return;
 			vm.SelectedItem = vm.ItemDisplayVms[0];

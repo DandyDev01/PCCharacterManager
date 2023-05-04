@@ -110,7 +110,7 @@
         </Style>
 
         <Style TargetType="RichTextBox">
-            <Setter Property="Background" Value="#FF3F3F3F"/>
+            <Setter Property="Background" Value="{StaticResource BackGroundColorDark}"/>
             <Setter Property="Foreground" Value="#FF97A0A5"/>
             <Setter Property="Padding" Value="3"/>
         </Style>
@@ -251,8 +251,8 @@
         <Style TargetType="TextBox" x:Key="Search">
             <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
             <Setter Property="Foreground" Value="{StaticResource LightText}"/>
-            <Setter Property="AcceptsTab" Value="True"/>
-            <Setter Property="AcceptsReturn" Value="True"/>
+            <Setter Property="AcceptsTab" Value="false"/>
+            <Setter Property="AcceptsReturn" Value="false"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Height" Value="auto"/>

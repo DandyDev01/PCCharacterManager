@@ -25,8 +25,8 @@ namespace PCCharacterManager.Views
 	/// </summary>
 	public partial class CharacterNoteBookView : UserControl
 	{
-		private ICommand focusSearchCommand;
-
+		private readonly ICommand focusSearchCommand;
+		private const string SEARCH = "Search";
 
 		public CharacterNoteBookView()
 		{
@@ -36,6 +36,8 @@ namespace PCCharacterManager.Views
 			findButton.Command = new RelayCommand(Find);
 			this.InputBindings.Add(new KeyBinding(focusSearchCommand, Key.Q, ModifierKeys.Control));
 			DataContextChanged += Sub;
+
+			searchBox.Text = SEARCH;
 
 			richTextBox.Document.LineHeight = 1;
 			ExpandAllHelper();
