@@ -234,6 +234,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="Padding" Value="3"/>
             <Setter Property="Margin" Value="3"/>
+            <Setter Property="MaxHeight" Value="35"/>
         </Style>
         <Style TargetType="TextBox" x:Key="Document">
             <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
@@ -427,8 +428,8 @@
 
         <!--#region ListView-->
         <Style TargetType="ListView">
-            <Setter Property="BorderBrush" Value="{StaticResource DarkText}"/>
-            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="BorderBrush" Value="{StaticResource LightText}"/>
+            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Margin" Value="3"/>
