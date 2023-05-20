@@ -38,26 +38,6 @@ namespace PCCharacterManager.Views
 			this.searchBox.Focus();
 		}
 
-		private void SpellComboBox_OnMouseEnter(Object sender, MouseEventArgs e)
-		{
-			spellComboBox.IsDropDownOpen = true;	
-		}
-
-		private void CantripComboBox_OnMouseEnter(Object sender, MouseEventArgs e)
-		{
-			cantripComboBox.IsDropDownOpen = true;
-		}
-
-		private void cantripComboBox_MouseLeave(object sender, MouseEventArgs e)
-		{
-			cantripComboBox.IsDropDownOpen= false;
-		}
-
-		private void spellComboBox_MouseLeave(object sender, MouseEventArgs e)
-		{
-			spellComboBox.IsDropDownOpen = false;
-		}
-
 		private void DeleteItem()
 		{
 			CharacterSpellBookViewModel vm = DataContext as CharacterSpellBookViewModel;
