@@ -324,11 +324,12 @@
                 <!--#region Augmentations-->
                 <Label  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="1"
                         Content="Augmentations"/>
-                <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="5" Grid.RowSpan="5">
+                <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="5" Grid.RowSpan="5"
+                          ItemsSource="{Binding SelectedCharacter.Augmentations}">
                     <ListView.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Add Augmentation"/>
-                            <MenuItem Header="Remove Augmentation"/>
+                            <MenuItem Header="Add Augmentation" Command="{Binding AddAugmentationCommand}"/>
+                            <MenuItem Header="Remove Augmentation" Command="{Binding RemoveAugmentationCommand}"/>
                         </ContextMenu>
                     </ListView.ContextMenu>
                 </ListView>

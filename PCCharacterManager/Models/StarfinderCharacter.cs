@@ -20,7 +20,7 @@ namespace PCCharacterManager.Models
 		public StarfinderStatBlock SavingThrowWill { get; set; }
 		public StarfinderStatBlock SavingThrowReflex { get; set; }
 		public StarfinderStatBlock SavingThrowFortitude { get; set; }
-		public StarfinderAugmentation[] Augmentations { get; set; }
+		public ObservableCollection<StarfinderAugmentation> Augmentations { get; set; }
 		public new StarfinderArmorClass ArmorClass { get; set; }
 		public new StarfinderAbility[] Abilities
 		{
@@ -45,7 +45,7 @@ namespace PCCharacterManager.Models
 			SavingThrowWill = new StarfinderStatBlock();
 			SavingThrowReflex = new StarfinderStatBlock();
 			SavingThrowFortitude = new StarfinderStatBlock();
-			Augmentations = Array.Empty<StarfinderAugmentation>();
+			Augmentations = new ObservableCollection<StarfinderAugmentation>();
 			Theme = new StarfinderTheme();
 			abilities = ReadWriteJsonCollection<StarfinderAbility>.ReadCollection(StarfinderResources.AbilitiesJson).ToArray();
 		}
@@ -65,7 +65,7 @@ namespace PCCharacterManager.Models
 			SavingThrowWill = new StarfinderStatBlock();
 			SavingThrowReflex = new StarfinderStatBlock();
 			SavingThrowFortitude = new StarfinderStatBlock();
-			Augmentations = Array.Empty<StarfinderAugmentation>();
+			Augmentations = new ObservableCollection<StarfinderAugmentation>();
 			Theme = new StarfinderTheme();
 			abilities = ReadWriteJsonCollection<StarfinderAbility>.ReadCollection(StarfinderResources.AbilitiesJson).ToArray();
 		}
@@ -87,7 +87,7 @@ namespace PCCharacterManager.Models
 			ThrownAttack = new StarfinderStatBlock();
 			SavingThrowWill = new StarfinderStatBlock();
 			SavingThrowReflex = new StarfinderStatBlock();
-			Augmentations = Array.Empty<StarfinderAugmentation>();
+			Augmentations = new ObservableCollection<StarfinderAugmentation>();
 			SavingThrowFortitude = new StarfinderStatBlock();
 			abilities = ReadWriteJsonCollection<StarfinderAbility>.ReadCollection(StarfinderResources.AbilitiesJson).ToArray();
 

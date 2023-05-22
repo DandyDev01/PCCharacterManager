@@ -51,6 +51,8 @@ namespace PCCharacterManager.ViewModels
 		public ICommand AddThemeFeatureCommand { get; }
 		public ICommand RemoveThemeFeatureCommand { get; }
 		public ICommand EditThemeFeatureCommand { get; }
+		public ICommand AddAugmentationCommand { get; }
+		public ICommand RemoveAugmentationCommand { get; }
 
 		public PropertyListViewModel ThemeListVM { get; private set; }
 
@@ -60,6 +62,26 @@ namespace PCCharacterManager.ViewModels
 			AddThemeFeatureCommand = new RelayCommand(AddThemeFeature);
 			RemoveThemeFeatureCommand = new RelayCommand(RemoveThemeFeature);
 			EditThemeFeatureCommand = new RelayCommand(EditThemeFeature);
+			AddAugmentationCommand = new RelayCommand(AddAugmentation);
+			RemoveAugmentationCommand = new RelayCommand(RemoveAugmentation);
+		}
+
+		private void RemoveAugmentation()
+		{
+			throw new NotImplementedException();
+		}
+
+		private void AddAugmentation()
+		{
+			Window window = new AddAugmentationDialogWindow();
+			DialogWindowAddAugmentationViewModel windowVM = new DialogWindowAddAugmentationViewModel(window);
+			window.DataContext = windowVM;
+			window.ShowDialog();
+
+			if (window.DialogResult == false)
+				return;
+
+			SelectedCharacter.Augmentations.Add(windowVM.Augmentation);
 		}
 
 		private void OnCharacterChange(DnD5eCharacter newCharacter)
