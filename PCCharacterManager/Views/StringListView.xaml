@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid MaxHeight="300">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
@@ -24,6 +24,16 @@
                     <MenuItem Header="Add item" Command="{Binding AddItemCommand}"/>
                 </ContextMenu>
             </ListView.ContextMenu>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Border Grid.ColumnSpan="9"
+                                BorderThickness="0, 2, 0, 0" BorderBrush="White"/>
+                        <Label Style="{StaticResource mediumn}"
+                               Content="{Binding }"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
     </Grid>
 </UserControl>

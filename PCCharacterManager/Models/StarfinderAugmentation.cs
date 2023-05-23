@@ -83,8 +83,8 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		private AugmentationSystem[] systems;
-		public AugmentationSystem[] Systems
+		private string[] systems;
+		public string[] Systems
 		{
 			get
 			{
@@ -103,7 +103,7 @@ namespace PCCharacterManager.Models
 			level = string.Empty;
 			price = string.Empty;
 			category = AugmentationCategory.BIOTECH;
-			systems = Array.Empty<AugmentationSystem>();
+			systems = Array.Empty<string>();
 		}
 	}
 }

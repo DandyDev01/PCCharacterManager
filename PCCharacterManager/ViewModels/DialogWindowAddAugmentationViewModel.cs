@@ -87,14 +87,14 @@ namespace PCCharacterManager.ViewModels
 		public ObservableCollection<ListViewSelectableItemViewModel> SelectableAugmentationSystems { get; private set; }
 
 		private readonly Window window;
-		private readonly List<AugmentationSystem> systems;
+		private readonly List<string> systems;
 		public ICommand OkCommand { get; }
 		public ICommand CancelCommand { get; }
 
 		public DialogWindowAddAugmentationViewModel(Window _window)
 		{
 			window = _window;
-			systems = new List<AugmentationSystem>();
+			systems = new List<string>();
 			OkCommand = new RelayCommand(Ok);
 			CancelCommand = new RelayCommand(Cancel);
 			augmentation = new StarfinderAugmentation();
@@ -127,15 +127,10 @@ namespace PCCharacterManager.ViewModels
 			{
 				if (item.IsSelected)
 				{
-					foreach (AugmentationSystem system in AugmentationSystemToDisplay)
-					{
-						if (system.ToString().ToLower() == item.BoundItem)
-						{
-							systems.Add(system);
-						}
-					}
+					systems.Add(item.BoundItem);
 				}
 			}
+			augmentation.Systems = systems.ToArray();
 
 			window.DialogResult = true;
 			window.Close();
