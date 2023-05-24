@@ -326,11 +326,13 @@
                         Content="Augmentations"/>
                 <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="7" Grid.RowSpan="5"
                           MaxHeight="435"
-                          ItemsSource="{Binding SelectedCharacter.Augmentations}">
+                          ItemsSource="{Binding SelectedCharacter.Augmentations}"
+                          SelectedItem="{Binding SelectedAugmentation}">
                     <ListView.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Add Augmentation" Command="{Binding AddAugmentationCommand}"/>
-                            <MenuItem Header="Remove Augmentation" Command="{Binding RemoveAugmentationCommand}"/>
+                            <MenuItem Header="{Binding RemoveSelectedAugmentationText}" Command="{Binding RemoveAugmentationCommand}"/>
+                            <MenuItem Header="{Binding EditSelectedAugmentationText}" Command="{Binding EditAugmentationCommand}"/>
                         </ContextMenu>
                     </ListView.ContextMenu>
                     <ListView.ItemTemplate>

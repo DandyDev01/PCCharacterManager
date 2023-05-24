@@ -48,11 +48,28 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		private StarfinderAugmentation selectedAugmentation;
+		public StarfinderAugmentation SelectedAugmentation
+		{
+			get
+			{
+				return selectedAugmentation;
+			}
+			set
+			{
+				OnPropertyChanged(ref selectedAugmentation, value);
+			}
+		}
+
+		public string RemoveSelectedAugmentationText { get { return "Remove " + selectedAugmentation.Name; } }
+		public string EditSelectedAugmentationText { get { return "Edit " + selectedAugmentation.Name; } }
+
 		public ICommand AddThemeFeatureCommand { get; }
 		public ICommand RemoveThemeFeatureCommand { get; }
 		public ICommand EditThemeFeatureCommand { get; }
 		public ICommand AddAugmentationCommand { get; }
 		public ICommand RemoveAugmentationCommand { get; }
+		public ICommand EditAugmentationCommand { get; }
 
 		public PropertyListViewModel ThemeListVM { get; private set; }
 
@@ -64,11 +81,26 @@ namespace PCCharacterManager.ViewModels
 			EditThemeFeatureCommand = new RelayCommand(EditThemeFeature);
 			AddAugmentationCommand = new RelayCommand(AddAugmentation);
 			RemoveAugmentationCommand = new RelayCommand(RemoveAugmentation);
+			EditAugmentationCommand = new RelayCommand(EditRemoveAugmentation);
+		}
+
+		private void EditRemoveAugmentation()
+		{
+			Window window = new StringInputDialogWindow();
+			DialogWindowStringInputViewModel viewModel = 
+				new DialogWindowStringInputViewModel(window, "Update description of " + selectedAugmentation.Name);
+			window.DataContext = viewModel;
+			window.ShowDialog();
+
+			if (window.DialogResult == false)
+				return;
+
+			selectedAugmentation.Description = viewModel.Answer;
 		}
 
 		private void RemoveAugmentation()
 		{
-			throw new NotImplementedException();
+			selectedCharacter.Augmentations.Remove(selectedAugmentation);
 		}
 
 		private void AddAugmentation()
