@@ -4,6 +4,8 @@ using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -94,25 +96,36 @@ namespace PCCharacterManager.Models
 		public ObservableCollection<string> ArmorProficiencies { get; set; }
 		public ObservableCollection<Property> MovementTypes_Speeds { get; set; }
 
+		public Action OnCharacterChangedAction { get; set; }
+
 		public DnD5eCharacter()
 		{
-			Inventory = new Inventory();
+			abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
+			Languages = new ObservableCollection<string>();
 			ToolProficiences = new ObservableCollection<string>();
 			OtherProficiences = new ObservableCollection<string>();
-			SpellBook = new SpellBook();
-			NoteManager = new NoteBook();
-			MovementTypes_Speeds = new ObservableCollection<Property>();
-			WeaponProficiencies = new ObservableCollection<string>();
 			ArmorProficiencies = new ObservableCollection<string>();
-			Languages = new ObservableCollection<string>();
-			abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
-			Level = new CharacterLevel();
-			Health = new Health(1);
+			WeaponProficiencies = new ObservableCollection<string>();
+			MovementTypes_Speeds = new ObservableCollection<Property>();
 			CharacterClass = new DnD5eCharacterClass();
 			Race = new DnD5eCharacterRace();
+			ArmorClass = new ArmorClass();
+			Level = new CharacterLevel();
+			NoteManager = new NoteBook();
+			SpellBook = new SpellBook();
+			Inventory = new Inventory();
+			Health = new Health(1);
+
+			Languages.CollectionChanged += OnCharacterChanged;
+			ToolProficiences.CollectionChanged += OnCharacterChanged;
+			OtherProficiences.CollectionChanged += OnCharacterChanged;
+			WeaponProficiencies.CollectionChanged += OnCharacterChanged;
+			ArmorProficiencies.CollectionChanged += OnCharacterChanged;
+			MovementTypes_Speeds.CollectionChanged += OnCharacterChanged;
 
 			name = string.Empty;
 			background = string.Empty;
+			dateModified = string.Empty;
 			CharacterType = CharacterType.DnD5e;
 		}
 
@@ -144,6 +157,11 @@ namespace PCCharacterManager.Models
 			name = string.Empty;
 			background = string.Empty;
 			CharacterType = CharacterType.DnD5e;
+		}
+
+		private void OnCharacterChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			OnCharacterChangedAction?.Invoke();
 		}
 
 		/// <summary>

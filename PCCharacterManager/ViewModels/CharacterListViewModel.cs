@@ -1,4 +1,5 @@
-﻿using PCCharacterManager.DialogWindows;
+﻿using PCCharacterManager.Commands;
+using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
@@ -63,63 +64,22 @@ namespace PCCharacterManager.ViewModels
 
 			CreateCharacterCommand = new RelayCommand(CreateCharacterWindow);
 			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
-			NameSortCommand = new RelayCommand(NameSort);
-			LevelSortCommand = new RelayCommand(LevelSort);
-			ClassSortCommand = new RelayCommand(ClassSort);
-			DataModifiedSortCommand = new RelayCommand(DataModifiedSort);
-			CharacterTypeSortCommand = new RelayCommand(CharacterTypeSort);
-			CharacterRaceSortCommand = new RelayCommand(CharacterRaceSort);
+
+			NameSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort, 
+				nameof(CharacterItemViewModel.CharacterName));
+			LevelSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(CharacterItemViewModel.CharacterLevel));
+			ClassSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort, 
+				nameof(CharacterItemViewModel.CharacterClass));
+			DataModifiedSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort, 
+				nameof(CharacterItemViewModel.CharacterDateModified));
+			CharacterTypeSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort, 
+				nameof(CharacterItemViewModel.CharacterType));
+			CharacterRaceSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort, 
+				nameof(CharacterItemViewModel.CharacterRace));
 
 			characterStore.CharacterCreate += LoadCharacter;
 			CharacterItems.OrderBy(x => x.CharacterDateModified).First().SelectCharacterCommand.Execute(null);
-		}
-
-		/// <summary>
-		/// sorts the characters displayed by their race
-		/// </summary>
-		private void CharacterRaceSort()
-		{
-			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterRace));
-		}
-
-		/// <summary>
-		/// sorts the characters displayed by modified data
-		/// </summary>
-		private void DataModifiedSort()
-		{
-			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterDateModified));
-		}
-
-		/// <summary>
-		/// sorts the characters displayed by their class
-		/// </summary>
-		private void ClassSort()
-		{
-			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterClass));
-		}
-
-		/// <summary>
-		/// sorts the characters displayed by their levels
-		/// </summary>
-		private void LevelSort()
-		{
-			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterLevel));
-		}
-
-		/// <summary>
-		/// sorts the characters displayed by their names
-		/// </summary>
-		public void NameSort()
-		{
-			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterName));
-		}
-
-		/// <summary>
-		/// sorts the characters displayed by their character type
-		/// </summary>
-		private void CharacterTypeSort()
-		{
-			collectionViewPropertySort.Sort(nameof(CharacterItemViewModel.CharacterType));
 		}
 
 		/// <summary>
