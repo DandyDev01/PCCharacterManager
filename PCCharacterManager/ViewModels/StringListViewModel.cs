@@ -93,10 +93,11 @@ namespace PCCharacterManager.ViewModels
 			window.DataContext = windowVM;
 			window.ShowDialog();
 
-			ItemsToDisplay.Remove(selectedItem);
 
 			if (window.DialogResult == false)
 				return;
+
+			ItemsToDisplay.Remove(selectedItem);
 
 			selectedItem = windowVM.Answer;
 			ItemsToDisplay.Add(selectedItem);

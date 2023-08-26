@@ -59,12 +59,12 @@ namespace PCCharacterManager.ViewModels
 			characterType = character.CharacterType;
 			characterRace = character.Race.Name;
 
-			OnPropertyChanged("characterName");
-			OnPropertyChanged("characterClass");
-			OnPropertyChanged("characterLevel");
-			OnPropertyChanged("characterDateModified");
-			OnPropertyChanged("characterType");
-			OnPropertyChanged("characterRace");
+			OnPropertyChanged(nameof(characterName));
+			OnPropertyChanged(nameof(characterClass));
+			OnPropertyChanged(nameof(characterLevel));
+			OnPropertyChanged(nameof(characterDateModified));
+			OnPropertyChanged(nameof(characterType));
+			OnPropertyChanged(nameof(characterRace));
 		}
 	}
 }

@@ -458,9 +458,18 @@
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Margin" Value="3"/>
             <Setter Property="Padding" Value="3"/>
+            <!--<Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="7" Background="{StaticResource LightBackgroundColor}" BorderThickness="1" Padding="2">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>-->
         </Style>
         <!--#endregion-->
-
+        
         <Style TargetType="ContextMenu">
             <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
         </Style>
