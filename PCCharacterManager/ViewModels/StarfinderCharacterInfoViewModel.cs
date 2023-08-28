@@ -58,11 +58,13 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChanged(ref selectedAugmentation, value);
+				OnPropertyChanged(nameof(RemoveSelectedAugmentationText));
+				OnPropertyChanged(nameof(EditSelectedAugmentationText));
 			}
 		}
 
-		public string RemoveSelectedAugmentationText { get { return "Remove " + selectedAugmentation.Name; } }
-		public string EditSelectedAugmentationText { get { return "Edit " + selectedAugmentation.Name; } }
+		public string RemoveSelectedAugmentationText { get { return "Remove " + selectedAugmentation?.Name; } }
+		public string EditSelectedAugmentationText { get { return "Edit " + selectedAugmentation?.Name; } }
 
 		public ICommand AddThemeFeatureCommand { get; }
 		public ICommand RemoveThemeFeatureCommand { get; }

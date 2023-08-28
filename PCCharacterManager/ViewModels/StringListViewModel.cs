@@ -49,6 +49,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			listName = _listName;
 			ItemsToDisplay = _item;
+			selectedItem = string.Empty;
 
 			AddItemCommand = new RelayCommand(AddItem);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
