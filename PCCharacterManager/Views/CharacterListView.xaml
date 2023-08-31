@@ -31,6 +31,14 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn>
+                        <GridViewColumnHeader Content="Del" Command="{Binding NameSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Del" Command="{Binding DeleteCharacterCommand}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
                         <GridViewColumnHeader Content="Name" Command="{Binding NameSortCommand}"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

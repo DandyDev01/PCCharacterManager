@@ -41,6 +41,7 @@ namespace PCCharacterManager.ViewModels
 
 		public CharacterListViewModel(CharacterStore _characterStore, ICharacterDataService _dataService)
 		{
+			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
 			characterStore = _characterStore;
 			dataService = _dataService;
 
@@ -63,7 +64,6 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			CreateCharacterCommand = new RelayCommand(CreateCharacterWindow);
-			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
 
 			NameSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort, 
 				nameof(CharacterItemViewModel.CharacterName));
@@ -100,6 +100,9 @@ namespace PCCharacterManager.ViewModels
 		/// <param name="_character">character to add</param>
 		private void LoadCharacter(DnD5eCharacter _character)
 		{
+			if (_character == null)
+				return;
+
 			if(_character is StarfinderCharacter starfinder)
 			{
 				CharacterItems.Add(new CharacterItemViewModel(characterStore, _character,
@@ -118,7 +121,15 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void Update()
 		{
-			CharacterItemViewModel characterItem = CharacterItems.First(c => c.CharacterName == characterStore.SelectedCharacter.Name);
+			if (characterStore.SelectedCharacter == null)
+				return;
+
+
+			CharacterItemViewModel? characterItem = CharacterItems.FirstOrDefault(c => c.CharacterName == characterStore.SelectedCharacter.Name);
+
+			if (characterItem == null)
+				return;
+
 			characterItem.Update(characterStore.SelectedCharacter);
 		}
 		
@@ -128,28 +139,23 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		public void DeleteCharacter()
 		{
-			if (characterStore.SelectedCharacter == null) return;
+			if (characterStore.SelectedCharacter == null) 
+				return;
 
 			var results = MessageBox.Show("are you sure you want to delete the character " + characterStore.SelectedCharacter.Name + "?", 
 				"Delete Character", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-			if (results == MessageBoxResult.No) return;
+			if (results == MessageBoxResult.No) 
+				return;
 
 			DnD5eCharacter character = characterStore.SelectedCharacter;
-			CharacterItemViewModel? item = null;
-			foreach (CharacterItemViewModel _item in CharacterItems)
-			{
-				if (_item.CharacterName == character.Name)
-				{
-					item = _item;
-					break;
-				}
-			}
-
+			CharacterItemViewModel? item = CharacterItems.First(x => x.CharacterName == character.Name);
+		
 			if(item == null)
 			{
 				MessageBox.Show("no character with name " + characterStore.SelectedCharacter.Name + " exists", "Could not find Character", 
 					MessageBoxButton.OK, MessageBoxImage.Error);
+				
 				return;
 			}
 
@@ -161,9 +167,8 @@ namespace PCCharacterManager.ViewModels
 				return;
 			}
 
-
-			CharacterItems[0].SelectCharacterCommand?.Execute(null);
 			CharacterItems.Remove(item);
+			CharacterItems[0].SelectCharacterCommand?.Execute(null);
 		}
 
 
@@ -172,6 +177,9 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		public void SaveCharacter()
 		{
+			if (characterStore.SelectedCharacter == null)
+				return;
+
 			dataService.Save(characterStore.SelectedCharacter);
 			Update();
 		}

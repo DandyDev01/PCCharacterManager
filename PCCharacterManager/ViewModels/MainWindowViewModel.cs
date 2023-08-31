@@ -74,7 +74,11 @@ namespace PCCharacterManager.ViewModels
 
 		private void SaveCharacter(DnD5eCharacter c = null)
 		{
-			if (tabVM == null) return;
+			if (tabVM == null) 
+				return;
+
+			if (c == null)
+				return;
 
 			tabVM.CharacterListVM.SaveCharacter();
 		}

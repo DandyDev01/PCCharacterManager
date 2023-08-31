@@ -24,7 +24,7 @@ namespace PCCharacterManager.Stores
 		/// <param name="characterToBind">character to bind to</param>
 		public void BindSelectedCharacter(DnD5eCharacter characterToBind)
 		{
-			SelectedCharacterChange?.Invoke(characterToBind);
+			SelectedCharacterChange?.Invoke(SelectedCharacter);
 			SelectedCharacter = characterToBind;
 		}
 	}
