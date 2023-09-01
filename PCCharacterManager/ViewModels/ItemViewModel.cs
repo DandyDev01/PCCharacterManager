@@ -10,8 +10,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class ItemViewModel : ObservableObject
 	{
-		protected Item boundItem;
-		public Item BoundItem
+		protected Item? boundItem;
+		public Item? BoundItem
 		{
 			get { return boundItem; }
 			set { OnPropertyChanged(ref boundItem, value); }
@@ -105,14 +105,41 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		private ItemCategory displayItemCategory;
+		public ItemCategory DisplayItemCategory
+		{
+			get
+			{
+				return displayItemCategory;
+			}
+			set
+			{
+				OnPropertyChanged(ref displayItemCategory, value);
+			}
+		}
+
 		public ItemViewModel(Item _item)
 		{
-			Bind(_item);
+			boundItem = _item;
+
+			displayName = _item.Name;
+			displayDesc = _item.Desc;
+			displayWeight = _item.Weight;
+			displayCost = _item.Cost;
+			displayQuantity = _item.Quantity;
+			displayItemCategory = _item.Category;
+			displayItemType = _item.Type;
 		}
 
 		public ItemViewModel()
 		{
-
+			displayName = string.Empty;
+			displayDesc = string.Empty;
+			displayWeight = string.Empty;
+			displayCost = string.Empty;
+			displayQuantity = 0;
+			displayItemCategory = ItemCategory.Item;
+			displayItemType = ItemType.Spear;
 		}
 
 		public void Bind(Item _item)
@@ -121,10 +148,11 @@ namespace PCCharacterManager.ViewModels
 
 			displayName = _item.Name;
 			displayDesc = _item.Desc;
-			displayQuantity = _item.Quantity;
 			displayWeight = _item.Weight;
-			displayItemType = _item.Tag;
 			displayCost = _item.Cost;
+			displayQuantity = _item.Quantity;
+			displayItemCategory = _item.Category;
+			displayItemType = _item.Type;
 		}
 	}
 }

@@ -50,7 +50,7 @@
                   SelectedItem="{Binding InventoryVM.SelectedItem, Mode=OneWayToSource}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="200">
+                    <GridViewColumn Width="172">
                         <GridViewColumnHeader Content="Name" Command="{Binding InventoryVM.NameSortCommand}"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -82,8 +82,16 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="150">
-                        <GridViewColumnHeader Content="Tag" Command="{Binding InventoryVM.TypeSortCommand}"/>
+                    <GridViewColumn Width="100">
+                        <GridViewColumnHeader Content="Category" Command="{Binding InventoryVM.CategorySortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayItemCategory}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="100">
+                        <GridViewColumnHeader Content="Type" Command="{Binding InventoryVM.TypeSortCommand}"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding DisplayItemType}"/>

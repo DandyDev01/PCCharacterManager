@@ -38,6 +38,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand QuantitySortCommand { get; }
 		public ICommand TypeSortCommand { get; }
 		public ICommand WeightSortCommand { get; }
+		public ICommand CategorySortCommand { get; }
 
 		public ICollectionView ItemsCollectionView { get; private set; }
 		public ObservableCollection<ItemViewModel> ItemDisplayVms { get; }
@@ -118,7 +119,7 @@ namespace PCCharacterManager.ViewModels
 			ItemsCollectionView.Filter = FilterItems;
 			collectionViewPropertySort = new CollectionViewPropertySort(ItemsCollectionView);
 			ItemsCollectionView.SortDescriptions.Add(
-				new SortDescription(nameof(ItemViewModel.DisplayItemType), ListSortDirection.Ascending));
+				new SortDescription(nameof(ItemViewModel.DisplayItemCategory), ListSortDirection.Ascending));
 
 			NameSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
 				nameof(ItemViewModel.DisplayName));
@@ -129,7 +130,7 @@ namespace PCCharacterManager.ViewModels
 			QuantitySortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
 				nameof(ItemViewModel.DisplayQuantity));
 			TypeSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
-				nameof(ItemViewModel.DisplayItemType));
+				nameof(ItemViewModel.DisplayItemCategory));
 		}
 
 		public CharacterInventoryViewModel()
@@ -147,7 +148,7 @@ namespace PCCharacterManager.ViewModels
 			ItemsCollectionView.Filter = FilterItems;
 			collectionViewPropertySort = new CollectionViewPropertySort(ItemsCollectionView);
 			ItemsCollectionView.SortDescriptions.Add(
-				new SortDescription(nameof(ItemViewModel.DisplayItemType), ListSortDirection.Ascending));
+				new SortDescription(nameof(ItemViewModel.DisplayItemCategory), ListSortDirection.Ascending));
 
 			PrevSelectedProperty = new PropertyEditableViewModel(new Property());
 
@@ -165,6 +166,8 @@ namespace PCCharacterManager.ViewModels
 				nameof(ItemViewModel.DisplayQuantity));
 			TypeSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
 				nameof(ItemViewModel.DisplayItemType));
+			CategorySortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayItemCategory));
 		}
 
 		private void OnCharacterChanged(DnD5eCharacter newCharacter)
@@ -214,7 +217,7 @@ namespace PCCharacterManager.ViewModels
 
 				if (itemVM.BoundItem.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
 				
-				if (itemVM.DisplayItemType.ToString().Contains(SearchTerm, StringComparison.Ordinal)) return true;
+				if (itemVM.DisplayItemCategory.ToString().Contains(SearchTerm, StringComparison.Ordinal)) return true;
 
 				foreach (Property property in itemVM.BoundItem.Properties)
 				{

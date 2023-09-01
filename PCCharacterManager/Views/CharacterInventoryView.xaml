@@ -69,7 +69,7 @@
             </ListView.ContextMenu>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="200">
+                    <GridViewColumn Width="250">
                         <GridViewColumnHeader Content="Name" Command="{Binding NameSortCommand}"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -77,7 +77,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="70">
+                    <GridViewColumn Width="100">
                         <GridViewColumnHeader Content="Cost" Command="{Binding CostSortCommand}"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -85,7 +85,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="70">
+                    <GridViewColumn Width="100">
                         <GridViewColumnHeader Content="Weight" Command="{Binding WeightSortCommand}"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -102,7 +102,15 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Width="150">
-                        <GridViewColumnHeader Content="Tag" Command="{Binding TypeSortCommand}"/>
+                        <GridViewColumnHeader Content="Category" Command="{Binding CategorySortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayItemCategory}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150">
+                        <GridViewColumnHeader Content="Type" Command="{Binding TypeSortCommand}"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding DisplayItemType}"/>

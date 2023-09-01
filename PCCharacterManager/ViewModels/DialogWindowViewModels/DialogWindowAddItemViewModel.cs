@@ -41,6 +41,7 @@ namespace PCCharacterManager.ViewModels
 
 			AddToInventoryCommand = new RelayCommand(AddItem);
 			CancelCommand = new RelayCommand(Close);
+		
 		}
 
 		private void AddItem()

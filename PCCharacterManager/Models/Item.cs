@@ -10,7 +10,14 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-	public enum ItemType { Weapon, Armor, Item, Ammunition }
+	public enum ItemCategory { Weapon, Armor, Item, Ammunition }
+	public enum ItemType 
+	{
+		Sword, GreatSword, Axe, GreatAxe, Hammer, GreatHammer, Mace, GreatMace, Spear, Bow, Firearm, Versatile,
+		Shild, LightArmor, MediumnArmor, HeavyArmor,
+		Potion, Poision, Ingredient, Component,
+		Misc, Book, Scroll, Note, Map
+	}
 
 	public class Item : ObservableObject
 	{
@@ -52,9 +59,13 @@ namespace PCCharacterManager.Models
 
 		private readonly ObservableCollection<Property> properties;
 
-		[JsonProperty("Tag")]
+		[JsonProperty("Category")]
 		[JsonConverter(typeof(StringEnumConverter))]
-		public ItemType Tag { get; set; }
+		public ItemCategory Category { get; set; }
+
+		[JsonProperty("Type")]
+		[JsonConverter(typeof(StringEnumConverter))]
+		public ItemType Type { get; set; }
 
 		public Item()
 		{
