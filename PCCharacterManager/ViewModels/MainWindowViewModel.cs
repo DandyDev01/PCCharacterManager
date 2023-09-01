@@ -53,23 +53,13 @@ namespace PCCharacterManager.ViewModels
 			tabVM = new TabControlViewModel(characterStore, dataService);
 			currView = tabVM;
 
-			NewCharacterCommand = new RelayCommand(CreateCharacterWindow);
-			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
+			NewCharacterCommand = new CreateCharacterCommand(characterStore);
+			DeleteCharacterCommand = new DeleteCharacterCommand(tabVM.CharacterListVM, dataService, characterStore);
 			SaveCharactersCommand = new SaveCharacterCommand(this);
 			LevelCharacterCommand = new LevelCharacterCommand(characterStore);
 			ExportCharacterCommand = new CharacterExportCommand(characterStore, tabVM);
 			OpenCommand = new OpenCharacterCommand(characterStore);
 			EditCharacterCommand = new RelayCommand(EditCharacter);
-		}
-
-		private void DeleteCharacter()
-		{
-			tabVM.CharacterListVM.DeleteCharacter();
-		}
-
-		private void CreateCharacterWindow()
-		{
-			tabVM.CharacterListVM.CreateCharacterWindow();
 		}
 
 		private void SaveCharacter(DnD5eCharacter c = null)
