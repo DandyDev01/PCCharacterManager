@@ -1,4 +1,5 @@
-﻿using PCCharacterManager.Models;
+﻿using PCCharacterManager.Commands;
+using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
@@ -17,125 +18,46 @@ namespace PCCharacterManager.ViewModels
 {
 	public class DialogWindowAddItemViewModel : ObservableObject
 	{
+		private readonly Window window; 
+		private readonly ItemVMPool itemVMPool;
 		private readonly PropertyEditableVMPool propertyVMPool;
-		private readonly ItemEditableVMPool itemVMPool;
-		private Window addItemWindow; // need this in order to close the window
-		public ObservableCollection<ItemType> ItemTypes { get; } = new ObservableCollection<ItemType>((IEnumerable<ItemType>)Enum.GetValues(typeof(ItemType)));
-		public ICollectionView ItemsCollectionView { get; }
-
-		private ItemType selectedItemType;
-		// has the code to update the items in the ItemListing
-		// probably change this
-		public ItemType SelectedItemType
-		{
-			get { return selectedItemType; }
-			set
-			{
-				OnPropertyChanged(ref selectedItemType, value);
-				ItemsCollectionView.Refresh();
-			}
-		}
-
-		private string searchTerm;
-		public string SearchTerm
-		{
-			get { return searchTerm; }
-			set
-			{
-				OnPropertyChanged(ref searchTerm, value);
-				ItemsCollectionView.Refresh();
-			}
-		}
-
-		// NOTE: will need this bit right here for making the rest of the editing
-		private ItemEditableViewModel selectedItem;
-		public ItemEditableViewModel SelectedItem
-		{
-			get { return selectedItem; }
-			set
-			{
-				selectedItem?.Edit();
-				OnPropertyChanged(ref selectedItem, value);
-				selectedItem?.Edit();
-			}
-		}
+		private ObservableCollection<ItemViewModel> AllItemVMs { get; }
+		public CharacterInventoryViewModel InventoryVM { get; }
 
 		public ICommand AddToInventoryCommand { get; }
 		public ICommand CancelCommand { get; }
 
-		private ObservableCollection<ItemEditableViewModel> AllItemVMs { get; }
-
-		public DialogWindowAddItemViewModel(Window _addItemWindow)
+		public DialogWindowAddItemViewModel(Window _window)
 		{
 			propertyVMPool = new PropertyEditableVMPool(160);
-			itemVMPool = new ItemEditableVMPool(74, propertyVMPool);
-			addItemWindow = _addItemWindow;
-			searchTerm = string.Empty;
-			AddToInventoryCommand = new RelayCommand(AddItem);
-			CancelCommand = new RelayCommand(Close);
+			itemVMPool = new ItemVMPool(74);
+			window = _window;
 
 			IEnumerable<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(DnD5eResources.AllItemsJson);
-			AllItemVMs = new ObservableCollection<ItemEditableViewModel>();
-
+			AllItemVMs = new ObservableCollection<ItemViewModel>();
 			foreach (Item item in allItems)
 			{
-				ItemEditableViewModel temp = itemVMPool.GetItem();
+				ItemViewModel temp = itemVMPool.GetItem();
 				temp.Bind(item);
 				AllItemVMs.Add(temp);
 			}
+			InventoryVM = new CharacterInventoryViewModel(AllItemVMs);
 
-			ItemsCollectionView = CollectionViewSource.GetDefaultView(AllItemVMs);
-			ItemsCollectionView.Filter = FilterItems;
-			ItemsCollectionView.SortDescriptions.Add(
-				new SortDescription(nameof(ItemEditableViewModel.DisplayName), ListSortDirection.Ascending));
-
-			selectedItem = AllItemVMs[0];
+			AddToInventoryCommand = new RelayCommand(AddItem);
+			CancelCommand = new RelayCommand(Close);
 		}
 
 		private void AddItem()
 		{
-			addItemWindow.DialogResult = true;
-			addItemWindow.Close();
+			window.DialogResult = true;
+			window.Close();
 		}
 
 		private void Close()
 		{
-			ReturnToPool();
-			addItemWindow.DialogResult = false;
-			addItemWindow.Close();
-		}
-
-		private void ReturnToPool()
-		{
-			foreach (var item in AllItemVMs)
-			{
-				foreach (var propertyEditableViewModel in item.DisplayProperties)
-				{
-					propertyVMPool.Return(propertyEditableViewModel);
-				}
-
-				itemVMPool.Return(item);
-			}
-		}
-
-		private bool FilterItems(object obj)
-		{
-			if (obj is ItemViewModel itemVM)
-			{
-				if (!itemVM.BoundItem.Tag.Equals(selectedItemType)) return false;
-
-				if (searchTerm.Equals(string.Empty)) return true;
-
-				if (itemVM.BoundItem.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
-
-				foreach (Property property in itemVM.BoundItem.Properties)
-				{
-					if (property.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
-					if (property.Desc.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
-				}
-			}
-
-			return false;
+			InventoryVM.ReturnItemVMsToPool();
+			window.DialogResult = false;
+			window.Close();
 		}
 	}
 }

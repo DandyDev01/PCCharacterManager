@@ -26,13 +26,12 @@ namespace PCCharacterManager.ViewModels
 		private readonly ItemVMPool itemVMPool;
 		private readonly PropertyEditableVMPool propertyVMPool;
 		private readonly CollectionViewPropertySort collectionViewPropertySort;
-		public Inventory Inventory { get; private set; }
+		public Inventory? Inventory { get; private set; }
 
 		public ICommand AddItemCommand { get; }
 		public ICommand RemoveItemCommand { get; }
 		public ICommand AddPropertyCommand { get; }
 		public ICommand RemovePropertyCommand { get; }
-		public ICommand NextItemTypeCommand { get; }
 
 		public ICommand NameSortCommand { get; }
 		public ICommand CostSortCommand { get; }
@@ -107,7 +106,33 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public CharacterInventoryViewModel(CharacterStore _characterStore)
+		public CharacterInventoryViewModel(CharacterStore _characterStore) : this()
+		{
+			_characterStore.SelectedCharacterChange += OnCharacterChanged;
+		}
+
+		public CharacterInventoryViewModel(ObservableCollection<ItemViewModel> _itemsToDisplay) : this()
+		{
+			ItemDisplayVms = _itemsToDisplay;
+			ItemsCollectionView = CollectionViewSource.GetDefaultView(ItemDisplayVms);
+			ItemsCollectionView.Filter = FilterItems;
+			collectionViewPropertySort = new CollectionViewPropertySort(ItemsCollectionView);
+			ItemsCollectionView.SortDescriptions.Add(
+				new SortDescription(nameof(ItemViewModel.DisplayItemType), ListSortDirection.Ascending));
+
+			NameSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayName));
+			CostSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayCost));
+			WeightSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayWeight));
+			QuantitySortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayQuantity));
+			TypeSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayItemType));
+		}
+
+		public CharacterInventoryViewModel()
 		{
 			itemVMPool = new ItemVMPool(10);
 			propertyVMPool = new PropertyEditableVMPool(5);
@@ -127,12 +152,10 @@ namespace PCCharacterManager.ViewModels
 			PrevSelectedProperty = new PropertyEditableViewModel(new Property());
 
 			searchTerm = string.Empty;
-			
-			_characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			PropertiesToDisplay = new ObservableCollection<PropertyEditableViewModel>();
 
-			NameSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort, 
+			NameSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
 				nameof(ItemViewModel.DisplayName));
 			CostSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
 				nameof(ItemViewModel.DisplayCost));
@@ -170,7 +193,7 @@ namespace PCCharacterManager.ViewModels
 			ItemsCollectionView = CollectionViewSource.GetDefaultView(ItemDisplayVms);
 		}
 
-		private void ReturnItemVMsToPool()
+		public void ReturnItemVMsToPool()
 		{
 			foreach (ItemViewModel itemDisplayViewModel in ItemDisplayVms)
 			{
