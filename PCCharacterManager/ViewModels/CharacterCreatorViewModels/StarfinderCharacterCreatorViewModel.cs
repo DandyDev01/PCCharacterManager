@@ -11,10 +11,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using PCCharacterManager.ViewModels.CharacterCreatorViewModels;
+using System.ComponentModel;
+using System.Collections;
 
 namespace PCCharacterManager.ViewModels
 {
-	public class StarfinderCharacterCreatorViewModel : ObservableObject
+	public class StarfinderCharacterCreatorViewModel : CharactorCreatorViewModelBase, INotifyDataErrorInfo
 	{
 		private string name;
 		public string Name
@@ -26,6 +29,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChanged(ref name, value);
+				BasicStringFieldValidation(nameof(Name), value);
 			}
 		}
 
@@ -68,6 +72,19 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		private bool isValid;
+		public bool IsValid
+		{
+			get
+			{
+				return isValid;
+			}
+			set
+			{
+				OnPropertyChanged(ref isValid, value);
+			}
+		}
+
 		public StarfinderRaceData[] RaceNamesToDisplay { get; }
 		public StarfinderClassData[] ClassNamesToDisplay { get; }
 		public StarfinderThemeData[] ThemeNamesToDisplay { get; }
@@ -76,8 +93,14 @@ namespace PCCharacterManager.ViewModels
 
 		public ICommand RollAbilityScoresCommand { get; private set; }
 
+		public Dictionary<string, List<string>> propertyNameToError;
+		public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+		public bool HasErrors => propertyNameToError.Any();
+
 		public StarfinderCharacterCreatorViewModel()
 		{
+			propertyNameToError = new Dictionary<string, List<string>>();
+
 			RaceNamesToDisplay = ReadWriteJsonCollection<StarfinderRaceData>.ReadCollection(StarfinderResources.RaceDataJson).ToArray();
 			ClassNamesToDisplay = ReadWriteJsonCollection<StarfinderClassData>.ReadCollection(StarfinderResources.CharacterClassDataJson).ToArray();
 			ThemeNamesToDisplay = ReadWriteJsonCollection<StarfinderThemeData>.ReadCollection(StarfinderResources.ThemeDataJson).ToArray();
@@ -88,9 +111,11 @@ namespace PCCharacterManager.ViewModels
 			selectedThemeData = ThemeNamesToDisplay[0];
 
 			RollAbilityScoresCommand = new RelayCommand(AbilityRoll);
+
+			BasicStringFieldValidation(nameof(Name), Name);
 		}
 
-		public StarfinderCharacter Create()
+		public override StarfinderCharacter Create()
 		{
 			int increseAmount = 0;
 			string abilityName = string.Empty;
@@ -205,6 +230,37 @@ namespace PCCharacterManager.ViewModels
 				AbilityScores[i] = rollDie.AbilityScoreRoll();
 				OnPropertyChanged("AbilityScores");
 			}
+		}
+
+		public IEnumerable GetErrors(string? propertyName)
+		{
+			return propertyNameToError.GetValueOrDefault(propertyName, new List<string>());
+		}
+
+		private void BasicStringFieldValidation(string propertyName, string propertyValue)
+		{
+			propertyNameToError.Remove(propertyName);
+
+			List<string> errors = new List<string>();
+			propertyNameToError.Add(propertyName, errors);
+			if (string.IsNullOrEmpty(propertyValue) || string.IsNullOrWhiteSpace(propertyValue))
+			{
+				propertyNameToError[propertyName].Add("Cannot be empty or white space");
+				ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+			}
+
+			if (char.IsWhiteSpace(propertyValue.FirstOrDefault()))
+			{
+				propertyNameToError[propertyName].Add("Cannot start with white space");
+				ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+			}
+
+			if (propertyNameToError[propertyName].Any() == false)
+			{
+				propertyNameToError.Remove(propertyName);
+			}
+
+			IsValid = !HasErrors;
 		}
 	}
 }

@@ -3,6 +3,7 @@ using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
+using PCCharacterManager.ViewModels.CharacterCreatorViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,6 +31,16 @@ namespace PCCharacterManager.ViewModels
 			{
 				OnPropertyChanged(ref selectedCharacterType, value);
 				SetViewFlags();
+
+				switch (selectedCharacterType)
+				{
+					case CharacterType.starfinder:
+						SelectedCreator = StarfinderCharacterCreatorVM;
+						break;
+					case CharacterType.DnD5e:
+						SelectedCreator = DnD5eCharacterCreator;
+						break;
+				}
 			}
 		}
 
@@ -59,6 +70,19 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		private CharactorCreatorViewModelBase selectedCreator;
+		public CharactorCreatorViewModelBase SelectedCreator
+		{
+			get
+			{
+				return selectedCreator;
+			}
+			set
+			{
+				OnPropertyChanged(ref selectedCreator, value);
+			}
+		}
+
 		public CharacterCreatoreViewModel DnD5eCharacterCreator { get; }
 		public StarfinderCharacterCreatorViewModel StarfinderCharacterCreatorVM { get; }
 		public Array CharacterTypes { get; } = Enum.GetValues(typeof(CharacterType));
@@ -72,6 +96,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			DnD5eCharacterCreator = new CharacterCreatoreViewModel();
 			StarfinderCharacterCreatorVM = new StarfinderCharacterCreatorViewModel();
+			selectedCreator = DnD5eCharacterCreator;
 
 			window = _window;
 			characterStore = _characterStore;

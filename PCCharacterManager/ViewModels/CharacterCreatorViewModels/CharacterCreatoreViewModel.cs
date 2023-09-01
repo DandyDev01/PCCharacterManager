@@ -3,9 +3,12 @@ using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
+using PCCharacterManager.ViewModels.CharacterCreatorViewModels;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,26 +20,26 @@ namespace PCCharacterManager.ViewModels
 	/// <summary>
 	/// resbolsible for the logic of creating a new DnD5e character
 	/// </summary>
-	public class CharacterCreatoreViewModel : ObservableObject
+	public class CharacterCreatoreViewModel : CharactorCreatorViewModelBase, INotifyDataErrorInfo
 	{
-		private List<string> notAnOption;
+		private string name;
+		public string Name
+		{
+			get { return name; }
+			set 
+			{ 
+				OnPropertyChanged(ref name, value);
+				BasicStringFieldValidation(nameof(Name), value);
+			}
+		}
 
 		private ListViewMultiSelectItemsLimitedCountViewModel selectedClassSkillProfs;
-
-		public Array AlignmentsToDisplay { get; private set; }
-		public List<DnD5eCharacterRaceData> RacesToDisplay { get; private set; }
-		public List<DnD5eBackgroundData> BackgroundsToDisplay { get; private set; }
-		public List<DnD5eCharacterClassData> CharacterClassesToDisplay { get; private set; }
-		
-		public ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel> SelectedStartingEquipmentVMs { get; private set; }
-		public ObservableCollection<DnD5eCharacterRaceVariant> RaceVariantsToDisplay { get; private set; }
-		public ObservableCollection<int> AbilityScores { get; private set; }
 		public ListViewMultiSelectItemsLimitedCountViewModel SelectedClassSkillProfs
 		{
 			get { return selectedClassSkillProfs; }
 			set { OnPropertyChanged(ref selectedClassSkillProfs, value); }
 		}
-		
+
 		private DnD5eCharacterRaceVariant selectedRaceVariant;
 		public DnD5eCharacterRaceVariant SelectedRaceVariant
 		{
@@ -93,18 +96,41 @@ namespace PCCharacterManager.ViewModels
 			set { OnPropertyChanged(ref selectedAlignment, value); }
 		}
 
-		private string name;
-		public string Name
+		private bool isValid;
+		public bool IsValid
 		{
-			get { return name; }
-			set { OnPropertyChanged(ref name, value); }
+			get
+			{
+				return isValid;
+			}
+			set
+			{
+				OnPropertyChanged(ref isValid, value);
+			}
 		}
 
+		public Array AlignmentsToDisplay { get; private set; }
+		public List<DnD5eCharacterRaceData> RacesToDisplay { get; private set; }
+		public List<DnD5eBackgroundData> BackgroundsToDisplay { get; private set; }
+		public List<DnD5eCharacterClassData> CharacterClassesToDisplay { get; private set; }
+
+		public ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel> SelectedStartingEquipmentVMs { get; private set; }
+		public ObservableCollection<DnD5eCharacterRaceVariant> RaceVariantsToDisplay { get; private set; }
+		public ObservableCollection<int> AbilityScores { get; private set; }
+		
+		private List<string> notAnOption;
+
 		public ICommand RollAbilityScoresCommand { get; private set; }
+
+		public Dictionary<string, List<string>> propertyNameToError;
+		public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+		public bool HasErrors => propertyNameToError.Any();
 
 		public CharacterCreatoreViewModel()
 		{
 			newCharacter = new DnD5eCharacter();
+
+			propertyNameToError = new Dictionary<string, List<string>>();
 
 			BackgroundsToDisplay = ReadWriteJsonCollection<DnD5eBackgroundData>.ReadCollection(DnD5eResources.BackgroundDataJson);
 			CharacterClassesToDisplay = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson);
@@ -117,20 +143,23 @@ namespace PCCharacterManager.ViewModels
 			selectedBackground = BackgroundsToDisplay[0];
 			selectedRace = RacesToDisplay[0];
 			selectedRaceVariant = selectedRace.Variants[0];
-			selectedClassSkillProfs = new ListViewMultiSelectItemsLimitedCountViewModel(selectedCharacterClass.NumOfSkillProficiences, selectedCharacterClass.PossibleSkillProficiences.ToList());
+			selectedClassSkillProfs = new ListViewMultiSelectItemsLimitedCountViewModel(selectedCharacterClass.NumOfSkillProficiences,
+				selectedCharacterClass.PossibleSkillProficiences.ToList());
 			notAnOption = new List<string>();
 
 			SelectedStartingEquipmentVMs = new ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel>();
 			AbilityScores = new ObservableCollection<int>(RollDie.DefaultAbilityScores);
 
 			RollAbilityScoresCommand = new RelayCommand(AbilityRoll);
+
+			BasicStringFieldValidation(nameof(Name), Name);
 		}
 		
 		/// <summary>
 		/// builds a new character with inputed data
 		/// </summary>
 		/// <returns>new character that was created</returns>
-		public DnD5eCharacter Create()
+		public override DnD5eCharacter Create()
 		{
 			DnD5eCharacter tempCharacter = newCharacter;
 			newCharacter = new DnD5eCharacter(SelectedCharacterClass, SelectedRace, SelectedBackground);
@@ -464,6 +493,37 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			return true;
+		}
+
+		public IEnumerable GetErrors(string? propertyName)
+		{
+			return propertyNameToError.GetValueOrDefault(propertyName, new List<string>());
+		}
+
+		private void BasicStringFieldValidation(string propertyName, string propertyValue)
+		{
+			propertyNameToError.Remove(propertyName);
+
+			List<string> errors = new List<string>();
+			propertyNameToError.Add(propertyName, errors);
+			if (string.IsNullOrEmpty(propertyValue) || string.IsNullOrWhiteSpace(propertyValue))
+			{
+				propertyNameToError[propertyName].Add("Cannot be empty or white space");
+				ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+			}
+
+			if (char.IsWhiteSpace(propertyValue.FirstOrDefault()))
+			{
+				propertyNameToError[propertyName].Add("Cannot start with white space");
+				ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+			}
+
+			if (propertyNameToError[propertyName].Any() == false)
+			{
+				propertyNameToError.Remove(propertyName);
+			}
+
+			IsValid = !HasErrors;
 		}
 	}
 }

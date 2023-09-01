@@ -42,20 +42,21 @@
                 <ColumnDefinition Width="300"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Grid.ColumnSpan="1"
-                        HorizontalAlignment="Right"
-                        IsCancel="True"
-                        Width="200"
-                        Height="auto"
-                        Content="Close"
-                        Command="{Binding CloseCommand}"/>
+                    HorizontalAlignment="Right"
+                    IsCancel="True"
+                    Width="200"
+                    Height="auto"
+                    Content="Close"
+                    Command="{Binding CloseCommand}"/>
 
             <Button Grid.Column="1" Grid.ColumnSpan="1"
-                        HorizontalAlignment="Right"
-                        IsDefault="True"
-                        Width="200"
-                        Height="auto"
-                        Content="Create"
-                        Command="{Binding CreateCommand}"/>
+                    HorizontalAlignment="Right"
+                    IsDefault="True"
+                    Width="200"
+                    Height="auto"
+                    Content="Create"
+                    IsEnabled="{Binding SelectedCreator.IsValid}"
+                    Command="{Binding CreateCommand}"/>
         </Grid>
     </Grid>
 </Window>
