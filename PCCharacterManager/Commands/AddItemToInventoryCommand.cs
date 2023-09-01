@@ -30,9 +30,9 @@ namespace PCCharacterManager.Commands
 
 			window.ShowDialog();
 
-			if (window.DialogResult == false || dialogContext.SelectedItem == null) return;
+			if (window.DialogResult == false || dialogContext.InventoryVM.SelectedItem == null) return;
 
-			Item selectedItem = dialogContext.SelectedItem.BoundItem;
+			Item selectedItem = dialogContext.InventoryVM.SelectedItem.BoundItem;
 			ItemViewModel displayVM = new ItemViewModel(selectedItem);
 			vm.Inventory.Add(selectedItem);
 			vm.ItemDisplayVms.Add(displayVM);

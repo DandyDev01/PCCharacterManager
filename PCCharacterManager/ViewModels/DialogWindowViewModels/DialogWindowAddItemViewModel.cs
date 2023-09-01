@@ -19,8 +19,6 @@ namespace PCCharacterManager.ViewModels
 	public class DialogWindowAddItemViewModel : ObservableObject
 	{
 		private readonly Window window; 
-		private readonly ItemVMPool itemVMPool;
-		private readonly PropertyEditableVMPool propertyVMPool;
 		private ObservableCollection<ItemViewModel> AllItemVMs { get; }
 		public CharacterInventoryViewModel InventoryVM { get; }
 
@@ -29,17 +27,15 @@ namespace PCCharacterManager.ViewModels
 
 		public DialogWindowAddItemViewModel(Window _window)
 		{
-			propertyVMPool = new PropertyEditableVMPool(160);
-			itemVMPool = new ItemVMPool(74);
 			window = _window;
 
 			IEnumerable<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(DnD5eResources.AllItemsJson);
 			AllItemVMs = new ObservableCollection<ItemViewModel>();
 			foreach (Item item in allItems)
 			{
-				ItemViewModel temp = itemVMPool.GetItem();
-				temp.Bind(item);
-				AllItemVMs.Add(temp);
+				ItemViewModel itemVM = new ItemViewModel();
+				itemVM.Bind(item);
+				AllItemVMs.Add(itemVM);
 			}
 			InventoryVM = new CharacterInventoryViewModel(AllItemVMs);
 

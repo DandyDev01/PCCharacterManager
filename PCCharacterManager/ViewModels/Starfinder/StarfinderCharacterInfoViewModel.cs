@@ -15,6 +15,10 @@ namespace PCCharacterManager.ViewModels
 {
 	public class StarfinderCharacterInfoViewModel : CharacterInfoViewModel
 	{
+		public PropertyListViewModel RaceFeatureListVM { get; protected set; }
+		public PropertyListViewModel ClassFeatureListVM { get; protected set; }
+		public PropertyListViewModel RaceVarientListVM { get; protected set; }
+
 		private new StarfinderCharacter selectedCharacter;
 		public new StarfinderCharacter SelectedCharacter
 		{

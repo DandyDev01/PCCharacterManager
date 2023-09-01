@@ -152,23 +152,58 @@
                        Text="{Binding SelectedCharacter.Race.Name, FallbackValue=DragonBorn}"/>
             <!--#endregion-->
 
-            <!--#region Class, Race, Race Variant features-->
-            <!--region class features-->
-            <ContentControl Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="3" Grid.RowSpan="1">
-                <v:PropertyListView DataContext="{Binding ClassFeatureListVM}"/>
-            </ContentControl>
-            <!--#endregion-->
+           
 
-            <!--region race features-->
-            <ContentControl Grid.Column="3" Grid.Row="11" Grid.ColumnSpan="3" Grid.RowSpan="1">
-                <v:PropertyListView DataContext="{Binding RaceFeatureListVM}"/>
+            <ContentControl Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="4" Grid.RowSpan="1">
+                <v:PropertyListView DataContext="{Binding FeaturesListVM}"/>
             </ContentControl>
-            <!--#endregion-->
 
-            <ContentControl Grid.Column="6" Grid.Row="11" Grid.ColumnSpan="3" Grid.RowSpan="1">
-                <v:PropertyListView DataContext="{Binding RaceVarientListVM}"/>
-            </ContentControl>
-            <!--#endregion-->
+            <ListView  Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="4" Grid.RowSpan="1"
+                  x:Name="items"
+                  ItemsSource="{Binding AllFeatures}"
+                  SelectedIndex="0"
+                  SelectedItem="{Binding SelectedProperty}">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Add Item" Command="{Binding AddItemCommand}"/>
+                        <MenuItem x:Name="removeContextButton"  
+                              Header="Remove Item"
+                              IsEnabled="{Binding SelectedItem, Converter={StaticResource NullToEnabledConverter}}"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="200">
+                            <GridViewColumnHeader Content="Name" Command="{Binding NameSortCommand}"/>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="200">
+                            <GridViewColumnHeader Content="Feature Type" Command="{Binding FeatureTypeSortCommand}"/>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FeatureType}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="135">
+                            <GridViewColumnHeader Content="Level" Command="{Binding LevelSortCommand}"/>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Level}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <TextBox Grid.Column="4" Grid.Row="11" Grid.ColumnSpan="5" Grid.RowSpan="1"
+                     Style="{StaticResource Document}"
+                     Text="{Binding SelectedProperty.Desc}"/>
 
             <!--#region OtherProfs-->
             <Grid Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="5" Grid.RowSpan="10" MinHeight="400">
