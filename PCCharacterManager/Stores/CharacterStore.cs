@@ -26,6 +26,11 @@ namespace PCCharacterManager.Stores
 		{
 			SelectedCharacterChange?.Invoke(SelectedCharacter);
 			SelectedCharacter = characterToBind;
+
+			// causes bug that makes characters get saved when selected.
+			// however, without this the displayed information is about the
+			// previously selected character.
+			SelectedCharacterChange?.Invoke(SelectedCharacter);
 		}
 	}
 }

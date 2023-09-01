@@ -57,10 +57,10 @@ namespace PCCharacterManager.Views
 					items.SelectedItems.Count + " items", "Remove Items", MessageBoxButton.YesNo);
 				if (messageBox1 == MessageBoxResult.No) return;
 
-				List<ItemDisplayViewModel> tempItems = new List<ItemDisplayViewModel>();
+				List<ItemViewModel> tempItems = new List<ItemViewModel>();
 				foreach (var item in items.SelectedItems)
 				{
-					ItemDisplayViewModel temp = item as ItemDisplayViewModel;
+					ItemViewModel temp = item as ItemViewModel;
 					if (temp == null) continue;
 					vm.Inventory.Remove(temp.BoundItem);
 					tempItems.Add(temp);

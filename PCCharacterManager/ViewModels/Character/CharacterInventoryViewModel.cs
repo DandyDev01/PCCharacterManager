@@ -23,8 +23,9 @@ namespace PCCharacterManager.ViewModels
 	/// </summary>
 	public class CharacterInventoryViewModel : ObservableObject
 	{
-		private readonly ItemDisplayVMPool itemVMPool;
+		private readonly ItemVMPool itemVMPool;
 		private readonly PropertyEditableVMPool propertyVMPool;
+		private readonly CollectionViewPropertySort collectionViewPropertySort;
 		public Inventory Inventory { get; private set; }
 
 		public ICommand AddItemCommand { get; }
@@ -33,11 +34,17 @@ namespace PCCharacterManager.ViewModels
 		public ICommand RemovePropertyCommand { get; }
 		public ICommand NextItemTypeCommand { get; }
 
-		public ICollectionView ItemsCollectionView { get; private set; }
-		public ObservableCollection<ItemDisplayViewModel> ItemDisplayVms { get; }
+		public ICommand NameSortCommand { get; }
+		public ICommand CostSortCommand { get; }
+		public ICommand QuantitySortCommand { get; }
+		public ICommand TypeSortCommand { get; }
+		public ICommand WeightSortCommand { get; }
 
-		private ItemDisplayViewModel? selectedItem;
-		public ItemDisplayViewModel? SelectedItem
+		public ICollectionView ItemsCollectionView { get; private set; }
+		public ObservableCollection<ItemViewModel> ItemDisplayVms { get; }
+
+		private ItemViewModel? selectedItem;
+		public ItemViewModel? SelectedItem
 		{
 			get { return selectedItem; }
 			set
@@ -78,18 +85,6 @@ namespace PCCharacterManager.ViewModels
 		public ObservableCollection<PropertyEditableViewModel> PropertiesToDisplay { get; }
 		public PropertyEditableViewModel? PrevSelectedProperty { get; private set; }
 
-		public ItemType[] ItemTypes { get; } = (ItemType[])Enum.GetValues(typeof(ItemType));
-		private ItemType selectedItemType;
-		public ItemType SelectedItemType
-		{
-			get { return selectedItemType; }
-			set
-			{
-				OnPropertyChanged(ref selectedItemType, value);
-				ItemsCollectionView.Refresh();
-			}
-		}
-
 		private string searchTerm;
 		public string SearchTerm
 		{
@@ -114,20 +109,20 @@ namespace PCCharacterManager.ViewModels
 
 		public CharacterInventoryViewModel(CharacterStore _characterStore)
 		{
-			itemVMPool = new ItemDisplayVMPool(10);
+			itemVMPool = new ItemVMPool(10);
 			propertyVMPool = new PropertyEditableVMPool(5);
 
 			AddItemCommand = new AddItemToInventoryCommand(this);
 			RemoveItemCommand = new RemoveItemFromInventoryCommand(this);
 			AddPropertyCommand = new AddPropertyToItemCommand(this);
 			RemovePropertyCommand = new RemovePropertyFromItemCommand(this);
-			NextItemTypeCommand = new RelayCommand(NextItemType);
 
-			ItemDisplayVms = new ObservableCollection<ItemDisplayViewModel>();
+			ItemDisplayVms = new ObservableCollection<ItemViewModel>();
 			ItemsCollectionView = CollectionViewSource.GetDefaultView(ItemDisplayVms);
 			ItemsCollectionView.Filter = FilterItems;
+			collectionViewPropertySort = new CollectionViewPropertySort(ItemsCollectionView);
 			ItemsCollectionView.SortDescriptions.Add(
-				new SortDescription(nameof(ItemDisplayViewModel.DisplayName), ListSortDirection.Ascending));
+				new SortDescription(nameof(ItemViewModel.DisplayItemType), ListSortDirection.Ascending));
 
 			PrevSelectedProperty = new PropertyEditableViewModel(new Property());
 
@@ -136,6 +131,17 @@ namespace PCCharacterManager.ViewModels
 			_characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			PropertiesToDisplay = new ObservableCollection<PropertyEditableViewModel>();
+
+			NameSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort, 
+				nameof(ItemViewModel.DisplayName));
+			CostSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayCost));
+			WeightSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayWeight));
+			QuantitySortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayQuantity));
+			TypeSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayItemType));
 		}
 
 		private void OnCharacterChanged(DnD5eCharacter newCharacter)
@@ -152,7 +158,7 @@ namespace PCCharacterManager.ViewModels
 			{
 				foreach (var item in pair.Value)
 				{
-					ItemDisplayViewModel temp = itemVMPool.GetItem();
+					ItemViewModel temp = itemVMPool.GetItem();
 					temp.Bind(item);
 					ItemDisplayVms.Add(temp);
 				}
@@ -166,7 +172,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void ReturnItemVMsToPool()
 		{
-			foreach (ItemDisplayViewModel itemDisplayViewModel in ItemDisplayVms)
+			foreach (ItemViewModel itemDisplayViewModel in ItemDisplayVms)
 			{
 				itemVMPool.Return(itemDisplayViewModel);
 			}
@@ -181,11 +187,11 @@ namespace PCCharacterManager.ViewModels
 		{
 			if(obj is ItemViewModel itemVM)
 			{
-				if (!itemVM.BoundItem.Tag.Equals(selectedItemType)) return false;
-
 				if (searchTerm.Equals(string.Empty)) return true;
 
 				if (itemVM.BoundItem.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
+				
+				if (itemVM.DisplayItemType.ToString().Contains(SearchTerm, StringComparison.Ordinal)) return true;
 
 				foreach (Property property in itemVM.BoundItem.Properties)
 				{
@@ -224,18 +230,5 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private void NextItemType()
-		{
-			int currentIndex = (int)selectedItemType;
-			int nextIndex = currentIndex + 1;
-			if(nextIndex > ItemTypes.Length -1)
-			{
-				currentIndex = 0;
-				SelectedItemType = ItemTypes[currentIndex];
-				return;
-			} 
-
-			SelectedItemType = ItemTypes[nextIndex];
-		}
 	} // end class
 }

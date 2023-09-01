@@ -33,7 +33,7 @@ namespace PCCharacterManager.Commands
 			if (window.DialogResult == false || dialogContext.SelectedItem == null) return;
 
 			Item selectedItem = dialogContext.SelectedItem.BoundItem;
-			ItemDisplayViewModel displayVM = new ItemDisplayViewModel(selectedItem);
+			ItemViewModel displayVM = new ItemViewModel(selectedItem);
 			vm.Inventory.Add(selectedItem);
 			vm.ItemDisplayVms.Add(displayVM);
 		}

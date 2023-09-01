@@ -53,9 +53,6 @@
                      Style="{StaticResource Search}"/>
             <CheckBox ToolTip="Show Hidden Properties of selected item?"
                       IsChecked="{Binding ShowHiddenProperties}"/>
-            <ComboBox ItemsSource="{Binding ItemTypes}" 
-                      SelectedIndex="2" 
-                      SelectedItem="{Binding SelectedItemType}"/>
         </Menu>
 
         <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6" Grid.RowSpan="12" 
@@ -71,11 +68,50 @@
                               IsEnabled="{Binding SelectedItem, Converter={StaticResource NullToEnabledConverter}}"/>
                 </ContextMenu>
             </ListView.ContextMenu>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <v:ItemDisplayView/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="200">
+                        <GridViewColumnHeader Content="Name" Command="{Binding NameSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayName}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="70">
+                        <GridViewColumnHeader Content="Cost" Command="{Binding CostSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayCost}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="70">
+                        <GridViewColumnHeader Content="Weight" Command="{Binding WeightSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayWeight}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="100">
+                        <GridViewColumnHeader Content="Quantity" Command="{Binding QuantitySortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayQuantity}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150">
+                        <GridViewColumnHeader Content="Tag" Command="{Binding TypeSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayItemType}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
         </ListView>
 
         <!--#region Selected Item-->

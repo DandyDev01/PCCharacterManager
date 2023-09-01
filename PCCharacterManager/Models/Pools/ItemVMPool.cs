@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-	public class ItemDisplayVMPool : IPool<ItemDisplayViewModel>
+	public class ItemVMPool : IPool<ItemViewModel>
 	{
-		public ItemDisplayVMPool(int count)
+		public ItemVMPool(int count)
 		{
-			items = new List<ItemDisplayViewModel>();
+			items = new List<ItemViewModel>();
 			Add(count);
 		}
 
@@ -19,7 +19,7 @@ namespace PCCharacterManager.Models
 		{
 			for (int i = 0; i < count; i++)
 			{
-				items.Add(new ItemDisplayViewModel());
+				items.Add(new ItemViewModel());
 				FreeItems++;
 			}
 		}

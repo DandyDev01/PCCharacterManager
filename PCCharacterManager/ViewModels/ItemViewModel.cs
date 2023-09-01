@@ -65,5 +65,66 @@ namespace PCCharacterManager.ViewModels
 				OnPropertyChanged(ref displayQuantity, value);
 			}
 		}
+
+		private string displayWeight;
+		public string DisplayWeight
+		{
+			get
+			{
+				return displayWeight;
+			}
+			set
+			{
+				OnPropertyChanged(ref displayWeight, value);
+			}
+		}
+
+		private string displayCost;
+		public string DisplayCost
+		{
+			get
+			{
+				return displayCost;
+			}
+			set
+			{
+				OnPropertyChanged(ref displayCost, value);
+			}
+		}
+
+		private ItemType displayItemType;
+		public ItemType DisplayItemType
+		{
+			get
+			{
+				return displayItemType;
+			}
+			set
+			{
+				OnPropertyChanged(ref displayItemType, value);
+			}
+		}
+
+		public ItemViewModel(Item _item)
+		{
+			Bind(_item);
+		}
+
+		public ItemViewModel()
+		{
+
+		}
+
+		public void Bind(Item _item)
+		{
+			boundItem = _item;
+
+			displayName = _item.Name;
+			displayDesc = _item.Desc;
+			displayQuantity = _item.Quantity;
+			displayWeight = _item.Weight;
+			displayItemType = _item.Tag;
+			displayCost = _item.Cost;
+		}
 	}
 }
