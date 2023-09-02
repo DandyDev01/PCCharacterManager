@@ -48,20 +48,18 @@ namespace PCCharacterManager.Views
 
 		private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
-			CharacterNoteBookViewModel? viewModel = DataContext as CharacterNoteBookViewModel;
-			
-			if (viewModel == null) return;
-
-			if(treeView.SelectedItem is NoteSection)
-			{
-				viewModel.SelectedSection = treeView.SelectedItem as NoteSection;
+			if (DataContext is not CharacterNoteBookViewModel viewModel) 
 				return;
+
+			if (treeView.SelectedItem is NoteSection noteSection)
+			{
+				viewModel.SelectedSection = noteSection;
 			}
-
-			if (treeView.SelectedItem is not Note) return;
-
-			viewModel.SelectedNote = treeView.SelectedItem as Note;
-			viewModel.SelectedSection = null;
+			else if (treeView.SelectedItem is Note note)
+			{
+				viewModel.SelectedNote = note;
+				viewModel.SelectedSection = null;
+			}
 		}
 		
 		private void UpdateDocument(Note note)
@@ -75,7 +73,7 @@ namespace PCCharacterManager.Views
 
 		private void FindAndHighlightText()
 		{
-			TextRange textRange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
+			TextRange textRange = new(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
 
 			//clear up highlighted text before starting a new search
 			textRange.ClearAllProperties();
@@ -96,7 +94,7 @@ namespace PCCharacterManager.Views
 			//using regex to get the search count
 			//this will include search word even it is part of another word
 			//say we are searching "hi" in "hi, how are you Mahi?" --> match count will be 2 (hi in 'Mahi' also)
-			Regex regex = new Regex(searchText);
+			Regex regex = new(searchText);
 			int count_MatchFound = Regex.Matches(textBoxText, regex.ToString(), RegexOptions.IgnoreCase).Count;
 
 			for (TextPointer startPointer = richTextBox.Document.ContentStart;
@@ -123,7 +121,7 @@ namespace PCCharacterManager.Views
 					TextPointer nextPointer = startPointer.GetPositionAtOffset(searchText.Length);
 
 					//create the text range
-					TextRange searchedTextRange = new TextRange(startPointer, nextPointer);
+					TextRange searchedTextRange = new(startPointer, nextPointer);
 
 					//color up 
 					searchedTextRange.ApplyPropertyValue(TextElement.BackgroundProperty,
@@ -155,8 +153,9 @@ namespace PCCharacterManager.Views
 		/// </summary>
 		private void SetupHelper(object sender, DependencyPropertyChangedEventArgs e)
 		{
-			CharacterNoteBookViewModel? viewModel = DataContext as CharacterNoteBookViewModel;
-			if (viewModel == null) return;
+			if (DataContext is not CharacterNoteBookViewModel viewModel) 
+				return;
+
 			viewModel.selectedNoteChange += UpdateDocument;
 			viewModel.characterChange += ExpandNoteTreeView;
 			richTextBox.TextChanged += UpdateNote;
@@ -165,9 +164,7 @@ namespace PCCharacterManager.Views
 
 		private void UpdateNote(object sender, TextChangedEventArgs e)
 		{
-			CharacterNoteBookViewModel? viewModel = DataContext as CharacterNoteBookViewModel;
-
-			if (viewModel == null)
+			if (DataContext is not CharacterNoteBookViewModel viewModel)
 				return;
 
 			string s = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd).Text;
@@ -187,16 +184,12 @@ namespace PCCharacterManager.Views
 		{
 			foreach (object obj in treeView.Items)
 			{
-				ItemsControl? childControl = treeView.ItemContainerGenerator.ContainerFromItem(obj) as ItemsControl;
-
-				if (childControl == null)
+				if (treeView.ItemContainerGenerator.ContainerFromItem(obj) is not ItemsControl childControl)
 					return;
 
 				ExpandNoteTreeView(childControl, expand);
 
-				TreeViewItem? item = childControl as TreeViewItem;
-
-				if (item == null)
+				if (childControl is not TreeViewItem item)
 					return;
 
 				item.IsExpanded = true;

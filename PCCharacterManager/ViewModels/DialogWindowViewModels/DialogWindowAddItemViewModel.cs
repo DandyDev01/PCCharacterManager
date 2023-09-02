@@ -33,7 +33,7 @@ namespace PCCharacterManager.ViewModels
 			AllItemVMs = new ObservableCollection<ItemViewModel>();
 			foreach (Item item in allItems)
 			{
-				ItemViewModel itemVM = new ItemViewModel();
+				ItemViewModel itemVM = new();
 				itemVM.Bind(item);
 				AllItemVMs.Add(itemVM);
 			}

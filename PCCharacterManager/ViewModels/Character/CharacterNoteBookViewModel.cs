@@ -18,8 +18,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterNoteBookViewModel : ObservableObject
 	{
-		private NoteBook noteBook;
-		public NoteBook NoteBook => noteBook;
+		private NoteBook? noteBook;
+		public NoteBook? NoteBook => noteBook;
 
 		private string searchTerm;
 		public string SearchTerm
@@ -74,8 +74,8 @@ namespace PCCharacterManager.ViewModels
 		public ICommand FindInNoteCommand { get; }
 
 		// for talking to the view about the richtextbox.document
-		public Action<Note> selectedNoteChange;
-		public Action characterChange;
+		public Action<Note>? selectedNoteChange;
+		public Action? characterChange;
 
 		public CharacterNoteBookViewModel(CharacterStore _characterStore)
 		{
