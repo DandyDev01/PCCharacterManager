@@ -32,7 +32,7 @@ namespace PCCharacterManager.ViewModels
 			private set
 			{
 				OnPropertyChanged(ref isEditMode, value);
-				OnPropertyChanged("IsDisplayMode");
+				OnPropertyChanged(nameof(IsDisplayMode));
 			}
 		}
 

@@ -21,6 +21,27 @@ namespace PCCharacterManager.ViewModels
 		private NoteBook? noteBook;
 		public NoteBook? NoteBook => noteBook;
 
+		public ObservableCollection<NoteSection> NoteSectionsToDisplay { get; }
+		public ObservableCollection<Note> SearchResults { get; }
+
+		private Note selectedNote;
+		public Note SelectedNote
+		{
+			get { return selectedNote; }
+			set 
+			{
+				OnPropertyChanged(ref selectedNote, value);
+				selectedNoteChange?.Invoke(value);
+			}
+		}
+
+		private NoteSection? selectedSection;
+		public NoteSection? SelectedSection
+		{
+			get { return selectedSection; }
+			set { OnPropertyChanged(ref selectedSection, value); }
+		}
+		
 		private string searchTerm;
 		public string SearchTerm
 		{
@@ -43,27 +64,6 @@ namespace PCCharacterManager.ViewModels
 			{
 				OnPropertyChanged(ref highlightTerm, value);
 			}
-		}
-
-		public ObservableCollection<NoteSection> NoteSectionsToDisplay { get; }
-		public ObservableCollection<Note> SearchResults { get; }
-
-		private Note selectedNote;
-		public Note SelectedNote
-		{
-			get { return selectedNote; }
-			set 
-			{
-				OnPropertyChanged(ref selectedNote, value);
-				selectedNoteChange?.Invoke(value);
-			}
-		}
-
-		private NoteSection? selectedSection;
-		public NoteSection? SelectedSection
-		{
-			get { return selectedSection; }
-			set { OnPropertyChanged(ref selectedSection, value); }
 		}
 
 		public ICommand AddNoteCommand { get; }

@@ -74,7 +74,7 @@ namespace PCCharacterManager.ViewModels
 			{
 				if (value == null) return;
 
-				if (value.Name.Equals(searchTerm))
+				if (value.Name.Equals(SearchTerm))
 				{
 					SearchTerm = "";
 					selectedPreparedSpell = null;
@@ -97,14 +97,13 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private string searchTerm;
 		public string SearchTerm
 		{
-			get { return searchTerm; }
+			get => spellSearch.SearchTerm;
 			set
 			{
-				OnPropertyChanged(ref searchTerm, value);
-				Search(searchTerm);
+				spellSearch.SearchTerm = value;
+				Search(value);
 			}
 		}
 
@@ -186,7 +185,6 @@ namespace PCCharacterManager.ViewModels
 			spellBook = new SpellBook();
 			spellBookNote = spellBook.Note;
 
-			searchTerm = string.Empty;
 			preparedSpellText = string.Empty;
 
 			AddSpellCommand = new AddItemToSpellBookCommand(this, SpellType.SPELL);
