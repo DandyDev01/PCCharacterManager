@@ -32,17 +32,38 @@ namespace PCCharacterManager.Views
 		{
 			InitializeComponent();
 			
-			focusSearchCommand = new RelayCommand(FocusSearch);
-			findButton.Command = new RelayCommand(Find);
-			this.InputBindings.Add(new KeyBinding(focusSearchCommand, Key.Q, ModifierKeys.Control));
+			focusSearchCommand = new RelayCommand(FocusSearchBox);
+			findButton.Command = new RelayCommand(FindAndHighlightText);
+			
+			InputBindings.Add(new KeyBinding(focusSearchCommand, Key.Q, ModifierKeys.Control));
+			
 			DataContextChanged += SetupHelper;
 
 			searchBox.Text = SEARCH;
 
 			richTextBox.Document.LineHeight = 1;
-			ExpandAllHelper();
+			
+			ExpandNoteTreeView();
 		}
 
+		private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+		{
+			CharacterNoteBookViewModel? viewModel = DataContext as CharacterNoteBookViewModel;
+			
+			if (viewModel == null) return;
+
+			if(treeView.SelectedItem is NoteSection)
+			{
+				viewModel.SelectedSection = treeView.SelectedItem as NoteSection;
+				return;
+			}
+
+			if (treeView.SelectedItem is not Note) return;
+
+			viewModel.SelectedNote = treeView.SelectedItem as Note;
+			viewModel.SelectedSection = null;
+		}
+		
 		private void UpdateDocument(Note note)
 		{
 			if (note == null)
@@ -52,7 +73,7 @@ namespace PCCharacterManager.Views
 			richTextBox.Document.Blocks.Add(new Paragraph(new Run(note.Notes)));
 		}
 
-		private void Find()
+		private void FindAndHighlightText()
 		{
 			TextRange textRange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
 
@@ -124,27 +145,9 @@ namespace PCCharacterManager.Views
 			}
 		}
 
-		public void FocusSearch()
+		public void FocusSearchBox()
 		{
 			this.searchBox.Focus();
-		}
-
-		private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-		{
-			CharacterNoteBookViewModel? viewModel = DataContext as CharacterNoteBookViewModel;
-			
-			if (viewModel == null) return;
-
-			if(treeView.SelectedItem is NoteSection)
-			{
-				viewModel.SelectedSection = treeView.SelectedItem as NoteSection;
-				return;
-			}
-
-			if (treeView.SelectedItem is not Note) return;
-
-			viewModel.SelectedNote = treeView.SelectedItem as Note;
-			viewModel.SelectedSection = null;
 		}
 
 		/// <summary>
@@ -155,37 +158,48 @@ namespace PCCharacterManager.Views
 			CharacterNoteBookViewModel? viewModel = DataContext as CharacterNoteBookViewModel;
 			if (viewModel == null) return;
 			viewModel.selectedNoteChange += UpdateDocument;
-			viewModel.characterChange += ExpandAllHelper;
+			viewModel.characterChange += ExpandNoteTreeView;
 			richTextBox.TextChanged += UpdateNote;
-			ExpandAllHelper();
+			ExpandNoteTreeView();
 		}
 
 		private void UpdateNote(object sender, TextChangedEventArgs e)
 		{
 			CharacterNoteBookViewModel? viewModel = DataContext as CharacterNoteBookViewModel;
+
+			if (viewModel == null)
+				return;
+
 			string s = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd).Text;
 
-			if (string.IsNullOrEmpty(s) || string.IsNullOrWhiteSpace(s)) return;
+			if (string.IsNullOrEmpty(s) || string.IsNullOrWhiteSpace(s)) 
+				return;
+			
 			viewModel.SelectedNote.Notes = s;
 		}
 
-		private void ExpandAllHelper()
+		private void ExpandNoteTreeView()
 		{
-			ExpandAll(treeView, true);
+			ExpandNoteTreeView(treeView, true);
 		}
 
-		private void ExpandAll(ItemsControl treeView, bool expand)
+		private void ExpandNoteTreeView(ItemsControl treeView, bool expand)
 		{
 			foreach (object obj in treeView.Items)
 			{
-				ItemsControl childControl = treeView.ItemContainerGenerator.ContainerFromItem(obj) as ItemsControl;
-				if (childControl != null)
-				{
-					ExpandAll(childControl, expand);
-				}
-				TreeViewItem item = childControl as TreeViewItem;
-				if (item != null)
-					item.IsExpanded = true;
+				ItemsControl? childControl = treeView.ItemContainerGenerator.ContainerFromItem(obj) as ItemsControl;
+
+				if (childControl == null)
+					return;
+
+				ExpandNoteTreeView(childControl, expand);
+
+				TreeViewItem? item = childControl as TreeViewItem;
+
+				if (item == null)
+					return;
+
+				item.IsExpanded = true;
 			}
 		}
 	}
