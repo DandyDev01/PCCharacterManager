@@ -222,24 +222,24 @@ namespace PCCharacterManager.ViewModels
 
 			foreach (var property in selectedItem.BoundItem.Properties)
 			{
+				PropertyEditableViewModel editablePropertyVM = propertyVMPool.GetItem();
+				
 				// only show properties that are not marked HIDDEN
 				if (!showHiddenProperties)
 				{
 					if (property.Hidden)
 						continue;
 
-					PropertyEditableViewModel temp1 = propertyVMPool.GetItem();
-					temp1.Bind(property);
-					PropertiesToDisplay.Add(temp1);
-
-					continue;
+					editablePropertyVM.Bind(property);
+					PropertiesToDisplay.Add(editablePropertyVM);
 				}
-
-				PropertyEditableViewModel temp = propertyVMPool.GetItem();
-				temp.Bind(property);
-				PropertiesToDisplay.Add(temp);
-			}
-		}
+				else
+				{
+					editablePropertyVM.Bind(property);
+					PropertiesToDisplay.Add(editablePropertyVM);
+				}
+			} // end loop
+		} // end method
 
 	} // end class
 }

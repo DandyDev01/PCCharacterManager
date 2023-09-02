@@ -27,6 +27,16 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Reset Prepared Spells" InputGestureText="N/A" Command="{Binding ClearPreparedSpellsCommand}"/>
+                <MenuItem Header="Add Spell" InputGestureText="N/A" Command="{Binding AddSpellCommand}"/>
+                <MenuItem Header="Remove Spell" Command="{Binding DeleteSpellCommand}"/>
+                <MenuItem Header="Add Cantrip" InputGestureText="N/A" Command="{Binding AddCantripCommand}"/>
+                <MenuItem Header="Remove Cantrip" Command="{Binding DeleteCantripCommand}"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
+
         <Menu Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="6" Grid.RowSpan="1">
             <ComboBox SelectedIndex="0">
                 <MenuItem Header="Add Spell" Command="{Binding AddSpellCommand}"/>
@@ -245,14 +255,6 @@
         <!--#endregion-->
 
         <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="7">
-            <Grid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Reset Prepared Spells" InputGestureText="N/A" Command="{Binding ClearPreparedSpellsCommand}"/>
-                    <MenuItem Header="Add Spell" InputGestureText="N/A" Command="{Binding AddSpellCommand}"/>
-                    <MenuItem Header="Add Cantrip" InputGestureText="N/A" Command="{Binding AddCantripCommand}"/>
-                </ContextMenu>
-            </Grid.ContextMenu>
-            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MaxWidth="50"/>
                 <ColumnDefinition/>
@@ -276,6 +278,12 @@
             <ListView Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" 
                   SelectedItem="{Binding SelectedSpell}"
                   ItemsSource="{Binding SpellsToDisplay}">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Add Spell" InputGestureText="N/A" Command="{Binding AddSpellCommand}"/>
+                        <MenuItem Header="Remove Spell" Command="{Binding DeleteSpellCommand}"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <v:SpellItemEditableView/>
@@ -288,6 +296,12 @@
             <ListView Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" 
                   SelectedItem="{Binding SelectedCantrip}"
                   ItemsSource="{Binding CantripsToDisplay}">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Add Cantrip" InputGestureText="N/A" Command="{Binding AddCantripCommand}"/>
+                        <MenuItem Header="Remove Cantrip" Command="{Binding DeleteCantripCommand}"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <v:SpellItemEditableView/>

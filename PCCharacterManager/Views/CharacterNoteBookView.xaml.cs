@@ -35,7 +35,7 @@ namespace PCCharacterManager.Views
 			focusSearchCommand = new RelayCommand(FocusSearch);
 			findButton.Command = new RelayCommand(Find);
 			this.InputBindings.Add(new KeyBinding(focusSearchCommand, Key.Q, ModifierKeys.Control));
-			DataContextChanged += Sub;
+			DataContextChanged += SetupHelper;
 
 			searchBox.Text = SEARCH;
 
@@ -45,6 +45,9 @@ namespace PCCharacterManager.Views
 
 		private void UpdateDocument(Note note)
 		{
+			if (note == null)
+				return;
+
 			richTextBox.Document.Blocks.Clear();
 			richTextBox.Document.Blocks.Add(new Paragraph(new Run(note.Notes)));
 		}
@@ -147,7 +150,7 @@ namespace PCCharacterManager.Views
 		/// <summary>
 		/// used to link the vm so that the view updates to display the note contents
 		/// </summary>
-		private void Sub(object sender, DependencyPropertyChangedEventArgs e)
+		private void SetupHelper(object sender, DependencyPropertyChangedEventArgs e)
 		{
 			CharacterNoteBookViewModel? viewModel = DataContext as CharacterNoteBookViewModel;
 			if (viewModel == null) return;

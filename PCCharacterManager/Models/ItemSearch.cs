@@ -30,7 +30,6 @@ namespace PCCharacterManager.Models
 					StringComparison.OrdinalIgnoreCase))
 					return true;
 
-
 				foreach (Property property in itemVM.BoundItem.Properties)
 				{
 					if (property.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))

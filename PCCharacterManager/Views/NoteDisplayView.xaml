@@ -21,7 +21,6 @@
                 BorderThickness="1"
                 Padding="5">
             <TextBlock Style="{StaticResource h4}"
-                       Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}" 
                        Text="{Binding Notes, FallbackValue=info}"/>
         </Border>
 
