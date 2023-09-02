@@ -7,21 +7,28 @@ using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
 	public class CharacterSpellBookViewModel : ObservableObject
 	{
+		private const string unprepared = "un-prepare ";
+
 		private readonly SpellSearch spellSearch;
-		private readonly SpellItemEditableVMPool spellItemPool;
-		public readonly List<SpellItemEditableViewModel> CantripItems; 
-		public Dictionary<SpellSchool, ObservableCollection<SpellItemEditableViewModel>> FilteredSpells { get; private set; } 
+		private readonly SpellSearch cantripSearch;
+		private readonly CollectionViewPropertySort spellPropertySort;
+		private readonly CollectionViewPropertySort cantripPropertySort;
+		public ICollectionView SpellsCollectionView { get; }
+		public ICollectionView CantripsCollectionView { get; }
 
 		public ObservableCollection<SpellItemEditableViewModel> SpellsToDisplay { get; }
 		public ObservableCollection<SpellItemEditableViewModel> CantripsToDisplay { get; }
@@ -83,7 +90,7 @@ namespace PCCharacterManager.ViewModels
 
 				selectedPreparedSpell = value;
 				SearchTerm = value.Name;
-				PreparedSpellText = "Unprepare " + selectedPreparedSpell.Name;
+				PreparedSpellText = unprepared + selectedPreparedSpell.Name;
 			}
 		}
 
@@ -103,7 +110,8 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				spellSearch.SearchTerm = value;
-				Search(value);
+				cantripSearch.SearchTerm = value;
+				Search();
 			}
 		}
 
@@ -147,7 +155,7 @@ namespace PCCharacterManager.ViewModels
 			set 
 			{ 
 				OnPropertyChanged(ref selectedOrderByOption, value);
-				PopulateSpellsToDisplay(FilteredSpells[selectedFilter]);
+				SpellSortFilter();
 			}
 		}
 
@@ -158,7 +166,17 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChanged(ref selectedFilter, value);
-				PopulateSpellsToDisplay(FilteredSpells[selectedFilter]);
+				switch (value)
+				{
+					case SpellSchool.ALL:
+						SpellsCollectionView.Filter = spellSearch.Search;
+						break;
+					default:
+						SpellsCollectionView.Filter = DisplayFilter;
+						break;
+				}
+				
+				SpellsCollectionView.Refresh();
 			}
 		}
 
@@ -175,17 +193,23 @@ namespace PCCharacterManager.ViewModels
 			_characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			spellSearch = new SpellSearch();
-			spellItemPool = new SpellItemEditableVMPool(20);
+			cantripSearch = new SpellSearch();
 
-			FilteredSpells = new Dictionary<SpellSchool, ObservableCollection<SpellItemEditableViewModel>>();
 			SpellsToDisplay = new ObservableCollection<SpellItemEditableViewModel>();
 			CantripsToDisplay = new ObservableCollection<SpellItemEditableViewModel>();
-			CantripItems = new List<SpellItemEditableViewModel>();
 
 			spellBook = new SpellBook();
 			spellBookNote = spellBook.Note;
 
 			preparedSpellText = string.Empty;
+
+			SpellsCollectionView = CollectionViewSource.GetDefaultView(SpellsToDisplay);
+			CantripsCollectionView = CollectionViewSource.GetDefaultView(CantripsToDisplay);
+			spellPropertySort = new CollectionViewPropertySort(SpellsCollectionView);
+			cantripPropertySort = new CollectionViewPropertySort(CantripsCollectionView);
+
+			SpellsCollectionView.Filter = spellSearch.Search;
+			CantripsCollectionView.Filter = cantripSearch.Search;
 
 			AddSpellCommand = new AddItemToSpellBookCommand(this, SpellType.SPELL);
 			AddCantripCommand = new AddItemToSpellBookCommand(this, SpellType.CANTRIP);
@@ -198,32 +222,28 @@ namespace PCCharacterManager.ViewModels
 
 		private void OnCharacterChanged(DnD5eCharacter newCharacter)
 		{
-			ReleaseSpellItems();
-
 			CantripsToDisplay.Clear();
+			SpellsToDisplay.Clear();
+
 			SpellBook = newCharacter.SpellBook;
 			SpellBookNote = SpellBook.Note;
 
-			FilteredSpells = PopulateFilteredSpells();
 			SelectedFilter = SpellSchool.ALL;
-			CantripItems.Clear();
+			SelectedOrderByOption = OrderByOption.ALPHABETICAL;
 
-			PopulateCantripsToShow();
-		}
-
-		/// <summary>
-		/// returns spell items back to their pool and unsubscribs any methods
-		/// </summary>
-		private void ReleaseSpellItems()
-		{
+			// populate spells
 			foreach (SpellSchool school in Filters)
 			{
-				if (!FilteredSpells.ContainsKey(school)) continue;
-				foreach (SpellItemEditableViewModel spellItemVM in FilteredSpells[school])
+				foreach (Spell spell in spellBook.SpellsKnown[school])
 				{
-					spellItemVM.Prepare -= spellBook.PrepareSpell;
-					spellItemPool.Return(spellItemVM);
+					SpellsToDisplay.Add(new SpellItemEditableViewModel(spell));
 				}
+			}
+
+			// populate cantrips
+			foreach (Spell spell in spellBook.CantripsKnown)
+			{
+				CantripsToDisplay.Add(new SpellItemEditableViewModel(spell));
 			}
 		}
 
@@ -231,44 +251,37 @@ namespace PCCharacterManager.ViewModels
 		/// sets the items in spells to display
 		/// </summary>
 		/// <param name="items">the items to display</param>
-		private void PopulateSpellsToDisplay(IEnumerable<SpellItemEditableViewModel> items)
+		private void SpellSortFilter()
 		{
-			SpellsToDisplay.Clear();
 			switch (selectedOrderByOption)
 			{
 				case OrderByOption.ALPHABETICAL:
-					foreach (var spell in items) SpellsToDisplay.Add(spell);
+					spellPropertySort.Sort(nameof(Spell.Name));
 					break;
 				case OrderByOption.LEVEL:
-					foreach (var spell in items.OrderBy(x => x.Spell.Level)) SpellsToDisplay.Add(spell);
+					spellPropertySort.Sort(nameof(Spell.Level));
 					break;
 				case OrderByOption.DURATION:
-					foreach (var spell in items.OrderBy(x => x.Spell.Duration)) SpellsToDisplay.Add(spell);
+					spellPropertySort.Sort(nameof(Spell.Duration));
 					break;
 				case OrderByOption.SCHOOL:
-					foreach (var spell in items.OrderBy(x => x.Spell.School)) SpellsToDisplay.Add(spell);
+					spellPropertySort.Sort(nameof(Spell.School));
 					break;
 				case OrderByOption.PREPARED:
-					foreach (var spell in items.OrderBy(x => !x.Spell.IsPrepared)) SpellsToDisplay.Add(spell);
+					spellPropertySort.Sort(nameof(Spell.IsPrepared));;
 					break;
 			}
-
 		}
 
-		/// <summary>
-		/// used for initilization when the character is changed
-		/// </summary>
-		private void PopulateCantripsToShow()
+		private bool DisplayFilter(object obj)
 		{
-			foreach (var item in spellBook.CantripsKnown.OrderBy(x => x.Name))
+			if (obj is SpellItemEditableViewModel spellItem)
 			{
-				SpellItemEditableViewModel temp = new(item);
-				CantripItems.Add(temp);
-
-				item.IsPrepared = true;
-				temp.IsPrepared = true;
-				CantripsToDisplay.Add(temp);
+				if (spellItem.School == selectedFilter)
+					return true;
 			}
+
+			return false;
 		}
 
 		/// <summary>
@@ -286,7 +299,7 @@ namespace PCCharacterManager.ViewModels
 
 		/// <summary>
 		/// remove the selected prepared spell from the prepared spells list
-		/// in the view and in the spellbook model
+		/// in the view and in the spell book model
 		/// </summary>
 		private void RemovePreparedSpell()
 		{
@@ -304,86 +317,24 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		/// <summary>
-		/// used for initilization when character is changed
-		/// </summary>
-		/// <returns></returns>
-		private Dictionary<SpellSchool, ObservableCollection<SpellItemEditableViewModel>> PopulateFilteredSpells()
-		{
-			Dictionary<SpellSchool, ObservableCollection<SpellItemEditableViewModel>> results = new();
-			foreach (SpellSchool school in Filters)
-			{
-				results.Add(school, new ObservableCollection<SpellItemEditableViewModel>());
-				foreach (Spell spell in spellBook.SpellsKnown[school])
-				{
-					SpellItemEditableViewModel spellItemViewModel = spellItemPool.GetItem();
-					spellItemViewModel.Bind(spell);
-					spellItemViewModel.Prepare += spellBook.PrepareSpell;
-					spellItemViewModel.IsPrepared = spell.IsPrepared;
-					results[school].Add(spellItemViewModel);
-					results[SpellSchool.ALL].Add(spellItemViewModel);
-				}
-			}
-
-			foreach (SpellSchool school in Filters)
-			{
-				results[school] = new ObservableCollection<SpellItemEditableViewModel>(results[school].OrderBy(x => x.Spell.Name));
-			}
-
-			return results;
-		}
-
-		private void Search(string searchTerm)
+		private void Search()
 		{
 			switch (SelectedSearchFilter)
 			{
 				case SpellType.SPELL:
-					SpellSearch(searchTerm);
+					SpellsCollectionView.Refresh();
 					break;
 				case SpellType.CANTRIP:
-					CantripSearth(searchTerm);
+					CantripsCollectionView.Refresh();
 					break;
 				case SpellType.BOTH:
-					SpellSearch(searchTerm);
-					CantripSearth(searchTerm);
+					SpellsCollectionView.Refresh();
+					CantripsCollectionView.Refresh();
 					break;
 				default:
-					SpellSearch(searchTerm);
-					CantripSearth(searchTerm);
+					SpellsCollectionView.Refresh();
+					CantripsCollectionView.Refresh();
 					break;
-			}
-		}
-
-		/// <summary>
-		/// Populate the spellsToDisplay with spells whose name contrain the search term
-		/// </summary>
-		/// <param name="term">the search term</param>
-		private void SpellSearch(string term)
-		{
-			SpellsToDisplay.Clear();
-			term = term.ToLower();
-
-			IEnumerable<SpellItemEditableViewModel> results = spellSearch.Search(term, FilteredSpells[selectedFilter]);
-
-			foreach (SpellItemEditableViewModel spellVM in results)
-			{
-				SpellsToDisplay.Add(spellVM);
-			}
-		}
-
-		/// <summary>
-		/// Populate cantripsToDisplay with cantrips that contain the search term in their name
-		/// </summary>
-		/// <param name="term">the search term</param>
-		private void CantripSearth(string term)
-		{
-			CantripsToDisplay.Clear();
-			foreach (var item in CantripItems.OrderBy(x => x.Spell.Name))
-			{
-				if (item.Spell.Name.ToLower().Contains(term.ToLower()))
-				{
-					CantripsToDisplay.Add(item);
-				}
 			}
 		}
 

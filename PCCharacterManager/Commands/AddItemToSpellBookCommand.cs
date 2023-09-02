@@ -50,7 +50,6 @@ namespace PCCharacterManager.Commands
 			if (result == false) return;
 
 			SpellItemEditableViewModel temp = new SpellItemEditableViewModel(data.NewSpell);
-			vm.FilteredSpells[data.NewSpell.School].Add(temp);
 			vm.SpellsToDisplay.Add(temp);
 			vm.SpellBook.AddSpell(data.NewSpell);
 		}
@@ -69,7 +68,6 @@ namespace PCCharacterManager.Commands
 			if(result == false) return;
 
 			SpellItemEditableViewModel temp = new SpellItemEditableViewModel(data.NewSpell);
-			vm.CantripItems.Add(temp);
 			vm.CantripsToDisplay.Add(temp);
 			vm.SpellBook.AddContrip(data.NewSpell);
 		}

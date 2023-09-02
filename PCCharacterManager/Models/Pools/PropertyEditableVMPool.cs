@@ -11,7 +11,6 @@ namespace PCCharacterManager.Models
 	{
 		public PropertyEditableVMPool(int count)
 		{
-			items = new List<PropertyEditableViewModel>();
 			Add(count);
 		}
 

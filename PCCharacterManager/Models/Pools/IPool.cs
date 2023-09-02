@@ -8,7 +8,7 @@ namespace PCCharacterManager.Models
 {
 	public abstract class IPool<T>
 	{
-		protected List<T> items;
+		protected List<T> items = new();
 
 		public int AllocatedItems { get; protected set; }
 		public int FreeItems { get; protected set; }
