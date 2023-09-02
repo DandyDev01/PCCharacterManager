@@ -12,8 +12,6 @@ namespace PCCharacterManager.Models
 
 	public class SpellSearch : ISearch<SpellItemEditableViewModel>
 	{
-		protected string[] specialWords = { "&&", "||", "*" };
-		
 		public override bool Search(object obj)
 		{
 			if (obj is SpellItemEditableViewModel spellItem)

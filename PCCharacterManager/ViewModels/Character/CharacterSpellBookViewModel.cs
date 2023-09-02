@@ -166,27 +166,27 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChanged(ref selectedFilter, value);
-				switch (value)
+
+				if (value == SpellSchool.ALL)
 				{
-					case SpellSchool.ALL:
-						SpellsCollectionView.Filter = spellSearch.Search;
-						break;
-					default:
-						SpellsCollectionView.Filter = DisplayFilter;
-						break;
+					SpellsCollectionView.Filter = spellSearch.Search;
+				}
+				else
+				{
+					SpellsCollectionView.Filter = DisplayFilter;
 				}
 				
 				SpellsCollectionView.Refresh();
 			}
 		}
 
-		public ICommand AddSpellCommand { get; private set; }
-		public ICommand AddCantripCommand { get; private set; }
-		public ICommand ClearPreparedSpellsCommand { get; private set; }
-		public ICommand DeleteSpellCommand { get; private set; }
-		public ICommand DeleteCantripCommand { get; private set; }
-		public ICommand UnprepareSpellCommand { get; private set; }
-		public ICommand NextFilterCommand { get; private set; }
+		public ICommand AddSpellCommand { get; }
+		public ICommand AddCantripCommand { get; }
+		public ICommand ClearPreparedSpellsCommand { get; }
+		public ICommand DeleteSpellCommand { get; }
+		public ICommand DeleteCantripCommand { get; }
+		public ICommand UnprepareSpellCommand { get; }
+		public ICommand NextFilterCommand { get; }
 
 		public CharacterSpellBookViewModel(CharacterStore _characterStore)
 		{
@@ -215,8 +215,8 @@ namespace PCCharacterManager.ViewModels
 			AddCantripCommand = new AddItemToSpellBookCommand(this, SpellType.CANTRIP);
 			DeleteSpellCommand = new RemoveItemFromSpellBookCommand(this, SpellType.SPELL);
 			DeleteCantripCommand = new RemoveItemFromSpellBookCommand(this, SpellType.CANTRIP);
-			UnprepareSpellCommand = new RelayCommand(RemovePreparedSpell);
-			ClearPreparedSpellsCommand = new RelayCommand(ClearPreparedSpells);
+			UnprepareSpellCommand = new RemovePreparedSpellCommand(this);
+			ClearPreparedSpellsCommand = new ClearPreparedSpellsCommand(this);
 			NextFilterCommand = new RelayCommand(NextFilter);
 		}
 
@@ -282,39 +282,6 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			return false;
-		}
-
-		/// <summary>
-		/// used by the clear prepared spells command
-		/// </summary>
-		private void ClearPreparedSpells()
-		{
-			spellBook.ClearPreparedSpells();
-
-			foreach (var spellItemView in SpellsToDisplay)
-			{
-				spellItemView.IsPrepared = false;
-			}
-		}
-
-		/// <summary>
-		/// remove the selected prepared spell from the prepared spells list
-		/// in the view and in the spell book model
-		/// </summary>
-		private void RemovePreparedSpell()
-		{
-			if (selectedPreparedSpell == null) return;
-
-			if (spellBook.PreparedSpells.Contains(selectedPreparedSpell))
-			{
-				selectedPreparedSpell.IsPrepared = false;
-				spellBook.PreparedSpells.Remove(selectedPreparedSpell);
-				List<SpellItemEditableViewModel> spells = SpellsToDisplay.ToList();
-				SpellItemEditableViewModel? s = spells.Find(x => x.Spell.Name.Equals(selectedPreparedSpell.Name));
-				if (s == null) return;
-				s.IsPrepared = false;
-				selectedPreparedSpell = null;
-			}
 		}
 
 		private void Search()

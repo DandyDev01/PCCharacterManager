@@ -42,14 +42,14 @@ namespace PCCharacterManager.Commands
 		private void AddSpellWindow()
 		{
 			Window window = new AddSpellDialogWindow();
-			DialogWindowAddSpellViewModel data = new DialogWindowAddSpellViewModel(window, SpellType.SPELL);
+			DialogWindowAddSpellViewModel data = new(window, SpellType.SPELL);
 			window.DataContext = data;
 
 			var result = window.ShowDialog();
 
 			if (result == false) return;
 
-			SpellItemEditableViewModel temp = new SpellItemEditableViewModel(data.NewSpell);
+			SpellItemEditableViewModel temp = new(data.NewSpell);
 			vm.SpellsToDisplay.Add(temp);
 			vm.SpellBook.AddSpell(data.NewSpell);
 		}
@@ -60,14 +60,14 @@ namespace PCCharacterManager.Commands
 		private void AddCantripWindow()
 		{
 			Window window = new AddSpellDialogWindow();
-			DialogWindowAddSpellViewModel data = new DialogWindowAddSpellViewModel(window, SpellType.CANTRIP);
+			DialogWindowAddSpellViewModel data = new(window, SpellType.CANTRIP);
 			window.DataContext = data;
 
 			var result = window.ShowDialog();
 			
 			if(result == false) return;
 
-			SpellItemEditableViewModel temp = new SpellItemEditableViewModel(data.NewSpell);
+			SpellItemEditableViewModel temp = new(data.NewSpell);
 			vm.CantripsToDisplay.Add(temp);
 			vm.SpellBook.AddContrip(data.NewSpell);
 		}
