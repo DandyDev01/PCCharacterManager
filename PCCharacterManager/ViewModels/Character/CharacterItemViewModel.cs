@@ -37,6 +37,8 @@ namespace PCCharacterManager.ViewModels
 		public ICommand SelectCharacterCommand { get; private set; }
 		public ICommand DeleteCharacterCommand { get; private set; }
 
+		public Action<string> DeletAction;
+
 		//TODO: get the characterStore from BookVM
 		public CharacterItemViewModel(CharacterStore characterStore, DnD5eCharacter character, string _characterPath)
 		{
@@ -49,6 +51,7 @@ namespace PCCharacterManager.ViewModels
 			characterRace = character.Race.Name;
 
 			SelectCharacterCommand = new SelectCharacterCommand(characterStore, characterPath);
+			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
 		}
 
 		public void Update(DnD5eCharacter character)
@@ -66,6 +69,11 @@ namespace PCCharacterManager.ViewModels
 			OnPropertyChanged(nameof(characterDateModified));
 			OnPropertyChanged(nameof(characterType));
 			OnPropertyChanged(nameof(characterRace));
+		}
+
+		private void DeleteCharacter()
+		{
+			DeletAction?.Invoke(characterPath);
 		}
 	}
 }

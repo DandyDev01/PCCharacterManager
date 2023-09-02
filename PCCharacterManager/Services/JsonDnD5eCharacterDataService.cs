@@ -19,12 +19,12 @@ namespace PCCharacterManager.Services
 			this.characterStore = characterStore;
 		}
 
-		public void Add(DnD5eCharacter newCharacter)
+		public override void Add(DnD5eCharacter newCharacter)
 		{
 			Save(newCharacter);
 		}
 
-		public IEnumerable<DnD5eCharacter> GetCharacters()
+		public override IEnumerable<DnD5eCharacter> GetCharacters()
 		{
 			List<DnD5eCharacter> characters = new List<DnD5eCharacter>();	
 			string[] characterEntries = Directory.GetFiles(DnD5eResources.CharacterDataDir);
@@ -37,12 +37,12 @@ namespace PCCharacterManager.Services
 			return characters;
 		}
 
-		public IEnumerable<string> GetCharacterFilePaths()
+		public override IEnumerable<string> GetCharacterFilePaths()
 		{
 			return Directory.GetFiles(DnD5eResources.CharacterDataDir);
 		}
 
-		public void Save(IEnumerable<DnD5eCharacter> characters)
+		public override void Save(IEnumerable<DnD5eCharacter> characters)
 		{
 			foreach (DnD5eCharacter character in characters)
 			{
@@ -50,7 +50,7 @@ namespace PCCharacterManager.Services
 			}
 		}
 
-		public void Save(DnD5eCharacter character)
+		public override void Save(DnD5eCharacter character)
 		{
 			// character data folder does not exist
 			if (!Directory.Exists(DnD5eResources.CharacterDataDir))
@@ -65,7 +65,7 @@ namespace PCCharacterManager.Services
 			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(DnD5eResources.CharacterDataDir + "/" + character.Name + ".json", character);
 		}
 
-		public bool Delete(DnD5eCharacter character)
+		public override bool Delete(DnD5eCharacter character)
 		{
 			if (File.Exists(DnD5eResources.CharacterDataDir + "/" + character.Name + ".json"))
 			{

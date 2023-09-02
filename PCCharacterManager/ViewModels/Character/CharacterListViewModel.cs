@@ -63,7 +63,10 @@ namespace PCCharacterManager.ViewModels
 			List<string> characterPaths = _dataService.GetCharacterFilePaths().ToList();
 			for (int i = 0; i < characters.Count; i++)
 			{
-				CharacterItems.Add(new CharacterItemViewModel(characterStore, characters[i], characterPaths[i]));
+				CharacterItemViewModel characterItemVM = new CharacterItemViewModel(characterStore, characters[i], characterPaths[i]);
+				characterItemVM.DeletAction += DeleteCharacter;
+
+				CharacterItems.Add(characterItemVM);
 			}
 
 			NameSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort, 
@@ -83,6 +86,20 @@ namespace PCCharacterManager.ViewModels
 			CharacterItems.OrderBy(x => x.CharacterDateModified).First().SelectCharacterCommand.Execute(null);
 		}
 
+		private void DeleteCharacter(string path)
+		{
+			dataService.Delete(path);
+
+			CharacterItemViewModel characterItemVM 
+				= CharacterItems.Where(c => path.Contains(c.CharacterName)).FirstOrDefault();
+
+			if (characterItemVM == null)
+				return;
+
+			CharacterItems.Remove(characterItemVM);
+			CharacterItems[0].SelectCharacterCommand?.Execute(null);
+		}
+
 
 		/// <summary>
 		/// creates a CharacterItemViewModel for the given character and adds them to the list of
@@ -94,7 +111,10 @@ namespace PCCharacterManager.ViewModels
 			if (_character == null)
 				return;
 
-			CharacterItems.Add(CharacterItemVMFactory.Create(_character, characterStore));
+			CharacterItemViewModel characterItemVM = CharacterItemVMFactory.Create(_character, characterStore);
+			characterItemVM.DeletAction += DeleteCharacter;
+
+			CharacterItems.Add(characterItemVM);
 		}
 
 		/// <summary>

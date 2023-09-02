@@ -22,7 +22,7 @@ namespace PCCharacterManager.Services
 			characterStore.CharacterCreate += Add;
 		}
 
-		public void Add(DnD5eCharacter newCharacter)
+		public override void Add(DnD5eCharacter newCharacter)
 		{
 			if(newCharacter is StarfinderCharacter starfinderCharacter)
 			{
@@ -34,7 +34,7 @@ namespace PCCharacterManager.Services
 			}
 		}
 
-		public bool Delete(DnD5eCharacter character)
+		public override bool Delete(DnD5eCharacter character)
 		{
 			if (character is StarfinderCharacter starfinderCharacter)
 			{
@@ -50,7 +50,7 @@ namespace PCCharacterManager.Services
 			return false;
 		}
 
-		public IEnumerable<string> GetCharacterFilePaths()
+		public override IEnumerable<string> GetCharacterFilePaths()
 		{
 			List<string> paths = new List<string>();
 			paths.AddRange(Directory.GetFiles(DnD5eResources.CharacterDataDir));
@@ -59,7 +59,7 @@ namespace PCCharacterManager.Services
 			return paths;
 		}
 
-		public IEnumerable<DnD5eCharacter> GetCharacters()
+		public override IEnumerable<DnD5eCharacter> GetCharacters()
 		{
 			List<StarfinderCharacter> starfinderCharacters = new List<StarfinderCharacter>();
 			string[] starfinderCharacterEntries = Directory.GetFiles(StarfinderResources.CharacterDataDir);
@@ -82,7 +82,7 @@ namespace PCCharacterManager.Services
 			return characters;
 		}
 
-		public void Save(IEnumerable<DnD5eCharacter> characters)
+		public override void Save(IEnumerable<DnD5eCharacter> characters)
 		{
 			foreach (var item in characters)
 			{
@@ -97,7 +97,7 @@ namespace PCCharacterManager.Services
 			}
 		}
 
-		public void Save(DnD5eCharacter character)
+		public override void Save(DnD5eCharacter character)
 		{
 			if (character is StarfinderCharacter starfinderCharacter)
 			{

@@ -173,7 +173,7 @@
                 </ListView.ContextMenu>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="200">
+                        <GridViewColumn Width="280">
                             <GridViewColumnHeader Content="Name" Command="{Binding NameSortCommand}"/>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -181,7 +181,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="200">
+                        <GridViewColumn Width="150">
                             <GridViewColumnHeader Content="Feature Type" Command="{Binding FeatureTypeSortCommand}"/>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -189,7 +189,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="135">
+                        <GridViewColumn Width="100">
                             <GridViewColumnHeader Content="Level" Command="{Binding LevelSortCommand}"/>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
