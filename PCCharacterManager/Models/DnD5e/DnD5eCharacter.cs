@@ -21,14 +21,9 @@ namespace PCCharacterManager.Models
 
 	public class DnD5eCharacter : ObservableObject
 	{
-		protected string name;
-		protected string background;
-		protected string dateModified;
-		protected int initiative;
-		protected int passivePerception;
-		protected int passiveInsight;
 		protected Ability[] abilities;
 
+		protected string name;
 		public string Name
 		{
 			get { return name; }
@@ -37,76 +32,89 @@ namespace PCCharacterManager.Models
 				OnPropertyChanged(ref name, value); 
 			}
 		}
+
+		protected string background;
 		public string Background
 		{
 			get { return background; }
 			set { OnPropertyChanged(ref background, value); }
 		}
+		
+		protected string dateModified;
 		public string DateModified
 		{
 			get { return dateModified; }	
 			set { OnPropertyChanged(ref dateModified, value); }
 		}
+		
+		protected int initiative;
 		public int Initiative
 		{
 			get { return initiative; }
 			set { OnPropertyChanged(ref initiative, value); }
 		}
+		
+		protected int passivePerception;
 		public int PassivePerception
 		{
 			get { return passivePerception; }
 			set { OnPropertyChanged(ref passivePerception, value); }
 		}
+		
+		protected int passiveInsight;
 		public int PassiveInsight
 		{
 			get { return passiveInsight; }
 			set { OnPropertyChanged(ref passiveInsight, value); }
 		}
 
-		[JsonProperty("Size")]
-		[JsonConverter(typeof(StringEnumConverter))]
-		public CreatureSize Size { get; set; }
-
-		[JsonProperty("CharacterType")]
-		[JsonConverter(typeof(StringEnumConverter))]
-		public CharacterType CharacterType { get; set; }
-		
-		[JsonProperty("Alignment")]
-		[JsonConverter(typeof(StringEnumConverter))]
-		public Alignment Alignment { get; set; }
-
-		public ArmorClass ArmorClass { get; set; }
 		public DnD5eCharacterClass CharacterClass { get; set; }
 		public DnD5eCharacterRace Race { get; set; }
+		public ArmorClass ArmorClass { get; set; }
+		public CharacterLevel Level { get; set; }
+		public NoteBook NoteManager { get; set; }
 		public Inventory Inventory { get; set; }
 		public SpellBook SpellBook { get; set; }
 		public Health Health { get; set; }
-		public NoteBook NoteManager { get; set; }
 		public Ability[] Abilities
 		{
 			get { return abilities; }
 			set { abilities = value; }
 		}
-		public CharacterLevel Level { get; set; }
 
-		public ObservableCollection<string> Languages { get; set; }
-		public ObservableCollection<string> ToolProficiences { get; set; }
-		public ObservableCollection<string> OtherProficiences { get; set; }
+		public ObservableCollection<Property> MovementTypes_Speeds { get; set; }
 		public ObservableCollection<string> WeaponProficiencies { get; set; }
 		public ObservableCollection<string> ArmorProficiencies { get; set; }
-		public ObservableCollection<Property> MovementTypes_Speeds { get; set; }
+		public ObservableCollection<string> OtherProficiences { get; set; }
+		public ObservableCollection<string> ToolProficiences { get; set; }
+		public ObservableCollection<string> Languages { get; set; }
 
-		public Action OnCharacterChangedAction { get; set; }
+		[JsonProperty(nameof(Size))]
+		[JsonConverter(typeof(StringEnumConverter))]
+		public CreatureSize Size { get; set; }
+
+		[JsonProperty(nameof(CharacterType))]
+		[JsonConverter(typeof(StringEnumConverter))]
+		public CharacterType CharacterType { get; set; }
+
+		[JsonProperty(nameof(Alignment))]
+		[JsonConverter(typeof(StringEnumConverter))]
+		public Alignment Alignment { get; set; }
+
+		[JsonIgnore]
+		public Action? OnCharacterChangedAction { get; set; }
 
 		public DnD5eCharacter()
 		{
 			abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
-			Languages = new ObservableCollection<string>();
-			ToolProficiences = new ObservableCollection<string>();
-			OtherProficiences = new ObservableCollection<string>();
-			ArmorProficiencies = new ObservableCollection<string>();
-			WeaponProficiencies = new ObservableCollection<string>();
+			
 			MovementTypes_Speeds = new ObservableCollection<Property>();
+			WeaponProficiencies = new ObservableCollection<string>();
+			ArmorProficiencies = new ObservableCollection<string>();
+			OtherProficiences = new ObservableCollection<string>();
+			ToolProficiences = new ObservableCollection<string>();
+			Languages = new ObservableCollection<string>();
+
 			CharacterClass = new DnD5eCharacterClass();
 			Race = new DnD5eCharacterRace();
 			ArmorClass = new ArmorClass();
@@ -116,50 +124,55 @@ namespace PCCharacterManager.Models
 			Inventory = new Inventory();
 			Health = new Health(1);
 
-			Languages.CollectionChanged += OnCharacterChanged;
-			ToolProficiences.CollectionChanged += OnCharacterChanged;
-			OtherProficiences.CollectionChanged += OnCharacterChanged;
+			MovementTypes_Speeds.CollectionChanged += OnCharacterChanged;
 			WeaponProficiencies.CollectionChanged += OnCharacterChanged;
 			ArmorProficiencies.CollectionChanged += OnCharacterChanged;
-			MovementTypes_Speeds.CollectionChanged += OnCharacterChanged;
+			OtherProficiences.CollectionChanged += OnCharacterChanged;
+			ToolProficiences.CollectionChanged += OnCharacterChanged;
+			Languages.CollectionChanged += OnCharacterChanged;
 
 			name = string.Empty;
-			background = string.Empty;
 			dateModified = string.Empty;
+			background = string.Empty;
 			CharacterType = CharacterType.DnD5e;
 		}
 
-		public DnD5eCharacter(DnD5eCharacterClassData classData, DnD5eCharacterRaceData raceData, DnD5eBackgroundData backgroundData)
+		public DnD5eCharacter(DnD5eCharacterClassData classData, DnD5eCharacterRaceData raceData, 
+			DnD5eBackgroundData backgroundData)
 		{
-			ToolProficiences = new ObservableCollection<string>();
-			OtherProficiences = new ObservableCollection<string>();
-			SpellBook = new SpellBook();
-			NoteManager = new NoteBook();
-			MovementTypes_Speeds = new ObservableCollection<Property>();
-			Languages = new ObservableCollection<string>();
 			abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
-			Level = new CharacterLevel();
-			Health = new Health(1);
-			Inventory = new Inventory();
 
-			CharacterClass = new DnD5eCharacterClass(classData);
-			Race = new DnD5eCharacterRace(raceData);
-			Background = backgroundData.Name;
-			Size = raceData.Size;
-			Alignment = Alignment;
-			NoteManager.NewNoteSection(new NoteSection("Character"));
-			NoteManager.GetSection("Character").Add(new Note(backgroundData.Name, backgroundData.Desc));
-			AddMovementType(new Property(MovementType.WALK.ToString(), raceData.Speed));
-			AddLanguages(raceData.Languages);
+			MovementTypes_Speeds = new ObservableCollection<Property>();
 			WeaponProficiencies = new ObservableCollection<string>(classData.WeaponProficiencies);
 			ArmorProficiencies = new ObservableCollection<string>(classData.ArmorProficiencies);
-
+			OtherProficiences = new ObservableCollection<string>();
+			ToolProficiences = new ObservableCollection<string>();
+			Languages = new ObservableCollection<string>();
+			
+			CharacterClass = new DnD5eCharacterClass(classData);
+			Race = new DnD5eCharacterRace(raceData);
+			ArmorClass = new ArmorClass();
+			Level = new CharacterLevel();
+			NoteManager = new NoteBook();
+			SpellBook = new SpellBook();
+			Inventory = new Inventory();
+			Health = new Health(1);
+			
 			name = string.Empty;
-			background = string.Empty;
+			dateModified = string.Empty;
+			background = backgroundData.Name;
+			Size = raceData.Size;
+			Alignment = Alignment;
 			CharacterType = CharacterType.DnD5e;
+
+			NoteManager.NewNoteSection(new NoteSection("Character"));
+			NoteManager.GetSection("Character")!.Add(new Note(backgroundData.Name, backgroundData.Desc));
+
+			AddMovementType(new Property(MovementType.WALK.ToString(), raceData.Speed));
+			AddLanguages(raceData.Languages);
 		}
 
-		private void OnCharacterChanged(object sender, NotifyCollectionChangedEventArgs e)
+		private void OnCharacterChanged(object? sender, NotifyCollectionChangedEventArgs? e)
 		{
 			OnCharacterChangedAction?.Invoke();
 		}

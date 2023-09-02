@@ -96,10 +96,11 @@ namespace PCCharacterManager.ViewModels
 			if (characterItemVM == null)
 				return;
 
+			characterItemVM.DeletAction -= DeleteCharacter;
+
 			CharacterItems.Remove(characterItemVM);
 			CharacterItems[0].SelectCharacterCommand?.Execute(null);
 		}
-
 
 		/// <summary>
 		/// creates a CharacterItemViewModel for the given character and adds them to the list of
@@ -124,7 +125,6 @@ namespace PCCharacterManager.ViewModels
 		{
 			if (characterStore.SelectedCharacter == null)
 				return;
-
 
 			CharacterItemViewModel? characterItem = CharacterItems.FirstOrDefault(c => c.CharacterName == characterStore.SelectedCharacter.Name);
 
