@@ -10,9 +10,56 @@ namespace PCCharacterManager.Models
 	public enum SpellType { SPELL, CANTRIP, BOTH }
 	public enum OrderByOption { ALPHABETICAL, SCHOOL, PREPARED, LEVEL, DURATION }
 
-	public class SpellSearch : ISearch<SpellItemEditableViewModel>
+	public class SpellSearch
 	{
-		protected override void ORSearch(ref List<SpellItemEditableViewModel> results, IEnumerable<SpellItemEditableViewModel> itemsToSearch, string[] searchTerms)
+		protected string[] specialWords = { "&&", "||", "*" };
+
+		public IEnumerable<SpellItemEditableViewModel> Search(string searchTerm, 
+			IEnumerable<SpellItemEditableViewModel> itemsToSearch)
+		{
+			if (searchTerm == string.Empty || string.IsNullOrWhiteSpace(searchTerm) || searchTerm.Contains("*"))
+				return itemsToSearch.ToList();
+
+			List<SpellItemEditableViewModel> results = new();
+
+			bool containsSpecialWord = ContainsSpecialWord(searchTerm);
+			if (containsSpecialWord) SpecialWordSearch(ref results, itemsToSearch, searchTerm);
+			else DefaultSearch(ref results, itemsToSearch, searchTerm);
+
+			return results;
+		}
+
+		/// <summary>
+		/// returns the 1st occurence of a specialWord contained in the searchTerm
+		/// </summary>
+		/// <param name="searchTerm">term to search for specialWord</param>
+		/// <returns>1st occurence of a specialWord in the provided searchTerm or string.Empty if there is not one</returns>
+		protected string ExtractSpecialWord(string searchTerm)
+		{
+			foreach (string s in specialWords)
+			{
+				if (searchTerm.Contains(s)) return s;
+			}
+
+			return string.Empty;
+		}
+
+		/// <summary>
+		/// determines if the searchTerm contains any of the specialWords
+		/// </summary>
+		/// <param name="searchTerm">term to check</param>
+		/// <returns>true if the searchTerm contains any of the specialWords</returns>
+		protected bool ContainsSpecialWord(string searchTerm)
+		{
+			foreach (string s in specialWords)
+			{
+				if (searchTerm.Contains(s)) return true;
+			}
+
+			return false;
+		}
+
+		protected void ORSearch(ref List<SpellItemEditableViewModel> results, IEnumerable<SpellItemEditableViewModel> itemsToSearch, string[] searchTerms)
 		{
 			foreach (SpellItemEditableViewModel spellItem in itemsToSearch)
 			{
@@ -34,7 +81,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		protected override void ANDSearch(ref List<SpellItemEditableViewModel> results, IEnumerable<SpellItemEditableViewModel> itemsToSearch, string[] searchTerms)
+		protected void ANDSearch(ref List<SpellItemEditableViewModel> results, IEnumerable<SpellItemEditableViewModel> itemsToSearch, string[] searchTerms)
 		{
 			foreach (SpellItemEditableViewModel spellItem in itemsToSearch)
 			{
@@ -56,7 +103,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		protected override void DefaultSearch(ref List<SpellItemEditableViewModel> results, IEnumerable<SpellItemEditableViewModel> itemsToSearch, string searchTerm)
+		protected void DefaultSearch(ref List<SpellItemEditableViewModel> results, IEnumerable<SpellItemEditableViewModel> itemsToSearch, string searchTerm)
 		{
 			foreach (SpellItemEditableViewModel spellVM in itemsToSearch)
 			{
@@ -82,5 +129,25 @@ namespace PCCharacterManager.Models
 			return nameContainsSearchTerm || schoolContainsSearchTerm || levelContainsSearchTerm;
 
 		}
+
+		protected void SpecialWordSearch(ref List<SpellItemEditableViewModel> results, 
+			IEnumerable<SpellItemEditableViewModel> itemsToSearch, string searchTerm)
+		{
+			string specialWord = ExtractSpecialWord(searchTerm);
+			string[] searchTerms = searchTerm.Split(specialWord);
+			searchTerms[0] = searchTerms[0].Trim();
+			searchTerms[1] = searchTerms[1].Trim();
+
+			switch (specialWord)
+			{
+				case "||":
+					ORSearch(ref results, itemsToSearch, searchTerms);
+					break;
+				case "&&":
+					ANDSearch(ref results, itemsToSearch, searchTerms);
+					break;
+			}
+		}
+
 	} // end class
 } // end namespace

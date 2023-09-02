@@ -21,7 +21,7 @@ namespace PCCharacterManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			OpenFileDialog openFile = new OpenFileDialog();
+			OpenFileDialog openFile = new();
 			openFile.Filter = "Json file|*.json";
 			openFile.ShowDialog();
 			string path = openFile.FileName;
@@ -31,7 +31,7 @@ namespace PCCharacterManager.Commands
 				characterStore.BindSelectedCharacter(c);
 
 			}
-			catch (Exception ex)
+			catch
 			{
 				MessageBox.Show("selected file did not contain PCManager character",
 					"selected file was not a PCManager character.", MessageBoxButton.OK,

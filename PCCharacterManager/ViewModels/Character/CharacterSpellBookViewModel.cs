@@ -32,7 +32,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChanged(ref isEditMode, value);
-				OnPropertyChanged("IsDisplayMode");
+				OnPropertyChanged(nameof(IsDisplayMode));
 			}
 		}
 
@@ -264,7 +264,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			foreach (var item in spellBook.CantripsKnown.OrderBy(x => x.Name))
 			{
-				SpellItemEditableViewModel temp = new SpellItemEditableViewModel(item);
+				SpellItemEditableViewModel temp = new(item);
 				CantripItems.Add(temp);
 
 				item.IsPrepared = true;
@@ -312,7 +312,7 @@ namespace PCCharacterManager.ViewModels
 		/// <returns></returns>
 		private Dictionary<SpellSchool, ObservableCollection<SpellItemEditableViewModel>> PopulateFilteredSpells()
 		{
-			Dictionary<SpellSchool, ObservableCollection<SpellItemEditableViewModel>> results = new Dictionary<SpellSchool, ObservableCollection<SpellItemEditableViewModel>>();
+			Dictionary<SpellSchool, ObservableCollection<SpellItemEditableViewModel>> results = new();
 			foreach (SpellSchool school in Filters)
 			{
 				results.Add(school, new ObservableCollection<SpellItemEditableViewModel>());
@@ -350,7 +350,9 @@ namespace PCCharacterManager.ViewModels
 					CantripSearth(searchTerm);
 					break;
 				default:
-					throw new ArgumentOutOfRangeException();
+					SpellSearch(searchTerm);
+					CantripSearth(searchTerm);
+					break;
 			}
 		}
 

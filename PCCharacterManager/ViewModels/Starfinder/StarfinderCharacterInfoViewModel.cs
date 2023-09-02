@@ -94,7 +94,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			Window window = new StringInputDialogWindow();
 			DialogWindowStringInputViewModel viewModel = 
-				new DialogWindowStringInputViewModel(window, "Update description of " + selectedAugmentation.Name);
+				new(window, "Update description of " + selectedAugmentation.Name);
 			window.DataContext = viewModel;
 			window.ShowDialog();
 
@@ -112,7 +112,7 @@ namespace PCCharacterManager.ViewModels
 		private void AddAugmentation()
 		{
 			Window window = new AddAugmentationDialogWindow();
-			DialogWindowAddAugmentationViewModel windowVM = new DialogWindowAddAugmentationViewModel(window);
+			DialogWindowAddAugmentationViewModel windowVM = new(window);
 			window.DataContext = windowVM;
 			window.ShowDialog();
 
@@ -136,24 +136,24 @@ namespace PCCharacterManager.ViewModels
 			ArmorProfsVM = new StringListViewModel("Armor Profs", selectedCharacter.ArmorProficiencies);
 			OtherProfsVM = new StringListViewModel("Other Profs", selectedCharacter.OtherProficiences);
 			WeaponProfsVM = new StringListViewModel("Weapon Profs", selectedCharacter.WeaponProficiencies);
-			OnPropertyChanged("ClassFeatureListVM");
-			OnPropertyChanged("RaceFeatureListVM");
-			OnPropertyChanged("MovementTypesListVM");
-			OnPropertyChanged("LanguagesVM"); 
-			OnPropertyChanged("ArmorProfsVM");
-			OnPropertyChanged("WeaponProfsVM");
-			OnPropertyChanged("ToolProfsVM");
-			OnPropertyChanged("OtherProfsVM");
-			OnPropertyChanged("ClassFeatureListVM");
-			OnPropertyChanged("RaceFeatureListVM");
-			OnPropertyChanged("ThemeListVM");
+			OnPropertyChanged(nameof(ClassFeatureListVM));
+			OnPropertyChanged(nameof(RaceFeatureListVM));
+			OnPropertyChanged(nameof(MovementTypesListVM));
+			OnPropertyChanged(nameof(LanguagesVM)); 
+			OnPropertyChanged(nameof(ArmorProfsVM));
+			OnPropertyChanged(nameof(WeaponProfsVM));
+			OnPropertyChanged(nameof(ToolProfsVM));
+			OnPropertyChanged(nameof(OtherProfsVM));
+			OnPropertyChanged(nameof(ClassFeatureListVM));
+			OnPropertyChanged(nameof(RaceFeatureListVM));
+			OnPropertyChanged(nameof(ThemeListVM));
 
 		}
 
 		private void AddThemeFeature()
 		{
 			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window, "Feature Name");
+			DialogWindowStringInputViewModel windowVM = new(window, "Feature Name");
 			window.DataContext = windowVM;
 			window.ShowDialog();
 
@@ -161,7 +161,7 @@ namespace PCCharacterManager.ViewModels
 				return;
 
 			Window window1 = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM1 = new DialogWindowStringInputViewModel(window1, "Feature Description");
+			DialogWindowStringInputViewModel windowVM1 = new(window1, "Feature Description");
 			window1.DataContext = windowVM1;
 			window1.ShowDialog();
 
@@ -174,7 +174,7 @@ namespace PCCharacterManager.ViewModels
 		private void EditThemeFeature()
 		{
 			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window, "Edit " + selectedThemeFeature.Name);
+			DialogWindowStringInputViewModel windowVM = new(window, "Edit " + selectedThemeFeature.Name);
 
 			windowVM.Answer = selectedThemeFeature.Desc;
 			window.DataContext = windowVM;

@@ -18,15 +18,15 @@ namespace PCCharacterManager.Utility
             _canExecute = canExecute ?? (_ => true);
         }
 
-        public event EventHandler CanExecuteChanged
+        public event EventHandler? CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
             remove => CommandManager.RequerySuggested -= value;
         }
 
-        public bool CanExecute(object parameter) => _canExecute((T)parameter);
+        public bool CanExecute(object? parameter) => _canExecute((T)parameter);
 
-        public void Execute(object parameter) => _execute((T)parameter);
+        public void Execute(object? parameter) => _execute((T)parameter);
     }
 
     public class RelayCommand : RelayCommand<object>

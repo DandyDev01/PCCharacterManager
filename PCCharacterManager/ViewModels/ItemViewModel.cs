@@ -102,6 +102,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChanged(ref displayItemType, value);
+				boundItem.Type = value;
 			}
 		}
 
@@ -115,6 +116,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChanged(ref displayItemCategory, value);
+				boundItem.Category = value;
 			}
 		}
 

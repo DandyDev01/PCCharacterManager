@@ -16,56 +16,70 @@ namespace PCCharacterManager.Models
 		Sword, GreatSword, Axe, GreatAxe, Hammer, GreatHammer, Mace, GreatMace, Spear, Bow, Firearm, Versatile,
 		Shild, LightArmor, MediumnArmor, HeavyArmor,
 		Potion, Poision, Ingredient, Component,
-		Misc, Book, Scroll, Note, Map
+		Misc, Book, Scroll, Note, Map, Tool
 	}
 
 	public class Item : ObservableObject
 	{
 		private string name;
-		private string desc;
-		private string cost;
-		private string weight;
-		private int quantity;
-
 		public string Name
 		{
 			get { return name; }
 			set { OnPropertyChanged(ref name, value); }
 		}
+
+		private string desc;
 		public string Desc
 		{
 			get { return desc; }
 			set { OnPropertyChanged(ref desc, value); }
 		}
+		
+		private string cost;
 		public string Cost
 		{
 			get { return cost; }
 			set { OnPropertyChanged(ref cost, value); }
 		}
+		
+		private string weight;
 		public string Weight
 		{
 			get { return weight; }
 			set { OnPropertyChanged(ref weight, value); }
 		}
+		
+		private int quantity;
 		public int Quantity
 		{
 			get { return quantity; }
 			set { OnPropertyChanged(ref quantity, value); }
 		}
+		
+		private readonly ObservableCollection<Property> properties;
 		public IEnumerable<Property> Properties
 		{
 			get { return properties; }
 		}
 
-		private readonly ObservableCollection<Property> properties;
+		private ItemCategory category;
+		private ItemType type;
 
 		[JsonProperty("Category")]
 		[JsonConverter(typeof(StringEnumConverter))]
-		public ItemCategory Category { get; set; }
+		public ItemCategory Category 
+		{
+			get => category; 
+			set => OnPropertyChanged(ref category, value); 
+		}
 
 		[JsonProperty("Type")]
 		[JsonConverter(typeof(StringEnumConverter))]
-		public ItemType Type { get; set; }
+		public ItemType Type 
+		{ 
+			get => type;
+			set => OnPropertyChanged(ref type, value); 
+		}
 
 		public Item()
 		{
@@ -74,21 +88,9 @@ namespace PCCharacterManager.Models
 			cost = string.Empty;
 			weight = string.Empty;
 			quantity = 1;
+			type = ItemType.Sword;
+			category = ItemCategory.Weapon;
 			properties = new ObservableCollection<Property>();
-		}
-
-		private Item(IEnumerable<Property> _properties)
-		{
-			name = string.Empty;
-			desc = string.Empty;
-			cost = string.Empty;
-			weight = string.Empty;
-			quantity = 1;
-			properties = new ObservableCollection<Property>();
-			foreach (var property in _properties)
-			{
-				properties.Add((Property)property.Clone());
-			}
 		}
 
 		/// <summary>

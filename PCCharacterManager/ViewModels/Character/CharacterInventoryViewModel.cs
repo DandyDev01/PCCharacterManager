@@ -26,6 +26,9 @@ namespace PCCharacterManager.ViewModels
 		private readonly ItemVMPool itemVMPool;
 		private readonly PropertyEditableVMPool propertyVMPool;
 		private readonly CollectionViewPropertySort collectionViewPropertySort;
+		private readonly ItemSearch itemSearch;
+		public Array ItemCategories { get; } = Enum.GetValues(typeof(ItemCategory));
+		public Array ItemTypes { get; } = Enum.GetValues(typeof(ItemType));
 		public Inventory? Inventory { get; private set; }
 
 		public ICommand AddItemCommand { get; }
@@ -85,13 +88,12 @@ namespace PCCharacterManager.ViewModels
 		public ObservableCollection<PropertyEditableViewModel> PropertiesToDisplay { get; }
 		public PropertyEditableViewModel? PrevSelectedProperty { get; private set; }
 
-		private string searchTerm;
 		public string SearchTerm
 		{
-			get { return searchTerm; }
+			get => itemSearch.SearchTerm;
 			set
 			{
-				OnPropertyChanged(ref searchTerm, value);
+				itemSearch.SearchTerm = value;
 				ItemsCollectionView.Refresh();
 			}
 		}
@@ -107,36 +109,11 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public CharacterInventoryViewModel(CharacterStore _characterStore) : this()
-		{
-			_characterStore.SelectedCharacterChange += OnCharacterChanged;
-		}
-
-		public CharacterInventoryViewModel(ObservableCollection<ItemViewModel> _itemsToDisplay) : this()
-		{
-			ItemDisplayVms = _itemsToDisplay;
-			ItemsCollectionView = CollectionViewSource.GetDefaultView(ItemDisplayVms);
-			ItemsCollectionView.Filter = FilterItems;
-			collectionViewPropertySort = new CollectionViewPropertySort(ItemsCollectionView);
-			ItemsCollectionView.SortDescriptions.Add(
-				new SortDescription(nameof(ItemViewModel.DisplayItemCategory), ListSortDirection.Ascending));
-
-			NameSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
-				nameof(ItemViewModel.DisplayName));
-			CostSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
-				nameof(ItemViewModel.DisplayCost));
-			WeightSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
-				nameof(ItemViewModel.DisplayWeight));
-			QuantitySortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
-				nameof(ItemViewModel.DisplayQuantity));
-			TypeSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
-				nameof(ItemViewModel.DisplayItemCategory));
-		}
-
 		public CharacterInventoryViewModel()
 		{
 			itemVMPool = new ItemVMPool(10);
 			propertyVMPool = new PropertyEditableVMPool(5);
+			itemSearch = new ItemSearch();
 
 			AddItemCommand = new AddItemToInventoryCommand(this);
 			RemoveItemCommand = new RemoveItemFromInventoryCommand(this);
@@ -145,14 +122,12 @@ namespace PCCharacterManager.ViewModels
 
 			ItemDisplayVms = new ObservableCollection<ItemViewModel>();
 			ItemsCollectionView = CollectionViewSource.GetDefaultView(ItemDisplayVms);
-			ItemsCollectionView.Filter = FilterItems;
+			ItemsCollectionView.Filter = itemSearch.Search;
 			collectionViewPropertySort = new CollectionViewPropertySort(ItemsCollectionView);
 			ItemsCollectionView.SortDescriptions.Add(
 				new SortDescription(nameof(ItemViewModel.DisplayItemCategory), ListSortDirection.Ascending));
 
 			PrevSelectedProperty = new PropertyEditableViewModel(new Property());
-
-			searchTerm = string.Empty;
 
 			PropertiesToDisplay = new ObservableCollection<PropertyEditableViewModel>();
 
@@ -167,6 +142,32 @@ namespace PCCharacterManager.ViewModels
 			TypeSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
 				nameof(ItemViewModel.DisplayItemType));
 			CategorySortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayItemCategory));
+		}
+
+		public CharacterInventoryViewModel(CharacterStore _characterStore) : this()
+		{
+			_characterStore.SelectedCharacterChange += OnCharacterChanged;
+		}
+
+		public CharacterInventoryViewModel(ObservableCollection<ItemViewModel> _itemsToDisplay) : this()
+		{
+			ItemDisplayVms = _itemsToDisplay;
+			ItemsCollectionView = CollectionViewSource.GetDefaultView(ItemDisplayVms);
+			ItemsCollectionView.Filter = itemSearch.Search;
+			collectionViewPropertySort = new CollectionViewPropertySort(ItemsCollectionView);
+			ItemsCollectionView.SortDescriptions.Add(
+				new SortDescription(nameof(ItemViewModel.DisplayItemCategory), ListSortDirection.Ascending));
+
+			NameSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayName));
+			CostSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayCost));
+			WeightSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayWeight));
+			QuantitySortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayQuantity));
+			TypeSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
 				nameof(ItemViewModel.DisplayItemCategory));
 		}
 
@@ -209,39 +210,23 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private bool FilterItems(object obj)
-		{
-			if(obj is ItemViewModel itemVM)
-			{
-				if (searchTerm.Equals(string.Empty)) return true;
-
-				if (itemVM.BoundItem.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
-				
-				if (itemVM.DisplayItemCategory.ToString().Contains(SearchTerm, StringComparison.Ordinal)) return true;
-
-				foreach (Property property in itemVM.BoundItem.Properties)
-				{
-					if (property.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
-					if (property.Desc.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
-				}
-			}
-
-			return false;
-		}
-
 		private void PopulatePropertiesToDisplay()
 		{
 			PropertiesToDisplay.Clear();
 
-			if (selectedItem == null) return;
-			if (selectedItem.BoundItem.Properties == null) return;
+			if (selectedItem == null || selectedItem.BoundItem == null) 
+				return;
+
+			if (selectedItem.BoundItem.Properties == null)
+				return;
 
 			foreach (var property in selectedItem.BoundItem.Properties)
 			{
 				// only show properties that are not marked HIDDEN
 				if (!showHiddenProperties)
 				{
-					if (property.Hidden) continue;
+					if (property.Hidden)
+						continue;
 
 					PropertyEditableViewModel temp1 = propertyVMPool.GetItem();
 					temp1.Bind(property);

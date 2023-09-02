@@ -162,7 +162,7 @@ namespace PCCharacterManager.Models
 			dateModified = string.Empty;
 			background = backgroundData.Name;
 			Size = raceData.Size;
-			Alignment = Alignment;
+			Alignment = Alignment.LAWFUL_GOOD;
 			CharacterType = CharacterType.DnD5e;
 
 			NoteManager.NewNoteSection(new NoteSection("Character"));
