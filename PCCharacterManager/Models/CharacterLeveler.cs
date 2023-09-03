@@ -65,7 +65,8 @@ namespace PCCharacterManager.Models
 			// find character class
 			DnD5eCharacterClassData? data = classes.Find(x => x.Name.Equals(character.CharacterClass.Name));
 
-			if (data == null) throw new Exception("The class " + character.CharacterClass.Name + " does not exist");
+			if (data == null) 
+				throw new Exception("The class " + character.CharacterClass.Name + " does not exist");
 
 			foreach (var item in data.Features)
 			{

@@ -39,11 +39,6 @@ namespace PCCharacterManager.Views
 				characterListVM.CreateCharacterCommand.Execute(null);
 			}
 
-			if (ListView.Items[0] is not CharacterItemViewModel firstCharacterItemVM)
-				return;
-
-			characterItemVM = firstCharacterItemVM;
-
 			characterItemVM.SelectCharacterCommand?.Execute(null);
 		}
 	}

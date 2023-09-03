@@ -7,6 +7,7 @@ using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,7 +76,6 @@ namespace PCCharacterManager.ViewModels
 			OnPropertyChanged(nameof(OtherProfsVM));
 
 			AllFeatures = new ObservableCollection<Feature>();
-			OnPropertyChanged(nameof(AllFeatures));
 		}
 
 		/// <summary>
@@ -84,7 +84,15 @@ namespace PCCharacterManager.ViewModels
 		/// <param name="newCharacter">the newly selected character</param>
 		private void OnCharacterChanged(DnD5eCharacter newCharacter)
 		{
+			if (SelectedCharacter is not null)
+				SelectedCharacter.CharacterClass.Features.CollectionChanged -= UpdateFeatures;
+
+			if (AllFeatures is null)
+				AllFeatures = new ObservableCollection<Feature>();
+
 			SelectedCharacter = newCharacter;
+
+			SelectedCharacter.CharacterClass.Features.CollectionChanged += UpdateFeatures;
 
 			if (selectedCharacter is null)
 				return;
@@ -103,26 +111,30 @@ namespace PCCharacterManager.ViewModels
 			OnPropertyChanged(nameof(ToolProfsVM));
 			OnPropertyChanged(nameof(OtherProfsVM));
 
-			List<Feature> temp = new();
+			UpdateFeatures(null, null);
+		}
 
-			foreach (var item in SelectedCharacter.CharacterClass.Features)
+		private void UpdateFeatures(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			AllFeatures.Clear();
+
+			if (selectedCharacter is null) 
+				return;
+
+			foreach (var item in selectedCharacter.CharacterClass.Features)
 			{
-				temp.Add(new Feature(item.Name, item.Desc, selectedCharacter.CharacterClass.Name, item.Level.ToString()));
+				AllFeatures.Add(new Feature(item.Name, item.Desc, selectedCharacter.CharacterClass.Name, item.Level.ToString()));
 			}
 
-			foreach (var item in SelectedCharacter.Race.Features)
+			foreach (var item in selectedCharacter.Race.Features)
 			{
-				temp.Add(new Feature(item.Name, item.Desc, selectedCharacter.Race.Name, "-"));
+				AllFeatures.Add(new Feature(item.Name, item.Desc, selectedCharacter.Race.Name, "-"));
 			}
 
 			foreach (var item in selectedCharacter.Race.RaceVariant.Properties)
 			{
-				temp.Add(new Feature(item.Name, item.Desc, selectedCharacter.Race.RaceVariant.Name, "-"));
+				AllFeatures.Add(new Feature(item.Name, item.Desc, selectedCharacter.Race.RaceVariant.Name, "-"));
 			}
-
-			
-			AllFeatures = new ObservableCollection<Feature>(temp);
-			OnPropertyChanged(nameof(AllFeatures));
 		}
 	}
 }
