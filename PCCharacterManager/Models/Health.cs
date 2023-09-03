@@ -21,11 +21,10 @@ namespace PCCharacterManager.Models
 		}
 
 		private int maxHealth;
-		[JsonProperty]
 		public int MaxHealth
 		{
 			get { return maxHealth; }
-			private set { OnPropertyChanged(ref maxHealth, value); }
+			set { OnPropertyChanged(ref maxHealth, value); }
 		}
 
 		private int tempHitPoints;

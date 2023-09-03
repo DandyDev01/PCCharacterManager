@@ -152,15 +152,9 @@
                        Text="{Binding SelectedCharacter.Race.Name, FallbackValue=DragonBorn}"/>
             <!--#endregion-->
 
-           
-
-            <ContentControl Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="4" Grid.RowSpan="1">
-                <v:PropertyListView DataContext="{Binding FeaturesListVM}"/>
-            </ContentControl>
-
             <ListView  Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="4" Grid.RowSpan="1"
                   x:Name="items"
-                  ItemsSource="{Binding AllFeatures}"
+                  ItemsSource="{Binding FeaturesCollectionView}"
                   SelectedIndex="0"
                   SelectedItem="{Binding SelectedProperty}">
                 <ListView.ContextMenu>

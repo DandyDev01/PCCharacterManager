@@ -8,16 +8,20 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
 	public class CharacterInfoViewModel : ObservableObject
 	{
+		private readonly CollectionViewPropertySort collectionViewPropertySort;
+
 		private DnD5eCharacter? selectedCharacter;
 		public DnD5eCharacter? SelectedCharacter
 		{
@@ -40,7 +44,9 @@ namespace PCCharacterManager.ViewModels
 		public StringListViewModel ToolProfsVM { get; protected set; }
 		public StringListViewModel OtherProfsVM { get; protected set; }
 
-		public ObservableCollection<Feature> AllFeatures { get; set; }
+		public ObservableCollection<Feature> AllFeatures { get; }
+		public ICollectionView FeaturesCollectionView { get; }
+		
 		private Property? selectedProperty;
 		public Property? SelectedProperty
 		{
@@ -54,8 +60,23 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		public ICommand NameSortCommand { get; }
+		public ICommand FeatureTypeSortCommand { get; }
+		public ICommand LevelSortCommand { get; }
+
 		public CharacterInfoViewModel(CharacterStore _characterStore) 
 		{
+			AllFeatures = new ObservableCollection<Feature>();
+			FeaturesCollectionView = CollectionViewSource.GetDefaultView(AllFeatures);
+			collectionViewPropertySort = new CollectionViewPropertySort(FeaturesCollectionView);
+
+			NameSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(Feature.Name));
+			FeatureTypeSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(Feature.FeatureType));
+			LevelSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(Feature.Level));
+
 			_characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			if (selectedCharacter is null)
@@ -74,8 +95,6 @@ namespace PCCharacterManager.ViewModels
 			OnPropertyChanged(nameof(WeaponProfsVM));
 			OnPropertyChanged(nameof(ToolProfsVM));
 			OnPropertyChanged(nameof(OtherProfsVM));
-
-			AllFeatures = new ObservableCollection<Feature>();
 		}
 
 		/// <summary>
@@ -86,9 +105,6 @@ namespace PCCharacterManager.ViewModels
 		{
 			if (SelectedCharacter is not null)
 				SelectedCharacter.CharacterClass.Features.CollectionChanged -= UpdateFeatures;
-
-			if (AllFeatures is null)
-				AllFeatures = new ObservableCollection<Feature>();
 
 			SelectedCharacter = newCharacter;
 
@@ -135,6 +151,8 @@ namespace PCCharacterManager.ViewModels
 			{
 				AllFeatures.Add(new Feature(item.Name, item.Desc, selectedCharacter.Race.RaceVariant.Name, "-"));
 			}
+
+			FeaturesCollectionView?.Refresh();
 		}
 	}
 }

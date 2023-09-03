@@ -10,7 +10,7 @@
         ShowInTaskbar="false"
         WindowStartupLocation="CenterOwner"
         Background="{StaticResource ViewBackgroundColor}"
-        Title="EditCharacterDialogWindow" Height="450" Width="800">
+        Title="EditCharacterDialogWindow" Height="550" Width="950">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -40,6 +40,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
+        <!--#region Languages-->
         <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1"
                    Style="{StaticResource h3}"
                    Text="Languages"/>
@@ -56,7 +57,9 @@
         <Button Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
                 Command="{Binding RemoveLanguageCommand}"
                 Content="Remove Language"/>
+        <!--#endregion-->
 
+        <!--#region Movement-->
         <TextBlock Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource h3}"
                    Text="Movement"/>
         <ListView Grid.Column="2" Grid.Row="1"  Grid.ColumnSpan="2" Grid.RowSpan="4"
@@ -78,7 +81,9 @@
         <Button Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
                 Command="{Binding RemoveMovementCommand}"
                 Content="Remove Movement"/>
-
+        <!--#endregion-->
+        
+        <!--#region Weapon profs-->
         <TextBlock Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1"
                    Style="{StaticResource h3}"
                    Text="Weapon Profs"/>
@@ -95,7 +100,9 @@
         <Button Grid.Column="5" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
                 Command="{Binding RemoveWeaponCommand}"
                 Content="Remove Weapon"/>
-
+        <!--#endregion-->
+        
+        <!--#region Armor Profs-->
         <TextBlock Grid.Column="6" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource h3}"
                    Text="Armor Profs"/>
         <ListView Grid.Column="6" Grid.Row="1"  Grid.ColumnSpan="2" Grid.RowSpan="4"
@@ -111,7 +118,9 @@
         <Button Grid.Column="7" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
                 Command="{Binding RemoveArmorCommand}"
                 Content="Remove Armor"/>
-
+        <!--#endregion-->
+        
+        <!--#region Tool profs-->
         <TextBlock Grid.Column="8" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1"
                    Style="{StaticResource h3}"
                    Text="Tool Profs"/>
@@ -128,7 +137,9 @@
         <Button Grid.Column="9" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
                 Command="{Binding RemoveToolCommand}"
                 Content="Remove Tool"/>
-
+        <!--#endregion-->
+        
+        <!--#region other profs-->
         <TextBlock Grid.Column="10" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource h3}"
                    Text="Other Profs"/>
         <ListView Grid.Column="10" Grid.Row="1"  Grid.ColumnSpan="2" Grid.RowSpan="4"
@@ -144,6 +155,30 @@
         <Button Grid.Column="11" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
                 Command="{Binding RemoveOtherProfCommand}"
                 Content="Remove OtherProf"/>
+        <!--#endregion-->
+
+        <!--#region max health-->
+        <Label Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="1" Grid.RowSpan="1"
+               VerticalAlignment="Bottom"
+               Content="Max Health"/>
+        <TextBox Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                 VerticalAlignment="Top"
+                 Text="{Binding Character.Health.MaxHealth}"/>
+
+        <!--#endregion-->
+
+        <!--#region max health-->
+        <Label Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2" Grid.RowSpan="1"
+               VerticalAlignment="Bottom"
+               Content="Hit Die"/>
+        <ComboBox Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="1"
+                  Width="100"
+                  Height="30"
+                  VerticalAlignment="Top"
+                  ItemsSource="{Binding HitDice}"
+                  SelectedItem="{Binding Character.CharacterClass.HitDie}"/>
+
+        <!--#endregion-->
 
         <Button Grid.Column="10" Grid.Row="9" Grid.ColumnSpan="1" Grid.RowSpan="1"
                 Command="{Binding CancelCommand}"

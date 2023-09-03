@@ -23,6 +23,8 @@ namespace PCCharacterManager.ViewModels
 			get { return character; }
 		}
 
+		public Array HitDice { get; } = Enum.GetValues(typeof(HitDie));
+
 		private string language;
 		public string Language
 		{
