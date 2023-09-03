@@ -95,6 +95,8 @@ namespace PCCharacterManager.ViewModels
 			OnPropertyChanged(nameof(WeaponProfsVM));
 			OnPropertyChanged(nameof(ToolProfsVM));
 			OnPropertyChanged(nameof(OtherProfsVM));
+
+			SelectedProperty = AllFeatures[0];
 		}
 
 		/// <summary>
@@ -128,6 +130,7 @@ namespace PCCharacterManager.ViewModels
 			OnPropertyChanged(nameof(OtherProfsVM));
 
 			UpdateFeatures(null, null);
+			SelectedProperty = AllFeatures[0];
 		}
 
 		private void UpdateFeatures(object? sender, NotifyCollectionChangedEventArgs e)
