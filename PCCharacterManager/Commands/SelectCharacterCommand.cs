@@ -21,7 +21,7 @@ namespace PCCharacterManager.Commands
 			characterPath = _characterPath;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
 			DnD5eCharacter? selectedCharacter;
 			//Console.WriteLine("selected character is: " + characterToSelect.Name);

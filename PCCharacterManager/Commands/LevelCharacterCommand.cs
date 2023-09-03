@@ -17,9 +17,12 @@ namespace PCCharacterManager.Commands
 			characterStore = _characterStore;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
-			CharacterLeveler leveler = new CharacterLeveler();
+			if (characterStore.SelectedCharacter == null)
+				return;
+
+			CharacterLeveler leveler = new();
 
 			leveler.LevelCharacter(characterStore.SelectedCharacter);
 

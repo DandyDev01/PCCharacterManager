@@ -122,21 +122,15 @@ namespace PCCharacterManager.ViewModels
 
 		private void Create()
 		{
-			DnD5eCharacter character;
-			switch (selectedCharacterType)
+			DnD5eCharacter? character = selectedCharacterType switch
 			{
-				case CharacterType.starfinder:
-					character = StarfinderCharacterCreatorVM.Create();
-					break;
-				case CharacterType.DnD5e:
-					character = DnD5eCharacterCreator.Create();
-					break;
-				default:
-					throw new Exception("SelectedCharacterType issue");
-			}
+				CharacterType.starfinder => StarfinderCharacterCreatorVM.Create(),
+				CharacterType.DnD5e => DnD5eCharacterCreator.Create(),
+				_ => throw new Exception("SelectedCharacterType issue"),
+			};
 
-
-			if(character == null) return;
+			if (character == null) 
+				return;
 
 			characterStore.CreateCharacter(character);
 			window.DialogResult = true;

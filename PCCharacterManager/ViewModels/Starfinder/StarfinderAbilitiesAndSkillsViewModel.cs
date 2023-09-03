@@ -19,13 +19,14 @@ namespace PCCharacterManager.ViewModels
 		public StarfinderAbilitiesAndSkillsViewModel(CharacterStore _characterStore)
 		{
 			_characterStore.SelectedCharacterChange += OnCharacterChanged;
-			Skills = new StarfinderSkill[0];
-			Abilities = new StarfinderAbility[0];
+
+			Skills = StarfinderSkill.Default;
+			Abilities = StarfinderAbility.Default;
 
 			if (_characterStore.SelectedCharacter == null)
 				return;
 
-			OnCharacterChanged(_characterStore.SelectedCharacter);
+			//OnCharacterChanged(_characterStore.SelectedCharacter);
 		}
 
 		private void OnCharacterChanged(DnD5eCharacter newCharacter)

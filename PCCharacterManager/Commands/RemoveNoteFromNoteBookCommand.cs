@@ -18,7 +18,7 @@ namespace PCCharacterManager.Commands
 			viewModel = _viewModel;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
 			if (viewModel.SelectedNote == null) return;
 

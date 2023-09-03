@@ -23,7 +23,6 @@ namespace PCCharacterManager.ViewModels
 	/// </summary>
 	public class CharacterInventoryViewModel : ObservableObject
 	{
-		private readonly ItemVMPool itemVMPool;
 		private readonly PropertyEditableVMPool propertyVMPool;
 		private readonly CollectionViewPropertySort collectionViewPropertySort;
 		private readonly ItemSearch itemSearch;
@@ -76,7 +75,7 @@ namespace PCCharacterManager.ViewModels
 				// property was just marked to be hidden
 				if (PrevSelectedProperty.BoundProperty.Hidden)
 				{
-					// is in the display listm, remove it.
+					// is in the display list, remove it.
 					if (PropertiesToDisplay.Contains(PrevSelectedProperty))
 					{
 						PropertiesToDisplay.Remove(PrevSelectedProperty);
@@ -111,7 +110,6 @@ namespace PCCharacterManager.ViewModels
 
 		public CharacterInventoryViewModel()
 		{
-			itemVMPool = new ItemVMPool(10);
 			propertyVMPool = new PropertyEditableVMPool(5);
 			itemSearch = new ItemSearch();
 
@@ -185,9 +183,8 @@ namespace PCCharacterManager.ViewModels
 			{
 				foreach (var item in pair.Value)
 				{
-					ItemViewModel temp = itemVMPool.GetItem();
-					temp.Bind(item);
-					ItemDisplayVms.Add(temp);
+					ItemViewModel itemVM = new(item);
+					ItemDisplayVms.Add(itemVM);
 				}
 			}
 
@@ -199,11 +196,6 @@ namespace PCCharacterManager.ViewModels
 
 		public void ReturnItemVMsToPool()
 		{
-			foreach (ItemViewModel itemDisplayViewModel in ItemDisplayVms)
-			{
-				itemVMPool.Return(itemDisplayViewModel);
-			}
-
 			foreach (PropertyEditableViewModel propertyEditableVM in PropertiesToDisplay)
 			{
 				propertyVMPool.Return(propertyEditableVM);

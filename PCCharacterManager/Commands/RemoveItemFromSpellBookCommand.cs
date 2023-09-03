@@ -25,7 +25,7 @@ namespace PCCharacterManager.Commands
 			lastCantripRemoveTimeInSeconds = timeSpan.TotalSeconds - 10;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
 			switch (spellType)
 			{

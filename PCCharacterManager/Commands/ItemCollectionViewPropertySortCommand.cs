@@ -19,7 +19,7 @@ namespace PCCharacterManager.Commands
 			propertyName = _propertyName;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
 			collectionView.Sort(propertyName);
 		}

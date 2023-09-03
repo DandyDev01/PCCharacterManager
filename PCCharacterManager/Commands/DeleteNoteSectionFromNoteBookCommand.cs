@@ -20,29 +20,32 @@ namespace PCCharacterManager.Commands
 			viewModel = _viewModel;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
-			string[] sectionTitles = new string[viewModel.NoteBook.NoteSections.Count];
+			if (viewModel.NoteBook is not NoteBook noteBook)
+				return;
+
+			string[] sectionTitles = new string[noteBook.NoteSections.Count];
 			for (int i = 0; i < sectionTitles.Length; i++)
 			{
-				sectionTitles[i] = viewModel.NoteBook.NoteSections[i].SectionTitle;
+				sectionTitles[i] = noteBook.NoteSections[i].SectionTitle;
 			}
 
 			Window dialogWindow = new SelectStringValueDialogWindow();
 			DialogWindowListViewSelectItemViewModel dataContext = 
-				new DialogWindowListViewSelectItemViewModel(dialogWindow, sectionTitles, sectionTitles.Length);
+				new(dialogWindow, sectionTitles, sectionTitles.Length);
 			dialogWindow.DataContext = dataContext;
 			var result = dialogWindow.ShowDialog();
 
 			if (result == false) return;
 
 			string[] selectedSections = dataContext.SelectedItems.ToArray();
-			List<NoteSection> sectionsToRemove = viewModel.NoteBook.NoteSections.
+			List<NoteSection> sectionsToRemove = noteBook.NoteSections.
 				Where(x => selectedSections.Contains(x.SectionTitle)).ToList();
 		
 			foreach (var item in sectionsToRemove)
 			{
-				viewModel.NoteBook.NoteSections.Remove(item);
+				noteBook.NoteSections.Remove(item);
 				viewModel.NoteSectionsToDisplay.Remove(item);
 			}
 		}

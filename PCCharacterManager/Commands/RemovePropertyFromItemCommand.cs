@@ -16,7 +16,7 @@ namespace PCCharacterManager.Commands
 			vm = _vm;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
 			if (vm.SelectedItem == null || vm.PrevSelectedProperty == null)
 				return;

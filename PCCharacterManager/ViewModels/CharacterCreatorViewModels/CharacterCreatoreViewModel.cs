@@ -221,7 +221,7 @@ namespace PCCharacterManager.ViewModels
 				// you can choose one of at least 2
 				if (str.Contains("^"))
 				{
-					List<string> selectedSkills = new List<string>();
+					List<string> selectedSkills = new();
 
 					// open dialog window to choose 1
 					// removes options that class give prof in
@@ -240,8 +240,7 @@ namespace PCCharacterManager.ViewModels
 					else
 					{
 						Window window = new SelectStringValueDialogWindow();
-						DialogWindowSelectStingValue windowVM =
-							new DialogWindowSelectStingValue(window, options.ToArray(), 1);
+						DialogWindowSelectStingValue windowVM = new(window, options.ToArray(), 1);
 						window.DataContext = windowVM;
 						window.ShowDialog();
 
@@ -450,7 +449,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void AbilityRoll()
 		{
-			RollDie rollDie = new RollDie();
+			RollDie rollDie = new();
 
 			for (int i = 0; i < 6; i++)
 			{
@@ -475,8 +474,7 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			Window window = new SelectStringValueDialogWindow();
-			DialogWindowSelectStingValue windowVM =
-				new DialogWindowSelectStingValue(window, options.ToArray(), 1);
+			DialogWindowSelectStingValue windowVM = new(window, options.ToArray(), 1);
 			window.DataContext = windowVM;
 			window.ShowDialog();
 
@@ -504,7 +502,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			propertyNameToError.Remove(propertyName);
 
-			List<string> errors = new List<string>();
+			List<string> errors = new();
 			propertyNameToError.Add(propertyName, errors);
 			if (string.IsNullOrEmpty(propertyValue) || string.IsNullOrWhiteSpace(propertyValue))
 			{

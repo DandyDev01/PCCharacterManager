@@ -8,6 +8,33 @@ namespace PCCharacterManager.Models
 {
 	public class StarfinderSkill : AbilitySkill
 	{
+		public static StarfinderSkill[] Default =
+		{
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+			new StarfinderSkill(),
+		};
+
 		private int ranks;
 		public int Ranks
 		{
@@ -18,7 +45,7 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref ranks, value);
-				OnPropertyChanged("Total");
+				OnPropertyChanged(nameof(Total));
 			}
 		}
 
@@ -32,11 +59,11 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref classBonus, value);
-				OnPropertyChanged("Total");
+				OnPropertyChanged(nameof(Total));
 			}
 		}
 
-		public int Score
+		public new int Score
 		{
 			get
 			{
@@ -45,7 +72,7 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref score, value);
-				OnPropertyChanged("Total");
+				OnPropertyChanged(nameof(Total));
 			}
 		}
 

@@ -23,7 +23,7 @@ namespace PCCharacterManager.Commands
 			spellType = _spellType;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
 			switch (spellType)
 			{

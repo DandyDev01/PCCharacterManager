@@ -117,10 +117,10 @@ namespace PCCharacterManager.ViewModels
 
 		public override StarfinderCharacter? Create()
 		{
-			int increseAmount = 0;
+			int increaseAmount = 0;
 			string abilityName = string.Empty;
 
-			bool validName = string.IsNullOrWhiteSpace(name) ? false : !string.IsNullOrEmpty(name);
+			bool validName = !string.IsNullOrWhiteSpace(name) && !string.IsNullOrEmpty(name);
 
 			if (!validName)
 			{
@@ -130,9 +130,11 @@ namespace PCCharacterManager.ViewModels
 				return null;
 			}
 
-			StarfinderCharacter character = new StarfinderCharacter(SelectedClassData, SelectedRaceData, selectedThemeData);
+			StarfinderCharacter character = new(SelectedClassData, SelectedRaceData, selectedThemeData)
+			{
+				Name = name
+			};
 
-			character.Name = name;
 			int hitPoints = selectedRaceData.HitPoitns + selectedClassData.HitPoints;
 			int staminaPoints = selectedClassData.StaminaPoints;
 
@@ -161,7 +163,7 @@ namespace PCCharacterManager.ViewModels
 				}
 			}
 
-			// class skill profrssion
+			// class skill profession
 			string[] skills = selectedClassData.ClassSkills.Where(x => x.Contains("Profession")).ToArray();
 			foreach (var item in skills)
 			{
@@ -170,7 +172,7 @@ namespace PCCharacterManager.ViewModels
 				options[options.Length - 1] = options[options.Length - 1].Substring(0, options[options.Length - 1].Length - 1);
 				
 				Window window = new SelectStringValueDialogWindow();
-				DialogWindowSelectStingValue windowVM = new DialogWindowSelectStingValue(window, options);
+				DialogWindowSelectStingValue windowVM = new(window, options);
 				window.DataContext = windowVM;
 				window.ShowDialog();
 
@@ -184,11 +186,11 @@ namespace PCCharacterManager.ViewModels
 			// race ability score increases
 			foreach (var item in selectedRaceData.AbilityScoreIncreases)
 			{
-				increseAmount = StringFormater.FindQuantity(item);
+				increaseAmount = StringFormater.FindQuantity(item);
 				abilityName = StringFormater.RemoveQuantity(item);
 				try
 				{
-					Ability.FindAbility(character.Abilities, abilityName).Score += increseAmount;
+					Ability.FindAbility(character.Abilities, abilityName).Score += increaseAmount;
 				}
 				catch (Exception e)
 				{
@@ -205,12 +207,12 @@ namespace PCCharacterManager.ViewModels
 
 
 			// theme ability score improvements
-			increseAmount = StringFormater.FindQuantity(selectedThemeData.AbilityScoreImprovement);
+			increaseAmount = StringFormater.FindQuantity(selectedThemeData.AbilityScoreImprovement);
 			abilityName = StringFormater.RemoveQuantity(selectedThemeData.AbilityScoreImprovement);
 
 			try
 			{
-				Ability.FindAbility(character.Abilities, abilityName).Score += increseAmount;
+				Ability.FindAbility(character.Abilities, abilityName).Score += increaseAmount;
 			}
 			catch(Exception e)
 			{
@@ -223,12 +225,12 @@ namespace PCCharacterManager.ViewModels
 
 		private void AbilityRoll()
 		{
-			RollDie rollDie = new RollDie();
+			RollDie rollDie = new();
 
 			for (int i = 0; i < 6; i++)
 			{
 				AbilityScores[i] = rollDie.AbilityScoreRoll();
-				OnPropertyChanged("AbilityScores");
+				OnPropertyChanged(nameof(AbilityScores));
 			}
 		}
 
@@ -241,7 +243,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			propertyNameToError.Remove(propertyName);
 
-			List<string> errors = new List<string>();
+			List<string> errors = new();
 			propertyNameToError.Add(propertyName, errors);
 			if (string.IsNullOrEmpty(propertyValue) || string.IsNullOrWhiteSpace(propertyValue))
 			{

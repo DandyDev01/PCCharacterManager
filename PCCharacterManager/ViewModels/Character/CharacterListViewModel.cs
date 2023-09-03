@@ -48,22 +48,24 @@ namespace PCCharacterManager.ViewModels
 			CreateCharacterCommand = new CreateCharacterCommand(_characterStore);
 			DeleteCharacterCommand = new DeleteCharacterCommand(this, _dataService, _characterStore);
 
-			while (_dataService.GetCharacters().Count() < 1)
-			{
-				CreateCharacterCommand.Execute(null);
-			}
+			characterStore.CharacterCreate += LoadCharacter;
 
-			List<DnD5eCharacter> characters = new List<DnD5eCharacter>(_dataService.GetCharacters());
+			List<DnD5eCharacter> characters = new(_dataService.GetCharacters());
 
 			CharacterItems = new ObservableCollection<CharacterItemViewModel>();
 			CharacterCollectionView = CollectionViewSource.GetDefaultView(CharacterItems);
 			collectionViewPropertySort = new CollectionViewPropertySort(CharacterCollectionView);
 			CharacterCollectionView.SortDescriptions.Add(new SortDescription(nameof(CharacterItemViewModel.CharacterDateModified), ListSortDirection.Descending));
 
+			while (!_dataService.GetCharacters().Any())
+			{
+				CreateCharacterCommand.Execute(null);
+			}
+
 			List<string> characterPaths = _dataService.GetCharacterFilePaths().ToList();
 			for (int i = 0; i < characters.Count; i++)
 			{
-				CharacterItemViewModel characterItemVM = new CharacterItemViewModel(characterStore, characters[i], characterPaths[i]);
+				CharacterItemViewModel characterItemVM = new(characterStore, characters[i], characterPaths[i]);
 				characterItemVM.DeleteAction += DeleteCharacter;
 
 				CharacterItems.Add(characterItemVM);
@@ -82,7 +84,6 @@ namespace PCCharacterManager.ViewModels
 			CharacterRaceSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort, 
 				nameof(CharacterItemViewModel.CharacterRace));
 
-			characterStore.CharacterCreate += LoadCharacter;
 			CharacterItems.OrderBy(x => x.CharacterDateModified).First().SelectCharacterCommand.Execute(null);
 		}
 

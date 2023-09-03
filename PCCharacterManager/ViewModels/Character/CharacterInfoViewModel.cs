@@ -57,8 +57,11 @@ namespace PCCharacterManager.ViewModels
 		{
 			_characterStore.SelectedCharacterChange += OnCharacterChanged;
 
+			if (selectedCharacter is null)
+				return;
+
 			FeaturesListVM = new PropertyListViewModel("Features", null);
-			MovementTypesListVM = new PropertyListViewModel("Movement", SelectedCharacter.MovementTypes_Speeds);
+			MovementTypesListVM = new PropertyListViewModel("Movement", selectedCharacter.MovementTypes_Speeds);
 			LanguagesVM = new StringListViewModel("Languages", selectedCharacter.Languages);
 			ToolProfsVM = new StringListViewModel("Tool Profs", selectedCharacter.ToolProficiences);
 			ArmorProfsVM = new StringListViewModel("Armor Profs", selectedCharacter.ArmorProficiencies);
@@ -82,9 +85,12 @@ namespace PCCharacterManager.ViewModels
 		private void OnCharacterChanged(DnD5eCharacter newCharacter)
 		{
 			SelectedCharacter = newCharacter;
-			
+
+			if (selectedCharacter is null)
+				return;
+
 			FeaturesListVM = new PropertyListViewModel("Features", null);
-			MovementTypesListVM = new PropertyListViewModel("Movement", SelectedCharacter.MovementTypes_Speeds);
+			MovementTypesListVM = new PropertyListViewModel("Movement", selectedCharacter.MovementTypes_Speeds);
 			LanguagesVM = new StringListViewModel("Languages", selectedCharacter.Languages);
 			ToolProfsVM = new StringListViewModel("Tool Profs", selectedCharacter.ToolProficiences);
 			ArmorProfsVM = new StringListViewModel("Armor Profs", selectedCharacter.ArmorProficiencies);
@@ -97,7 +103,7 @@ namespace PCCharacterManager.ViewModels
 			OnPropertyChanged(nameof(ToolProfsVM));
 			OnPropertyChanged(nameof(OtherProfsVM));
 
-			List<Feature> temp = new List<Feature>();
+			List<Feature> temp = new();
 
 			foreach (var item in SelectedCharacter.CharacterClass.Features)
 			{

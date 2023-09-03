@@ -28,14 +28,23 @@ namespace PCCharacterManager.Views
 
 		private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			CharacterItemViewModel vm = ListView.SelectedItem as CharacterItemViewModel;
+			if (ListView.SelectedItem is not CharacterItemViewModel characterItemVM)
+				return;
 
-			if(vm == null)
+			while (ListView.Items.Count < 1)
 			{
-				vm = ListView.Items[0] as CharacterItemViewModel;
+				if (DataContext is not CharacterListViewModel characterListVM)
+					return;
+
+				characterListVM.CreateCharacterCommand.Execute(null);
 			}
 
-			vm.SelectCharacterCommand?.Execute(null);
+			if (ListView.Items[0] is not CharacterItemViewModel firstCharacterItemVM)
+				return;
+
+			characterItemVM = firstCharacterItemVM;
+
+			characterItemVM.SelectCharacterCommand?.Execute(null);
 		}
 	}
 }

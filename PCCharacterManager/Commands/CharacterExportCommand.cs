@@ -23,7 +23,7 @@ namespace PCCharacterManager.Commands
 			tabVM = _tabVM;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
 			CharacterItemViewModel[] characterItems = tabVM.CharacterListVM.CharacterItems.ToArray();
 			string[] characterNames = new string[characterItems.Length];
@@ -47,7 +47,8 @@ namespace PCCharacterManager.Commands
 			selectCharactersWindow.DataContext = dataContext;
 			selectCharactersWindow.ShowDialog();
 
-			if ((bool)!selectCharactersWindow.DialogResult) return;
+			if ((bool)!selectCharactersWindow.DialogResult) 
+				return;
 
 			string[] selectedCharacterNames = dataContext.SelectedItems.ToArray();
 			string[] characterPaths = new string[selectedCharacterNames.Length];
@@ -55,7 +56,8 @@ namespace PCCharacterManager.Commands
 			// select where to save export files
 			var fileDialogResult = saveFile.ShowDialog();
 
-			if ((bool)!fileDialogResult) return;
+			if ((bool)!fileDialogResult) 
+				return;
 
 			savePath = saveFile.FileName;
 

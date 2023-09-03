@@ -25,7 +25,7 @@ namespace PCCharacterManager.Commands
 			characterStore = _characterStore;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
 			if (characterStore.SelectedCharacter == null)
 				return;
@@ -51,6 +51,7 @@ namespace PCCharacterManager.Commands
 			}
 
 			dataService.Delete(characterStore.SelectedCharacter);
+			characterListVM.CharacterItems.Remove(item);
 
 			if (characterListVM.CharacterItems.Count <= 0)
 			{
@@ -58,7 +59,6 @@ namespace PCCharacterManager.Commands
 				return;
 			}
 
-			characterListVM.CharacterItems.Remove(item);
 			characterListVM.CharacterItems[0].SelectCharacterCommand?.Execute(null);
 		}
 	}

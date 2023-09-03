@@ -11,6 +11,16 @@ namespace PCCharacterManager.Models
 {
 	public class StarfinderAbility : Ability
 	{
+		public static StarfinderAbility[] Default = 
+		{
+			new StarfinderAbility(),
+			new StarfinderAbility(),
+			new StarfinderAbility(),
+			new StarfinderAbility(),
+			new StarfinderAbility(),
+			new StarfinderAbility()
+		};
+
 		[JsonProperty]
 		public new StarfinderSkill[] Skills { get; private set; }
 
@@ -54,102 +64,40 @@ namespace PCCharacterManager.Models
 
 		private void SetUpgradedMod()
 		{
-			switch (upgradedScore)
+			UpgradedModifier = upgradedScore switch
 			{
-				case 1:
-					UpgradedModifier = -5;
-					break;
-				case 2:
-					UpgradedModifier = -4;
-					break;
-				case 3:
-					UpgradedModifier = -4;
-					break;
-				case 4:
-					UpgradedModifier = -3;
-					break;
-				case 5:
-					UpgradedModifier = -3;
-					break;
-				case 6:
-					UpgradedModifier = -2;
-					break;
-				case 7:
-					UpgradedModifier = -2;
-					break;
-				case 8:
-					UpgradedModifier = -1;
-					break;
-				case 9:
-					UpgradedModifier = -1;
-					break;
-				case 10:
-					UpgradedModifier = 0;
-					break;
-				case 11:
-					UpgradedModifier = 0;
-					break;
-				case 12:
-					UpgradedModifier = 1;
-					break;
-				case 13:
-					UpgradedModifier = 1;
-					break;
-				case 14:
-					UpgradedModifier = 2;
-					break;
-				case 15:
-					UpgradedModifier = 2;
-					break;
-				case 16:
-					UpgradedModifier = 3;
-					break;
-				case 17:
-					UpgradedModifier = 3;
-					break;
-				case 18:
-					UpgradedModifier = 4;
-					break;
-				case 19:
-					UpgradedModifier = 4;
-					break;
-				case 20:
-					UpgradedModifier = 5;
-					break;
-				case 21:
-					UpgradedModifier = 5;
-					break;
-				case 22:
-					UpgradedModifier = 6;
-					break;
-				case 23:
-					UpgradedModifier = 6;
-					break;
-				case 24:
-					UpgradedModifier = 7;
-					break;
-				case 25:
-					UpgradedModifier = 7;
-					break;
-				case 26:
-					UpgradedModifier = 8;
-					break;
-				case 27:
-					UpgradedModifier = 8;
-					break;
-				case 28:
-					UpgradedModifier = 9;
-					break;
-				case 29:
-					UpgradedModifier = 9;
-					break;
-				case 30:
-					UpgradedModifier = 10;
-					break;
-				default:
-					UpgradedModifier = -5;
-					break;
-			}
+				1 => -5,
+				2 => -4,
+				3 => -4,
+				4 => -3,
+				5 => -3,
+				6 => -2,
+				7 => -2,
+				8 => -1,
+				9 => -1,
+				10 => 0,
+				11 => 0,
+				12 => 1,
+				13 => 1,
+				14 => 2,
+				15 => 2,
+				16 => 3,
+				17 => 3,
+				18 => 4,
+				19 => 4,
+				20 => 5,
+				21 => 5,
+				22 => 6,
+				23 => 6,
+				24 => 7,
+				25 => 7,
+				26 => 8,
+				27 => 8,
+				28 => 9,
+				29 => 9,
+				30 => 10,
+				_ => -5,
+			};
 		}
 
 		protected override void UpdateSkillInfo(int profBonus)
@@ -177,7 +125,7 @@ namespace PCCharacterManager.Models
 		/// <returns></returns>
 		public static StarfinderSkill[] GetSkills(StarfinderAbility[] abilities)
 		{
-			List<StarfinderSkill> skills = new List<StarfinderSkill>();
+			List<StarfinderSkill> skills = new();
 			foreach (var item in abilities)
 			{
 				skills.AddRange(item.Skills);
@@ -197,8 +145,11 @@ namespace PCCharacterManager.Models
 		/// <exception cref="Exception">when there is no ability with the skill skillName</exception>
 		public static StarfinderSkill FindSkill(StarfinderAbility[] abilities, string skillName)
 		{
-			if (string.IsNullOrEmpty(skillName)) throw new ArgumentNullException("param skillName cannot be null or empty");
-			if (string.IsNullOrWhiteSpace(skillName)) throw new Exception("param skillName cannot be null or whiteSpace");
+			if (string.IsNullOrEmpty(skillName)) 
+				throw new ArgumentNullException(nameof(skillName), "parameter skillName cannot be null or empty");
+
+			if (string.IsNullOrWhiteSpace(skillName)) 
+				throw new ArgumentNullException(nameof(skillName), "parameter skillName cannot be null or whiteSpace");
 
 			foreach (var ability in abilities)
 			{

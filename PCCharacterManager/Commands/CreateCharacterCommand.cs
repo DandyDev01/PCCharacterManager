@@ -19,7 +19,7 @@ namespace PCCharacterManager.Commands
 			characterStore = _characterStore;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
 			Window newCharacterWindow = new CreateCharacterDialogWindow();
 			newCharacterWindow.DataContext = new DialogWindowCharacterCreaterViewModel(characterStore, newCharacterWindow);
