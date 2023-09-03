@@ -19,7 +19,7 @@ namespace PCCharacterManager.Commands
 			characterStore = _characterStore;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
 			OpenFileDialog openFile = new();
 			openFile.Filter = "Json file|*.json";
@@ -27,7 +27,7 @@ namespace PCCharacterManager.Commands
 			string path = openFile.FileName;
 			try
 			{
-				DnD5eCharacter c = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(path);
+				DnD5eCharacter? c = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(path);
 				characterStore.BindSelectedCharacter(c);
 
 			}

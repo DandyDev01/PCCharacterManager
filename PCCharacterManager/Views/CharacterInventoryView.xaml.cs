@@ -47,57 +47,79 @@ namespace PCCharacterManager.Views
 
 		private void DeleteSelectedItems()
 		{
-			CharacterInventoryViewModel vm = DataContext as CharacterInventoryViewModel;
+			CharacterInventoryViewModel? inventoryVM = DataContext as CharacterInventoryViewModel;
 
-			if (vm == null) return;
+			if (inventoryVM == null || inventoryVM.Inventory == null) 
+				return;
 
-			if(items.SelectedItems.Count > 1)
+			string confirmationBoxMessage = "Are you sure you want to remove " +
+					items.SelectedItems.Count + " items";
+			string messageBoxCaption = "Remove Items";
+
+			// more than one item is being deleted
+			if (items.SelectedItems.Count > 1)
 			{
-				var messageBox1 = MessageBox.Show("Are you sure you want to remove " + 
-					items.SelectedItems.Count + " items", "Remove Items", MessageBoxButton.YesNo);
-				if (messageBox1 == MessageBoxResult.No) return;
+				var confirmationMessageBox = MessageBox.Show(confirmationBoxMessage, 
+					messageBoxCaption, MessageBoxButton.YesNo);
+				
+				if (confirmationMessageBox == MessageBoxResult.No) 
+					return;
 
-				List<ItemViewModel> tempItems = new List<ItemViewModel>();
+				List<ItemViewModel> itemVMs = new List<ItemViewModel>();
+				
 				foreach (var item in items.SelectedItems)
 				{
-					ItemViewModel temp = item as ItemViewModel;
-					if (temp == null) continue;
-					vm.Inventory.Remove(temp.BoundItem);
-					tempItems.Add(temp);
+					if (item is not ItemViewModel itemVM ||
+						itemVM.BoundItem == null)
+						continue;
+
+					inventoryVM.Inventory.Remove(itemVM.BoundItem);
+					itemVMs.Add(itemVM);
 				}
 
-				foreach (var item in tempItems)
+				foreach (var item in itemVMs)
 				{
-					vm.ItemDisplayVms.Remove(item);
+					inventoryVM.ItemDisplayVms.Remove(item);
 				}
 
-				tempItems.Clear();
+				itemVMs.Clear();
 			}
+			// only one item is being deleted
 			else
 			{
-				if (vm.SelectedItem == null)
+				if (inventoryVM.SelectedItem == null)
 					return;
 
 				double currTimeSeconds = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
 				double timePassed = currTimeSeconds - lastItemRemoveTimeInSeconds;
+				
+				// only ask for confirmation if it has been more than
+				// five seconds since last deletion
 				if (timePassed > 5)
 				{
-					var messageBox = MessageBox.Show("Are you sure you want to remove " + 
-						vm.SelectedItem.DisplayName, "Remove Item", MessageBoxButton.YesNo);
+					confirmationBoxMessage = "Are you sure you want to remove " + inventoryVM.SelectedItem.DisplayName;
+
+					var messageBox = MessageBox.Show(confirmationBoxMessage, messageBoxCaption, MessageBoxButton.YesNo);
 
 					if (messageBox == MessageBoxResult.No)
 						return;
 				}
 
-				vm.Inventory.Remove(vm.SelectedItem.BoundItem);
-				vm.ItemDisplayVms.Remove(vm.SelectedItem);
+				if (inventoryVM.SelectedItem is not ItemViewModel itemVM ||
+					itemVM.BoundItem == null)
+					return;
+
+				inventoryVM.Inventory.Remove(itemVM.BoundItem);
+				inventoryVM.ItemDisplayVms.Remove(inventoryVM.SelectedItem);
 			}
 
 			TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
 			lastItemRemoveTimeInSeconds = timeSpan.TotalSeconds;
 
-			if (vm.ItemDisplayVms.Count < 1) return;
-			vm.SelectedItem = vm.ItemDisplayVms[0];
+			if (inventoryVM.ItemDisplayVms.Count < 1) 
+				return;
+			
+			inventoryVM.SelectedItem = inventoryVM.ItemDisplayVms[0];
 		}
 	}
 }

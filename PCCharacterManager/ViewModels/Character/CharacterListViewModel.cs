@@ -64,7 +64,7 @@ namespace PCCharacterManager.ViewModels
 			for (int i = 0; i < characters.Count; i++)
 			{
 				CharacterItemViewModel characterItemVM = new CharacterItemViewModel(characterStore, characters[i], characterPaths[i]);
-				characterItemVM.DeletAction += DeleteCharacter;
+				characterItemVM.DeleteAction += DeleteCharacter;
 
 				CharacterItems.Add(characterItemVM);
 			}
@@ -90,13 +90,13 @@ namespace PCCharacterManager.ViewModels
 		{
 			dataService.Delete(path);
 
-			CharacterItemViewModel characterItemVM 
+			CharacterItemViewModel? characterItemVM 
 				= CharacterItems.Where(c => path.Contains(c.CharacterName)).FirstOrDefault();
 
 			if (characterItemVM == null)
 				return;
 
-			characterItemVM.DeletAction -= DeleteCharacter;
+			characterItemVM.DeleteAction -= DeleteCharacter;
 
 			CharacterItems.Remove(characterItemVM);
 			CharacterItems[0].SelectCharacterCommand?.Execute(null);
@@ -113,7 +113,7 @@ namespace PCCharacterManager.ViewModels
 				return;
 
 			CharacterItemViewModel characterItemVM = CharacterItemVMFactory.Create(_character, characterStore);
-			characterItemVM.DeletAction += DeleteCharacter;
+			characterItemVM.DeleteAction += DeleteCharacter;
 
 			CharacterItems.Add(characterItemVM);
 		}

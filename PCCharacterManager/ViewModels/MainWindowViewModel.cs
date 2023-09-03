@@ -62,12 +62,12 @@ namespace PCCharacterManager.ViewModels
 			EditCharacterCommand = new RelayCommand(EditCharacter);
 		}
 
-		private void SaveCharacter(DnD5eCharacter c = null)
+		private void SaveCharacter(DnD5eCharacter? character = null)
 		{
 			if (tabVM == null) 
 				return;
 
-			if (c == null)
+			if (character == null)
 				return;
 
 			tabVM.CharacterListVM.SaveCharacter();
@@ -75,8 +75,11 @@ namespace PCCharacterManager.ViewModels
 
 		private void EditCharacter()
 		{
+			if (characterStore.SelectedCharacter == null)
+				return;
+
 			Window window = new EditCharacterDialogWindow();
-			DialogWindowEditCharacterViewModel windowVM = new DialogWindowEditCharacterViewModel(window, characterStore.SelectedCharacter);
+			DialogWindowEditCharacterViewModel windowVM = new(window, characterStore.SelectedCharacter);
 			window.DataContext = windowVM;
 
 			window.ShowDialog();

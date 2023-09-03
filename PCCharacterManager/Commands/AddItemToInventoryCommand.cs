@@ -21,7 +21,7 @@ namespace PCCharacterManager.Commands
 			vm = _vm;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
 			Window window = new AddItemDialogWindow();
 			DialogWindowAddItemViewModel dialogContext =
@@ -30,11 +30,15 @@ namespace PCCharacterManager.Commands
 
 			window.ShowDialog();
 
-			if (window.DialogResult == false || dialogContext.InventoryVM.SelectedItem == null) return;
+			if (window.DialogResult == false || dialogContext.InventoryVM.SelectedItem == null) 
+				return;
 
-			Item selectedItem = dialogContext.InventoryVM.SelectedItem.BoundItem;
+			if (dialogContext.InventoryVM.SelectedItem.BoundItem is not Item item)
+				return;
+
+			Item selectedItem = item;
 			ItemViewModel displayVM = new ItemViewModel(selectedItem);
-			vm.Inventory.Add(selectedItem);
+			vm.Inventory!.Add(selectedItem);
 			vm.ItemDisplayVms.Add(displayVM);
 		}
 	}

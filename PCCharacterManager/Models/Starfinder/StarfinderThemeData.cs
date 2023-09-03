@@ -12,7 +12,7 @@ namespace PCCharacterManager.Models
 		public string AbilityScoreImprovement { get; set; }
 		public List<DnD5eCharacterClassFeature> Features { get; set; }
 
-		StarfinderThemeData()
+		public StarfinderThemeData()
 		{
 			Features = new List<DnD5eCharacterClassFeature>();
 			Name = string.Empty;

@@ -37,7 +37,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand SelectCharacterCommand { get; private set; }
 		public ICommand DeleteCharacterCommand { get; private set; }
 
-		public Action<string> DeletAction;
+		public Action<string>? DeleteAction;
 
 		//TODO: get the characterStore from BookVM
 		public CharacterItemViewModel(CharacterStore characterStore, DnD5eCharacter character, string _characterPath)
@@ -73,7 +73,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void DeleteCharacter()
 		{
-			DeletAction?.Invoke(characterPath);
+			DeleteAction?.Invoke(characterPath);
 		}
 	}
 }

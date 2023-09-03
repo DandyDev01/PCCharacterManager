@@ -78,16 +78,19 @@ namespace PCCharacterManager.Commands
 		/// <param name="characterPaths"></param>
 		private void SingleFileExport(CharacterItemViewModel[] characterItems, string savePath, string[] selectedCharacterNames, string[] characterPaths)
 		{
+			DnD5eCharacter[] characters = new DnD5eCharacter[characterPaths.Length];
+			
+			// get path's of characters to export
 			for (int i = 0; i < selectedCharacterNames.Length; i++)
 			{
 				foreach (var item in characterItems)
 				{
-					if (item.CharacterName.Equals(selectedCharacterNames[i])) characterPaths[i] = item.CharacterPath;
+					if (item.CharacterName.Equals(selectedCharacterNames[i])) 
+						characterPaths[i] = item.CharacterPath;
 				}
 			}
 
-			DnD5eCharacter[] characters = new DnD5eCharacter[characterPaths.Length];
-
+			// write .json file for each character being exported
 			for (int i = 0; i < characters.Length; i++)
 			{
 				// selectedCharacter is to be exported
@@ -96,6 +99,7 @@ namespace PCCharacterManager.Commands
 					characters[i] = characterStore.SelectedCharacter;
 					continue;
 				}
+
 				characters[i] = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterPaths[i]);
 			}
 
@@ -103,7 +107,7 @@ namespace PCCharacterManager.Commands
 		}
 
 		/// <summary>
-		/// eport characters to seperate files
+		/// export characters to separate files
 		/// </summary>
 		/// <param name="characterItems"></param>
 		/// <param name="savePath"></param>

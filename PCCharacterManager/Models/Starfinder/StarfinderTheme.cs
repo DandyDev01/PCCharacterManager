@@ -45,6 +45,7 @@ namespace PCCharacterManager.Models
 			name = string.Empty;
 			abilityScoreImprovement = string.Empty;
 			Features = new ObservableCollection<Property>();
+			themeData = new StarfinderThemeData();
 		}
 
 		public StarfinderTheme(string _name, string _abilityScoreImprovement)
@@ -52,11 +53,12 @@ namespace PCCharacterManager.Models
 			name = _name;
 			abilityScoreImprovement = _abilityScoreImprovement;
 			Features = new ObservableCollection<Property>();
+			themeData = new StarfinderThemeData();
 		}
 
-		public StarfinderTheme(StarfinderThemeData themeData)
+		public StarfinderTheme(StarfinderThemeData _themeData) : this()
 		{
-			this.themeData = themeData;
+			themeData = _themeData;
 		}
 	}
 }

@@ -115,7 +115,7 @@ namespace PCCharacterManager.ViewModels
 			BasicStringFieldValidation(nameof(Name), Name);
 		}
 
-		public override StarfinderCharacter Create()
+		public override StarfinderCharacter? Create()
 		{
 			int increseAmount = 0;
 			string abilityName = string.Empty;

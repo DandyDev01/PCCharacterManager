@@ -156,10 +156,10 @@ namespace PCCharacterManager.ViewModels
 		}
 		
 		/// <summary>
-		/// builds a new character with inputed data
+		/// builds a new character with inputted data
 		/// </summary>
 		/// <returns>new character that was created</returns>
-		public override DnD5eCharacter Create()
+		public override DnD5eCharacter? Create()
 		{
 			DnD5eCharacter tempCharacter = newCharacter;
 			newCharacter = new DnD5eCharacter(SelectedCharacterClass, SelectedRace, SelectedBackground);

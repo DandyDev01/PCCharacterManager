@@ -17,8 +17,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterInfoViewModel : ObservableObject
 	{
-		private DnD5eCharacter selectedCharacter;
-		public DnD5eCharacter SelectedCharacter
+		private DnD5eCharacter? selectedCharacter;
+		public DnD5eCharacter? SelectedCharacter
 		{
 			get
 			{
@@ -40,8 +40,8 @@ namespace PCCharacterManager.ViewModels
 		public StringListViewModel OtherProfsVM { get; protected set; }
 
 		public ObservableCollection<Feature> AllFeatures { get; set; }
-		private Property selectedProperty;
-		public Property SelectedProperty
+		private Property? selectedProperty;
+		public Property? SelectedProperty
 		{
 			get
 			{
@@ -56,6 +56,23 @@ namespace PCCharacterManager.ViewModels
 		public CharacterInfoViewModel(CharacterStore _characterStore) 
 		{
 			_characterStore.SelectedCharacterChange += OnCharacterChanged;
+
+			FeaturesListVM = new PropertyListViewModel("Features", null);
+			MovementTypesListVM = new PropertyListViewModel("Movement", SelectedCharacter.MovementTypes_Speeds);
+			LanguagesVM = new StringListViewModel("Languages", selectedCharacter.Languages);
+			ToolProfsVM = new StringListViewModel("Tool Profs", selectedCharacter.ToolProficiences);
+			ArmorProfsVM = new StringListViewModel("Armor Profs", selectedCharacter.ArmorProficiencies);
+			OtherProfsVM = new StringListViewModel("Other Profs", selectedCharacter.OtherProficiences);
+			WeaponProfsVM = new StringListViewModel("Weapon Profs", selectedCharacter.WeaponProficiencies);
+			OnPropertyChanged(nameof(MovementTypesListVM));
+			OnPropertyChanged(nameof(LanguagesVM));
+			OnPropertyChanged(nameof(ArmorProfsVM));
+			OnPropertyChanged(nameof(WeaponProfsVM));
+			OnPropertyChanged(nameof(ToolProfsVM));
+			OnPropertyChanged(nameof(OtherProfsVM));
+
+			AllFeatures = new ObservableCollection<Feature>();
+			OnPropertyChanged(nameof(AllFeatures));
 		}
 
 		/// <summary>
@@ -66,18 +83,19 @@ namespace PCCharacterManager.ViewModels
 		{
 			SelectedCharacter = newCharacter;
 			
+			FeaturesListVM = new PropertyListViewModel("Features", null);
 			MovementTypesListVM = new PropertyListViewModel("Movement", SelectedCharacter.MovementTypes_Speeds);
 			LanguagesVM = new StringListViewModel("Languages", selectedCharacter.Languages);
 			ToolProfsVM = new StringListViewModel("Tool Profs", selectedCharacter.ToolProficiences);
 			ArmorProfsVM = new StringListViewModel("Armor Profs", selectedCharacter.ArmorProficiencies);
 			OtherProfsVM = new StringListViewModel("Other Profs", selectedCharacter.OtherProficiences);
 			WeaponProfsVM = new StringListViewModel("Weapon Profs", selectedCharacter.WeaponProficiencies);
-			OnPropertyChanged("MovementTypesListVM");
-			OnPropertyChanged("LanguagesVM");
-			OnPropertyChanged("ArmorProfsVM");
-			OnPropertyChanged("WeaponProfsVM");
-			OnPropertyChanged("ToolProfsVM");
-			OnPropertyChanged("OtherProfsVM");
+			OnPropertyChanged(nameof(MovementTypesListVM));
+			OnPropertyChanged(nameof(LanguagesVM));
+			OnPropertyChanged(nameof(ArmorProfsVM));
+			OnPropertyChanged(nameof(WeaponProfsVM));
+			OnPropertyChanged(nameof(ToolProfsVM));
+			OnPropertyChanged(nameof(OtherProfsVM));
 
 			List<Feature> temp = new List<Feature>();
 
