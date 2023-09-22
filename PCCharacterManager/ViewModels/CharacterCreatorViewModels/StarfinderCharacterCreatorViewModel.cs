@@ -135,7 +135,7 @@ namespace PCCharacterManager.ViewModels
 				Name = name
 			};
 
-			int hitPoints = selectedRaceData.HitPoitns + selectedClassData.HitPoints;
+			int hitPoints = selectedRaceData.HitPoints + selectedClassData.HitPoints;
 			int staminaPoints = selectedClassData.StaminaPoints;
 
 			character.StaminaPoints.Desc = staminaPoints.ToString();

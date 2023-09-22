@@ -14,8 +14,8 @@ namespace PCCharacterManager.Models
 	public enum ItemType 
 	{
 		Sword, GreatSword, Axe, GreatAxe, Hammer, GreatHammer, Mace, GreatMace, Spear, Bow, Firearm, Versatile,
-		Shild, LightArmor, MediumnArmor, HeavyArmor,
-		Potion, Poision, Ingredient, Component,
+		Shield, LightArmor, MediumArmor, HeavyArmor,
+		Potion, Poison, Ingredient, Component,
 		Misc, Book, Scroll, Note, Map, Tool
 	}
 

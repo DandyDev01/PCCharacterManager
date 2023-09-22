@@ -1,18 +1,10 @@
 ﻿using PCCharacterManager.Commands;
-using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
-using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -46,7 +38,7 @@ namespace PCCharacterManager.ViewModels
 
 		public ObservableCollection<Feature> AllFeatures { get; }
 		public ICollectionView FeaturesCollectionView { get; }
-		
+
 		private Property? selectedProperty;
 		public Property? SelectedProperty
 		{
@@ -64,7 +56,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand FeatureTypeSortCommand { get; }
 		public ICommand LevelSortCommand { get; }
 
-		public CharacterInfoViewModel(CharacterStore _characterStore) 
+		public CharacterInfoViewModel(CharacterStore _characterStore)
 		{
 			AllFeatures = new ObservableCollection<Feature>();
 			FeaturesCollectionView = CollectionViewSource.GetDefaultView(AllFeatures);
@@ -137,7 +129,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			AllFeatures.Clear();
 
-			if (selectedCharacter is null) 
+			if (selectedCharacter is null)
 				return;
 
 			foreach (var item in selectedCharacter.CharacterClass.Features)

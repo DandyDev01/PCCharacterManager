@@ -2,7 +2,7 @@
 {
 	public class StarfinderRaceData : DnD5eCharacterRaceData
 	{
-		public int HitPoitns { get; set; }
-		public string HomeWorld { get; set; }
+		public int HitPoints { get; set; } = 0;
+		public string HomeWorld { get; set; } = string.Empty;
 	}
 }

@@ -7,7 +7,7 @@
              xmlns:v="clr-namespace:PCCharacterManager.Views"
              mc:Ignorable="d" 
              Background="{StaticResource ViewBackgroundColor}"
-             d:DesignHeight="930" d:DesignWidth="950">
+             d:DesignHeight="930" d:DesignWidth="1250">
     <ScrollViewer>
         <Grid>
             <Grid.ColumnDefinitions>
