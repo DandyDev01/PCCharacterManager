@@ -1,12 +1,17 @@
 ﻿using PCCharacterManager.Commands;
+using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
+using PCCharacterManager.ViewModels.DialogWindowViewModels;
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Linq;
 
 namespace PCCharacterManager.ViewModels
 {
@@ -39,8 +44,8 @@ namespace PCCharacterManager.ViewModels
 		public ObservableCollection<Feature> AllFeatures { get; }
 		public ICollectionView FeaturesCollectionView { get; }
 
-		private Property? selectedProperty;
-		public Property? SelectedProperty
+		private Feature? selectedProperty;
+		public Feature? SelectedProperty
 		{
 			get
 			{
@@ -55,6 +60,8 @@ namespace PCCharacterManager.ViewModels
 		public ICommand NameSortCommand { get; }
 		public ICommand FeatureTypeSortCommand { get; }
 		public ICommand LevelSortCommand { get; }
+		public ICommand AddFeatureCommand { get; }
+		public ICommand RemoveFeatureCommand { get; }
 
 		public CharacterInfoViewModel(CharacterStore _characterStore)
 		{
@@ -69,10 +76,15 @@ namespace PCCharacterManager.ViewModels
 			LevelSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
 				nameof(Feature.Level));
 
+			AddFeatureCommand = new RelayCommand(AddFeature);
+			RemoveFeatureCommand = new RelayCommand(RemoveFeature);
+
 			_characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			if (selectedCharacter is null)
 				return;
+
+			selectedProperty = AllFeatures.FirstOrDefault();	
 
 			FeaturesListVM = new PropertyListViewModel("Features", null);
 			MovementTypesListVM = new PropertyListViewModel("Movement", selectedCharacter.MovementTypes_Speeds);
@@ -122,7 +134,49 @@ namespace PCCharacterManager.ViewModels
 			OnPropertyChanged(nameof(OtherProfsVM));
 
 			UpdateFeatures(null, null);
-			SelectedProperty = AllFeatures[0];
+			SelectedProperty = AllFeatures.FirstOrDefault();
+		}
+
+		private void AddFeature()
+		{
+			Window window = new AddFeatureDialogWindow();
+			window.DataContext = new DialogWindowAddFeatureViewModel(window, this);
+			window.ShowDialog();
+
+			if (window.DialogResult == false)
+				return;
+			
+			FeatureTypeSortCommand?.Execute(null);
+		}
+
+		private void RemoveFeature()
+		{
+			if (selectedProperty == null || selectedCharacter == null)
+				return;
+
+			Feature feature = selectedProperty;
+			AllFeatures.Remove(selectedProperty);
+
+			if (feature.FeatureType == selectedCharacter.CharacterClass.Name)
+			{
+				// does not handle same name items
+				var toRemove = selectedCharacter.CharacterClass.Features.Where(x => x.Name == feature.Name).First();
+				selectedCharacter.CharacterClass.Features.Remove(toRemove);
+			}
+			else if (feature.FeatureType == selectedCharacter.Race.Name)
+			{
+				// does not handle same name items
+				var toRemove = selectedCharacter.Race.Features.Where(x => x.Name == feature.Name).First();
+				selectedCharacter.Race.Features.Remove(toRemove);
+			}
+			else if (feature.FeatureType == selectedCharacter.Race.RaceVariant.Name)
+			{
+				// does not handle same name items
+				var toRemove = selectedCharacter.Race.RaceVariant.Properties.Where(x => x.Name == feature.Name).First();
+				selectedCharacter.Race.RaceVariant.Properties.Remove(toRemove);
+			}
+
+			selectedProperty = AllFeatures.FirstOrDefault();
 		}
 
 		private void UpdateFeatures(object? sender, NotifyCollectionChangedEventArgs e)

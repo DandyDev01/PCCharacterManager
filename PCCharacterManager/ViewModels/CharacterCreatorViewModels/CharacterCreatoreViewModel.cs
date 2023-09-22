@@ -276,7 +276,7 @@ namespace PCCharacterManager.ViewModels
 				// you can choose one of at least 2
 				if (skillName.Contains('^'))
 				{
-					return BackgroundChooseSkillFromSet(skillName);
+					return ChooseSkillToHaveProficiencyInFromBackground(skillName);
 				}
 				else if (skillName.Contains("your choice", StringComparison.OrdinalIgnoreCase))
 				{
@@ -358,6 +358,11 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// choose languages the character will know, based on the background selected
+		/// </summary>
+		/// <param name="str"></param>
+		/// <returns></returns>
 		private bool BackgroundChooseLanguage(string str)
 		{
 			int amount = StringFormater.FindQuantity(str);
@@ -384,6 +389,9 @@ namespace PCCharacterManager.ViewModels
 			return true;
 		}
 
+		/// <summary>
+		/// set the characters skill proficiencies, based on the class selected
+		/// </summary>
 		private void SetSelectedClassSkillProfs()
 		{
 			// class selected skill profs
@@ -396,6 +404,9 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// Set the characters saving throws, based on the chosen class
+		/// </summary>
 		private void SetClassSavingThrows()
 		{
 			// set ability saving throws, Class
@@ -405,10 +416,15 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private bool BackgroundChooseSkillFromSet(string str)
+		/// <summary>
+		/// Choose a skill to have proficiency in. Choices are determined by the selected background
+		/// </summary>
+		/// <param name="skillName"></param>
+		/// <returns></returns>
+		private bool ChooseSkillToHaveProficiencyInFromBackground(string skillName)
 		{
 			List<string> selectedSkills = new();
-			List<string> options = StringFormater.CreateGroup(str, '^').ToList();
+			List<string> options = StringFormater.CreateGroup(skillName, '^').ToList();
 
 			// removes options that class give prof in
 			foreach (string item in notAnOption)
@@ -487,6 +503,9 @@ namespace PCCharacterManager.ViewModels
 			return results;
 		}
 
+		/// <summary>
+		/// update the race variants to be displayed in the view
+		/// </summary>
 		private void UpdateRaceVariantsToDisplay()
 		{
 			RaceVariantsToDisplay.Clear();
@@ -503,6 +522,9 @@ namespace PCCharacterManager.ViewModels
 			selectedClassSkillProfs.PopulateItems(SelectedCharacterClass.NumOfSkillProficiences, SelectedCharacterClass.PossibleSkillProficiences.ToList());
 		}
 
+		/// <summary>
+		/// Update the starting equipment options to be displayed
+		/// </summary>
 		private void UpdateSelectedClassStartEquipment()
 		{
 			// break each array item into a listViewMultiSelectItemsLimitedCountVM. Items are slip w/ string formatter
@@ -514,6 +536,9 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// Randomly set the scores for the characters abilities
+		/// </summary>
 		private void AbilityRoll()
 		{
 			RollDie rollDie = new();
@@ -522,8 +547,6 @@ namespace PCCharacterManager.ViewModels
 			{
 				newCharacter.Abilities[i].Score = rollDie.AbilityScoreRoll();
 				AbilityScores[i] = newCharacter.Abilities[i].Score;
-
-				Console.WriteLine("DEBUG: " + newCharacter.Abilities[i].Name + ": " + newCharacter.Abilities[i].Score);
 			}
 		}
 
