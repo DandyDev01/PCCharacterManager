@@ -198,12 +198,6 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 					int i = int.Parse(level);
 					level = i.ToString();
 					OnPropertyChanged(nameof(Level));
-
-					if (propertyNameToError[nameof(Level)].Any() == false)
-					{
-						propertyNameToError.Remove(nameof(Level));
-					}
-					IsValid = !HasErrors;
 				}
 				catch
 				{
@@ -211,8 +205,10 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 					ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Level)));
 					IsValid = !HasErrors;
 				}
-
-				return;
+			}
+			else
+			{
+				level = "-";
 			}
 
 			if (propertyNameToError[nameof(Level)].Any() == false)
@@ -220,7 +216,6 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 				propertyNameToError.Remove(nameof(Level));
 			}
 
-			level = "-";
 			IsValid = !HasErrors;
 			OnPropertyChanged(nameof(Level));
 		}

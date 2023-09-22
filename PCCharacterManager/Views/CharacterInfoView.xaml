@@ -163,7 +163,7 @@
                         <MenuItem x:Name="removeContextButton"  
                                   Header="Remove Item"
                                   Command="{Binding RemoveFeatureCommand}"
-                                  IsEnabled="{Binding SelectedItem, Converter={StaticResource NullToEnabledConverter}}"/>
+                                  IsEnabled="{Binding SelectedProperty, Converter={StaticResource NullToEnabledConverter}}"/>
                     </ContextMenu>
                 </ListView.ContextMenu>
                 <ListView.View>
