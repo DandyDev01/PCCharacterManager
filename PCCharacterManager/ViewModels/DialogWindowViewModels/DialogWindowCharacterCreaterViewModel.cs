@@ -83,7 +83,7 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public CharacterCreatoreViewModel DnD5eCharacterCreator { get; }
+		public CharacterCreatorViewModel DnD5eCharacterCreator { get; }
 		public StarfinderCharacterCreatorViewModel StarfinderCharacterCreatorVM { get; }
 		public Array CharacterTypes { get; } = Enum.GetValues(typeof(CharacterType));
 
@@ -94,7 +94,7 @@ namespace PCCharacterManager.ViewModels
 
 		public DialogWindowCharacterCreaterViewModel(CharacterStore _characterStore, Window _window)
 		{
-			DnD5eCharacterCreator = new CharacterCreatoreViewModel();
+			DnD5eCharacterCreator = new CharacterCreatorViewModel();
 			StarfinderCharacterCreatorVM = new StarfinderCharacterCreatorViewModel();
 			selectedCreator = DnD5eCharacterCreator;
 

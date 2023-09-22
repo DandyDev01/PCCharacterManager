@@ -14,13 +14,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace PCCharacterManager.ViewModels
 {
 	/// <summary>
 	/// resbolsible for the logic of creating a new DnD5e character
 	/// </summary>
-	public class CharacterCreatoreViewModel : CharactorCreatorViewModelBase, INotifyDataErrorInfo
+	public class CharacterCreatorViewModel : CharactorCreatorViewModelBase, INotifyDataErrorInfo
 	{
 		private string name;
 		public string Name
@@ -126,7 +127,7 @@ namespace PCCharacterManager.ViewModels
 		public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 		public bool HasErrors => propertyNameToError.Any();
 
-		public CharacterCreatoreViewModel()
+		public CharacterCreatorViewModel()
 		{
 			newCharacter = new DnD5eCharacter();
 
@@ -166,136 +167,80 @@ namespace PCCharacterManager.ViewModels
 			newCharacter.Name = Name;
 			newCharacter.Abilities = tempCharacter.Abilities;
 			newCharacter.Level.ProficiencyBonus = 2;
-			List<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(DnD5eResources.AllItemsJson);
 
-			// iterate over all SelectedStartingEquipmentVMs
-			foreach (var viewModel in SelectedStartingEquipmentVMs)
+			List<Item> startEquipment = GetStartEquipment();
+			SetClassSavingThrows();
+			SetSelectedClassSkillProfs();
+
+			if (SetBackgroundSkillProfs() == false)
+				return null;
+
+			if (SetOtherBackgroundProfs() == false)
+				return null;
+
+			// add class tool profs to character tool profs
+			// NOTE: does not handle duplicates from background
+			foreach (var item in selectedCharacterClass.ToolProficiencies)
 			{
-				// iterate over all selcted items
-				foreach (var str in viewModel.SelectedItems)
-				{
-					string[] items = StringFormater.CreateGroup(str, '&');
-					int[] quantities = new int[items.Length];
-					for (int i = 0; i < items.Length; i++)
-					{
-						quantities[i] = Convert.ToInt32(StringFormater.FindQuantity(items[i]));
-						items[i] = StringFormater.RemoveQuantity(items[i]);
-					}
-
-					// iterate over all items that are part of a selected item
-					for (int i = 0; i < items.Length; i++)
-					{
-						// find the Item obj w/ the matching name
-						foreach (var item in allItems)
-						{
-							if (items[i].ToLower().Equals(item.Name.ToLower()))
-							{
-								item.Quantity = quantities[i];
-								newCharacter.Inventory.Add(item);
-							}
-						} // end foreach
-					} // end for
-				} // end foreach 
-			} // end foreach
-
-			// set ability saveing throws, Class
-			foreach (var str in selectedCharacterClass.SavingThrows)
-			{
-				Ability.FindAbility(newCharacter.Abilities, str).ProfSave = true;
+				newCharacter.ToolProficiences.Add(item);
 			}
 
-			// class selected skill profs
-			foreach (var item in selectedClassSkillProfs.SelectedItems)
+			// add languages from background
+			// NOTE: Add support for exotic languages
+			foreach (string languageName in selectedBackground.Languages)
 			{
-				AbilitySkill s = Ability.FindSkill(newCharacter.Abilities, item);
-				s.SkillProficiency = true;
-				Ability a = Ability.FindAbility(newCharacter.Abilities, s);
-				a.SetProfBonus(2);
-			}
-
-			// set skill prof, Background
-			notAnOption.Clear();
-			notAnOption.AddRange(SelectedClassSkillProfs.SelectedItems);
-			foreach (var str in selectedBackground.SkillProfs)
-			{
-				// you can choose one of at least 2
-				if (str.Contains("^"))
+				if (languageName.Contains("your choice", StringComparison.OrdinalIgnoreCase))
 				{
-					List<string> selectedSkills = new();
-
-					// open dialog window to choose 1
-					// removes options that class give prof in
-					var options = StringFormater.CreateGroup(str, '^').ToList();
-					foreach (var item in notAnOption)
-					{
-						options.Remove(item);
-					}
-
-					// all options are chosen. Can happen with Rouge & Urban BOunty Hunter
-					if (options.Count <= 0)
-					{
-						if (!CreateHelper())
-							return null;
-					}
-					else
-					{
-						Window window = new SelectStringValueDialogWindow();
-						DialogWindowSelectStingValue windowVM = new(window, options.ToArray(), 1);
-						window.DataContext = windowVM;
-						window.ShowDialog();
-
-						if (window.DialogResult == false)
-							return null;
-
-						foreach (var item in windowVM.SelectedItems)
-						{
-							AbilitySkill s = Ability.FindSkill(newCharacter.Abilities, item);
-							s.SkillProficiency = true;
-							Ability a = Ability.FindAbility(newCharacter.Abilities, s);
-							a.SetProfBonus(2);
-							notAnOption.Add(item);
-							selectedSkills.Add(item);
-						}
-					}
-				}
-				else if (str.Contains("your choice"))
-				{
-					if (!CreateHelper())
+					if (BackgroundChooseLanguage(languageName) == false)
 						return null;
-
 				}
-				else // DEFAULT
+			}
+
+			RaceAbilityScoreIncreasesUserChoice();
+			RaceVariantAbilityScoreIncreases();
+			AddFirstLevelClassFeatures();
+
+			newCharacter.DateModified = DateTime.Now.ToString();
+
+			// there is a issue when the skill scores are not setting properly unless this is done
+			foreach (Ability ability in newCharacter.Abilities)
+			{
+				int temp = ability.Score;
+				ability.Score = 1;
+				ability.Score = temp;
+			}
+
+			foreach (Item item in startEquipment)
+			{
+				newCharacter.Inventory.Add(item);
+			}
+
+			return newCharacter;
+		}
+
+		private void AddFirstLevelClassFeatures()
+		{
+			foreach (var item in selectedCharacterClass.Features)
+			{
+				if (item.Level == 1)
 				{
-					// class give prof to skill
-					if (selectedClassSkillProfs.SelectedItems.Contains(str))
-					{
-						MessageBox.Show("class and background both give skill prof to " + str + 
-							" please select a different skill to have prof in", "cannot double prof in skill",
-							MessageBoxButton.OK, MessageBoxImage.Information);
-
-						if (!CreateHelper())
-							return null;
-					}
-					else // class does not give prof to skill
-					{
-						AbilitySkill s = Ability.FindSkill(newCharacter.Abilities, str);
-						s.SkillProficiency = true;
-						Ability a = Ability.FindAbility(newCharacter.Abilities, s);
-						a.SetProfBonus(2);
-						notAnOption.Add(str);
-					}
-
+					newCharacter.CharacterClass.Features.Add(item);
+					continue;
 				}
-			} // end for
 
+				return;
+			}
+		}
+
+		private bool SetOtherBackgroundProfs()
+		{
 			// handle other profs for the background
 			// NOTE: does not handle &
 			foreach (var item in selectedBackground.OtherProfs)
 			{
-				if (item.ToLower().Contains("tool"))
+				if (item.ToLower().Contains("tool", StringComparison.OrdinalIgnoreCase))
 				{
-
-					if (item.Contains("^"))
+					if (item.Contains('^'))
 					{
 						var options = StringFormater.CreateGroup(item, '^');
 						Window window = new SelectStringValueDialogWindow();
@@ -305,7 +250,7 @@ namespace PCCharacterManager.ViewModels
 						window.ShowDialog();
 
 						if (window.DialogResult == false)
-							return null;
+							return false;
 
 						newCharacter.ToolProficiences.Add(windowVM.SelectedItems.First());
 						continue;
@@ -318,47 +263,75 @@ namespace PCCharacterManager.ViewModels
 				newCharacter.OtherProficiences.Add(item);
 			}
 
-			// add class tool profs to character tool profs
-			// NOTE: does not handle doups from backgorund
-			foreach (var item in selectedCharacterClass.ToolProficiencies)
-			{
-				newCharacter.ToolProficiences.Add(item);
-			}
+			return true;
+		}
 
-			// add languages from background
-			// NOTE: Add support for exotic languages
-			foreach (var str in selectedBackground.Languages)
+		private bool SetBackgroundSkillProfs()
+		{
+			// set skill prof, Background
+			notAnOption.Clear();
+			notAnOption.AddRange(SelectedClassSkillProfs.SelectedItems);
+			foreach (string skillName in selectedBackground.SkillProfs)
 			{
-				if (str.ToLower().Contains("your choice"))
+				// you can choose one of at least 2
+				if (skillName.Contains('^'))
 				{
-					int amount = StringFormater.FindQuantity(str);
+					return BackgroundChooseSkillFromSet(skillName);
+				}
+				else if (skillName.Contains("your choice", StringComparison.OrdinalIgnoreCase))
+				{
+					return BackgroundChooseSkillYourChoice();
 
-					var languages = ReadWriteJsonCollection<string>.ReadCollection(DnD5eResources.LanguagesJson);
-					List<string> options = new List<string>();
-					foreach (var language in languages)
+				}
+				else // DEFAULT
+				{
+					// class give prof to skill
+					if (selectedClassSkillProfs.SelectedItems.Contains(skillName))
 					{
-						if (!newCharacter.Languages.Contains(language))
-							options.Add(language);
+						MessageBox.Show("class and background both give skill prof to " + skillName +
+							" please select a different skill to have prof in", "cannot double prof in skill",
+							MessageBoxButton.OK, MessageBoxImage.Information);
+
+						return BackgroundChooseSkillYourChoice();
 					}
+					else // class does not give prof to skill
+					{
+						AbilitySkill s = Ability.FindSkill(newCharacter.Abilities, skillName);
+						Ability a = Ability.FindAbility(newCharacter.Abilities, s);
+						s.SkillProficiency = true;
+						a.SetProfBonus(2);
 
-					Window window = new SelectStringValueDialogWindow();
-					DialogWindowSelectStingValue windowVM =
-						new DialogWindowSelectStingValue(window, options.ToArray(), amount);
-					window.DataContext = windowVM;
-					window.ShowDialog();
+						notAnOption.Add(skillName);
+					}
+				}
+			} // end for
 
-					if (window.DialogResult == false)
-						return null;
+			return true;
+		}
 
-					newCharacter.AddLanguages(windowVM.SelectedItems.ToArray());
+		private void RaceVariantAbilityScoreIncreases()
+		{
+			// ability score increases, race variant
+			foreach (var property in selectedRaceVariant.Properties)
+			{
+				if (property.Name.ToLower().Contains("ability score increase"))
+				{
+					string abilityName = StringFormater.Get1stWord(property.Desc);
+					int increaseAmount = StringFormater.FindQuantity(property.Desc);
+
+					Ability a = Ability.FindAbility(newCharacter.Abilities, abilityName);
+					a.Score += increaseAmount;
 				}
 			}
+		}
 
+		private void RaceAbilityScoreIncreasesUserChoice()
+		{
 			// handle race ability score increase 'You Choice'
 			for (int i = 0; i < selectedRace.AbilityScoreIncreases.Length; i++)
 			{
 				// 'You Choice'
-				if (selectedRace.AbilityScoreIncreases[i].ToLower().Contains("your choice"))
+				if (selectedRace.AbilityScoreIncreases[i].Contains("your choice", StringComparison.OrdinalIgnoreCase))
 				{
 					int increaseAmount = StringFormater.FindQuantity(selectedRace.AbilityScoreIncreases[i]);
 					Window window = new SelectStringValueDialogWindow();
@@ -383,41 +356,135 @@ namespace PCCharacterManager.ViewModels
 					a.Score += increaseAmount;
 				}
 			}
+		}
 
-			// ability score inceases, race variant
-			foreach (var property in selectedRaceVariant.Properties)
+		private bool BackgroundChooseLanguage(string str)
+		{
+			int amount = StringFormater.FindQuantity(str);
+
+			var languages = ReadWriteJsonCollection<string>.ReadCollection(DnD5eResources.LanguagesJson);
+			List<string> options = new List<string>();
+			foreach (var language in languages)
 			{
-				if (property.Name.ToLower().Contains("ability score increase"))
-				{
-					string abilityName = StringFormater.Get1stWord(property.Desc);
-					int increaseAmount = StringFormater.FindQuantity(property.Desc);
+				if (!newCharacter.Languages.Contains(language))
+					options.Add(language);
+			}
 
-					Ability a = Ability.FindAbility(newCharacter.Abilities, abilityName);
-					a.Score += increaseAmount;
+			Window window = new SelectStringValueDialogWindow();
+			DialogWindowSelectStingValue windowVM =
+							new DialogWindowSelectStingValue(window, options.ToArray(), amount);
+			window.DataContext = windowVM;
+			window.ShowDialog();
+
+			if (window.DialogResult == false)
+				return false;
+
+			newCharacter.AddLanguages(windowVM.SelectedItems.ToArray());
+
+			return true;
+		}
+
+		private void SetSelectedClassSkillProfs()
+		{
+			// class selected skill profs
+			foreach (var item in selectedClassSkillProfs.SelectedItems)
+			{
+				AbilitySkill s = Ability.FindSkill(newCharacter.Abilities, item);
+				s.SkillProficiency = true;
+				Ability a = Ability.FindAbility(newCharacter.Abilities, s);
+				a.SetProfBonus(2);
+			}
+		}
+
+		private void SetClassSavingThrows()
+		{
+			// set ability saving throws, Class
+			foreach (var str in selectedCharacterClass.SavingThrows)
+			{
+				Ability.FindAbility(newCharacter.Abilities, str).ProfSave = true;
+			}
+		}
+
+		private bool BackgroundChooseSkillFromSet(string str)
+		{
+			List<string> selectedSkills = new();
+			List<string> options = StringFormater.CreateGroup(str, '^').ToList();
+
+			// removes options that class give prof in
+			foreach (string item in notAnOption)
+			{
+				options.Remove(item);
+			}
+
+			// all options are chosen. Can happen with Rouge & Urban Bounty Hunter
+			if (options.Count <= 0)
+			{
+				if (!BackgroundChooseSkillYourChoice())
+					return false;
+			}
+			else
+			{
+				Window window = new SelectStringValueDialogWindow();
+				DialogWindowSelectStingValue windowVM = new(window, options.ToArray(), 1);
+				window.DataContext = windowVM;
+				window.ShowDialog();
+
+				if (window.DialogResult == false)
+					return false;
+
+				foreach (string item in windowVM.SelectedItems)
+				{
+					AbilitySkill skill = Ability.FindSkill(newCharacter.Abilities, item);
+					Ability ability = Ability.FindAbility(newCharacter.Abilities, skill);
+
+					skill.SkillProficiency = true;
+					ability.SetProfBonus(2);
+
+					notAnOption.Add(item);
+					selectedSkills.Add(item);
 				}
 			}
 
-			foreach (var item in selectedCharacterClass.Features)
+			return true;
+		}
+
+		private List<Item> GetStartEquipment()
+		{
+			List<Item> results = new();
+			List<Item> parsedItems = ReadWriteJsonCollection<Item>.ReadCollection(DnD5eResources.AllItemsJson);
+
+			// iterate over all SelectedStartingEquipmentVMs
+			foreach (ListViewMultiSelectItemsLimitedCountViewModel viewModel in SelectedStartingEquipmentVMs)
 			{
-				if (item.Level == 1)
+				// iterate over all selected items
+				foreach (string selectedItemName in viewModel.SelectedItems)
 				{
-					newCharacter.CharacterClass.Features.Add(item);
-				}
-				else
-					break;
-			}
+					string[] itemNames = StringFormater.CreateGroup(selectedItemName, '&');
+					int[] quantities = new int[itemNames.Length];
 
-			newCharacter.DateModified = DateTime.Now.ToString();
+					for (int i = 0; i < itemNames.Length; i++)
+					{
+						quantities[i] = Convert.ToInt32(StringFormater.FindQuantity(itemNames[i]));
+						itemNames[i] = StringFormater.RemoveQuantity(itemNames[i]);
+					}
 
-			// there is a issue when the skill scores are not setting properly unless this is done
-			foreach (var item in newCharacter.Abilities)
-			{
-				int temp = item.Score;
-				item.Score = 1;
-				item.Score = temp;
-			}
+					// iterate over all items that are part of a selected item
+					for (int i = 0; i < itemNames.Length; i++)
+					{
+						// find the Item obj w/ the matching name
+						foreach (Item item in parsedItems)
+						{
+							if (itemNames[i].ToLower().Equals(item.Name.ToLower()))
+							{
+								item.Quantity = quantities[i];
+								results.Add(item);
+							}
+						} // end for each
+					} // end for
+				} // end for each 
+			} // end for each
 
-			return newCharacter;
+			return results;
 		}
 
 		private void UpdateRaceVariantsToDisplay()
@@ -465,7 +532,7 @@ namespace PCCharacterManager.ViewModels
 		/// be proficient in
 		/// </summary>
 		/// <returns>wheather or not the user cancels or selects</returns>
-		private bool CreateHelper()
+		private bool BackgroundChooseSkillYourChoice()
 		{
 			List<string> options = Ability.GetSkillNames();
 			foreach (var item in notAnOption)

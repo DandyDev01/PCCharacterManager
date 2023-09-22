@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace PCCharacterManager.Models.Tests
 {
 	[TestClass()]
-	public class StringFormaterTests
+	public class StringFormatterTests
 	{
 		[TestMethod()]
 		public void FindQuantityNegTest()
@@ -40,7 +40,7 @@ namespace PCCharacterManager.Models.Tests
 		}
 
 		[TestMethod()]
-		public void FindAllOcurancesOfCharTest()
+		public void FindAllOccurrencesOfCharTest()
 		{
 			int[] s = StringFormater.FindAllOcurancesOfChar("Dexterity x1", 'x');
 			Assert.AreEqual(2, s[0]);
@@ -48,7 +48,7 @@ namespace PCCharacterManager.Models.Tests
 		}
 		
 		[TestMethod()]
-		public void FindAllOcurancesOfCharNoneTest()
+		public void FindAllOccurrencesOfCharNoneTest()
 		{
 			int[] s = StringFormater.FindAllOcurancesOfChar("Dexterity x1", 'p');
 			Assert.AreEqual(0, s.Length);
