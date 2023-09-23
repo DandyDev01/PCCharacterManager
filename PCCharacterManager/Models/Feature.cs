@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCCharacterManager.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,20 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-	public class Feature : Property
+	public class Feature : ObservableObject
 	{
+		public string Name
+		{
+			get => property.Name;
+			set => property.Name = value;
+		}
+		
+		public string Description
+		{
+			get => property.Desc;
+			set => property.Desc = value;
+		}
+		
 		private string featureType;
 		public string FeatureType
 		{
@@ -33,9 +46,12 @@ namespace PCCharacterManager.Models
 				OnPropertyChanged(ref level, value);
 			}
 		}
-		
-		public Feature(string _name, string _desc, string _featureType, string _level) : base(_name, _desc)
+
+		private readonly Property property;
+
+		public Feature(Property _property, string _featureType, string _level)
 		{
+			property = _property;
 			featureType = _featureType;
 			level = _level;
 		}

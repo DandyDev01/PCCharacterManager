@@ -131,22 +131,23 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 
 		private void Ok()
 		{
-			Feature feature = new Feature(name, description, featureType, level);
+			Property property = new Property(name, description);
+			Feature feature = new Feature(property, featureType, level);
 			characterInfoVM.AllFeatures.Add(feature);
 
 			
 			if (featureType == characterInfoVM.SelectedCharacter.CharacterClass.Name)
 			{
-				DnD5eCharacterClassFeature classFeature = new(feature.Name, feature.Desc, int.Parse(feature.Level));
+				DnD5eCharacterClassFeature classFeature = new(feature.Name, feature.Description, int.Parse(feature.Level));
 				characterInfoVM.SelectedCharacter.CharacterClass.Features.Add(classFeature);
 			}
 			else if (featureType == characterInfoVM.SelectedCharacter.Race.Name)
 			{
-				characterInfoVM.SelectedCharacter.Race.Features.Add(feature);
+				characterInfoVM.SelectedCharacter.Race.Features.Add(property);
 			}
 			else if (featureType == characterInfoVM.SelectedCharacter.Race.RaceVariant.Name)
 			{
-				characterInfoVM.SelectedCharacter.Race.RaceVariant.Properties.Add(feature);
+				characterInfoVM.SelectedCharacter.Race.RaceVariant.Properties.Add(property);
 			}
 
 			window.DialogResult = true;

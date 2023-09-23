@@ -124,7 +124,7 @@
                               HorizontalContentAlignment="Center">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox/>
+                                <CheckBox IsChecked="{Binding Value}"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -138,7 +138,7 @@
                               HorizontalContentAlignment="Center">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox/>
+                                <CheckBox IsChecked="{Binding Value}"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -152,7 +152,7 @@
                               HorizontalContentAlignment="Center">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox/>
+                                <CheckBox IsChecked="{Binding Value}"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -166,7 +166,7 @@
                               HorizontalContentAlignment="Center">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox/>
+                                <CheckBox IsChecked="{Binding Value}"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -180,7 +180,7 @@
                               HorizontalContentAlignment="Center">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox/>
+                                <CheckBox IsChecked="{Binding Value}"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -195,7 +195,7 @@
                               HorizontalContentAlignment="Center">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox/>
+                                <CheckBox IsChecked="{Binding Value}"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -209,7 +209,7 @@
                               HorizontalContentAlignment="Center">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox/>
+                                <CheckBox IsChecked="{Binding Value}"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -223,7 +223,7 @@
                               HorizontalContentAlignment="Center">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox/>
+                                <CheckBox IsChecked="{Binding Value}"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -237,7 +237,7 @@
                               HorizontalContentAlignment="Center">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox/>
+                                <CheckBox IsChecked="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

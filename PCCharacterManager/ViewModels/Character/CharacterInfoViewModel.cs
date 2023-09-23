@@ -188,17 +188,17 @@ namespace PCCharacterManager.ViewModels
 
 			foreach (var item in selectedCharacter.CharacterClass.Features)
 			{
-				AllFeatures.Add(new Feature(item.Name, item.Desc, selectedCharacter.CharacterClass.Name, item.Level.ToString()));
+				AllFeatures.Add(new Feature(item, selectedCharacter.CharacterClass.Name, item.Level.ToString()));
 			}
 
 			foreach (var item in selectedCharacter.Race.Features)
 			{
-				AllFeatures.Add(new Feature(item.Name, item.Desc, selectedCharacter.Race.Name, "-"));
+				AllFeatures.Add(new Feature(item, selectedCharacter.Race.Name, "-"));
 			}
 
 			foreach (var item in selectedCharacter.Race.RaceVariant.Properties)
 			{
-				AllFeatures.Add(new Feature(item.Name, item.Desc, selectedCharacter.Race.RaceVariant.Name, "-"));
+				AllFeatures.Add(new Feature(item, selectedCharacter.Race.RaceVariant.Name, "-"));
 			}
 
 			FeaturesCollectionView?.Refresh();

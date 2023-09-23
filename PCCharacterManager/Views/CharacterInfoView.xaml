@@ -258,7 +258,7 @@
 
             <TextBox Grid.Column="4" Grid.Row="13" Grid.ColumnSpan="5" Grid.RowSpan="1"
                      Style="{StaticResource Document}"
-                     Text="{Binding SelectedProperty.Desc}"/>
+                     Text="{Binding SelectedProperty.Description}"/>
 
             <!--#region OtherProfs-->
             <Grid Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="5" Grid.RowSpan="10" MinHeight="400">
