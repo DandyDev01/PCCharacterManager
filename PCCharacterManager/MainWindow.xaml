@@ -12,6 +12,7 @@
     <Window.InputBindings>
         <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCharactersCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewCharacterCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="L" Command="{Binding LevelCharacterCommand}"/>
     </Window.InputBindings>
 
     <Window.DataContext>
@@ -47,6 +48,7 @@
                           InputGestureText="Ctrl+L" Style="{StaticResource MenuItem}"/>
                 <MenuItem x:Name="editCharacter" Header="Edit Character" Command="{Binding EditCharacterCommand}"
                           InputGestureText="N/A" Style="{StaticResource MenuItem}"/>
+                <MenuItem Header="Add Feature" Command="{Binding TabVM.CharacterStatsVM.CharacterInfoViewModel.AddFeatureCommand}"/>
             </MenuItem>
         </Menu>
 

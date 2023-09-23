@@ -62,21 +62,20 @@ namespace PCCharacterManager.ViewModels
 			set { OnPropertyChanged(ref movement, value); }
 		}
 
-		public ICommand OkCommand { get; private set; }
-		public ICommand CancelCommand { get; private set; }
+		public ICommand OkCommand { get; }
 
-		public ICommand AddLanguageCommand { get; private set; }
-		public ICommand RemoveLanguageCommand { get; private set; }
-		public ICommand AddMovementCommand { get; private set; }
-		public ICommand RemoveMovementCommand { get; private set; }
-		public ICommand AddWeaponCommand { get; private set; }
-		public ICommand RemoveWeaponCommand { get; private set; }
-		public ICommand AddArmorCommand { get; private set; }
-		public ICommand RemoveArmorCommand { get; private set; }
-		public ICommand AddToolCommand { get; private set; }
-		public ICommand RemoveToolCommand { get; private set; }
-		public ICommand AddOtherProfCommand { get; private set; }
-		public ICommand RemoveOtherProfCommand { get; private set; }
+		public ICommand AddLanguageCommand { get; }
+		public ICommand RemoveLanguageCommand { get; }
+		public ICommand AddMovementCommand { get; }
+		public ICommand RemoveMovementCommand { get; }
+		public ICommand AddWeaponCommand { get; }
+		public ICommand RemoveWeaponCommand { get; }
+		public ICommand AddArmorCommand { get; }
+		public ICommand RemoveArmorCommand { get;  }
+		public ICommand AddToolCommand { get; }
+		public ICommand RemoveToolCommand { get; }
+		public ICommand AddOtherProfCommand { get; }
+		public ICommand RemoveOtherProfCommand { get; }
 
 		public DialogWindowEditCharacterViewModel(Window _window, DnD5eCharacter _character)
 		{
@@ -84,7 +83,6 @@ namespace PCCharacterManager.ViewModels
 			character = _character;
 
 			OkCommand = new RelayCommand(Ok);
-			CancelCommand = new RelayCommand(Cancel);
 
 			language = string.Empty;
 			weapon = string.Empty;
@@ -108,11 +106,6 @@ namespace PCCharacterManager.ViewModels
 		}
 
 		public void Ok()
-		{
-			Cancel();
-		}
-
-		public void Cancel()
 		{
 			window.Close();
 		}
