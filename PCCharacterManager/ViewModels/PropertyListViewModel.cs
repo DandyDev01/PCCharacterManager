@@ -28,8 +28,8 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private Property selectedItem;
-		public Property SelectedItem
+		private Property? selectedItem;
+		public Property? SelectedItem
 		{
 			get
 			{
@@ -66,6 +66,18 @@ namespace PCCharacterManager.ViewModels
 			RemoveItemCommand = new RelayCommand(RemoveItem);
 			EditItemCommand = new RelayCommand(EditItem);
 			PropertyItemReceivedCommand = new PropertyItemReceivedCommand();
+
+			ItemsToDisplay = new();
+		}
+
+		public void UpdateCollection(ObservableCollection<Property> _items)
+		{
+			ItemsToDisplay.Clear();
+
+			foreach (var item in _items)
+			{
+				ItemsToDisplay.Add(item);
+			}
 		}
 
 		/// <summary>
@@ -100,6 +112,9 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void RemoveItem()
 		{
+			if (selectedItem is null)
+				return;
+
 			ItemsToDisplay.Remove(selectedItem);
 		}
 
@@ -108,6 +123,9 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void EditItem()
 		{
+			if (selectedItem is null)
+				return;
+
 			Window window = new StringInputDialogWindow();
 			DialogWindowStringInputViewModel windowVM =
 				new DialogWindowStringInputViewModel(window, "Edit " + selectedItem.Name);

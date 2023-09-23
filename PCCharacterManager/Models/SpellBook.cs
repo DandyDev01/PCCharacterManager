@@ -208,15 +208,15 @@ namespace PCCharacterManager.Models
 			{
 				for (int i = 0; i < (temp - value); i++)
 				{
-					slots.RemoveAt(slots.Count() - 1);
+					slots.RemoveAt(slots.Count - 1);
 				}
 			}
 			// for some reason things are added w/out add being called
-			if (slots.Count() > numberOfSlots)
+			if (slots.Count > numberOfSlots)
 			{
-				while (slots.Count() > numberOfSlots)
+				while (slots.Count > numberOfSlots)
 				{
-					slots.RemoveAt(slots.Count() - 1);
+					slots.RemoveAt(slots.Count - 1);
 				}
 			}
 			OnPropertyChanged(ref numberOfSlots, value);

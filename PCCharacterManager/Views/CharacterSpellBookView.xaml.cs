@@ -23,7 +23,7 @@ namespace PCCharacterManager.Views
 	/// </summary>
 	public partial class CharacterSpellBookView : UserControl
 	{
-		private ICommand focusSearchCommand;
+		private readonly ICommand focusSearchCommand;
 
 		public CharacterSpellBookView()
 		{
@@ -40,7 +40,10 @@ namespace PCCharacterManager.Views
 
 		private void DeleteItem()
 		{
-			CharacterSpellBookViewModel vm = DataContext as CharacterSpellBookViewModel;
+			CharacterSpellBookViewModel? vm = DataContext as CharacterSpellBookViewModel;
+
+			if (vm is null)
+				return;
 
 			vm.DeleteSpellCommand.Execute(null);
 			vm.DeleteCantripCommand.Execute(null);

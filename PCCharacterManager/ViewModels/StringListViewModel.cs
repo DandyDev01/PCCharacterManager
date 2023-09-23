@@ -56,6 +56,16 @@ namespace PCCharacterManager.ViewModels
 			EditItemCommand = new RelayCommand(EditItem);
 		}
 
+		public void UpdateCollection(ObservableCollection<string> _items)
+		{
+			ItemsToDisplay.Clear();
+
+			foreach (var item in _items)
+			{
+				ItemsToDisplay.Add(item);
+			}
+		}
+
 		/// <summary>
 		/// Add item to provided ObservableCollection
 		/// </summary>

@@ -81,8 +81,7 @@ namespace PCCharacterManager.ViewModels
 
 			_characterStore.SelectedCharacterChange += OnCharacterChanged;
 
-			if (selectedCharacter is null)
-				return;
+			selectedCharacter ??= new();
 
 			selectedProperty = AllFeatures.FirstOrDefault();	
 
@@ -93,14 +92,6 @@ namespace PCCharacterManager.ViewModels
 			ArmorProfsVM = new StringListViewModel("Armor Profs", selectedCharacter.ArmorProficiencies);
 			OtherProfsVM = new StringListViewModel("Other Profs", selectedCharacter.OtherProficiences);
 			WeaponProfsVM = new StringListViewModel("Weapon Profs", selectedCharacter.WeaponProficiencies);
-			OnPropertyChanged(nameof(MovementTypesListVM));
-			OnPropertyChanged(nameof(LanguagesVM));
-			OnPropertyChanged(nameof(ArmorProfsVM));
-			OnPropertyChanged(nameof(WeaponProfsVM));
-			OnPropertyChanged(nameof(ToolProfsVM));
-			OnPropertyChanged(nameof(OtherProfsVM));
-
-			SelectedProperty = AllFeatures[0];
 		}
 
 		/// <summary>
@@ -119,19 +110,13 @@ namespace PCCharacterManager.ViewModels
 			if (selectedCharacter is null)
 				return;
 
-			FeaturesListVM = new PropertyListViewModel("Features", null);
-			MovementTypesListVM = new PropertyListViewModel("Movement", selectedCharacter.MovementTypes_Speeds);
-			LanguagesVM = new StringListViewModel("Languages", selectedCharacter.Languages);
-			ToolProfsVM = new StringListViewModel("Tool Profs", selectedCharacter.ToolProficiences);
-			ArmorProfsVM = new StringListViewModel("Armor Profs", selectedCharacter.ArmorProficiencies);
-			OtherProfsVM = new StringListViewModel("Other Profs", selectedCharacter.OtherProficiences);
-			WeaponProfsVM = new StringListViewModel("Weapon Profs", selectedCharacter.WeaponProficiencies);
-			OnPropertyChanged(nameof(MovementTypesListVM));
-			OnPropertyChanged(nameof(LanguagesVM));
-			OnPropertyChanged(nameof(ArmorProfsVM));
-			OnPropertyChanged(nameof(WeaponProfsVM));
-			OnPropertyChanged(nameof(ToolProfsVM));
-			OnPropertyChanged(nameof(OtherProfsVM));
+			//FeaturesListVM.UpdateCollection(null);
+			MovementTypesListVM.UpdateCollection( selectedCharacter.MovementTypes_Speeds);
+			LanguagesVM.UpdateCollection(selectedCharacter.Languages);
+			ToolProfsVM.UpdateCollection(selectedCharacter.ToolProficiences);
+			ArmorProfsVM.UpdateCollection(selectedCharacter.ArmorProficiencies);
+			OtherProfsVM.UpdateCollection(selectedCharacter.OtherProficiences);
+			WeaponProfsVM.UpdateCollection(selectedCharacter.WeaponProficiencies);
 
 			UpdateFeatures(null, null);
 			SelectedProperty = AllFeatures.FirstOrDefault();

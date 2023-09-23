@@ -41,12 +41,6 @@ namespace PCCharacterManager.ViewModels
 			ArmorProfsVM = new StringListViewModel("Armor Profs", Character.ArmorProficiencies);
 			OtherProfsVM = new StringListViewModel("Other Profs", Character.OtherProficiences);
 			WeaponProfsVM = new StringListViewModel("Weapon Profs", Character.WeaponProficiencies);
-			OnPropertyChanged(nameof(MovementTypesListVM));
-			OnPropertyChanged(nameof(LanguagesVM));
-			OnPropertyChanged(nameof(ArmorProfsVM));
-			OnPropertyChanged(nameof(WeaponProfsVM));
-			OnPropertyChanged(nameof(ToolProfsVM));
-			OnPropertyChanged(nameof(OtherProfsVM));
 		}
 
 		public void Ok()

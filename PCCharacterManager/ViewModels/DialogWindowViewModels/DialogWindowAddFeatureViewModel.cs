@@ -131,6 +131,9 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 
 		private void Ok()
 		{
+			if (characterInfoVM.SelectedCharacter is null)
+				return;
+
 			Property property = new Property(name, description);
 			Feature feature = new Feature(property, featureType, level);
 			characterInfoVM.AllFeatures.Add(feature);
@@ -187,6 +190,9 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 
 		private void LevelValidation()
 		{
+			if (characterInfoVM.SelectedCharacter is null)
+				return;
+
 			propertyNameToError.Remove(nameof(Level));
 
 			List<string> errors = new();
