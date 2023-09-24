@@ -32,14 +32,14 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public PropertyListViewModel MovementTypesListVM { get; protected set; }
-		public PropertyListViewModel FeaturesListVM { get; protected set; }
+		public PropertyListViewModel MovementTypesListVM { get; }
+		public PropertyListViewModel FeaturesListVM { get; }
 
-		public StringListViewModel LanguagesVM { get; protected set; }
-		public StringListViewModel ArmorProfsVM { get; protected set; }
-		public StringListViewModel WeaponProfsVM { get; protected set; }
-		public StringListViewModel ToolProfsVM { get; protected set; }
-		public StringListViewModel OtherProfsVM { get; protected set; }
+		public StringListViewModel LanguagesVM { get; }
+		public StringListViewModel ArmorProfsVM { get; }
+		public StringListViewModel WeaponProfsVM { get; }
+		public StringListViewModel ToolProfsVM { get; }
+		public StringListViewModel OtherProfsVM { get; }
 
 		public ObservableCollection<Feature> AllFeatures { get; }
 		public ICollectionView FeaturesCollectionView { get; }
