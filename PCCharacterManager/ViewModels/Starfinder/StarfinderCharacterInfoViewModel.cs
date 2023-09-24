@@ -79,11 +79,11 @@ namespace PCCharacterManager.ViewModels
 
 		public PropertyListViewModel ThemeListVM { get; private set; }
 
-		public StarfinderCharacterInfoViewModel(CharacterStore _characterStore) : base(_characterStore)
+		public StarfinderCharacterInfoViewModel(CharacterStore _characterStore) 
+			: base(_characterStore)
 		{
 			_characterStore.SelectedCharacterChange += OnCharacterChange;
 
-			FeaturesListVM = new PropertyListViewModel("Features", null);
 			RaceFeatureListVM = new PropertyListViewModel("Features", null);
 			ClassFeatureListVM = new PropertyListViewModel("Features", null);
 			RaceVarientListVM = new PropertyListViewModel("Features", null);
@@ -104,26 +104,23 @@ namespace PCCharacterManager.ViewModels
 			if (newCharacter is not StarfinderCharacter) return;
 
 			SelectedCharacter = newCharacter as StarfinderCharacter;
+
 			ThemeListVM = new PropertyListViewModel("Themes", selectedCharacter.Theme.Features);
 			ClassFeatureListVM = new DnDClassFeatureListViewModel("Class Features", SelectedCharacter.CharacterClass.Features);
 			RaceFeatureListVM = new PropertyListViewModel("Race Features", SelectedCharacter.Race.Features);
-			MovementTypesListVM = new PropertyListViewModel("Movement", SelectedCharacter.MovementTypes_Speeds);
-			LanguagesVM = new StringListViewModel("Languages", selectedCharacter.Languages);
-			ToolProfsVM = new StringListViewModel("Tool Profs", selectedCharacter.ToolProficiences);
-			ArmorProfsVM = new StringListViewModel("Armor Profs", selectedCharacter.ArmorProficiencies);
-			OtherProfsVM = new StringListViewModel("Other Profs", selectedCharacter.OtherProficiences);
-			WeaponProfsVM = new StringListViewModel("Weapon Profs", selectedCharacter.WeaponProficiencies);
+			
 			OnPropertyChanged(nameof(ClassFeatureListVM));
 			OnPropertyChanged(nameof(RaceFeatureListVM));
-			OnPropertyChanged(nameof(MovementTypesListVM));
-			OnPropertyChanged(nameof(LanguagesVM)); 
-			OnPropertyChanged(nameof(ArmorProfsVM));
-			OnPropertyChanged(nameof(WeaponProfsVM));
-			OnPropertyChanged(nameof(ToolProfsVM));
-			OnPropertyChanged(nameof(OtherProfsVM));
 			OnPropertyChanged(nameof(ClassFeatureListVM));
 			OnPropertyChanged(nameof(RaceFeatureListVM));
 			OnPropertyChanged(nameof(ThemeListVM));
+
+			MovementTypesListVM.UpdateCollection(selectedCharacter.MovementTypes_Speeds);
+			LanguagesVM.UpdateCollection(selectedCharacter.Languages);
+			ToolProfsVM.UpdateCollection(selectedCharacter.ToolProficiences);
+			ArmorProfsVM.UpdateCollection(selectedCharacter.ArmorProficiencies);
+			OtherProfsVM.UpdateCollection(selectedCharacter.OtherProficiences);
+			WeaponProfsVM.UpdateCollection(selectedCharacter.WeaponProficiencies);
 
 		}
 
