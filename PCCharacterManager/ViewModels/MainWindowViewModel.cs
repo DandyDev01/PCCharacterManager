@@ -29,15 +29,16 @@ namespace PCCharacterManager.ViewModels
 			set { OnPropertyChanged(ref tabVM, value); }
 		}
 
-		private CharacterStore characterStore;
-		private ICharacterDataService dataService;
+		private readonly CharacterStore characterStore;
+		private readonly ICharacterDataService dataService;
 
-		public ICommand NewCharacterCommand { get; private set; }
-		public ICommand DeleteCharacterCommand { get; private set; }
-		public ICommand SaveCharactersCommand { get; private set; }
-		public ICommand LevelCharacterCommand { get; private set; }
+		public ICommand NewCharacterCommand { get; }
+		public ICommand DeleteCharacterCommand { get; }
+		public ICommand SaveCharactersCommand { get; }
+		public ICommand LevelCharacterCommand { get; }
 		public ICommand ExportCharacterCommand { get; }
 		public ICommand OpenCommand { get; }
+		public ICommand EditCharacterCommand { get; }
 
 		//NOTE: because of the way that CharacterCreateWindow is made the program does
 		//		not end when main window is closed. 
@@ -52,27 +53,36 @@ namespace PCCharacterManager.ViewModels
 			tabVM = new TabControlViewModel(characterStore, dataService);
 			currView = tabVM;
 
-			NewCharacterCommand = new RelayCommand(CreateCharacterWindow);
-			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
-			SaveCharactersCommand = new SaveCharacterCommand(dataService, characterStore);
+			NewCharacterCommand = new CreateCharacterCommand(characterStore);
+			DeleteCharacterCommand = new DeleteCharacterCommand(tabVM.CharacterListVM, dataService, characterStore);
+			SaveCharactersCommand = new SaveCharacterCommand(this);
 			LevelCharacterCommand = new LevelCharacterCommand(characterStore);
 			ExportCharacterCommand = new CharacterExportCommand(characterStore, tabVM);
 			OpenCommand = new OpenCharacterCommand(characterStore);
+			EditCharacterCommand = new RelayCommand(EditCharacter);
 		}
 
-		private void DeleteCharacter()
+		private void SaveCharacter(DnD5eCharacter? character = null)
 		{
-			tabVM.CharacterListVM.DeleteCharacter();
+			if (tabVM == null) 
+				return;
+
+			if (character == null)
+				return;
+
+			tabVM.CharacterListVM.SaveCharacter();
 		}
 
-		private void CreateCharacterWindow()
+		private void EditCharacter()
 		{
-			tabVM.CharacterListVM.CreateCharacterWindow();
-		}
+			if (characterStore.SelectedCharacter == null)
+				return;
 
-		private void SaveCharacter(Character c = null)
-		{
-			dataService.Save(characterStore.SelectedCharacter);
+			Window window = new EditCharacterDialogWindow();
+			DialogWindowEditCharacterViewModel windowVM = new(window, characterStore.SelectedCharacter);
+			window.DataContext = windowVM;
+
+			window.ShowDialog();
 		}
 	}
 }

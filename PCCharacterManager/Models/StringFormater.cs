@@ -49,22 +49,22 @@ namespace PCCharacterManager.Models
 		/// <summary>
 		/// can only find positive numbers, format of quantity x1
 		/// </summary>
-		/// <param name="input">a string with 'x11111' at the end. Arrowx2 for example</param>
+		/// <param name="input">a string with 'x11111' at the end. Arrow x2 for example</param>
 		/// <returns></returns>
 		public static string RemoveQuantity(string input)
 		{
 			char[] characters = input.ToLower().ToArray();
-			List<int> index = FindAllOcurancesOfChar(input, 'x');
+			int[] index = FindAllOcurancesOfChar(input, 'x');
 
-			for (int i = 0; i < index.Count; i++)
+			for (int i = 0; i < index.Length; i++)
 			{
-				if (char.IsNumber(characters[index[i] + 1]))
+				if (char.IsNumber(characters[index[i] + 1]) || characters[index[i] + 1] == '-')
 				{
 					int indexStart = index[i] + 1;
 					return input.Substring(0, indexStart - 1).Trim();
-
 				}
 			}
+
 			return input.Trim();
 		}
 
@@ -76,33 +76,46 @@ namespace PCCharacterManager.Models
 		public static int FindQuantity(string input)
 		{
 			char[] characters = input.ToLower().ToArray();
-			List<int> index = FindAllOcurancesOfChar(input, 'x');
-			List<char> number = new List<char>();
+			int[] indices = FindAllOcurancesOfChar(input, 'x');
+			StringBuilder number = new StringBuilder();
 
-			for (int i = 0; i < index.Count; i++)
+			for (int i = 0; i < indices.Length; i++)
 			{
-				if (char.IsNumber(characters[index[i] + 1]))
+				if (char.IsNumber(characters[indices[i] + 1]))
 				{
-					int indexStart = index[i] + 1;
+					int indexStart = indices[i] + 1;
 					int checkIndex = indexStart;
 					while (char.IsNumber(characters[checkIndex]))
 					{
-
-						number.Add(characters[checkIndex]);
-						if (++checkIndex > characters.Length - 1)
-						{
-							break;
-						}
+						number.Append(characters[checkIndex]);
+						if (++checkIndex > characters.Length - 1) break;
 					}
-					// found all numeric char's
-					var s = new string(number.ToArray());
-					return Int32.Parse(s);
+
+					return Int32.Parse(number.ToString());
+				}
+				else if (characters[indices[i] + 1] == '-')
+				{
+					if (char.IsNumber(characters[indices[i] + 2]))
+					{
+						number.Append(characters[indices[i] + 1]);
+					}
+
+					int indexStart = indices[i] + 2;
+					int checkIndex = indexStart;
+					while (char.IsNumber(characters[checkIndex]))
+					{
+						number.Append(characters[checkIndex]);
+						if (++checkIndex > characters.Length - 1) break;
+					}
+
+					return Int32.Parse(number.ToString());
 				}
 			}
+
 			return 1;
 		}
 
-		public static List<int> FindAllOcurancesOfChar(string input, char lookingFor)
+		public static int[] FindAllOcurancesOfChar(string input, char lookingFor)
 		{
 			char[] characters = input.ToLower().ToArray();
 			List<int> index = new List<int>();
@@ -116,7 +129,7 @@ namespace PCCharacterManager.Models
 				}
 			}
 
-			return index;
+			return index.ToArray();
 
 		}
 
@@ -138,12 +151,10 @@ namespace PCCharacterManager.Models
 	{
 		public static List<T> ReadCollection(string filePath)
 		{
-
 			var serializedCollection = File.ReadAllText(filePath);
 			var collection = JsonConvert.DeserializeObject<IEnumerable<T>>(serializedCollection);
 
 			return new List<T>(collection);
-
 		}
 
 		public static void WriteCollection(string filePath, IEnumerable<T> collection)

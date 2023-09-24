@@ -70,24 +70,12 @@ namespace PCCharacterManager.ViewModels
 			DisplayProperties = new ObservableCollection<PropertyEditableViewModel>();
 		}
 
-		public void Bind(Item item)
-		{
-			DisplayProperties.Clear();
-			BoundItem = item;
-			displayQuantity = item.Quantity;
-			displayDesc = item.Desc;
-			displayName = item.Name;
-			foreach (Property property in item.Properties)
-			{
-				PropertyEditableViewModel temp = propertyVMPool.GetItem();
-				temp.Bind(property);
-				DisplayProperties.Add(temp);
-			}
-		}
-
 		private void AddProperty()
 		{
-			PropertyEditableViewModel temp = propertyVMPool.GetItem();
+			if (BoundItem == null)
+				return;
+
+			PropertyEditableViewModel propertyItem = propertyVMPool.GetItem();
 
 			Property newProperty = new Property()
 			{
@@ -95,15 +83,17 @@ namespace PCCharacterManager.ViewModels
 				Desc = "desc"
 			};
 			newProperty.Hidden = IsEditMode;
-			temp.Bind(newProperty);
+			propertyItem.Bind(newProperty);
+
 
 			BoundItem.AddProperty(newProperty);
-			DisplayProperties.Add(temp);
+			DisplayProperties.Add(propertyItem);
 		}
 
 		private void RemoveProperty()
 		{
-			if (SelectedProperty == null) return;
+			if (SelectedProperty == null || BoundItem == null) 
+				return;
 
 			BoundItem.RemoveProperty(SelectedProperty.BoundProperty);
 			DisplayProperties.Remove(SelectedProperty);

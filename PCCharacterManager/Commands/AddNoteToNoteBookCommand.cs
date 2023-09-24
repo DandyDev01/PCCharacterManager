@@ -20,21 +20,34 @@ namespace PCCharacterManager.Commands
 			viewModel = _viewModel;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
-			if(viewModel.NoteBook.NoteSections.Count == 0)
+			if (viewModel.NoteBook is not NoteBook noteBook)
+				return;
+
+			// there are no note sections
+			if(noteBook.NoteSections.Count == 0)
 			{
 				MessageBox.Show("You need to create a notes section before creating any notes", 
 					"need at least 1 notes section", MessageBoxButton.OK, MessageBoxImage.Information);
 				return;
 			}
 
-			if(viewModel.NoteBook.NoteSections.Count == 1)
+			// there is only 1 note section, so you don't need to select one
+			if(noteBook.NoteSections.Count == 1)
 			{
-				viewModel.NoteBook.NoteSections.First().Add(new Note("new Note"));
+				noteBook.NoteSections.First().Add(new Note("new Note"));
 				return;
 			}
 
+			// a note section is selected, add a new note to it
+			if(viewModel.SelectedSection != null)
+			{
+				viewModel.SelectedSection.Add(new Note("new note"));
+				return;
+			}
+
+			#region select section(s) to add new note to
 			string[] sectionTitles = new string[viewModel.NoteBook.NoteSections.Count];
 			for (int i = 0; i < sectionTitles.Length; i++)
 			{
@@ -42,11 +55,12 @@ namespace PCCharacterManager.Commands
 			}
 
 			Window dialogWindow = new SelectStringValueDialogWindow();
-			DialogWindowListViewSelectItemViewModel dataContext = new DialogWindowListViewSelectItemViewModel(dialogWindow, sectionTitles, 1);
+			DialogWindowListViewSelectItemViewModel dataContext = new(dialogWindow, sectionTitles, 1);
 			dialogWindow.DataContext = dataContext;
 			var result = dialogWindow.ShowDialog();
 
-			if (result == false) return;
+			if (result == false)
+				return;
 
 			string selectedSection = dataContext.SelectedItems.First();
 
@@ -57,6 +71,7 @@ namespace PCCharacterManager.Commands
 					noteSection.Add(new Note("new note"));
 				}
 			}
+			#endregion
 		}
 	}
 }

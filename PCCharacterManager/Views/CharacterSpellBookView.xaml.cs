@@ -1,4 +1,5 @@
 ﻿using PCCharacterManager.Utility;
+using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,13 +23,14 @@ namespace PCCharacterManager.Views
 	/// </summary>
 	public partial class CharacterSpellBookView : UserControl
 	{
-		private ICommand focusSearchCommand;
+		private readonly ICommand focusSearchCommand;
 
 		public CharacterSpellBookView()
 		{
 			InitializeComponent();
 			focusSearchCommand = new RelayCommand(FocusSearch);
 			this.InputBindings.Add(new KeyBinding(focusSearchCommand, Key.F, ModifierKeys.Control));
+			delKeyBinding.Command = new RelayCommand(DeleteItem);
 		}
 
 		public void FocusSearch()
@@ -36,24 +38,15 @@ namespace PCCharacterManager.Views
 			this.searchBox.Focus();
 		}
 
-		private void SpellComboBox_OnMouseEnter(Object sender, MouseEventArgs e)
+		private void DeleteItem()
 		{
-			spellComboBox.IsDropDownOpen = true;	
-		}
+			CharacterSpellBookViewModel? vm = DataContext as CharacterSpellBookViewModel;
 
-		private void CantripComboBox_OnMouseEnter(Object sender, MouseEventArgs e)
-		{
-			cantripComboBox.IsDropDownOpen = true;
-		}
+			if (vm is null)
+				return;
 
-		private void cantripComboBox_MouseLeave(object sender, MouseEventArgs e)
-		{
-			cantripComboBox.IsDropDownOpen= false;
-		}
-
-		private void spellComboBox_MouseLeave(object sender, MouseEventArgs e)
-		{
-			spellComboBox.IsDropDownOpen = false;
+			vm.DeleteSpellCommand.Execute(null);
+			vm.DeleteCantripCommand.Execute(null);
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace PCCharacterManager.Utility
 	{
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		protected virtual void OnPropertyChaged(string propertyName)
+		protected virtual void OnPropertyChanged(string propertyName)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
@@ -24,7 +24,7 @@ namespace PCCharacterManager.Utility
 				return false;
 
 			backingField = value;
-			OnPropertyChaged(propertyName);
+			OnPropertyChanged(propertyName);
 			return true;
 		}
 	}

@@ -104,13 +104,12 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="MaxWidth" Value="150"/>
             <Setter Property="MinWidth" Value="50"/>
-            <Setter Property="MaxHeight" Value="50"/>
             <Setter Property="MinHeight" Value="10"/>
             <Setter Property="Margin" Value="5"/>
         </Style>
 
         <Style TargetType="RichTextBox">
-            <Setter Property="Background" Value="#FF3F3F3F"/>
+            <Setter Property="Background" Value="{StaticResource BackGroundColorDark}"/>
             <Setter Property="Foreground" Value="#FF97A0A5"/>
             <Setter Property="Padding" Value="3"/>
         </Style>
@@ -162,8 +161,8 @@
         <Style x:Key="Title" TargetType="TextBlock">
             <Setter Property="Typography.Capitals" Value="AllPetiteCaps"/>
             <Setter Property="Foreground" Value="{StaticResource LightText}"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="HorizontalAlignment" Value="left"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
         </Style>
@@ -234,6 +233,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="Padding" Value="3"/>
             <Setter Property="Margin" Value="3"/>
+            <Setter Property="MaxHeight" Value="35"/>
         </Style>
         <Style TargetType="TextBox" x:Key="Document">
             <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
@@ -251,8 +251,8 @@
         <Style TargetType="TextBox" x:Key="Search">
             <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
             <Setter Property="Foreground" Value="{StaticResource LightText}"/>
-            <Setter Property="AcceptsTab" Value="True"/>
-            <Setter Property="AcceptsReturn" Value="True"/>
+            <Setter Property="AcceptsTab" Value="false"/>
+            <Setter Property="AcceptsReturn" Value="false"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Height" Value="auto"/>
@@ -427,8 +427,8 @@
 
         <!--#region ListView-->
         <Style TargetType="ListView">
-            <Setter Property="BorderBrush" Value="{StaticResource DarkText}"/>
-            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="BorderBrush" Value="{StaticResource LightText}"/>
+            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Margin" Value="3"/>
@@ -458,9 +458,18 @@
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Margin" Value="3"/>
             <Setter Property="Padding" Value="3"/>
+            <!--<Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="7" Background="{StaticResource LightBackgroundColor}" BorderThickness="1" Padding="2">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>-->
         </Style>
         <!--#endregion-->
-
+        
         <Style TargetType="ContextMenu">
             <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
         </Style>

@@ -19,9 +19,9 @@ namespace PCCharacterManager.Models
 		private int profBonus = 2;
 
 		[JsonProperty]
-		public string Name { get; private set; }
+		public string Name { get; protected set; }
 		[JsonProperty]
-		public string Description { get; private set; }
+		public string Description { get; protected set; }
 		public int Score
 		{
 			get { return score; }
@@ -75,7 +75,7 @@ namespace PCCharacterManager.Models
 		[JsonProperty]
 		public AbilitySkill[] Skills { get; private set; }
 
-		public ICommand UpdateProfSaveCommand { get; private set; }
+		public ICommand UpdateProfSaveCommand { get; protected set; }
 
 		public Ability()
 		{
@@ -87,8 +87,15 @@ namespace PCCharacterManager.Models
 			UpdateProfSaveCommand = new RelayCommand(SetProfSave);
 		}
 
+		/// <summary>
+		/// set the proficiency bonus and update associated skill info and ability save info
+		/// </summary>
+		/// <param name="_profBonus">value to set profBonus too</param>
+		/// <exception cref="Exception">when _profBonus is below 0</exception>
 		public void SetProfBonus(int _profBonus)
 		{
+			if (_profBonus <= 0) throw new Exception("param _profBonus must be greater than 0");
+
 			if (_profBonus < 2)
 				_profBonus = 2;
 
@@ -215,7 +222,7 @@ namespace PCCharacterManager.Models
 		/// update info for the skills
 		/// </summary>
 		/// <param name="profBonus">proficiency bonus from character level</param>
-		private void UpdateSkillInfo(int profBonus)
+		protected virtual void UpdateSkillInfo(int profBonus)
 		{
 			if (Skills == null)
 				return;
@@ -233,7 +240,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		private void SetProfSave()
+		protected void SetProfSave()
 		{
 			ProfSave = !ProfSave;
 		}
@@ -281,30 +288,14 @@ namespace PCCharacterManager.Models
 		/// </summary>
 		/// <param name="skillName">skill wanted</param>
 		/// <param name="abilities">abilities to search</param>
-		/// <returns></returns>
-		public static AbilitySkill FindSkill(string skillName, Ability[] abilities)
-		{
-
-			foreach (var ability in abilities)
-			{
-				foreach (var skill in ability.Skills)
-				{
-					if (skill.Name.ToLower().Equals(skillName.ToLower()))
-						return skill;
-				}
-			}
-
-			throw new Exception("no skill with name " + skillName + " exists");
-		}
-
-		/// <summary>
-		/// looks for a skill in a collection of abilities
-		/// </summary>
-		/// <param name="abilities">collection to search</param>
-		/// <param name="skillName">skill you are looking for</param>
-		/// <returns>null if no skill exists or skill with specified name</returns>
+		/// <returns>ability that has the skill skillName</returns>
+		/// <exception cref="ArgumentNullException">when skillName is null or empty</exception>
+		/// <exception cref="Exception">when skillName is null or whitespace</exception>
+		/// <exception cref="Exception">when there is no ability with the skill skillName</exception>
 		public static AbilitySkill FindSkill(Ability[] abilities, string skillName)
 		{
+			if (string.IsNullOrEmpty(skillName)) throw new ArgumentNullException("param skillName cannot be null or empty");
+			if (string.IsNullOrWhiteSpace(skillName)) throw new Exception("param skillName cannot be null or whiteSpace");
 
 			foreach (var ability in abilities)
 			{
@@ -353,7 +344,7 @@ namespace PCCharacterManager.Models
 
 		public static List<string> GetSkillNames()
 		{
-			var abilities = ReadWriteJsonCollection<Ability>.ReadCollection(Resources.AbilitiesJson);
+			var abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson);
 			List<string> skillNames = new List<string>();
 			foreach (var ability in abilities)
 			{

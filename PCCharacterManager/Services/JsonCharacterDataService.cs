@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using PCCharacterManager.Models;
+﻿using PCCharacterManager.Models;
 using PCCharacterManager.Stores;
 using System;
 using System.Collections.Generic;
@@ -12,70 +11,102 @@ namespace PCCharacterManager.Services
 {
 	public class JsonCharacterDataService : ICharacterDataService
 	{
-		private readonly CharacterStore characterStore;
+		private readonly JsonDnD5eCharacterDataService _dnD5echaracterDataService;
+		private readonly JsonStarFinderCharacterDataService _starFinderCharacterDataService;
 
 		public JsonCharacterDataService(CharacterStore characterStore)
 		{
-			this.characterStore = characterStore;
+			_dnD5echaracterDataService = new JsonDnD5eCharacterDataService(characterStore);
+			_starFinderCharacterDataService = new JsonStarFinderCharacterDataService();
 
 			characterStore.CharacterCreate += Add;
 		}
 
-		public void Add(Character newCharacter)
+		public override void Add(DnD5eCharacter newCharacter)
 		{
-			Save(newCharacter);
-		}
-
-		public IEnumerable<Character> GetCharacters()
-		{
-			List<Character> characters = new List<Character>();	
-			string[] characterEntries = Directory.GetFiles(Resources.CharacterDataDir);
-			foreach (string characterEntry in characterEntries)
+			if(newCharacter is StarfinderCharacter starfinderCharacter)
 			{
-				var character = ReadWriteJsonFile<Character>.ReadFile(characterEntry);
-				if(character != null) characters.Add(character);
+				_starFinderCharacterDataService.Add(starfinderCharacter);
 			}
-
-			return characters;
-		}
-
-		public IEnumerable<string> GetCharacterFilePaths()
-		{
-			return Directory.GetFiles(Resources.CharacterDataDir);
-		}
-
-		public void Save(IEnumerable<Character> characters)
-		{
-			foreach (Character character in characters)
+			else if(newCharacter is DnD5eCharacter)
 			{
-				ReadWriteJsonFile<Character>.WriteFile(Resources.CharacterDataDir + "/" + character.Name + ".json", character);
+				_dnD5echaracterDataService.Add(newCharacter);
 			}
 		}
 
-		public void Save(Character character)
+		public override bool Delete(DnD5eCharacter character)
 		{
-			// character data folder does not exist
-			if (!Directory.Exists(Resources.CharacterDataDir))
+			if (character is StarfinderCharacter starfinderCharacter)
 			{
-				Directory.CreateDirectory(Resources.CharacterDataDir);
+				_starFinderCharacterDataService.Delete(starfinderCharacter);
+				return true;
 			}
-
-			if (character == null) return;
-
-			character.DateModified = DateTime.Now.ToString();
-
-			ReadWriteJsonFile<Character>.WriteFile(Resources.CharacterDataDir + "/" + character.Name + ".json", character);
-		}
-
-		public bool Delete(Character character)
-		{
-			if (File.Exists(Resources.CharacterDataDir + "/" + character.Name + ".json"))
+			else if (character is DnD5eCharacter)
 			{
-				File.Delete(Resources.CharacterDataDir + "/" + character.Name + ".json");
+				_dnD5echaracterDataService.Delete(character);
 				return true;
 			}
 
 			return false;
+		}
+
+		public override IEnumerable<string> GetCharacterFilePaths()
+		{
+			List<string> paths = new List<string>();
+			paths.AddRange(Directory.GetFiles(DnD5eResources.CharacterDataDir));
+			paths.AddRange(Directory.GetFiles(StarfinderResources.CharacterDataDir));
+
+			return paths;
+		}
+
+		public override IEnumerable<DnD5eCharacter> GetCharacters()
+		{
+			List<StarfinderCharacter> starfinderCharacters = new List<StarfinderCharacter>();
+			string[] starfinderCharacterEntries = Directory.GetFiles(StarfinderResources.CharacterDataDir);
+			foreach (string characterEntry in starfinderCharacterEntries)
+			{
+				var item = ReadWriteJsonFile<StarfinderCharacter>.ReadFile(characterEntry);
+				if (item != null) starfinderCharacters.Add(item);
+			}
+
+			List<DnD5eCharacter> characters = new List<DnD5eCharacter>();
+			string[] characterEntries = Directory.GetFiles(DnD5eResources.CharacterDataDir);
+			foreach (string characterEntry in characterEntries)
+			{
+				var character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterEntry);
+				if (character != null) characters.Add(character);
+			}
+
+			characters.AddRange(starfinderCharacters);
+
+			return characters;
+		}
+
+		public override void Save(IEnumerable<DnD5eCharacter> characters)
+		{
+			foreach (var item in characters)
+			{
+				if (item is StarfinderCharacter starfinderCharacter)
+				{
+					_starFinderCharacterDataService.Save(starfinderCharacter);
+				}
+				else if (item is DnD5eCharacter)
+				{
+					_dnD5echaracterDataService.Save(item);
+				}
+			}
+		}
+
+		public override void Save(DnD5eCharacter character)
+		{
+			if (character is StarfinderCharacter starfinderCharacter)
+			{
+				_starFinderCharacterDataService.Save(starfinderCharacter);
+			}
+			else if (character is DnD5eCharacter)
+			{
+				_dnD5echaracterDataService.Save(character);
+			}
 		}
 	}
 }

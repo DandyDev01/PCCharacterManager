@@ -17,9 +17,9 @@ namespace PCCharacterManager.Commands
 			vm = _vm;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
-			if (vm.SelectedItem == null)
+			if (vm.SelectedItem == null || vm.SelectedItem.BoundItem == null)
 				return;
 
 			vm.SelectedItem.BoundItem.AddProperty(new Property("name", "desc"));

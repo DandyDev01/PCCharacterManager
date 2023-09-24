@@ -28,9 +28,18 @@ namespace PCCharacterManager.Views
 
 		private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			CharacterItemViewModel vm = ListView.SelectedItem as CharacterItemViewModel;
+			if (ListView.SelectedItem is not CharacterItemViewModel characterItemVM)
+				return;
 
-			vm.SelectCharacterCommand?.Execute(null);
+			while (ListView.Items.Count < 1)
+			{
+				if (DataContext is not CharacterListViewModel characterListVM)
+					return;
+
+				characterListVM.CreateCharacterCommand.Execute(null);
+			}
+
+			characterItemVM.SelectCharacterCommand?.Execute(null);
 		}
 	}
 }

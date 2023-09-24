@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.ViewModels
 {
-	public class TabControlViewModel : TabItemViewModel
+	public class TabControlViewModel
 	{
 		public CharacterStatsViewModel CharacterStatsVM { get; private set; }
 		public CharacterListViewModel CharacterListVM { get; private set; }
@@ -18,15 +18,12 @@ namespace PCCharacterManager.ViewModels
 		public CharacterNoteBookViewModel NotesVM { get; private set; }
 
 		public TabControlViewModel(CharacterStore _characterStore, ICharacterDataService _dataService)
-			: base(_characterStore, _dataService)
 		{
-			characterStore.SelectedCharacterChange += OnCharacterChanged;
-
-			CharacterListVM = new CharacterListViewModel(_characterStore, dataService);
-			CharacterStatsVM = new CharacterStatsViewModel(_characterStore, dataService);
-			InventoryVM = new CharacterInventoryViewModel(_characterStore, dataService, _characterStore.SelectedCharacter.Inventory);
-			SpellBookVM = new CharacterSpellBookViewModel(_characterStore, dataService);
-			NotesVM = new CharacterNoteBookViewModel(_characterStore, dataService, _characterStore.SelectedCharacter.NoteManager);
+			CharacterListVM = new CharacterListViewModel(_characterStore, _dataService);
+			CharacterStatsVM = new CharacterStatsViewModel(_characterStore);
+			InventoryVM = new CharacterInventoryViewModel(_characterStore);
+			SpellBookVM = new CharacterSpellBookViewModel(_characterStore);
+			NotesVM = new CharacterNoteBookViewModel(_characterStore);
 		}
 	}
 }

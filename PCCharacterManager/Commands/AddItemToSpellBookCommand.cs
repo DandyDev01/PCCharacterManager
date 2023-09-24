@@ -23,7 +23,7 @@ namespace PCCharacterManager.Commands
 			spellType = _spellType;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
 			switch (spellType)
 			{
@@ -42,15 +42,14 @@ namespace PCCharacterManager.Commands
 		private void AddSpellWindow()
 		{
 			Window window = new AddSpellDialogWindow();
-			DialogWindowAddSpellViewModel data = new DialogWindowAddSpellViewModel(window, SpellType.SPELL);
+			DialogWindowAddSpellViewModel data = new(window, SpellType.SPELL);
 			window.DataContext = data;
 
 			var result = window.ShowDialog();
 
 			if (result == false) return;
 
-			SpellItemEditableViewModel temp = new SpellItemEditableViewModel(data.NewSpell);
-			vm.FilteredSpells[data.NewSpell.School].Add(temp);
+			SpellItemEditableViewModel temp = new(data.NewSpell);
 			vm.SpellsToDisplay.Add(temp);
 			vm.SpellBook.AddSpell(data.NewSpell);
 		}
@@ -61,15 +60,14 @@ namespace PCCharacterManager.Commands
 		private void AddCantripWindow()
 		{
 			Window window = new AddSpellDialogWindow();
-			DialogWindowAddSpellViewModel data = new DialogWindowAddSpellViewModel(window, SpellType.CANTRIP);
+			DialogWindowAddSpellViewModel data = new(window, SpellType.CANTRIP);
 			window.DataContext = data;
 
 			var result = window.ShowDialog();
 			
 			if(result == false) return;
 
-			SpellItemEditableViewModel temp = new SpellItemEditableViewModel(data.NewSpell);
-			vm.CantripItems.Add(temp);
+			SpellItemEditableViewModel temp = new(data.NewSpell);
 			vm.CantripsToDisplay.Add(temp);
 			vm.SpellBook.AddContrip(data.NewSpell);
 		}

@@ -9,7 +9,7 @@
              Background="{StaticResource ViewBackgroundColor}"
              d:DesignHeight="1080" d:DesignWidth="1920">
     <UserControl.InputBindings>
-        <KeyBinding Modifiers="Shift" Key="Tab" Command="{Binding NextItemTypeCommand}"/>
+        <KeyBinding x:Name="delKeyBinding"  Modifiers="" Key="Delete"/>
     </UserControl.InputBindings>
     
     <Grid>
@@ -46,33 +46,79 @@
 
         <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="13" Grid.RowSpan="1">
             <MenuItem Header="Add Item" Command="{Binding AddItemCommand}"/>
-            <MenuItem Header="Remove Item" Command="{Binding RemoveItemCommand}"/>
+            <MenuItem x:Name="removeButton"  Header="Remove Item"/>
             <TextBox x:Name="searchBox"
                      Text="{Binding SearchTerm, FallbackValue=search, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource Search}"/>
             <CheckBox ToolTip="Show Hidden Properties of selected item?"
                       IsChecked="{Binding ShowHiddenProperties}"/>
-            <ComboBox ItemsSource="{Binding ItemTypes}" 
-                      SelectedIndex="2" 
-                      SelectedItem="{Binding SelectedItemType}"/>
         </Menu>
 
         <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6" Grid.RowSpan="12" 
+                  x:Name="items"
                   ItemsSource="{Binding ItemsCollectionView}"
                   SelectedIndex="0"
                   SelectedItem="{Binding SelectedItem}">
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Add Item" Command="{Binding AddItemCommand}"/>
-                    <MenuItem Header="Remove Item" Command="{Binding RemoveItemCommand}"
+                    <MenuItem x:Name="removeContextButton"  
+                              Header="Remove Item"
                               IsEnabled="{Binding SelectedItem, Converter={StaticResource NullToEnabledConverter}}"/>
                 </ContextMenu>
             </ListView.ContextMenu>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <v:ItemDisplayView/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="250">
+                        <GridViewColumnHeader Content="Name" Command="{Binding NameSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayName}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="100">
+                        <GridViewColumnHeader Content="Cost" Command="{Binding CostSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayCost}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="90">
+                        <GridViewColumnHeader Content="Weight" Command="{Binding WeightSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayWeight}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="90">
+                        <GridViewColumnHeader Content="Quantity" Command="{Binding QuantitySortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayQuantity}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="130">
+                        <GridViewColumnHeader Content="Category" Command="{Binding CategorySortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayItemCategory}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="170">
+                        <GridViewColumnHeader Content="Type" Command="{Binding TypeSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayItemType}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
         </ListView>
 
         <!--#region Selected Item-->
@@ -104,6 +150,16 @@
             </ListView.ItemTemplate>
         </ListView>
         <!--#endregion-->
+
+        <ComboBox Grid.Row="8" Grid.Column="6" Grid.RowSpan="1" Grid.ColumnSpan="1"
+                  Height="auto"
+                  SelectedItem="{Binding SelectedItem.DisplayItemCategory}"
+                  ItemsSource="{Binding ItemCategories}"/>
+        <ComboBox Grid.Row="8" Grid.Column="7" Grid.RowSpan="1" Grid.ColumnSpan="1"
+                  Height="auto"
+                  SelectedItem="{Binding SelectedItem.DisplayItemType}"
+                  ItemsSource="{Binding ItemTypes}"/>
+
         <!--#endregion-->
     </Grid>
 </UserControl>

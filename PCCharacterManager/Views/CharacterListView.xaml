@@ -31,6 +31,14 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn>
+                        <GridViewColumnHeader Content="Del" Command="{Binding NameSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Del" Command="{Binding DeleteCharacterCommand}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
                         <GridViewColumnHeader Content="Name" Command="{Binding NameSortCommand}"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -51,6 +59,22 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding CharacterClass}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumnHeader Content="Race" Command="{Binding CharacterRaceSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CharacterRace}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumnHeader Content="Character Type" Command="{Binding CharacterTypeSortCommand}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CharacterType}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

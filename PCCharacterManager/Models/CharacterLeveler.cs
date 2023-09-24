@@ -11,7 +11,7 @@ namespace PCCharacterManager.Models
 {
 	public class CharacterLeveler
 	{
-		public void LevelCharacter(Character character)
+		public void LevelCharacter(DnD5eCharacter character)
 		{
 			UpdateMaxHealth(character);
 			character.Level.LevelUp();
@@ -24,7 +24,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		private void UpdateMaxHealth(Character character)
+		private void UpdateMaxHealth(DnD5eCharacter character)
 		{
 			var message = MessageBox.Show("Would you like to manually enter a new max health",
 				"", MessageBoxButton.YesNo);
@@ -58,14 +58,15 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		private void UnLockClassFeatures(Character character)
+		private void UnLockClassFeatures(DnD5eCharacter character)
 		{
-			var classes = ReadWriteJsonCollection<CharacterClassData>.ReadCollection(Resources.CharacterClassDataJson);
+			var classes = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson);
 
 			// find character class
-			CharacterClassData? data = classes.Find(x => x.Name.Equals(character.CharacterClass.Name));
+			DnD5eCharacterClassData? data = classes.Find(x => x.Name.Equals(character.CharacterClass.Name));
 
-			if (data == null) throw new Exception("The class " + character.CharacterClass.Name + " does not exist");
+			if (data == null) 
+				throw new Exception("The class " + character.CharacterClass.Name + " does not exist");
 
 			foreach (var item in data.Features)
 			{

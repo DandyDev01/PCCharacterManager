@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCCharacterManager", "PCCharacterManager\PCCharacterManager.csproj", "{3653933A-B455-439D-B156-8996D4560AE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PCCharacterManager", "PCCharacterManager\PCCharacterManager.csproj", "{3653933A-B455-439D-B156-8996D4560AE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCCharacterManagerTests", "PCCharacterManagerTests\PCCharacterManagerTests.csproj", "{58B5A285-3C6C-4ECF-BAF9-0F17D9400A7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{3653933A-B455-439D-B156-8996D4560AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3653933A-B455-439D-B156-8996D4560AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3653933A-B455-439D-B156-8996D4560AE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58B5A285-3C6C-4ECF-BAF9-0F17D9400A7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58B5A285-3C6C-4ECF-BAF9-0F17D9400A7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58B5A285-3C6C-4ECF-BAF9-0F17D9400A7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58B5A285-3C6C-4ECF-BAF9-0F17D9400A7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -18,7 +18,7 @@ namespace PCCharacterManager.Commands
 			viewModel = _viewModel;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
 			if (viewModel.SelectedSection == null)
 			{
@@ -28,12 +28,13 @@ namespace PCCharacterManager.Commands
 			}
 
 			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel(window);
+			DialogWindowStringInputViewModel dataContext = new(window);
 			window.DataContext = dataContext;
 
 			bool? result = window.ShowDialog();
 
-			if ((bool)!result) return;
+			if (result == false)
+				return;
 
 			string inputTitle = dataContext.Answer;
 			viewModel.SelectedSection.SectionTitle = inputTitle;

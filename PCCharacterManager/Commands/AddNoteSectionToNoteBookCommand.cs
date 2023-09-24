@@ -19,7 +19,7 @@ namespace PCCharacterManager.Commands
 			viewModel = _viewModel;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
 			Window window = new StringInputDialogWindow();
 			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window);
@@ -31,7 +31,7 @@ namespace PCCharacterManager.Commands
 
 			string sectionTitle = windowVM.Answer;
 			NoteSection newNoteSection = new NoteSection(sectionTitle);
-			viewModel.NoteBook.NewNoteSection(newNoteSection);
+			viewModel.NoteBook!.NewNoteSection(newNoteSection);
 			viewModel.NoteSectionsToDisplay.Add(newNoteSection);
 		}
 	}

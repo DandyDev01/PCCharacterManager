@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="PCCharacterManager.Views.StarfinderAugmentationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PCCharacterManager.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.ColumnSpan="9"
+                BorderThickness="0, 2, 0, 0" BorderBrush="White"/>
+
+        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="1"
+               Style="{StaticResource mediumn}"
+               Content="{Binding Name}"/>
+
+        <Label Grid.Column="5" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1"
+               Style="{StaticResource small}"
+               Content="{Binding Category}"/>
+
+        <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
+               HorizontalAlignment="left"
+               Style="{StaticResource small}"
+               Content="Price:"/>
+
+        <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
+               HorizontalAlignment="left"
+               Style="{StaticResource small}"
+               Content="{Binding Price}"/>
+        
+        <Label Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1"
+               Style="{StaticResource small}"
+               Content="Level"/>
+
+        <Label Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1"
+               Style="{StaticResource small}"
+               Content="{Binding Level}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="5" Grid.RowSpan="4"
+                   Style="{StaticResource h4}"
+                   Text="{Binding Description}"/>
+
+        <ListView Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4"
+                  ItemsSource="{Binding Systems}"/>
+
+    </Grid>
+</UserControl>

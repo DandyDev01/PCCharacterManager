@@ -10,7 +10,7 @@
         ShowInTaskbar="false"
         WindowStartupLocation="CenterOwner"
         Background="{StaticResource ViewBackgroundColor}"
-        Title="EditCharacterDialogWindow" Height="450" Width="800">
+        Title="EditCharacterDialogWindow" Height="550" Width="950">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -19,138 +19,61 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="400"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                   Style="{StaticResource h3}"
-                   Text="Languages"/>
-        <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="4"
-                  Background="{StaticResource BackGroundColorDark}" Foreground="White"
-                  BorderBrush="White" BorderThickness="1" Margin="3" Padding="5" 
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  HorizontalContentAlignment="Stretch"
-                  SelectedItem="{Binding Language}"
-                  ItemsSource="{Binding Character.Languages}" />
-        <Button Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                Command="{Binding AddLanguageCommand}"
-                Content="Add Language"/>
-        <Button Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                Command="{Binding RemoveLanguageCommand}"
-                Content="Remove Language"/>
+        <ContentControl  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1">
+            <v:StringListView DataContext="{Binding LanguagesVM}"/>
+        </ContentControl>
 
-        <TextBlock Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource h3}"
-                   Text="Movement"/>
-        <ListView Grid.Column="2" Grid.Row="1"  Grid.ColumnSpan="2" Grid.RowSpan="4"
-                  Background="{StaticResource BackGroundColorDark}" Foreground="White"
-                  BorderBrush="White" BorderThickness="1" Margin="3" Padding="5" 
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  HorizontalContentAlignment="Stretch"
-                  SelectedItem="{Binding Movement}"
-                  ItemsSource="{Binding Character.MovementTypes_Speeds}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <v:PropertyDisplayView/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Button Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                Command="{Binding AddMovementCommand}"
-                Content="Add Movement"/>
-        <Button Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                Command="{Binding RemoveMovementCommand}"
-                Content="Remove Movement"/>
+        <ContentControl Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1">
+            <v:PropertyListView DataContext="{Binding MovementTypesListVM}"/>
+        </ContentControl>
 
-        <TextBlock Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                   Style="{StaticResource h3}"
-                   Text="Weapon Profs"/>
-        <ListView Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="4"
-                  Background="{StaticResource BackGroundColorDark}" Foreground="White"
-                  BorderBrush="White" BorderThickness="1" Margin="3" Padding="5" 
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  HorizontalContentAlignment="Stretch"
-                  SelectedItem="{Binding Weapon}"
-                  ItemsSource="{Binding Character.WeaponProficiencies}" />
-        <Button Grid.Column="4" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                Command="{Binding AddWeaponCommand}"
-                Content="Add Weapon"/>
-        <Button Grid.Column="5" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                Command="{Binding RemoveWeaponCommand}"
-                Content="Remove Weapon"/>
+        <ContentControl  Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1">
+            <v:StringListView DataContext="{Binding WeaponProfsVM}"/>
+        </ContentControl>
 
-        <TextBlock Grid.Column="6" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource h3}"
-                   Text="Armor Profs"/>
-        <ListView Grid.Column="6" Grid.Row="1"  Grid.ColumnSpan="2" Grid.RowSpan="4"
-                  Background="{StaticResource BackGroundColorDark}" Foreground="White"
-                  BorderBrush="White" BorderThickness="1" Margin="3" Padding="5" 
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  HorizontalContentAlignment="Stretch"
-                  SelectedItem="{Binding Armor}"
-                  ItemsSource="{Binding Character.ArmorProficiencies}"/>
-        <Button Grid.Column="6" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                Command="{Binding AddArmorCommand}"
-                Content="Add Armor"/>
-        <Button Grid.Column="7" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                Command="{Binding RemoveArmorCommand}"
-                Content="Remove Armor"/>
+        <ContentControl  Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1"  Grid.RowSpan="1">
+            <v:StringListView DataContext="{Binding ArmorProfsVM}"/>
+        </ContentControl>
 
-        <TextBlock Grid.Column="8" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                   Style="{StaticResource h3}"
-                   Text="Tool Profs"/>
-        <ListView Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="4"
-                  Background="{StaticResource BackGroundColorDark}" Foreground="White"
-                  BorderBrush="White" BorderThickness="1" Margin="3" Padding="5" 
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  HorizontalContentAlignment="Stretch"
-                  SelectedItem="{Binding Tool}"
-                  ItemsSource="{Binding Character.ToolProficiences}" />
-        <Button Grid.Column="8" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                Command="{Binding AddToolCommand}"
-                Content="Add Tool"/>
-        <Button Grid.Column="9" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                Command="{Binding RemoveToolCommand}"
-                Content="Remove Tool"/>
+        <ContentControl Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1">
+            <v:StringListView DataContext="{Binding OtherProfsVM}"/>
+        </ContentControl>
 
-        <TextBlock Grid.Column="10" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource h3}"
-                   Text="Other Profs"/>
-        <ListView Grid.Column="10" Grid.Row="1"  Grid.ColumnSpan="2" Grid.RowSpan="4"
-                  Background="{StaticResource BackGroundColorDark}" Foreground="White"
-                  BorderBrush="White" BorderThickness="1" Margin="3" Padding="5" 
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  HorizontalContentAlignment="Stretch"
-                  SelectedItem="{Binding OtherProf}"
-                  ItemsSource="{Binding Character.OtherProficiences}"/>
-        <Button Grid.Column="10" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                Command="{Binding AddOtherProfCommand}"
-                Content="Add OtherProf"/>
-        <Button Grid.Column="11" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                Command="{Binding RemoveOtherProfCommand}"
-                Content="Remove OtherProf"/>
+        <ContentControl Grid.Column="5" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1">
+            <v:StringListView DataContext="{Binding ToolProfsVM}"/>
+        </ContentControl>
 
-        <Button Grid.Column="10" Grid.Row="9" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                Command="{Binding CancelCommand}"
-                IsCancel="True"
-                Content="Cancel"/>
+        <!--#region max health-->
+        <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
+               VerticalAlignment="Bottom"
+               Content="Max Health"/>
+        <TextBox Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                 VerticalAlignment="Top"
+                 Text="{Binding Character.Health.MaxHealth}"/>
 
-        <Button Grid.Column="11" Grid.Row="9" Grid.ColumnSpan="1" Grid.RowSpan="1"
+        <!--#endregion-->
+
+        <!--#region max health-->
+        <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1"
+               VerticalAlignment="Bottom"
+               Content="Hit Die"/>
+        <ComboBox Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="1"
+                  Width="100"
+                  Height="30"
+                  VerticalAlignment="Top"
+                  ItemsSource="{Binding HitDice}"
+                  SelectedItem="{Binding Character.CharacterClass.HitDie}"/>
+
+        <!--#endregion-->
+
+        <Button Grid.Column="11" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
                 Command="{Binding OkCommand}"
                 IsDefault="True"
                 Content="Ok"/>

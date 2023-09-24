@@ -1,5 +1,6 @@
 ﻿using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
+using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,18 +11,16 @@ namespace PCCharacterManager.Commands
 {
 	public class SaveCharacterCommand : BaseCommand
 	{
-		private readonly ICharacterDataService dataService;
-		private readonly CharacterStore characterStore;
+		private readonly MainWindowViewModel mainWindowViewModel;
 
-		public SaveCharacterCommand(ICharacterDataService _dataService, CharacterStore _characterStore)
+		public SaveCharacterCommand(MainWindowViewModel _mainWindowViewModel)
 		{
-			dataService = _dataService;
-			characterStore = _characterStore;
+			mainWindowViewModel = _mainWindowViewModel;
 		}
-
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
-			dataService.Save(characterStore.SelectedCharacter);
+			//dataService.Save(characterStore.SelectedCharacter);
+			mainWindowViewModel.TabVM.CharacterListVM.SaveCharacter();
 		}
 	}
 }

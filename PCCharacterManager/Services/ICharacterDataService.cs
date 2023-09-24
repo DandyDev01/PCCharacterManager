@@ -1,24 +1,36 @@
 ﻿using PCCharacterManager.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PCCharacterManager.Services
 {
-	public interface ICharacterDataService
+	public abstract class ICharacterDataService
 	{
-		IEnumerable<Character> GetCharacters();
+		public abstract IEnumerable<DnD5eCharacter> GetCharacters();
 
-		IEnumerable<string> GetCharacterFilePaths();
+		public abstract IEnumerable<string> GetCharacterFilePaths();
 
-		void Save(IEnumerable<Character> characters);
+		public abstract void Save(IEnumerable<DnD5eCharacter> characters);
 
-		void Save(Character character);
+		public abstract void Save(DnD5eCharacter character);
 
-		void Add(Character newCharacter);
+		public abstract void Add(DnD5eCharacter newCharacter);
 
-		bool Delete(Character character);
+		public abstract bool Delete(DnD5eCharacter character);
+
+		public bool Delete(string path)
+		{
+			if (File.Exists(path))
+			{
+				File.Delete(path);
+				return true;
+			}
+
+			return false;
+		}
 	}
 }

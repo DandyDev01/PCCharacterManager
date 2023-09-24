@@ -23,7 +23,7 @@ namespace PCCharacterManager.Commands
 			tabVM = _tabVM;
 		}
 
-		public override void Execute(object parameter)
+		public override void Execute(object? parameter)
 		{
 			CharacterItemViewModel[] characterItems = tabVM.CharacterListVM.CharacterItems.ToArray();
 			string[] characterNames = new string[characterItems.Length];
@@ -47,7 +47,8 @@ namespace PCCharacterManager.Commands
 			selectCharactersWindow.DataContext = dataContext;
 			selectCharactersWindow.ShowDialog();
 
-			if ((bool)!selectCharactersWindow.DialogResult) return;
+			if ((bool)!selectCharactersWindow.DialogResult) 
+				return;
 
 			string[] selectedCharacterNames = dataContext.SelectedItems.ToArray();
 			string[] characterPaths = new string[selectedCharacterNames.Length];
@@ -55,7 +56,8 @@ namespace PCCharacterManager.Commands
 			// select where to save export files
 			var fileDialogResult = saveFile.ShowDialog();
 
-			if ((bool)!fileDialogResult) return;
+			if ((bool)!fileDialogResult) 
+				return;
 
 			savePath = saveFile.FileName;
 
@@ -78,16 +80,19 @@ namespace PCCharacterManager.Commands
 		/// <param name="characterPaths"></param>
 		private void SingleFileExport(CharacterItemViewModel[] characterItems, string savePath, string[] selectedCharacterNames, string[] characterPaths)
 		{
+			DnD5eCharacter[] characters = new DnD5eCharacter[characterPaths.Length];
+			
+			// get path's of characters to export
 			for (int i = 0; i < selectedCharacterNames.Length; i++)
 			{
 				foreach (var item in characterItems)
 				{
-					if (item.CharacterName.Equals(selectedCharacterNames[i])) characterPaths[i] = item.CharacterPath;
+					if (item.CharacterName.Equals(selectedCharacterNames[i])) 
+						characterPaths[i] = item.CharacterPath;
 				}
 			}
 
-			Character[] characters = new Character[characterPaths.Length];
-
+			// write .json file for each character being exported
 			for (int i = 0; i < characters.Length; i++)
 			{
 				// selectedCharacter is to be exported
@@ -96,14 +101,15 @@ namespace PCCharacterManager.Commands
 					characters[i] = characterStore.SelectedCharacter;
 					continue;
 				}
-				characters[i] = ReadWriteJsonFile<Character>.ReadFile(characterPaths[i]);
+
+				characters[i] = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterPaths[i]);
 			}
 
-			ReadWriteJsonCollection<Character>.WriteCollection(savePath, characters);
+			ReadWriteJsonCollection<DnD5eCharacter>.WriteCollection(savePath, characters);
 		}
 
 		/// <summary>
-		/// eport characters to seperate files
+		/// export characters to separate files
 		/// </summary>
 		/// <param name="characterItems"></param>
 		/// <param name="savePath"></param>
@@ -124,12 +130,12 @@ namespace PCCharacterManager.Commands
 				savePath = savePath.Substring(0, savePath.IndexOf('.'));
 				if (characterPaths[i].Contains(characterStore.SelectedCharacter.Name))
 				{
-					ReadWriteJsonFile<Character>.WriteFile(savePath + "_" + characterStore.SelectedCharacter.Name + ".json", characterStore.SelectedCharacter);
+					ReadWriteJsonFile<DnD5eCharacter>.WriteFile(savePath + "_" + characterStore.SelectedCharacter.Name + ".json", characterStore.SelectedCharacter);
 					savePath += ".json";
 					continue;
 				}
-				Character character = ReadWriteJsonFile<Character>.ReadFile(characterPaths[i]);
-				ReadWriteJsonFile<Character>.WriteFile(savePath + "_" + character.Name + ".json", character);
+				DnD5eCharacter character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterPaths[i]);
+				ReadWriteJsonFile<DnD5eCharacter>.WriteFile(savePath + "_" + character.Name + ".json", character);
 				savePath += ".json";
 			}
 		}

@@ -57,7 +57,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChanged(ref isEditMode, value);
-				OnPropertyChaged("IsDisplayMode");
+				OnPropertyChanged("IsDisplayMode");
 			}
 		}
 
@@ -80,6 +80,7 @@ namespace PCCharacterManager.ViewModels
 			displayName = string.Empty;
 			displayDesc = string.Empty;
 			displayHidden = false;
+			boundProperty = new Property();
 		}
 
 		public void Bind(Property _property)
