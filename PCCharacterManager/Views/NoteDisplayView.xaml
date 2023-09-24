@@ -12,15 +12,15 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Border BorderBrush="{StaticResource LightText}" BorderThickness="2"/>
+        <Border BorderBrush="{DynamicResource LightText}" BorderThickness="2"/>
         <Label Grid.Row="0"
                Content="{Binding Title}"/>
 
         <Border Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="6" Grid.RowSpan="1"
-                BorderBrush="{StaticResource LightText}"
+                BorderBrush="{DynamicResource LightText}"
                 BorderThickness="1"
                 Padding="5">
-            <TextBlock Style="{StaticResource h4}"
+            <TextBlock Style="{DynamicResource h4}"
                        Text="{Binding Notes, FallbackValue=info}"/>
         </Border>
 

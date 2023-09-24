@@ -7,7 +7,7 @@
              xmlns:v="clr-namespace:PCCharacterManager.Views"
              xmlns:vm="clr-namespace:PCCharacterManager.ViewModels"
              mc:Ignorable="d" 
-             Background="{StaticResource ViewBackgroundColor}"
+             Background="{DynamicResource ViewBackgroundColor}"
              d:DesignHeight="1080" d:DesignWidth="1920">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type vm:CharacterInfoViewModel}">

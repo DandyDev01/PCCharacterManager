@@ -34,7 +34,7 @@
                     <Grid>
                         <Border Grid.ColumnSpan="9"
                                 BorderThickness="0, 2, 0, 0" BorderBrush="White"/>
-                        <Label Style="{StaticResource mediumn}"
+                        <Label Style="{DynamicResource mediumn}"
                                Content="{Binding }"/>
                     </Grid>
                 </DataTemplate>

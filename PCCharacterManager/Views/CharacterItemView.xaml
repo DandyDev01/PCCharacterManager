@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              mc:Ignorable="d" 
              d:DesignWidth="500" Height="auto">
-    <Grid Background="{StaticResource ItemBackgroundColor}">
+    <Grid Background="{DynamicResource ItemBackgroundColor}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -14,9 +14,9 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Column="0" BorderBrush="{StaticResource LightText}" BorderThickness="0,0,3,0"/>
-        <Border Grid.Column="1" BorderBrush="{StaticResource LightText}" BorderThickness="0,0,3,0"/>
-        <Border Grid.Column="2" BorderBrush="{StaticResource LightText}" BorderThickness="0,0,3,0"/>
+        <Border Grid.Column="0" BorderBrush="{DynamicResource LightText}" BorderThickness="0,0,3,0"/>
+        <Border Grid.Column="1" BorderBrush="{DynamicResource LightText}" BorderThickness="0,0,3,0"/>
+        <Border Grid.Column="2" BorderBrush="{DynamicResource LightText}" BorderThickness="0,0,3,0"/>
 
         <Label FontSize="18" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
                Content="{Binding CharacterName, FallbackValue=NAME}"/>

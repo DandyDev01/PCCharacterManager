@@ -24,5 +24,23 @@ namespace PCCharacterManager
 		{
 			InitializeComponent();
 		}
+
+		private void DarkMode_Click(object sender, RoutedEventArgs e)
+		{
+			ResourceDictionary theme = new ResourceDictionary();
+			theme.Source = new Uri("Themes/DarkMode.xaml", UriKind.Relative);
+
+			App.Current.Resources.Clear();
+			App.Current.Resources.MergedDictionaries.Add(theme);
+		}
+
+		private void LightMode_Click(object sender, RoutedEventArgs e)
+		{
+			ResourceDictionary theme = new ResourceDictionary();
+			theme.Source = new Uri("Themes/LightMode.xaml", UriKind.Relative);
+
+			App.Current.Resources.Clear();
+			App.Current.Resources.MergedDictionaries.Add(theme);
+		}
 	}
 }

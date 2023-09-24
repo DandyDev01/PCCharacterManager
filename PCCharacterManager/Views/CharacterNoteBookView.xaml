@@ -7,7 +7,7 @@
              xmlns:v="clr-namespace:PCCharacterManager.Views"
              xmlns:m="clr-namespace:PCCharacterManager.Models"
              mc:Ignorable="d" 
-             Background="{StaticResource ViewBackgroundColor}"
+             Background="{DynamicResource ViewBackgroundColor}"
              d:DesignHeight="1080" d:DesignWidth="1920">
     <UserControl.ContextMenu>
         <ContextMenu>
@@ -50,7 +50,7 @@
             </ComboBox>
             <TextBox x:Name="searchBox"
                      Text="{Binding SearchTerm, FallbackValue=search, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{StaticResource Search}"/>
+                     Style="{DynamicResource Search}"/>
         </Menu>
 
         <ListView Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2"
@@ -69,7 +69,7 @@
         <TreeView Grid.Column="5" Grid.Row="1" Grid.RowSpan="2"
                   x:Name="treeView"
                   ItemsSource="{Binding NoteSectionsToDisplay}"
-                  Background="{StaticResource BackGroundColorDark}"
+                  Background="{DynamicResource BackGroundColorDark}"
                   SelectedValuePath="{Binding SelectedNote}"
                   SelectedItemChanged="TreeView_SelectedItemChanged">
             <TreeView.ItemTemplate>
@@ -110,7 +110,7 @@
                 Content="Highlight"/>
 
         <!--<TextBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2"
-                 Style="{StaticResource Document}"
+                 Style="{DynamicResource Document}"
                  Text="{Binding SelectedNote.Notes, UpdateSourceTrigger=PropertyChanged}"/>-->
     </Grid>
 </UserControl>

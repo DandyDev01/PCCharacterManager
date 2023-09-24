@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              mc:Ignorable="d" 
-             Background="{StaticResource ItemBackgroundColor}"
+             Background="{DynamicResource ItemBackgroundColor}"
              Padding="3"
              Height="auto" d:DesignWidth="500">
     <Grid>
@@ -21,11 +21,11 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Title}"
+        <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Style="{DynamicResource Title}"
                    Margin="3"
                    Text="{Binding DisplayName, FallbackValue=Name}"/>
 
-        <TextBlock Grid.Column="5" Grid.ColumnSpan="1" Style="{StaticResource h3}"
+        <TextBlock Grid.Column="5" Grid.ColumnSpan="1" Style="{DynamicResource h3}"
                    Margin="3"
                    Text="{Binding DisplayQuantity, FallbackValue=1}"/>
 

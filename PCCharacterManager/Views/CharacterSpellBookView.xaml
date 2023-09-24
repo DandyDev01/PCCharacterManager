@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              xmlns:v="clr-namespace:PCCharacterManager.Views"
              mc:Ignorable="d" 
-             Background="{StaticResource ViewBackgroundColor}"
+             Background="{DynamicResource ViewBackgroundColor}"
              d:DesignHeight="1080" d:DesignWidth="1920">
     <UserControl.InputBindings>
         <KeyBinding Modifiers="Shift" Key="Tab" Command="{Binding NextFilterCommand}"/>
@@ -48,7 +48,7 @@
             </ComboBox>
             <TextBox x:Name="searchBox"
                      Text="{Binding SearchTerm, FallbackValue=search, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{StaticResource Search}"/>
+                     Style="{DynamicResource Search}"/>
             <ComboBox ItemsSource="{Binding SearchFilters}" SelectedIndex="0" 
                       SelectedValue="{Binding SelectedSearchFilter}"
                       ToolTip="searchs filter spells, cantrips, or both"/>
@@ -247,7 +247,7 @@
                 <!--#endregion-->
 
                 <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2"
-                         Style="{StaticResource Document}"
+                         Style="{DynamicResource Document}"
                          Text="{Binding SpellBookNote.Notes, UpdateSourceTrigger=PropertyChanged}"/>
 
             </Grid>
