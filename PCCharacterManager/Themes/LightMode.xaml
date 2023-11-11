@@ -32,13 +32,14 @@
     <helper:NullToEnabledConverter x:Key="NullToEnabledConverter"/>
 
 
-    <SolidColorBrush x:Key="BackGroundColorDark" Color="#9394a5"/>
-    <SolidColorBrush x:Key="BackGroundColor" Color="#f3f3f3"/>
+    <SolidColorBrush x:Key="BackGroundColorDark" Color="#f3f3f3"/>
+    <SolidColorBrush x:Key="BackGroundColor" Color="#9394a5"/>
 
+    <SolidColorBrush x:Key="ItemBackgroundColor" Color="#f3f3f3"/>
     <SolidColorBrush x:Key="LightBackgroundColor" Color="#d2d3db"/>
-    <SolidColorBrush x:Key="ItemBackgroundColor" Color="#88898e"/>
-    <SolidColorBrush x:Key="SubItemBackgroundColor" Color="#57575b"/>
+    <SolidColorBrush x:Key="SubItemBackgroundColor" Color="#9394a5"/>
     <SolidColorBrush x:Key="ViewBackgroundColor" Color="#7b7b81"/>
+    
     <SolidColorBrush x:Key="LightText" Color="#323234"/>
     <SolidColorBrush x:Key="SubText" Color="#323234"/>
     <SolidColorBrush x:Key="DarkText" Color="#323234"/>

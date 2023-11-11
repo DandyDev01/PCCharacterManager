@@ -50,8 +50,9 @@
             <TextBox x:Name="searchBox"
                      Text="{Binding SearchTerm, FallbackValue=search, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource Search}"/>
-            <CheckBox ToolTip="Show Hidden Properties of selected item?"
-                      IsChecked="{Binding ShowHiddenProperties}"/>
+            
+            <ToggleButton Content="{Binding ShowHiddenPropertiesText}"
+                          Command="{Binding ShowPropertiesToDisplayCommand}"/>
         </Menu>
 
         <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6" Grid.RowSpan="12" 

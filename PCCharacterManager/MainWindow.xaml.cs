@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCCharacterManager.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,20 +28,12 @@ namespace PCCharacterManager
 
 		private void DarkMode_Click(object sender, RoutedEventArgs e)
 		{
-			ResourceDictionary theme = new ResourceDictionary();
-			theme.Source = new Uri("Themes/DarkMode.xaml", UriKind.Relative);
-
-			App.Current.Resources.Clear();
-			App.Current.Resources.MergedDictionaries.Add(theme);
+			ThemeChanger.ChangeTheme("Themes/DarkMode.xaml");
 		}
 
 		private void LightMode_Click(object sender, RoutedEventArgs e)
 		{
-			ResourceDictionary theme = new ResourceDictionary();
-			theme.Source = new Uri("Themes/LightMode.xaml", UriKind.Relative);
-
-			App.Current.Resources.Clear();
-			App.Current.Resources.MergedDictionaries.Add(theme);
+			ThemeChanger.ChangeTheme("Themes/LightMode.xaml");
 		}
 	}
 }

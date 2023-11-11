@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCCharacterManager.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -15,11 +16,7 @@ namespace PCCharacterManager
 	{
 		private App()
 		{
-			ResourceDictionary theme = new ResourceDictionary();
-			theme.Source = new Uri("Themes/DarkMode.xaml", UriKind.Relative);
-
-			App.Current.Resources.Clear();
-			App.Current.Resources.MergedDictionaries.Add(theme);
+			ThemeChanger.ChangeTheme("Themes/LightMode.xaml");
 		}
 	}
 }
