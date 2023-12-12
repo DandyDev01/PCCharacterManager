@@ -9,7 +9,6 @@
         ResizeMode="NoResize"
         ShowInTaskbar="false"
         WindowStartupLocation="CenterOwner"
-        Background="{StaticResource ViewBackgroundColor}"
         Title="Add Item Window" Height="800" Width="1450">
 
     <Grid>
@@ -34,8 +33,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="11" Grid.RowSpan="1"
-              Background="{StaticResource BackGroundColorDark}">
+        <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="11" Grid.RowSpan="1">
             <TextBox Width="150"
                      Text="{Binding InventoryVM.SearchTerm, UpdateSourceTrigger=PropertyChanged}"/>
         </Menu>

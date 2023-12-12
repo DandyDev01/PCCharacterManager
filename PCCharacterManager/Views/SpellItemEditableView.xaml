@@ -6,11 +6,9 @@
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600"
-             Background="{DynamicResource ItemBackgroundColor}"
-             Padding="10"
-             BorderBrush="{DynamicResource LightText}"
-             BorderThickness="2"
-             MaxWidth="600" MinWidth="300">
+             Padding="20"
+             BorderThickness="0"
+             MaxWidth="540" MinWidth="100">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -34,7 +32,7 @@
 
         <!--#region Name-->
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
-                   Style="{DynamicResource h2}"
+                   Style="{DynamicResource spellItemName}"
                    Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}" 
                    Text="{Binding Name, FallbackValue=Name}"/>
         <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
@@ -43,7 +41,7 @@
         <!--#endregion-->
         <!--#region Level-->
         <TextBlock Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2"
-                   Style="{DynamicResource h2}"
+                   Style="{DynamicResource spellItemAttributeTitle}"
                    Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}" 
                    ToolTip="Spell Level"
                    Text="{Binding Level, FallbackValue=1}"/>
@@ -53,7 +51,7 @@
         <!--#endregion-->
         <!--#region Casting Time-->
         <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                   Style="{DynamicResource h3}"
+                   Style="{DynamicResource spellItemAttributeTitle}"
                    Text="Casting Time"/>
         <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
                    Style="{DynamicResource h4}"
@@ -65,7 +63,7 @@
         <!--#endregion-->
         <!--#region Range / area-->
         <TextBlock Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" 
-                   Style="{DynamicResource h3}"
+                   Style="{DynamicResource spellItemAttributeTitle}"
                    Text="Range / Area"/>
         <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" 
                    Style="{DynamicResource h4}"
@@ -77,7 +75,7 @@
         <!--#endregion-->
         <!--#region Saves-->
         <TextBlock Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" 
-                   Style="{DynamicResource h3}"
+                   Style="{DynamicResource spellItemAttributeTitle}"
                    Text="Saves"/>
         <TextBlock Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" 
                    Style="{DynamicResource h4}"
@@ -89,7 +87,7 @@
         <!--#endregion-->
         <!--#region School-->
         <TextBlock Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2"
-                   Style="{DynamicResource h3}"
+                   Style="{DynamicResource spellItemAttributeTitle}"
                    Text="School"/>
         <TextBlock Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" 
                    Style="{DynamicResource h4}"
@@ -97,7 +95,7 @@
         <!--#endregion-->
         <!--#region Duration-->
         <TextBlock Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" 
-                   Style="{DynamicResource h3}"
+                   Style="{DynamicResource spellItemAttributeTitle}"
                    Text="Duration"/>
         <TextBlock Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" 
                    Style="{DynamicResource h4}"
@@ -109,8 +107,9 @@
         <!--#endregion-->
         <!--#region Dmg/effect-->
         <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" 
-                   Style="{DynamicResource h3}"
+                   Style="{DynamicResource spellItemAttributeTitle}"
                    Text="Damage/Effect"/>
+
         <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
                    Style="{DynamicResource h4}"
                    Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}" 
@@ -121,10 +120,14 @@
         <!--#endregion-->
         <!--#region Components-->
         <TextBlock Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" 
-                   Style="{DynamicResource h4}"
+                   Style="{DynamicResource spellItemAttributeTitle}"
                    Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}" 
                    ToolTip="Spell Components"
-                   Text="{Binding StringComponents, FallbackValue=SVM}"/>
+                   Text="Components"/>
+        <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" 
+                   Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}" 
+                   ToolTip="Spell Components"
+                   Text="SVG"/>
         <TextBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" 
                  Visibility="{Binding IsEditMode, Converter={StaticResource IsEditConverter}}"  
                  Text="{Binding Name, FallbackValue=Name}"/>
@@ -134,7 +137,7 @@
                 BorderBrush="{DynamicResource LightText}"
                 BorderThickness="1"
                 Padding="5">
-            <TextBlock Style="{DynamicResource h4}"
+            <TextBlock Style="{DynamicResource spellItemDescription}"
                        Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}" 
                        Text="{Binding Desc, FallbackValue=info}"/>
         </Border>

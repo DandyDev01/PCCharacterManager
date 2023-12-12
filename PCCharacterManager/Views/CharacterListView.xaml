@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              xmlns:v="clr-namespace:PCCharacterManager.Views"
              mc:Ignorable="d" 
-             Background="{DynamicResource ViewBackgroundColor}"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
@@ -21,7 +20,6 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!--disable the selected item thingyyy??-->
         <ListView ItemsSource="{Binding CharacterCollectionView}"  
                   x:Name="ListView"
                   SelectedIndex="0"
@@ -88,14 +86,6 @@
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
-            <!--<ListView.ItemTemplate>
-                <DataTemplate>
-                    <v:CharacterItemView Grid.Column="0"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>-->
         </ListView>
-        
-        
-
     </Grid>
 </UserControl>

@@ -7,7 +7,6 @@
              xmlns:v="clr-namespace:PCCharacterManager.Views"
              xmlns:vm="clr-namespace:PCCharacterManager.ViewModels"
              mc:Ignorable="d" 
-             Background="{DynamicResource ViewBackgroundColor}"
              d:DesignHeight="1080" d:DesignWidth="1920">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type vm:CharacterInfoViewModel}">
@@ -42,24 +41,29 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
+        <!--#region D&D 5e-->
         <ContentControl Grid.Column="0"  Grid.Row="0" Grid.ColumnSpan="8" Grid.RowSpan="7"
                         Visibility="{Binding Is5e, Converter={StaticResource IsEditConverter} }">
             <v:CharacterInfoView DataContext="{Binding CharacterInfoViewModel}"/>
-        </ContentControl>
-
-        <ContentControl Grid.Column="0"  Grid.Row="0" Grid.ColumnSpan="8" Grid.RowSpan="7"
-                        Visibility="{Binding IsStarfinder, Converter={StaticResource IsEditConverter} }">
-            <v:StarfinderCharacterInfoView DataContext="{Binding StarfinderCharacterInfoViewModel}"/>
         </ContentControl>
 
         <ContentControl Grid.Column="8" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="7" 
                         Visibility="{Binding Is5e, Converter={StaticResource IsEditConverter} }">
             <v:CharacterAbilitiesView DataContext="{Binding SelectedCharacter}"/>
         </ContentControl>
+        <!--#endregion-->
+        
+        <!--#region Starfinder-->
+        <ContentControl Grid.Column="0"  Grid.Row="0" Grid.ColumnSpan="8" Grid.RowSpan="7"
+                        Visibility="{Binding IsStarfinder, Converter={StaticResource IsEditConverter} }">
+            <v:StarfinderCharacterInfoView DataContext="{Binding StarfinderCharacterInfoViewModel}"/>
+        </ContentControl>
+
         
         <ContentControl Grid.Column="8" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="7" 
                         Visibility="{Binding IsStarfinder, Converter={StaticResource IsEditConverter} }">
             <v:StarfinderCharacterAbilitysAndSkillsView DataContext="{Binding StarfinderAbilitiesAndSkillsVM}"/>
         </ContentControl>
+        <!--#endregion-->
     </Grid>
 </UserControl>

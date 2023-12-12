@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              xmlns:v="clr-namespace:PCCharacterManager.Views"
              mc:Ignorable="d" 
-             Background="{DynamicResource ViewBackgroundColor}"
              d:DesignHeight="1080" d:DesignWidth="1920">
     <UserControl.InputBindings>
         <KeyBinding Modifiers="Shift" Key="Tab" Command="{Binding NextFilterCommand}"/>
@@ -57,7 +56,7 @@
                        Content="Search"/>
                 <TextBox x:Name="searchBox" Grid.Column="0"
                           Grid.Row="1"
-                         Text="{Binding SearchTerm, FallbackValue=search, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"
                          Style="{DynamicResource Search}"/>
 
                 <Label Grid.Column="1"
@@ -282,7 +281,6 @@
                 <!--#endregion-->
 
                 <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2"
-                         Style="{DynamicResource Document}"
                          Text="{Binding SpellBookNote.Notes, UpdateSourceTrigger=PropertyChanged}"/>
 
             </Grid>
@@ -319,8 +317,8 @@
                     FontSize="15"
                     Content="Remove"/>
             <ListView Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" 
-                  SelectedItem="{Binding SelectedSpell}"
-                  ItemsSource="{Binding SpellsCollectionView}">
+                      SelectedItem="{Binding SelectedSpell}"
+                      ItemsSource="{Binding SpellsCollectionView}">
                 <ListView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Add Spell" InputGestureText="N/A" Command="{Binding AddSpellCommand}"/>

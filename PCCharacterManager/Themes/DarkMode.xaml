@@ -32,7 +32,7 @@
     <helper:NullToEnabledConverter x:Key="NullToEnabledConverter"/>
 
 
-    <SolidColorBrush x:Key="BackGroundColorDark" Color="#333333"/>
+    <!--<SolidColorBrush x:Key="BackGroundColorDark" Color="#333333"/>
     <SolidColorBrush x:Key="BackGroundColor" Color="#181a1b"/>
 
     <SolidColorBrush x:Key="LightBackgroundColor" Color="#333333"/>
@@ -41,9 +41,9 @@
     <SolidColorBrush x:Key="ViewBackgroundColor" Color="#121414"/>
     <SolidColorBrush x:Key="LightText" Color="LightGray"/>
     <SolidColorBrush x:Key="SubText" Color="#525252"/>
-    <SolidColorBrush x:Key="DarkText" Color="#2c2c2c"/>
+    <SolidColorBrush x:Key="DarkText" Color="#2c2c2c"/>-->
 
-    <!--#region Label-->
+    <!--#region Label--><!--
     <Style TargetType="Label">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -86,7 +86,7 @@
     </Style>
 
 
-    <!--#endregion-->
+    --><!--#endregion--><!--
 
     <Style TargetType="ScrollViewer">
         <Setter Property="CanContentScroll" Value="False"/>
@@ -112,7 +112,7 @@
         <Setter Property="Padding" Value="3"/>
     </Style>
 
-    <!--#region Tab Control-->
+    --><!--#region Tab Control--><!--
     <Style TargetType="TabControl">
         <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
     </Style>
@@ -128,9 +128,9 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    <!--#endregion-->
+    --><!--#endregion-->
 
-    <!--#region Menu-->
+    <!--#region Menu--><!--
     <Style TargetType="Menu">
         <Setter Property="Background" Value="{StaticResource ItemBackgroundColor}"/>
         <Setter Property="Foreground" Value="White"/>
@@ -146,9 +146,9 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    <!--#endregion-->
+    --><!--#endregion-->
 
-    <!--#region TextBlock-->
+    <!--#region TextBlock--><!--
 
     <Style TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
@@ -179,7 +179,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
-    <!--h1-->
+    --><!--h1--><!--
     <Style x:Key="h1" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
         <Setter Property="FontSize" Value="25"/>
@@ -189,7 +189,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
-    <!--h2-->
+    --><!--h2--><!--
     <Style x:Key="h2" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
         <Setter Property="FontSize" Value="20"/>
@@ -197,7 +197,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
-    <!--h3-->
+    --><!--h3--><!--
     <Style x:Key="h3" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
         <Setter Property="FontSize" Value="15"/>
@@ -205,7 +205,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
-    <!--h4-->
+    --><!--h4--><!--
     <Style x:Key="h4" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
         <Setter Property="FontSize" Value="12"/>
@@ -213,7 +213,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
-    <!--#region h5-->
+    --><!--#region h5--><!--
     <Style x:Key="h5" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
         <Setter Property="FontSize" Value="10"/>
@@ -221,7 +221,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
-    <!--#endregion-->
+    --><!--#endregion-->
     <!--#endregion-->
 
 
@@ -230,7 +230,7 @@
         <Setter Property="CornerRadius" Value="10"/>
     </Style>-->
 
-    <!--#region TextBox-->
+    <!--#region TextBox--><!--
     <Style TargetType="TextBox">
         <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
@@ -264,16 +264,16 @@
         <Setter Property="Margin" Value="3"/>
         <Setter Property="Width" Value="150"/>
     </Style>
-    <!--#endregion-->
+    --><!--#endregion-->
 
-    <!--#region Toggle Button-->
+    <!--#region Toggle Button--><!--
     <Style TargetType="ToggleButton">
         <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
         <Setter Property="Foreground" Value="red"/>
     </Style>
-    <!--#endregion-->
+    --><!--#endregion-->
 
-    <!--#region Combobox-->
+    <!--#region Combobox--><!--
 
     <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
         <Grid Margin="5, 0, 5, 0">
@@ -303,7 +303,7 @@
               VerticalAlignment="Center"
               Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"/>
         </Grid>
-        <!--<ControlTemplate.Triggers>
+        --><!--<ControlTemplate.Triggers>
     <Trigger Property="ToggleButton.IsMouseOver" Value="true">
         <Setter TargetName="Border" Property="Background" Value="#808080" />
     </Trigger>
@@ -316,7 +316,7 @@
         <Setter Property="Foreground" Value="#888888"/>
         <Setter TargetName="Arrow" Property="Fill" Value="#888888" />
     </Trigger>
-</ControlTemplate.Triggers>-->
+</ControlTemplate.Triggers>--><!--
     </ControlTemplate>
 
     <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
@@ -413,7 +413,7 @@
         </Style.Triggers>
     </Style>
 
-    <!--#region ComboBoxItem-->
+    --><!--#region ComboBoxItem--><!--
     <Style TargetType="ComboBoxItem">
 
         <Setter Property="Padding" Value="1"/>
@@ -428,10 +428,10 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    <!--#endregion-->
+    --><!--#endregion-->
     <!--#endregion-->
 
-    <!--#region ListView-->
+    <!--#region ListView--><!--
     <Style TargetType="ListView">
         <Setter Property="BorderBrush" Value="{StaticResource LightText}"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -453,9 +453,9 @@
         <Setter Property="BorderThickness" Value="0 0 0 0"/>
         <Setter Property="Padding" Value="2 2 2 2"/>
     </Style>
-    <!--#endregion-->
+    --><!--#endregion-->
 
-    <!--#region Button-->
+    <!--#region Button--><!--
     <Style TargetType="Button">
         <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
@@ -464,7 +464,7 @@
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Margin" Value="3"/>
         <Setter Property="Padding" Value="3"/>
-        <!--<Setter Property="Template">
+        --><!--<Setter Property="Template">
         <Setter.Value>
             <ControlTemplate TargetType="Button">
                 <Border CornerRadius="7" Background="{StaticResource LightBackgroundColor}" BorderThickness="1" Padding="2">
@@ -472,9 +472,9 @@
                 </Border>
             </ControlTemplate>
         </Setter.Value>
-    </Setter>-->
+    </Setter>--><!--
     </Style>
-    <!--#endregion-->
+    --><!--#endregion--><!--
 
     <Style TargetType="ContextMenu">
         <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
@@ -488,5 +488,5 @@
     <Style TargetType="ToolTip">
         <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
         <Setter Property="Foreground" Value="{StaticResource DarkText}"/>
-    </Style>
+    </Style>-->
 </ResourceDictionary>

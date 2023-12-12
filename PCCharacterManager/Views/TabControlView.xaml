@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              xmlns:v="clr-namespace:PCCharacterManager.Views" 
              mc:Ignorable="d" 
-             Background="{DynamicResource ViewBackgroundColor}"
              d:DesignHeight="1080" d:DesignWidth="1920" Padding="10">
     <Grid>
         <TabControl >

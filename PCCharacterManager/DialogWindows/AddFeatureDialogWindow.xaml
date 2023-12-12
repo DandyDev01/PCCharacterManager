@@ -9,7 +9,6 @@
         ResizeMode="NoResize"
         ShowInTaskbar="false"
         WindowStartupLocation="CenterOwner"
-        Background="{StaticResource ViewBackgroundColor}"
         Title="Add Feature Dialog Window" Height="600" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>

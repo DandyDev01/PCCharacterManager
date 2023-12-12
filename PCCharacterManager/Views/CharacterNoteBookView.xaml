@@ -56,7 +56,7 @@
                    Content="Search"/>-->
             <TextBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
                      x:Name="searchBox"
-                     Text="{Binding SearchTerm, FallbackValue=search, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource Search}"/>
             <Button Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
                     Content="Add Note" 
