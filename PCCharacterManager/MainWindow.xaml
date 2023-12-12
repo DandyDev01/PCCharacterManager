@@ -7,7 +7,7 @@
         xmlns:v="clr-namespace:PCCharacterManager.Views" 
         xmlns:vm="clr-namespace:PCCharacterManager.ViewModels"
         mc:Ignorable="d"
-        Title="PC Manager v0.1 (Beta)" MinHeight="500" MinWidth="800" Height="650" Width="1300" Background="{StaticResource ViewBackgroundColor}">
+        Title="PC Manager v0.1 (Beta)" MinHeight="500" MinWidth="800" Height="650" Width="1300" Background="{DynamicResource ViewBackgroundColor}">
 
     <Window.InputBindings>
         <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCharactersCommand}"/>
@@ -26,29 +26,33 @@
         </Grid.RowDefinitions>
 
         <Menu Padding="5" Grid.ColumnSpan="2">
-            <MenuItem Header="File" Style="{StaticResource MenuItem}">
+            <MenuItem Header="File" Style="{DynamicResource MenuItem}">
                 <MenuItem x:Name="menuNew" Header="New" Command="{Binding NewCharacterCommand}"
-                          InputGestureText="Ctrl+N" Style="{StaticResource MenuItem}"/>
+                          InputGestureText="Ctrl+N" Style="{DynamicResource MenuItem}"/>
                 <MenuItem x:Name="menuOpen" Header="Open" Command="{Binding OpenCommand}"
                           IsEnabled="true"
-                          InputGestureText="Ctrl+O" Style="{StaticResource MenuItem}"/>
+                          InputGestureText="Ctrl+O" Style="{DynamicResource MenuItem}"/>
                 <MenuItem x:Name="menuSave" Header="Save" Command="{Binding SaveCharactersCommand}"
-                          InputGestureText="Ctrl+S" Style="{StaticResource MenuItem}"/>
+                          InputGestureText="Ctrl+S" Style="{DynamicResource MenuItem}"/>
                 <MenuItem x:Name="menuExport" Header="Export Character(s)" Command="{Binding ExportCharacterCommand}"
-                          Style="{StaticResource MenuItem}"/>
+                          Style="{DynamicResource MenuItem}"/>
                 <MenuItem x:Name="menuClose" Header="Exit" Command="ApplicationCommands.Close" 
-                          Style="{StaticResource MenuItem}"/>
+                          Style="{DynamicResource MenuItem}"/>
             </MenuItem>
-            <MenuItem Header="Edit" Style="{StaticResource MenuItem}">
+            <MenuItem Header="Edit" Style="{DynamicResource MenuItem}">
                 <MenuItem x:Name="menuDuplicate" Header="Duplicate Character" IsEnabled="False"
-                          InputGestureText="Ctrl+D" Style="{StaticResource MenuItem}"/>
+                          InputGestureText="Ctrl+D" Style="{DynamicResource MenuItem}"/>
                 <MenuItem x:Name="menuAddCompanion" Header="Add Companion" IsEnabled="False"
-                          InputGestureText="Ctrl+N+C" Style="{StaticResource MenuItem}"/>
+                          InputGestureText="Ctrl+N+C" Style="{DynamicResource MenuItem}"/>
                 <MenuItem x:Name="menuLevel" Header="Level Character" Command="{Binding LevelCharacterCommand}"
-                          InputGestureText="Ctrl+L" Style="{StaticResource MenuItem}"/>
+                          InputGestureText="Ctrl+L" Style="{DynamicResource MenuItem}"/>
                 <MenuItem x:Name="editCharacter" Header="Edit Character" Command="{Binding EditCharacterCommand}"
-                          InputGestureText="N/A" Style="{StaticResource MenuItem}"/>
+                          InputGestureText="N/A" Style="{DynamicResource MenuItem}"/>
                 <MenuItem Header="Add Feature" Command="{Binding TabVM.CharacterStatsVM.CharacterInfoViewModel.AddFeatureCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Theme" Style="{DynamicResource MenuItem}">
+                <MenuItem Header="Dark Mode" Click="DarkMode_Click"/>
+                <MenuItem Header="Light Mode" Click="LightMode_Click"/>
             </MenuItem>
         </Menu>
 

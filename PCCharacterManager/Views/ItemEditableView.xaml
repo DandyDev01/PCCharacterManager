@@ -7,7 +7,7 @@
              xmlns:v="clr-namespace:PCCharacterManager.Views"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="600"
-             Background="{StaticResource ItemBackgroundColor}"
+             Background="{DynamicResource ItemBackgroundColor}"
              BorderBrush="White" BorderThickness="0,5,0,0">
     <UserControl.ContextMenu>
         <ContextMenu>
@@ -32,7 +32,7 @@
         <!--#region Name-->
         <TextBlock Text="{Binding DisplayName, FallbackValue=Name}" Grid.ColumnSpan="2"
                    Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}"
-                   Grid.Row="0" Grid.Column="0" Style="{StaticResource leftAlign}" FontSize="20"
+                   Grid.Row="0" Grid.Column="0" Style="{DynamicResource leftAlign}" FontSize="20"
                    TextDecorations="Underline"
                    MaxWidth="400"/>
 
@@ -45,7 +45,7 @@
         <!--#region Desc-->
         <TextBlock Text="{Binding DisplayDesc, FallbackValue=LongLostText}" Padding="0,10,0,0"
                    Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}"
-                   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource leftAlign}"
+                   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{DynamicResource leftAlign}"
                    MaxWidth="400"/>
 
         <TextBox Text="{Binding DisplayDesc, UpdateSourceTrigger=PropertyChanged}" Height="Auto" MaxWidth="400" TextWrapping="Wrap"
@@ -56,7 +56,7 @@
         <!--#region Quantity-->
         <TextBlock Text="{Binding DisplayQuantity, FallbackValue=Quantiy}" 
                    Visibility="{Binding IsDisplayMode, Converter={StaticResource IsEditConverter}}"
-                   Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource leftAlign}"/>
+                   Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Style="{DynamicResource leftAlign}"/>
 
         <TextBox Text="{Binding DisplayQuantity, UpdateSourceTrigger=PropertyChanged}" Height="35" MaxWidth="50"
                  Visibility="{Binding IsEditMode, Converter={StaticResource IsEditConverter}}"
@@ -64,7 +64,7 @@
         <!--#endregion-->
 
         <ListView Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2" Margin="7"
-                  Background="{StaticResource BackGroundColor}"
+                  Background="{DynamicResource BackGroundColor}"
                   ItemsSource="{Binding DisplayProperties}" SelectedValue="{Binding SelectedProperty}">
             <ListView.ItemTemplate>
                 <DataTemplate>

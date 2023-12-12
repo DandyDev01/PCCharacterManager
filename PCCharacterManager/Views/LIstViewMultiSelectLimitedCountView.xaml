@@ -15,7 +15,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Style="{StaticResource small}"
+        <Label Grid.Row="0" Style="{DynamicResource small}"
                Content="{Binding AmountToBeSelected, FallbackValue=2}"/>
 
         <ListView Grid.Row="1"

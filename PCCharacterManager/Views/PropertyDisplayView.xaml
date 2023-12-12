@@ -19,7 +19,7 @@
 
         <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1"
                Content="{Binding Name, FallbackValue=Name}"
-               Style="{StaticResource mediumn}"/>
+               Style="{DynamicResource mediumn}"/>
 
         <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1"
                    TextWrapping="Wrap"

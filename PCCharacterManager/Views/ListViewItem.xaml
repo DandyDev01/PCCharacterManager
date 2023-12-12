@@ -14,6 +14,6 @@
                 <MenuItem Header="Remove" Command="{Binding}"/>
             </ContextMenu>
         </Grid.ContextMenu>
-        <TextBlock Style="{StaticResource h2}" Text="{Binding }" TextWrapping="WrapWithOverflow"/>
+        <TextBlock Style="{DynamicResource h2}" Text="{Binding }" TextWrapping="WrapWithOverflow"/>
     </Grid>
 </UserControl>

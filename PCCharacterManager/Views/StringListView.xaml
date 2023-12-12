@@ -24,8 +24,8 @@
                   ItemsSource="{Binding ItemsToDisplay}">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Remove item" Command="{Binding RemoveItemCommand}"/>
-                    <MenuItem Header="Edit item" Command="{Binding EditItemCommand}"/>
+                    <MenuItem Header="Remove item" Command="{Binding RemoveItemCommand}" IsEnabled="{Binding SelectedItem, Converter={StaticResource NullToEnabledConverter}}"/>
+                    <MenuItem Header="Edit item" Command="{Binding EditItemCommand}" IsEnabled="{Binding SelectedItem, Converter={StaticResource NullToEnabledConverter}}"/>
                     <MenuItem Header="Add item" Command="{Binding AddItemCommand}"/>
                 </ContextMenu>
             </ListView.ContextMenu>
@@ -34,7 +34,7 @@
                     <Grid>
                         <Border Grid.ColumnSpan="9"
                                 BorderThickness="0, 2, 0, 0" BorderBrush="White"/>
-                        <Label Style="{StaticResource mediumn}"
+                        <Label Style="{DynamicResource mediumn}"
                                Content="{Binding }"/>
                     </Grid>
                 </DataTemplate>
@@ -45,6 +45,7 @@
                 Content="+"/>
         <Button Grid.Column="1" Grid.Row="2"
                 Command="{Binding RemoveItemCommand}"
+                IsEnabled="{Binding SelectedItem, Converter={StaticResource NullToEnabledConverter}}"
                 Content="-"/>
     </Grid>
 </UserControl>

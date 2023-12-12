@@ -121,5 +121,20 @@ namespace PCCharacterManager.Views
 			
 			inventoryVM.SelectedItem = inventoryVM.ItemDisplayVms[0];
 		}
-	}
+
+		private void searchBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			if (sender is TextBox textbox)
+			{
+				if (string.IsNullOrEmpty(textbox.Text))
+				{
+					textbox.Text = "Search";
+				}
+				else
+				{
+					textbox.Text = "";
+				}
+			}
+        }
+    }
 }

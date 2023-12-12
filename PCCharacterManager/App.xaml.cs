@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCCharacterManager.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,9 @@ namespace PCCharacterManager
 	/// </summary>
 	public partial class App : Application
 	{
+		private App()
+		{
+			ThemeChanger.ChangeTheme("Themes/LightMode.xaml");
+		}
 	}
 }

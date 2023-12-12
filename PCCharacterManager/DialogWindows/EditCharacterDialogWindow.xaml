@@ -9,7 +9,7 @@
         ResizeMode="NoResize"
         ShowInTaskbar="false"
         WindowStartupLocation="CenterOwner"
-        Background="{StaticResource ViewBackgroundColor}"
+        Background="{DynamicResource ViewBackgroundColor}"
         Title="EditCharacterDialogWindow" Height="550" Width="950">
     <Grid>
         <Grid.ColumnDefinitions>

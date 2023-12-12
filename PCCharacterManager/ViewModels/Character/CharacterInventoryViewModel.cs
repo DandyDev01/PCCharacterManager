@@ -42,6 +42,8 @@ namespace PCCharacterManager.ViewModels
 		public ICommand WeightSortCommand { get; }
 		public ICommand CategorySortCommand { get; }
 
+		public ICommand ShowPropertiesToDisplayCommand { get; }
+
 		public ICollectionView ItemsCollectionView { get; private set; }
 		public ObservableCollection<ItemViewModel> ItemDisplayVms { get; }
 
@@ -98,13 +100,17 @@ namespace PCCharacterManager.ViewModels
 		}
 
 		private bool showHiddenProperties = false;
-		public bool ShowHiddenProperties
+
+		private string showHiddenPropertiesText;
+		public string ShowHiddenPropertiesText
 		{
-			get { return showHiddenProperties; }
-			set 
+			get
 			{
-				OnPropertyChanged(ref showHiddenProperties, value);
-				PopulatePropertiesToDisplay();
+				return showHiddenPropertiesText;
+			}
+			set
+			{
+				OnPropertyChanged(ref showHiddenPropertiesText, value);
 			}
 		}
 
@@ -128,6 +134,8 @@ namespace PCCharacterManager.ViewModels
 			PrevSelectedProperty = new PropertyEditableViewModel(new Property());
 
 			PropertiesToDisplay = new ObservableCollection<PropertyEditableViewModel>();
+
+			ShowPropertiesToDisplayCommand = new RelayCommand(PopulatePropertiesToDisplay);
 
 			NameSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
 				nameof(ItemViewModel.DisplayName));
@@ -204,6 +212,17 @@ namespace PCCharacterManager.ViewModels
 
 		private void PopulatePropertiesToDisplay()
 		{
+			showHiddenProperties = !showHiddenProperties;
+
+			if (showHiddenProperties)
+			{
+				ShowHiddenPropertiesText = "Showing Hidden Properties";
+			}
+			else
+			{
+				ShowHiddenPropertiesText = "Don't show hidden properties";
+			}
+
 			PropertiesToDisplay.Clear();
 
 			if (selectedItem == null || selectedItem.BoundItem == null) 

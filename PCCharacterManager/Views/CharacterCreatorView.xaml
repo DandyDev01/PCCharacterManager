@@ -54,13 +54,13 @@
             </Grid.RowDefinitions>
 
             <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                       Content="Name" Style="{StaticResource large}"/>
+                       Content="Name" Style="{DynamicResource large}"/>
             <TextBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
                          Text="{Binding Name}"/>
 
             <!--#region Class Select-->
             <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                       Content="Class" Style="{StaticResource large}"/>
+                       Content="Class" Style="{DynamicResource large}"/>
             <ComboBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
                       DisplayMemberPath="Name"
                       SelectedIndex="0"
@@ -70,7 +70,7 @@
 
             <!--#region Background Select-->
             <Label Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                       Content="Background" Style="{StaticResource large}"/>
+                       Content="Background" Style="{DynamicResource large}"/>
             <ComboBox Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
                           DisplayMemberPath="Name"
                           SelectedIndex="0"
@@ -80,7 +80,7 @@
 
             <!--#region Race Select-->
             <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                       Content="Race" Style="{StaticResource large}"/>
+                       Content="Race" Style="{DynamicResource large}"/>
             <ComboBox Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
                           DisplayMemberPath="Name"
                           SelectedIndex="0"
@@ -90,7 +90,7 @@
 
             <!--#region Race Variant Select-->
             <Label Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                       Content="Race Variant" Style="{StaticResource large}"/>
+                       Content="Race Variant" Style="{DynamicResource large}"/>
             <ComboBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
                           DisplayMemberPath="Name"
                           SelectedIndex="0"
@@ -101,7 +101,7 @@
             <!--#region Alignment-->
             <Label Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
                    Content="Alignment" 
-                   Style="{StaticResource large}"/>
+                   Style="{DynamicResource large}"/>
             <ComboBox Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
                       SelectedItem="{Binding SelectedAlignment}"
                       SelectedIndex="0"
@@ -219,39 +219,39 @@
                             </Grid.RowDefinitions>
                             <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="12" Grid.RowSpan="1"
                                    Content="{Binding SelectedCharacterClass.Name, FallbackValue=ClassName}" 
-                                   Style="{StaticResource xlarge}"/>
+                                   Style="{DynamicResource xlarge}"/>
 
                             <Label Grid.Column="12" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="1"
                                    Content="{Binding SelectedCharacterClass.HitDie, FallbackValue=d8}" 
-                                   Style="{StaticResource xlarge}"/>
+                                   Style="{DynamicResource xlarge}"/>
 
                             <!--#region Armor Profs-->
                             <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                                   Content="Armor Proficiencies" Style="{StaticResource large}"/>
+                                   Content="Armor Proficiencies" Style="{DynamicResource large}"/>
                             <ListView Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4"
                                       ItemsSource="{Binding SelectedCharacterClass.ArmorProficiencies}"/>
                             <!--#endregion-->
                             <!--#region Tool Profs-->
                             <Label Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                                   Content="Tool Proficiencies" Style="{StaticResource large}"/>
+                                   Content="Tool Proficiencies" Style="{DynamicResource large}"/>
                             <ListView Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="4"
                                       ItemsSource="{Binding SelectedCharacterClass.ToolProficiencies}"/>
                             <!--#endregion-->
                             <!--#region Weapon Profs-->
                             <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                                   Content="Weapon Proficiencies" Style="{StaticResource large}"/>
+                                   Content="Weapon Proficiencies" Style="{DynamicResource large}"/>
                             <ListView Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4"
                                       ItemsSource="{Binding SelectedCharacterClass.WeaponProficiencies}"/>
                             <!--#endregion-->
                             <!--#region Saving Throws-->
                             <Label Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                                   Content="Saving Throws" Style="{StaticResource large}"/>
+                                   Content="Saving Throws" Style="{DynamicResource large}"/>
                             <ListView Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="4"
                                       ItemsSource="{Binding SelectedCharacterClass.SavingThrows}"/>
                             <!--#endregion-->
                             <!--#region Features-->
                             <Label Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="1"
-                                   Content="Features" Style="{StaticResource large}"/>
+                                   Content="Features" Style="{DynamicResource large}"/>
                             <ListView Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="4" Grid.RowSpan="9"
                                       ItemsSource="{Binding SelectedCharacterClass.Features}">
                                 <ListView.ItemTemplate>
@@ -264,10 +264,10 @@
                             <!--#region Select Skill Profs-->
                             <Label Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1"
                                    Content="Select Skills" 
-                                   Style="{StaticResource large}"/>
+                                   Style="{DynamicResource large}"/>
                             <Label Grid.Column="10" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
                                    Content="{Binding SelectedCharacterClass.NumOfSkillProficiences, FallbackValue=1}" 
-                                   Style="{StaticResource large}"/>
+                                   Style="{DynamicResource large}"/>
                             <DockPanel Grid.Column="8" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="9">
                                 <v:LIstViewMultiSelectLimitedCountView DataContext="{Binding SelectedClassSkillProfs}"/>
                             </DockPanel>
@@ -275,7 +275,7 @@
                             <!--#region Select Starting Equipment-->
                             <Label Grid.Column="11" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="1"
                                    Content="Select Equipment" 
-                                   Style="{StaticResource large}"/>
+                                   Style="{DynamicResource large}"/>
 
                             <ListView Grid.Column="11" Grid.Row="2" Grid.ColumnSpan="4" Grid.RowSpan="9"
                                       ItemsSource="{Binding SelectedStartingEquipmentVMs}">
@@ -329,15 +329,15 @@
 
                             <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="12" Grid.RowSpan="1"
                                    Content="{Binding SelectedRace.Name, FallbackValue=RaceName}" 
-                                   Style="{StaticResource xlarge}"/>
+                                   Style="{DynamicResource xlarge}"/>
 
                             <Label Grid.Column="12" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="1"
                                    Content="{Binding SelectedRace.Size, FallbackValue=Medium}" 
-                                   Style="{StaticResource xlarge}"/>
+                                   Style="{DynamicResource xlarge}"/>
 
                             <!--#region Armor Profs-->
                             <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                                   Content="Armor Proficiencies" Style="{StaticResource large}"/>
+                                   Content="Armor Proficiencies" Style="{DynamicResource large}"/>
                             <ListView Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4"
                                       ItemsSource="{Binding SelectedRace.ArmorProficiencies}"/>
                             <!--#endregion-->
@@ -346,21 +346,21 @@
                             <!--#endregion-->
                             <!--#region Weapon Profs-->
                             <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                                   Content="Weapon Proficiencies" Style="{StaticResource large}"/>
+                                   Content="Weapon Proficiencies" Style="{DynamicResource large}"/>
                             <ListView Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4"
                                       ItemsSource="{Binding SelectedRace.WeaponProficiencies}"/>
                             <!--#endregion-->
                             <!--#region Languages-->
                             <Label Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2" Grid.RowSpan="1"
                                    Content="Languages" 
-                                   Style="{StaticResource large}"/>
+                                   Style="{DynamicResource large}"/>
                             <ListView Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="4"
                                       ItemsSource="{Binding SelectedRace.Languages}"/>
                             <!--#endregion-->
                             <!--#region Features-->
                             <Label Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="1"
                                    Content="Features" 
-                                   Style="{StaticResource large}"/>
+                                   Style="{DynamicResource large}"/>
                             <ListView Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="4" Grid.RowSpan="9"
                                       ItemsSource="{Binding SelectedRace.Features}">
                                 <ListView.ItemTemplate>
@@ -373,7 +373,7 @@
                             <!--#region Race Variant Information-->
                             <Label Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="1"
                                    Content="{Binding SelectedRaceVariant.Name, FallbackValue=name}" 
-                                   Style="{StaticResource large}"/>
+                                   Style="{DynamicResource large}"/>
                             <ListView Grid.Column="8" Grid.Row="2" Grid.ColumnSpan="4" Grid.RowSpan="9"
                                       ItemsSource="{Binding SelectedRaceVariant.Properties}">
                                 <ListView.ItemTemplate>
@@ -386,23 +386,23 @@
                             <!--#region Ability Score Increases-->
                             <Label Grid.Column="12" Grid.Row="6" Grid.ColumnSpan="3" Grid.RowSpan="1"
                                    Content="Ability Score Increases" 
-                                   Style="{StaticResource large}"/>
+                                   Style="{DynamicResource large}"/>
                             <ListView Grid.Column="12" Grid.Row="7" Grid.ColumnSpan="3" Grid.RowSpan="4"
                                       ItemsSource="{Binding SelectedRace.AbilityScoreIncreases}"/>
                             <!--#endregion-->
                             <!--#region Speed-->
                             <Label Grid.Column="12" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
                                    Content="Speed" 
-                                   Style="{StaticResource xlarge}"/>
+                                   Style="{DynamicResource xlarge}"/>
 
                             <Label Grid.Column="12" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
                                    Content="{Binding SelectedRace.Speed, FallbackValue=30ft}" 
-                                   Style="{StaticResource large}"/>
+                                   Style="{DynamicResource large}"/>
                             <!--#endregion-->
                             <!--#region Age-->
                             <Label Grid.Column="13" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
                                    Content="Age" 
-                                   Style="{StaticResource xlarge}"/>
+                                   Style="{DynamicResource xlarge}"/>
 
                             <TextBox Grid.Column="13" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
                                    Text="{Binding SelectedRace.Age, FallbackValue=30ft}"/>
@@ -443,23 +443,23 @@
                             </Grid.RowDefinitions>
                             <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="12" Grid.RowSpan="1"
                                    Content="{Binding SelectedBackground.Name, FallbackValue=Background}" 
-                                   Style="{StaticResource xlarge}"/>
+                                   Style="{DynamicResource xlarge}"/>
 
                             <!--#region Languages-->
                             <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="1"
-                                   Content="Languages" Style="{StaticResource large}"/>
+                                   Content="Languages" Style="{DynamicResource large}"/>
                             <ListView Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="4"
                                       ItemsSource="{Binding SelectedBackground.Languages}"/>
                             <!--#endregion-->
                             <!--#region Weapon Profs-->
                             <Label Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="1"
-                                   Content="Other Proficiencies" Style="{StaticResource large}"/>
+                                   Content="Other Proficiencies" Style="{DynamicResource large}"/>
                             <ListView Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="4"
                                       ItemsSource="{Binding SelectedBackground.OtherProfs}"/>
                             <!--#endregion-->
                             <!--#region Tool Profs-->
                             <Label Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="1"
-                                   Content="Skill Proficiencies" Style="{StaticResource large}"/>
+                                   Content="Skill Proficiencies" Style="{DynamicResource large}"/>
                             <ListView Grid.Column="6" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="4"
                                       ItemsSource="{Binding SelectedBackground.SkillProfs}"/>
                             <!--#endregion-->

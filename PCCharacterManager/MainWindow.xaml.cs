@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCCharacterManager.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,16 @@ namespace PCCharacterManager
 		public MainWindow()
 		{
 			InitializeComponent();
+		}
+
+		private void DarkMode_Click(object sender, RoutedEventArgs e)
+		{
+			ThemeChanger.ChangeTheme("Themes/DarkMode.xaml");
+		}
+
+		private void LightMode_Click(object sender, RoutedEventArgs e)
+		{
+			ThemeChanger.ChangeTheme("Themes/LightMode.xaml");
 		}
 	}
 }
