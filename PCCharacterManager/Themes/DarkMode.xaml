@@ -232,7 +232,6 @@
 
     <!--#region TextBox-->
     <Style TargetType="TextBox">
-        
         <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>

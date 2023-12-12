@@ -26,8 +26,8 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private string selectedItem;
-		public string SelectedItem
+		private string? selectedItem;
+		public string? SelectedItem
 		{
 			get
 			{
@@ -49,7 +49,6 @@ namespace PCCharacterManager.ViewModels
 		{
 			listName = _listName;
 			ItemsToDisplay = _item;
-			selectedItem = string.Empty;
 
 			AddItemCommand = new RelayCommand(AddItem);
 			RemoveItemCommand = new RelayCommand(RemoveItem);

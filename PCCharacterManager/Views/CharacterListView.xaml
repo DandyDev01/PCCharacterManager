@@ -26,7 +26,7 @@
                   x:Name="ListView"
                   SelectedIndex="0"
                   SelectionChanged="ListView_SelectionChanged"
-                  Background="{DynamicResource BackGroundColorDark}"
+                  Background="{DynamicResource ViewBackgroundColor}"
                   HorizontalContentAlignment="Stretch">
             <ListView.View>
                 <GridView>
