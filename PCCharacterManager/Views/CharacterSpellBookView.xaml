@@ -38,26 +38,58 @@
         </Grid.ContextMenu>
 
         <Menu Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="6" Grid.RowSpan="1">
-            <ComboBox SelectedIndex="0">
-                <MenuItem Header="Add Spell" Command="{Binding AddSpellCommand}"/>
-                <MenuItem Header="Remove Spell" Command="{Binding DeleteSpellCommand}"/>
-            </ComboBox>
-            <ComboBox SelectedIndex="0"> 
-                <MenuItem Header="Add Cantrip" Command="{Binding AddCantripCommand}"/>
-                <MenuItem Header="Remove Cantrip" Command="{Binding DeleteCantripCommand}"/>
-            </ComboBox>
-            <TextBox x:Name="searchBox"
-                     Text="{Binding SearchTerm, FallbackValue=search, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{DynamicResource Search}"/>
-            <ComboBox ItemsSource="{Binding SearchFilters}" SelectedIndex="0" 
-                      SelectedValue="{Binding SelectedSearchFilter}"
-                      ToolTip="searchs filter spells, cantrips, or both"/>
-            <ComboBox ItemsSource="{Binding Filters}" SelectedIndex="0" 
-                      SelectedValue="{Binding SelectedFilter}"
-                      ToolTip="Filter Spells to display by school"/>
-            <ComboBox ItemsSource="{Binding OrderByOptions}" SelectedIndex="0"
-                      SelectedValue="{Binding SelectedOrderByOption}"
-                      ToolTip="how to order display items"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0"
+                       Grid.Row="0"
+                       Content="Search"/>
+                <TextBox x:Name="searchBox" Grid.Column="0"
+                          Grid.Row="1"
+                         Text="{Binding SearchTerm, FallbackValue=search, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{DynamicResource Search}"/>
+
+                <Label Grid.Column="1"
+                       Grid.Row="0"
+                       Content="Search By"/>
+                <ComboBox Grid.Column="1"
+                          Grid.Row="1"
+                          Height="25"
+                          ItemsSource="{Binding SearchFilters}" SelectedIndex="0" 
+                          SelectedValue="{Binding SelectedSearchFilter}"
+                          ToolTip="searchs filter spells, cantrips, or both"/>
+
+                <Label Grid.Column="2"
+                       Grid.Row="0"
+                       Content="Display"/>
+                <ComboBox Grid.Column="2"
+                          Grid.Row="1"
+                          Height="25"
+                          ItemsSource="{Binding Filters}" SelectedIndex="0" 
+                          SelectedValue="{Binding SelectedFilter}"
+                          ToolTip="Filter Spells to display by school"/>
+
+                <Label Grid.Column="3"
+                       Grid.Row="0"
+                       Content="Order By"/>
+                <ComboBox Grid.Column="3"
+                          Grid.Row="1"
+                          Height="25"
+                          ItemsSource="{Binding OrderByOptions}" SelectedIndex="0"
+                          SelectedValue="{Binding SelectedOrderByOption}"
+                          ToolTip="how to order display items"/>
+            </Grid>
         </Menu>
 
         <!--#region Left-->
@@ -92,6 +124,9 @@
                 <Button Grid.Column="0" Grid.Row="3" 
                         Command="{Binding ClearPreparedSpellsCommand}"
                         Content="Clear"/>
+
+                <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="3"
+                           Text="Spell Slots"/>
 
                 <!--#region Spell Slots Grid-->
                 <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3">
@@ -265,7 +300,7 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="45"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -273,8 +308,16 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <!--#region List-->
-            <TextBlock Text="Known Spells" Grid.Column="1" Grid.Row="1"
+            <TextBlock Text="Spells" Grid.Column="1" Grid.Row="0"
                    Grid.ColumnSpan="2" Grid.RowSpan="1"/>
+            <Button Grid.Column="1" Grid.Row="1"
+                    FontSize="15"
+                    Command="{Binding AddSpellCommand}"
+                    Content="Add"/>
+            <Button Grid.Column="2" Grid.Row="1"
+                    Command="{Binding DeleteSpellCommand}"
+                    FontSize="15"
+                    Content="Remove"/>
             <ListView Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" 
                   SelectedItem="{Binding SelectedSpell}"
                   ItemsSource="{Binding SpellsCollectionView}">
@@ -291,8 +334,16 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <TextBlock Text="Cantrips" Grid.Column="3" Grid.Row="1"
+            <TextBlock Text="Cantrips" Grid.Column="3" Grid.Row="0"
                        Grid.ColumnSpan="2" Grid.RowSpan="1"/>
+            <Button Grid.Column="3" Grid.Row="1"
+                    Command="{Binding AddCantripCommand}"
+                    FontSize="15"
+                    Content="Add"/>
+            <Button Grid.Column="4" Grid.Row="1"
+                    FontSize="15"
+                    Command="{Binding DeleteCantripCommand}"
+                    Content="Remove"/>
             <ListView Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" 
                       SelectedItem="{Binding SelectedCantrip}"
                       ItemsSource="{Binding CantripsCollectionView}">
