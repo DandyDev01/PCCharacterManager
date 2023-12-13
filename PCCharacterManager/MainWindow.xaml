@@ -66,8 +66,46 @@
                           Command="{Binding TabVM.CharacterStatsVM.CharacterInfoViewModel.AddFeatureCommand}"/>
             </MenuItem>
             <MenuItem Header="Theme">
-                <MenuItem Header="Dark Mode" Click="DarkMode_Click"/>
-                <MenuItem Header="Light Mode" Click="LightMode_Click"/>
+                <!--<MenuItem Header="Dark Mode" Click="DarkMode_Click"/>
+                <MenuItem Header="Light Mode" Click="LightMode_Click"/>-->
+                <MenuItem Click="LightMode_Click"
+                          Header="Light Mode">
+                    <MenuItem.Icon>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Light_Mode_Icon.png" />
+                            </Image.Source>
+                        </Image>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Click="DarkMode_Click"
+                          Header="Dark Mode">
+                    <MenuItem.Icon>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Dark_Mode_Icon.png" />
+                            </Image.Source>
+                        </Image>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem IsEnabled="false">
+                <MenuItem.Icon>
+                    <Image>
+                        <Image.Source>
+                            <BitmapImage DecodePixelWidth="300" UriSource="/Images/Undo_Icon.png" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem IsEnabled="False">
+                <MenuItem.Icon>
+                    <Image>
+                        <Image.Source>
+                            <BitmapImage DecodePixelWidth="300" UriSource="/Images/Redo_Icon.png" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
             </MenuItem>
         </Menu>
 
