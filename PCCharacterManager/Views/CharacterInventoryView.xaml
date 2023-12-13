@@ -44,7 +44,8 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="13" Grid.RowSpan="1">
+        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="13" Grid.RowSpan="1"
+              Background="{DynamicResource 2}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -171,7 +172,6 @@
         
 
         <TextBox Grid.Row="2" Grid.Column="6" Grid.RowSpan="6" Grid.ColumnSpan="3"
-                 Style="{DynamicResource Document}"
                  Text="{Binding SelectedItem.DisplayDesc, UpdateSourceTrigger=PropertyChanged}"/>
 
         <!--#region Properties-->

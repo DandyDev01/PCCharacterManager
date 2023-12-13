@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              xmlns:v="clr-namespace:PCCharacterManager.Views"
              mc:Ignorable="d" 
-             Background="{DynamicResource ViewBackgroundColor}"
+             Background="{DynamicResource 1}"
              d:DesignHeight="930" d:DesignWidth="1250">
     <ScrollViewer>
         <Grid>

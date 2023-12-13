@@ -8,7 +8,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
-        <ResourceDictionary Source="Themes/LightMode.xaml"/>
+        <ResourceDictionary Source="Themes/DarkMode.xaml"/>
 
     </Application.Resources>
 </Application>

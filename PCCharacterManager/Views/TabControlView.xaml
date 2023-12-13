@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              xmlns:v="clr-namespace:PCCharacterManager.Views" 
              mc:Ignorable="d" 
-             d:DesignHeight="1080" d:DesignWidth="1920" Padding="10">
+             d:DesignHeight="1080" d:DesignWidth="1920" Padding="20"
+             Background="{DynamicResource 1}">
     <Grid>
         <TabControl >
             <TabItem Header="Character List">

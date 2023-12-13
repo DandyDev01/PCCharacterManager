@@ -32,31 +32,88 @@
     <helper:NullToEnabledConverter x:Key="NullToEnabledConverter"/>
 
 
-    <SolidColorBrush x:Key="1" Color="#fafafa"/>
-    <SolidColorBrush x:Key="2" Color="#e4e5f1"/>
-    <SolidColorBrush x:Key="3" Color="#d2d3db"/>
-    <SolidColorBrush x:Key="4" Color="#9394a5"/>
-    <SolidColorBrush x:Key="5" Color="#484b6a"/>
+    <SolidColorBrush x:Key="1" Color="#ffffff"/>
+    <SolidColorBrush x:Key="2" Color="#f0f0f0"/>
+    <SolidColorBrush x:Key="3" Color="#bdbdbd"/>
+    <SolidColorBrush x:Key="4" Color="#a3a3a3"/>
+    <SolidColorBrush x:Key="5" Color="#232323"/>
+
+    <!--#region Menu-->
+    <Style TargetType="Menu">
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontWeight" Value="Regular"/>
+        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+        <Setter Property="Background" Value="{DynamicResource 2}"/>
+    </Style>
+    <!--#endregion-->
+
+    <!--#region Label-->
+    <Style TargetType="Label">
+        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+    </Style>
+    <!--#endregion-->
+
+    <!--#region Text Block-->
+    <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+    </Style>
 
     <Style TargetType="TextBlock" x:Key="spellItemName">
         <Setter Property="FontSize" Value="20"/>
         <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
     </Style>
 
     <Style TargetType="TextBlock" x:Key="spellItemAttributeTitle">
         <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
     </Style>
 
     <Style TargetType="TextBlock" x:Key="spellItemDescription">
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
         <Setter Property="Padding" Value="10"/>
         <Setter Property="Margin" Value="10"/>
+        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
     </Style>
+    <!--#endregion-->
 
+    <!--#region Text Box-->
     <Style TargetType="TextBox">
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
         <Setter Property="Padding" Value="10"/>
+        <Setter Property="Background" Value="{DynamicResource 2}"/>
+        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
     </Style>
+    <!--#endregion-->
+
+    <!--#region Rich Text Box-->
+    <Style TargetType="RichTextBox">
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Background" Value="{DynamicResource 2}"/>
+        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+    </Style>
+    <!--#endregion-->
+
+    <!--#region List View-->
+    <Style TargetType="ListView">
+        <Setter Property="Background" Value="{DynamicResource 2}"/>
+        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+    </Style>
+    <!--#endregion-->
+
+    <!--#region Button-->
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="{DynamicResource 2}"/>
+        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+    </Style>
+    <!--#endregion-->
+
+    <!--#region Button-->
+    <Style TargetType="TabItem">
+        <Setter Property="Background" Value="{DynamicResource 2}"/>
+        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+    </Style>
+    <!--#endregion-->
 
     <!--<SolidColorBrush x:Key="BackGroundColorDark" Color="#f3f3f3"/>
     <SolidColorBrush x:Key="BackGroundColor" Color="#9394a5"/>
