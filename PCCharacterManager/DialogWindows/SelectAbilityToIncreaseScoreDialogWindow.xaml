@@ -11,8 +11,8 @@
         SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
         ShowInTaskbar="false"
+        Background="{DynamicResource 1}"
         WindowStartupLocation="CenterOwner"
-        Background="{StaticResource ViewBackgroundColor}"
         Title="Select Ability">
     <Grid>
         <Grid.ColumnDefinitions>

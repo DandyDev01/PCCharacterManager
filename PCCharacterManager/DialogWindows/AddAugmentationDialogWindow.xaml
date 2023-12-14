@@ -8,7 +8,7 @@
         ResizeMode="NoResize"
         ShowInTaskbar="false"
         WindowStartupLocation="CenterOwner"
-        Background="{StaticResource ViewBackgroundColor}"
+        Background="{DynamicResource 1}"
         Title="Add Augmentation Window" Height="600" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>

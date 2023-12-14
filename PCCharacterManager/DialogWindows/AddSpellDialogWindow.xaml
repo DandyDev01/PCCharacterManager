@@ -8,7 +8,7 @@
         ResizeMode="NoResize"
         ShowInTaskbar="false"
         WindowStartupLocation="CenterOwner"
-        Background="{StaticResource ViewBackgroundColor}"
+        Background="{DynamicResource 1}"
         Title="NewSpellWindow" Height="500" Width="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -79,7 +79,6 @@
 
         <Label Content="Description" Grid.Column="0" Grid.Row="5"/>
         <TextBox Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="5" Grid.RowSpan="1" 
-                 Style="{StaticResource Document}"
                  Text="{Binding NewSpell.Desc}"/>
 
 

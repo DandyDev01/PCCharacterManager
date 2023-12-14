@@ -12,6 +12,7 @@
         ResizeMode="NoResize"
         ShowInTaskbar="false"
         WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource 1}"
         Title="Create Character">
     <Grid>
         <Grid.RowDefinitions>

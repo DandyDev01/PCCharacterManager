@@ -11,7 +11,7 @@
         ResizeMode="NoResize"
         ShowInTaskbar="false"
         WindowStartupLocation="CenterOwner"
-        Background="{StaticResource ViewBackgroundColor}"
+        Background="{DynamicResource 1}"
         Title="StringInputDialogWindow">
     <Grid>
         <Grid.ColumnDefinitions>
