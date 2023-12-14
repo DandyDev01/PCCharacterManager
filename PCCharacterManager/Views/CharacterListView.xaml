@@ -34,11 +34,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Command="{Binding DeleteCharacterCommand}">
-                                    <Image>
-                                        <Image.Source>
-                                            <BitmapImage UriSource="/Images/Move_To_Trash_Icon.png"/>
-                                        </Image.Source>
-                                    </Image>
+                                    <Image Source="{DynamicResource Move_To_Trash_Icon}" Height="15"/>
                                 </Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

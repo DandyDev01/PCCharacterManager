@@ -38,8 +38,31 @@
     <SolidColorBrush x:Key="4" Color="#a3a3a3"/>
     <SolidColorBrush x:Key="5" Color="#232323"/>
 
+    <BitmapImage x:Key="Character_Duplicate_Icon" DecodePixelWidth="300" UriSource="/Images/Character_Duplicate_Icon.png" />
+    <BitmapImage x:Key="Edit_Icon" DecodePixelWidth="300" UriSource="/Images/Edit_Icon.png" />
+    <BitmapImage x:Key="Create_Character_Icon" DecodePixelWidth="300" UriSource="/Images/Create_Character_Icon.png" />
+    <BitmapImage x:Key="Open_File_Icon" DecodePixelWidth="300" UriSource="/Images/Open_File_Icon.png" />
+    <BitmapImage x:Key="Save_Icon" DecodePixelWidth="300" UriSource="/Images/Save_Icon.png" />
+    <BitmapImage x:Key="Download_Icon" DecodePixelWidth="300" UriSource="/Images/Download_Icon.png" />
+    <BitmapImage x:Key="Settings_Icon" DecodePixelWidth="300" UriSource="/Images/Settings_Icon.png" />
+    <BitmapImage x:Key="Exit_App_Icon" DecodePixelWidth="300" UriSource="/Images/Exit_App_Icon.png" />
+    <BitmapImage x:Key="Light_Mode_Icon" DecodePixelWidth="300" UriSource="/Images/Light_Mode_Icon.png" />
+    <BitmapImage x:Key="Dark_Mode_Icon" DecodePixelWidth="300" UriSource="/Images/Dark_Mode_Icon.png" />
+    <BitmapImage x:Key="Undo_Icon" DecodePixelWidth="300" UriSource="/Images/Undo_Icon.png" />
+    <BitmapImage x:Key="Redo_Icon" DecodePixelWidth="300" UriSource="/Images/Redo_Icon.png" />
+    <BitmapImage x:Key="Create_Folder_Icon" DecodePixelWidth="300" UriSource="/Images/Create_Folder_Icon.png" />
+    <BitmapImage x:Key="Add_Icon" DecodePixelWidth="300" UriSource="/Images/Add_Icon.png" />
+    <BitmapImage x:Key="Move_To_Trash_Icon" DecodePixelWidth="300" UriSource="/Images/Move_To_Trash_Icon.png" />
+
     <!--#region Menu-->
     <Style TargetType="Menu">
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontWeight" Value="Regular"/>
+        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+        <Setter Property="Background" Value="{DynamicResource 2}"/>
+    </Style>
+
+    <Style TargetType="MenuItem">
         <Setter Property="FontSize" Value="10"/>
         <Setter Property="FontWeight" Value="Regular"/>
         <Setter Property="Foreground" Value="{DynamicResource 5}"/>

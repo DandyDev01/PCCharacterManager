@@ -32,11 +32,7 @@
                           Command="{Binding NewCharacterCommand}"
                           InputGestureText="Ctrl+N">
                     <MenuItem.Icon>
-                        <Image>
-                            <Image.Source>
-                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Create_Character_Icon.png" />
-                            </Image.Source>
-                        </Image>
+                        <Image Source="{DynamicResource Create_Character_Icon}"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem x:Name="menuOpen" 
@@ -45,11 +41,7 @@
                           IsEnabled="true"
                           InputGestureText="Ctrl+O">
                     <MenuItem.Icon>
-                        <Image>
-                            <Image.Source>
-                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Open_File_Icon.png" />
-                            </Image.Source>
-                        </Image>
+                        <Image Source="{DynamicResource Open_File_Icon}"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem x:Name="menuSave" 
@@ -57,42 +49,26 @@
                           Command="{Binding SaveCharactersCommand}"
                           InputGestureText="Ctrl+S">
                     <MenuItem.Icon>
-                        <Image>
-                            <Image.Source>
-                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Save_Icon.png" />
-                            </Image.Source>
-                        </Image>
+                        <Image Source="{DynamicResource Save_Icon}"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem x:Name="menuExport" 
                           Header="Export Character(s)" 
                           Command="{Binding ExportCharacterCommand}">
                     <MenuItem.Icon>
-                        <Image>
-                            <Image.Source>
-                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Download_Icon.png" />
-                            </Image.Source>
-                        </Image>
+                        <Image Source="{DynamicResource Download_Icon}"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem x:Name="settings" 
                           Header="Settings" IsEnabled="false">
                     <MenuItem.Icon>
-                        <Image>
-                            <Image.Source>
-                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Settings_Icon.png" />
-                            </Image.Source>
-                        </Image>
+                        <Image Source="{DynamicResource Settings_Icon}"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem x:Name="menuClose" 
                           Header="Exit" Command="ApplicationCommands.Close" >
                     <MenuItem.Icon>
-                        <Image>
-                            <Image.Source>
-                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Exit_App_Icon.png" />
-                            </Image.Source>
-                        </Image>
+                        <Image Source="{DynamicResource Exit_App_Icon}"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -102,11 +78,7 @@
                           IsEnabled="False"
                           InputGestureText="Ctrl+D">
                     <MenuItem.Icon>
-                        <Image>
-                            <Image.Source>
-                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Character_Duplicate_Icon.png" />
-                            </Image.Source>
-                        </Image>
+                        <Image Source="{DynamicResource Character_Duplicate_Icon}"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem x:Name="menuAddCompanion" 
@@ -121,11 +93,7 @@
                           Header="Edit Character" Command="{Binding EditCharacterCommand}"
                           InputGestureText="N/A">
                     <MenuItem.Icon>
-                        <Image>
-                            <Image.Source>
-                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Edit_Icon.png" />
-                            </Image.Source>
-                        </Image>
+                        <Image Source="{DynamicResource Edit_Icon}"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Add Feature" 
@@ -137,40 +105,24 @@
                 <MenuItem Click="LightMode_Click"
                           Header="Light Mode">
                     <MenuItem.Icon>
-                        <Image>
-                            <Image.Source>
-                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Light_Mode_Icon.png" />
-                            </Image.Source>
-                        </Image>
+                        <Image Source="{DynamicResource Light_Mode_Icon}"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Click="DarkMode_Click"
                           Header="Dark Mode">
                     <MenuItem.Icon>
-                        <Image>
-                            <Image.Source>
-                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Dark_Mode_Icon.png" />
-                            </Image.Source>
-                        </Image>
+                        <Image Source="{DynamicResource Dark_Mode_Icon}"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem IsEnabled="false">
                 <MenuItem.Icon>
-                    <Image>
-                        <Image.Source>
-                            <BitmapImage DecodePixelWidth="300" UriSource="/Images/Undo_Icon.png" />
-                        </Image.Source>
-                    </Image>
+                    <Image Source="{DynamicResource Undo_Icon}"/>
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem IsEnabled="False">
                 <MenuItem.Icon>
-                    <Image>
-                        <Image.Source>
-                            <BitmapImage DecodePixelWidth="300" UriSource="/Images/Redo_Icon.png" />
-                        </Image.Source>
-                    </Image>
+                    <Image Source="{DynamicResource Redo_Icon}"/>
                 </MenuItem.Icon>
             </MenuItem>
         </Menu>

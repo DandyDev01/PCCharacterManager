@@ -93,41 +93,25 @@
             <MenuItem Command="{Binding AddNoteSectionCommand}"
                       Header="Note Section">
                 <MenuItem.Icon>
-                    <Image>
-                        <Image.Source>
-                            <BitmapImage DecodePixelWidth="300" UriSource="/Images/Create_Folder_Icon.png" />
-                        </Image.Source>
-                    </Image>
+                    <Image Source="{DynamicResource Create_Folder_Icon}"/>
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem Command="{Binding AddNoteCommand}"
                       Header="Note">
                 <MenuItem.Icon>
-                    <Image>
-                        <Image.Source>
-                            <BitmapImage DecodePixelWidth="300" UriSource="/Images/Add_Icon.png" />
-                        </Image.Source>
-                    </Image>
+                    <Image Source="{DynamicResource Add_Icon}"/>
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem Command="{Binding DeleteNoteSectionCommand}"
                       Header="Note Section">
                 <MenuItem.Icon>
-                    <Image>
-                        <Image.Source>
-                            <BitmapImage DecodePixelWidth="300" UriSource="/Images/Move_To_Trash_Icon.png" />
-                        </Image.Source>
-                    </Image>
+                    <Image Source="{DynamicResource Move_To_Trash_Icon}"/>
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem Command="{Binding DeleteNoteCommand}"
                       Header="Note">
                 <MenuItem.Icon>
-                    <Image>
-                        <Image.Source>
-                            <BitmapImage DecodePixelWidth="300" UriSource="/Images/Move_To_Trash_Icon.png" />
-                        </Image.Source>
-                    </Image>
+                    <Image Source="{DynamicResource Move_To_Trash_Icon}"/>
                 </MenuItem.Icon>
             </MenuItem>
         </Menu>
