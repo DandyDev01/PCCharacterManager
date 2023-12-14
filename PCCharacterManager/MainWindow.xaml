@@ -30,7 +30,15 @@
                 <MenuItem x:Name="menuNew" 
                           Header="New" 
                           Command="{Binding NewCharacterCommand}"
-                          InputGestureText="Ctrl+N"/>
+                          InputGestureText="Ctrl+N">
+                    <MenuItem.Icon>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Create_Character_Icon.png" />
+                            </Image.Source>
+                        </Image>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem x:Name="menuOpen" 
                           Header="Open" 
                           Command="{Binding OpenCommand}"
@@ -39,12 +47,38 @@
                 <MenuItem x:Name="menuSave" 
                           Header="Save" 
                           Command="{Binding SaveCharactersCommand}"
-                          InputGestureText="Ctrl+S"/>
+                          InputGestureText="Ctrl+S">
+                    <MenuItem.Icon>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Save_Icon.png" />
+                            </Image.Source>
+                        </Image>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem x:Name="menuExport" 
                           Header="Export Character(s)" 
                           Command="{Binding ExportCharacterCommand}"/>
+                <MenuItem x:Name="settings" 
+                          Header="Settings" IsEnabled="false">
+                    <MenuItem.Icon>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Settings_Icon.png" />
+                            </Image.Source>
+                        </Image>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem x:Name="menuClose" 
-                          Header="Exit" Command="ApplicationCommands.Close" />
+                          Header="Exit" Command="ApplicationCommands.Close" >
+                    <MenuItem.Icon>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Exit_App_Icon.png" />
+                            </Image.Source>
+                        </Image>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Edit">
                 <MenuItem x:Name="menuDuplicate" 

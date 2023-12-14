@@ -10,7 +10,11 @@
 
   <ItemGroup>
     <None Remove="Images\Add_Icon.png" />
+    <None Remove="Images\Create_Character_Icon.png" />
     <None Remove="Images\Edit_Icon.png" />
+    <None Remove="Images\Exit_App_Icon.png" />
+    <None Remove="Images\Pin_Icon.png" />
+    <None Remove="Images\Save_Icon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,15 +29,19 @@
 
   <ItemGroup>
     <Resource Include="Images\Add_Icon.png" />
+    <Resource Include="Images\Create_Character_Icon.png" />
     <Resource Include="Images\Create_Folder_Icon.png" />
     <Resource Include="Images\Dark_Mode_Icon.png" />
     <Resource Include="Images\Download_Icon.png" />
     <Resource Include="Images\Edit_Icon.png" />
+    <Resource Include="Images\Exit_App_Icon.png" />
     <Resource Include="Images\Favorite_Icon.png" />
     <Resource Include="Images\Light_Mode_Icon.png" />
     <Resource Include="Images\Move_To_Trash_Icon.png" />
+    <Resource Include="Images\Pin_Icon.png" />
     <Resource Include="Images\Redo_Icon.png" />
     <Resource Include="Images\Restore_From_Trash_Icon.png" />
+    <Resource Include="Images\Save_Icon.png" />
     <Resource Include="Images\Settings_Icon.png" />
     <Resource Include="Images\Undo_Icon.png" />
   </ItemGroup>
