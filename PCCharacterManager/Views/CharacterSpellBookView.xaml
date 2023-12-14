@@ -108,7 +108,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="Prepared spells"/>
+                <Label Content="Prepared spells"/>
                 <ListView Grid.ColumnSpan="1" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" 
                           ItemsSource="{Binding SpellBook.PreparedSpells}"
                           DisplayMemberPath="Name"
@@ -152,7 +152,7 @@
 
                     <!--#region 1-->
                     <Label Grid.Column="0" Grid.Row="0"  
-                        Content="1st"/>
+                           Content="1st"/>
                     <TextBox Grid.Column="0" Grid.Row="1" 
                         Text="{Binding SpellBook.SlotOne, UpdateSourceTrigger=PropertyChanged}" Height="35"/>
                     <ListView Grid.Column="0" Grid.Row="2" ItemsSource="{Binding SpellBook.FirstLvl}"
@@ -166,7 +166,7 @@
                     <!--#endregion-->
                     <!--#region 2-->
                     <Label Grid.Column="1" Grid.Row="0"  
-                        Content="2nd"/>
+                           Content="2nd"/>
                     <TextBox Grid.Column="1" Grid.Row="1" 
                         Text="{Binding SpellBook.SlotTwo, UpdateSourceTrigger=PropertyChanged}" Height="35"/>
                     <ListView Grid.Column="1" Grid.Row="2" ItemsSource="{Binding SpellBook.SecondLvl}"
@@ -307,7 +307,7 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <!--#region List-->
-            <TextBlock Text="Spells" Grid.Column="1" Grid.Row="0"
+            <Label Content="Spells" Grid.Column="1" Grid.Row="0"
                    Grid.ColumnSpan="2" Grid.RowSpan="1"/>
             <Button Grid.Column="1" Grid.Row="1"
                     FontSize="15"
@@ -345,8 +345,8 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <TextBlock Text="Cantrips" Grid.Column="3" Grid.Row="0"
-                       Grid.ColumnSpan="2" Grid.RowSpan="1"/>
+            <Label Content="Cantrips" Grid.Column="3" Grid.Row="0"
+                   Grid.ColumnSpan="2" Grid.RowSpan="1"/>
             <Button Grid.Column="3" Grid.Row="1"
                     Command="{Binding AddCantripCommand}"
                     Height="30">
