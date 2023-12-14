@@ -54,6 +54,10 @@
     <BitmapImage x:Key="Add_Icon" DecodePixelWidth="300" UriSource="/Images/Add_Icon.png" />
     <BitmapImage x:Key="Move_To_Trash_Icon" DecodePixelWidth="300" UriSource="/Images/Move_To_Trash_Icon.png" />
 
+    <Style TargetType="ScrollViewer">
+        <Setter Property="CanContentScroll" Value="False"/>
+    </Style>
+
     <!--#region Menu-->
     <Style TargetType="Menu">
         <Setter Property="FontSize" Value="10"/>
@@ -121,6 +125,8 @@
     <Style TargetType="ListView">
         <Setter Property="Background" Value="{DynamicResource 2}"/>
         <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
     </Style>
     <!--#endregion-->
 
