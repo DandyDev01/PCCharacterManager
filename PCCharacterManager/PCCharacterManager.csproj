@@ -10,9 +10,12 @@
 
   <ItemGroup>
     <None Remove="Images\Add_Icon.png" />
+    <None Remove="Images\Character_Duplicate_Icon.png" />
     <None Remove="Images\Create_Character_Icon.png" />
     <None Remove="Images\Edit_Icon.png" />
     <None Remove="Images\Exit_App_Icon.png" />
+    <None Remove="Images\Open_File_Icon.png" />
+    <None Remove="Images\Open_In_File_Exloperer_Icon.png" />
     <None Remove="Images\Pin_Icon.png" />
     <None Remove="Images\Save_Icon.png" />
   </ItemGroup>
@@ -29,6 +32,7 @@
 
   <ItemGroup>
     <Resource Include="Images\Add_Icon.png" />
+    <Resource Include="Images\Character_Duplicate_Icon.png" />
     <Resource Include="Images\Create_Character_Icon.png" />
     <Resource Include="Images\Create_Folder_Icon.png" />
     <Resource Include="Images\Dark_Mode_Icon.png" />
@@ -38,6 +42,8 @@
     <Resource Include="Images\Favorite_Icon.png" />
     <Resource Include="Images\Light_Mode_Icon.png" />
     <Resource Include="Images\Move_To_Trash_Icon.png" />
+    <Resource Include="Images\Open_File_Icon.png" />
+    <Resource Include="Images\Open_In_File_Exloperer_Icon.png" />
     <Resource Include="Images\Pin_Icon.png" />
     <Resource Include="Images\Redo_Icon.png" />
     <Resource Include="Images\Restore_From_Trash_Icon.png" />

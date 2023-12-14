@@ -33,7 +33,13 @@
                         <GridViewColumnHeader Content="Del" Command="{Binding NameSortCommand}"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Del" Command="{Binding DeleteCharacterCommand}"/>
+                                <Button Command="{Binding DeleteCharacterCommand}">
+                                    <Image>
+                                        <Image.Source>
+                                            <BitmapImage UriSource="/Images/Move_To_Trash_Icon.png"/>
+                                        </Image.Source>
+                                    </Image>
+                                </Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

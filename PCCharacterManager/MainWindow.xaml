@@ -43,7 +43,15 @@
                           Header="Open" 
                           Command="{Binding OpenCommand}"
                           IsEnabled="true"
-                          InputGestureText="Ctrl+O"/>
+                          InputGestureText="Ctrl+O">
+                    <MenuItem.Icon>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Open_File_Icon.png" />
+                            </Image.Source>
+                        </Image>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem x:Name="menuSave" 
                           Header="Save" 
                           Command="{Binding SaveCharactersCommand}"
@@ -58,7 +66,15 @@
                 </MenuItem>
                 <MenuItem x:Name="menuExport" 
                           Header="Export Character(s)" 
-                          Command="{Binding ExportCharacterCommand}"/>
+                          Command="{Binding ExportCharacterCommand}">
+                    <MenuItem.Icon>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Download_Icon.png" />
+                            </Image.Source>
+                        </Image>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem x:Name="settings" 
                           Header="Settings" IsEnabled="false">
                     <MenuItem.Icon>
@@ -84,7 +100,15 @@
                 <MenuItem x:Name="menuDuplicate" 
                           Header="Duplicate Character" 
                           IsEnabled="False"
-                          InputGestureText="Ctrl+D"/>
+                          InputGestureText="Ctrl+D">
+                    <MenuItem.Icon>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Character_Duplicate_Icon.png" />
+                            </Image.Source>
+                        </Image>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem x:Name="menuAddCompanion" 
                           Header="Add Companion" 
                           IsEnabled="False"
@@ -95,7 +119,15 @@
                           InputGestureText="Ctrl+L"/>
                 <MenuItem x:Name="editCharacter" 
                           Header="Edit Character" Command="{Binding EditCharacterCommand}"
-                          InputGestureText="N/A"/>
+                          InputGestureText="N/A">
+                    <MenuItem.Icon>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="300" UriSource="/Images/Edit_Icon.png" />
+                            </Image.Source>
+                        </Image>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="Add Feature" 
                           Command="{Binding TabVM.CharacterStatsVM.CharacterInfoViewModel.AddFeatureCommand}"/>
             </MenuItem>
