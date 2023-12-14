@@ -39,7 +39,7 @@
         </Grid.RowDefinitions>
 
         <!--<Label Grid.Column="3" Grid.Row="0" Content="Notes"/>-->
-        <Grid Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="3"
+        <!--<Grid Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="3"
               Background="{DynamicResource 2}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -53,8 +53,8 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <!--<Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                   Content="Search"/>-->
+            <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                   Content="Search"/>
             <TextBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
                      x:Name="searchBox"
                      Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"
@@ -83,24 +83,54 @@
                     </Image.Source>
                 </Image>
             </Button>
-            <Menu>
-                <MenuItem Header="Create">
-                    <MenuItem Click="LightMode_Click"
-                              Header="Note Section">
-                        <MenuItem.Icon>
-                            <Image>
-                                <Image.Source>
-                                    <BitmapImage DecodePixelWidth="300" UriSource="/Images/Create_Folder_Icon.png" />
-                                </Image.Source>
-                            </Image>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Click="DarkMode_Click"
-                              Header="Note" Icon="+">
-                    </MenuItem>
-                </MenuItem>
-            </Menu>
-        </Grid>
+        </Grid>-->
+
+        <Menu Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="3">
+            <TextBox x:Name="searchBox"
+                     Width="150"
+                     Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{DynamicResource Search}"/>
+            <MenuItem Command="{Binding AddNoteSectionCommand}"
+                      Header="Note Section">
+                <MenuItem.Icon>
+                    <Image>
+                        <Image.Source>
+                            <BitmapImage DecodePixelWidth="300" UriSource="/Images/Create_Folder_Icon.png" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Command="{Binding AddNoteCommand}"
+                      Header="Note">
+                <MenuItem.Icon>
+                    <Image>
+                        <Image.Source>
+                            <BitmapImage DecodePixelWidth="300" UriSource="/Images/Add_Icon.png" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Command="{Binding DeleteNoteSectionCommand}"
+                      Header="Note Section">
+                <MenuItem.Icon>
+                    <Image>
+                        <Image.Source>
+                            <BitmapImage DecodePixelWidth="300" UriSource="/Images/Move_To_Trash_Icon.png" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Command="{Binding DeleteNoteCommand}"
+                      Header="Note">
+                <MenuItem.Icon>
+                    <Image>
+                        <Image.Source>
+                            <BitmapImage DecodePixelWidth="300" UriSource="/Images/Move_To_Trash_Icon.png" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+        </Menu>
 
         <ListView Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2"
                   Margin="50"

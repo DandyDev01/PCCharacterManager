@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Add_Icon.png" />
+    <None Remove="Images\Edit_Icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="PCCharacterManager.ico" />
   </ItemGroup>
 
@@ -19,9 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\Add_Icon.png" />
     <Resource Include="Images\Create_Folder_Icon.png" />
     <Resource Include="Images\Dark_Mode_Icon.png" />
     <Resource Include="Images\Download_Icon.png" />
+    <Resource Include="Images\Edit_Icon.png" />
     <Resource Include="Images\Favorite_Icon.png" />
     <Resource Include="Images\Light_Mode_Icon.png" />
     <Resource Include="Images\Move_To_Trash_Icon.png" />
