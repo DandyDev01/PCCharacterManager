@@ -9,7 +9,8 @@
              Background="{DynamicResource 1}"
              d:DesignHeight="540" d:DesignWidth="640">
     <ScrollViewer>
-        <Grid>
+        <!--#region old-->
+        <!--<Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -21,7 +22,8 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <!--#region row 1-->
+            
+            --><!--#region row 1--><!--
             <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1" >
                 <ContentControl>
                     <v:AbilityView DataContext="{Binding Abilities[0]}"/>
@@ -32,8 +34,8 @@
                     <v:AbilityView DataContext="{Binding Abilities[1]}"/>
                 </ContentControl>
             </DockPanel>
-            <!--#endregion-->
-            <!--#region row 2-->
+            --><!--#endregion-->
+            <!--#region row 2--><!--
             <DockPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1" >
                 <ContentControl>
                     <v:AbilityView DataContext="{Binding Abilities[2]}"/>
@@ -44,8 +46,8 @@
                     <v:AbilityView DataContext="{Binding Abilities[3]}"/>
                 </ContentControl>
             </DockPanel>
-            <!--#endregion-->
-            <!--#region row 3-->
+            --><!--#endregion-->
+            <!--#region row 3--><!--
             <DockPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="1" >
                 <ContentControl>
                     <v:AbilityView DataContext="{Binding Abilities[4]}"/>
@@ -56,7 +58,116 @@
                     <v:AbilityView DataContext="{Binding Abilities[5]}"/>
                 </ContentControl>
             </DockPanel>
-            <!--#endregion-->
+            --><!--#endregion--><!--
+        </Grid>-->
+        <!--#endregion-->
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7" Grid.RowSpan="1"
+                   HorizontalAlignment="Center"
+                   Content="Abilties"/>
+            <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="7" Grid.RowSpan="1"
+                      ItemsSource="{Binding AbilitiesCollectionView}"  
+                      Background="{DynamicResource 1}"
+                      HorizontalContentAlignment="Stretch">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn>
+                            <GridViewColumnHeader Content="Name"/>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumnHeader Content="Score"/>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Score}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumnHeader Content="Modifier"/>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Modifier}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumnHeader Content="Save"/>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Save}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumnHeader Content="Proficiency"/>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ProfSave}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumnHeader Content="Misc Modifier"/>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="-"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="7" Grid.RowSpan="1"
+                   HorizontalAlignment="Center"
+                   Content="Skills"/>
+            <ListView Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="7" Grid.RowSpan="1"
+                      ItemsSource="{Binding SkillsCollectionView}"  
+                      Background="{DynamicResource 1}"
+                      HorizontalContentAlignment="Stretch">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn>
+                            <GridViewColumnHeader Content="Name"/>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumnHeader Content="Score"/>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Score}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
     </ScrollViewer>
 </UserControl>

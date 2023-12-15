@@ -42,14 +42,14 @@
         </Grid.RowDefinitions>
 
         <!--#region D&D 5e-->
-        <ContentControl Grid.Column="0"  Grid.Row="0" Grid.ColumnSpan="8" Grid.RowSpan="7"
+        <ContentControl Grid.Column="0"  Grid.Row="0" Grid.ColumnSpan="9" Grid.RowSpan="7"
                         Visibility="{Binding Is5e, Converter={StaticResource IsEditConverter} }">
             <v:CharacterInfoView DataContext="{Binding CharacterInfoViewModel}"/>
         </ContentControl>
 
-        <ContentControl Grid.Column="8" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="7" 
+        <ContentControl Grid.Column="9" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="7" 
                         Visibility="{Binding Is5e, Converter={StaticResource IsEditConverter} }">
-            <v:CharacterAbilitiesView DataContext="{Binding SelectedCharacter}"/>
+            <v:CharacterAbilitiesView DataContext="{Binding CharacterAbilitiesViewModel}"/>
         </ContentControl>
         <!--#endregion-->
         

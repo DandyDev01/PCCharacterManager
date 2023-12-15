@@ -3,6 +3,7 @@ using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
+using PCCharacterManager.ViewModels.Character;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace PCCharacterManager.ViewModels
 		public CharacterInfoViewModel CharacterInfoViewModel { get; }
 		public StarfinderCharacterInfoViewModel StarfinderCharacterInfoViewModel { get; }
 		public StarfinderAbilitiesAndSkillsViewModel StarfinderAbilitiesAndSkillsVM { get; }
+		public CharacterAbilitiesViewModel CharacterAbilitiesViewModel { get; }
 
 		private bool is5e;
 		public bool Is5e
@@ -61,6 +63,7 @@ namespace PCCharacterManager.ViewModels
 			CharacterInfoViewModel = new CharacterInfoViewModel(_characterStore);
 			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(_characterStore); 
 			StarfinderAbilitiesAndSkillsVM = new StarfinderAbilitiesAndSkillsViewModel(_characterStore);
+			CharacterAbilitiesViewModel = new CharacterAbilitiesViewModel(_characterStore);
 
 			if (selectedCharacter is StarfinderCharacter)
 			{
