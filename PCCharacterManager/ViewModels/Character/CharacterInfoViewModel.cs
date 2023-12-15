@@ -57,6 +57,19 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		private string race;
+		public string Race
+		{
+			get
+			{
+				return race;
+			}
+			set
+			{
+				OnPropertyChanged(ref race, value);
+			}
+		}
+
 		public ICommand NameSortCommand { get; }
 		public ICommand FeatureTypeSortCommand { get; }
 		public ICommand LevelSortCommand { get; }
@@ -117,6 +130,8 @@ namespace PCCharacterManager.ViewModels
 			ArmorProfsVM.UpdateCollection(selectedCharacter.ArmorProficiencies);
 			OtherProfsVM.UpdateCollection(selectedCharacter.OtherProficiences);
 			WeaponProfsVM.UpdateCollection(selectedCharacter.WeaponProficiencies);
+
+			Race = selectedCharacter.Race.RaceVariant.Name + " " + selectedCharacter.Race.Name;
 
 			UpdateFeatures(null, null);
 			SelectedProperty = AllFeatures.FirstOrDefault();

@@ -57,6 +57,11 @@
         <Setter Property="CanContentScroll" Value="False"/>
     </Style>
 
+    <Style TargetType="GridViewColumnHeader">
+        <Setter Property="Foreground" Value="{DynamicResource 3}"/>
+        <Setter Property="Background" Value="{DynamicResource 1}"/>
+    </Style>
+    
     <!--#region Menu-->
     <Style TargetType="Menu">
         <Setter Property="FontSize" Value="10"/>
