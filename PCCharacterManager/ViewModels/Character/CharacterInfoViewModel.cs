@@ -70,11 +70,26 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		private string health;
+		public string Health
+		{
+			get
+			{
+				return health;
+			}
+			set
+			{
+				OnPropertyChanged(ref health, value);
+			}
+		}
+
 		public ICommand NameSortCommand { get; }
 		public ICommand FeatureTypeSortCommand { get; }
 		public ICommand LevelSortCommand { get; }
 		public ICommand AddFeatureCommand { get; }
 		public ICommand RemoveFeatureCommand { get; }
+		public ICommand AddHealthCommand { get; }
+		public ICommand RemoveHealthCommand { get; }
 
 		public CharacterInfoViewModel(CharacterStore _characterStore)
 		{
@@ -105,6 +120,60 @@ namespace PCCharacterManager.ViewModels
 			ArmorProfsVM = new StringListViewModel("Armor Profs", selectedCharacter.ArmorProficiencies);
 			OtherProfsVM = new StringListViewModel("Other Profs", selectedCharacter.OtherProficiences);
 			WeaponProfsVM = new StringListViewModel("Weapon Profs", selectedCharacter.WeaponProficiencies);
+			AddHealthCommand = new RelayCommand(AddHealth);
+			RemoveHealthCommand = new RelayCommand(RemoveHealth);
+		}
+
+		private void AddHealth()
+		{
+			Window window = new ChangeHealthDialogWindow();
+			DialogWindowChangeHealthViewModel dataContext = new DialogWindowChangeHealthViewModel(window);
+			window.DataContext = dataContext;
+			window.ShowDialog();
+
+			if (window.DialogResult == false)
+				return;
+
+			var temp = selectedCharacter.Health;
+
+			if (dataContext.IsTempHealth)
+			{
+				temp.TempHitPoints += dataContext.Amount;
+				temp.TempHitPoints = Math.Clamp(temp.TempHitPoints, 0, 1000000);
+			}
+			else
+			{
+				temp.CurrHealth += dataContext.Amount;
+				temp.CurrHealth = Math.Clamp(temp.CurrHealth, 0, temp.MaxHealth);
+			}
+
+			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth.ToString() + '(' + temp.TempHitPoints + " temp)";
+		}
+
+		private void RemoveHealth()
+		{
+			Window window = new ChangeHealthDialogWindow();
+			DialogWindowChangeHealthViewModel dataContext = new DialogWindowChangeHealthViewModel(window);
+			window.DataContext = dataContext;
+			window.ShowDialog();
+
+			if (window.DialogResult == false)
+				return;
+
+			var temp = selectedCharacter.Health;
+
+			if (dataContext.IsTempHealth)
+			{
+				temp.TempHitPoints -= dataContext.Amount;
+				temp.TempHitPoints = Math.Clamp(temp.TempHitPoints, 0, 1000000);
+			}
+			else
+			{
+				temp.CurrHealth -= dataContext.Amount;
+				temp.CurrHealth = Math.Clamp(temp.CurrHealth, 0, temp.MaxHealth);
+			}
+
+			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth.ToString() + '(' + temp.TempHitPoints + " temp)";
 		}
 
 		/// <summary>
@@ -132,6 +201,8 @@ namespace PCCharacterManager.ViewModels
 			WeaponProfsVM.UpdateCollection(selectedCharacter.WeaponProficiencies);
 
 			Race = selectedCharacter.Race.RaceVariant.Name + " " + selectedCharacter.Race.Name;
+			var temp = selectedCharacter.Health;
+			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth + '(' + temp.TempHitPoints + ')';
 
 			UpdateFeatures(null, null);
 			SelectedProperty = AllFeatures.FirstOrDefault();
