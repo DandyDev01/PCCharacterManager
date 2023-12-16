@@ -71,9 +71,6 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 				return;
 			}
 
-
-			Amount = Math.Abs(Amount);
-
 			window.DialogResult = true;
 			window.Close();
 		}

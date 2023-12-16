@@ -83,6 +83,19 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		private string armorClass;
+		public string ArmorClass
+		{
+			get
+			{
+				return armorClass;
+			}
+			set
+			{
+				OnPropertyChanged(ref armorClass, value);
+			}
+		}
+
 		private string characterClass;
 		public string CharacterClass
 		{
@@ -101,9 +114,9 @@ namespace PCCharacterManager.ViewModels
 		public ICommand LevelSortCommand { get; }
 		public ICommand AddFeatureCommand { get; }
 		public ICommand RemoveFeatureCommand { get; }
-		public ICommand AddHealthCommand { get; }
-		public ICommand RemoveHealthCommand { get; }
 		public ICommand AdjustExperienceCommand { get; }
+		public ICommand AdjustHealthCommand { get; }
+		public ICommand EditArmorClassCommand { get; }
 
 		public CharacterInfoViewModel(CharacterStore _characterStore)
 		{
@@ -134,9 +147,28 @@ namespace PCCharacterManager.ViewModels
 			ArmorProfsVM = new StringListViewModel("Armor Profs", selectedCharacter.ArmorProficiencies);
 			OtherProfsVM = new StringListViewModel("Other Profs", selectedCharacter.OtherProficiences);
 			WeaponProfsVM = new StringListViewModel("Weapon Profs", selectedCharacter.WeaponProficiencies);
-			AddHealthCommand = new RelayCommand(AddHealth);
-			RemoveHealthCommand = new RelayCommand(RemoveHealth);
 			AdjustExperienceCommand = new RelayCommand(AdjustExperience);
+			AdjustHealthCommand = new RelayCommand(AddHealth);
+			EditArmorClassCommand = new RelayCommand(EditArmorClass);
+		}
+
+		private void EditArmorClass()
+		{
+			Window window = new StringInputDialogWindow();
+			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel(window);
+			window.DataContext = dataContext;
+
+			dataContext.Answer = selectedCharacter.ArmorClass.ArmorClassValue;
+
+			window.ShowDialog();
+
+			if (window.DialogResult == false)
+				return;
+
+			
+
+			selectedCharacter.ArmorClass.ArmorClassValue = dataContext.Answer;
+			ArmorClass = selectedCharacter.ArmorClass.ArmorClassValue;
 		}
 
 		private void AdjustExperience()
@@ -189,33 +221,7 @@ namespace PCCharacterManager.ViewModels
 				temp.CurrHealth = Math.Clamp(temp.CurrHealth, 0, temp.MaxHealth);
 			}
 
-			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth.ToString() + '(' + temp.TempHitPoints + " temp)";
-		}
-
-		private void RemoveHealth()
-		{
-			Window window = new ChangeHealthDialogWindow();
-			DialogWindowChangeHealthViewModel dataContext = new DialogWindowChangeHealthViewModel(window);
-			window.DataContext = dataContext;
-			window.ShowDialog();
-
-			if (window.DialogResult == false)
-				return;
-
-			var temp = selectedCharacter.Health;
-
-			if (dataContext.IsTempHealth)
-			{
-				temp.TempHitPoints -= dataContext.Amount;
-				temp.TempHitPoints = Math.Clamp(temp.TempHitPoints, 0, 1000000);
-			}
-			else
-			{
-				temp.CurrHealth -= dataContext.Amount;
-				temp.CurrHealth = Math.Clamp(temp.CurrHealth, 0, temp.MaxHealth);
-			}
-
-			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth.ToString() + '(' + temp.TempHitPoints + " temp)";
+			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth.ToString() + " (" + temp.TempHitPoints + " temp)";
 		}
 
 		/// <summary>
@@ -245,10 +251,12 @@ namespace PCCharacterManager.ViewModels
 			Race = selectedCharacter.Race.RaceVariant.Name;
 
 			var temp = selectedCharacter.Health;
-			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth + '(' + temp.TempHitPoints + ')';
+			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth + " (" + temp.TempHitPoints + " temp)";
 
 			var characterClass = selectedCharacter.CharacterClass;
 			CharacterClass = characterClass.Name + " " + characterClass.Level.Level;
+
+			ArmorClass = selectedCharacter.ArmorClass.ArmorClassValue;
 
 			UpdateFeatures(null, null);
 			SelectedProperty = AllFeatures.FirstOrDefault();
