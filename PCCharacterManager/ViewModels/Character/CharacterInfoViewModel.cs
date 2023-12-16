@@ -103,6 +103,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand RemoveFeatureCommand { get; }
 		public ICommand AddHealthCommand { get; }
 		public ICommand RemoveHealthCommand { get; }
+		public ICommand AdjustExperienceCommand { get; }
 
 		public CharacterInfoViewModel(CharacterStore _characterStore)
 		{
@@ -135,6 +136,34 @@ namespace PCCharacterManager.ViewModels
 			WeaponProfsVM = new StringListViewModel("Weapon Profs", selectedCharacter.WeaponProficiencies);
 			AddHealthCommand = new RelayCommand(AddHealth);
 			RemoveHealthCommand = new RelayCommand(RemoveHealth);
+			AdjustExperienceCommand = new RelayCommand(AdjustExperience);
+		}
+
+		private void AdjustExperience()
+		{
+			Window window = new StringInputDialogWindow();
+			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel(window);
+			window.DataContext = dataContext;
+			window.ShowDialog();
+
+			if (window.DialogResult == false)
+				return;
+
+			int temp = 0;
+			try
+			{
+				temp = int.Parse(dataContext.Answer);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Must be a whole number", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				AdjustExperience();
+				return;
+			}
+
+			selectedCharacter.Level.ExperiencePoints += temp;
+			
+			// NOTE: check if they can level up, if they can, ask if they want to. 
 		}
 
 		private void AddHealth()
