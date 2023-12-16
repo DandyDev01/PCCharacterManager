@@ -83,6 +83,19 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		private string characterClass;
+		public string CharacterClass
+		{
+			get
+			{
+				return characterClass;
+			}
+			set
+			{
+				OnPropertyChanged(ref characterClass, value);
+			}
+		}
+
 		public ICommand NameSortCommand { get; }
 		public ICommand FeatureTypeSortCommand { get; }
 		public ICommand LevelSortCommand { get; }
@@ -200,9 +213,13 @@ namespace PCCharacterManager.ViewModels
 			OtherProfsVM.UpdateCollection(selectedCharacter.OtherProficiences);
 			WeaponProfsVM.UpdateCollection(selectedCharacter.WeaponProficiencies);
 
-			Race = selectedCharacter.Race.RaceVariant.Name + " " + selectedCharacter.Race.Name;
+			Race = selectedCharacter.Race.RaceVariant.Name;
+
 			var temp = selectedCharacter.Health;
 			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth + '(' + temp.TempHitPoints + ')';
+
+			var characterClass = selectedCharacter.CharacterClass;
+			CharacterClass = characterClass.Name + " " + characterClass.Level.Level;
 
 			UpdateFeatures(null, null);
 			SelectedProperty = AllFeatures.FirstOrDefault();
