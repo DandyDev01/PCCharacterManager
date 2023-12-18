@@ -34,6 +34,7 @@ namespace PCCharacterManager.ViewModels
 
 		public PropertyListViewModel MovementTypesListVM { get; }
 		public PropertyListViewModel FeaturesListVM { get; }
+		public PropertyListViewModel ConditionsListVM { get; }
 
 		public StringListViewModel LanguagesVM { get; }
 		public StringListViewModel ArmorProfsVM { get; }
@@ -109,6 +110,19 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		private string hitDie;
+		public string HitDie
+		{
+			get
+			{
+				return hitDie;
+			}
+			set
+			{
+				OnPropertyChanged(ref hitDie, value);
+			}
+		}
+
 		public ICommand NameSortCommand { get; }
 		public ICommand FeatureTypeSortCommand { get; }
 		public ICommand LevelSortCommand { get; }
@@ -141,6 +155,8 @@ namespace PCCharacterManager.ViewModels
 			selectedProperty = AllFeatures.FirstOrDefault();	
 
 			FeaturesListVM = new PropertyListViewModel("Features", null);
+
+			ConditionsListVM = new PropertyListViewModel("Conditions", null);
 			MovementTypesListVM = new PropertyListViewModel("Movement", selectedCharacter.MovementTypes_Speeds);
 			LanguagesVM = new StringListViewModel("Languages", selectedCharacter.Languages);
 			ToolProfsVM = new StringListViewModel("Tool Profs", selectedCharacter.ToolProficiences);
@@ -150,6 +166,46 @@ namespace PCCharacterManager.ViewModels
 			AdjustExperienceCommand = new RelayCommand(AdjustExperience);
 			AdjustHealthCommand = new RelayCommand(AddHealth);
 			EditArmorClassCommand = new RelayCommand(EditArmorClass);
+		}
+
+		/// <summary>
+		/// What to do when the selectedCharacter changes
+		/// </summary>
+		/// <param name="newCharacter">the newly selected character</param>
+		private void OnCharacterChanged(DnD5eCharacter newCharacter)
+		{
+			if (SelectedCharacter is not null)
+				SelectedCharacter.CharacterClass.Features.CollectionChanged -= UpdateFeatures;
+
+			SelectedCharacter = newCharacter;
+
+			SelectedCharacter.CharacterClass.Features.CollectionChanged += UpdateFeatures;
+
+			if (selectedCharacter is null)
+				return;
+
+			//FeaturesListVM.UpdateCollection(null);
+			MovementTypesListVM.UpdateCollection( selectedCharacter.MovementTypes_Speeds);
+			LanguagesVM.UpdateCollection(selectedCharacter.Languages);
+			ToolProfsVM.UpdateCollection(selectedCharacter.ToolProficiences);
+			ArmorProfsVM.UpdateCollection(selectedCharacter.ArmorProficiencies);
+			OtherProfsVM.UpdateCollection(selectedCharacter.OtherProficiences);
+			WeaponProfsVM.UpdateCollection(selectedCharacter.WeaponProficiencies);
+
+			Race = selectedCharacter.Race.RaceVariant.Name;
+
+			var temp = selectedCharacter.Health;
+			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth + " (" + temp.TempHitPoints + " temp)";
+
+			var characterClass = selectedCharacter.CharacterClass;
+			CharacterClass = characterClass.Name + " " + characterClass.Level.Level;
+
+			ArmorClass = selectedCharacter.ArmorClass.ArmorClassValue;
+
+			HitDie = selectedCharacter.CharacterClass.HitDie.ToString();
+
+			UpdateFeatures(null, null);
+			SelectedProperty = AllFeatures.FirstOrDefault();
 		}
 
 		private void EditArmorClass()
@@ -222,44 +278,6 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth.ToString() + " (" + temp.TempHitPoints + " temp)";
-		}
-
-		/// <summary>
-		/// What to do when the selectedCharacter changes
-		/// </summary>
-		/// <param name="newCharacter">the newly selected character</param>
-		private void OnCharacterChanged(DnD5eCharacter newCharacter)
-		{
-			if (SelectedCharacter is not null)
-				SelectedCharacter.CharacterClass.Features.CollectionChanged -= UpdateFeatures;
-
-			SelectedCharacter = newCharacter;
-
-			SelectedCharacter.CharacterClass.Features.CollectionChanged += UpdateFeatures;
-
-			if (selectedCharacter is null)
-				return;
-
-			//FeaturesListVM.UpdateCollection(null);
-			MovementTypesListVM.UpdateCollection( selectedCharacter.MovementTypes_Speeds);
-			LanguagesVM.UpdateCollection(selectedCharacter.Languages);
-			ToolProfsVM.UpdateCollection(selectedCharacter.ToolProficiences);
-			ArmorProfsVM.UpdateCollection(selectedCharacter.ArmorProficiencies);
-			OtherProfsVM.UpdateCollection(selectedCharacter.OtherProficiences);
-			WeaponProfsVM.UpdateCollection(selectedCharacter.WeaponProficiencies);
-
-			Race = selectedCharacter.Race.RaceVariant.Name;
-
-			var temp = selectedCharacter.Health;
-			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth + " (" + temp.TempHitPoints + " temp)";
-
-			var characterClass = selectedCharacter.CharacterClass;
-			CharacterClass = characterClass.Name + " " + characterClass.Level.Level;
-
-			ArmorClass = selectedCharacter.ArmorClass.ArmorClassValue;
-
-			UpdateFeatures(null, null);
-			SelectedProperty = AllFeatures.FirstOrDefault();
 		}
 
 		private void AddFeature()
