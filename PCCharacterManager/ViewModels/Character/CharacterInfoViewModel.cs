@@ -18,6 +18,7 @@ namespace PCCharacterManager.ViewModels
 	public class CharacterInfoViewModel : ObservableObject
 	{
 		private readonly CollectionViewPropertySort collectionViewPropertySort;
+		private readonly CharacterStore characterStore;
 
 		private DnD5eCharacter? selectedCharacter;
 		public DnD5eCharacter? SelectedCharacter
@@ -131,9 +132,12 @@ namespace PCCharacterManager.ViewModels
 		public ICommand AdjustExperienceCommand { get; }
 		public ICommand AdjustHealthCommand { get; }
 		public ICommand EditArmorClassCommand { get; }
+		public ICommand EditCharacterCommand { get; }
+		public ICommand LevelCharacterCommand { get; }
 
 		public CharacterInfoViewModel(CharacterStore _characterStore)
 		{
+			characterStore = _characterStore;
 			AllFeatures = new ObservableCollection<Feature>();
 			FeaturesCollectionView = CollectionViewSource.GetDefaultView(AllFeatures);
 			collectionViewPropertySort = new CollectionViewPropertySort(FeaturesCollectionView);
@@ -154,18 +158,20 @@ namespace PCCharacterManager.ViewModels
 
 			selectedProperty = AllFeatures.FirstOrDefault();	
 
-			FeaturesListVM = new PropertyListViewModel("Features", null);
+			FeaturesListVM = new PropertyListViewModel("Features");
 
-			ConditionsListVM = new PropertyListViewModel("Conditions", null);
+			ConditionsListVM = new PropertyListViewModel("Conditions");
 			MovementTypesListVM = new PropertyListViewModel("Movement", selectedCharacter.MovementTypes_Speeds);
 			LanguagesVM = new StringListViewModel("Languages", selectedCharacter.Languages);
 			ToolProfsVM = new StringListViewModel("Tool Profs", selectedCharacter.ToolProficiences);
 			ArmorProfsVM = new StringListViewModel("Armor Profs", selectedCharacter.ArmorProficiencies);
 			OtherProfsVM = new StringListViewModel("Other Profs", selectedCharacter.OtherProficiences);
 			WeaponProfsVM = new StringListViewModel("Weapon Profs", selectedCharacter.WeaponProficiencies);
+			LevelCharacterCommand = new LevelCharacterCommand(characterStore);
 			AdjustExperienceCommand = new RelayCommand(AdjustExperience);
 			AdjustHealthCommand = new RelayCommand(AddHealth);
 			EditArmorClassCommand = new RelayCommand(EditArmorClass);
+			EditCharacterCommand = new RelayCommand(EditCharacter);
 		}
 
 		/// <summary>
@@ -345,6 +351,18 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			FeaturesCollectionView?.Refresh();
+		}
+
+		private void EditCharacter()
+		{
+			if (characterStore.SelectedCharacter == null)
+				return;
+
+			Window window = new EditCharacterDialogWindow();
+			DialogWindowEditCharacterViewModel windowVM = new(window, characterStore.SelectedCharacter);
+			window.DataContext = windowVM;
+
+			window.ShowDialog();
 		}
 	}
 }

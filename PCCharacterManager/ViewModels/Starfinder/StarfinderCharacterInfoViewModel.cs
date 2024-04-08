@@ -84,10 +84,10 @@ namespace PCCharacterManager.ViewModels
 		{
 			_characterStore.SelectedCharacterChange += OnCharacterChange;
 
-			RaceFeatureListVM = new PropertyListViewModel("Features", null);
-			ClassFeatureListVM = new PropertyListViewModel("Features", null);
-			RaceVarientListVM = new PropertyListViewModel("Features", null);
-			ThemeListVM = new PropertyListViewModel("Features", null);
+			RaceFeatureListVM = new PropertyListViewModel("Features");
+			ClassFeatureListVM = new PropertyListViewModel("Features");
+			RaceVarientListVM = new PropertyListViewModel("Features");
+			ThemeListVM = new PropertyListViewModel("Features");
 
 			AddThemeFeatureCommand = new RelayCommand(AddThemeFeature);
 			RemoveThemeFeatureCommand = new RelayCommand(RemoveThemeFeature);
