@@ -109,7 +109,10 @@ namespace PCCharacterManager.ViewModels
 			if (newCharacter is StarfinderCharacter starfinderCharacter)
 				selectedCharacter = starfinderCharacter;
 			else
+			{
 				selectedCharacter = new StarfinderCharacter();
+				return;
+			}
 
 			ThemeListVM = new PropertyListViewModel("Themes", selectedCharacter.Theme.Features);
 			ClassFeatureListVM = new DnDClassFeatureListViewModel("Class Features", SelectedCharacter.CharacterClass.Features);

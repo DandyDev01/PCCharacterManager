@@ -8,6 +8,22 @@
              mc:Ignorable="d" 
              Background="{DynamicResource 1}"
              d:DesignHeight="930" d:DesignWidth="1250">
+    <UserControl.InputBindings>
+        <KeyBinding Modifiers="Ctrl" Key="L" Command="{Binding LanguagesVM.AddItemCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="M" Command="{Binding MovementTypesListVM.AddItemCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding WeaponProfsVM.AddItemCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="A" Command="{Binding ArmorProfsVM.AddItemCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="T" Command="{Binding ToolProfsVM.AddItemCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="F" Command="{Binding AddFeatureCommand}"/>
+
+        <KeyBinding Modifiers="Ctrl+Shift" Key="L" Command="{Binding LanguagesVM.RemoveItemCommand}"/>
+        <KeyBinding Modifiers="Ctrl+Shift" Key="M" Command="{Binding MovementTypesListVM.RemoveItemCommand}"/>
+        <KeyBinding Modifiers="Ctrl+Shift" Key="W" Command="{Binding WeaponProfsVM.RemoveItemCommand}"/>
+        <KeyBinding Modifiers="Ctrl+Shift" Key="A" Command="{Binding ArmorProfsVM.RemoveItemCommand}"/>
+        <KeyBinding Modifiers="Ctrl+Shift" Key="T" Command="{Binding ToolProfsVM.RemoveItemCommand}"/>
+        <KeyBinding Modifiers="Ctrl+Shift" Key="F" Command="{Binding RemoveFeatureCommand}"/>
+    </UserControl.InputBindings>
+
     <ScrollViewer Padding="5 0 5 5">
         <Grid>
             <Grid.ColumnDefinitions>
