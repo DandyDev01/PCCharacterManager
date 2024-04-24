@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-	public class DnD5eCharacterClass
+	public class DnD5eCharacterClass : ObservableObject
 	{
 		private string name;
 		private HitDie hitDie;
@@ -22,7 +23,7 @@ namespace PCCharacterManager.Models
 			get { return hitDie; }
 			set
 			{
-				hitDie = value;
+				OnPropertyChanged(ref hitDie, value);
 			}
 		}
 		public string Name

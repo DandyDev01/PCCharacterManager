@@ -81,15 +81,17 @@
 
             <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7" Grid.RowSpan="1"
                    HorizontalAlignment="Center"
+                   FontSize="21"
                    Content="Abilties"/>
             <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="7" Grid.RowSpan="1"
                       ItemsSource="{Binding AbilitiesCollectionView}"  
                       Background="{DynamicResource 1}"
+                      MinWidth="470px"
                       HorizontalContentAlignment="Stretch">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn>
-                            <GridViewColumnHeader Content="Name"/>
+                            <GridViewColumnHeader Content="Name" MaxWidth="80"/>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Name}"/>
@@ -97,15 +99,16 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn>
-                            <GridViewColumnHeader Content="Score"/>
+                            <GridViewColumnHeader Content="Score" Width="69"/>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Score}"/>
+                                    <TextBlock Text="{Binding Score}"
+                                               TextAlignment="Center"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn>
-                            <GridViewColumnHeader Content="Modifier"/>
+                            <GridViewColumnHeader Content="Modifier" Width="78"/>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Modifier}"/>
@@ -113,7 +116,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn>
-                            <GridViewColumnHeader Content="Save"/>
+                            <GridViewColumnHeader Content="Save" Width="45"/>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Save}"/>
@@ -121,7 +124,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn>
-                            <GridViewColumnHeader Content="Proficiency"/>
+                            <GridViewColumnHeader Content="Proficiency" Width="90"/>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ProfSave}"/>
@@ -129,7 +132,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn>
-                            <GridViewColumnHeader Content="Misc Modifier"/>
+                            <GridViewColumnHeader Content="Misc Modifier" Width="85"/>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="-"/>
@@ -142,6 +145,7 @@
 
             <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="7" Grid.RowSpan="1"
                    HorizontalAlignment="Center"
+                   FontSize="21"
                    Content="Skills"/>
             <ListView Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="7" Grid.RowSpan="1"
                       ItemsSource="{Binding SkillsCollectionView}"  
@@ -150,7 +154,7 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn>
-                            <GridViewColumnHeader Content="Name"/>
+                            <GridViewColumnHeader Content="Name" Width="220"/>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Name}"/>
@@ -158,7 +162,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn>
-                            <GridViewColumnHeader Content="Score"/>
+                            <GridViewColumnHeader Content="Score"  Width="215"/>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Score}"/>

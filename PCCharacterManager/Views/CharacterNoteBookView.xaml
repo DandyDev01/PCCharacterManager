@@ -11,9 +11,9 @@
              d:DesignHeight="1080" d:DesignWidth="1920">
     <UserControl.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="New Note" InputGestureText="Ctrl+LShift+N" Command="{Binding AddNoteCommand}"/>
-            <MenuItem Header="Delete Note" InputGestureText="Ctrl+LShift+D" Command="{Binding DeleteNoteCommand}"/>
-            <MenuItem Header="Edit Section Title" InputGestureText="N/A" Command="{Binding EditSectionTitleCommand}"/>
+            <MenuItem Header="New Note" Icon="{DynamicResource Add_Icon}" InputGestureText="Ctrl+LShift+N" Command="{Binding AddNoteCommand}"/>
+            <MenuItem Header="Delete Note" Icon="{DynamicResource Move_To_Trash_Icon}" InputGestureText="Ctrl+LShift+D" Command="{Binding DeleteNoteCommand}"/>
+            <MenuItem Header="Edit Section Title" Icon="{DynamicResource Edit_Icon}" InputGestureText="N/A" Command="{Binding EditSectionTitleCommand}"/>
         </ContextMenu>
     </UserControl.ContextMenu>
     <UserControl.InputBindings>
@@ -138,10 +138,23 @@
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Notes}"
                                           DataType="{x:Type m:NoteSection}">
-                    <Label Content="{Binding SectionTitle}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <!--<Button Width="20px">
+                            <Image Source="{DynamicResource Add_Icon}"/>
+                        </Button>
+                        <Button Width="20px">
+                            <Image Source="{DynamicResource Move_To_Trash_Icon}"/>
+                        </Button>-->
+                        <Label Content="{Binding SectionTitle}"/>
+                    </StackPanel>
                     <HierarchicalDataTemplate.ItemTemplate>
                         <HierarchicalDataTemplate DataType="{x:Type m:Note}">
-                            <Label Content="{Binding Title}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <!--<Button Width="20px">
+                                    <Image Source="{DynamicResource Move_To_Trash_Icon}"/>
+                                </Button>-->
+                                <Label Content="{Binding Title}"/>
+                            </StackPanel>
                         </HierarchicalDataTemplate>
                     </HierarchicalDataTemplate.ItemTemplate>
                 </HierarchicalDataTemplate>

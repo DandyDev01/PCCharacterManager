@@ -236,7 +236,7 @@ namespace PCCharacterManager.ViewModels
 		private void AdjustExperience()
 		{
 			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel(window);
+			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel(window, "Enter amount to add or remove.");
 			window.DataContext = dataContext;
 			window.ShowDialog();
 
