@@ -25,30 +25,30 @@ namespace PCCharacterManager.ViewModels
 
 		private void AddItem()
 		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window,
+			Window featureNameWindow = new StringInputDialogWindow();
+			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(featureNameWindow,
 				"Name");
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			featureNameWindow.DataContext = windowVM;
+			featureNameWindow.ShowDialog();
 
-			if (window.DialogResult == false)
+			if (featureNameWindow.DialogResult == false)
 				return;
 
-			Window window1 = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM1 = new DialogWindowStringInputViewModel(window1,
+			Window featureDescriptionWindow = new StringInputDialogWindow();
+			DialogWindowStringInputViewModel windowVM1 = new DialogWindowStringInputViewModel(featureDescriptionWindow,
 				"Description");
-			window1.DataContext = windowVM1;
-			window1.ShowDialog();
+			featureDescriptionWindow.DataContext = windowVM1;
+			featureDescriptionWindow.ShowDialog();
 
-			if (window1.DialogResult == false)
+			if (featureDescriptionWindow.DialogResult == false)
 				return;
 
-			Window window2 = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM2 = new DialogWindowStringInputViewModel(window2, "Feature Level");
-			window2.DataContext = windowVM2;
-			window2.ShowDialog();
+			Window featureLevelWindow = new StringInputDialogWindow();
+			DialogWindowStringInputViewModel windowVM2 = new DialogWindowStringInputViewModel(featureLevelWindow, "Feature Level");
+			featureLevelWindow.DataContext = windowVM2;
+			featureLevelWindow.ShowDialog();
 
-			if (window2.DialogResult == false)
+			if (featureLevelWindow.DialogResult == false)
 				return;
 
 			int level;
