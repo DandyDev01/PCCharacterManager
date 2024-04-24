@@ -67,6 +67,7 @@
                    Content="Search"/>
             <TextBox Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="1"
                      x:Name="searchBox"
+                     TextChanged="searchBox_TextChanged"
                      FontSize="15"
                      Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource Search}"/>
