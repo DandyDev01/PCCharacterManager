@@ -42,6 +42,8 @@ namespace PCCharacterManager.Views
 
 		public void FocusSearch()
 		{
+			placeholderText.Visibility = Visibility.Collapsed;
+			searchBox.Visibility = Visibility.Visible;
 			this.searchBox.Focus();
 		}
 
@@ -122,19 +124,23 @@ namespace PCCharacterManager.Views
 			inventoryVM.SelectedItem = inventoryVM.ItemDisplayVms[0];
 		}
 
-		private void searchBox_TextChanged(object sender, TextChangedEventArgs e)
+		private void searchBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			if (sender is TextBox textbox)
+			if (searchBox.Text == "")
 			{
-				if (string.IsNullOrEmpty(textbox.Text))
-				{
-					textbox.Text = "Search";
-				}
-				else
-				{
-					textbox.Text = "";
-				}
+				placeholderText.Visibility = Visibility.Visible;
+				searchBox.Visibility = Visibility.Collapsed;
 			}
-        }
-    }
+		}
+
+		private void searchBox_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if (searchBox.Text == "")
+			{
+				placeholderText.Visibility = Visibility.Collapsed;
+				searchBox.Visibility = Visibility.Visible;
+				FocusSearch();
+			}
+		}
+	}
 }

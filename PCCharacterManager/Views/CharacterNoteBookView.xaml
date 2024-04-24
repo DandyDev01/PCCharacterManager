@@ -85,36 +85,58 @@
             </Button>
         </Grid>-->
 
-        <Menu Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="3">
-            <TextBox x:Name="searchBox"
-                     Width="150"
-                     Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{DynamicResource Search}"/>
-            <MenuItem Command="{Binding AddNoteSectionCommand}"
+        <Grid Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="1">
+                <TextBox x:Name="searchBox" Visibility="Collapsed"
+                         LostFocus="searchBox_LostFocus"
+                         Width="100"
+                         FontSize="15"
+                         Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{DynamicResource Search}"/>
+
+                <TextBox Text="Search" Foreground="Gray" Margin="5,0,0,0" Visibility="Visible"
+                         Width="100"
+                         GotFocus="searchBox_GotFocus"
+                         x:Name="placeholderText" 
+                         Style="{DynamicResource Search}"/>
+            </StackPanel>
+            <MenuItem Grid.Column="1"
+                      Command="{Binding AddNoteSectionCommand}"
                       Header="Note Section">
                 <MenuItem.Icon>
                     <Image Source="{DynamicResource Create_Folder_Icon}"/>
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="{Binding AddNoteCommand}"
+            <MenuItem  Grid.Column="2"
+                      Command="{Binding AddNoteCommand}"
                       Header="Note">
                 <MenuItem.Icon>
                     <Image Source="{DynamicResource Add_Icon}"/>
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="{Binding DeleteNoteSectionCommand}"
+            <MenuItem  Grid.Column="3"
+                      Command="{Binding DeleteNoteSectionCommand}"
                       Header="Note Section">
                 <MenuItem.Icon>
                     <Image Source="{DynamicResource Move_To_Trash_Icon}"/>
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="{Binding DeleteNoteCommand}"
+            <MenuItem  Grid.Column="4"
+                      Command="{Binding DeleteNoteCommand}"
                       Header="Note">
                 <MenuItem.Icon>
                     <Image Source="{DynamicResource Move_To_Trash_Icon}"/>
                 </MenuItem.Icon>
             </MenuItem>
-        </Menu>
+        </Grid>
 
         <ListView Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2"
                   Margin="50"

@@ -143,11 +143,6 @@ namespace PCCharacterManager.Views
 			}
 		}
 
-		public void FocusSearchBox()
-		{
-			this.searchBox.Focus();
-		}
-
 		/// <summary>
 		/// used to link the vm so that the view updates to display the note contents
 		/// </summary>
@@ -193,6 +188,32 @@ namespace PCCharacterManager.Views
 					return;
 
 				item.IsExpanded = true;
+			}
+		}
+
+		public void FocusSearchBox()
+		{
+			placeholderText.Visibility = Visibility.Collapsed;
+			searchBox.Visibility = Visibility.Visible;
+			this.searchBox.Focus();
+		}
+
+		private void searchBox_LostFocus(object sender, RoutedEventArgs e)
+		{
+			if (searchBox.Text == "")
+			{
+				placeholderText.Visibility = Visibility.Visible;
+				searchBox.Visibility = Visibility.Collapsed;
+			}
+		}
+
+		private void searchBox_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if (searchBox.Text == "")
+			{
+				placeholderText.Visibility = Visibility.Collapsed;
+				searchBox.Visibility = Visibility.Visible;
+				FocusSearchBox();
 			}
 		}
 	}
