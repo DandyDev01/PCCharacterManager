@@ -35,7 +35,13 @@ namespace PCCharacterManager.Commands
 			}
 			else
 			{
-				MessageBox.Show("there is a problem with the character you wish to select", "character select problem", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("There is a problem with the character path you wish to select", "character select problem", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			if (selectedCharacter == null)
+			{
+				MessageBox.Show("There is a problem with the character you wish to select", "character select problem", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 

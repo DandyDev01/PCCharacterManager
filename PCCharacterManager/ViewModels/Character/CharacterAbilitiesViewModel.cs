@@ -23,8 +23,8 @@ namespace PCCharacterManager.ViewModels.Character
 		private readonly CollectionViewPropertySort abilitiesCollectionViewPropertySort;
 		private readonly CollectionViewPropertySort skillsCollectionViewPropertySort;
 
-		private DnD5eCharacter? selectedCharacter;
-		public DnD5eCharacter? SelectedCharacter
+		private DnD5eCharacter selectedCharacter;
+		public DnD5eCharacter SelectedCharacter
 		{
 			get
 			{
@@ -36,31 +36,19 @@ namespace PCCharacterManager.ViewModels.Character
 			}
 		}
 
-		public PropertyListViewModel MovementTypesListVM { get; }
-		public PropertyListViewModel FeaturesListVM { get; }
-
-		public StringListViewModel LanguagesVM { get; }
-		public StringListViewModel ArmorProfsVM { get; }
-		public StringListViewModel WeaponProfsVM { get; }
-		public StringListViewModel ToolProfsVM { get; }
-		public StringListViewModel OtherProfsVM { get; }
-
 		public ObservableCollection<Ability> Abilities { get; }
 		public ICollectionView AbilitiesCollectionView { get; }
 
 		public ObservableCollection<AbilitySkill> Skills { get; }
 		public ICollectionView SkillsCollectionView { get; }
 
-		public ICommand NameSortCommand { get; }
-		public ICommand FeatureTypeSortCommand { get; }
-		public ICommand LevelSortCommand { get; }
-		public ICommand AddFeatureCommand { get; }
-		public ICommand RemoveFeatureCommand { get; }
-		public ICommand AddHealthCommand { get; }
-		public ICommand RemoveHealthCommand { get; }
-
 		public CharacterAbilitiesViewModel(CharacterStore _characterStore)
 		{
+			_characterStore.SelectedCharacterChange += OnCharacterChanged;
+
+			selectedCharacter = _characterStore.SelectedCharacter;
+
+
 			Abilities = new ObservableCollection<Ability>();
 			AbilitiesCollectionView = CollectionViewSource.GetDefaultView(Abilities);
 			abilitiesCollectionViewPropertySort = new CollectionViewPropertySort(AbilitiesCollectionView);
@@ -68,18 +56,6 @@ namespace PCCharacterManager.ViewModels.Character
 			Skills = new ObservableCollection<AbilitySkill>();
 			SkillsCollectionView = CollectionViewSource.GetDefaultView(Skills);
 			skillsCollectionViewPropertySort = new CollectionViewPropertySort(AbilitiesCollectionView);
-
-			NameSortCommand = new ItemCollectionViewPropertySortCommand(abilitiesCollectionViewPropertySort,
-				nameof(Feature.Name));
-			FeatureTypeSortCommand = new ItemCollectionViewPropertySortCommand(abilitiesCollectionViewPropertySort,
-				nameof(Feature.FeatureType));
-			LevelSortCommand = new ItemCollectionViewPropertySortCommand(abilitiesCollectionViewPropertySort,
-				nameof(Feature.Level));
-
-			_characterStore.SelectedCharacterChange += OnCharacterChanged;
-
-			selectedCharacter ??= new();
-
 		}
 
 		/// <summary>
@@ -97,7 +73,7 @@ namespace PCCharacterManager.ViewModels.Character
 			UpdateAbilitiesAndSkills(null, null);
 		}
 
-		private void UpdateAbilitiesAndSkills(object? sender, NotifyCollectionChangedEventArgs e)
+		private void UpdateAbilitiesAndSkills(object? sender, NotifyCollectionChangedEventArgs? e)
 		{
 			Abilities.Clear();
 			Skills.Clear();

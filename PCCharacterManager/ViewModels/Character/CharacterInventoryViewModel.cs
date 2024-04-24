@@ -28,7 +28,7 @@ namespace PCCharacterManager.ViewModels
 		private readonly ItemSearch itemSearch;
 		public Array ItemCategories { get; } = Enum.GetValues(typeof(ItemCategory));
 		public Array ItemTypes { get; } = Enum.GetValues(typeof(ItemType));
-		public Inventory? Inventory { get; private set; }
+		public Inventory Inventory { get; private set; }
 
 		public ICommand AddItemCommand { get; }
 		public ICommand RemoveItemCommand { get; }
@@ -114,10 +114,15 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public CharacterInventoryViewModel()
+		public CharacterInventoryViewModel(CharacterStore _characterStore)
 		{
+			_characterStore.SelectedCharacterChange += OnCharacterChanged;
+			Inventory = _characterStore.SelectedCharacter.Inventory;
+
 			propertyVMPool = new PropertyEditableVMPool(5);
 			itemSearch = new ItemSearch();
+
+			showHiddenPropertiesText = string.Empty;
 
 			AddItemCommand = new AddItemToInventoryCommand(this);
 			RemoveItemCommand = new RemoveItemFromInventoryCommand(this);
@@ -151,19 +156,32 @@ namespace PCCharacterManager.ViewModels
 				nameof(ItemViewModel.DisplayItemCategory));
 		}
 
-		public CharacterInventoryViewModel(CharacterStore _characterStore) : this()
+		public CharacterInventoryViewModel(ObservableCollection<ItemViewModel> _itemsToDisplay)
 		{
-			_characterStore.SelectedCharacterChange += OnCharacterChanged;
-		}
+			propertyVMPool = new PropertyEditableVMPool(5);
+			itemSearch = new ItemSearch();
 
-		public CharacterInventoryViewModel(ObservableCollection<ItemViewModel> _itemsToDisplay) : this()
-		{
+			Inventory = new();
+
+			showHiddenPropertiesText = string.Empty;
+
+			AddItemCommand = new AddItemToInventoryCommand(this);
+			RemoveItemCommand = new RemoveItemFromInventoryCommand(this);
+			AddPropertyCommand = new AddPropertyToItemCommand(this);
+			RemovePropertyCommand = new RemovePropertyFromItemCommand(this);
+
 			ItemDisplayVms = _itemsToDisplay;
 			ItemsCollectionView = CollectionViewSource.GetDefaultView(ItemDisplayVms);
 			ItemsCollectionView.Filter = itemSearch.Search;
 			collectionViewPropertySort = new CollectionViewPropertySort(ItemsCollectionView);
 			ItemsCollectionView.SortDescriptions.Add(
 				new SortDescription(nameof(ItemViewModel.DisplayItemCategory), ListSortDirection.Ascending));
+
+			PrevSelectedProperty = new PropertyEditableViewModel(new Property());
+
+			PropertiesToDisplay = new ObservableCollection<PropertyEditableViewModel>();
+
+			ShowPropertiesToDisplayCommand = new RelayCommand(PopulatePropertiesToDisplay);
 
 			NameSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
 				nameof(ItemViewModel.DisplayName));
@@ -174,6 +192,8 @@ namespace PCCharacterManager.ViewModels
 			QuantitySortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
 				nameof(ItemViewModel.DisplayQuantity));
 			TypeSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+				nameof(ItemViewModel.DisplayItemType));
+			CategorySortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
 				nameof(ItemViewModel.DisplayItemCategory));
 		}
 

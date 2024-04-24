@@ -27,7 +27,6 @@ namespace PCCharacterManager.Commands
 		{
 			CharacterItemViewModel[] characterItems = tabVM.CharacterListVM.CharacterItems.ToArray();
 			string[] characterNames = new string[characterItems.Length];
-			string savePath = string.Empty;
 			SaveFileDialog saveFile = new SaveFileDialog();
 			saveFile.Filter = "Json files|*.json";
 			saveFile.FileName = "PCManager_Export.json";
@@ -47,7 +46,7 @@ namespace PCCharacterManager.Commands
 			selectCharactersWindow.DataContext = dataContext;
 			selectCharactersWindow.ShowDialog();
 
-			if ((bool)!selectCharactersWindow.DialogResult) 
+			if (selectCharactersWindow.DialogResult.GetValueOrDefault() == false) 
 				return;
 
 			string[] selectedCharacterNames = dataContext.SelectedItems.ToArray();
@@ -56,10 +55,10 @@ namespace PCCharacterManager.Commands
 			// select where to save export files
 			var fileDialogResult = saveFile.ShowDialog();
 
-			if ((bool)!fileDialogResult) 
+			if (fileDialogResult.GetValueOrDefault() == false) 
 				return;
 
-			savePath = saveFile.FileName;
+			string savePath = saveFile.FileName;
 
 			var messageBoxResult = MessageBox.Show("Single file export? (yes) for 1.json file (no) for individual .json files",
 				"single or multiple files", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
@@ -102,7 +101,10 @@ namespace PCCharacterManager.Commands
 					continue;
 				}
 
-				characters[i] = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterPaths[i]);
+				var character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterPaths[i]) 
+					?? throw new Exception("The characater at " + characterPaths[i] + " does not exist.");
+				
+				characters[i] = character;
 			}
 
 			ReadWriteJsonCollection<DnD5eCharacter>.WriteCollection(savePath, characters);
@@ -134,7 +136,13 @@ namespace PCCharacterManager.Commands
 					savePath += ".json";
 					continue;
 				}
-				DnD5eCharacter character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterPaths[i]);
+				DnD5eCharacter? character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterPaths[i]);
+
+				if (character is null)
+				{
+					throw new Exception("Character path " + characterPaths[i] + " does not exist.");
+				}
+
 				ReadWriteJsonFile<DnD5eCharacter>.WriteFile(savePath + "_" + character.Name + ".json", character);
 				savePath += ".json";
 			}

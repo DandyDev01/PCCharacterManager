@@ -16,7 +16,7 @@ namespace PCCharacterManager.Models
 		private HitDie hitDie;
 		private DnD5eCharacterClassLevel level;
 
-		[JsonProperty("HitDie")]
+		[JsonProperty(nameof(HitDie))]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public HitDie HitDie
 		{

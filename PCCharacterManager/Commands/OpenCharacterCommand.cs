@@ -27,9 +27,10 @@ namespace PCCharacterManager.Commands
 			string path = openFile.FileName;
 			try
 			{
-				DnD5eCharacter? c = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(path);
-				characterStore.BindSelectedCharacter(c);
+				DnD5eCharacter? character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(path) 
+					?? throw new Exception("Character with path " + path + " does not exist.");
 
+				characterStore.BindSelectedCharacter(character);
 			}
 			catch
 			{

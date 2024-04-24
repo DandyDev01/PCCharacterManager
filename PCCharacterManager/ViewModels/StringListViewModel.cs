@@ -87,6 +87,9 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void RemoveItem()
 		{
+			if (selectedItem == null)
+				return;
+
 			ItemsToDisplay.Remove(selectedItem);
 		}
 
@@ -98,6 +101,9 @@ namespace PCCharacterManager.ViewModels
 			Window window = new StringInputDialogWindow();
 			DialogWindowStringInputViewModel windowVM =
 				new DialogWindowStringInputViewModel(window, "Edit ");
+
+			if (selectedItem == null)
+				return;
 
 			windowVM.Answer = selectedItem;
 			window.DataContext = windowVM;

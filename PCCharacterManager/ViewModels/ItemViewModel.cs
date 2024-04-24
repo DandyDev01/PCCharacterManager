@@ -10,8 +10,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class ItemViewModel : ObservableObject
 	{
-		protected Item? boundItem;
-		public Item? BoundItem
+		protected Item boundItem;
+		public Item BoundItem
 		{
 			get { return boundItem; }
 			set { OnPropertyChanged(ref boundItem, value); }
@@ -24,7 +24,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChanged(ref isEditMode, value);
-				OnPropertyChanged("IsDisplayMode");
+				OnPropertyChanged(nameof(IsDisplayMode));
 			}
 		}
 
@@ -142,6 +142,7 @@ namespace PCCharacterManager.ViewModels
 			displayQuantity = 0;
 			displayItemCategory = ItemCategory.Item;
 			displayItemType = ItemType.Spear;
+			boundItem = new();
 		}
 
 		public void Bind(Item _item)

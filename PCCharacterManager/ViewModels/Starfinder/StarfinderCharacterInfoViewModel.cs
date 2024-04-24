@@ -19,8 +19,8 @@ namespace PCCharacterManager.ViewModels
 		public PropertyListViewModel ClassFeatureListVM { get; protected set; }
 		public PropertyListViewModel RaceVarientListVM { get; protected set; }
 
-		private StarfinderCharacter? selectedCharacter;
-		public new StarfinderCharacter? SelectedCharacter
+		private StarfinderCharacter selectedCharacter;
+		public new StarfinderCharacter SelectedCharacter
 		{
 			get
 			{
@@ -48,7 +48,7 @@ namespace PCCharacterManager.ViewModels
 			{
 				OnPropertyChanged(ref selectedThemeFeature, value);
 				SelectedThemeFeatureName = "Remove " + SelectedThemeFeature?.Name;
-				OnPropertyChanged("SelectedThemeFeatureName");
+				OnPropertyChanged(nameof(SelectedThemeFeatureName));
 			}
 		}
 
@@ -84,6 +84,11 @@ namespace PCCharacterManager.ViewModels
 		{
 			_characterStore.SelectedCharacterChange += OnCharacterChange;
 
+			if (_characterStore.SelectedCharacter is StarfinderCharacter starfinderCharacter)
+				selectedCharacter = starfinderCharacter;
+			else
+				selectedCharacter = new StarfinderCharacter();
+
 			RaceFeatureListVM = new PropertyListViewModel("Features");
 			ClassFeatureListVM = new PropertyListViewModel("Features");
 			RaceVarientListVM = new PropertyListViewModel("Features");
@@ -101,9 +106,10 @@ namespace PCCharacterManager.ViewModels
 
 		private void OnCharacterChange(DnD5eCharacter newCharacter)
 		{
-			if (newCharacter is not StarfinderCharacter) return;
-
-			SelectedCharacter = newCharacter as StarfinderCharacter;
+			if (newCharacter is StarfinderCharacter starfinderCharacter)
+				selectedCharacter = starfinderCharacter;
+			else
+				throw new Exception("Character is not Starfinder character.");
 
 			ThemeListVM = new PropertyListViewModel("Themes", selectedCharacter.Theme.Features);
 			ClassFeatureListVM = new DnDClassFeatureListViewModel("Class Features", SelectedCharacter.CharacterClass.Features);

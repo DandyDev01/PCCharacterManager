@@ -9,9 +9,14 @@ namespace PCCharacterManager.Stores
 {
 	public class CharacterStore
 	{
-		public DnD5eCharacter? SelectedCharacter { get; private set; }
+		public DnD5eCharacter SelectedCharacter { get; private set; }
 		public event Action<DnD5eCharacter>? CharacterCreate;
 		public event Action<DnD5eCharacter>? SelectedCharacterChange;
+
+		public CharacterStore()
+		{
+			SelectedCharacter = DnD5eCharacter.Default;
+		}
 
 		public void CreateCharacter(DnD5eCharacter character)
 		{

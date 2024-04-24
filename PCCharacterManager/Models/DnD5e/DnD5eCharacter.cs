@@ -21,6 +21,8 @@ namespace PCCharacterManager.Models
 
 	public class DnD5eCharacter : ObservableObject
 	{
+		public static DnD5eCharacter Default => new DnD5eCharacter();
+
 		protected Ability[] abilities;
 
 		protected string name;

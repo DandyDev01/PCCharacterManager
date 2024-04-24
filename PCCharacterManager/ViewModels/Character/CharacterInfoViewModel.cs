@@ -20,8 +20,8 @@ namespace PCCharacterManager.ViewModels
 		private readonly CollectionViewPropertySort collectionViewPropertySort;
 		private readonly CharacterStore characterStore;
 
-		private DnD5eCharacter? selectedCharacter;
-		public DnD5eCharacter? SelectedCharacter
+		private DnD5eCharacter selectedCharacter;
+		public DnD5eCharacter SelectedCharacter
 		{
 			get
 			{
@@ -111,19 +111,6 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private string hitDie;
-		public string HitDie
-		{
-			get
-			{
-				return hitDie;
-			}
-			set
-			{
-				OnPropertyChanged(ref hitDie, value);
-			}
-		}
-
 		public ICommand NameSortCommand { get; }
 		public ICommand FeatureTypeSortCommand { get; }
 		public ICommand LevelSortCommand { get; }
@@ -138,6 +125,13 @@ namespace PCCharacterManager.ViewModels
 		public CharacterInfoViewModel(CharacterStore _characterStore)
 		{
 			characterStore = _characterStore;
+
+			selectedCharacter = characterStore.SelectedCharacter;
+			race = selectedCharacter.Race.Name;
+			health = selectedCharacter.Health.CurrHealth.ToString();
+			armorClass = selectedCharacter.ArmorClass.ArmorClassValue;
+			characterClass = selectedCharacter.CharacterClass.Name;
+
 			AllFeatures = new ObservableCollection<Feature>();
 			FeaturesCollectionView = CollectionViewSource.GetDefaultView(AllFeatures);
 			collectionViewPropertySort = new CollectionViewPropertySort(FeaturesCollectionView);
@@ -208,8 +202,6 @@ namespace PCCharacterManager.ViewModels
 
 			ArmorClass = selectedCharacter.ArmorClass.ArmorClassValue;
 
-			HitDie = selectedCharacter.CharacterClass.HitDie.ToString();
-
 			UpdateFeatures(null, null);
 			SelectedProperty = AllFeatures.FirstOrDefault();
 		}
@@ -243,12 +235,12 @@ namespace PCCharacterManager.ViewModels
 			if (window.DialogResult == false)
 				return;
 
-			int temp = 0;
+			int temp;
 			try
 			{
 				temp = int.Parse(dataContext.Answer);
 			}
-			catch (Exception ex)
+			catch 
 			{
 				MessageBox.Show("Must be a whole number", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				AdjustExperience();
@@ -270,20 +262,20 @@ namespace PCCharacterManager.ViewModels
 			if (window.DialogResult == false)
 				return;
 
-			var temp = selectedCharacter.Health;
+			var characterHealth = selectedCharacter.Health;
 
 			if (dataContext.IsTempHealth)
 			{
-				temp.TempHitPoints += dataContext.Amount;
-				temp.TempHitPoints = Math.Clamp(temp.TempHitPoints, 0, 1000000);
+				characterHealth.TempHitPoints += dataContext.Amount;
+				characterHealth.TempHitPoints = Math.Clamp(characterHealth.TempHitPoints, 0, 1000000);
 			}
 			else
 			{
-				temp.CurrHealth += dataContext.Amount;
-				temp.CurrHealth = Math.Clamp(temp.CurrHealth, 0, temp.MaxHealth);
+				characterHealth.CurrHealth += dataContext.Amount;
+				characterHealth.CurrHealth = Math.Clamp(characterHealth.CurrHealth, 0, characterHealth.MaxHealth);
 			}
 
-			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth.ToString() + " (" + temp.TempHitPoints + " temp)";
+			Health = characterHealth.CurrHealth.ToString() + '/' + characterHealth.MaxHealth.ToString() + " (" + characterHealth.TempHitPoints + " temp)";
 		}
 
 		private void AddFeature()
@@ -328,7 +320,7 @@ namespace PCCharacterManager.ViewModels
 			selectedProperty = AllFeatures.FirstOrDefault();
 		}
 
-		private void UpdateFeatures(object? sender, NotifyCollectionChangedEventArgs e)
+		private void UpdateFeatures(object? sender, NotifyCollectionChangedEventArgs? e)
 		{
 			AllFeatures.Clear();
 

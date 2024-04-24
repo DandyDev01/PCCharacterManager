@@ -51,7 +51,7 @@ namespace PCCharacterManager.ViewModels
 			if (window2.DialogResult == false)
 				return;
 
-			int level = 0;
+			int level;
 			try
 			{
 				level = int.Parse(windowVM2.Answer);
@@ -68,11 +68,18 @@ namespace PCCharacterManager.ViewModels
 
 		private void RemoveItem()
 		{
-			ItemsToDisplay.Remove(SelectedItem as DnD5eCharacterClassFeature);
+			if (SelectedItem == null)
+				return;
+
+			if (SelectedItem is DnD5eCharacterClassFeature feature)
+				ItemsToDisplay.Remove(feature);
 		}
 
 		private void EditItem()
 		{
+			if (SelectedItem == null)
+				return;
+
 			Window window = new StringInputDialogWindow();
 			DialogWindowStringInputViewModel windowVM =
 				new DialogWindowStringInputViewModel(window, "Edit " + SelectedItem.Name);

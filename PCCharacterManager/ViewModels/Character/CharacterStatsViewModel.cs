@@ -16,8 +16,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterStatsViewModel : ObservableObject
 	{
-		private DnD5eCharacter? selectedCharacter;
-		public DnD5eCharacter? SelectedCharacter 
+		private DnD5eCharacter selectedCharacter;
+		public DnD5eCharacter SelectedCharacter 
 		{ 
 			get { return selectedCharacter; }
 			set { OnPropertyChanged(ref selectedCharacter, value); }
@@ -70,7 +70,7 @@ namespace PCCharacterManager.ViewModels
 				Is5e = false;
 				IsStarfinder = true;
 			}
-			else if (selectedCharacter is DnD5eCharacter)
+			else if (selectedCharacter is not null)
 			{
 				Is5e = true;
 				IsStarfinder = false;
@@ -86,7 +86,7 @@ namespace PCCharacterManager.ViewModels
 				Is5e = false;
 				IsStarfinder = true;
 			}
-			else if(selectedCharacter is DnD5eCharacter)
+			else if (selectedCharacter is DnD5eCharacter)
 			{
 				Is5e = true;
 				IsStarfinder = false;

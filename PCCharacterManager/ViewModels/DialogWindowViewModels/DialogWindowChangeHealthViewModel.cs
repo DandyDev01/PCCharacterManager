@@ -51,6 +51,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			window = _window;
 			OkCommand = new RelayCommand(Ok);
 			CancelCommand = new RelayCommand(Cancel);
+			answer = string.Empty;
 		}
 
 		private void Cancel()
@@ -65,7 +66,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			{
 				Amount = int.Parse(answer);
 			}
-			catch (Exception ex)
+			catch
 			{
 				MessageBox.Show("value must be a whole number", "invalid data", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;

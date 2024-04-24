@@ -18,8 +18,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterNoteBookViewModel : ObservableObject
 	{
-		private NoteBook? noteBook;
-		public NoteBook? NoteBook => noteBook;
+		private NoteBook noteBook;
+		public NoteBook NoteBook => noteBook;
 
 		public ObservableCollection<NoteSection> NoteSectionsToDisplay { get; }
 		public ObservableCollection<Note> SearchResults { get; }
@@ -80,6 +80,8 @@ namespace PCCharacterManager.ViewModels
 		public CharacterNoteBookViewModel(CharacterStore _characterStore)
 		{
 			_characterStore.SelectedCharacterChange += OnCharacterChanged;
+
+			noteBook = _characterStore.SelectedCharacter.NoteManager;
 
 			NoteSectionsToDisplay = new ObservableCollection<NoteSection>();
 			SearchResults = new ObservableCollection<Note>();
