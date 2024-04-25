@@ -236,7 +236,9 @@ namespace PCCharacterManager.ViewModels
 			{
 				foreach (Spell spell in spellBook.SpellsKnown[school])
 				{
-					SpellsToDisplay.Add(new SpellItemEditableViewModel(spell));
+					var spellItem = new SpellItemEditableViewModel(spell);
+					spellItem.Prepare += spellBook.PrepareSpell;
+					SpellsToDisplay.Add(spellItem);
 				}
 			}
 

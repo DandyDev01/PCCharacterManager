@@ -5,23 +5,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PCCharacterManager.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="300" MaxHeight="150">
+             d:DesignHeight="150" d:DesignWidth="300" MaxHeight="250"
+             BorderThickness="2"
+             Background="{DynamicResource 2}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Border BorderBrush="{DynamicResource LightText}" BorderThickness="2"/>
+        <Border BorderThickness="0 3 0 1" BorderBrush="{DynamicResource 5}"/>
         <Label Grid.Row="0"
-               Content="{Binding Title}"/>
+               Margin="0 10 0 0"
+               Content="{Binding Title}"
+               FontSize="21"/>
 
         <Border Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="6" Grid.RowSpan="1"
                 BorderBrush="{DynamicResource LightText}"
                 BorderThickness="1"
                 Padding="5">
             <TextBlock Style="{DynamicResource h4}"
-                       Text="{Binding Notes, FallbackValue=info}"/>
+                       Text="{Binding Notes, FallbackValue=info}"
+                       TextWrapping="WrapWithOverflow"/>
         </Border>
 
     </Grid>
