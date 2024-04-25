@@ -166,7 +166,10 @@ namespace PCCharacterManager.Views
 
 			if (string.IsNullOrEmpty(s) || string.IsNullOrWhiteSpace(s)) 
 				return;
-			
+
+			if (viewModel.SelectedNote is null)
+				return;
+
 			viewModel.SelectedNote.Notes = s;
 		}
 

@@ -59,7 +59,7 @@
             <!--#region Actions-->
             <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="9">
                 <MenuItem Header="Edit" Command="{Binding EditCharacterCommand}"/>
-                <MenuItem Header="Add Feature"/>
+                <MenuItem Header="Add Feature" Command="{Binding AddFeatureCommand}"/>
                 <MenuItem Header="Short Rest"/>
                 <MenuItem Header="Long Rest"/>
                 <MenuItem Header="Level Up" Command="{Binding LevelCharacterCommand}"/>
