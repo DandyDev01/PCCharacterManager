@@ -47,7 +47,6 @@ namespace PCCharacterManager.ViewModels.Character
 		public ICommand AbiltiyModifierSortCommand { get; }
 		public ICommand AbilitySaveSortCommand { get; }
 		public ICommand AbilityProficiencySortCommand { get; }
-		public ICommand AbilityMiscModifierSortCommand { get; }
 
 		public ICommand SkillNameSortCommand { get; }
 		public ICommand SkillScoreSortCommand { get; }
