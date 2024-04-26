@@ -154,7 +154,7 @@ namespace PCCharacterManager.ViewModels
 
 			FeaturesListVM = new PropertyListViewModel("Features");
 
-			ConditionsListVM = new PropertyListViewModel("Conditions");
+			ConditionsListVM = new PropertyListViewModel("Conditions", selectedCharacter.Conditions);
 			MovementTypesListVM = new PropertyListViewModel("Movement", selectedCharacter.MovementTypes_Speeds);
 			LanguagesVM = new StringListViewModel("Languages", selectedCharacter.Languages);
 			ToolProfsVM = new StringListViewModel("Tool Profs", selectedCharacter.ToolProficiences);
@@ -185,6 +185,7 @@ namespace PCCharacterManager.ViewModels
 				return;
 
 			//FeaturesListVM.UpdateCollection(null);
+			ConditionsListVM.UpdateCollection(selectedCharacter.Conditions);
 			MovementTypesListVM.UpdateCollection( selectedCharacter.MovementTypes_Speeds);
 			LanguagesVM.UpdateCollection(selectedCharacter.Languages);
 			ToolProfsVM.UpdateCollection(selectedCharacter.ToolProficiences);

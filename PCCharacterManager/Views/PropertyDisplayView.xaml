@@ -26,18 +26,19 @@
             Grid.RowSpan="1"
             Grid.Column="0"
             Grid.ColumnSpan="2"
+            HorizontalAlignment="Center"
             Content="{Binding Name, FallbackValue=Name}"
-            Style="{DynamicResource mediumn}" />
+            FontSize="18" />
 
         <TextBlock
             Grid.Row="1"
             Grid.RowSpan="1"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            FontSize="13"
+            FontSize="12"
             Text="{Binding Desc}"
             TextAlignment="Center"
-            TextWrapping="Wrap" />
+            TextWrapping="WrapWithOverflow" />
 
     </Grid>
 </UserControl>

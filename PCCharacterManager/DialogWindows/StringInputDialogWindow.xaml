@@ -52,6 +52,7 @@
             Margin="50"
             HorizontalContentAlignment="Left"
             VerticalContentAlignment="Top"
+            GotFocus="inputBox_GotFocus"
             Text="{Binding Answer, UpdateSourceTrigger=PropertyChanged}"
             TextWrapping="Wrap" />
 

@@ -311,9 +311,9 @@
 
             <ContentControl
                 Grid.Row="3"
-                Grid.RowSpan="5"
-                Grid.Column="6"
-                Grid.ColumnSpan="1">
+                Grid.RowSpan="9"
+                Grid.Column="5"
+                Grid.ColumnSpan="2">
                 <v:PropertyListView DataContext="{Binding ConditionsListVM}" />
             </ContentControl>
 

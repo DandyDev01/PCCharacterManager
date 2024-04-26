@@ -23,10 +23,10 @@ namespace PCCharacterManager.DialogWindows
 		{
 			InitializeComponent();
 			inputBox.Focus();
-			inputBox.TextChanged += SetIndex;
+			
 		}
 
-		private void SetIndex(object sender, TextChangedEventArgs e)
+		private void inputBox_GotFocus(object sender, RoutedEventArgs e)
 		{
 			inputBox.CaretIndex = inputBox.Text.Length;
 		}

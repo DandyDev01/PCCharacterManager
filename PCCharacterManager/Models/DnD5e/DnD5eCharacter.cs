@@ -84,6 +84,7 @@ namespace PCCharacterManager.Models
 			set { abilities = value; }
 		}
 
+		public ObservableCollection<Property> Conditions { get; set; }
 		public ObservableCollection<Property> MovementTypes_Speeds { get; set; }
 		public ObservableCollection<string> WeaponProficiencies { get; set; }
 		public ObservableCollection<string> ArmorProficiencies { get; set; }
@@ -109,7 +110,8 @@ namespace PCCharacterManager.Models
 		public DnD5eCharacter()
 		{
 			abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
-			
+
+			Conditions = new ObservableCollection<Property>();
 			MovementTypes_Speeds = new ObservableCollection<Property>();
 			WeaponProficiencies = new ObservableCollection<string>();
 			ArmorProficiencies = new ObservableCollection<string>();
@@ -126,6 +128,7 @@ namespace PCCharacterManager.Models
 			Inventory = new Inventory();
 			Health = new Health(1);
 
+			Conditions.CollectionChanged += OnCharacterChanged;
 			MovementTypes_Speeds.CollectionChanged += OnCharacterChanged;
 			WeaponProficiencies.CollectionChanged += OnCharacterChanged;
 			ArmorProficiencies.CollectionChanged += OnCharacterChanged;
@@ -144,6 +147,7 @@ namespace PCCharacterManager.Models
 		{
 			abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 
+			Conditions = new ObservableCollection<Property>();
 			MovementTypes_Speeds = new ObservableCollection<Property>();
 			WeaponProficiencies = new ObservableCollection<string>(classData.WeaponProficiencies);
 			ArmorProficiencies = new ObservableCollection<string>(classData.ArmorProficiencies);
