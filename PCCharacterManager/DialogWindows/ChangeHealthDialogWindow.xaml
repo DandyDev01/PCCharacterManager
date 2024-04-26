@@ -32,6 +32,7 @@
             Grid.ColumnSpan="3"
             Content="Amount to add (10) or reduce (-10)" />
         <TextBox
+            x:Name="inputBox"
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="3"

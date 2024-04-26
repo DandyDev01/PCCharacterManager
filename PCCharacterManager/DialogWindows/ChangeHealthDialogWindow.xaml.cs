@@ -22,6 +22,7 @@ namespace PCCharacterManager.DialogWindows
         public ChangeHealthDialogWindow()
         {
             InitializeComponent();
+			inputBox.Focus();
         }
-    }
+	}
 }
