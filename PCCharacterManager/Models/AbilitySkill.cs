@@ -11,6 +11,7 @@ namespace PCCharacterManager.Models
 	{
 		protected string name = string.Empty;
 		protected string desc = string.Empty;
+		protected string abilityName = string.Empty;
 		protected int score;
 		protected int miscBonus;
 		protected bool skillProficiency;
@@ -26,6 +27,17 @@ namespace PCCharacterManager.Models
 		{
 			get { return desc; }
 			set { OnPropertyChanged(ref desc, value); }
+		}
+		public string AbilityName
+		{
+			get
+			{
+				return abilityName;
+			}
+			set
+			{
+				OnPropertyChanged(ref abilityName, value);
+			}
 		}
 		public int Score
 		{

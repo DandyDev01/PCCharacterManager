@@ -18,8 +18,8 @@ using System.Windows;
 
 namespace PCCharacterManager.ViewModels.Character
 {
-    public class CharacterAbilitiesViewModel : ObservableObject 
-    {
+	public class CharacterAbilitiesViewModel : ObservableObject
+	{
 		private readonly CollectionViewPropertySort abilitiesCollectionViewPropertySort;
 		private readonly CollectionViewPropertySort skillsCollectionViewPropertySort;
 
@@ -42,6 +42,17 @@ namespace PCCharacterManager.ViewModels.Character
 		public ObservableCollection<AbilitySkill> Skills { get; }
 		public ICollectionView SkillsCollectionView { get; }
 
+		public ICommand AbilityNameSortCommand { get; }
+		public ICommand AbilityScoreSortCommand { get; }
+		public ICommand AbiltiyModifierSortCommand { get; }
+		public ICommand AbilitySaveSortCommand { get; }
+		public ICommand AbilityProficiencySortCommand { get; }
+		public ICommand AbilityMiscModifierSortCommand { get; }
+
+		public ICommand SkillNameSortCommand { get; }
+		public ICommand SkillScoreSortCommand { get; }
+		public ICommand SkillAbilitySortCommand { get; }
+
 		public CharacterAbilitiesViewModel(CharacterStore _characterStore)
 		{
 			_characterStore.SelectedCharacterChange += OnCharacterChanged;
@@ -55,7 +66,25 @@ namespace PCCharacterManager.ViewModels.Character
 
 			Skills = new ObservableCollection<AbilitySkill>();
 			SkillsCollectionView = CollectionViewSource.GetDefaultView(Skills);
-			skillsCollectionViewPropertySort = new CollectionViewPropertySort(AbilitiesCollectionView);
+			skillsCollectionViewPropertySort = new CollectionViewPropertySort(SkillsCollectionView);
+
+			AbilityNameSortCommand = new ItemCollectionViewPropertySortCommand(abilitiesCollectionViewPropertySort,
+				nameof(Ability.Name));
+			AbilityScoreSortCommand = new ItemCollectionViewPropertySortCommand(abilitiesCollectionViewPropertySort,
+				nameof(Ability.Score));
+			AbiltiyModifierSortCommand = new ItemCollectionViewPropertySortCommand(abilitiesCollectionViewPropertySort,
+				nameof(Ability.Modifier));
+			AbilitySaveSortCommand = new ItemCollectionViewPropertySortCommand(abilitiesCollectionViewPropertySort,
+				nameof(Ability.Save));
+			AbilityProficiencySortCommand = new ItemCollectionViewPropertySortCommand(abilitiesCollectionViewPropertySort,
+				nameof(Ability.ProfSave));
+			
+			SkillNameSortCommand = new ItemCollectionViewPropertySortCommand(skillsCollectionViewPropertySort,
+				nameof(AbilitySkill.Name));
+			SkillScoreSortCommand = new ItemCollectionViewPropertySortCommand(skillsCollectionViewPropertySort,
+				nameof(AbilitySkill.Score));
+			SkillAbilitySortCommand = new ItemCollectionViewPropertySortCommand(skillsCollectionViewPropertySort,
+				nameof(AbilitySkill.AbilityName));
 		}
 
 		/// <summary>
@@ -91,6 +120,7 @@ namespace PCCharacterManager.ViewModels.Character
 				foreach(AbilitySkill skill in ability.Skills)
 				{
 					Skills.Add(skill);
+					skill.AbilityName = ability.Name;
 				}
 			}
 
