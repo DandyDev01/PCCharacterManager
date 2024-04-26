@@ -1,146 +1,192 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                    
-                    xmlns:local="clr-namespace:PCCharacterManager"
-                    xmlns:vm="clr-namespace:PCCharacterManager.ViewModels"
-                    xmlns:v="clr-namespace:PCCharacterManager.Views"
-                    xmlns:helper="clr-namespace:PCCharacterManager.Helpers">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:helper="clr-namespace:PCCharacterManager.Helpers"
+    xmlns:local="clr-namespace:PCCharacterManager"
+    xmlns:v="clr-namespace:PCCharacterManager.Views"
+    xmlns:vm="clr-namespace:PCCharacterManager.ViewModels">
     <!--#region Views-->
     <DataTemplate DataType="{x:Type vm:CharacterSpellBookViewModel}">
-        <v:CharacterSpellBookView/>
+        <v:CharacterSpellBookView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:TabControlViewModel}">
-        <v:TabControlView/>
+        <v:TabControlView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:CharacterListViewModel}">
-        <v:CharacterListView/>
+        <v:CharacterListView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:CharacterStatsViewModel}">
-        <v:CharacterStatsView/>
+        <v:CharacterStatsView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:CharacterInventoryViewModel}">
-        <v:CharacterInventoryView/>
+        <v:CharacterInventoryView />
     </DataTemplate>
     <!--#endregion-->
 
-    <helper:BoolToVisibilityConverter x:Key="IsEditConverter"/>
-    <helper:NullToVisibilityConverter x:Key="SelectedItemConverter"/>
-    <helper:InverseBooleanConverter x:Key="InverseBoolConverter"/>
-    <helper:NullToEnabledConverter x:Key="NullToEnabledConverter"/>
+    <helper:BoolToVisibilityConverter x:Key="IsEditConverter" />
+    <helper:NullToVisibilityConverter x:Key="SelectedItemConverter" />
+    <helper:InverseBooleanConverter x:Key="InverseBoolConverter" />
+    <helper:NullToEnabledConverter x:Key="NullToEnabledConverter" />
 
 
-    <SolidColorBrush x:Key="1" Color="#ffffff"/>
-    <SolidColorBrush x:Key="2" Color="#f0f0f0"/>
-    <SolidColorBrush x:Key="3" Color="#bdbdbd"/>
-    <SolidColorBrush x:Key="4" Color="#a3a3a3"/>
-    <SolidColorBrush x:Key="5" Color="#232323"/>
+    <SolidColorBrush x:Key="1" Color="#ffffff" />
+    <SolidColorBrush x:Key="2" Color="#f0f0f0" />
+    <SolidColorBrush x:Key="3" Color="#bdbdbd" />
+    <SolidColorBrush x:Key="4" Color="#a3a3a3" />
+    <SolidColorBrush x:Key="5" Color="#232323" />
 
-    <BitmapImage x:Key="Character_Duplicate_Icon" DecodePixelWidth="300" UriSource="/Images/Character_Duplicate_Icon.png" />
-    <BitmapImage x:Key="Edit_Icon" DecodePixelWidth="300" UriSource="/Images/Edit_Icon.png" />
-    <BitmapImage x:Key="Create_Character_Icon" DecodePixelWidth="300" UriSource="/Images/Create_Character_Icon.png" />
-    <BitmapImage x:Key="Open_File_Icon" DecodePixelWidth="300" UriSource="/Images/Open_File_Icon.png" />
-    <BitmapImage x:Key="Save_Icon" DecodePixelWidth="300" UriSource="/Images/Save_Icon.png" />
-    <BitmapImage x:Key="Download_Icon" DecodePixelWidth="300" UriSource="/Images/Download_Icon.png" />
-    <BitmapImage x:Key="Settings_Icon" DecodePixelWidth="300" UriSource="/Images/Settings_Icon.png" />
-    <BitmapImage x:Key="Exit_App_Icon" DecodePixelWidth="300" UriSource="/Images/Exit_App_Icon.png" />
-    <BitmapImage x:Key="Light_Mode_Icon" DecodePixelWidth="300" UriSource="/Images/Light_Mode_Icon.png" />
-    <BitmapImage x:Key="Dark_Mode_Icon" DecodePixelWidth="300" UriSource="/Images/Dark_Mode_Icon.png" />
-    <BitmapImage x:Key="Undo_Icon" DecodePixelWidth="300" UriSource="/Images/Undo_Icon.png" />
-    <BitmapImage x:Key="Redo_Icon" DecodePixelWidth="300" UriSource="/Images/Redo_Icon.png" />
-    <BitmapImage x:Key="Create_Folder_Icon" DecodePixelWidth="300" UriSource="/Images/Create_Folder_Icon.png" />
-    <BitmapImage x:Key="Add_Icon" DecodePixelWidth="300" UriSource="/Images/Add_Icon.png" />
-    <BitmapImage x:Key="Move_To_Trash_Icon" DecodePixelWidth="300" UriSource="/Images/Move_To_Trash_Icon.png" />
+    <BitmapImage
+        x:Key="Character_Duplicate_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Character_Duplicate_Icon.png" />
+    <BitmapImage
+        x:Key="Edit_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Edit_Icon.png" />
+    <BitmapImage
+        x:Key="Create_Character_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Create_Character_Icon.png" />
+    <BitmapImage
+        x:Key="Open_File_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Open_File_Icon.png" />
+    <BitmapImage
+        x:Key="Save_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Save_Icon.png" />
+    <BitmapImage
+        x:Key="Download_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Download_Icon.png" />
+    <BitmapImage
+        x:Key="Settings_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Settings_Icon.png" />
+    <BitmapImage
+        x:Key="Exit_App_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Exit_App_Icon.png" />
+    <BitmapImage
+        x:Key="Light_Mode_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Light_Mode_Icon.png" />
+    <BitmapImage
+        x:Key="Dark_Mode_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Dark_Mode_Icon.png" />
+    <BitmapImage
+        x:Key="Undo_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Undo_Icon.png" />
+    <BitmapImage
+        x:Key="Redo_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Redo_Icon.png" />
+    <BitmapImage
+        x:Key="Create_Folder_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Create_Folder_Icon.png" />
+    <BitmapImage
+        x:Key="Add_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Add_Icon.png" />
+    <BitmapImage
+        x:Key="Move_To_Trash_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Move_To_Trash_Icon.png" />
 
     <Style TargetType="ScrollViewer">
-        <Setter Property="CanContentScroll" Value="False"/>
+        <Setter Property="CanContentScroll" Value="False" />
     </Style>
 
     <!--#region Menu-->
     <Style TargetType="Menu">
-        <Setter Property="FontSize" Value="10"/>
-        <Setter Property="FontWeight" Value="Regular"/>
-        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
-        <Setter Property="Background" Value="{DynamicResource 2}"/>
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontWeight" Value="Regular" />
+        <Setter Property="Foreground" Value="{DynamicResource 5}" />
+        <Setter Property="Background" Value="{DynamicResource 2}" />
     </Style>
 
     <Style TargetType="MenuItem">
-        <Setter Property="FontSize" Value="10"/>
-        <Setter Property="FontWeight" Value="Regular"/>
-        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
-        <Setter Property="Background" Value="{DynamicResource 2}"/>
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontWeight" Value="Regular" />
+        <Setter Property="Foreground" Value="{DynamicResource 5}" />
+        <Setter Property="Background" Value="{DynamicResource 2}" />
     </Style>
     <!--#endregion-->
 
     <!--#region Label-->
     <Style TargetType="Label">
-        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+        <Setter Property="Foreground" Value="{DynamicResource 5}" />
     </Style>
     <!--#endregion-->
 
     <!--#region Text Block-->
     <Style TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+        <Setter Property="Foreground" Value="{DynamicResource 5}" />
     </Style>
 
-    <Style TargetType="TextBlock" x:Key="spellItemName">
-        <Setter Property="FontSize" Value="20"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+    <Style x:Key="spellItemName" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{DynamicResource 5}" />
     </Style>
 
-    <Style TargetType="TextBlock" x:Key="spellItemAttributeTitle">
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+    <Style x:Key="spellItemAttributeTitle" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{DynamicResource 5}" />
     </Style>
 
-    <Style TargetType="TextBlock" x:Key="spellItemDescription">
-        <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
-        <Setter Property="Padding" Value="10"/>
-        <Setter Property="Margin" Value="10"/>
-        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+    <Style x:Key="spellItemDescription" TargetType="TextBlock">
+        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="Foreground" Value="{DynamicResource 5}" />
     </Style>
     <!--#endregion-->
 
     <!--#region Text Box-->
     <Style TargetType="TextBox">
-        <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
-        <Setter Property="Padding" Value="10"/>
-        <Setter Property="Background" Value="{DynamicResource 2}"/>
-        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="Background" Value="{DynamicResource 2}" />
+        <Setter Property="Foreground" Value="{DynamicResource 5}" />
     </Style>
     <!--#endregion-->
 
     <!--#region Rich Text Box-->
     <Style TargetType="RichTextBox">
-        <Setter Property="Padding" Value="10"/>
-        <Setter Property="Background" Value="{DynamicResource 2}"/>
-        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="Background" Value="{DynamicResource 2}" />
+        <Setter Property="Foreground" Value="{DynamicResource 5}" />
     </Style>
     <!--#endregion-->
 
     <!--#region List View-->
     <Style TargetType="ListView">
-        <Setter Property="Background" Value="{DynamicResource 2}"/>
-        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Background" Value="{DynamicResource 2}" />
+        <Setter Property="Foreground" Value="{DynamicResource 5}" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     </Style>
     <!--#endregion-->
 
     <!--#region Button-->
     <Style TargetType="Button">
-        <Setter Property="Background" Value="{DynamicResource 2}"/>
-        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+        <Setter Property="Background" Value="{DynamicResource 2}" />
+        <Setter Property="Foreground" Value="{DynamicResource 5}" />
     </Style>
     <!--#endregion-->
 
     <!--#region Button-->
     <Style TargetType="TabItem">
-        <Setter Property="Background" Value="{DynamicResource 2}"/>
-        <Setter Property="Foreground" Value="{DynamicResource 5}"/>
+        <Setter Property="Background" Value="{DynamicResource 2}" />
+        <Setter Property="Foreground" Value="{DynamicResource 5}" />
     </Style>
     <!--#endregion-->
 
@@ -151,12 +197,14 @@
     <SolidColorBrush x:Key="LightBackgroundColor" Color="#d2d3db"/>
     <SolidColorBrush x:Key="SubItemBackgroundColor" Color="#9394a5"/>
     <SolidColorBrush x:Key="ViewBackgroundColor" Color="#7b7b81"/>
-    
+
     <SolidColorBrush x:Key="LightText" Color="#323234"/>
     <SolidColorBrush x:Key="SubText" Color="#323234"/>
     <SolidColorBrush x:Key="DarkText" Color="#323234"/>
 
-    --><!--#region Label--><!--
+    -->
+    <!--#region Label-->
+    <!--
     <Style TargetType="Label">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -199,7 +247,9 @@
     </Style>
 
 
-    --><!--#endregion--><!--
+    -->
+    <!--#endregion-->
+    <!--
 
     <Style TargetType="ScrollViewer">
         <Setter Property="CanContentScroll" Value="False"/>
@@ -225,7 +275,9 @@
         <Setter Property="Padding" Value="3"/>
     </Style>
 
-    --><!--#region Tab Control--><!--
+    -->
+    <!--#region Tab Control-->
+    <!--
     <Style TargetType="TabControl">
         <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
     </Style>
@@ -241,9 +293,11 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    --><!--#endregion-->
+    -->
+    <!--#endregion-->
 
-    <!--#region Menu--><!--
+    <!--#region Menu-->
+    <!--
     <Style TargetType="Menu">
         <Setter Property="Background" Value="{StaticResource ItemBackgroundColor}"/>
         <Setter Property="Foreground" Value="White"/>
@@ -259,9 +313,11 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    --><!--#endregion-->
+    -->
+    <!--#endregion-->
 
-    <!--#region TextBlock--><!--
+    <!--#region TextBlock-->
+    <!--
 
     <Style TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
@@ -292,7 +348,9 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
-    --><!--h1--><!--
+    -->
+    <!--  h1  -->
+    <!--
     <Style x:Key="h1" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
         <Setter Property="FontSize" Value="25"/>
@@ -302,7 +360,9 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
-    --><!--h2--><!--
+    -->
+    <!--  h2  -->
+    <!--
     <Style x:Key="h2" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
         <Setter Property="FontSize" Value="20"/>
@@ -310,7 +370,9 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
-    --><!--h3--><!--
+    -->
+    <!--  h3  -->
+    <!--
     <Style x:Key="h3" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
         <Setter Property="FontSize" Value="15"/>
@@ -318,7 +380,9 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
-    --><!--h4--><!--
+    -->
+    <!--  h4  -->
+    <!--
     <Style x:Key="h4" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
         <Setter Property="FontSize" Value="12"/>
@@ -326,7 +390,9 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
-    --><!--#region h5--><!--
+    -->
+    <!--#region h5-->
+    <!--
     <Style x:Key="h5" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
         <Setter Property="FontSize" Value="10"/>
@@ -334,10 +400,12 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
-    --><!--#endregion-->
+    -->
+    <!--#endregion-->
     <!--#endregion-->
 
-    <!--#region TextBox--><!--
+    <!--#region TextBox-->
+    <!--
     <Style TargetType="TextBox">
         <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
@@ -371,16 +439,20 @@
         <Setter Property="Margin" Value="3"/>
         <Setter Property="Width" Value="150"/>
     </Style>
-    --><!--#endregion-->
+    -->
+    <!--#endregion-->
 
-    <!--#region Toggle Button--><!--
+    <!--#region Toggle Button-->
+    <!--
     <Style TargetType="ToggleButton">
         <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
         <Setter Property="Foreground" Value="White"/>
     </Style>
-    --><!--#endregion-->
+    -->
+    <!--#endregion-->
 
-    <!--#region Combobox--><!--
+    <!--#region Combobox-->
+    <!--
 
     <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
         <Grid>
@@ -389,29 +461,30 @@
                 <ColumnDefinition Width="20" />
             </Grid.ColumnDefinitions>
             <Border
-          x:Name="Border" 
+          x:Name="Border"
           Grid.ColumnSpan="2"
           CornerRadius="0"
           Background="#f3f3f3"
           BorderBrush="#FF97A0A5"
           BorderThickness="1" />
-            <Border 
+            <Border
           Grid.Column="0"
-          CornerRadius="0" 
-          Margin="1" 
-          Background="#f3f3f3" 
+          CornerRadius="0"
+          Margin="1"
+          Background="#f3f3f3"
           BorderBrush="#FF97A0A5"
           BorderThickness="0,0,1,0" />
-            <Path 
+            <Path
           x:Name="Arrow"
-          Grid.Column="1"     
+          Grid.Column="1"
           Fill="DarkGray"
           HorizontalAlignment="Center"
           VerticalAlignment="Center"
           Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
         />
         </Grid>
-        --><!--<ControlTemplate.Triggers>
+    -->
+    <!--<ControlTemplate.Triggers>
     <Trigger Property="ToggleButton.IsMouseOver" Value="true">
         <Setter TargetName="Border" Property="Background" Value="#808080" />
     </Trigger>
@@ -424,7 +497,8 @@
         <Setter Property="Foreground" Value="#888888"/>
         <Setter TargetName="Arrow" Property="Fill" Value="#888888" />
     </Trigger>
-</ControlTemplate.Triggers>--><!--
+</ControlTemplate.Triggers>-->
+    <!--
     </ControlTemplate>
 
     <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
@@ -444,10 +518,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
                     <Grid>
-                        <ToggleButton 
-                    Name="ToggleButton" 
-                    Template="{StaticResource ComboBoxToggleButton}" 
-                    Grid.Column="2" 
+                        <ToggleButton
+                    Name="ToggleButton"
+                    Template="{StaticResource ComboBoxToggleButton}"
+                    Grid.Column="2"
                     Focusable="false"
                     IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
                     ClickMode="Press">
@@ -459,29 +533,29 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left" />
                         <TextBox x:Name="PART_EditableTextBox"
-                    Style="{x:Null}" 
-                    Template="{StaticResource ComboBoxTextBox}" 
-                    HorizontalAlignment="Left" 
-                    VerticalAlignment="Center" 
+                    Style="{x:Null}"
+                    Template="{StaticResource ComboBoxTextBox}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
                     Margin="3,3,23,3"
-                    Focusable="True" 
+                    Focusable="True"
                     Background="#FF3F3F3F"
                     Foreground="Green"
                     Visibility="Hidden"
                     IsReadOnly="{TemplateBinding IsReadOnly}"/>
-                        <Popup 
+                        <Popup
                     Name="Popup"
                     Placement="Bottom"
                     IsOpen="{TemplateBinding IsDropDownOpen}"
-                    AllowsTransparency="True" 
+                    AllowsTransparency="True"
                     Focusable="False"
                     PopupAnimation="Slide">
 
                             <Grid Name="DropDown"
-                      SnapsToDevicePixels="True"                
+                      SnapsToDevicePixels="True"
                       MinWidth="{TemplateBinding ActualWidth}"
                       MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                <Border 
+                                <Border
                         x:Name="DropDownBorder"
                         Background="#FF3F3F3F"
 
@@ -520,7 +594,9 @@
         </Style.Triggers>
     </Style>
 
-    --><!--#region ComboBoxItem--><!--
+    -->
+    <!--#region ComboBoxItem-->
+    <!--
     <Style TargetType="ComboBoxItem">
         <Setter Property="TextBlock.Foreground" Value="White"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -533,10 +609,12 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    --><!--#endregion-->
+    -->
+    <!--#endregion-->
     <!--#endregion-->
 
-    <!--#region ListView--><!--
+    <!--#region ListView-->
+    <!--
     <Style TargetType="ListView">
         <Setter Property="BorderBrush" Value="{StaticResource LightText}"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -558,9 +636,11 @@
         <Setter Property="BorderThickness" Value="0 0 0 0"/>
         <Setter Property="Padding" Value="2 2 2 2"/>
     </Style>
-    --><!--#endregion-->
+    -->
+    <!--#endregion-->
 
-    <!--#region Button--><!--
+    <!--#region Button-->
+    <!--
     <Style TargetType="Button">
         <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
         <Setter Property="Foreground" Value="{StaticResource LightText}"/>
@@ -569,7 +649,8 @@
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Margin" Value="3"/>
         <Setter Property="Padding" Value="3"/>
-        --><!--<Setter Property="Template">
+    -->
+    <!--<Setter Property="Template">
         <Setter.Value>
             <ControlTemplate TargetType="Button">
                 <Border CornerRadius="7" Background="{StaticResource LightBackgroundColor}" BorderThickness="1" Padding="2">
@@ -577,9 +658,12 @@
                 </Border>
             </ControlTemplate>
         </Setter.Value>
-    </Setter>--><!--
+    </Setter>-->
+    <!--
     </Style>
-    --><!--#endregion--><!--
+    -->
+    <!--#endregion-->
+    <!--
 
     <Style TargetType="ContextMenu">
         <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
@@ -594,5 +678,5 @@
         <Setter Property="Background" Value="{StaticResource LightBackgroundColor}"/>
         <Setter Property="Foreground" Value="{StaticResource DarkText}"/>
     </Style>-->
-    
+
 </ResourceDictionary>

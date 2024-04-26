@@ -1,132 +1,156 @@
-﻿<Window x:Class="PCCharacterManager.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PCCharacterManager"
-        xmlns:v="clr-namespace:PCCharacterManager.Views" 
-        xmlns:vm="clr-namespace:PCCharacterManager.ViewModels"
-        mc:Ignorable="d"
-        Title="PC Manager v0.1 (Beta)" MinHeight="500" MinWidth="800" Height="650" Width="1300">
+﻿<Window
+    x:Class="PCCharacterManager.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PCCharacterManager"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:v="clr-namespace:PCCharacterManager.Views"
+    xmlns:vm="clr-namespace:PCCharacterManager.ViewModels"
+    Title="PC Manager v0.1 (Beta)"
+    Width="1300"
+    Height="650"
+    MinWidth="800"
+    MinHeight="500"
+    mc:Ignorable="d">
 
     <Window.InputBindings>
-        <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCharactersCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewCharacterCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="L" Command="{Binding LevelCharacterCommand}"/>
+        <KeyBinding
+            Key="S"
+            Command="{Binding SaveCharactersCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="N"
+            Command="{Binding NewCharacterCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="L"
+            Command="{Binding LevelCharacterCommand}"
+            Modifiers="Ctrl" />
     </Window.InputBindings>
 
     <Window.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Window.DataContext>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Menu Padding="5" Grid.ColumnSpan="2">
+        <Menu Grid.ColumnSpan="2" Padding="5">
             <MenuItem Header="File">
-                <MenuItem x:Name="menuNew" 
-                          Header="New" 
-                          Command="{Binding NewCharacterCommand}"
-                          InputGestureText="Ctrl+N">
+                <MenuItem
+                    x:Name="menuNew"
+                    Command="{Binding NewCharacterCommand}"
+                    Header="New"
+                    InputGestureText="Ctrl+N">
                     <MenuItem.Icon>
-                        <Image Source="{DynamicResource Create_Character_Icon}"/>
+                        <Image Source="{DynamicResource Create_Character_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem x:Name="menuOpen" 
-                          Header="Open" 
-                          Command="{Binding OpenCommand}"
-                          IsEnabled="true"
-                          InputGestureText="Ctrl+O">
+                <MenuItem
+                    x:Name="menuOpen"
+                    Command="{Binding OpenCommand}"
+                    Header="Open"
+                    InputGestureText="Ctrl+O"
+                    IsEnabled="true">
                     <MenuItem.Icon>
-                        <Image Source="{DynamicResource Open_File_Icon}"/>
+                        <Image Source="{DynamicResource Open_File_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem x:Name="menuSave" 
-                          Header="Save" 
-                          Command="{Binding SaveCharactersCommand}"
-                          InputGestureText="Ctrl+S">
+                <MenuItem
+                    x:Name="menuSave"
+                    Command="{Binding SaveCharactersCommand}"
+                    Header="Save"
+                    InputGestureText="Ctrl+S">
                     <MenuItem.Icon>
-                        <Image Source="{DynamicResource Save_Icon}"/>
+                        <Image Source="{DynamicResource Save_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem x:Name="menuExport" 
-                          Header="Export Character(s)" 
-                          Command="{Binding ExportCharacterCommand}">
+                <MenuItem
+                    x:Name="menuExport"
+                    Command="{Binding ExportCharacterCommand}"
+                    Header="Export Character(s)">
                     <MenuItem.Icon>
-                        <Image Source="{DynamicResource Download_Icon}"/>
+                        <Image Source="{DynamicResource Download_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem x:Name="settings" 
-                          Header="Settings" IsEnabled="false">
+                <MenuItem
+                    x:Name="settings"
+                    Header="Settings"
+                    IsEnabled="false">
                     <MenuItem.Icon>
-                        <Image Source="{DynamicResource Settings_Icon}"/>
+                        <Image Source="{DynamicResource Settings_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem x:Name="menuClose" 
-                          Header="Exit" Command="ApplicationCommands.Close" >
+                <MenuItem
+                    x:Name="menuClose"
+                    Command="ApplicationCommands.Close"
+                    Header="Exit">
                     <MenuItem.Icon>
-                        <Image Source="{DynamicResource Exit_App_Icon}"/>
+                        <Image Source="{DynamicResource Exit_App_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Edit">
-                <MenuItem x:Name="menuDuplicate" 
-                          Header="Duplicate Character" 
-                          IsEnabled="False"
-                          InputGestureText="Ctrl+D">
+                <MenuItem
+                    x:Name="menuDuplicate"
+                    Header="Duplicate Character"
+                    InputGestureText="Ctrl+D"
+                    IsEnabled="False">
                     <MenuItem.Icon>
-                        <Image Source="{DynamicResource Character_Duplicate_Icon}"/>
+                        <Image Source="{DynamicResource Character_Duplicate_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem x:Name="menuAddCompanion" 
-                          Header="Add Companion" 
-                          IsEnabled="False"
-                          InputGestureText="Ctrl+N+C"/>
-                <MenuItem x:Name="menuLevel" 
-                          Header="Level Character" 
-                          Command="{Binding LevelCharacterCommand}"
-                          InputGestureText="Ctrl+L"/>
-                <MenuItem x:Name="editCharacter" 
-                          Header="Edit Character" Command="{Binding EditCharacterCommand}"
-                          InputGestureText="N/A">
+                <MenuItem
+                    x:Name="menuAddCompanion"
+                    Header="Add Companion"
+                    InputGestureText="Ctrl+N+C"
+                    IsEnabled="False" />
+                <MenuItem
+                    x:Name="menuLevel"
+                    Command="{Binding LevelCharacterCommand}"
+                    Header="Level Character"
+                    InputGestureText="Ctrl+L" />
+                <MenuItem
+                    x:Name="editCharacter"
+                    Command="{Binding EditCharacterCommand}"
+                    Header="Edit Character"
+                    InputGestureText="N/A">
                     <MenuItem.Icon>
-                        <Image Source="{DynamicResource Edit_Icon}"/>
+                        <Image Source="{DynamicResource Edit_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Add Feature" 
-                          Command="{Binding TabVM.CharacterStatsVM.CharacterInfoViewModel.AddFeatureCommand}"/>
+                <MenuItem Command="{Binding TabVM.CharacterStatsVM.CharacterInfoViewModel.AddFeatureCommand}" Header="Add Feature" />
             </MenuItem>
             <MenuItem Header="Theme">
                 <!--<MenuItem Header="Dark Mode" Click="DarkMode_Click"/>
                 <MenuItem Header="Light Mode" Click="LightMode_Click"/>-->
-                <MenuItem Click="LightMode_Click"
-                          Header="Light Mode">
+                <MenuItem Click="LightMode_Click" Header="Light Mode">
                     <MenuItem.Icon>
-                        <Image Source="{DynamicResource Light_Mode_Icon}"/>
+                        <Image Source="{DynamicResource Light_Mode_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Click="DarkMode_Click"
-                          Header="Dark Mode">
+                <MenuItem Click="DarkMode_Click" Header="Dark Mode">
                     <MenuItem.Icon>
-                        <Image Source="{DynamicResource Dark_Mode_Icon}"/>
+                        <Image Source="{DynamicResource Dark_Mode_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem IsEnabled="false">
                 <MenuItem.Icon>
-                    <Image Source="{DynamicResource Undo_Icon}"/>
+                    <Image Source="{DynamicResource Undo_Icon}" />
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem IsEnabled="False">
                 <MenuItem.Icon>
-                    <Image Source="{DynamicResource Redo_Icon}"/>
+                    <Image Source="{DynamicResource Redo_Icon}" />
                 </MenuItem.Icon>
             </MenuItem>
         </Menu>
 
-        <ContentControl Grid.Row="1" Content="{Binding CurrView}"/>
+        <ContentControl Grid.Row="1" Content="{Binding CurrView}" />
     </Grid>
 </Window>

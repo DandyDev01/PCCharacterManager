@@ -1,223 +1,374 @@
-﻿<UserControl x:Class="PCCharacterManager.Views.CharacterInfoView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PCCharacterManager.Views"
-             xmlns:v="clr-namespace:PCCharacterManager.Views"
-             mc:Ignorable="d" 
-             Background="{DynamicResource 1}"
-             d:DesignHeight="930" d:DesignWidth="1250">
+﻿<UserControl
+    x:Class="PCCharacterManager.Views.CharacterInfoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PCCharacterManager.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:v="clr-namespace:PCCharacterManager.Views"
+    d:DesignHeight="930"
+    d:DesignWidth="1250"
+    Background="{DynamicResource 1}"
+    mc:Ignorable="d">
     <UserControl.InputBindings>
-        <KeyBinding Modifiers="Ctrl" Key="L" Command="{Binding LanguagesVM.AddItemCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="M" Command="{Binding MovementTypesListVM.AddItemCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding WeaponProfsVM.AddItemCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="A" Command="{Binding ArmorProfsVM.AddItemCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="T" Command="{Binding ToolProfsVM.AddItemCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="F" Command="{Binding AddFeatureCommand}"/>
+        <KeyBinding
+            Key="L"
+            Command="{Binding LanguagesVM.AddItemCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="M"
+            Command="{Binding MovementTypesListVM.AddItemCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="W"
+            Command="{Binding WeaponProfsVM.AddItemCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="A"
+            Command="{Binding ArmorProfsVM.AddItemCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="T"
+            Command="{Binding ToolProfsVM.AddItemCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="F"
+            Command="{Binding AddFeatureCommand}"
+            Modifiers="Ctrl" />
 
-        <KeyBinding Modifiers="Ctrl+Shift" Key="L" Command="{Binding LanguagesVM.RemoveItemCommand}"/>
-        <KeyBinding Modifiers="Ctrl+Shift" Key="M" Command="{Binding MovementTypesListVM.RemoveItemCommand}"/>
-        <KeyBinding Modifiers="Ctrl+Shift" Key="W" Command="{Binding WeaponProfsVM.RemoveItemCommand}"/>
-        <KeyBinding Modifiers="Ctrl+Shift" Key="A" Command="{Binding ArmorProfsVM.RemoveItemCommand}"/>
-        <KeyBinding Modifiers="Ctrl+Shift" Key="T" Command="{Binding ToolProfsVM.RemoveItemCommand}"/>
-        <KeyBinding Modifiers="Ctrl+Shift" Key="F" Command="{Binding RemoveFeatureCommand}"/>
+        <KeyBinding
+            Key="L"
+            Command="{Binding LanguagesVM.RemoveItemCommand}"
+            Modifiers="Ctrl+Shift" />
+        <KeyBinding
+            Key="M"
+            Command="{Binding MovementTypesListVM.RemoveItemCommand}"
+            Modifiers="Ctrl+Shift" />
+        <KeyBinding
+            Key="W"
+            Command="{Binding WeaponProfsVM.RemoveItemCommand}"
+            Modifiers="Ctrl+Shift" />
+        <KeyBinding
+            Key="A"
+            Command="{Binding ArmorProfsVM.RemoveItemCommand}"
+            Modifiers="Ctrl+Shift" />
+        <KeyBinding
+            Key="T"
+            Command="{Binding ToolProfsVM.RemoveItemCommand}"
+            Modifiers="Ctrl+Shift" />
+        <KeyBinding
+            Key="F"
+            Command="{Binding RemoveFeatureCommand}"
+            Modifiers="Ctrl+Shift" />
     </UserControl.InputBindings>
 
-    <ScrollViewer Padding="5 0 5 5">
+    <ScrollViewer Padding="5,0,5,5">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/> <!--buttons-->
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <!--5-->
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
+                <RowDefinition Height="Auto" />
+                <!--  buttons  -->
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <!--  5  -->
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
             </Grid.RowDefinitions>
 
             <!--#region Actions-->
-            <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="9">
-                <MenuItem Header="Edit" Command="{Binding EditCharacterCommand}"/>
-                <MenuItem Header="Add Feature" Command="{Binding AddFeatureCommand}"/>
-                <MenuItem Header="Short Rest"/>
-                <MenuItem Header="Long Rest"/>
-                <MenuItem Header="Level Up" Command="{Binding LevelCharacterCommand}"/>
+            <Menu
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="9">
+                <MenuItem Command="{Binding EditCharacterCommand}" Header="Edit" />
+                <MenuItem Command="{Binding AddFeatureCommand}" Header="Add Feature" />
+                <MenuItem Header="Short Rest" />
+                <MenuItem Header="Long Rest" />
+                <MenuItem Command="{Binding LevelCharacterCommand}" Header="Level Up" />
             </Menu>
             <!--#endregion-->
-            
-            <Label  Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2"
-                    Content="{Binding SelectedCharacter.Name, FallbackValue=Name}"
-                    Style="{DynamicResource characterName}"/>
 
-            <Label  Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                    Content="Initiative"
-                    Style="{DynamicResource characterAttribute}"/>
-            <TextBlock Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                       Text="{Binding SelectedCharacter.Initiative, FallbackValue=Class}"
-                       Style="{DynamicResource DefaultTextBlock}"/>
+            <Label
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Content="{Binding SelectedCharacter.Name, FallbackValue=Name}"
+                Style="{DynamicResource characterName}" />
 
-            <Label  Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                    Content="Class(s)"
-                    Style="{DynamicResource characterAttribute}"/>
-            <TextBlock Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                       Text="{Binding CharacterClass, FallbackValue=Class}"
-                       Style="{DynamicResource DefaultTextBlock}"/>
+            <Label
+                Grid.Row="2"
+                Grid.RowSpan="1"
+                Grid.Column="2"
+                Grid.ColumnSpan="1"
+                Content="Initiative"
+                Style="{DynamicResource characterAttribute}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.RowSpan="1"
+                Grid.Column="2"
+                Grid.ColumnSpan="1"
+                Style="{DynamicResource DefaultTextBlock}"
+                Text="{Binding SelectedCharacter.Initiative, FallbackValue=Class}" />
 
-            <Label  Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                    Content="Race"
-                    Style="{DynamicResource characterAttribute}"/>
-            <TextBlock Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                       Text="{Binding Race, FallbackValue=Race}"
-                       Style="{DynamicResource DefaultTextBlock}"/>
+            <Label
+                Grid.Row="2"
+                Grid.RowSpan="1"
+                Grid.Column="3"
+                Grid.ColumnSpan="1"
+                Content="Class(s)"
+                Style="{DynamicResource characterAttribute}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.RowSpan="1"
+                Grid.Column="3"
+                Grid.ColumnSpan="1"
+                Style="{DynamicResource DefaultTextBlock}"
+                Text="{Binding CharacterClass, FallbackValue=Class}" />
 
-            <Label  Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                    Content="Background"
-                    Style="{DynamicResource characterAttribute}"/>
-            <TextBlock Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                       Text="{Binding SelectedCharacter.Background, FallbackValue=Background}"
-                       Style="{DynamicResource DefaultTextBlock}"/>
+            <Label
+                Grid.Row="2"
+                Grid.RowSpan="1"
+                Grid.Column="4"
+                Grid.ColumnSpan="1"
+                Content="Race"
+                Style="{DynamicResource characterAttribute}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.RowSpan="1"
+                Grid.Column="4"
+                Grid.ColumnSpan="1"
+                Style="{DynamicResource DefaultTextBlock}"
+                Text="{Binding Race, FallbackValue=Race}" />
 
-            <Label  Grid.Column="6" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                    Content="Alignment"
-                    Style="{DynamicResource characterAttribute}"/>
-            <TextBlock Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                       Height="Auto"
-                       Text="{Binding SelectedCharacter.Alignment, UpdateSourceTrigger=LostFocus}"
-                       Style="{DynamicResource DefaultTextBlock}"/>
-            
-            <Label  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                    Content="Experience"
-                    Style="{DynamicResource characterAttribute}"/>
-            <Button Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                    Width="30"
-                    HorizontalAlignment="Left"
-                    Command="{Binding AdjustExperienceCommand}"
-                    Height="20">
-                <Image Source="{DynamicResource Edit_Icon}"/>
+            <Label
+                Grid.Row="2"
+                Grid.RowSpan="1"
+                Grid.Column="5"
+                Grid.ColumnSpan="1"
+                Content="Background"
+                Style="{DynamicResource characterAttribute}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.RowSpan="1"
+                Grid.Column="5"
+                Grid.ColumnSpan="1"
+                Style="{DynamicResource DefaultTextBlock}"
+                Text="{Binding SelectedCharacter.Background, FallbackValue=Background}" />
+
+            <Label
+                Grid.Row="2"
+                Grid.RowSpan="1"
+                Grid.Column="6"
+                Grid.ColumnSpan="1"
+                Content="Alignment"
+                Style="{DynamicResource characterAttribute}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.RowSpan="1"
+                Grid.Column="6"
+                Grid.ColumnSpan="1"
+                Height="Auto"
+                Style="{DynamicResource DefaultTextBlock}"
+                Text="{Binding SelectedCharacter.Alignment, UpdateSourceTrigger=LostFocus}" />
+
+            <Label
+                Grid.Row="3"
+                Grid.RowSpan="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Content="Experience"
+                Style="{DynamicResource characterAttribute}" />
+            <Button
+                Grid.Row="3"
+                Grid.RowSpan="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="1"
+                Width="30"
+                Height="20"
+                HorizontalAlignment="Left"
+                Command="{Binding AdjustExperienceCommand}">
+                <Image Source="{DynamicResource Edit_Icon}" />
             </Button>
-            <TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                       Height="Auto"
-                       Text="{Binding SelectedCharacter.Level.ExperiencePoints, FallbackValue=Experience}"
-                       Style="{DynamicResource DefaultTextBlock}"
-                       Margin="10 0 0 0"/>
+            <TextBlock
+                Grid.Row="4"
+                Grid.RowSpan="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="1"
+                Height="Auto"
+                Margin="10,0,0,0"
+                Style="{DynamicResource DefaultTextBlock}"
+                Text="{Binding SelectedCharacter.Level.ExperiencePoints, FallbackValue=Experience}" />
 
 
-            <Label  Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                    Content="Health"
-                    Style="{DynamicResource characterAttribute}"/>
-            <Button Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                    Width="30"
-                    HorizontalAlignment="Left"
-                    Command="{Binding AdjustHealthCommand}"
-                    Height="20">
-                <Image Source="{DynamicResource Edit_Icon}"/>
+            <Label
+                Grid.Row="5"
+                Grid.RowSpan="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Content="Health"
+                Style="{DynamicResource characterAttribute}" />
+            <Button
+                Grid.Row="5"
+                Grid.RowSpan="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="1"
+                Width="30"
+                Height="20"
+                HorizontalAlignment="Left"
+                Command="{Binding AdjustHealthCommand}">
+                <Image Source="{DynamicResource Edit_Icon}" />
             </Button>
-            <TextBlock Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                       Height="Auto"
-                       Text="{Binding Health, FallbackValue=health}"
-                       Style="{DynamicResource DefaultTextBlock}"
-                       Margin="10 0 0 0"/>
+            <TextBlock
+                Grid.Row="6"
+                Grid.RowSpan="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="1"
+                Height="Auto"
+                Margin="10,0,0,0"
+                Style="{DynamicResource DefaultTextBlock}"
+                Text="{Binding Health, FallbackValue=health}" />
 
-            <Label  Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                    Content="Armor Class"
-                    Style="{DynamicResource characterAttribute}"/>
-            <Button Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                    Width="30"
-                    HorizontalAlignment="Left"
-                    Command="{Binding EditArmorClassCommand}"
-                    Height="20">
-                <Image Source="{DynamicResource Edit_Icon}"/>
+            <Label
+                Grid.Row="7"
+                Grid.RowSpan="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Content="Armor Class"
+                Style="{DynamicResource characterAttribute}" />
+            <Button
+                Grid.Row="7"
+                Grid.RowSpan="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="1"
+                Width="30"
+                Height="20"
+                HorizontalAlignment="Left"
+                Command="{Binding EditArmorClassCommand}">
+                <Image Source="{DynamicResource Edit_Icon}" />
             </Button>
-            <TextBlock Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                       Height="Auto"
-                       Text="{Binding ArmorClass, FallbackValue=ArmorClass}"
-                       Style="{DynamicResource DefaultTextBlock}"
-                       Margin="10 0 0 0"/>        
+            <TextBlock
+                Grid.Row="8"
+                Grid.RowSpan="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="1"
+                Height="Auto"
+                Margin="10,0,0,0"
+                Style="{DynamicResource DefaultTextBlock}"
+                Text="{Binding ArmorClass, FallbackValue=ArmorClass}" />
 
-            <Label Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                   Content="Initiative"
-                   Style="{DynamicResource characterAttribute}"/>
-            <TextBlock Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                       Text="{Binding SelectedCharacter.Initiative}"
-                       Style="{DynamicResource DefaultTextBlock}"
-                       Margin="10 0 0 0"/>
-            
-            <Label Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                   Content="Hit Dice"
-                   Style="{DynamicResource characterAttribute}"/>
-            <TextBlock Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="2" Grid.RowSpan="1"
-                       Text="{Binding SelectedCharacter.CharacterClass.HitDie, FallbackValue=test}"
-                       Style="{DynamicResource DefaultTextBlock}"
-                       Margin="10 0 0 0"/>
+            <Label
+                Grid.Row="9"
+                Grid.RowSpan="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Content="Initiative"
+                Style="{DynamicResource characterAttribute}" />
+            <TextBlock
+                Grid.Row="10"
+                Grid.RowSpan="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="10,0,0,0"
+                Style="{DynamicResource DefaultTextBlock}"
+                Text="{Binding SelectedCharacter.Initiative}" />
 
-            <ContentControl Grid.Column="6" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="5">
-                <v:PropertyListView DataContext="{Binding ConditionsListVM}"/>
+            <Label
+                Grid.Row="11"
+                Grid.RowSpan="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Content="Hit Dice"
+                Style="{DynamicResource characterAttribute}" />
+            <TextBlock
+                Grid.Row="12"
+                Grid.RowSpan="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="10,0,0,0"
+                Style="{DynamicResource DefaultTextBlock}"
+                Text="{Binding SelectedCharacter.CharacterClass.HitDie, FallbackValue=test}" />
+
+            <ContentControl
+                Grid.Row="3"
+                Grid.RowSpan="5"
+                Grid.Column="6"
+                Grid.ColumnSpan="1">
+                <v:PropertyListView DataContext="{Binding ConditionsListVM}" />
             </ContentControl>
 
 
-            <Label Grid.Column="0" Grid.Row="13" Grid.ColumnSpan="3" Grid.RowSpan="1"
-                   HorizontalAlignment="Center"
-                   Content="Features"
-                   Style="{DynamicResource h1}"/>
-            <ListView  Grid.Column="0" Grid.Row="14" Grid.ColumnSpan="3" Grid.RowSpan="4"
-                       x:Name="items"
-                       Margin="5"
-                       ItemsSource="{Binding FeaturesCollectionView}"
-                       SelectedIndex="0"
-                       SelectedItem="{Binding SelectedProperty}">
+            <Label
+                Grid.Row="13"
+                Grid.RowSpan="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                HorizontalAlignment="Center"
+                Content="Features"
+                Style="{DynamicResource h1}" />
+            <ListView
+                x:Name="items"
+                Grid.Row="14"
+                Grid.RowSpan="4"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Margin="5"
+                ItemsSource="{Binding FeaturesCollectionView}"
+                SelectedIndex="0"
+                SelectedItem="{Binding SelectedProperty}">
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Add Item" Command="{Binding AddFeatureCommand}"/>
-                        <MenuItem x:Name="removeContextButton"  
-                                  Header="Remove Item"
-                                  Command="{Binding RemoveFeatureCommand}"
-                                  IsEnabled="{Binding SelectedProperty, Converter={StaticResource NullToEnabledConverter}}"/>
+                        <MenuItem Command="{Binding AddFeatureCommand}" Header="Add Item" />
+                        <MenuItem
+                            x:Name="removeContextButton"
+                            Command="{Binding RemoveFeatureCommand}"
+                            Header="Remove Item"
+                            IsEnabled="{Binding SelectedProperty, Converter={StaticResource NullToEnabledConverter}}" />
                     </ContextMenu>
                 </ListView.ContextMenu>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="280">
-                            <GridViewColumnHeader Content="Name" Command="{Binding NameSortCommand}"/>
+                            <GridViewColumnHeader Command="{Binding NameSortCommand}" Content="Name" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Name}"/>
+                                    <TextBlock Text="{Binding Name}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Width="150">
-                            <GridViewColumnHeader Content="Feature Type" Command="{Binding FeatureTypeSortCommand}"/>
+                            <GridViewColumnHeader Command="{Binding FeatureTypeSortCommand}" Content="Feature Type" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding FeatureType}"/>
+                                    <TextBlock Text="{Binding FeatureType}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Width="100">
-                            <GridViewColumnHeader Content="Level" Command="{Binding LevelSortCommand}"/>
+                            <GridViewColumnHeader Command="{Binding LevelSortCommand}" Content="Level" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Level}"/>
+                                    <TextBlock Text="{Binding Level}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -225,46 +376,82 @@
                 </ListView.View>
             </ListView>
 
-            <Label Grid.Column="3" Grid.Row="13" Grid.ColumnSpan="4" Grid.RowSpan="1"
-                   HorizontalAlignment="Center"
-                   Content="Feature Description"
-                   Style="{DynamicResource h1}"/>
-            <TextBox Grid.Column="3" Grid.Row="14" Grid.ColumnSpan="4" Grid.RowSpan="4"
-                     Margin="5"
-                     Text="{Binding SelectedProperty.Description}"/>
+            <Label
+                Grid.Row="13"
+                Grid.RowSpan="1"
+                Grid.Column="3"
+                Grid.ColumnSpan="4"
+                HorizontalAlignment="Center"
+                Content="Feature Description"
+                Style="{DynamicResource h1}" />
+            <TextBox
+                Grid.Row="14"
+                Grid.RowSpan="4"
+                Grid.Column="3"
+                Grid.ColumnSpan="4"
+                Margin="5"
+                Text="{Binding SelectedProperty.Description}" />
 
-            <Grid Grid.Column="7" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="14"
-                  Margin="5">
+            <Grid
+                Grid.Row="1"
+                Grid.RowSpan="14"
+                Grid.Column="7"
+                Grid.ColumnSpan="2"
+                Margin="5">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
-                <ContentControl  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1">
-                    <v:StringListView DataContext="{Binding LanguagesVM}"/>
+                <ContentControl
+                    Grid.Row="0"
+                    Grid.RowSpan="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="1">
+                    <v:StringListView DataContext="{Binding LanguagesVM}" />
                 </ContentControl>
 
-                <ContentControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1">
-                    <v:PropertyListView DataContext="{Binding MovementTypesListVM}"/>
+                <ContentControl
+                    Grid.Row="1"
+                    Grid.RowSpan="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="1">
+                    <v:PropertyListView DataContext="{Binding MovementTypesListVM}" />
                 </ContentControl>
 
-                <ContentControl  Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1">
-                    <v:StringListView DataContext="{Binding WeaponProfsVM}"/>
+                <ContentControl
+                    Grid.Row="2"
+                    Grid.RowSpan="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="1">
+                    <v:StringListView DataContext="{Binding WeaponProfsVM}" />
                 </ContentControl>
 
-                <ContentControl  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1"  Grid.RowSpan="1">
-                    <v:StringListView DataContext="{Binding ArmorProfsVM}"/>
+                <ContentControl
+                    Grid.Row="3"
+                    Grid.RowSpan="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="1">
+                    <v:StringListView DataContext="{Binding ArmorProfsVM}" />
                 </ContentControl>
 
-                <ContentControl Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="1" Grid.RowSpan="1">
-                    <v:StringListView DataContext="{Binding OtherProfsVM}"/>
+                <ContentControl
+                    Grid.Row="4"
+                    Grid.RowSpan="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="1">
+                    <v:StringListView DataContext="{Binding OtherProfsVM}" />
                 </ContentControl>
 
-                <ContentControl Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1">
-                    <v:StringListView DataContext="{Binding ToolProfsVM}"/>
+                <ContentControl
+                    Grid.Row="5"
+                    Grid.RowSpan="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="1">
+                    <v:StringListView DataContext="{Binding ToolProfsVM}" />
                 </ContentControl>
             </Grid>
 
