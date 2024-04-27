@@ -100,11 +100,19 @@
                 Grid.Row="0"
                 Grid.Column="0"
                 Grid.ColumnSpan="9">
-                <MenuItem Command="{Binding EditCharacterCommand}" Header="Edit" />
+                <MenuItem Command="{Binding EditCharacterCommand}" Header="Edit">
+                    <MenuItem.Icon>
+                        <Image Source="{DynamicResource Edit_Icon}" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Command="{Binding AddFeatureCommand}" Header="Add Feature" />
                 <MenuItem Header="Short Rest" />
                 <MenuItem Header="Long Rest" />
-                <MenuItem Command="{Binding LevelCharacterCommand}" Header="Level Up" />
+                <MenuItem Command="{Binding LevelCharacterCommand}" Header="Level Up">
+                    <MenuItem.Icon>
+                        <Image Source="{DynamicResource Character_Levelup_Icon}" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </Menu>
             <!--#endregion-->
 

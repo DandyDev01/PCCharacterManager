@@ -165,10 +165,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn>
-                            <GridViewColumnHeader
-                                Width="85"
-                                Command="{Binding AbilityMiscModifierSortCommand}"
-                                Content="Misc Modifier" />
+                            <GridViewColumnHeader Width="85" Content="Misc Modifier" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="-" />

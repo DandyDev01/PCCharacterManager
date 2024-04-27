@@ -43,6 +43,10 @@
         DecodePixelWidth="300"
         UriSource="/Images/Character_Duplicate_Icon_Light.png" />
     <BitmapImage
+        x:Key="Character_Levelup_Icon"
+        DecodePixelWidth="300"
+        UriSource="/Images/Levelup_Icon_Light.png" />
+    <BitmapImage
         x:Key="Edit_Icon"
         DecodePixelWidth="300"
         UriSource="/Images/Edit_Icon_Light.png" />
