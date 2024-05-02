@@ -92,6 +92,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
 
@@ -105,7 +106,6 @@
                         <Image Source="{DynamicResource Edit_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Command="{Binding AddFeatureCommand}" Header="Add Feature" />
                 <MenuItem Header="Short Rest" />
                 <MenuItem Header="Long Rest" />
                 <MenuItem Command="{Binding LevelCharacterCommand}" Header="Level Up">
@@ -334,9 +334,31 @@
                 HorizontalAlignment="Center"
                 Content="Features"
                 Style="{DynamicResource h1}" />
+            <Grid
+                Grid.Row="14"
+                Grid.RowSpan="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    Height="23"
+                    Command="{Binding AddFeatureCommand}">
+                    <Image Source="{DynamicResource Add_Icon}" />
+                </Button>
+                <Button
+                    Grid.Column="1"
+                    Height="23"
+                    Command="{Binding RemoveFeatureCommand}">
+                    <Image Source="{DynamicResource Move_To_Trash_Icon}" />
+                </Button>
+            </Grid>
             <ListView
                 x:Name="items"
-                Grid.Row="14"
+                Grid.Row="15"
                 Grid.RowSpan="4"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
@@ -402,7 +424,7 @@
 
             <Grid
                 Grid.Row="1"
-                Grid.RowSpan="14"
+                Grid.RowSpan="15"
                 Grid.Column="7"
                 Grid.ColumnSpan="2"
                 Margin="5">

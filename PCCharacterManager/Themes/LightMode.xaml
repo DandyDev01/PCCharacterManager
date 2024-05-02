@@ -32,7 +32,6 @@
     <helper:InverseBooleanConverter x:Key="InverseBoolConverter" />
     <helper:NullToEnabledConverter x:Key="NullToEnabledConverter" />
 
-
     <SolidColorBrush x:Key="1" Color="#ffffff" />
     <SolidColorBrush x:Key="2" Color="#f0f0f0" />
     <SolidColorBrush x:Key="3" Color="#bdbdbd" />
