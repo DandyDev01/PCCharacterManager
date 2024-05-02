@@ -35,7 +35,7 @@ namespace PCCharacterManager.Models
 			get { return slotNine; }
 			set
 			{
-				Helper(value, ref slotNine, NinethLvl);
+				SpellSlotHelper(value, ref slotNine, NinethLvl);
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace PCCharacterManager.Models
 			get { return slotEight; }
 			set
 			{
-				Helper(value, ref slotEight, EightLvl);
+				SpellSlotHelper(value, ref slotEight, EightLvl);
 			}
 		}
 
@@ -55,7 +55,7 @@ namespace PCCharacterManager.Models
 			get { return slotSeven; }
 			set
 			{
-				Helper(value, ref slotSeven, SeventhLvl);
+				SpellSlotHelper(value, ref slotSeven, SeventhLvl);
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace PCCharacterManager.Models
 			get { return slotSix; }
 			set
 			{
-				Helper(value, ref slotSix, SixLvl);
+				SpellSlotHelper(value, ref slotSix, SixLvl);
 			}
 		}
 
@@ -75,7 +75,7 @@ namespace PCCharacterManager.Models
 			get { return slotFive; }
 			set
 			{
-				Helper(value, ref slotFive, FifthLvl);
+				SpellSlotHelper(value, ref slotFive, FifthLvl);
 			}
 		}
 
@@ -85,7 +85,7 @@ namespace PCCharacterManager.Models
 			get { return slotFour; }
 			set
 			{
-				Helper(value, ref slotFour, FourthLvl);
+				SpellSlotHelper(value, ref slotFour, FourthLvl);
 			}
 		}
 
@@ -95,7 +95,7 @@ namespace PCCharacterManager.Models
 			get { return slotThree; }
 			set
 			{
-				Helper(value, ref slotThree, ThirdLvl);
+				SpellSlotHelper(value, ref slotThree, ThirdLvl);
 			}
 		}
 
@@ -105,7 +105,7 @@ namespace PCCharacterManager.Models
 			get { return slotTwo; }
 			set
 			{
-				Helper(value, ref slotTwo, SecondLvl);
+				SpellSlotHelper(value, ref slotTwo, SecondLvl);
 			}
 		}
 
@@ -115,7 +115,7 @@ namespace PCCharacterManager.Models
 			get { return slotOne; }
 			set
 			{
-				Helper(value, ref slotOne, FirstLvl);
+				SpellSlotHelper(value, ref slotOne, FirstLvl);
 
 			}
 		}
@@ -148,7 +148,7 @@ namespace PCCharacterManager.Models
 		}
 
 		/// <summary>
-		/// prepares a spell for use
+		/// Prepares a spell for use.
 		/// </summary>
 		/// <param name="spell">The spell that is getting prepared</param>
 		public void PrepareSpell(Spell spell)
@@ -157,6 +157,9 @@ namespace PCCharacterManager.Models
 			PreparedSpells.Add(spell);
 		}
 
+		/// <summary>
+		/// Sets all prepared spell to no longer be prepared.
+		/// </summary>
 		public void ClearPreparedSpells()
 		{
 			foreach (var spell in PreparedSpells)
@@ -167,16 +170,28 @@ namespace PCCharacterManager.Models
 			PreparedSpells.Clear();
 		}
 
+		/// <summary>
+		/// Add a spell.
+		/// </summary>
+		/// <param name="spell">The spell to add.</param>
 		public void AddSpell(Spell spell)
 		{
 			SpellsKnown[spell.School].Add(spell);
 		}
 
+		/// <summary>
+		/// Add a cantrip.
+		/// </summary>
+		/// <param name="spell">The cantrip to add.</param>
 		public void AddContrip(Spell spell)
 		{
 			CantripsKnown.Add(spell);
 		}
 
+		/// <summary>
+		/// Remove a spell.
+		/// </summary>
+		/// <param name="spell">The spell to remove.</param>
 		public void RemoveSpell(Spell spell)
 		{
 			if (PreparedSpells.Contains(spell))
@@ -185,18 +200,30 @@ namespace PCCharacterManager.Models
 			SpellsKnown[spell.School].Remove(spell);
 		}
 
+		/// <summary>
+		/// Removes a cantrip.
+		/// </summary>
+		/// <param name="spell">Cantrip to remove.</param>
 		public void RemoveCantrip(Spell spell)
 		{
 			CantripsKnown.Remove(spell);
 		}
 
-		private void Helper(int value, ref int numberOfSlots, ObservableCollection<BoolHelper> slots)
+		/// <summary>
+		/// Sets up the number of spell slots there should be.
+		/// </summary>
+		/// <param name="value">Number of spell slots we want</param>
+		/// <param name="numberOfSlots">Number of spell slots there are</param>
+		/// <param name="slots">Collection of slots</param>
+		private void SpellSlotHelper(int value, ref int numberOfSlots, ObservableCollection<BoolHelper> slots)
 		{
-			if (value < 0) value = 0;
+			if (value < 0) 
+				value = 0;
 
 			int temp = numberOfSlots;
 			numberOfSlots = value;
 
+			// add more spell slots
 			if (value > temp)
 			{
 				for (int i = 0; i < (value - temp); i++)
@@ -204,6 +231,7 @@ namespace PCCharacterManager.Models
 					slots.Add(new BoolHelper(false));
 				}
 			}
+			// remove spell slots
 			else if (value < temp)
 			{
 				for (int i = 0; i < (temp - value); i++)
@@ -211,7 +239,8 @@ namespace PCCharacterManager.Models
 					slots.RemoveAt(slots.Count - 1);
 				}
 			}
-			// for some reason things are added w/out add being called
+
+			// there are more slots than there should be, remove the extras.
 			if (slots.Count > numberOfSlots)
 			{
 				while (slots.Count > numberOfSlots)
@@ -219,6 +248,7 @@ namespace PCCharacterManager.Models
 					slots.RemoveAt(slots.Count - 1);
 				}
 			}
+
 			OnPropertyChanged(ref numberOfSlots, value);
 		}
 
