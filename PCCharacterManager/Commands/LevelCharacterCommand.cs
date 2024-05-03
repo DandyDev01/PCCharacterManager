@@ -10,21 +10,27 @@ namespace PCCharacterManager.Commands
 {
 	public class LevelCharacterCommand : BaseCommand
 	{
-		private readonly CharacterStore characterStore;
+		private readonly CharacterStore _characterStore;
+		private readonly DnD5eCharacterLeveler _dnd5eLeveler;
+		private readonly StarfinderCharacterLeveler _starfinderLeveler;
+		private CharacterLeveler _leveler;
 
-		public LevelCharacterCommand(CharacterStore _characterStore)
+		public LevelCharacterCommand(CharacterStore characterStore)
 		{
-			characterStore = _characterStore;
+			_characterStore = characterStore;
+			_dnd5eLeveler = new();
+			_starfinderLeveler = new();
+			_leveler = _dnd5eLeveler;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			if (characterStore.SelectedCharacter == null)
+			if (_characterStore.SelectedCharacter == null)
 				return;
 
-			CharacterLeveler leveler = new();
+			_leveler = _characterStore.SelectedCharacter is StarfinderCharacter ? _starfinderLeveler : _dnd5eLeveler;
 
-			leveler.LevelCharacter(characterStore.SelectedCharacter);
+			_leveler.LevelCharacter(_characterStore.SelectedCharacter);
 
 			//OnPropertyChaged("characterStore.SelectedCharacter");
 		}
