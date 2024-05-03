@@ -62,7 +62,7 @@ namespace PCCharacterManager.Services
 			if (character == null) 
 				return;
 
-			string[] characterFiles = Directory.GetFiles(DnD5eResources.CharacterDataDir);
+			string[] characterFiles = Directory.GetFiles(StarfinderResources.CharacterDataDir);
 			var test = characterFiles[0].Substring(characterFiles[0].LastIndexOf('\\') + 1, characterFiles[0].IndexOf("#") - characterFiles[0].LastIndexOf('\\') - 1);
 			if (characterFiles.Contains(x => x.Contains(character.Id)))
 			{

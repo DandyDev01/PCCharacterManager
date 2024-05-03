@@ -66,7 +66,16 @@ namespace PCCharacterManager.ViewModels
 			_characterDateModified = character.DateModified;
 			_characterType = character.CharacterType;
 			_characterRace = character.Race.Name;
-			_characterPath = DnD5eResources.CharacterDataDir + "/" + character.Name + character.Id + ".json";
+
+			if (character is StarfinderCharacter starfinderCharacter)
+			{
+				_characterPath = StarfinderResources.CharacterDataDir + "/" + character.Name + character.Id + ".json";
+			}
+			else
+			{
+				_characterPath = DnD5eResources.CharacterDataDir + "/" + character.Name + character.Id + ".json";
+			}
+
 			SelectCharacterCommand.characterPath = _characterPath;
 
 			OnPropertyChanged(nameof(_characterName));
