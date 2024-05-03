@@ -11,69 +11,63 @@ namespace PCCharacterManager.Models
 {
 	public class Ability : ObservableObject
 	{
-		private int score;
-		private int modifier;
-		private int save;
-		private bool profSave;
-		[JsonProperty]
-		private int profBonus = 2;
+		private int _score;
+		private int _modifier;
+		private int _save;
+		private bool _profSave;
 
-		[JsonProperty]
-		public string Name { get; protected set; }
-		[JsonProperty]
-		public string Description { get; protected set; }
+		[JsonProperty] private int _profBonus = 2;
+
 		public int Score
 		{
-			get { return score; }
+			get { return _score; }
 			set
 			{
 				if (value < 1)
 					value = 1;
 
-				OnPropertyChanged(ref score, value);
+				OnPropertyChanged(ref _score, value);
 				SetMod();
-				UpdateSkillInfo(profBonus);
-				SetSave(profBonus);
-				if (profSave)
-					Save = modifier + profBonus;
+				UpdateSkillInfo(_profBonus);
+				SetSave(_profBonus);
+				if (_profSave)
+					Save = _modifier + _profBonus;
 				else
-					Save = modifier;
-			}
-		}
-		[JsonProperty]
-		public int Modifier
-		{
-			get { return modifier; }
-			private set
-			{
-				OnPropertyChanged(ref modifier, value);
-			}
-		}
-		[JsonProperty]
-		public int Save
-		{
-			get { return save; }
-			private set
-			{
-				OnPropertyChanged(ref save, value);
+					Save = _modifier;
 			}
 		}
 		public bool ProfSave
 		{
-			get { return profSave; }
+			get { return _profSave; }
 			set
 			{
 
-				OnPropertyChanged(ref profSave, value);
-				if (profSave)
-					Save = modifier + profBonus;
+				OnPropertyChanged(ref _profSave, value);
+				if (_profSave)
+					Save = _modifier + _profBonus;
 				else
-					Save = modifier;
+					Save = _modifier;
 			}
 		}
-
-		[JsonProperty]
-		public AbilitySkill[] Skills { get; private set; }
+		[JsonProperty] public string Name { get; protected set; }
+		[JsonProperty] public string Description { get; protected set; }
+		[JsonProperty] public int Modifier
+		{
+			get { return _modifier; }
+			private set
+			{
+				OnPropertyChanged(ref _modifier, value);
+			}
+		}
+		[JsonProperty] public int Save
+		{
+			get { return _save; }
+			private set
+			{
+				OnPropertyChanged(ref _save, value);
+			}
+		}
+		[JsonProperty] public AbilitySkill[] Skills { get; private set; }
 
 		public ICommand UpdateProfSaveCommand { get; protected set; }
 
@@ -90,18 +84,18 @@ namespace PCCharacterManager.Models
 		/// <summary>
 		/// set the proficiency bonus and update associated skill info and ability save info
 		/// </summary>
-		/// <param name="_profBonus">value to set profBonus too</param>
+		/// <param name="profBonus">value to set profBonus too</param>
 		/// <exception cref="Exception">when _profBonus is below 0</exception>
-		public void SetProfBonus(int _profBonus)
+		public void SetProfBonus(int profBonus)
 		{
-			if (_profBonus <= 0) throw new Exception("param _profBonus must be greater than 0");
+			if (profBonus <= 0) throw new Exception("param _profBonus must be greater than 0");
 
-			if (_profBonus < 2)
-				_profBonus = 2;
+			if (profBonus < 2)
+				profBonus = 2;
 
-			profBonus = _profBonus;
-			UpdateSkillInfo(profBonus);
-			SetSave(profBonus);
+			this._profBonus = profBonus;
+			UpdateSkillInfo(this._profBonus);
+			SetSave(this._profBonus);
 		}
 
 		/// <summary>
@@ -118,7 +112,7 @@ namespace PCCharacterManager.Models
 		/// </summary>
 		private void SetMod()
 		{
-			switch (score)
+			switch (_score)
 			{
 				case 1:
 					Modifier = -5;
@@ -232,11 +226,11 @@ namespace PCCharacterManager.Models
 
 				if (skill.SkillProficiency)
 				{
-					skill.Score = profBonus + modifier;
+					skill.Score = profBonus + _modifier;
 					continue;
 				}
 
-				skill.Score = modifier;
+				skill.Score = _modifier;
 			}
 		}
 

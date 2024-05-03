@@ -11,19 +11,19 @@ namespace PCCharacterManager.ViewModels
 {
 	public class DialogWindowSelectStingValue : ObservableObject
 	{
-		private readonly Window dialogWindow;
-		private readonly ListViewMultiSelectItemsLimitedCountViewModel limitedMultiSelectVM;
+		private readonly Window _window;
+		private readonly ListViewMultiSelectItemsLimitedCountViewModel _limitedMultiSelectVM;
 
-		public ListViewMultiSelectItemsLimitedCountViewModel LimitedMultiSelectVM { get { return limitedMultiSelectVM; } }
+		public ListViewMultiSelectItemsLimitedCountViewModel LimitedMultiSelectVM { get { return _limitedMultiSelectVM; } }
 		public IEnumerable<string> SelectedItems { get { return LimitedMultiSelectVM.SelectedItems; } }
 
 		public ICommand AddSelectedCommand { get; set; }
 		public ICommand CloseCommand { get; set; }
 
-		public DialogWindowSelectStingValue(Window _dialogWindow, string[] options, int maxSelections = 1)
+		public DialogWindowSelectStingValue(Window window, string[] options, int maxSelections = 1)
 		{
-			dialogWindow = _dialogWindow;
-			limitedMultiSelectVM = new ListViewMultiSelectItemsLimitedCountViewModel(maxSelections, options.ToList());
+			_window = window;
+			_limitedMultiSelectVM = new ListViewMultiSelectItemsLimitedCountViewModel(maxSelections, options.ToList());
 
 			AddSelectedCommand = new RelayCommand(AddSelected);
 			CloseCommand = new RelayCommand(Close);
@@ -35,8 +35,8 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void AddSelected()
 		{
-			dialogWindow.DialogResult = true;
-			dialogWindow.Close();
+			_window.DialogResult = true;
+			_window.Close();
 		}
 
 		/// <summary>
@@ -44,7 +44,7 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void Close()
 		{
-			dialogWindow.Close();
+			_window.Close();
 		}
 	}
 }

@@ -12,177 +12,177 @@ namespace PCCharacterManager.ViewModels
 {
 	public class SpellItemEditableViewModel : ObservableObject
 	{
-		private Spell spell;
+		private Spell _spell;
 		public Spell Spell
 		{
-			get { return spell; }
-			set { OnPropertyChanged(ref spell, value); }
+			get { return _spell; }
+			set { OnPropertyChanged(ref _spell, value); }
 		}
 
-		private string name;
+		private string _name;
 		public string Name
 		{
 			get
 			{
-				return name;
+				return _name;
 			}
 			set
 			{
-				OnPropertyChanged(ref name, value);
-				spell.Name = value;
+				OnPropertyChanged(ref _name, value);
+				_spell.Name = value;
 			}
 		}
 
-		private string desc;
+		private string _desc;
 		public string Desc
 		{
 			get
 			{
-				return desc;
+				return _desc;
 			}
 			set
 			{
-				OnPropertyChanged(ref desc, value);
-				spell.Desc = value;
+				OnPropertyChanged(ref _desc, value);
+				_spell.Desc = value;
 			}
 		}
 
-		private string level;
+		private string _level;
 		public string Level
 		{
 			get
 			{
-				return level;
+				return _level;
 			}
 			set
 			{
-				OnPropertyChanged(ref level, value);
-				spell.Level = value;
+				OnPropertyChanged(ref _level, value);
+				_spell.Level = value;
 			}
 		}
 
-		private string castingTime;
+		private string _castingTime;
 		public string CastingTime
 		{
 			get
 			{
-				return castingTime;
+				return _castingTime;
 			}
 			set
 			{
-				OnPropertyChanged(ref castingTime, value);
-				spell.CastingTime = value;	
+				OnPropertyChanged(ref _castingTime, value);
+				_spell.CastingTime = value;	
 			}
 		}
 
-		private string range_area;
+		private string _range_area;
 		public string Range_Area
 		{
 			get
 			{
-				return range_area;
+				return _range_area;
 			}
 			set
 			{
-				OnPropertyChanged(ref range_area, value);
-				spell.Range_Area = value;
+				OnPropertyChanged(ref _range_area, value);
+				_spell.Range_Area = value;
 			}
 		}
 
-		private string damage_effect;
+		private string _damage_effect;
 		public string Damage_Effect
 		{
 			get
 			{
-				return damage_effect;
+				return _damage_effect;
 			}
 			set
 			{
-				OnPropertyChanged(ref damage_effect, value);
-				spell.Damage_Effect = value;
+				OnPropertyChanged(ref _damage_effect, value);
+				_spell.Damage_Effect = value;
 			}
 		}
 
-		private string attack_save;
+		private string _attack_save;
 		public string Attack_Save
 		{
 			get
 			{
-				return attack_save;
+				return _attack_save;
 			}
 			set
 			{
-				OnPropertyChanged(ref attack_save, value);
-				spell.Attack_Save = value;
+				OnPropertyChanged(ref _attack_save, value);
+				_spell.Attack_Save = value;
 			}
 		}
 
-		private string duration;
+		private string _duration;
 		public string Duration
 		{
 			get
 			{
-				return duration;
+				return _duration;
 			}
 			set
 			{
-				OnPropertyChanged(ref duration, value);
-				spell.Duration = value;
+				OnPropertyChanged(ref _duration, value);
+				_spell.Duration = value;
 			}
 		}
 
-		private string stringComponents;
+		private string _stringComponents;
 		public string StringComponents
 		{
 			get
 			{
-				return stringComponents;
+				return _stringComponents;
 			}
 			set
 			{
-				OnPropertyChanged(ref stringComponents, value);
+				OnPropertyChanged(ref _stringComponents, value);
 			}
 		}
 
-		private SpellSchool school;
+		private SpellSchool _school;
 		public SpellSchool School
 		{
 			get
 			{
-				return school;
+				return _school;
 			}
 			set
 			{
-				OnPropertyChanged(ref school, value);
-				spell.School = value;
+				OnPropertyChanged(ref _school, value);
+				_spell.School = value;
 			}
 		}
 
-		private bool isPrepared;
+		private bool _isPrepared;
 		public bool IsPrepared
 		{
-			get { return isPrepared; }
+			get { return _isPrepared; }
 			set 
 			{ 
-				OnPropertyChanged(ref isPrepared, value);
-				spell.IsPrepared = value;
+				OnPropertyChanged(ref _isPrepared, value);
+				_spell.IsPrepared = value;
 			}
 		}
 
-		private bool isEditMode;
+		private bool _isEditMode;
 		public bool IsEditMode
 		{
-			get { return isEditMode; }
+			get { return _isEditMode; }
 			private set
 			{
-				OnPropertyChanged(ref isEditMode, value);
+				OnPropertyChanged(ref _isEditMode, value);
 				OnPropertyChanged(nameof(IsDisplayMode));
 			}
 		}
 
 		public bool IsDisplayMode
 		{
-			get { return !isEditMode; }
+			get { return !_isEditMode; }
 		}
 
 		public ObservableCollection<char> Components { get; }
@@ -190,37 +190,37 @@ namespace PCCharacterManager.ViewModels
 		public ICommand PrepareCommand { get; set; }
 		public Action<Spell>? Prepare;
 
-		public SpellItemEditableViewModel(Spell _spell)
+		public SpellItemEditableViewModel(Spell spell)
 		{
-			spell = _spell;
+			_spell = spell;
 
-			Components = new(spell.Components);
+			Components = new(this._spell.Components);
 
 			PrepareCommand = new RelayCommand(InvokePrepare);
-			isEditMode = false;
+			_isEditMode = false;
 
-			name = spell.Name;
-			desc = spell.Desc;
-			level = spell.Level;
-			stringComponents = spell.StringComponents;
-			castingTime = spell.CastingTime;
-			range_area = spell.Range_Area;
-			damage_effect = spell.Damage_Effect;
-			attack_save = spell.Attack_Save;
-			duration = spell.Duration;
-			school = spell.School;
-			isPrepared = spell.IsPrepared;
+			_name = _spell.Name;
+			_desc = _spell.Desc;
+			_level = _spell.Level;
+			_stringComponents = _spell.StringComponents;
+			_castingTime = _spell.CastingTime;
+			_range_area = _spell.Range_Area;
+			_damage_effect = _spell.Damage_Effect;
+			_attack_save = _spell.Attack_Save;
+			_duration = _spell.Duration;
+			_school = _spell.School;
+			_isPrepared = _spell.IsPrepared;
 		}
 
 		private void InvokePrepare()
 		{
 			IsPrepared = !IsPrepared;
-			Prepare?.Invoke(spell);
+			Prepare?.Invoke(_spell);
 		}
 
 		public void Edit()
 		{
-			IsEditMode = !isEditMode;
+			IsEditMode = !_isEditMode;
 		}
 	}
 }

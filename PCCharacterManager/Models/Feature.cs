@@ -11,49 +11,49 @@ namespace PCCharacterManager.Models
 	{
 		public string Name
 		{
-			get => property.Name;
-			set => property.Name = value;
+			get => _property.Name;
+			set => _property.Name = value;
 		}
 		
 		public string Description
 		{
-			get => property.Desc;
-			set => property.Desc = value;
+			get => _property.Desc;
+			set => _property.Desc = value;
 		}
 		
-		private string featureType;
+		private string _featureType;
 		public string FeatureType
 		{
 			get
 			{
-				return featureType;
+				return _featureType;
 			}
 			set
 			{
-				OnPropertyChanged(ref featureType, value);
+				OnPropertyChanged(ref _featureType, value);
 			}
 		}
 
-		private string level;
+		private string _level;
 		public string Level
 		{
 			get
 			{
-				return level;
+				return _level;
 			}
 			set
 			{
-				OnPropertyChanged(ref level, value);
+				OnPropertyChanged(ref _level, value);
 			}
 		}
 
-		private readonly Property property;
+		private readonly Property _property;
 
 		public Feature(Property _property, string _featureType, string _level)
 		{
-			property = _property;
-			featureType = _featureType;
-			level = _level;
+			this._property = _property;
+			this._featureType = _featureType;
+			this._level = _level;
 		}
 	}
 }

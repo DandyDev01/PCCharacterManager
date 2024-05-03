@@ -10,11 +10,11 @@ namespace PCCharacterManager.Models
 	{
 		public int Level { get; set; }
 
-		public DnD5eCharacterClassFeature(string _name, string _desc, int _level)
+		public DnD5eCharacterClassFeature(string name, string desc, int level)
 		{
-			Level = _level;
-			Name = _name;
-			Desc = _desc;
+			Level = level;
+			Name = name;
+			Desc = desc;
 		}
 
 		public DnD5eCharacterClassFeature()

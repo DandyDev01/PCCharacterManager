@@ -9,16 +9,16 @@ namespace PCCharacterManager.Models
 {
 	public class ArmorClass : ObservableObject
 	{
-		private string armorClassValue = string.Empty;
+		private string _armorClassValue = string.Empty;
 		public string ArmorClassValue
 		{
 			get
 			{
-				return armorClassValue;
+				return _armorClassValue;
 			}
 			set
 			{
-				OnPropertyChanged(ref armorClassValue, value);
+				OnPropertyChanged(ref _armorClassValue, value);
 			}
 		}
 	}

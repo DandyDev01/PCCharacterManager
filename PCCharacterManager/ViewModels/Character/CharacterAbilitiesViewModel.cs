@@ -20,19 +20,19 @@ namespace PCCharacterManager.ViewModels.Character
 {
 	public class CharacterAbilitiesViewModel : ObservableObject
 	{
-		private readonly CollectionViewPropertySort abilitiesCollectionViewPropertySort;
-		private readonly CollectionViewPropertySort skillsCollectionViewPropertySort;
+		private readonly CollectionViewPropertySort _abilitiesCollectionViewPropertySort;
+		private readonly CollectionViewPropertySort _skillsCollectionViewPropertySort;
 
-		private DnD5eCharacter selectedCharacter;
+		private DnD5eCharacter _selectedCharacter;
 		public DnD5eCharacter SelectedCharacter
 		{
 			get
 			{
-				return selectedCharacter;
+				return _selectedCharacter;
 			}
 			set
 			{
-				OnPropertyChanged(ref selectedCharacter, value);
+				OnPropertyChanged(ref _selectedCharacter, value);
 			}
 		}
 
@@ -52,37 +52,37 @@ namespace PCCharacterManager.ViewModels.Character
 		public ICommand SkillScoreSortCommand { get; }
 		public ICommand SkillAbilitySortCommand { get; }
 
-		public CharacterAbilitiesViewModel(CharacterStore _characterStore)
+		public CharacterAbilitiesViewModel(CharacterStore characterStore)
 		{
-			_characterStore.SelectedCharacterChange += OnCharacterChanged;
+			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
-			selectedCharacter = _characterStore.SelectedCharacter;
+			_selectedCharacter = characterStore.SelectedCharacter;
 
 
 			Abilities = new ObservableCollection<Ability>();
 			AbilitiesCollectionView = CollectionViewSource.GetDefaultView(Abilities);
-			abilitiesCollectionViewPropertySort = new CollectionViewPropertySort(AbilitiesCollectionView);
+			_abilitiesCollectionViewPropertySort = new CollectionViewPropertySort(AbilitiesCollectionView);
 
 			Skills = new ObservableCollection<AbilitySkill>();
 			SkillsCollectionView = CollectionViewSource.GetDefaultView(Skills);
-			skillsCollectionViewPropertySort = new CollectionViewPropertySort(SkillsCollectionView);
+			_skillsCollectionViewPropertySort = new CollectionViewPropertySort(SkillsCollectionView);
 
-			AbilityNameSortCommand = new ItemCollectionViewPropertySortCommand(abilitiesCollectionViewPropertySort,
+			AbilityNameSortCommand = new ItemCollectionViewPropertySortCommand(_abilitiesCollectionViewPropertySort,
 				nameof(Ability.Name));
-			AbilityScoreSortCommand = new ItemCollectionViewPropertySortCommand(abilitiesCollectionViewPropertySort,
+			AbilityScoreSortCommand = new ItemCollectionViewPropertySortCommand(_abilitiesCollectionViewPropertySort,
 				nameof(Ability.Score));
-			AbiltiyModifierSortCommand = new ItemCollectionViewPropertySortCommand(abilitiesCollectionViewPropertySort,
+			AbiltiyModifierSortCommand = new ItemCollectionViewPropertySortCommand(_abilitiesCollectionViewPropertySort,
 				nameof(Ability.Modifier));
-			AbilitySaveSortCommand = new ItemCollectionViewPropertySortCommand(abilitiesCollectionViewPropertySort,
+			AbilitySaveSortCommand = new ItemCollectionViewPropertySortCommand(_abilitiesCollectionViewPropertySort,
 				nameof(Ability.Save));
-			AbilityProficiencySortCommand = new ItemCollectionViewPropertySortCommand(abilitiesCollectionViewPropertySort,
+			AbilityProficiencySortCommand = new ItemCollectionViewPropertySortCommand(_abilitiesCollectionViewPropertySort,
 				nameof(Ability.ProfSave));
 			
-			SkillNameSortCommand = new ItemCollectionViewPropertySortCommand(skillsCollectionViewPropertySort,
+			SkillNameSortCommand = new ItemCollectionViewPropertySortCommand(_skillsCollectionViewPropertySort,
 				nameof(AbilitySkill.Name));
-			SkillScoreSortCommand = new ItemCollectionViewPropertySortCommand(skillsCollectionViewPropertySort,
+			SkillScoreSortCommand = new ItemCollectionViewPropertySortCommand(_skillsCollectionViewPropertySort,
 				nameof(AbilitySkill.Score));
-			SkillAbilitySortCommand = new ItemCollectionViewPropertySortCommand(skillsCollectionViewPropertySort,
+			SkillAbilitySortCommand = new ItemCollectionViewPropertySortCommand(_skillsCollectionViewPropertySort,
 				nameof(AbilitySkill.AbilityName));
 		}
 
@@ -94,7 +94,7 @@ namespace PCCharacterManager.ViewModels.Character
 		{
 			SelectedCharacter = newCharacter;
 
-			if (selectedCharacter is null)
+			if (_selectedCharacter is null)
 				return;
 
 
@@ -106,10 +106,10 @@ namespace PCCharacterManager.ViewModels.Character
 			Abilities.Clear();
 			Skills.Clear();
 
-			if (selectedCharacter is null)
+			if (_selectedCharacter is null)
 				return;
 
-			foreach (Ability ability in selectedCharacter.Abilities)
+			foreach (Ability ability in _selectedCharacter.Abilities)
 			{
 				Abilities.Add(ability);
 			}

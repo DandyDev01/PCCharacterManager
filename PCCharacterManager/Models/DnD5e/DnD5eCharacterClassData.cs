@@ -10,34 +10,34 @@ namespace PCCharacterManager.Models
 {
 	public class DnD5eCharacterClassData
 	{
-		private string name;
-		private HitDie hitDie;
-		private DnD5eCharacterClassLevel level;
+		private string _name;
+		private HitDie _hitDie;
+		private DnD5eCharacterClassLevel _level;
 
 		[JsonProperty("HitDie")]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public HitDie HitDie
 		{
-			get { return hitDie; }
+			get { return _hitDie; }
 			set
 			{
-				hitDie = value;
+				_hitDie = value;
 			}
 		}
 		public string Name
 		{
-			get { return name; }
+			get { return _name; }
 			set
 			{
-				name = value;
+				_name = value;
 			}
 		}
 		public DnD5eCharacterClassLevel Level
 		{
-			get { return level; }
+			get { return _level; }
 			set
 			{
-				level = value;
+				_level = value;
 			}
 		}
 		public string[] ArmorProficiencies
@@ -82,9 +82,9 @@ namespace PCCharacterManager.Models
 
 		public DnD5eCharacterClassData()
 		{
-			name = string.Empty;
-			hitDie = HitDie.D4;
-			level = new DnD5eCharacterClassLevel();
+			_name = string.Empty;
+			_hitDie = HitDie.D4;
+			_level = new DnD5eCharacterClassLevel();
 			ArmorProficiencies = Array.Empty<string>();
 			WeaponProficiencies = Array.Empty<string>();
 			ToolProficiencies = Array.Empty<string>();

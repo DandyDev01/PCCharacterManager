@@ -13,71 +13,71 @@ namespace PCCharacterManager.ViewModels
 {
 	public class DialogWindowAddAugmentationViewModel : ObservableObject
 	{
-		private StarfinderAugmentation augmentation;
-		public StarfinderAugmentation Augmentation { get { return augmentation; } }
+		private StarfinderAugmentation _augmentation;
+		public StarfinderAugmentation Augmentation { get { return _augmentation; } }
 
-		private string name;
+		private string _name;
 		public string Name
 		{
 			get
 			{
-				return name;
+				return _name;
 			}
 			set
 			{
-				OnPropertyChanged(ref name, value);
+				OnPropertyChanged(ref _name, value);
 			}
 		}
 
-		private string description;
+		private string _description;
 		public string Description
 		{
 			get
 			{
-				return description;
+				return _description;
 			}
 			set
 			{
-				OnPropertyChanged(ref description, value);
+				OnPropertyChanged(ref _description, value);
 			}
 		}
 
-		private string level;
+		private string _level;
 		public string Level
 		{
 			get
 			{
-				return level;
+				return _level;
 			}
 			set
 			{
-				OnPropertyChanged(ref level, value);
+				OnPropertyChanged(ref _level, value);
 			}
 		}
 
-		private string price;
+		private string _price;
 		public string Price
 		{
 			get
 			{
-				return price;
+				return _price;
 			}
 			set
 			{
-				OnPropertyChanged(ref price, value);
+				OnPropertyChanged(ref _price, value);
 			}
 		}
 
-		private AugmentationCategory category;
+		private AugmentationCategory _category;
 		public AugmentationCategory Category
 		{
 			get
 			{
-				return category;
+				return _category;
 			}
 			set
 			{
-				OnPropertyChanged(ref category, value);
+				OnPropertyChanged(ref _category, value);
 			}
 		}
 
@@ -86,22 +86,22 @@ namespace PCCharacterManager.ViewModels
 		public Array AugmentationSystemToDisplay = Enum.GetValues(typeof(AugmentationSystem));
 		public ObservableCollection<ListViewSelectableItemViewModel> SelectableAugmentationSystems { get; private set; }
 
-		private readonly Window window;
-		private readonly List<string> systems;
+		private readonly Window _window;
+		private readonly List<string> _systems;
 		public ICommand OkCommand { get; }
 		public ICommand CancelCommand { get; }
 
-		public DialogWindowAddAugmentationViewModel(Window _window)
+		public DialogWindowAddAugmentationViewModel(Window window)
 		{
-			window = _window;
-			systems = new List<string>();
+			_window = window;
+			_systems = new List<string>();
 			OkCommand = new RelayCommand(Ok);
 			CancelCommand = new RelayCommand(Cancel);
-			augmentation = new StarfinderAugmentation();
-			name = string.Empty;
-			description = string.Empty;
-			level = string.Empty;
-			price = string.Empty;
+			_augmentation = new StarfinderAugmentation();
+			_name = string.Empty;
+			_description = string.Empty;
+			_level = string.Empty;
+			_price = string.Empty;
 			SelectableAugmentationSystems = new ObservableCollection<ListViewSelectableItemViewModel>();
 			foreach (AugmentationSystem system in AugmentationSystemToDisplay)
 			{
@@ -111,29 +111,29 @@ namespace PCCharacterManager.ViewModels
 
 		private void Cancel()
 		{
-			window.DialogResult = false;
-			window.Close();
+			_window.DialogResult = false;
+			_window.Close();
 		}
 
 		private void Ok()
 		{
-			augmentation.Name = name;
-			augmentation.Description = description;
-			augmentation.Level = level;
-			augmentation.Price = price;
-			augmentation.Category = Category;
+			_augmentation.Name = _name;
+			_augmentation.Description = _description;
+			_augmentation.Level = _level;
+			_augmentation.Price = _price;
+			_augmentation.Category = Category;
 
 			foreach (var item in SelectableAugmentationSystems)
 			{
 				if (item.IsSelected)
 				{
-					systems.Add(item.BoundItem);
+					_systems.Add(item.BoundItem);
 				}
 			}
-			augmentation.Systems = systems.ToArray();
+			_augmentation.Systems = _systems.ToArray();
 
-			window.DialogResult = true;
-			window.Close();
+			_window.DialogResult = true;
+			_window.Close();
 		}
 	}
 }

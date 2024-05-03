@@ -15,46 +15,46 @@ namespace PCCharacterManager.ViewModels
 	public class DialogWindowAddSpellViewModel : ObservableObject
 	{
 		public Array SpellSchools { get; } = Enum.GetValues(typeof(SpellSchool));
-		private readonly SpellType spellFilterType;
-		private readonly Window window;
+		private readonly SpellType _spellFilterType;
+		private readonly Window _window;
 
-		private Spell newSpell;
+		private Spell _newSpell;
 		public Spell NewSpell
 		{
-			get { return newSpell; }
-			set { OnPropertyChanged(ref newSpell, value); }
+			get { return _newSpell; }
+			set { OnPropertyChanged(ref _newSpell, value); }
 		}
 
-		private string spellComponents;
+		private string _spellComponents;
 		public string SpellComponents
 		{
-			get { return spellComponents; }
+			get { return _spellComponents; }
 			set
 			{
-				OnPropertyChanged(ref spellComponents, value);
+				OnPropertyChanged(ref _spellComponents, value);
 
 			}
 		}
 
-		private SpellSchool selectedSchool;
+		private SpellSchool _selectedSchool;
 		public SpellSchool SelectedSchool 
 		{
 			set
 			{
-				selectedSchool = value;
+				_selectedSchool = value;
 			}
 		}
 
 		public ICommand AddSpellCommand { get; private set; }
 		public ICommand CancelCommand { get; private set; }
 
-		public DialogWindowAddSpellViewModel(Window _window, SpellType _spellFilterType)
+		public DialogWindowAddSpellViewModel(Window window, SpellType spellFilterType)
 		{
-			window = _window;
-			newSpell = new Spell();
-			spellComponents = string.Empty;
+			_window = window;
+			_newSpell = new Spell();
+			_spellComponents = string.Empty;
 
-			spellFilterType = _spellFilterType;
+			_spellFilterType = spellFilterType;
 
 			AddSpellCommand = new RelayCommand(AddNewSpell);
 			CancelCommand = new RelayCommand(Close);
@@ -62,17 +62,17 @@ namespace PCCharacterManager.ViewModels
 
 		private void AddNewSpell()
 		{
-			newSpell.School = selectedSchool;
-			if (spellFilterType == SpellType.CANTRIP) newSpell.IsPrepared = true;
+			_newSpell.School = _selectedSchool;
+			if (_spellFilterType == SpellType.CANTRIP) _newSpell.IsPrepared = true;
 
-			window.DialogResult = true;
-			window.Close();
+			_window.DialogResult = true;
+			_window.Close();
 		}
 
 		private void Close()
 		{
-			window.DialogResult = false;
-			window.Close();
+			_window.DialogResult = false;
+			_window.Close();
 		}
 	}
 }

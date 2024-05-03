@@ -9,18 +9,18 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CollectionViewPropertySort
 	{
-		private readonly ICollectionView collectionView;
+		private readonly ICollectionView _collectionView;
 
-		public CollectionViewPropertySort(ICollectionView _collectionView)
+		public CollectionViewPropertySort(ICollectionView collectionView)
 		{
-			collectionView = _collectionView;
+			_collectionView = collectionView;
 		}
 
 		public void Sort(string propertyName)
 		{
 			ListSortDirection sortDirection = ListSortDirection.Ascending;
 
-			foreach (var sortDescription in collectionView.SortDescriptions)
+			foreach (var sortDescription in _collectionView.SortDescriptions)
 			{
 				if (sortDescription.PropertyName == propertyName && sortDescription.Direction == ListSortDirection.Ascending)
 				{
@@ -31,8 +31,8 @@ namespace PCCharacterManager.ViewModels
 
 			var sortDescriptor = new SortDescription(propertyName, sortDirection);
 
-			collectionView.SortDescriptions.Clear();
-			collectionView.SortDescriptions.Add(sortDescriptor);
+			_collectionView.SortDescriptions.Clear();
+			_collectionView.SortDescriptions.Add(sortDescriptor);
 		}
 	}
 }

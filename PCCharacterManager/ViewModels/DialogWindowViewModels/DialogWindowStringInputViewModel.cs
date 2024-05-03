@@ -12,19 +12,19 @@ namespace PCCharacterManager.ViewModels
 {
 	public class DialogWindowStringInputViewModel : ObservableObject
 	{
-		private readonly Window dialogWindowl;
+		private readonly Window _window;
 
-		private string answer;
+		private string _answer;
 		public string Answer
 		{
-			get { return answer; }
-			set { OnPropertyChanged(ref answer, value); }
+			get { return _answer; }
+			set { OnPropertyChanged(ref _answer, value); }
 		}
 
-		private string message;
+		private string _message;
 		public string Message
 		{
-			get { return message; }
+			get { return _message; }
 		}
 
 		public ICommand OkCommand { get; private set; }
@@ -33,23 +33,23 @@ namespace PCCharacterManager.ViewModels
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="_dialogWindow">the dialog window that opens</param>
-		public DialogWindowStringInputViewModel(Window _dialogWindow)
+		/// <param name="window">the dialog window that opens</param>
+		public DialogWindowStringInputViewModel(Window window)
 		{
-			answer = string.Empty;
-			message = string.Empty;
+			_answer = string.Empty;
+			_message = string.Empty;
 
-			dialogWindowl = _dialogWindow;
+			_window = window;
 			OkCommand = new RelayCommand(Ok);
 			CloseCommand = new RelayCommand(Close);
 		}
 
-		public DialogWindowStringInputViewModel(Window _dialogWindow, string _message)
+		public DialogWindowStringInputViewModel(Window window, string message)
 		{
-			answer = string.Empty;
-			message = _message;
+			_answer = string.Empty;
+			_message = message;
 
-			dialogWindowl = _dialogWindow;
+			_window = window;
 			OkCommand = new RelayCommand(Ok);
 			CloseCommand = new RelayCommand(Close);
 		}
@@ -59,8 +59,8 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void Ok()
 		{
-			dialogWindowl.DialogResult = true;
-			dialogWindowl.Close();
+			_window.DialogResult = true;
+			_window.Close();
 		}
 
 		/// <summary>
@@ -69,8 +69,8 @@ namespace PCCharacterManager.ViewModels
 		private void Close()
 		{
 			Answer = string.Empty;
-			dialogWindowl.DialogResult = false;
-			dialogWindowl.Close();
+			_window.DialogResult = false;
+			_window.Close();
 		}
 
 	} // end class

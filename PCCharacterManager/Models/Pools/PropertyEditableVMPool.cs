@@ -18,7 +18,7 @@ namespace PCCharacterManager.Models
 		{
 			for (int i = 0; i < count; i++)
 			{
-				items.Add(new PropertyEditableViewModel());
+				_items.Add(new PropertyEditableViewModel());
 				FreeItems++;
 			}
 		}

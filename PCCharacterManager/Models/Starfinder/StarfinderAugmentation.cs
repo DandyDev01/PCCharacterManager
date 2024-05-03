@@ -18,92 +18,92 @@ namespace PCCharacterManager.Models
 
 	public class StarfinderAugmentation : ObservableObject
 	{
-		private string name;
+		private string _name;
 		public string Name
 		{
 			get
 			{
-				return name;
+				return _name;
 			}
 			set
 			{
-				OnPropertyChanged(ref name, value);
+				OnPropertyChanged(ref _name, value);
 			}
 		}
 
-		private string description;
+		private string _description;
 		public string Description
 		{
 			get
 			{
-				return description;
+				return _description;
 			}
 			set
 			{
-				OnPropertyChanged(ref description, value);
+				OnPropertyChanged(ref _description, value);
 			}
 		}
 
-		private string level;
+		private string _level;
 		public string Level
 		{
 			get
 			{
-				return level;
+				return _level;
 			}
 			set
 			{
-				OnPropertyChanged(ref level, value);
+				OnPropertyChanged(ref _level, value);
 			}
 		}
 
-		private string price;
+		private string _price;
 		public string Price
 		{
 			get
 			{
-				return price;
+				return _price;
 			}
 			set
 			{
-				OnPropertyChanged(ref price, value);
+				OnPropertyChanged(ref _price, value);
 			}
 		}
 
-		private AugmentationCategory category;
+		private AugmentationCategory _category;
 		public AugmentationCategory Category
 		{
 			get
 			{
-				return category;
+				return _category;
 			}
 			set
 			{
-				OnPropertyChanged(ref category, value);
+				OnPropertyChanged(ref _category, value);
 			}
 		}
 
-		private string[] systems;
+		private string[] _systems;
 		public string[] Systems
 		{
 			get
 			{
-				return systems;
+				return _systems;
 			}
 			set
 			{
-				OnPropertyChanged(ref systems, value);
+				OnPropertyChanged(ref _systems, value);
 			}
 		}
 
 		public StarfinderAugmentation()
 		{
-			name = string.Empty;
-			description = string.Empty;
-			level = string.Empty;
-			price = string.Empty;
-			category = AugmentationCategory.BIOTECH;
-			systems = Array.Empty<string>();
+			_name = string.Empty;
+			_description = string.Empty;
+			_level = string.Empty;
+			_price = string.Empty;
+			_category = AugmentationCategory.BIOTECH;
+			_systems = Array.Empty<string>();
 		}
 	}
 }

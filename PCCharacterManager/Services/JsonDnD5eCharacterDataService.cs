@@ -12,11 +12,11 @@ namespace PCCharacterManager.Services
 {
 	public class JsonDnD5eCharacterDataService : ICharacterDataService
 	{
-		private readonly CharacterStore characterStore;
+		private readonly CharacterStore _characterStore;
 
 		public JsonDnD5eCharacterDataService(CharacterStore characterStore)
 		{
-			this.characterStore = characterStore;
+			this._characterStore = characterStore;
 		}
 
 		public override void Add(DnD5eCharacter newCharacter)

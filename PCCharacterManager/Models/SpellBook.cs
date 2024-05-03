@@ -29,93 +29,93 @@ namespace PCCharacterManager.Models
 		public ObservableCollection<BoolHelper> EightLvl { get; private set; }
 		public ObservableCollection<BoolHelper> NinethLvl { get; private set; }
 
-		private int slotNine;
+		private int _slotNine;
 		public int SlotNine
 		{
-			get { return slotNine; }
+			get { return _slotNine; }
 			set
 			{
-				SpellSlotHelper(value, ref slotNine, NinethLvl);
+				SpellSlotHelper(value, ref _slotNine, NinethLvl);
 			}
 		}
 
-		private int slotEight;
+		private int _slotEight;
 		public int SlotEight
 		{
-			get { return slotEight; }
+			get { return _slotEight; }
 			set
 			{
-				SpellSlotHelper(value, ref slotEight, EightLvl);
+				SpellSlotHelper(value, ref _slotEight, EightLvl);
 			}
 		}
 
-		private int slotSeven;
+		private int _slotSeven;
 		public int SlotSeven
 		{
-			get { return slotSeven; }
+			get { return _slotSeven; }
 			set
 			{
-				SpellSlotHelper(value, ref slotSeven, SeventhLvl);
+				SpellSlotHelper(value, ref _slotSeven, SeventhLvl);
 			}
 		}
 
-		private int slotSix;
+		private int _slotSix;
 		public int SlotSix
 		{
-			get { return slotSix; }
+			get { return _slotSix; }
 			set
 			{
-				SpellSlotHelper(value, ref slotSix, SixLvl);
+				SpellSlotHelper(value, ref _slotSix, SixLvl);
 			}
 		}
 
-		private int slotFive;
+		private int _slotFive;
 		public int SlotFive
 		{
-			get { return slotFive; }
+			get { return _slotFive; }
 			set
 			{
-				SpellSlotHelper(value, ref slotFive, FifthLvl);
+				SpellSlotHelper(value, ref _slotFive, FifthLvl);
 			}
 		}
 
-		private int slotFour;
+		private int _slotFour;
 		public int SlotFour
 		{
-			get { return slotFour; }
+			get { return _slotFour; }
 			set
 			{
-				SpellSlotHelper(value, ref slotFour, FourthLvl);
+				SpellSlotHelper(value, ref _slotFour, FourthLvl);
 			}
 		}
 
-		private int slotThree;
+		private int _slotThree;
 		public int SlotThree
 		{
-			get { return slotThree; }
+			get { return _slotThree; }
 			set
 			{
-				SpellSlotHelper(value, ref slotThree, ThirdLvl);
+				SpellSlotHelper(value, ref _slotThree, ThirdLvl);
 			}
 		}
 
-		private int slotTwo;
+		private int _slotTwo;
 		public int SlotTwo
 		{
-			get { return slotTwo; }
+			get { return _slotTwo; }
 			set
 			{
-				SpellSlotHelper(value, ref slotTwo, SecondLvl);
+				SpellSlotHelper(value, ref _slotTwo, SecondLvl);
 			}
 		}
 
-		private int slotOne;
+		private int _slotOne;
 		public int SlotOne
 		{
-			get { return slotOne; }
+			get { return _slotOne; }
 			set
 			{
-				SpellSlotHelper(value, ref slotOne, FirstLvl);
+				SpellSlotHelper(value, ref _slotOne, FirstLvl);
 
 			}
 		}

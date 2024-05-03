@@ -9,60 +9,60 @@ namespace PCCharacterManager.Models
 {
 	public class AbilitySkill : ObservableObject
 	{
-		protected string name = string.Empty;
-		protected string desc = string.Empty;
-		protected string abilityName = string.Empty;
-		protected int score;
-		protected int miscBonus;
-		protected bool skillProficiency;
-		protected bool doubleSkillProficiency;
-		protected bool halfSkillProficiency;
+		protected string _name = string.Empty;
+		protected string _desc = string.Empty;
+		protected string _abilityName = string.Empty;
+		protected int _score;
+		protected int _miscBonus;
+		protected bool _skillProficiency;
+		protected bool _doubleSkillProficiency;
+		protected bool _halfSkillProficiency;
 
 		public string Name
 		{
-			get { return name; }
-			set { OnPropertyChanged(ref name, value); }
+			get { return _name; }
+			set { OnPropertyChanged(ref _name, value); }
 		}
 		public string Desc
 		{
-			get { return desc; }
-			set { OnPropertyChanged(ref desc, value); }
+			get { return _desc; }
+			set { OnPropertyChanged(ref _desc, value); }
 		}
 		public string AbilityName
 		{
 			get
 			{
-				return abilityName;
+				return _abilityName;
 			}
 			set
 			{
-				OnPropertyChanged(ref abilityName, value);
+				OnPropertyChanged(ref _abilityName, value);
 			}
 		}
 		public int Score
 		{
-			get { return score; }
-			set { OnPropertyChanged(ref score, value); }
+			get { return _score; }
+			set { OnPropertyChanged(ref _score, value); }
 		}
 		public int MiscBonus
 		{
-			get { return miscBonus; }
-			set { OnPropertyChanged(ref miscBonus, value); }
+			get { return _miscBonus; }
+			set { OnPropertyChanged(ref _miscBonus, value); }
 		}
 		public bool SkillProficiency
 		{
-			get { return skillProficiency; }
-			set { OnPropertyChanged(ref skillProficiency, value); }
+			get { return _skillProficiency; }
+			set { OnPropertyChanged(ref _skillProficiency, value); }
 		}
 		public bool DoubleSkillProficiency
 		{
-			get { return doubleSkillProficiency; }
-			set { OnPropertyChanged(ref doubleSkillProficiency, value); }
+			get { return _doubleSkillProficiency; }
+			set { OnPropertyChanged(ref _doubleSkillProficiency, value); }
 		}
 		public bool HalfSkillProficiency
 		{
-			get { return halfSkillProficiency; }
-			set { OnPropertyChanged(ref halfSkillProficiency, value); }
+			get { return _halfSkillProficiency; }
+			set { OnPropertyChanged(ref _halfSkillProficiency, value); }
 		}
 	}
 }

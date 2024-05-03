@@ -10,7 +10,7 @@ namespace PCCharacterManager.Models
 	{
 		public static readonly int[] DefaultAbilityScores = { 15, 14, 13, 12, 10, 8 };
 
-		private readonly Random r = new Random();
+		private readonly Random _random = new Random();
 
 		/// <summary>
 		/// rolls a d100
@@ -93,7 +93,7 @@ namespace PCCharacterManager.Models
 			int total = 0;
 			for (int i = 0; i < times; i++)
 			{
-				total += r.Next(1, sides + 1);
+				total += _random.Next(1, sides + 1);
 
 			}
 			return total;

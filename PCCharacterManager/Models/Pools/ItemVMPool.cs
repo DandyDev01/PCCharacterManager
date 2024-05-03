@@ -11,7 +11,7 @@ namespace PCCharacterManager.Models
 	{
 		public ItemVMPool(int count)
 		{
-			items = new List<ItemViewModel>();
+			_items = new List<ItemViewModel>();
 			Add(count);
 		}
 
@@ -19,7 +19,7 @@ namespace PCCharacterManager.Models
 		{
 			for (int i = 0; i < count; i++)
 			{
-				items.Add(new ItemViewModel());
+				_items.Add(new ItemViewModel());
 				FreeItems++;
 			}
 		}

@@ -13,58 +13,58 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 {
     class DialogWindowChangeHealthViewModel : ObservableObject
     {
-		private readonly Window window;
+		private readonly Window _window;
 
 		public int Amount { get; private set; }
 
-		private string answer;
+		private string _answer;
 		public string Answer
 		{
 			get
 			{
-				return answer;
+				return _answer;
 			}
 			set
 			{
-				OnPropertyChanged(ref answer, value);
+				OnPropertyChanged(ref _answer, value);
 			}
 		}
 
-		private bool isTempHealth;
+		private bool _isTempHealth;
 		public bool IsTempHealth
 		{
 			get
 			{
-				return isTempHealth;
+				return _isTempHealth;
 			}
 			set
 			{
-				OnPropertyChanged(ref isTempHealth, value);
+				OnPropertyChanged(ref _isTempHealth, value);
 			}
 		}
 
 		public ICommand OkCommand { get; }
 		public ICommand CancelCommand { get; }
 
-		public DialogWindowChangeHealthViewModel(Window _window)
+		public DialogWindowChangeHealthViewModel(Window window)
 		{
-			window = _window;
+			_window = window;
 			OkCommand = new RelayCommand(Ok);
 			CancelCommand = new RelayCommand(Cancel);
-			answer = string.Empty;
+			_answer = string.Empty;
 		}
 
 		private void Cancel()
 		{
-			window.DialogResult = false;
-			window.Close();
+			_window.DialogResult = false;
+			_window.Close();
 		}
 
 		private void Ok()
 		{
 			try
 			{
-				Amount = int.Parse(answer);
+				Amount = int.Parse(_answer);
 			}
 			catch
 			{
@@ -72,8 +72,8 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 				return;
 			}
 
-			window.DialogResult = true;
-			window.Close();
+			_window.DialogResult = true;
+			_window.Close();
 		}
 	}
 }

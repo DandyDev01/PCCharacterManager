@@ -10,31 +10,31 @@ namespace PCCharacterManager.Models
 {
 	public class StarfinderTheme : ObservableObject
 	{
-		private string name;
+		private string _name;
 		public string Name
 		{
 			get
 			{
-				return name;
+				return _name;
 			}
 			set
 			{
-				OnPropertyChanged(ref name, value);
+				OnPropertyChanged(ref _name, value);
 			}
 		}
 
-		private string abilityScoreImprovement;
-		private StarfinderThemeData themeData;
+		private string _abilityScoreImprovement;
+		private StarfinderThemeData _themeData;
 
 		public string AbilityScoreImprovement
 		{
 			get
 			{
-				return abilityScoreImprovement;
+				return _abilityScoreImprovement;
 			}
 			set
 			{
-				OnPropertyChanged(ref abilityScoreImprovement, value);
+				OnPropertyChanged(ref _abilityScoreImprovement, value);
 			}
 		}
 
@@ -42,23 +42,23 @@ namespace PCCharacterManager.Models
 
 		public StarfinderTheme()
 		{
-			name = string.Empty;
-			abilityScoreImprovement = string.Empty;
+			_name = string.Empty;
+			_abilityScoreImprovement = string.Empty;
 			Features = new ObservableCollection<Property>();
-			themeData = new StarfinderThemeData();
+			_themeData = new StarfinderThemeData();
 		}
 
-		public StarfinderTheme(string _name, string _abilityScoreImprovement)
+		public StarfinderTheme(string name, string abilityScoreImprovement)
 		{
-			name = _name;
-			abilityScoreImprovement = _abilityScoreImprovement;
+			_name = name;
+			_abilityScoreImprovement = abilityScoreImprovement;
 			Features = new ObservableCollection<Property>();
-			themeData = new StarfinderThemeData();
+			_themeData = new StarfinderThemeData();
 		}
 
-		public StarfinderTheme(StarfinderThemeData _themeData) : this()
+		public StarfinderTheme(StarfinderThemeData themeData) : this()
 		{
-			themeData = _themeData;
+			_themeData = themeData;
 		}
 	}
 }

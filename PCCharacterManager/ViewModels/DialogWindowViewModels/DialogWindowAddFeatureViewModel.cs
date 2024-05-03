@@ -16,77 +16,77 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 {
     public class DialogWindowAddFeatureViewModel : ObservableObject, INotifyDataErrorInfo
 	{
-		private readonly CharacterInfoViewModel characterInfoVM;
-		private readonly Window window;
+		private readonly CharacterInfoViewModel _characterInfoVM;
+		private readonly Window _window;
 
 		public ObservableCollection<string> FeatureTypeOptions { get; }
 
-		private string name;
+		private string _name;
 		public string Name
 		{
 			get
 			{
-				return name;
+				return _name;
 			}
 			set
 			{
-				OnPropertyChanged(ref name, value);
-				BasicStringFieldValidation(nameof(Name), name);
+				OnPropertyChanged(ref _name, value);
+				BasicStringFieldValidation(nameof(Name), _name);
 			}
 		}
 
-		private string description;
+		private string _description;
 		public string Description
 		{
 			get
 			{
-				return description;
+				return _description;
 			}
 			set
 			{
-				OnPropertyChanged(ref description, value);
-				BasicStringFieldValidation(nameof(Description), description);
+				OnPropertyChanged(ref _description, value);
+				BasicStringFieldValidation(nameof(Description), _description);
 			}
 		}
 
-		private string level;
+		private string _level;
 		public string Level
 		{
 			get
 			{
-				return level;
+				return _level;
 			}
 			set
 			{
-				OnPropertyChanged(ref level, value);
+				OnPropertyChanged(ref _level, value);
 				LevelValidation();
 			}
 		}
 
-		private string featureType;
+		private string _featureType;
 		public string FeatureType
 		{
 			get
 			{
-				return featureType;
+				return _featureType;
 			}
 			set
 			{
-				OnPropertyChanged(ref featureType, value);
+				OnPropertyChanged(ref _featureType, value);
 				LevelValidation();
 			}
 		}
 
-		private bool isValid;
+		private bool _isValid;
 		public bool IsValid
 		{
 			get
 			{
-				return isValid;
+				return _isValid;
 			}
 			set
 			{
-				OnPropertyChanged(ref isValid, value);
+				OnPropertyChanged(ref _isValid, value);
 			}
 		}
 
@@ -97,63 +97,63 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 		public ICommand OkCommand { get; }
 		public ICommand CancelCommand { get; }
 
-		public DialogWindowAddFeatureViewModel(Window _window, CharacterInfoViewModel _characterInfoVM) 
+		public DialogWindowAddFeatureViewModel(Window window, CharacterInfoViewModel characterInfoVM) 
 		{
-			characterInfoVM = _characterInfoVM;
-			window = _window;
+			_characterInfoVM = characterInfoVM;
+			_window = window;
 
 			propertyNameToError = new Dictionary<string, List<string>>();
 
 			FeatureTypeOptions = new ObservableCollection<string>()
 			{
-				characterInfoVM.SelectedCharacter.CharacterClass.Name,
-				characterInfoVM.SelectedCharacter.Race.Name,
-				characterInfoVM.SelectedCharacter.Race.RaceVariant.Name
+				_characterInfoVM.SelectedCharacter.CharacterClass.Name,
+				_characterInfoVM.SelectedCharacter.Race.Name,
+				_characterInfoVM.SelectedCharacter.Race.RaceVariant.Name
 			};
 
-			name = string.Empty;
-			description = string.Empty;
-			level = string.Empty;
-			featureType = characterInfoVM.SelectedCharacter.CharacterClass.Name;
+			_name = string.Empty;
+			_description = string.Empty;
+			_level = string.Empty;
+			_featureType = this._characterInfoVM.SelectedCharacter.CharacterClass.Name;
 
 			OkCommand = new RelayCommand(Ok);
 			CancelCommand = new RelayCommand(Cancel);
 
-			BasicStringFieldValidation(nameof(Name), name);
-			BasicStringFieldValidation(nameof(Description), description);
+			BasicStringFieldValidation(nameof(Name), _name);
+			BasicStringFieldValidation(nameof(Description), _description);
 			LevelValidation();
 		}
 
 		private void Cancel()
 		{
-			window.DialogResult = false;
+			_window.DialogResult = false;
 		}
 
 		private void Ok()
 		{
-			if (characterInfoVM.SelectedCharacter is null)
+			if (_characterInfoVM.SelectedCharacter is null)
 				return;
 
-			Property property = new Property(name, description);
-			Feature feature = new Feature(property, featureType, level);
-			characterInfoVM.AllFeatures.Add(feature);
+			Property property = new Property(_name, _description);
+			Feature feature = new Feature(property, _featureType, _level);
+			_characterInfoVM.AllFeatures.Add(feature);
 
 			
-			if (featureType == characterInfoVM.SelectedCharacter.CharacterClass.Name)
+			if (_featureType == _characterInfoVM.SelectedCharacter.CharacterClass.Name)
 			{
 				DnD5eCharacterClassFeature classFeature = new(feature.Name, feature.Description, int.Parse(feature.Level));
-				characterInfoVM.SelectedCharacter.CharacterClass.Features.Add(classFeature);
+				_characterInfoVM.SelectedCharacter.CharacterClass.Features.Add(classFeature);
 			}
-			else if (featureType == characterInfoVM.SelectedCharacter.Race.Name)
+			else if (_featureType == _characterInfoVM.SelectedCharacter.Race.Name)
 			{
-				characterInfoVM.SelectedCharacter.Race.Features.Add(property);
+				_characterInfoVM.SelectedCharacter.Race.Features.Add(property);
 			}
-			else if (featureType == characterInfoVM.SelectedCharacter.Race.RaceVariant.Name)
+			else if (_featureType == _characterInfoVM.SelectedCharacter.Race.RaceVariant.Name)
 			{
-				characterInfoVM.SelectedCharacter.Race.RaceVariant.Properties.Add(property);
+				_characterInfoVM.SelectedCharacter.Race.RaceVariant.Properties.Add(property);
 			}
 
-			window.DialogResult = true;
+			_window.DialogResult = true;
 		}
 
 		public IEnumerable GetErrors(string? propertyName)
@@ -190,7 +190,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 
 		private void LevelValidation()
 		{
-			if (characterInfoVM.SelectedCharacter is null)
+			if (_characterInfoVM.SelectedCharacter is null)
 				return;
 
 			propertyNameToError.Remove(nameof(Level));
@@ -198,12 +198,12 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			List<string> errors = new();
 			propertyNameToError.Add(nameof(Level), errors);
 
-			if (FeatureType == characterInfoVM.SelectedCharacter.CharacterClass.Name) 
+			if (FeatureType == _characterInfoVM.SelectedCharacter.CharacterClass.Name) 
 			{
 				try
 				{
-					int i = int.Parse(level);
-					level = i.ToString();
+					int i = int.Parse(_level);
+					_level = i.ToString();
 					OnPropertyChanged(nameof(Level));
 				}
 				catch
@@ -215,7 +215,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			}
 			else
 			{
-				level = "-";
+				_level = "-";
 			}
 
 			if (propertyNameToError[nameof(Level)].Any() == false)

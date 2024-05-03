@@ -10,51 +10,51 @@ namespace PCCharacterManager.Models
 {
 	public class Health : ObservableObject
 	{
-		private int currHealth;
+		private int _currHealth;
 		public int CurrHealth
 		{
-			get { return currHealth; }
+			get { return _currHealth; }
 			set
 			{
-				OnPropertyChanged(ref currHealth, value);
+				OnPropertyChanged(ref _currHealth, value);
 			}
 		}
 
-		private int maxHealth;
+		private int _maxHealth;
 		public int MaxHealth
 		{
-			get { return maxHealth; }
-			set { OnPropertyChanged(ref maxHealth, value); }
+			get { return _maxHealth; }
+			set { OnPropertyChanged(ref _maxHealth, value); }
 		}
 
-		private int tempHitPoints;
+		private int _tempHitPoints;
 		public int TempHitPoints
 		{
-			get { return tempHitPoints; }
-			set { OnPropertyChanged(ref tempHitPoints, value); }
+			get { return _tempHitPoints; }
+			set { OnPropertyChanged(ref _tempHitPoints, value); }
 		}
 
-		public Health(int _maxHealth)
+		public Health(int maxHealth)
 		{
-			MaxHealth = _maxHealth;
-			CurrHealth = _maxHealth;
+			MaxHealth = maxHealth;
+			CurrHealth = maxHealth;
 
-			maxHealth = _maxHealth;
-			currHealth = _maxHealth;
+			this._maxHealth = maxHealth;
+			_currHealth = maxHealth;
 
 		}
 
 		/// <summary>
 		/// sets the max health 
 		/// </summary>
-		/// <param name="_maxHealth">value to set it to. must be at least 1</param>
-		public void SetMaxHealth(int _maxHealth)
+		/// <param name="maxHealth">value to set it to. must be at least 1</param>
+		public void SetMaxHealth(int maxHealth)
 		{
-			if (_maxHealth < 1)
-				_maxHealth = 1;
+			if (maxHealth < 1)
+				maxHealth = 1;
 
-			MaxHealth = _maxHealth;
-			CurrHealth = maxHealth;
+			MaxHealth = maxHealth;
+			CurrHealth = this._maxHealth;
 		}
 
 		/// <summary>

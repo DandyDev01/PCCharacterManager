@@ -23,10 +23,11 @@ namespace PCCharacterManager.ViewModels
 	{
 		private const string unprepared = "un-prepare ";
 
-		private readonly SpellSearch spellSearch;
-		private readonly SpellSearch cantripSearch;
-		private readonly CollectionViewPropertySort spellPropertySort;
-		private readonly CollectionViewPropertySort cantripPropertySort;
+		private readonly SpellSearch _spellSearch;
+		private readonly SpellSearch _cantripSearch;
+		private readonly CollectionViewPropertySort _spellPropertySort;
+		private readonly CollectionViewPropertySort _cantripPropertySort;
+
 		public ICollectionView SpellsCollectionView { get; }
 		public ICollectionView CantripsCollectionView { get; }
 
@@ -66,17 +67,17 @@ namespace PCCharacterManager.ViewModels
 		public SpellItemEditableViewModel? PrevSelectedSpell { get; private set; }
 		public SpellItemEditableViewModel? PrevSelectedCantrip { get; private set; }
 
-		private SpellBook spellBook;
+		private SpellBook _spellBook;
 		public SpellBook SpellBook
 		{
-			get { return spellBook; }
-			set { OnPropertyChanged(ref spellBook, value); }
+			get { return _spellBook; }
+			set { OnPropertyChanged(ref _spellBook, value); }
 		}
 
-		private Spell? selectedPreparedSpell;
+		private Spell? _selectedPreparedSpell;
 		public Spell? SelectedPreparedSpell
 		{
-			get { return selectedPreparedSpell; }
+			get { return _selectedPreparedSpell; }
 			set
 			{
 				if (value == null) return;
@@ -84,92 +85,92 @@ namespace PCCharacterManager.ViewModels
 				if (value.Name.Equals(SearchTerm))
 				{
 					SearchTerm = "";
-					selectedPreparedSpell = null;
+					_selectedPreparedSpell = null;
 					return;
 				}
 
-				selectedPreparedSpell = value;
+				_selectedPreparedSpell = value;
 				SearchTerm = value.Name;
-				PreparedSpellText = unprepared + selectedPreparedSpell.Name;
+				PreparedSpellText = unprepared + _selectedPreparedSpell.Name;
 			}
 		}
 
-		private Note spellBookNote;
+		private Note _spellBookNote;
 		public Note SpellBookNote
 		{
-			get { return spellBookNote; }
+			get { return _spellBookNote; }
 			set
 			{
-				OnPropertyChanged(ref spellBookNote, value);
+				OnPropertyChanged(ref _spellBookNote, value);
 			}
 		}
 
 		public string SearchTerm
 		{
-			get => spellSearch.SearchTerm;
+			get => _spellSearch.SearchTerm;
 			set
 			{
-				spellSearch.SearchTerm = value;
-				cantripSearch.SearchTerm = value;
+				_spellSearch.SearchTerm = value;
+				_cantripSearch.SearchTerm = value;
 				Search();
 			}
 		}
 
-		private string preparedSpellText;
+		private string _preparedSpellText;
 		public string PreparedSpellText
 		{
-			get { return preparedSpellText; }
+			get { return _preparedSpellText; }
 			set
 			{
-				OnPropertyChanged(ref preparedSpellText, value);
+				OnPropertyChanged(ref _preparedSpellText, value);
 			}
 		}
 
-		private bool isEditMode;
+		private bool _isEditMode;
 		public bool IsEditMode
 		{
-			get { return isEditMode; }
+			get { return _isEditMode; }
 			set
 			{
-				OnPropertyChanged(ref isEditMode, value);
+				OnPropertyChanged(ref _isEditMode, value);
 				OnPropertyChanged(nameof(IsDisplayMode));
 			}
 		}
 
 		public bool IsDisplayMode
 		{
-			get { return !isEditMode; }
+			get { return !_isEditMode; }
 		}
 
-		private SpellType selectedSearchFilter;
+		private SpellType _selectedSearchFilter;
 		public SpellType SelectedSearchFilter
 		{
-			get { return selectedSearchFilter; }
-			set { OnPropertyChanged(ref selectedSearchFilter, value); }
+			get { return _selectedSearchFilter; }
+			set { OnPropertyChanged(ref _selectedSearchFilter, value); }
 		}
 
-		private OrderByOption selectedOrderByOption;
+		private OrderByOption _selectedOrderByOption;
 		public OrderByOption SelectedOrderByOption
 		{
-			get { return selectedOrderByOption; }
+			get { return _selectedOrderByOption; }
 			set 
 			{ 
-				OnPropertyChanged(ref selectedOrderByOption, value);
+				OnPropertyChanged(ref _selectedOrderByOption, value);
 				SpellSortFilter();
 			}
 		}
 
-		private SpellSchool selectedFilter;
+		private SpellSchool _selectedFilter;
 		public SpellSchool SelectedFilter
 		{
-			get { return selectedFilter; }
+			get { return _selectedFilter; }
 			set
 			{
-				OnPropertyChanged(ref selectedFilter, value);
+				OnPropertyChanged(ref _selectedFilter, value);
 
 				if (value == SpellSchool.ALL)
 				{
-					SpellsCollectionView.Filter = spellSearch.Search;
+					SpellsCollectionView.Filter = _spellSearch.Search;
 				}
 				else
 				{
@@ -188,28 +189,28 @@ namespace PCCharacterManager.ViewModels
 		public ICommand UnprepareSpellCommand { get; }
 		public ICommand NextFilterCommand { get; }
 
-		public CharacterSpellBookViewModel(CharacterStore _characterStore)
+		public CharacterSpellBookViewModel(CharacterStore characterStore)
 		{
-			_characterStore.SelectedCharacterChange += OnCharacterChanged;
+			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
-			spellSearch = new SpellSearch();
-			cantripSearch = new SpellSearch();
+			_spellSearch = new SpellSearch();
+			_cantripSearch = new SpellSearch();
 
 			SpellsToDisplay = new ObservableCollection<SpellItemEditableViewModel>();
 			CantripsToDisplay = new ObservableCollection<SpellItemEditableViewModel>();
 
-			spellBook = new SpellBook();
-			spellBookNote = spellBook.Note;
+			_spellBook = new SpellBook();
+			_spellBookNote = _spellBook.Note;
 
-			preparedSpellText = string.Empty;
+			_preparedSpellText = string.Empty;
 
 			SpellsCollectionView = CollectionViewSource.GetDefaultView(SpellsToDisplay);
 			CantripsCollectionView = CollectionViewSource.GetDefaultView(CantripsToDisplay);
-			spellPropertySort = new CollectionViewPropertySort(SpellsCollectionView);
-			cantripPropertySort = new CollectionViewPropertySort(CantripsCollectionView);
+			_spellPropertySort = new CollectionViewPropertySort(SpellsCollectionView);
+			_cantripPropertySort = new CollectionViewPropertySort(CantripsCollectionView);
 
-			SpellsCollectionView.Filter = spellSearch.Search;
-			CantripsCollectionView.Filter = cantripSearch.Search;
+			SpellsCollectionView.Filter = _spellSearch.Search;
+			CantripsCollectionView.Filter = _cantripSearch.Search;
 
 			AddSpellCommand = new AddItemToSpellBookCommand(this, SpellType.SPELL);
 			AddCantripCommand = new AddItemToSpellBookCommand(this, SpellType.CANTRIP);
@@ -234,16 +235,16 @@ namespace PCCharacterManager.ViewModels
 			// populate spells
 			foreach (SpellSchool school in Filters)
 			{
-				foreach (Spell spell in spellBook.SpellsKnown[school])
+				foreach (Spell spell in _spellBook.SpellsKnown[school])
 				{
 					var spellItem = new SpellItemEditableViewModel(spell);
-					spellItem.Prepare += spellBook.PrepareSpell;
+					spellItem.Prepare += _spellBook.PrepareSpell;
 					SpellsToDisplay.Add(spellItem);
 				}
 			}
 
 			// populate cantrips
-			foreach (Spell spell in spellBook.CantripsKnown)
+			foreach (Spell spell in _spellBook.CantripsKnown)
 			{
 				CantripsToDisplay.Add(new SpellItemEditableViewModel(spell));
 			}
@@ -255,22 +256,22 @@ namespace PCCharacterManager.ViewModels
 		/// <param name="items">the items to display</param>
 		private void SpellSortFilter()
 		{
-			switch (selectedOrderByOption)
+			switch (_selectedOrderByOption)
 			{
 				case OrderByOption.ALPHABETICAL:
-					spellPropertySort.Sort(nameof(Spell.Name));
+					_spellPropertySort.Sort(nameof(Spell.Name));
 					break;
 				case OrderByOption.LEVEL:
-					spellPropertySort.Sort(nameof(Spell.Level));
+					_spellPropertySort.Sort(nameof(Spell.Level));
 					break;
 				case OrderByOption.DURATION:
-					spellPropertySort.Sort(nameof(Spell.Duration));
+					_spellPropertySort.Sort(nameof(Spell.Duration));
 					break;
 				case OrderByOption.SCHOOL:
-					spellPropertySort.Sort(nameof(Spell.School));
+					_spellPropertySort.Sort(nameof(Spell.School));
 					break;
 				case OrderByOption.PREPARED:
-					spellPropertySort.Sort(nameof(Spell.IsPrepared));;
+					_spellPropertySort.Sort(nameof(Spell.IsPrepared));;
 					break;
 			}
 		}
@@ -279,7 +280,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			if (obj is SpellItemEditableViewModel spellItem)
 			{
-				if (spellItem.School == selectedFilter)
+				if (spellItem.School == _selectedFilter)
 					return true;
 			}
 
@@ -309,7 +310,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void NextFilter()
 		{
-			int currentIndex = (int)selectedFilter;
+			int currentIndex = (int)_selectedFilter;
 			int nextIndex = currentIndex + 1;
 			if (nextIndex > Filters.Length - 1)
 			{

@@ -18,19 +18,19 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterNoteBookViewModel : ObservableObject
 	{
-		private NoteBook noteBook;
-		public NoteBook NoteBook => noteBook;
+		private NoteBook _noteBook;
+		public NoteBook NoteBook => _noteBook;
 
 		public ObservableCollection<NoteSection> NoteSectionsToDisplay { get; }
 		public ObservableCollection<Note> SearchResults { get; }
 
-		private Note selectedNote;
+		private Note _selectedNote;
 		public Note SelectedNote
 		{
-			get { return selectedNote; }
+			get { return _selectedNote; }
 			set 
 			{
-				OnPropertyChanged(ref selectedNote, value);
+				OnPropertyChanged(ref _selectedNote, value);
 				selectedNoteChange?.Invoke(value);
 			}
 		}
@@ -42,27 +42,27 @@ namespace PCCharacterManager.ViewModels
 			set { OnPropertyChanged(ref selectedSection, value); }
 		}
 		
-		private string searchTerm;
+		private string _searchTerm;
 		public string SearchTerm
 		{
-			get { return searchTerm; }
+			get { return _searchTerm; }
 			set
 			{
-				OnPropertyChanged(ref searchTerm, value);
-				Search(searchTerm);
+				OnPropertyChanged(ref _searchTerm, value);
+				Search(_searchTerm);
 			}
 		}
 
-		private string highlightTerm;
+		private string _highlightTerm;
 		public string HighlightTerm
 		{
 			get
 			{
-				return highlightTerm;
+				return _highlightTerm;
 			}
 			set
 			{
-				OnPropertyChanged(ref highlightTerm, value);
+				OnPropertyChanged(ref _highlightTerm, value);
 			}
 		}
 
@@ -77,17 +77,17 @@ namespace PCCharacterManager.ViewModels
 		public Action<Note>? selectedNoteChange;
 		public Action? characterChange;
 
-		public CharacterNoteBookViewModel(CharacterStore _characterStore)
+		public CharacterNoteBookViewModel(CharacterStore characterStore)
 		{
-			_characterStore.SelectedCharacterChange += OnCharacterChanged;
+			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
-			noteBook = _characterStore.SelectedCharacter.NoteManager;
+			_noteBook = characterStore.SelectedCharacter.NoteManager;
 
 			NoteSectionsToDisplay = new ObservableCollection<NoteSection>();
 			SearchResults = new ObservableCollection<Note>();
-			searchTerm = string.Empty;
-			highlightTerm = string.Empty;
-			selectedNote = new Note();
+			_searchTerm = string.Empty;
+			_highlightTerm = string.Empty;
+			_selectedNote = new Note();
 
 			AddNoteCommand = new AddNoteToNoteBookCommand(this);
 			AddNoteSectionCommand = new AddNoteSectionToNoteBookCommand(this);
@@ -99,8 +99,8 @@ namespace PCCharacterManager.ViewModels
 
 		private void FindInNote()
 		{
-			if (selectedNote == null) return;
-			if(!selectedNote.Notes.Contains(highlightTerm)) return;
+			if (_selectedNote == null) return;
+			if(!_selectedNote.Notes.Contains(_highlightTerm)) return;
 
 			// open small window in corner area.
 			// window cannot be moved
@@ -115,16 +115,16 @@ namespace PCCharacterManager.ViewModels
 		/// <param name="newCharacter">the newly selected character</param>
 		private void OnCharacterChanged(DnD5eCharacter newCharacter)
 		{
-			noteBook = newCharacter.NoteManager;
+			_noteBook = newCharacter.NoteManager;
 
 			NoteSectionsToDisplay.Clear();
 
-			foreach (var noteSection in noteBook.NoteSections)
+			foreach (var noteSection in _noteBook.NoteSections)
 			{
 				NoteSectionsToDisplay.Add(noteSection);
 			}
 
-			if (noteBook.NoteSections.Count <= 0) return;
+			if (_noteBook.NoteSections.Count <= 0) return;
 
 			SelectedNote = NoteSectionsToDisplay[0].Notes[0];
 
@@ -145,7 +145,7 @@ namespace PCCharacterManager.ViewModels
 			}
 			else if(term == "*")
 			{
-				foreach (var section in noteBook.NoteSections.OrderBy(x => x.SectionTitle))
+				foreach (var section in _noteBook.NoteSections.OrderBy(x => x.SectionTitle))
 				{
 					foreach (var note in section.Notes)
 					{
@@ -155,7 +155,7 @@ namespace PCCharacterManager.ViewModels
 			}
 			else
 			{
-				foreach (var section in noteBook.NoteSections.OrderBy(x => x.SectionTitle))
+				foreach (var section in _noteBook.NoteSections.OrderBy(x => x.SectionTitle))
 				{
 					foreach (var note in section.Notes)
 					{

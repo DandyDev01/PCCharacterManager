@@ -19,69 +19,69 @@ namespace PCCharacterManager.ViewModels
 {
 	public class StarfinderCharacterCreatorViewModel : CharactorCreatorViewModelBase, INotifyDataErrorInfo
 	{
-		private string name;
+		private string _name;
 		public string Name
 		{
 			get
 			{
-				return name;
+				return _name;
 			}
 			set
 			{
-				OnPropertyChanged(ref name, value);
+				OnPropertyChanged(ref _name, value);
 				BasicStringFieldValidation(nameof(Name), value);
 			}
 		}
 
-		private StarfinderRaceData selectedRaceData;
+		private StarfinderRaceData _selectedRaceData;
 		public StarfinderRaceData SelectedRaceData
 		{
 			get
 			{
-				return selectedRaceData;
+				return _selectedRaceData;
 			}
 			set
 			{
-				OnPropertyChanged(ref selectedRaceData, value);
+				OnPropertyChanged(ref _selectedRaceData, value);
 			}
 		}
 
-		private StarfinderClassData selectedClassData;
+		private StarfinderClassData _selectedClassData;
 		public StarfinderClassData SelectedClassData
 		{
 			get
 			{
-				return selectedClassData;
+				return _selectedClassData;
 			}
 			set
 			{
-				OnPropertyChanged(ref selectedClassData, value);
+				OnPropertyChanged(ref _selectedClassData, value);
 			}
 		}
 
-		private StarfinderThemeData selectedThemeData;
+		private StarfinderThemeData _selectedThemeData;
 		public StarfinderThemeData SelectedThemeData
 		{
 			get
 			{
-				return selectedThemeData;
+				return _selectedThemeData;
 			}
 			set
 			{
-				OnPropertyChanged(ref selectedThemeData, value);
+				OnPropertyChanged(ref _selectedThemeData, value);
 			}
 		}
 
-		private bool isValid;
+		private bool _isValid;
 		public bool IsValid
 		{
 			get
 			{
-				return isValid;
+				return _isValid;
 			}
 			set
 			{
-				OnPropertyChanged(ref isValid, value);
+				OnPropertyChanged(ref _isValid, value);
 			}
 		}
 
@@ -105,10 +105,10 @@ namespace PCCharacterManager.ViewModels
 			ClassNamesToDisplay = ReadWriteJsonCollection<StarfinderClassData>.ReadCollection(StarfinderResources.CharacterClassDataJson).ToArray();
 			ThemeNamesToDisplay = ReadWriteJsonCollection<StarfinderThemeData>.ReadCollection(StarfinderResources.ThemeDataJson).ToArray();
 
-			name = string.Empty;
-			selectedRaceData = RaceNamesToDisplay[0];
-			selectedClassData = ClassNamesToDisplay[0];
-			selectedThemeData = ThemeNamesToDisplay[0];
+			_name = string.Empty;
+			_selectedRaceData = RaceNamesToDisplay[0];
+			_selectedClassData = ClassNamesToDisplay[0];
+			_selectedThemeData = ThemeNamesToDisplay[0];
 
 			RollAbilityScoresCommand = new RelayCommand(AbilityRoll);
 
@@ -120,7 +120,7 @@ namespace PCCharacterManager.ViewModels
 			int increaseAmount = 0;
 			string abilityName = string.Empty;
 
-			bool validName = !string.IsNullOrWhiteSpace(name) && !string.IsNullOrEmpty(name);
+			bool validName = !string.IsNullOrWhiteSpace(_name) && !string.IsNullOrEmpty(_name);
 
 			if (!validName)
 			{
@@ -130,13 +130,13 @@ namespace PCCharacterManager.ViewModels
 				return null;
 			}
 
-			StarfinderCharacter character = new(SelectedClassData, SelectedRaceData, selectedThemeData)
+			StarfinderCharacter character = new(SelectedClassData, SelectedRaceData, _selectedThemeData)
 			{
-				Name = name
+				Name = _name
 			};
 
-			int hitPoints = selectedRaceData.HitPoints + selectedClassData.HitPoints;
-			int staminaPoints = selectedClassData.StaminaPoints;
+			int hitPoints = _selectedRaceData.HitPoints + _selectedClassData.HitPoints;
+			int staminaPoints = _selectedClassData.StaminaPoints;
 
 			character.StaminaPoints.Desc = staminaPoints.ToString();
 			character.Health.SetMaxHealth(hitPoints);
@@ -148,7 +148,7 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			// set class skills
-			foreach (var classSkill in selectedClassData.ClassSkills)
+			foreach (var classSkill in _selectedClassData.ClassSkills)
 			{
 				if (classSkill.Contains("Profession")) continue;
 
@@ -164,7 +164,7 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			// class skill profession
-			string[] skills = selectedClassData.ClassSkills.Where(x => x.Contains("Profession")).ToArray();
+			string[] skills = _selectedClassData.ClassSkills.Where(x => x.Contains("Profession")).ToArray();
 			foreach (var item in skills)
 			{
 				string[] options = StringFormater.CreateGroup(item, '^');
@@ -181,10 +181,10 @@ namespace PCCharacterManager.ViewModels
 				character.CharacterClass.Features.Add(new DnD5eCharacterClassFeature("Class skill profession", selected, 1));
 			}
 
-			character.KeyAbilityScore = selectedClassData.KeyAbilityScore;
+			character.KeyAbilityScore = _selectedClassData.KeyAbilityScore;
 
 			// race ability score increases
-			foreach (var item in selectedRaceData.AbilityScoreIncreases)
+			foreach (var item in _selectedRaceData.AbilityScoreIncreases)
 			{
 				increaseAmount = StringFormater.FindQuantity(item);
 				abilityName = StringFormater.RemoveQuantity(item);
@@ -200,15 +200,15 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			// race features
-			foreach (var item in selectedRaceData.Features)
+			foreach (var item in _selectedRaceData.Features)
 			{
 				character.Race.Features.Add(item);
 			}
 
 
 			// theme ability score improvements
-			increaseAmount = StringFormater.FindQuantity(selectedThemeData.AbilityScoreImprovement);
-			abilityName = StringFormater.RemoveQuantity(selectedThemeData.AbilityScoreImprovement);
+			increaseAmount = StringFormater.FindQuantity(_selectedThemeData.AbilityScoreImprovement);
+			abilityName = StringFormater.RemoveQuantity(_selectedThemeData.AbilityScoreImprovement);
 
 			try
 			{

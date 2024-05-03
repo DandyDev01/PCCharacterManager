@@ -16,10 +16,10 @@ namespace PCCharacterManager.Models
 				if (itemVM.BoundItem == null)
 					return false;
 
-				if (searchTerm.Equals(string.Empty))
+				if (_searchTerm.Equals(string.Empty))
 					return true;
 
-				if (itemVM.DisplayName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+				if (itemVM.DisplayName.Contains(_searchTerm, StringComparison.OrdinalIgnoreCase))
 					return true;
 
 				if (itemVM.DisplayItemCategory.ToString().Contains(SearchTerm,
@@ -32,10 +32,10 @@ namespace PCCharacterManager.Models
 
 				foreach (Property property in itemVM.BoundItem.Properties)
 				{
-					if (property.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+					if (property.Name.Contains(_searchTerm, StringComparison.OrdinalIgnoreCase))
 						return true;
 
-					if (property.Desc.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+					if (property.Desc.Contains(_searchTerm, StringComparison.OrdinalIgnoreCase))
 						return true;
 				}
 			}

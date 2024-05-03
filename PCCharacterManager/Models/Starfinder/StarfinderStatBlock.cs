@@ -13,57 +13,57 @@ namespace PCCharacterManager.Models
 		{
 			get
 			{
-				return baseValue + abilityMod + miscMod;
+				return _baseValue + _abilityMod + _miscMod;
 			}
 		}
 
-		private int baseValue;
+		private int _baseValue;
 		public int BaseValue
 		{
 			get
 			{
-				return baseValue;
+				return _baseValue;
 			}
 			set
 			{
-				OnPropertyChanged(ref baseValue, value);
+				OnPropertyChanged(ref _baseValue, value);
 				OnPropertyChanged("Total");
 			}
 		}
 
-		private int abilityMod;
+		private int _abilityMod;
 		public int AbilityMod
 		{
 			get
 			{
-				return abilityMod;
+				return _abilityMod;
 			}
 			set
 			{
-				OnPropertyChanged(ref abilityMod, value);
+				OnPropertyChanged(ref _abilityMod, value);
 				OnPropertyChanged("Total");
 			}
 		}
 
-		private int miscMod;
+		private int _miscMod;
 		public int MiscMod
 		{
 			get
 			{
-				return miscMod;
+				return _miscMod;
 			}
 			set
 			{
-				OnPropertyChanged(ref miscMod, value);
+				OnPropertyChanged(ref _miscMod, value);
 				OnPropertyChanged("Total");
 			}
 		}
 
 		public StarfinderStatBlock()
 		{
-			baseValue = 0;
-			abilityMod = 0;
-			miscMod = 0;
+			_baseValue = 0;
+			_abilityMod = 0;
+			_miscMod = 0;
 		}
 	}
 }

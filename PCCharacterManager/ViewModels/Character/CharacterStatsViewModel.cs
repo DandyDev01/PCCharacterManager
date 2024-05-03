@@ -16,11 +16,11 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterStatsViewModel : ObservableObject
 	{
-		private DnD5eCharacter selectedCharacter;
+		private DnD5eCharacter _selectedCharacter;
 		public DnD5eCharacter SelectedCharacter 
 		{ 
-			get { return selectedCharacter; }
-			set { OnPropertyChanged(ref selectedCharacter, value); }
+			get { return _selectedCharacter; }
+			set { OnPropertyChanged(ref _selectedCharacter, value); }
 		}
 
 		public CharacterInfoViewModel CharacterInfoViewModel { get; }
@@ -28,49 +28,49 @@ namespace PCCharacterManager.ViewModels
 		public StarfinderAbilitiesAndSkillsViewModel StarfinderAbilitiesAndSkillsVM { get; }
 		public CharacterAbilitiesViewModel CharacterAbilitiesViewModel { get; }
 
-		private bool is5e;
+		private bool _is5e;
 		public bool Is5e
 		{
 			get
 			{
-				return is5e;
+				return _is5e;
 			}
 			set
 			{
-				OnPropertyChanged(ref is5e, value);
+				OnPropertyChanged(ref _is5e, value);
 			}
 		}
 
-		private bool isStarfinder;
+		private bool _isStarfinder;
 		public bool IsStarfinder
 		{
 			get
 			{
-				return isStarfinder;
+				return _isStarfinder;
 			}
 			set
 			{
-				OnPropertyChanged(ref isStarfinder, value);
+				OnPropertyChanged(ref _isStarfinder, value);
 			}
 		}
 
-		public CharacterStatsViewModel(CharacterStore _characterStore)
+		public CharacterStatsViewModel(CharacterStore characterStore)
 		{
-			_characterStore.SelectedCharacterChange += OnCharacterChanged;
+			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
-			selectedCharacter = _characterStore.SelectedCharacter;
+			_selectedCharacter = characterStore.SelectedCharacter;
 
-			CharacterInfoViewModel = new CharacterInfoViewModel(_characterStore);
-			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(_characterStore); 
-			StarfinderAbilitiesAndSkillsVM = new StarfinderAbilitiesAndSkillsViewModel(_characterStore);
-			CharacterAbilitiesViewModel = new CharacterAbilitiesViewModel(_characterStore);
+			CharacterInfoViewModel = new CharacterInfoViewModel(characterStore);
+			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(characterStore); 
+			StarfinderAbilitiesAndSkillsVM = new StarfinderAbilitiesAndSkillsViewModel(characterStore);
+			CharacterAbilitiesViewModel = new CharacterAbilitiesViewModel(characterStore);
 
-			if (selectedCharacter is StarfinderCharacter)
+			if (_selectedCharacter is StarfinderCharacter)
 			{
 				Is5e = false;
 				IsStarfinder = true;
 			}
-			else if (selectedCharacter is not null)
+			else if (_selectedCharacter is not null)
 			{
 				Is5e = true;
 				IsStarfinder = false;
@@ -81,12 +81,12 @@ namespace PCCharacterManager.ViewModels
 		{
 			SelectedCharacter = newCharacter;
 
-			if(selectedCharacter is StarfinderCharacter)
+			if(_selectedCharacter is StarfinderCharacter)
 			{
 				Is5e = false;
 				IsStarfinder = true;
 			}
-			else if (selectedCharacter is DnD5eCharacter)
+			else if (_selectedCharacter is DnD5eCharacter)
 			{
 				Is5e = true;
 				IsStarfinder = false;

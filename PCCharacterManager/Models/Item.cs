@@ -21,56 +21,56 @@ namespace PCCharacterManager.Models
 
 	public class Item : ObservableObject
 	{
-		private string name;
+		private string _name;
 		public string Name
 		{
-			get { return name; }
-			set { OnPropertyChanged(ref name, value); }
+			get { return _name; }
+			set { OnPropertyChanged(ref _name, value); }
 		}
 
-		private string desc;
+		private string _desc;
 		public string Desc
 		{
-			get { return desc; }
-			set { OnPropertyChanged(ref desc, value); }
+			get { return _desc; }
+			set { OnPropertyChanged(ref _desc, value); }
 		}
 		
-		private string cost;
+		private string _cost;
 		public string Cost
 		{
-			get { return cost; }
-			set { OnPropertyChanged(ref cost, value); }
+			get { return _cost; }
+			set { OnPropertyChanged(ref _cost, value); }
 		}
 		
-		private string weight;
+		private string _weight;
 		public string Weight
 		{
-			get { return weight; }
-			set { OnPropertyChanged(ref weight, value); }
+			get { return _weight; }
+			set { OnPropertyChanged(ref _weight, value); }
 		}
 		
-		private int quantity;
+		private int _quantity;
 		public int Quantity
 		{
-			get { return quantity; }
-			set { OnPropertyChanged(ref quantity, value); }
+			get { return _quantity; }
+			set { OnPropertyChanged(ref _quantity, value); }
 		}
 		
-		private readonly ObservableCollection<Property> properties;
+		private readonly ObservableCollection<Property> _properties;
 		public IEnumerable<Property> Properties
 		{
-			get { return properties; }
+			get { return _properties; }
 		}
 
-		private ItemCategory category;
+		private ItemCategory _category;
 		private ItemType type;
 
 		[JsonProperty("Category")]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public ItemCategory Category 
 		{
-			get => category; 
-			set => OnPropertyChanged(ref category, value); 
+			get => _category; 
+			set => OnPropertyChanged(ref _category, value); 
 		}
 
 		[JsonProperty("Type")]
@@ -83,14 +83,14 @@ namespace PCCharacterManager.Models
 
 		public Item()
 		{
-			name = string.Empty;
-			desc = string.Empty;
-			cost = string.Empty;
-			weight = string.Empty;
-			quantity = 1;
+			_name = string.Empty;
+			_desc = string.Empty;
+			_cost = string.Empty;
+			_weight = string.Empty;
+			_quantity = 1;
 			type = ItemType.Sword;
-			category = ItemCategory.Weapon;
-			properties = new ObservableCollection<Property>();
+			_category = ItemCategory.Weapon;
+			_properties = new ObservableCollection<Property>();
 		}
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace PCCharacterManager.Models
 		/// <param name="property">property to add</param>
 		public void AddProperty(Property property)
 		{
-			properties.Add(property);
+			_properties.Add(property);
 		}
 
 		/// <summary>
@@ -108,7 +108,7 @@ namespace PCCharacterManager.Models
 		/// <param name="property">property to remove</param>
 		public void RemoveProperty(Property property)
 		{
-			properties.Remove(property);
+			_properties.Remove(property);
 		}
 	}
 }
