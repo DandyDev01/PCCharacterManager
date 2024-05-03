@@ -166,6 +166,27 @@ namespace PCCharacterManager.ViewModels
 			AdjustHealthCommand = new RelayCommand(AddHealth);
 			EditArmorClassCommand = new RelayCommand(EditArmorClass);
 			EditCharacterCommand = new RelayCommand(EditCharacter);
+
+			ConditionsListVM.OnAddItem += selectedCharacter.Conditions.Add;
+			ConditionsListVM.OnRemoveItem += selectedCharacter.Conditions.Remove;
+
+			MovementTypesListVM.OnAddItem += selectedCharacter.MovementTypes_Speeds.Add;
+			MovementTypesListVM.OnRemoveItem += selectedCharacter.MovementTypes_Speeds.Remove;
+
+			LanguagesVM.OnAddItem += selectedCharacter.Languages.Add;
+			LanguagesVM.OnRemoveItem += selectedCharacter.Languages.Remove;
+
+			ToolProfsVM.OnAddItem += selectedCharacter.ToolProficiences.Add;
+			ToolProfsVM.OnRemoveItem += selectedCharacter.ToolProficiences.Remove;
+
+			ArmorProfsVM.OnAddItem += selectedCharacter.ArmorProficiencies.Add;
+			ArmorProfsVM.OnRemoveItem += selectedCharacter.ArmorProficiencies.Remove;
+
+			WeaponProfsVM.OnAddItem += selectedCharacter.WeaponProficiencies.Add;
+			WeaponProfsVM.OnRemoveItem += selectedCharacter.WeaponProficiencies.Remove;
+
+			OtherProfsVM.OnAddItem += selectedCharacter.OtherProficiences.Add;
+			OtherProfsVM.OnRemoveItem += selectedCharacter.OtherProficiences.Remove;
 		}
 
 		/// <summary>

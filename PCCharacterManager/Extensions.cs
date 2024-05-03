@@ -18,5 +18,10 @@ namespace PCCharacterManager
 			}
 		}
 
-    }
+		public static void Remove<T>(this ObservableCollection<T> collection, T item)
+		{
+			collection.Remove(item);
+		}
+
+	}
 }

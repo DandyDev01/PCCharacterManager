@@ -605,5 +605,7 @@ namespace PCCharacterManager.ViewModels
 
 			IsValid = !HasErrors;
 		}
+	
+		
 	}
 }
