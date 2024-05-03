@@ -123,7 +123,6 @@
                         <Image Source="{DynamicResource Edit_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Command="{Binding TabVM.CharacterStatsVM.CharacterInfoViewModel.AddFeatureCommand}" Header="Add Feature" />
             </MenuItem>
             <MenuItem Header="Theme">
                 <!--<MenuItem Header="Dark Mode" Click="DarkMode_Click"/>
