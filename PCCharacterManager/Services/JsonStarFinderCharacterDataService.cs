@@ -31,6 +31,7 @@ namespace PCCharacterManager.Services
 			return Directory.GetFiles(StarfinderResources.CharacterDataDir);
 		}
 
+
 		public IEnumerable<StarfinderCharacter> GetItems()
 		{
 			List<StarfinderCharacter> characters = new List<StarfinderCharacter>();
@@ -50,7 +51,7 @@ namespace PCCharacterManager.Services
 			throw new NotImplementedException();
 		}
 
-		public void Save(StarfinderCharacter item)
+		public void Save(StarfinderCharacter character)
 		{
 			// character data folder does not exist
 			if (!Directory.Exists(StarfinderResources.CharacterDataDir))
@@ -58,11 +59,24 @@ namespace PCCharacterManager.Services
 				Directory.CreateDirectory(StarfinderResources.CharacterDataDir);
 			}
 
-			if (item == null) return;
+			if (character == null) 
+				return;
 
-			item.DateModified = DateTime.Now.ToString();
+			string[] characterFiles = Directory.GetFiles(DnD5eResources.CharacterDataDir);
+			var test = characterFiles[0].Substring(characterFiles[0].LastIndexOf('\\') + 1, characterFiles[0].IndexOf("#") - characterFiles[0].LastIndexOf('\\') - 1);
+			if (characterFiles.Contains(x => x.Contains(character.Id)))
+			{
+				string path = characterFiles.Where(x => x.Contains(character.Id)).First();
+				string name = path.Substring(path.LastIndexOf('\\') + 1, path.IndexOf("#") - path.LastIndexOf('\\') - 1);
+				if (name != character.Name)
+				{
+					File.Delete(characterFiles.Where(x => x.Contains(character.Id)).First());
+				}
+			}
 
-			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(StarfinderResources.CharacterDataDir + "/" + item.Name + item.Id + ".json", item);
+			character.DateModified = DateTime.Now.ToString();
+
+			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(StarfinderResources.CharacterDataDir + "/" + character.Name + character.Id + ".json", character);
 		}
 	}
 }

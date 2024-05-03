@@ -13,11 +13,14 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterItemViewModel : ObservableObject
 	{
-		private readonly string _characterPath;
+		private string _characterPath;
 		public string CharacterPath => _characterPath;
 
 		private string _characterName;
 		public string CharacterName => _characterName;
+
+		private string _id;
+		public string Id => _id;
 
 		private string _characterClass;
 		public string CharacterClass => _characterClass;
@@ -34,7 +37,7 @@ namespace PCCharacterManager.ViewModels
 		private CharacterType _characterType;
 		public CharacterType CharacterType => _characterType;
 
-		public ICommand SelectCharacterCommand { get; private set; }
+		public SelectCharacterCommand SelectCharacterCommand { get; private set; }
 		public ICommand DeleteCharacterCommand { get; private set; }
 
 		public Action<string>? DeleteAction;
@@ -49,6 +52,7 @@ namespace PCCharacterManager.ViewModels
 			_characterPath = characterPath;
 			_characterType = character.CharacterType;
 			_characterRace = character.Race.Name;
+			_id = character.Id;
 
 			SelectCharacterCommand = new SelectCharacterCommand(characterStore, _characterPath);
 			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
@@ -62,6 +66,8 @@ namespace PCCharacterManager.ViewModels
 			_characterDateModified = character.DateModified;
 			_characterType = character.CharacterType;
 			_characterRace = character.Race.Name;
+			_characterPath = DnD5eResources.CharacterDataDir + "/" + character.Name + character.Id + ".json";
+			SelectCharacterCommand.characterPath = _characterPath;
 
 			OnPropertyChanged(nameof(_characterName));
 			OnPropertyChanged(nameof(_characterClass));

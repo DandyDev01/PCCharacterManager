@@ -114,6 +114,8 @@ namespace PCCharacterManager.Services
 			{
 				_dnD5echaracterDataService.Save(character);
 			}
+
+			OnSave?.Invoke();
 		}
 	}
 }

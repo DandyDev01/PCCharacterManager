@@ -48,7 +48,8 @@ namespace PCCharacterManager.ViewModels
 			CreateCharacterCommand = new CreateCharacterCommand(characterStore);
 			DeleteCharacterCommand = new DeleteCharacterCommand(this, dataService, characterStore);
 
-			this._characterStore.CharacterCreate += LoadCharacter;
+			_characterStore.CharacterCreate += LoadCharacter;
+			_dataService.OnSave += Update;
 
 			List<DnD5eCharacter> characters = new(dataService.GetCharacters());
 
@@ -127,7 +128,7 @@ namespace PCCharacterManager.ViewModels
 			if (_characterStore.SelectedCharacter == null)
 				return;
 
-			CharacterItemViewModel? characterItem = CharacterItems.FirstOrDefault(c => c.CharacterName == _characterStore.SelectedCharacter.Name);
+			CharacterItemViewModel? characterItem = CharacterItems.FirstOrDefault(c => c.Id == _characterStore.SelectedCharacter.Id);
 
 			if (characterItem == null)
 				return;

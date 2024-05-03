@@ -58,7 +58,20 @@ namespace PCCharacterManager.Services
 				Directory.CreateDirectory(DnD5eResources.CharacterDataDir);
 			}
 
-			if (character == null) return;
+			if (character == null) 
+				return;
+
+			string[] characterFiles = GetCharacterFilePaths().ToArray();
+			var test = characterFiles[0].Substring(characterFiles[0].LastIndexOf('\\')+1, characterFiles[0].IndexOf("#") - characterFiles[0].LastIndexOf('\\')-1);
+			if (characterFiles.Contains(x => x.Contains(character.Id)))
+			{
+				string path = characterFiles.Where(x => x.Contains(character.Id)).First();
+				string name = path.Substring(path.LastIndexOf('\\') + 1, path.IndexOf("#") - path.LastIndexOf('\\') - 1);
+				if (name != character.Name)
+				{
+					File.Delete(characterFiles.Where(x => x.Contains(character.Id)).First());
+				}
+			}
 
 			character.DateModified = DateTime.Now.ToString();
 

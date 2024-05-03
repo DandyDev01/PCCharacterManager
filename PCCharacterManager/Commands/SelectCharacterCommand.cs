@@ -12,7 +12,7 @@ namespace PCCharacterManager.Commands
 {
 	public class SelectCharacterCommand : BaseCommand
 	{
-		private readonly string characterPath;
+		public string characterPath;
 		private readonly CharacterStore characterStore;
 
 		public SelectCharacterCommand(CharacterStore characterStore, string _characterPath)
