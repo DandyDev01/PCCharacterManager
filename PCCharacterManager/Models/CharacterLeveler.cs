@@ -13,7 +13,9 @@ namespace PCCharacterManager.Models
 	{
 		public void LevelCharacter(DnD5eCharacter character)
 		{
-			UpdateMaxHealth(character);
+			if (UpdateMaxHealth(character) == false)
+				return;
+
 			character.Level.LevelUp();
 			character.CharacterClass.Level.LevelUp();
 			UnLockClassFeatures(character);
@@ -24,10 +26,10 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		private void UpdateMaxHealth(DnD5eCharacter character)
+		private bool UpdateMaxHealth(DnD5eCharacter character)
 		{
 			var message = MessageBox.Show("Would you like to manually enter a new max health",
-				"", MessageBoxButton.YesNo);
+				"", MessageBoxButton.YesNoCancel);
 
 			if (message == MessageBoxResult.Yes)
 			{
@@ -37,10 +39,13 @@ namespace PCCharacterManager.Models
 				window.DataContext = windowVM;
 				window.ShowDialog();
 
-				if (window.DialogResult == false) return;
+				if (window.DialogResult == false) 
+					return false;
 
 				int amount = int.Parse(windowVM.Answer);
 				character.Health.SetMaxHealth(amount);
+
+				return true;
 			}
 			else if (message == MessageBoxResult.No)
 			{
@@ -55,7 +60,15 @@ namespace PCCharacterManager.Models
 				int currHealth = character.Health.MaxHealth;
 
 				character.Health.SetMaxHealth(currHealth + numToAddToHealth);
+
+				return true;
 			}
+			else if (message == MessageBoxResult.Cancel)
+			{
+				return false;
+			}
+
+			return false;
 		}
 
 		private void UnLockClassFeatures(DnD5eCharacter character)
