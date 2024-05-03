@@ -48,7 +48,7 @@ namespace PCCharacterManager.ViewModels
 			_characterStore = new CharacterStore();
 			_dataService = new JsonCharacterDataService(_characterStore);
 
-			_characterStore.SelectedCharacterChange += SaveCharacter;
+			_characterStore.SaveSelectedCharacterOnChange += SaveCharacter;
 
 			_tabVM = new TabControlViewModel(_characterStore, _dataService);
 			_currView = _tabVM;
@@ -66,7 +66,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			if (_tabVM == null) 
 				return;
-
+			
 			if (character == null)
 				return;
 

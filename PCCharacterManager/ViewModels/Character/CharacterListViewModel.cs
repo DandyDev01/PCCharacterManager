@@ -143,7 +143,7 @@ namespace PCCharacterManager.ViewModels
 			if (_characterStore.SelectedCharacter == null)
 				return;
 
-			_dataService.Save(_characterStore.SelectedCharacter);
+			_dataService.Save(_characterStore.SelectedCharacter); 
 			Update();
 		}
 
