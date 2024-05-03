@@ -22,6 +22,11 @@ namespace PCCharacterManager.Services
 			characterStore.CharacterCreate += Add;
 		}
 
+		public JsonCharacterDataService()
+		{
+			
+		}
+
 		public override void Add(DnD5eCharacter newCharacter)
 		{
 			if(newCharacter is StarfinderCharacter starfinderCharacter)
@@ -66,7 +71,8 @@ namespace PCCharacterManager.Services
 			foreach (string characterEntry in starfinderCharacterEntries)
 			{
 				var item = ReadWriteJsonFile<StarfinderCharacter>.ReadFile(characterEntry);
-				if (item != null) starfinderCharacters.Add(item);
+				if (item != null) 
+					starfinderCharacters.Add(item);
 			}
 
 			List<DnD5eCharacter> characters = new List<DnD5eCharacter>();
@@ -74,7 +80,8 @@ namespace PCCharacterManager.Services
 			foreach (string characterEntry in characterEntries)
 			{
 				var character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterEntry);
-				if (character != null) characters.Add(character);
+				if (character != null) 
+					characters.Add(character);
 			}
 
 			characters.AddRange(starfinderCharacters);

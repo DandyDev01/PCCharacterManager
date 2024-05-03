@@ -169,7 +169,7 @@ namespace PCCharacterManager.ViewModels
 			_newCharacter.Level.ProficiencyBonus = 2;
 
 			_newCharacter.Inventory.AddRange(GetStartEquipment());
-			
+
 			SetClassSavingThrows();
 			SetSelectedClassSkillProfs();
 
@@ -207,13 +207,32 @@ namespace PCCharacterManager.ViewModels
 				ability.Score = temp;
 			}
 
-			// TODO: Handle id crashse.
-			int id = new Random().Next(1, 10000);
+			int id = GetUniqueID();
+
 			_newCharacter.Id = "#" + id;
 
 			_newCharacter.DateModified = DateTime.Now.ToString();
-			
+
 			return _newCharacter;
+		}
+
+		private static int GetUniqueID()
+		{
+			string[] characterFilePaths = new JsonCharacterDataService().GetCharacterFilePaths().ToArray();
+			string[] ids = new string[characterFilePaths.Length];
+
+			for (int i = 0; i < characterFilePaths.Length; i++)
+			{
+				ids[i] = characterFilePaths[i].Substring(characterFilePaths[i].IndexOf("#"));
+			}
+
+			int id;
+			do
+			{
+				id = new Random().Next(1, 10000);
+			}
+			while (ids.Contains(x => x.Contains(id.ToString())));
+			return id;
 		}
 
 		private void AddFirstLevelClassFeatures()

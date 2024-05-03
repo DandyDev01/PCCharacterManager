@@ -23,5 +23,10 @@ namespace PCCharacterManager
 			collection.Remove(item);
 		}
 
+		public static bool Contains<T>(this T[] collection, Func<T, bool> p)
+		{
+			return collection.Where(p).Any();
+		}
+
 	}
 }

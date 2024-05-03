@@ -17,9 +17,9 @@ namespace PCCharacterManager.Services
 
 		public bool Delete(StarfinderCharacter item)
 		{
-			if (File.Exists(StarfinderResources.CharacterDataDir + "/" + item.Name + ".json"))
+			if (File.Exists(StarfinderResources.CharacterDataDir + "/" + item.Name + item.Id + ".json"))
 			{
-				File.Delete(StarfinderResources.CharacterDataDir + "/" + item.Name + ".json");
+				File.Delete(StarfinderResources.CharacterDataDir + "/" + item.Name + item.Id + ".json");
 				return true;
 			}
 
@@ -38,7 +38,8 @@ namespace PCCharacterManager.Services
 			foreach (string characterEntry in characterEntries)
 			{
 				var item = ReadWriteJsonFile<StarfinderCharacter>.ReadFile(characterEntry);
-				if (item != null) characters.Add(item);
+				if (item != null) 
+					characters.Add(item);
 			}
 
 			return characters;

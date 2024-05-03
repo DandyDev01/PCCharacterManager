@@ -39,7 +39,7 @@ namespace PCCharacterManager.Models
 		public string Id
 		{
 			get => _id;
-			set => OnPropertyChanged(nameof(_id));
+			set => OnPropertyChanged(ref _id, value);
 		}
 
 		protected string _background;
