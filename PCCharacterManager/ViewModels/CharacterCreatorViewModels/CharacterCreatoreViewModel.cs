@@ -160,7 +160,7 @@ namespace PCCharacterManager.ViewModels
 		/// builds a new character with inputted data
 		/// </summary>
 		/// <returns>new character that was created</returns>
-		public override DnD5eCharacter? Create()
+		public override DnD5eCharacter Create()
 		{
 			DnD5eCharacter tempCharacter = newCharacter;
 			newCharacter = new DnD5eCharacter(SelectedCharacterClass, SelectedRace, SelectedBackground);
@@ -168,22 +168,20 @@ namespace PCCharacterManager.ViewModels
 			newCharacter.Abilities = tempCharacter.Abilities;
 			newCharacter.Level.ProficiencyBonus = 2;
 
-			List<Item> startEquipment = GetStartEquipment();
+			newCharacter.Inventory.AddRange(GetStartEquipment());
+			
 			SetClassSavingThrows();
 			SetSelectedClassSkillProfs();
 
 			if (SetBackgroundSkillProfs() == false)
-				return null;
+				throw new Exception("Background Skill Profs Error.");
 
 			if (SetOtherBackgroundProfs() == false)
-				return null;
+				throw new Exception("Background Other Profs Error.");
 
 			// add class tool profs to character tool profs
 			// NOTE: does not handle duplicates from background
-			foreach (var item in selectedCharacterClass.ToolProficiencies)
-			{
-				newCharacter.ToolProficiences.Add(item);
-			}
+			newCharacter.ToolProficiences.AddRange(selectedCharacterClass.ToolProficiencies);
 
 			// add languages from background
 			// NOTE: Add support for exotic languages
@@ -192,7 +190,7 @@ namespace PCCharacterManager.ViewModels
 				if (languageName.Contains("your choice", StringComparison.OrdinalIgnoreCase))
 				{
 					if (BackgroundChooseLanguage(languageName) == false)
-						return null;
+						throw new Exception("Background Choose Languages Error.");
 				}
 			}
 
@@ -200,7 +198,6 @@ namespace PCCharacterManager.ViewModels
 			RaceVariantAbilityScoreIncreases();
 			AddFirstLevelClassFeatures();
 
-			newCharacter.DateModified = DateTime.Now.ToString();
 
 			// there is a issue when the skill scores are not setting properly unless this is done
 			foreach (Ability ability in newCharacter.Abilities)
@@ -210,11 +207,8 @@ namespace PCCharacterManager.ViewModels
 				ability.Score = temp;
 			}
 
-			foreach (Item item in startEquipment)
-			{
-				newCharacter.Inventory.Add(item);
-			}
-
+			newCharacter.DateModified = DateTime.Now.ToString();
+			
 			return newCharacter;
 		}
 
@@ -283,26 +277,23 @@ namespace PCCharacterManager.ViewModels
 					return BackgroundChooseSkillYourChoice();
 
 				}
-				else // DEFAULT
+				// class give prof to skill
+				if (selectedClassSkillProfs.SelectedItems.Contains(skillName))
 				{
-					// class give prof to skill
-					if (selectedClassSkillProfs.SelectedItems.Contains(skillName))
-					{
-						MessageBox.Show("class and background both give skill prof to " + skillName +
-							" please select a different skill to have prof in", "cannot double prof in skill",
-							MessageBoxButton.OK, MessageBoxImage.Information);
+					MessageBox.Show("class and background both give skill prof to " + skillName +
+						" please select a different skill to have prof in", "cannot double prof in skill",
+						MessageBoxButton.OK, MessageBoxImage.Information);
 
-						return BackgroundChooseSkillYourChoice();
-					}
-					else // class does not give prof to skill
-					{
-						AbilitySkill s = Ability.FindSkill(newCharacter.Abilities, skillName);
-						Ability a = Ability.FindAbility(newCharacter.Abilities, s);
-						s.SkillProficiency = true;
-						a.SetProfBonus(2);
+					return BackgroundChooseSkillYourChoice();
+				}
+				else // class does not give prof to skill
+				{
+					AbilitySkill s = Ability.FindSkill(newCharacter.Abilities, skillName);
+					Ability a = Ability.FindAbility(newCharacter.Abilities, s);
+					s.SkillProficiency = true;
+					a.SetProfBonus(2);
 
-						notAnOption.Add(skillName);
-					}
+					notAnOption.Add(skillName);
 				}
 			} // end for
 
@@ -494,6 +485,7 @@ namespace PCCharacterManager.ViewModels
 							{
 								item.Quantity = quantities[i];
 								results.Add(item);
+								break;
 							}
 						} // end for each
 					} // end for

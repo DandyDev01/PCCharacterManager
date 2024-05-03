@@ -56,5 +56,17 @@ namespace PCCharacterManager.Models
 			char firstLetter = Char.ToLower(item.Name.First());
 			Items[firstLetter].Remove(item);
 		}
+
+		/// <summary>
+		/// Adds a collection of items.
+		/// </summary>
+		/// <param name="items">The items to add.</param>
+		public void AddRange(IEnumerable<Item> items)
+		{
+			foreach (Item item in items)
+			{
+				Add(item);
+			}
+		}
 	} // end class
 }
