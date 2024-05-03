@@ -13,7 +13,7 @@ namespace PCCharacterManager.Models
 		public string Notes
 		{
 			get { return notes; }
-			set { OnPropertyChanged(ref notes, value); }
+			set{ OnPropertyChanged(ref notes, value); }
 		}
 
 		private string title;

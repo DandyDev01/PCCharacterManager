@@ -67,8 +67,10 @@ namespace PCCharacterManager.Views
 			if (note == null)
 				return;
 
+			richTextBox.TextChanged -= UpdateNote;
 			richTextBox.Document.Blocks.Clear();
 			richTextBox.Document.Blocks.Add(new Paragraph(new Run(note.Notes)));
+			richTextBox.TextChanged += UpdateNote;
 		}
 
 		private void FindAndHighlightText()
@@ -164,9 +166,7 @@ namespace PCCharacterManager.Views
 
 			string s = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd).Text;
 
-			if (string.IsNullOrEmpty(s) || string.IsNullOrWhiteSpace(s)) 
-				return;
-
+			
 			if (viewModel.SelectedNote is null)
 				return;
 
