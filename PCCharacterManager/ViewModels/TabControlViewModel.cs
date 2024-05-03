@@ -17,13 +17,13 @@ namespace PCCharacterManager.ViewModels
 		public CharacterSpellBookViewModel SpellBookVM { get; private set; }
 		public CharacterNoteBookViewModel NotesVM { get; private set; }
 
-		public TabControlViewModel(CharacterStore _characterStore, ICharacterDataService _dataService)
+		public TabControlViewModel(CharacterStore characterStore, ICharacterDataService dataService)
 		{
-			CharacterListVM = new CharacterListViewModel(_characterStore, _dataService);
-			CharacterStatsVM = new CharacterStatsViewModel(_characterStore);
-			InventoryVM = new CharacterInventoryViewModel(_characterStore);
-			SpellBookVM = new CharacterSpellBookViewModel(_characterStore);
-			NotesVM = new CharacterNoteBookViewModel(_characterStore);
+			CharacterListVM = new CharacterListViewModel(characterStore, dataService);
+			CharacterStatsVM = new CharacterStatsViewModel(characterStore);
+			InventoryVM = new CharacterInventoryViewModel(characterStore);
+			SpellBookVM = new CharacterSpellBookViewModel(characterStore);
+			NotesVM = new CharacterNoteBookViewModel(characterStore);
 		}
 	}
 }

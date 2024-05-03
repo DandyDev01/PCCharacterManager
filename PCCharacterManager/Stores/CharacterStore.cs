@@ -10,8 +10,8 @@ namespace PCCharacterManager.Stores
 	public class CharacterStore
 	{
 		public DnD5eCharacter SelectedCharacter { get; private set; }
-		public Action<DnD5eCharacter?> SaveSelectedCharacterOnChange { get; internal set; }
 
+		public Action<DnD5eCharacter>? SaveSelectedCharacterOnChange { get; internal set; }
 		public event Action<DnD5eCharacter>? CharacterCreate;
 		public event Action<DnD5eCharacter>? SelectedCharacterChange;
 

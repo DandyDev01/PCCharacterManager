@@ -145,6 +145,7 @@ namespace PCCharacterManager.ViewModels
 
 			_dataService.Save(_characterStore.SelectedCharacter); 
 			Update();
+			CharacterCollectionView?.Refresh();
 		}
 
 	} // end class
