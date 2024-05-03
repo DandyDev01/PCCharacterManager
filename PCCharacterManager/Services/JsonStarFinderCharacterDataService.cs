@@ -61,8 +61,7 @@ namespace PCCharacterManager.Services
 
 			item.DateModified = DateTime.Now.ToString();
 
-			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(StarfinderResources.CharacterDataDir + "/" + item.Name + 
-				".json", item);
+			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(StarfinderResources.CharacterDataDir + "/" + item.Name + item.Id + ".json", item);
 		}
 	}
 }

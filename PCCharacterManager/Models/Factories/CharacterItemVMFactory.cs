@@ -10,20 +10,20 @@ namespace PCCharacterManager.Models.Factories
 {
 	public static class CharacterItemVMFactory
 	{
-		public static CharacterItemViewModel Create(DnD5eCharacter _character, CharacterStore _characterStore)
+		public static CharacterItemViewModel Create(DnD5eCharacter character, CharacterStore characterStore)
 		{
-			if (_character == null)
+			if (character == null)
 				throw new Exception("null value exeption");
 
-			if (_character is StarfinderCharacter starfinder)
+			if (character is StarfinderCharacter starfinder)
 			{
-				return new CharacterItemViewModel(_characterStore, _character,
-					StarfinderResources.CharacterDataDir + "/" + _character.Name + ".json");
+				return new CharacterItemViewModel(characterStore, character,
+					StarfinderResources.CharacterDataDir + "/" + character.Name + character.Id + ".json");
 			}
-			else if (_character is DnD5eCharacter)
+			else if (character is DnD5eCharacter)
 			{
-				return new CharacterItemViewModel(_characterStore, _character,
-					DnD5eResources.CharacterDataDir + "/" + _character.Name + ".json");
+				return new CharacterItemViewModel(characterStore, character,
+					DnD5eResources.CharacterDataDir + "/" + character.Name + character.Id + ".json");
 			}
 
 			throw new Exception("Fail");

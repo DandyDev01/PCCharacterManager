@@ -35,6 +35,13 @@ namespace PCCharacterManager.Models
 			}
 		}
 
+		protected string _id;
+		public string Id
+		{
+			get => _id;
+			set => OnPropertyChanged(nameof(_id));
+		}
+
 		protected string _background;
 		public string Background
 		{

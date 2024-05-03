@@ -62,7 +62,7 @@ namespace PCCharacterManager.Services
 
 			character.DateModified = DateTime.Now.ToString();
 
-			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(DnD5eResources.CharacterDataDir + "/" + character.Name + ".json", character);
+			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(DnD5eResources.CharacterDataDir + "/" + character.Name + character.Id + ".json", character);
 		}
 
 		public override bool Delete(DnD5eCharacter character)

@@ -207,6 +207,10 @@ namespace PCCharacterManager.ViewModels
 				ability.Score = temp;
 			}
 
+			// TODO: Handle id crashse.
+			int id = new Random().Next(1, 10000);
+			_newCharacter.Id = "#" + id;
+
 			_newCharacter.DateModified = DateTime.Now.ToString();
 			
 			return _newCharacter;
