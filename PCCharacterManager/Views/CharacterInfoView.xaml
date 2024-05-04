@@ -113,6 +113,8 @@
                         <Image Source="{DynamicResource Character_Levelup_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Command="{Binding StartEncounterCommand}" Header="Start Encounter" />
+                <MenuItem Command="{Binding EndEncounterCommand}" Header="End Encounter" />
             </Menu>
             <!--#endregion-->
 
@@ -317,11 +319,57 @@
                 Style="{DynamicResource DefaultTextBlock}"
                 Text="{Binding SelectedCharacter.CharacterClass.HitDie, FallbackValue=test}" />
 
+            <Grid
+                Grid.Row="3"
+                Grid.RowSpan="9"
+                Grid.Column="3"
+                Grid.ColumnSpan="2"
+                Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Status:" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding SelectedCharacter.Status, FallbackValue=Combat}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="Round:" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding SelectedCharacter.CombatRound, FallbackValue=1}" />
+                <v:StringListView
+                    Grid.Row="2"
+                    Grid.ColumnSpan="2"
+                    DataContext="{Binding CombatActionsVM}" />
+                <Button
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    Height="23"
+                    Command="{Binding NextCombatRoundCommand}"
+                    Content="Next Round"
+                    IsEnabled="{Binding SelectedCharacter.IsInCombat}" />
+            </Grid>
+
             <ContentControl
                 Grid.Row="3"
                 Grid.RowSpan="9"
                 Grid.Column="5"
-                Grid.ColumnSpan="2">
+                Grid.ColumnSpan="2"
+                Margin="5">
                 <v:PropertyListView DataContext="{Binding ConditionsListVM}" />
             </ContentControl>
 

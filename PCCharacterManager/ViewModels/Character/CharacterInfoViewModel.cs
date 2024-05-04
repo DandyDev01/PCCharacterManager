@@ -38,6 +38,7 @@ namespace PCCharacterManager.ViewModels
 		public PropertyListViewModel ConditionsListVM { get; }
 
 		public StringListViewModel LanguagesVM { get; }
+		public StringListViewModel CombatActionsVM { get; }
 		public StringListViewModel ArmorProfsVM { get; }
 		public StringListViewModel WeaponProfsVM { get; }
 		public StringListViewModel ToolProfsVM { get; }
@@ -121,6 +122,9 @@ namespace PCCharacterManager.ViewModels
 		public ICommand EditArmorClassCommand { get; }
 		public ICommand EditCharacterCommand { get; }
 		public ICommand LevelCharacterCommand { get; }
+		public ICommand NextCombatRoundCommand { get; }
+		public ICommand StartEncounterCommand { get; }
+		public ICommand EndEncounterCommand { get; }
 
 		public CharacterInfoViewModel(CharacterStore characterStore)
 		{
@@ -143,6 +147,10 @@ namespace PCCharacterManager.ViewModels
 			LevelSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort,
 				nameof(Feature.Level));
 
+			NextCombatRoundCommand = new RelayCommand(NextCombatRound);
+			StartEncounterCommand = new RelayCommand(StartEncounter);
+			EndEncounterCommand = new RelayCommand(EndEncounter);
+
 			AddFeatureCommand = new RelayCommand(AddFeature);
 			RemoveFeatureCommand = new RelayCommand(RemoveFeature);
 
@@ -157,6 +165,7 @@ namespace PCCharacterManager.ViewModels
 			ConditionsListVM = new PropertyListViewModel("Conditions", _selectedCharacter.Conditions);
 			MovementTypesListVM = new PropertyListViewModel("Movement", _selectedCharacter.MovementTypes_Speeds);
 			LanguagesVM = new StringListViewModel("Languages", _selectedCharacter.Languages);
+			CombatActionsVM = new StringListViewModel("Actions", _selectedCharacter.CombatActions);
 			ToolProfsVM = new StringListViewModel("Tool Profs", _selectedCharacter.ToolProficiences);
 			ArmorProfsVM = new StringListViewModel("Armor Profs", _selectedCharacter.ArmorProficiencies);
 			OtherProfsVM = new StringListViewModel("Other Profs", _selectedCharacter.OtherProficiences);
@@ -166,6 +175,25 @@ namespace PCCharacterManager.ViewModels
 			AdjustHealthCommand = new RelayCommand(AddHealth);
 			EditArmorClassCommand = new RelayCommand(EditArmorClass);
 			EditCharacterCommand = new RelayCommand(EditCharacter);
+		}
+
+		private void EndEncounter()
+		{
+			_selectedCharacter.CombatRound = 0;
+			_selectedCharacter.IsInCombat = false;
+			_selectedCharacter.Status = CharacterStatus.IDLE;
+		}
+
+		private void StartEncounter()
+		{
+			_selectedCharacter.CombatRound = 0;
+			_selectedCharacter.IsInCombat = true;
+			_selectedCharacter.Status = CharacterStatus.COMBAT;
+		}
+
+		private void NextCombatRound()
+		{
+			_selectedCharacter.CombatRound += 1;
 		}
 
 		/// <summary>
@@ -188,6 +216,7 @@ namespace PCCharacterManager.ViewModels
 			ConditionsListVM.UpdateCollection(_selectedCharacter.Conditions);
 			MovementTypesListVM.UpdateCollection( _selectedCharacter.MovementTypes_Speeds);
 			LanguagesVM.UpdateCollection(_selectedCharacter.Languages);
+			CombatActionsVM.UpdateCollection(_selectedCharacter.CombatActions);
 			ToolProfsVM.UpdateCollection(_selectedCharacter.ToolProficiences);
 			ArmorProfsVM.UpdateCollection(_selectedCharacter.ArmorProficiencies);
 			OtherProfsVM.UpdateCollection(_selectedCharacter.OtherProficiences);
