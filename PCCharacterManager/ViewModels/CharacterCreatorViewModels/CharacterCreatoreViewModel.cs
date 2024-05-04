@@ -23,90 +23,90 @@ namespace PCCharacterManager.ViewModels
 	/// </summary>
 	public class CharacterCreatorViewModel : CharactorCreatorViewModelBase, INotifyDataErrorInfo
 	{
-		private string name;
+		private string _name;
 		public string Name
 		{
-			get { return name; }
+			get { return _name; }
 			set 
 			{ 
-				OnPropertyChanged(ref name, value);
+				OnPropertyChanged(ref _name, value);
 				BasicStringFieldValidation(nameof(Name), value);
 			}
 		}
 
-		private ListViewMultiSelectItemsLimitedCountViewModel selectedClassSkillProfs;
+		private ListViewMultiSelectItemsLimitedCountViewModel _selectedClassSkillProfs;
 		public ListViewMultiSelectItemsLimitedCountViewModel SelectedClassSkillProfs
 		{
-			get { return selectedClassSkillProfs; }
-			set { OnPropertyChanged(ref selectedClassSkillProfs, value); }
+			get { return _selectedClassSkillProfs; }
+			set { OnPropertyChanged(ref _selectedClassSkillProfs, value); }
 		}
 
-		private DnD5eCharacterRaceVariant selectedRaceVariant;
+		private DnD5eCharacterRaceVariant _selectedRaceVariant;
 		public DnD5eCharacterRaceVariant SelectedRaceVariant
 		{
-			get { return selectedRaceVariant; }
+			get { return _selectedRaceVariant; }
 			set
 			{
-				OnPropertyChanged(ref selectedRaceVariant, value);
+				OnPropertyChanged(ref _selectedRaceVariant, value);
 				SelectedRace.RaceVariant = value;
 			}
 		}
 		
-		private DnD5eCharacterClassData selectedCharacterClass;
+		private DnD5eCharacterClassData _selectedCharacterClass;
 		public DnD5eCharacterClassData SelectedCharacterClass
 		{
-			get { return selectedCharacterClass; }
+			get { return _selectedCharacterClass; }
 			set
 			{
-				OnPropertyChanged(ref selectedCharacterClass, value);
-				SelectedClassSkillProfs.PopulateItems(selectedCharacterClass.NumOfSkillProficiences, selectedCharacterClass.PossibleSkillProficiences.ToList());
+				OnPropertyChanged(ref _selectedCharacterClass, value);
+				SelectedClassSkillProfs.PopulateItems(_selectedCharacterClass.NumOfSkillProficiences, _selectedCharacterClass.PossibleSkillProficiences.ToList());
 				UpdateSelectClassSkillProfs();
 				UpdateSelectedClassStartEquipment();
 			}
 		}
 		
-		private DnD5eCharacterRaceData selectedRace;
+		private DnD5eCharacterRaceData _selectedRace;
 		public DnD5eCharacterRaceData SelectedRace
 		{
-			get { return selectedRace; }
+			get { return _selectedRace; }
 			set
 			{
-				OnPropertyChanged(ref selectedRace, value);
+				OnPropertyChanged(ref _selectedRace, value);
 				UpdateRaceVariantsToDisplay();
 			}
 		}
 		
-		private DnD5eBackgroundData selectedBackground;
+		private DnD5eBackgroundData _selectedBackground;
 		public DnD5eBackgroundData SelectedBackground
 		{
-			get { return selectedBackground; }
-			set { OnPropertyChanged(ref selectedBackground, value); }
+			get { return _selectedBackground; }
+			set { OnPropertyChanged(ref _selectedBackground, value); }
 		}
 
-		private DnD5eCharacter newCharacter;
+		private DnD5eCharacter _newCharacter;
 		public DnD5eCharacter NewCharacter
 		{
-			get { return newCharacter; }
-			set { OnPropertyChanged(ref newCharacter, value); }
+			get { return _newCharacter; }
+			set { OnPropertyChanged(ref _newCharacter, value); }
 		}
 
-		private Alignment selectedAlignment;
+		private Alignment _selectedAlignment;
 		public Alignment SelectedAlignment
 		{
-			get { return selectedAlignment; }
-			set { OnPropertyChanged(ref selectedAlignment, value); }
+			get { return _selectedAlignment; }
+			set { OnPropertyChanged(ref _selectedAlignment, value); }
 		}
 
-		private bool isValid;
+		private bool _isValid;
 		public bool IsValid
 		{
 			get
 			{
-				return isValid;
+				return _isValid;
 			}
 			set
 			{
-				OnPropertyChanged(ref isValid, value);
+				OnPropertyChanged(ref _isValid, value);
 			}
 		}
 
@@ -129,7 +129,7 @@ namespace PCCharacterManager.ViewModels
 
 		public CharacterCreatorViewModel()
 		{
-			newCharacter = new DnD5eCharacter();
+			_newCharacter = new DnD5eCharacter();
 
 			propertyNameToError = new Dictionary<string, List<string>>();
 
@@ -139,13 +139,13 @@ namespace PCCharacterManager.ViewModels
 			RaceVariantsToDisplay = new ObservableCollection<DnD5eCharacterRaceVariant>();
 			AlignmentsToDisplay = Enum.GetValues(typeof(Alignment));
 
-			name = string.Empty;
-			selectedCharacterClass = CharacterClassesToDisplay[0];
-			selectedBackground = BackgroundsToDisplay[0];
-			selectedRace = RacesToDisplay[0];
-			selectedRaceVariant = selectedRace.Variants[0];
-			selectedClassSkillProfs = new ListViewMultiSelectItemsLimitedCountViewModel(selectedCharacterClass.NumOfSkillProficiences,
-				selectedCharacterClass.PossibleSkillProficiences.ToList());
+			_name = string.Empty;
+			_selectedCharacterClass = CharacterClassesToDisplay[0];
+			_selectedBackground = BackgroundsToDisplay[0];
+			_selectedRace = RacesToDisplay[0];
+			_selectedRaceVariant = _selectedRace.Variants[0];
+			_selectedClassSkillProfs = new ListViewMultiSelectItemsLimitedCountViewModel(_selectedCharacterClass.NumOfSkillProficiences,
+				_selectedCharacterClass.PossibleSkillProficiences.ToList());
 			notAnOption = new List<string>();
 
 			SelectedStartingEquipmentVMs = new ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel>();
@@ -160,39 +160,37 @@ namespace PCCharacterManager.ViewModels
 		/// builds a new character with inputted data
 		/// </summary>
 		/// <returns>new character that was created</returns>
-		public override DnD5eCharacter? Create()
+		public override DnD5eCharacter Create()
 		{
-			DnD5eCharacter tempCharacter = newCharacter;
-			newCharacter = new DnD5eCharacter(SelectedCharacterClass, SelectedRace, SelectedBackground);
-			newCharacter.Name = Name;
-			newCharacter.Abilities = tempCharacter.Abilities;
-			newCharacter.Level.ProficiencyBonus = 2;
+			DnD5eCharacter tempCharacter = _newCharacter;
+			_newCharacter = new DnD5eCharacter(SelectedCharacterClass, SelectedRace, SelectedBackground);
+			_newCharacter.Name = Name;
+			_newCharacter.Abilities = tempCharacter.Abilities;
+			_newCharacter.Level.ProficiencyBonus = 2;
 
-			List<Item> startEquipment = GetStartEquipment();
+			_newCharacter.Inventory.AddRange(GetStartEquipment());
+
 			SetClassSavingThrows();
 			SetSelectedClassSkillProfs();
 
 			if (SetBackgroundSkillProfs() == false)
-				return null;
+				throw new Exception("Background Skill Profs Error.");
 
 			if (SetOtherBackgroundProfs() == false)
-				return null;
+				throw new Exception("Background Other Profs Error.");
 
 			// add class tool profs to character tool profs
 			// NOTE: does not handle duplicates from background
-			foreach (var item in selectedCharacterClass.ToolProficiencies)
-			{
-				newCharacter.ToolProficiences.Add(item);
-			}
+			_newCharacter.ToolProficiences.AddRange(_selectedCharacterClass.ToolProficiencies);
 
 			// add languages from background
 			// NOTE: Add support for exotic languages
-			foreach (string languageName in selectedBackground.Languages)
+			foreach (string languageName in _selectedBackground.Languages)
 			{
 				if (languageName.Contains("your choice", StringComparison.OrdinalIgnoreCase))
 				{
 					if (BackgroundChooseLanguage(languageName) == false)
-						return null;
+						throw new Exception("Background Choose Languages Error.");
 				}
 			}
 
@@ -200,31 +198,50 @@ namespace PCCharacterManager.ViewModels
 			RaceVariantAbilityScoreIncreases();
 			AddFirstLevelClassFeatures();
 
-			newCharacter.DateModified = DateTime.Now.ToString();
 
 			// there is a issue when the skill scores are not setting properly unless this is done
-			foreach (Ability ability in newCharacter.Abilities)
+			foreach (Ability ability in _newCharacter.Abilities)
 			{
 				int temp = ability.Score;
 				ability.Score = 1;
 				ability.Score = temp;
 			}
 
-			foreach (Item item in startEquipment)
+			int id = GetUniqueID();
+
+			_newCharacter.Id = "#" + id;
+
+			_newCharacter.DateModified = DateTime.Now.ToString();
+
+			return _newCharacter;
+		}
+
+		private static int GetUniqueID()
+		{
+			string[] characterFilePaths = new JsonCharacterDataService().GetCharacterFilePaths().ToArray();
+			string[] ids = new string[characterFilePaths.Length];
+
+			for (int i = 0; i < characterFilePaths.Length; i++)
 			{
-				newCharacter.Inventory.Add(item);
+				ids[i] = characterFilePaths[i].Substring(characterFilePaths[i].IndexOf("#"));
 			}
 
-			return newCharacter;
+			int id;
+			do
+			{
+				id = new Random().Next(1, 10000);
+			}
+			while (ids.Contains(x => x.Contains(id.ToString())));
+			return id;
 		}
 
 		private void AddFirstLevelClassFeatures()
 		{
-			foreach (var item in selectedCharacterClass.Features)
+			foreach (var item in _selectedCharacterClass.Features)
 			{
 				if (item.Level == 1)
 				{
-					newCharacter.CharacterClass.Features.Add(item);
+					_newCharacter.CharacterClass.Features.Add(item);
 					continue;
 				}
 
@@ -236,7 +253,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			// handle other profs for the background
 			// NOTE: does not handle &
-			foreach (var item in selectedBackground.OtherProfs)
+			foreach (var item in _selectedBackground.OtherProfs)
 			{
 				if (item.ToLower().Contains("tool", StringComparison.OrdinalIgnoreCase))
 				{
@@ -252,15 +269,15 @@ namespace PCCharacterManager.ViewModels
 						if (window.DialogResult == false)
 							return false;
 
-						newCharacter.ToolProficiences.Add(windowVM.SelectedItems.First());
+						_newCharacter.ToolProficiences.Add(windowVM.SelectedItems.First());
 						continue;
 					}
 
-					newCharacter.ToolProficiences.Add(item);
+					_newCharacter.ToolProficiences.Add(item);
 					continue;
 				}
 
-				newCharacter.OtherProficiences.Add(item);
+				_newCharacter.OtherProficiences.Add(item);
 			}
 
 			return true;
@@ -271,7 +288,7 @@ namespace PCCharacterManager.ViewModels
 			// set skill prof, Background
 			notAnOption.Clear();
 			notAnOption.AddRange(SelectedClassSkillProfs.SelectedItems);
-			foreach (string skillName in selectedBackground.SkillProfs)
+			foreach (string skillName in _selectedBackground.SkillProfs)
 			{
 				// you can choose one of at least 2
 				if (skillName.Contains('^'))
@@ -283,26 +300,23 @@ namespace PCCharacterManager.ViewModels
 					return BackgroundChooseSkillYourChoice();
 
 				}
-				else // DEFAULT
+				// class give prof to skill
+				if (_selectedClassSkillProfs.SelectedItems.Contains(skillName))
 				{
-					// class give prof to skill
-					if (selectedClassSkillProfs.SelectedItems.Contains(skillName))
-					{
-						MessageBox.Show("class and background both give skill prof to " + skillName +
-							" please select a different skill to have prof in", "cannot double prof in skill",
-							MessageBoxButton.OK, MessageBoxImage.Information);
+					MessageBox.Show("class and background both give skill prof to " + skillName +
+						" please select a different skill to have prof in", "cannot double prof in skill",
+						MessageBoxButton.OK, MessageBoxImage.Information);
 
-						return BackgroundChooseSkillYourChoice();
-					}
-					else // class does not give prof to skill
-					{
-						AbilitySkill s = Ability.FindSkill(newCharacter.Abilities, skillName);
-						Ability a = Ability.FindAbility(newCharacter.Abilities, s);
-						s.SkillProficiency = true;
-						a.SetProfBonus(2);
+					return BackgroundChooseSkillYourChoice();
+				}
+				else // class does not give prof to skill
+				{
+					AbilitySkill s = Ability.FindSkill(_newCharacter.Abilities, skillName);
+					Ability a = Ability.FindAbility(_newCharacter.Abilities, s);
+					s.SkillProficiency = true;
+					a.SetProfBonus(2);
 
-						notAnOption.Add(skillName);
-					}
+					notAnOption.Add(skillName);
 				}
 			} // end for
 
@@ -312,14 +326,14 @@ namespace PCCharacterManager.ViewModels
 		private void RaceVariantAbilityScoreIncreases()
 		{
 			// ability score increases, race variant
-			foreach (var property in selectedRaceVariant.Properties)
+			foreach (var property in _selectedRaceVariant.Properties)
 			{
 				if (property.Name.ToLower().Contains("ability score increase"))
 				{
 					string abilityName = StringFormater.Get1stWord(property.Desc);
 					int increaseAmount = StringFormater.FindQuantity(property.Desc);
 
-					Ability a = Ability.FindAbility(newCharacter.Abilities, abilityName);
+					Ability a = Ability.FindAbility(_newCharacter.Abilities, abilityName);
 					a.Score += increaseAmount;
 				}
 			}
@@ -328,31 +342,31 @@ namespace PCCharacterManager.ViewModels
 		private void RaceAbilityScoreIncreasesUserChoice()
 		{
 			// handle race ability score increase 'You Choice'
-			for (int i = 0; i < selectedRace.AbilityScoreIncreases.Length; i++)
+			for (int i = 0; i < _selectedRace.AbilityScoreIncreases.Length; i++)
 			{
 				// 'You Choice'
-				if (selectedRace.AbilityScoreIncreases[i].Contains("your choice", StringComparison.OrdinalIgnoreCase))
+				if (_selectedRace.AbilityScoreIncreases[i].Contains("your choice", StringComparison.OrdinalIgnoreCase))
 				{
-					int increaseAmount = StringFormater.FindQuantity(selectedRace.AbilityScoreIncreases[i]);
+					int increaseAmount = StringFormater.FindQuantity(_selectedRace.AbilityScoreIncreases[i]);
 					Window window = new SelectStringValueDialogWindow();
 					DialogWindowSelectStingValue windowVM =
-						new DialogWindowSelectStingValue(window, Ability.GetAbilityNames(newCharacter.Abilities).ToArray(), 1);
+						new DialogWindowSelectStingValue(window, Ability.GetAbilityNames(_newCharacter.Abilities).ToArray(), 1);
 					window.DataContext = windowVM;
 					window.ShowDialog();
 
 					foreach (var item in windowVM.SelectedItems)
 					{
-						Ability a = Ability.FindAbility(newCharacter.Abilities, item);
+						Ability a = Ability.FindAbility(_newCharacter.Abilities, item);
 						a.Score += increaseAmount;
 					}
 				}
 				// default
 				else
 				{
-					string abilityName = StringFormater.Get1stWord(selectedRace.AbilityScoreIncreases[i]);
-					int increaseAmount = StringFormater.FindQuantity(selectedRace.AbilityScoreIncreases[i]);
+					string abilityName = StringFormater.Get1stWord(_selectedRace.AbilityScoreIncreases[i]);
+					int increaseAmount = StringFormater.FindQuantity(_selectedRace.AbilityScoreIncreases[i]);
 
-					Ability a = Ability.FindAbility(newCharacter.Abilities, abilityName);
+					Ability a = Ability.FindAbility(_newCharacter.Abilities, abilityName);
 					a.Score += increaseAmount;
 				}
 			}
@@ -371,7 +385,7 @@ namespace PCCharacterManager.ViewModels
 			List<string> options = new List<string>();
 			foreach (var language in languages)
 			{
-				if (!newCharacter.Languages.Contains(language))
+				if (!_newCharacter.Languages.Contains(language))
 					options.Add(language);
 			}
 
@@ -384,7 +398,7 @@ namespace PCCharacterManager.ViewModels
 			if (window.DialogResult == false)
 				return false;
 
-			newCharacter.AddLanguages(windowVM.SelectedItems.ToArray());
+			_newCharacter.AddLanguages(windowVM.SelectedItems.ToArray());
 
 			return true;
 		}
@@ -395,11 +409,11 @@ namespace PCCharacterManager.ViewModels
 		private void SetSelectedClassSkillProfs()
 		{
 			// class selected skill profs
-			foreach (var item in selectedClassSkillProfs.SelectedItems)
+			foreach (var item in _selectedClassSkillProfs.SelectedItems)
 			{
-				AbilitySkill s = Ability.FindSkill(newCharacter.Abilities, item);
+				AbilitySkill s = Ability.FindSkill(_newCharacter.Abilities, item);
 				s.SkillProficiency = true;
-				Ability a = Ability.FindAbility(newCharacter.Abilities, s);
+				Ability a = Ability.FindAbility(_newCharacter.Abilities, s);
 				a.SetProfBonus(2);
 			}
 		}
@@ -410,9 +424,9 @@ namespace PCCharacterManager.ViewModels
 		private void SetClassSavingThrows()
 		{
 			// set ability saving throws, Class
-			foreach (var str in selectedCharacterClass.SavingThrows)
+			foreach (var str in _selectedCharacterClass.SavingThrows)
 			{
-				Ability.FindAbility(newCharacter.Abilities, str).ProfSave = true;
+				Ability.FindAbility(_newCharacter.Abilities, str).ProfSave = true;
 			}
 		}
 
@@ -450,8 +464,8 @@ namespace PCCharacterManager.ViewModels
 
 				foreach (string item in windowVM.SelectedItems)
 				{
-					AbilitySkill skill = Ability.FindSkill(newCharacter.Abilities, item);
-					Ability ability = Ability.FindAbility(newCharacter.Abilities, skill);
+					AbilitySkill skill = Ability.FindSkill(_newCharacter.Abilities, item);
+					Ability ability = Ability.FindAbility(_newCharacter.Abilities, skill);
 
 					skill.SkillProficiency = true;
 					ability.SetProfBonus(2);
@@ -494,6 +508,7 @@ namespace PCCharacterManager.ViewModels
 							{
 								item.Quantity = quantities[i];
 								results.Add(item);
+								break;
 							}
 						} // end for each
 					} // end for
@@ -509,7 +524,7 @@ namespace PCCharacterManager.ViewModels
 		private void UpdateRaceVariantsToDisplay()
 		{
 			RaceVariantsToDisplay.Clear();
-			foreach (var raceVariant in selectedRace.Variants)
+			foreach (var raceVariant in _selectedRace.Variants)
 			{
 				RaceVariantsToDisplay.Add(raceVariant);
 			}
@@ -519,7 +534,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void UpdateSelectClassSkillProfs()
 		{
-			selectedClassSkillProfs.PopulateItems(SelectedCharacterClass.NumOfSkillProficiences, SelectedCharacterClass.PossibleSkillProficiences.ToList());
+			_selectedClassSkillProfs.PopulateItems(SelectedCharacterClass.NumOfSkillProficiences, SelectedCharacterClass.PossibleSkillProficiences.ToList());
 		}
 
 		/// <summary>
@@ -529,7 +544,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			// break each array item into a listViewMultiSelectItemsLimitedCountVM. Items are slip w/ string formatter
 			SelectedStartingEquipmentVMs.Clear();
-			foreach (var item in selectedCharacterClass.StartEquipment)
+			foreach (var item in _selectedCharacterClass.StartEquipment)
 			{
 				string[] group = StringFormater.CreateGroup(item, '^');
 				SelectedStartingEquipmentVMs.Add(new ListViewMultiSelectItemsLimitedCountViewModel(1, group.ToList()));
@@ -545,8 +560,8 @@ namespace PCCharacterManager.ViewModels
 
 			for (int i = 0; i < 6; i++)
 			{
-				newCharacter.Abilities[i].Score = rollDie.AbilityScoreRoll();
-				AbilityScores[i] = newCharacter.Abilities[i].Score;
+				_newCharacter.Abilities[i].Score = rollDie.AbilityScoreRoll();
+				AbilityScores[i] = _newCharacter.Abilities[i].Score;
 			}
 		}
 
@@ -573,9 +588,9 @@ namespace PCCharacterManager.ViewModels
 
 			foreach (var item in windowVM.SelectedItems)
 			{
-				AbilitySkill s = Ability.FindSkill(newCharacter.Abilities, item);
+				AbilitySkill s = Ability.FindSkill(_newCharacter.Abilities, item);
 				s.SkillProficiency = true;
-				Ability a = Ability.FindAbility(newCharacter.Abilities, s);
+				Ability a = Ability.FindAbility(_newCharacter.Abilities, s);
 				a.SetProfBonus(2);
 				notAnOption.Add(item);
 			}
@@ -613,5 +628,7 @@ namespace PCCharacterManager.ViewModels
 
 			IsValid = !HasErrors;
 		}
+	
+		
 	}
 }

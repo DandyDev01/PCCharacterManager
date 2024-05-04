@@ -22,13 +22,13 @@ namespace PCCharacterManager.Models
 				if (spellItem.Spell is not Spell spell)
 					return false;
 
-				bool nameContainsSearchTerm = spell.Name.ToLower().Contains(searchTerm);
+				bool nameContainsSearchTerm = spell.Name.ToLower().Contains(_searchTerm);
 				
 				if (!nameContainsSearchTerm)
-					schoolContainsSearchTerm = spell.School.ToString().ToLower().Contains(searchTerm);
+					schoolContainsSearchTerm = spell.School.ToString().ToLower().Contains(_searchTerm);
 
 				if (!schoolContainsSearchTerm && !nameContainsSearchTerm)
-					levelContainsSearchTerm = spell.Level.ToString().Contains(searchTerm);
+					levelContainsSearchTerm = spell.Level.ToString().Contains(_searchTerm);
 
 				return nameContainsSearchTerm || schoolContainsSearchTerm || levelContainsSearchTerm;
 			}

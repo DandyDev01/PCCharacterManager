@@ -12,25 +12,25 @@ namespace PCCharacterManager.ViewModels
 {
 	public class TabItemViewModel : ObservableObject
 	{
-		protected DnD5eCharacter? selectedCharacter;
+		protected DnD5eCharacter? _selectedCharacter;
 		public DnD5eCharacter? SelectedCharacter
 		{
-			get { return selectedCharacter; }
-			set { OnPropertyChanged(ref selectedCharacter, value); }
+			get { return _selectedCharacter; }
+			set { OnPropertyChanged(ref _selectedCharacter, value); }
 		}
 		
-		protected readonly CharacterStore characterStore;
-		protected readonly ICharacterDataService dataService;
+		protected readonly CharacterStore _characterStore;
+		protected readonly ICharacterDataService _dataService;
 
-		public CharacterStore CharacterStore { get { return characterStore; } }
-		public ICharacterDataService DataService { get { return dataService; } }
+		public CharacterStore CharacterStore { get { return _characterStore; } }
+		public ICharacterDataService DataService { get { return _dataService; } }
 
-		public TabItemViewModel(CharacterStore _characterStore, ICharacterDataService _dataService,
-			DnD5eCharacter? _selectedCharacter = null)
+		public TabItemViewModel(CharacterStore characterStore, ICharacterDataService dataService,
+			DnD5eCharacter? selectedCharacter = null)
 		{
-			characterStore = _characterStore;
-			dataService = _dataService;
-			selectedCharacter = _selectedCharacter;
+			_characterStore = characterStore;
+			_dataService = dataService;
+			_selectedCharacter = selectedCharacter;
 		}
 
 		protected virtual void OnCharacterChanged(DnD5eCharacter newCharacter)

@@ -10,6 +10,8 @@ namespace PCCharacterManager.Services
 {
 	public abstract class ICharacterDataService
 	{
+		public Action? OnSave;
+
 		public abstract IEnumerable<DnD5eCharacter> GetCharacters();
 
 		public abstract IEnumerable<string> GetCharacterFilePaths();

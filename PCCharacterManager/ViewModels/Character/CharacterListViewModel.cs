@@ -24,9 +24,9 @@ namespace PCCharacterManager.ViewModels
 	/// </summary>
 	public class CharacterListViewModel : ObservableObject
 	{
-		private readonly CharacterStore characterStore;
-		private readonly ICharacterDataService dataService;
-		private readonly CollectionViewPropertySort collectionViewPropertySort;
+		private readonly CharacterStore _characterStore;
+		private readonly ICharacterDataService _dataService;
+		private readonly CollectionViewPropertySort _collectionViewPropertySort;
 
 		public ObservableCollection<CharacterItemViewModel> CharacterItems { get; private set; }
 		public ICollectionView CharacterCollectionView { get; }
@@ -40,48 +40,49 @@ namespace PCCharacterManager.ViewModels
 		public ICommand CharacterTypeSortCommand { get; }
 		public ICommand CharacterRaceSortCommand { get; }
 
-		public CharacterListViewModel(CharacterStore _characterStore, ICharacterDataService _dataService)
+		public CharacterListViewModel(CharacterStore characterStore, ICharacterDataService dataService)
 		{
-			characterStore = _characterStore;
-			dataService = _dataService;
+			_characterStore = characterStore;
+			_dataService = dataService;
 
-			CreateCharacterCommand = new CreateCharacterCommand(_characterStore);
-			DeleteCharacterCommand = new DeleteCharacterCommand(this, _dataService, _characterStore);
+			CreateCharacterCommand = new CreateCharacterCommand(characterStore);
+			DeleteCharacterCommand = new DeleteCharacterCommand(this, dataService, characterStore);
 
-			characterStore.CharacterCreate += LoadCharacter;
+			_characterStore.CharacterCreate += LoadCharacter;
+			_dataService.OnSave += Update;
 
-			List<DnD5eCharacter> characters = new(_dataService.GetCharacters());
+			List<DnD5eCharacter> characters = new(dataService.GetCharacters());
 
 			CharacterItems = new ObservableCollection<CharacterItemViewModel>();
 			CharacterCollectionView = CollectionViewSource.GetDefaultView(CharacterItems);
-			collectionViewPropertySort = new CollectionViewPropertySort(CharacterCollectionView);
+			_collectionViewPropertySort = new CollectionViewPropertySort(CharacterCollectionView);
 			CharacterCollectionView.SortDescriptions.Add(new SortDescription(nameof(CharacterItemViewModel.CharacterDateModified), ListSortDirection.Descending));
 
-			while (!_dataService.GetCharacters().Any())
+			while (!dataService.GetCharacters().Any())
 			{
 				CreateCharacterCommand.Execute(null);
 			}
 
-			List<string> characterPaths = _dataService.GetCharacterFilePaths().ToList();
+			List<string> characterPaths = dataService.GetCharacterFilePaths().ToList();
 			for (int i = 0; i < characters.Count; i++)
 			{
-				CharacterItemViewModel characterItemVM = new(characterStore, characters[i], characterPaths[i]);
+				CharacterItemViewModel characterItemVM = new(this._characterStore, characters[i], characterPaths[i]);
 				characterItemVM.DeleteAction += DeleteCharacter;
 
 				CharacterItems.Add(characterItemVM);
 			}
 
-			NameSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort, 
+			NameSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort, 
 				nameof(CharacterItemViewModel.CharacterName));
-			LevelSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+			LevelSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort,
 				nameof(CharacterItemViewModel.CharacterLevel));
-			ClassSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort, 
+			ClassSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort, 
 				nameof(CharacterItemViewModel.CharacterClass));
-			DataModifiedSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort, 
+			DataModifiedSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort, 
 				nameof(CharacterItemViewModel.CharacterDateModified));
-			CharacterTypeSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort, 
+			CharacterTypeSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort, 
 				nameof(CharacterItemViewModel.CharacterType));
-			CharacterRaceSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort, 
+			CharacterRaceSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort, 
 				nameof(CharacterItemViewModel.CharacterRace));
 
 			CharacterItems.OrderBy(x => x.CharacterDateModified).First().SelectCharacterCommand.Execute(null);
@@ -89,7 +90,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void DeleteCharacter(string path)
 		{
-			dataService.Delete(path);
+			_dataService.Delete(path);
 
 			CharacterItemViewModel? characterItemVM 
 				= CharacterItems.Where(c => path.Contains(c.CharacterName)).FirstOrDefault();
@@ -107,13 +108,13 @@ namespace PCCharacterManager.ViewModels
 		/// creates a CharacterItemViewModel for the given character and adds them to the list of
 		/// characters to display
 		/// </summary>
-		/// <param name="_character">character to add</param>
-		private void LoadCharacter(DnD5eCharacter _character)
+		/// <param name="character">character to add</param>
+		private void LoadCharacter(DnD5eCharacter character)
 		{
-			if (_character == null)
+			if (character == null)
 				return;
 
-			CharacterItemViewModel characterItemVM = CharacterItemVMFactory.Create(_character, characterStore);
+			CharacterItemViewModel characterItemVM = CharacterItemVMFactory.Create(character, _characterStore);
 			characterItemVM.DeleteAction += DeleteCharacter;
 
 			CharacterItems.Add(characterItemVM);
@@ -124,15 +125,15 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void Update()
 		{
-			if (characterStore.SelectedCharacter == null)
+			if (_characterStore.SelectedCharacter == null)
 				return;
 
-			CharacterItemViewModel? characterItem = CharacterItems.FirstOrDefault(c => c.CharacterName == characterStore.SelectedCharacter.Name);
+			CharacterItemViewModel? characterItem = CharacterItems.FirstOrDefault(c => c.Id == _characterStore.SelectedCharacter.Id);
 
 			if (characterItem == null)
 				return;
 
-			characterItem.Update(characterStore.SelectedCharacter);
+			characterItem.Update(_characterStore.SelectedCharacter);
 		}
 		
 		/// <summary>
@@ -140,11 +141,12 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		public void SaveCharacter()
 		{
-			if (characterStore.SelectedCharacter == null)
+			if (_characterStore.SelectedCharacter == null)
 				return;
 
-			dataService.Save(characterStore.SelectedCharacter);
+			_dataService.Save(_characterStore.SelectedCharacter); 
 			Update();
+			CharacterCollectionView?.Refresh();
 		}
 
 	} // end class

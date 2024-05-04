@@ -67,8 +67,10 @@ namespace PCCharacterManager.Views
 			if (note == null)
 				return;
 
+			richTextBox.TextChanged -= UpdateNote;
 			richTextBox.Document.Blocks.Clear();
 			richTextBox.Document.Blocks.Add(new Paragraph(new Run(note.Notes)));
+			richTextBox.TextChanged += UpdateNote;
 		}
 
 		private void FindAndHighlightText()
@@ -143,11 +145,6 @@ namespace PCCharacterManager.Views
 			}
 		}
 
-		public void FocusSearchBox()
-		{
-			this.searchBox.Focus();
-		}
-
 		/// <summary>
 		/// used to link the vm so that the view updates to display the note contents
 		/// </summary>
@@ -169,9 +166,10 @@ namespace PCCharacterManager.Views
 
 			string s = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd).Text;
 
-			if (string.IsNullOrEmpty(s) || string.IsNullOrWhiteSpace(s)) 
-				return;
 			
+			if (viewModel.SelectedNote is null)
+				return;
+
 			viewModel.SelectedNote.Notes = s;
 		}
 
@@ -193,6 +191,32 @@ namespace PCCharacterManager.Views
 					return;
 
 				item.IsExpanded = true;
+			}
+		}
+
+		public void FocusSearchBox()
+		{
+			placeholderText.Visibility = Visibility.Collapsed;
+			searchBox.Visibility = Visibility.Visible;
+			this.searchBox.Focus();
+		}
+
+		private void searchBox_LostFocus(object sender, RoutedEventArgs e)
+		{
+			if (searchBox.Text == "")
+			{
+				placeholderText.Visibility = Visibility.Visible;
+				searchBox.Visibility = Visibility.Collapsed;
+			}
+		}
+
+		private void searchBox_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if (searchBox.Text == "")
+			{
+				placeholderText.Visibility = Visibility.Collapsed;
+				searchBox.Visibility = Visibility.Visible;
+				FocusSearchBox();
 			}
 		}
 	}

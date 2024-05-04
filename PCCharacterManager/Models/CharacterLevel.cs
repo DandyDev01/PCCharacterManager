@@ -9,38 +9,38 @@ namespace PCCharacterManager.Models
 {
 	public class CharacterLevel : ObservableObject, ILevel
 	{
-		private int level = 1;
-		private int experiencePoints;
-		private int proficiencyBonus;
+		private int _level = 1;
+		private int _experiencePoints;
+		private int _proficiencyBonus;
 
 
 		public int Level
 		{
-			get { return level; }
+			get { return _level; }
 			set
 			{
 				if (value < 1)
 					value = 1;
 
-				level = value;
+				_level = value;
 				SetProfBonus(this);
-				OnPropertyChanged(ref level, value);
+				OnPropertyChanged(ref _level, value);
 			}
 		}
 		public int ExperiencePoints
 		{
-			get { return experiencePoints; }
+			get { return _experiencePoints; }
 			set
 			{
-				OnPropertyChanged(ref experiencePoints, value);
+				OnPropertyChanged(ref _experiencePoints, value);
 			}
 		}
 		public int ProficiencyBonus
 		{
-			get { return proficiencyBonus; }
+			get { return _proficiencyBonus; }
 			set
 			{
-				OnPropertyChanged(ref proficiencyBonus, value);
+				OnPropertyChanged(ref _proficiencyBonus, value);
 			}
 		}
 

@@ -22,6 +22,13 @@ namespace PCCharacterManager.DialogWindows
 		public StringInputDialogWindow()
 		{
 			InitializeComponent();
+			inputBox.Focus();
+			
+		}
+
+		private void inputBox_GotFocus(object sender, RoutedEventArgs e)
+		{
+			inputBox.CaretIndex = inputBox.Text.Length;
 		}
 	}
 }

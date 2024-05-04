@@ -11,19 +11,19 @@ namespace PCCharacterManager.ViewModels
 {
 	public class StarfinderAbilitiesAndSkillsViewModel : ObservableObject
 	{
-		private StarfinderCharacter? selectedCharacter;
+		private StarfinderCharacter? _selectedCharacter;
 
 		public StarfinderSkill[] Skills { get; private set; }
 		public StarfinderAbility[] Abilities { get; private set; }
 
-		public StarfinderAbilitiesAndSkillsViewModel(CharacterStore _characterStore)
+		public StarfinderAbilitiesAndSkillsViewModel(CharacterStore characterStore)
 		{
-			_characterStore.SelectedCharacterChange += OnCharacterChanged;
+			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			Skills = StarfinderSkill.Default;
 			Abilities = StarfinderAbility.Default;
 
-			if (_characterStore.SelectedCharacter == null)
+			if (characterStore.SelectedCharacter == null)
 				return;
 
 			//OnCharacterChanged(_characterStore.SelectedCharacter);
@@ -37,13 +37,13 @@ namespace PCCharacterManager.ViewModels
 			if (newCharacter is not StarfinderCharacter starFinderCharacter)
 				return;
 
-			selectedCharacter = starFinderCharacter;
+			_selectedCharacter = starFinderCharacter;
 
-			Skills = StarfinderAbility.GetSkills(selectedCharacter.Abilities);
+			Skills = StarfinderAbility.GetSkills(_selectedCharacter.Abilities);
 			Skills = Skills.OrderBy(x => x.Name).ToArray();
 			OnPropertyChanged(nameof(Skills));
 
-			Abilities = selectedCharacter.Abilities;
+			Abilities = _selectedCharacter.Abilities;
 			OnPropertyChanged(nameof(Abilities));
 		}
 	}

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PCCharacterManager", "PCCharacterManager\PCCharacterManager.csproj", "{3653933A-B455-439D-B156-8996D4560AE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCCharacterManagerTests", "PCCharacterManagerTests\PCCharacterManagerTests.csproj", "{58B5A285-3C6C-4ECF-BAF9-0F17D9400A7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PCCharacterManagerTests", "PCCharacterManagerTests\PCCharacterManagerTests.csproj", "{58B5A285-3C6C-4ECF-BAF9-0F17D9400A7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

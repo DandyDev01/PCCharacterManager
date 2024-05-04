@@ -12,7 +12,7 @@ namespace PCCharacterManager.Commands
 {
 	public class SelectCharacterCommand : BaseCommand
 	{
-		private readonly string characterPath;
+		public string characterPath;
 		private readonly CharacterStore characterStore;
 
 		public SelectCharacterCommand(CharacterStore characterStore, string _characterPath)
@@ -35,7 +35,13 @@ namespace PCCharacterManager.Commands
 			}
 			else
 			{
-				MessageBox.Show("there is a problem with the character you wish to select", "character select problem", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("There is a problem with the character path you wish to select", "character select problem", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			if (selectedCharacter == null)
+			{
+				MessageBox.Show("There is a problem with the character you wish to select", "character select problem", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 

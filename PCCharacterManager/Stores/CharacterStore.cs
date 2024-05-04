@@ -9,9 +9,16 @@ namespace PCCharacterManager.Stores
 {
 	public class CharacterStore
 	{
-		public DnD5eCharacter? SelectedCharacter { get; private set; }
+		public DnD5eCharacter SelectedCharacter { get; private set; }
+
+		public Action<DnD5eCharacter>? SaveSelectedCharacterOnChange { get; internal set; }
 		public event Action<DnD5eCharacter>? CharacterCreate;
 		public event Action<DnD5eCharacter>? SelectedCharacterChange;
+
+		public CharacterStore()
+		{ 
+			SelectedCharacter = DnD5eCharacter.Default;
+		}
 
 		public void CreateCharacter(DnD5eCharacter character)
 		{
@@ -24,7 +31,7 @@ namespace PCCharacterManager.Stores
 		/// <param name="characterToBind">character to bind to</param>
 		public void BindSelectedCharacter(DnD5eCharacter characterToBind)
 		{
-			SelectedCharacterChange?.Invoke(SelectedCharacter);
+			SaveSelectedCharacterOnChange?.Invoke(SelectedCharacter);
 			SelectedCharacter = characterToBind;
 
 			// causes bug that makes characters get saved when selected.

@@ -12,7 +12,7 @@ namespace PCCharacterManager.ViewModels
 {
 	public class ItemEditableViewModel : ItemViewModel
 	{
-		private readonly PropertyEditableVMPool propertyVMPool;
+		private readonly PropertyEditableVMPool _propertyVMPool;
 
 		public ObservableCollection<PropertyEditableViewModel> DisplayProperties { get; }	
 
@@ -31,14 +31,14 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public ItemEditableViewModel(Item _item, PropertyEditableVMPool _propertyVMPool)
+		public ItemEditableViewModel(Item item, PropertyEditableVMPool propertyVMPool)
 		{
-			propertyVMPool = _propertyVMPool;
-			boundItem = _item;
+			_propertyVMPool = propertyVMPool;
+			_boundItem = item;
 
-			displayQuantity = boundItem.Quantity;
-			displayDesc = boundItem.Desc;
-			displayName = boundItem.Name;
+			_displayQuantity = _boundItem.Quantity;
+			_displayDesc = _boundItem.Desc;
+			_displayName = _boundItem.Name;
 			DisplayProperties = new ObservableCollection<PropertyEditableViewModel>();
 
 			EditCommand = new RelayCommand(Edit);
@@ -46,9 +46,9 @@ namespace PCCharacterManager.ViewModels
 			RemovePropertyCommand = new RelayCommand(RemoveProperty);
 			RemoveCommand = new RelayCommand(Remove);
 
-			foreach (var property in boundItem.Properties)
+			foreach (var property in _boundItem.Properties)
 			{
-				PropertyEditableViewModel temp = propertyVMPool.GetItem();
+				PropertyEditableViewModel temp = this._propertyVMPool.GetItem();
 				temp.Bind(property);
 				temp.IsEditMode = IsEditMode;
 				DisplayProperties.Add(temp);
@@ -57,11 +57,11 @@ namespace PCCharacterManager.ViewModels
 
 		public ItemEditableViewModel(PropertyEditableVMPool _propertyVMPool)
 		{
-			propertyVMPool = _propertyVMPool;
+			this._propertyVMPool = _propertyVMPool;
 
-			displayQuantity = 0;
-			displayDesc = string.Empty;
-			displayName = string.Empty;
+			_displayQuantity = 0;
+			_displayDesc = string.Empty;
+			_displayName = string.Empty;
 
 			EditCommand = new RelayCommand(Edit);
 			AddPropertyCommand = new RelayCommand(AddProperty);
@@ -75,7 +75,7 @@ namespace PCCharacterManager.ViewModels
 			if (BoundItem == null)
 				return;
 
-			PropertyEditableViewModel propertyItem = propertyVMPool.GetItem();
+			PropertyEditableViewModel propertyItem = _propertyVMPool.GetItem();
 
 			Property newProperty = new Property()
 			{
@@ -97,7 +97,7 @@ namespace PCCharacterManager.ViewModels
 
 			BoundItem.RemoveProperty(SelectedProperty.BoundProperty);
 			DisplayProperties.Remove(SelectedProperty);
-			propertyVMPool.Return(SelectedProperty);
+			_propertyVMPool.Return(SelectedProperty);
 		}
 
 		private void Remove()
@@ -108,7 +108,7 @@ namespace PCCharacterManager.ViewModels
 		public void Edit()
 		{
 
-			IsEditMode = !isEditMode;
+			IsEditMode = !_isEditMode;
 
 			foreach (var property in DisplayProperties)
 			{

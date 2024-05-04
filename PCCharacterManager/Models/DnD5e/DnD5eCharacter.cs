@@ -21,51 +21,60 @@ namespace PCCharacterManager.Models
 
 	public class DnD5eCharacter : ObservableObject
 	{
-		protected Ability[] abilities;
+		public static DnD5eCharacter Default => new DnD5eCharacter();
 
-		protected string name;
+		protected Ability[] _abilities;
+
+		protected string _name;
 		public string Name
 		{
-			get { return name; }
+			get { return _name; }
 			set 
 			{ 
-				OnPropertyChanged(ref name, value); 
+				OnPropertyChanged(ref _name, value); 
 			}
 		}
 
-		protected string background;
+		protected string _id;
+		public string Id
+		{
+			get => _id;
+			set => OnPropertyChanged(ref _id, value);
+		}
+
+		protected string _background;
 		public string Background
 		{
-			get { return background; }
-			set { OnPropertyChanged(ref background, value); }
+			get { return _background; }
+			set { OnPropertyChanged(ref _background, value); }
 		}
 		
-		protected string dateModified;
+		protected string _dateModified;
 		public string DateModified
 		{
-			get { return dateModified; }	
-			set { OnPropertyChanged(ref dateModified, value); }
+			get { return _dateModified; }	
+			set { OnPropertyChanged(ref _dateModified, value); }
 		}
 		
-		protected int initiative;
+		protected int _initiative;
 		public int Initiative
 		{
-			get { return initiative; }
-			set { OnPropertyChanged(ref initiative, value); }
+			get { return _initiative; }
+			set { OnPropertyChanged(ref _initiative, value); }
 		}
 		
-		protected int passivePerception;
+		protected int _passivePerception;
 		public int PassivePerception
 		{
-			get { return passivePerception; }
-			set { OnPropertyChanged(ref passivePerception, value); }
+			get { return _passivePerception; }
+			set { OnPropertyChanged(ref _passivePerception, value); }
 		}
 		
-		protected int passiveInsight;
+		protected int _passiveInsight;
 		public int PassiveInsight
 		{
-			get { return passiveInsight; }
-			set { OnPropertyChanged(ref passiveInsight, value); }
+			get { return _passiveInsight; }
+			set { OnPropertyChanged(ref _passiveInsight, value); }
 		}
 
 		public DnD5eCharacterClass CharacterClass { get; set; }
@@ -78,10 +87,11 @@ namespace PCCharacterManager.Models
 		public Health Health { get; set; }
 		public Ability[] Abilities
 		{
-			get { return abilities; }
-			set { abilities = value; }
+			get { return _abilities; }
+			set { _abilities = value; }
 		}
 
+		public ObservableCollection<Property> Conditions { get; set; }
 		public ObservableCollection<Property> MovementTypes_Speeds { get; set; }
 		public ObservableCollection<string> WeaponProficiencies { get; set; }
 		public ObservableCollection<string> ArmorProficiencies { get; set; }
@@ -106,8 +116,9 @@ namespace PCCharacterManager.Models
 
 		public DnD5eCharacter()
 		{
-			abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
-			
+			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
+
+			Conditions = new ObservableCollection<Property>();
 			MovementTypes_Speeds = new ObservableCollection<Property>();
 			WeaponProficiencies = new ObservableCollection<string>();
 			ArmorProficiencies = new ObservableCollection<string>();
@@ -124,6 +135,7 @@ namespace PCCharacterManager.Models
 			Inventory = new Inventory();
 			Health = new Health(1);
 
+			Conditions.CollectionChanged += OnCharacterChanged;
 			MovementTypes_Speeds.CollectionChanged += OnCharacterChanged;
 			WeaponProficiencies.CollectionChanged += OnCharacterChanged;
 			ArmorProficiencies.CollectionChanged += OnCharacterChanged;
@@ -131,17 +143,18 @@ namespace PCCharacterManager.Models
 			ToolProficiences.CollectionChanged += OnCharacterChanged;
 			Languages.CollectionChanged += OnCharacterChanged;
 
-			name = string.Empty;
-			dateModified = string.Empty;
-			background = string.Empty;
+			_name = string.Empty;
+			_dateModified = string.Empty;
+			_background = string.Empty;
 			CharacterType = CharacterType.DnD5e;
 		}
 
 		public DnD5eCharacter(DnD5eCharacterClassData classData, DnD5eCharacterRaceData raceData, 
 			DnD5eBackgroundData backgroundData)
 		{
-			abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
+			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 
+			Conditions = new ObservableCollection<Property>();
 			MovementTypes_Speeds = new ObservableCollection<Property>();
 			WeaponProficiencies = new ObservableCollection<string>(classData.WeaponProficiencies);
 			ArmorProficiencies = new ObservableCollection<string>(classData.ArmorProficiencies);
@@ -158,9 +171,9 @@ namespace PCCharacterManager.Models
 			Inventory = new Inventory();
 			Health = new Health(1);
 			
-			name = string.Empty;
-			dateModified = string.Empty;
-			background = backgroundData.Name;
+			_name = string.Empty;
+			_dateModified = string.Empty;
+			_background = backgroundData.Name;
 			Size = raceData.Size;
 			Alignment = Alignment.LAWFUL_GOOD;
 			CharacterType = CharacterType.DnD5e;

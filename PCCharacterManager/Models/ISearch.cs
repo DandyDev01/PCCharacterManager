@@ -10,16 +10,16 @@ namespace PCCharacterManager.Models
 {
 	public abstract class ISearch<T> : ObservableObject
 	{
-		protected string searchTerm = string.Empty;
+		protected string _searchTerm = string.Empty;
 		public string SearchTerm
 		{
 			get
 			{
-				return searchTerm;
+				return _searchTerm;
 			}
 			set
 			{
-				OnPropertyChanged(ref searchTerm, value);
+				OnPropertyChanged(ref _searchTerm, value);
 			}
 		}
 

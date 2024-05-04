@@ -9,36 +9,36 @@ namespace PCCharacterManager.Models
 {
 	public class Note : ObservableObject
 	{
-		private string notes;
+		private string _notes;
 		public string Notes
 		{
-			get { return notes; }
-			set { OnPropertyChanged(ref notes, value); }
+			get { return _notes; }
+			set{ OnPropertyChanged(ref _notes, value); }
 		}
 
-		private string title;
+		private string _title;
 		public string Title
 		{
-			get { return title; }
-			set { OnPropertyChanged(ref title, value); }
+			get { return _title; }
+			set { OnPropertyChanged(ref _title, value); }
 		}
 
 		public Note() 
 		{
-			notes = string.Empty;
-			title = string.Empty;
+			_notes = string.Empty;
+			_title = string.Empty;
 		}
 
-		public Note(string _title)
+		public Note(string title)
 		{
-			title = _title;
-			notes = "";
+			_title = title;
+			_notes = "";
 		}
 
-		public Note(string _title, string _desc)
+		public Note(string title, string desc)
 		{
-			title = _title;
-			notes = _desc;
+			_title = title;
+			_notes = desc;
 		}
 	}
 }

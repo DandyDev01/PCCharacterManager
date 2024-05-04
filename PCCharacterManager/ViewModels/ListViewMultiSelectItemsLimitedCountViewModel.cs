@@ -11,16 +11,16 @@ namespace PCCharacterManager.ViewModels
 	// NOTE: Use ChooseItemListViewModel from CharacterCreator as refrence
 	public class ListViewMultiSelectItemsLimitedCountViewModel : ObservableObject
 	{
-		private List<string> possibleOptions;
-		private List<string> selectedItems;
-		private int amountToBeSelected;
-		private string listSelectedItem;
+		private List<string> _possibleOptions;
+		private List<string> _selectedItems;
+		private int _amountToBeSelected;
+		private string _listSelectedItem;
 
 		public int AmountSelected { get; private set; }
 		public int AmountToBeSelected
 		{
-			get { return amountToBeSelected; }
-			set { OnPropertyChanged(ref amountToBeSelected, value); }
+			get { return _amountToBeSelected; }
+			set { OnPropertyChanged(ref _amountToBeSelected, value); }
 		}
 
 		/// <summary>
@@ -28,36 +28,36 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		public string ListSelectedItem
 		{
-			get { return listSelectedItem; }
-			set { OnPropertyChanged(ref listSelectedItem, value); }
+			get { return _listSelectedItem; }
+			set { OnPropertyChanged(ref _listSelectedItem, value); }
 		}
 
-		public IEnumerable<string> SelectedItems { get { return selectedItems; } }
+		public IEnumerable<string> SelectedItems { get { return _selectedItems; } }
 		public ObservableCollection<ListViewSelectableItemViewModel> Items { get; private set; }
 
-		public ListViewMultiSelectItemsLimitedCountViewModel(int _amountToBeSelected, List<string> _possibleOptions)
+		public ListViewMultiSelectItemsLimitedCountViewModel(int amountToBeSelected, List<string> possibleOptions)
 		{
-			amountToBeSelected = _amountToBeSelected;
-			possibleOptions = _possibleOptions;
-			selectedItems = new List<string>();
+			_amountToBeSelected = amountToBeSelected;
+			_possibleOptions = possibleOptions;
+			_selectedItems = new List<string>();
 			Items = new ObservableCollection<ListViewSelectableItemViewModel>();
-			listSelectedItem = String.Empty;
+			_listSelectedItem = String.Empty;
 			PopulateItems();
 		}
 
-		public void PopulateItems(int _amountToBeSelected, List<string> _possibleOptions)
+		public void PopulateItems(int amountToBeSelected, List<string> possibleOptions)
 		{
-			possibleOptions = _possibleOptions;
-			AmountToBeSelected = _amountToBeSelected;
+			_possibleOptions = possibleOptions;
+			AmountToBeSelected = amountToBeSelected;
 			AmountSelected = 0;
-			selectedItems.Clear();
+			_selectedItems.Clear();
 			PopulateItems();
 		}
 
 		private void PopulateItems()
 		{
 			Items.Clear();
-			foreach (var item in possibleOptions)
+			foreach (var item in _possibleOptions)
 			{
 				ListViewSelectableItemViewModel selectableItemVM = new ListViewSelectableItemViewModel(item);
 				selectableItemVM.OnSelect += AddSelectedItem;
@@ -69,13 +69,13 @@ namespace PCCharacterManager.ViewModels
 		private void AddSelectedItem(ListViewSelectableItemViewModel itemToAdd)
 		{
 			AmountSelected += 1;
-			if (AmountSelected > amountToBeSelected)
+			if (AmountSelected > _amountToBeSelected)
 			{
 				itemToAdd.IsSelected = false;
 				return;
 			}
 
-			selectedItems.Add(itemToAdd.BoundItem);
+			_selectedItems.Add(itemToAdd.BoundItem);
 		}
 
 		private void RemoveSelectedItem(ListViewSelectableItemViewModel itemToRemove)
@@ -84,7 +84,7 @@ namespace PCCharacterManager.ViewModels
 			if (temp < 0)
 				return;
 
-			selectedItems.Remove(itemToRemove.BoundItem);
+			_selectedItems.Remove(itemToRemove.BoundItem);
 			AmountSelected = temp;
 		}
 	}

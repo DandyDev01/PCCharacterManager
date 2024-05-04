@@ -10,151 +10,152 @@ namespace PCCharacterManager.ViewModels
 {
 	public class ItemViewModel : ObservableObject
 	{
-		protected Item? boundItem;
-		public Item? BoundItem
+		protected Item _boundItem;
+		public Item BoundItem
 		{
-			get { return boundItem; }
-			set { OnPropertyChanged(ref boundItem, value); }
+			get { return _boundItem; }
+			set { OnPropertyChanged(ref _boundItem, value); }
 		}
 
-		protected bool isEditMode;
+		protected bool _isEditMode;
 		public bool IsEditMode
 		{
-			get { return isEditMode; }
+			get { return _isEditMode; }
 			set
 			{
-				OnPropertyChanged(ref isEditMode, value);
-				OnPropertyChanged("IsDisplayMode");
+				OnPropertyChanged(ref _isEditMode, value);
+				OnPropertyChanged(nameof(IsDisplayMode));
 			}
 		}
 
 		public bool IsDisplayMode
 		{
-			get { return !isEditMode; }
+			get { return !_isEditMode; }
 		}
 
-		protected string displayName;
+		protected string _displayName;
 		public string DisplayName
 		{
-			get { return displayName; }
+			get { return _displayName; }
 			set
 			{
-				boundItem.Name = value;
-				OnPropertyChanged(ref displayName, value);
+				_boundItem.Name = value;
+				OnPropertyChanged(ref _displayName, value);
 			}
 		}
 
-		protected string displayDesc;
+		protected string _displayDesc;
 		public string DisplayDesc
 		{
-			get { return displayDesc; }
+			get { return _displayDesc; }
 			set
 			{
-				boundItem.Desc = value;
-				OnPropertyChanged(ref displayDesc, value);
+				_boundItem.Desc = value;
+				OnPropertyChanged(ref _displayDesc, value);
 			}
 		}
 
-		protected int displayQuantity;
+		protected int _displayQuantity;
 		public int DisplayQuantity
 		{
-			get { return displayQuantity; }
+			get { return _displayQuantity; }
 			set
 			{
 				BoundItem.Quantity = value;
-				OnPropertyChanged(ref displayQuantity, value);
+				OnPropertyChanged(ref _displayQuantity, value);
 			}
 		}
 
-		private string displayWeight;
+		private string _displayWeight;
 		public string DisplayWeight
 		{
 			get
 			{
-				return displayWeight;
+				return _displayWeight;
 			}
 			set
 			{
-				OnPropertyChanged(ref displayWeight, value);
+				OnPropertyChanged(ref _displayWeight, value);
 			}
 		}
 
-		private string displayCost;
+		private string _displayCost;
 		public string DisplayCost
 		{
 			get
 			{
-				return displayCost;
+				return _displayCost;
 			}
 			set
 			{
-				OnPropertyChanged(ref displayCost, value);
+				OnPropertyChanged(ref _displayCost, value);
 			}
 		}
 
-		private ItemType displayItemType;
+		private ItemType _displayItemType;
 		public ItemType DisplayItemType
 		{
 			get
 			{
-				return displayItemType;
+				return _displayItemType;
 			}
 			set
 			{
-				OnPropertyChanged(ref displayItemType, value);
-				boundItem.Type = value;
+				OnPropertyChanged(ref _displayItemType, value);
+				_boundItem.Type = value;
 			}
 		}
 
-		private ItemCategory displayItemCategory;
+		private ItemCategory _displayItemCategory;
 		public ItemCategory DisplayItemCategory
 		{
 			get
 			{
-				return displayItemCategory;
+				return _displayItemCategory;
 			}
 			set
 			{
-				OnPropertyChanged(ref displayItemCategory, value);
-				boundItem.Category = value;
+				OnPropertyChanged(ref _displayItemCategory, value);
+				_boundItem.Category = value;
 			}
 		}
 
-		public ItemViewModel(Item _item)
+		public ItemViewModel(Item item)
 		{
-			boundItem = _item;
+			_boundItem = item;
 
-			displayName = _item.Name;
-			displayDesc = _item.Desc;
-			displayWeight = _item.Weight;
-			displayCost = _item.Cost;
-			displayQuantity = _item.Quantity;
-			displayItemCategory = _item.Category;
-			displayItemType = _item.Type;
+			_displayName = item.Name;
+			_displayDesc = item.Desc;
+			_displayWeight = item.Weight;
+			_displayCost = item.Cost;
+			_displayQuantity = item.Quantity;
+			_displayItemCategory = item.Category;
+			_displayItemType = item.Type;
 		}
 
 		public ItemViewModel()
 		{
-			displayName = string.Empty;
-			displayDesc = string.Empty;
-			displayWeight = string.Empty;
-			displayCost = string.Empty;
-			displayQuantity = 0;
-			displayItemCategory = ItemCategory.Item;
-			displayItemType = ItemType.Spear;
+			_displayName = string.Empty;
+			_displayDesc = string.Empty;
+			_displayWeight = string.Empty;
+			_displayCost = string.Empty;
+			_displayQuantity = 0;
+			_displayItemCategory = ItemCategory.Item;
+			_displayItemType = ItemType.Spear;
+			_boundItem = new();
 		}
 
-		public void Bind(Item _item)
+		public void Bind(Item item)
 		{
-			boundItem = _item;
+			_boundItem = item;
 
-			displayName = _item.Name;
-			displayDesc = _item.Desc;
-			displayWeight = _item.Weight;
-			displayCost = _item.Cost;
-			displayQuantity = _item.Quantity;
-			displayItemCategory = _item.Category;
-			displayItemType = _item.Type;
+			_displayName = item.Name;
+			_displayDesc = item.Desc;
+			_displayWeight = item.Weight;
+			_displayCost = item.Cost;
+			_displayQuantity = item.Quantity;
+			_displayItemCategory = item.Category;
+			_displayItemType = item.Type;
 		}
 	}
 }

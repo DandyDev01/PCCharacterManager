@@ -13,67 +13,82 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterItemViewModel : ObservableObject
 	{
-		private readonly string characterPath;
-		public string CharacterPath => characterPath;
+		private string _characterPath;
+		public string CharacterPath => _characterPath;
 
-		private string characterName;
-		public string CharacterName => characterName;
+		private string _characterName;
+		public string CharacterName => _characterName;
 
-		private string characterClass;
-		public string CharacterClass => characterClass;
+		private string _id;
+		public string Id => _id;
 
-		private string characterLevel;
-		public string CharacterLevel => characterLevel;
+		private string _characterClass;
+		public string CharacterClass => _characterClass;
 
-		private string characterDateModified;
-		public string CharacterDateModified => characterDateModified;
+		private string _characterLevel;
+		public string CharacterLevel => _characterLevel;
 
-		private string characterRace;
-		public string CharacterRace => characterRace;
+		private string _characterDateModified;
+		public string CharacterDateModified => _characterDateModified;
 
-		private CharacterType characterType;
-		public CharacterType CharacterType => characterType;
+		private string _characterRace;
+		public string CharacterRace => _characterRace;
 
-		public ICommand SelectCharacterCommand { get; private set; }
+		private CharacterType _characterType;
+		public CharacterType CharacterType => _characterType;
+
+		public SelectCharacterCommand SelectCharacterCommand { get; private set; }
 		public ICommand DeleteCharacterCommand { get; private set; }
 
 		public Action<string>? DeleteAction;
 
 		//TODO: get the characterStore from BookVM
-		public CharacterItemViewModel(CharacterStore characterStore, DnD5eCharacter character, string _characterPath)
+		public CharacterItemViewModel(CharacterStore characterStore, DnD5eCharacter character, string characterPath)
 		{
-			characterName = character.Name;
-			characterClass = character.CharacterClass.Name;
-			characterLevel = character.Level.Level.ToString();
-			characterDateModified = character.DateModified;
-			characterPath = _characterPath;
-			characterType = character.CharacterType;
-			characterRace = character.Race.Name;
+			_characterName = character.Name;
+			_characterClass = character.CharacterClass.Name;
+			_characterLevel = character.Level.Level.ToString();
+			_characterDateModified = character.DateModified;
+			_characterPath = characterPath;
+			_characterType = character.CharacterType;
+			_characterRace = character.Race.Name;
+			_id = character.Id;
 
-			SelectCharacterCommand = new SelectCharacterCommand(characterStore, characterPath);
+			SelectCharacterCommand = new SelectCharacterCommand(characterStore, _characterPath);
 			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
 		}
 
 		public void Update(DnD5eCharacter character)
 		{
-			characterName = character.Name;
-			characterClass = character.CharacterClass.Name;
-			characterLevel = character.Level.Level.ToString();
-			characterDateModified = character.DateModified;
-			characterType = character.CharacterType;
-			characterRace = character.Race.Name;
+			_characterName = character.Name;
+			_characterClass = character.CharacterClass.Name;
+			_characterLevel = character.Level.Level.ToString();
+			_characterDateModified = character.DateModified;
+			_characterType = character.CharacterType;
+			_characterRace = character.Race.Name;
 
-			OnPropertyChanged(nameof(characterName));
-			OnPropertyChanged(nameof(characterClass));
-			OnPropertyChanged(nameof(characterLevel));
-			OnPropertyChanged(nameof(characterDateModified));
-			OnPropertyChanged(nameof(characterType));
-			OnPropertyChanged(nameof(characterRace));
+			if (character is StarfinderCharacter starfinderCharacter)
+			{
+				_characterPath = StarfinderResources.CharacterDataDir + "/" + character.Name + character.Id + ".json";
+			}
+			else
+			{
+				_characterPath = DnD5eResources.CharacterDataDir + "/" + character.Name + character.Id + ".json";
+			}
+
+			SelectCharacterCommand.characterPath = _characterPath;
+
+			OnPropertyChanged(nameof(_characterName));
+			OnPropertyChanged(nameof(_characterClass));
+			OnPropertyChanged(nameof(_characterLevel));
+			OnPropertyChanged(nameof(_characterDateModified));
+			OnPropertyChanged(nameof(_characterType));
+			OnPropertyChanged(nameof(_characterRace));
 		}
 
 		private void DeleteCharacter()
 		{
-			DeleteAction?.Invoke(characterPath);
+			DeleteAction?.Invoke(_characterPath);
 		}
 	}
 }

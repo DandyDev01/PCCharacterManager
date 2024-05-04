@@ -29,6 +29,10 @@ namespace PCCharacterManager.Models
 			Items = new Dictionary<char, ObservableCollection<Item>>();
 		}
 
+		/// <summary>
+		/// Adds an item to the inventory.
+		/// </summary>
+		/// <param name="item">The item to add.</param>
 		public void Add(Item item)
 		{
 			char firstLetter = Char.ToLower(item.Name.First());
@@ -42,10 +46,27 @@ namespace PCCharacterManager.Models
 
 		}
 
+
+		/// <summary>
+		/// Removes an item from inventory.
+		/// </summary>
+		/// <param name="item">The item to remove.</param>
 		public void Remove(Item item)
 		{
 			char firstLetter = Char.ToLower(item.Name.First());
 			Items[firstLetter].Remove(item);
+		}
+
+		/// <summary>
+		/// Adds a collection of items.
+		/// </summary>
+		/// <param name="items">The items to add.</param>
+		public void AddRange(IEnumerable<Item> items)
+		{
+			foreach (Item item in items)
+			{
+				Add(item);
+			}
 		}
 	} // end class
 }

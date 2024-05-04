@@ -1,367 +1,560 @@
-﻿<UserControl x:Class="PCCharacterManager.Views.CharacterSpellBookView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PCCharacterManager.Views"
-             xmlns:v="clr-namespace:PCCharacterManager.Views"
-             mc:Ignorable="d" 
-             Background="{DynamicResource ViewBackgroundColor}"
-             d:DesignHeight="1080" d:DesignWidth="1920">
+﻿<UserControl
+    x:Class="PCCharacterManager.Views.CharacterSpellBookView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PCCharacterManager.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:v="clr-namespace:PCCharacterManager.Views"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    Background="{DynamicResource 1}"
+    mc:Ignorable="d">
     <UserControl.InputBindings>
-        <KeyBinding Modifiers="Shift" Key="Tab" Command="{Binding NextFilterCommand}"/>
-        <KeyBinding x:Name="delKeyBinding"  Modifiers="" Key="Delete"/>
+        <KeyBinding
+            Key="Tab"
+            Command="{Binding NextFilterCommand}"
+            Modifiers="Shift" />
+        <KeyBinding
+            Key="Delete"
+            x:Name="delKeyBinding"
+            Modifiers="" />
     </UserControl.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="650"/>
-            <ColumnDefinition/>
+            <ColumnDefinition MaxWidth="650" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="45"/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="45" />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Grid.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Reset Prepared Spells" InputGestureText="N/A" Command="{Binding ClearPreparedSpellsCommand}"/>
-                <MenuItem Header="Add Spell" InputGestureText="N/A" Command="{Binding AddSpellCommand}"/>
-                <MenuItem Header="Remove Spell" Command="{Binding DeleteSpellCommand}"/>
-                <MenuItem Header="Add Cantrip" InputGestureText="N/A" Command="{Binding AddCantripCommand}"/>
-                <MenuItem Header="Remove Cantrip" Command="{Binding DeleteCantripCommand}"/>
+                <MenuItem
+                    Command="{Binding ClearPreparedSpellsCommand}"
+                    Header="Reset Prepared Spells"
+                    InputGestureText="N/A" />
+                <MenuItem
+                    Command="{Binding AddSpellCommand}"
+                    Header="Add Spell"
+                    InputGestureText="N/A" />
+                <MenuItem Command="{Binding DeleteSpellCommand}" Header="Remove Spell" />
+                <MenuItem
+                    Command="{Binding AddCantripCommand}"
+                    Header="Add Cantrip"
+                    InputGestureText="N/A" />
+                <MenuItem Command="{Binding DeleteCantripCommand}" Header="Remove Cantrip" />
             </ContextMenu>
         </Grid.ContextMenu>
 
-        <Menu Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="6" Grid.RowSpan="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+        <Grid
+            Grid.Row="0"
+            Grid.RowSpan="1"
+            Grid.Column="3"
+            Grid.ColumnSpan="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-                <Label Grid.Column="0"
-                       Grid.Row="0"
-                       Content="Search"/>
-                <TextBox x:Name="searchBox" Grid.Column="0"
-                          Grid.Row="1"
-                         Text="{Binding SearchTerm, FallbackValue=search, UpdateSourceTrigger=PropertyChanged}"
-                         Style="{DynamicResource Search}"/>
+            <!--<TextBox x:Name="searchBox" Grid.Column="0"
+                        Grid.Row="1"
+                        Width="100"
+                        Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"/>-->
 
-                <Label Grid.Column="1"
-                       Grid.Row="0"
-                       Content="Search By"/>
-                <ComboBox Grid.Column="1"
-                          Grid.Row="1"
-                          Height="25"
-                          ItemsSource="{Binding SearchFilters}" SelectedIndex="0" 
-                          SelectedValue="{Binding SelectedSearchFilter}"
-                          ToolTip="searchs filter spells, cantrips, or both"/>
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="1">
+                <TextBox
+                    x:Name="searchBox"
+                    Width="200"
+                    Height="23"
+                    FontSize="12"
+                    LostFocus="searchBox_LostFocus"
+                    Style="{DynamicResource Search}"
+                    Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="Collapsed" />
 
-                <Label Grid.Column="2"
-                       Grid.Row="0"
-                       Content="Display"/>
-                <ComboBox Grid.Column="2"
-                          Grid.Row="1"
-                          Height="25"
-                          ItemsSource="{Binding Filters}" SelectedIndex="0" 
-                          SelectedValue="{Binding SelectedFilter}"
-                          ToolTip="Filter Spells to display by school"/>
+                <TextBox
+                    x:Name="placeholderText"
+                    Width="200"
+                    Height="23"
+                    Margin="5,0,0,0"
+                    Foreground="Gray"
+                    GotFocus="searchBox_GotFocus"
+                    Style="{DynamicResource Search}"
+                    Text="Search"
+                    Visibility="Visible" />
+            </StackPanel>
 
-                <Label Grid.Column="3"
-                       Grid.Row="0"
-                       Content="Order By"/>
-                <ComboBox Grid.Column="3"
-                          Grid.Row="1"
-                          Height="25"
-                          ItemsSource="{Binding OrderByOptions}" SelectedIndex="0"
-                          SelectedValue="{Binding SelectedOrderByOption}"
-                          ToolTip="how to order display items"/>
-            </Grid>
-        </Menu>
+            <Label
+                Grid.Row="0"
+                Grid.Column="1"
+                Content="Search By" />
+            <ComboBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Height="23"
+                ItemsSource="{Binding SearchFilters}"
+                SelectedIndex="0"
+                SelectedValue="{Binding SelectedSearchFilter}"
+                ToolTip="searchs filter spells, cantrips, or both" />
+
+            <Label
+                Grid.Row="0"
+                Grid.Column="2"
+                Content="Display School" />
+            <ComboBox
+                Grid.Row="1"
+                Grid.Column="2"
+                Height="23"
+                ItemsSource="{Binding Filters}"
+                SelectedIndex="0"
+                SelectedValue="{Binding SelectedFilter}"
+                ToolTip="Filter Spells to display by school" />
+
+            <Label
+                Grid.Row="0"
+                Grid.Column="3"
+                Content="Order By" />
+            <ComboBox
+                Grid.Row="1"
+                Grid.Column="3"
+                Height="23"
+                ItemsSource="{Binding OrderByOptions}"
+                SelectedIndex="0"
+                SelectedValue="{Binding SelectedOrderByOption}"
+                ToolTip="how to order display items" />
+        </Grid>
+        <!--<Menu Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="6" Grid.RowSpan="1"
+              Background="{DynamicResource 2}">
+        </Menu>-->
 
         <!--#region Left-->
 
-        <ScrollViewer Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="7">
+        <ScrollViewer
+            Grid.Row="0"
+            Grid.RowSpan="7"
+            Grid.Column="0"
+            Grid.ColumnSpan="1">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="230"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="230" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="Prepared spells"/>
-                <ListView Grid.ColumnSpan="1" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" 
-                          ItemsSource="{Binding SpellBook.PreparedSpells}"
-                          DisplayMemberPath="Name"
-                          SelectedValue="{Binding SelectedPreparedSpell}">
+                <Label Content="Prepared spells" FontSize="21" />
+                <ListView
+                    Grid.Row="2"
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="1"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding SpellBook.PreparedSpells}"
+                    SelectedValue="{Binding SelectedPreparedSpell}">
                     <ListView.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="{Binding PreparedSpellText}" Command="{Binding UnprepareSpellCommand}"/>
-                            <MenuItem Header="Clear" Command="{Binding ClearPreparedSpellsCommand}"/>
+                            <MenuItem Command="{Binding UnprepareSpellCommand}" Header="{Binding PreparedSpellText}" />
+                            <MenuItem Command="{Binding ClearPreparedSpellsCommand}" Header="Clear" />
                         </ContextMenu>
                     </ListView.ContextMenu>
                 </ListView>
+                <Button
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Height="23"
+                    VerticalAlignment="Top"
+                    Command="{Binding ClearPreparedSpellsCommand}"
+                    Content="Clear" />
 
-                <Button Grid.Column="0" Grid.Row="3" 
-                        Command="{Binding ClearPreparedSpellsCommand}"
-                        Content="Clear"/>
 
-                <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="3"
-                           Text="Spell Slots"/>
+                <Label
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Content="Spell Slots"
+                    FontSize="21" />
 
                 <!--#region Spell Slots Grid-->
-                <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3">
+                <Grid
+                    Grid.Row="1"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="1">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-
                     <!--#region 1-->
-                    <Label Grid.Column="0" Grid.Row="0"  
-                        Content="1st"/>
-                    <TextBox Grid.Column="0" Grid.Row="1" 
-                        Text="{Binding SpellBook.SlotOne, UpdateSourceTrigger=PropertyChanged}" Height="35"/>
-                    <ListView Grid.Column="0" Grid.Row="2" ItemsSource="{Binding SpellBook.FirstLvl}"
-                              HorizontalContentAlignment="Center">
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Content="1st" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Height="35"
+                        Text="{Binding SpellBook.SlotOne, UpdateSourceTrigger=PropertyChanged}" />
+                    <ListView
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        HorizontalContentAlignment="Center"
+                        ItemsSource="{Binding SpellBook.FirstLvl}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Value}"/>
+                                <CheckBox IsChecked="{Binding Value}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <!--#endregion-->
                     <!--#region 2-->
-                    <Label Grid.Column="1" Grid.Row="0"  
-                        Content="2nd"/>
-                    <TextBox Grid.Column="1" Grid.Row="1" 
-                        Text="{Binding SpellBook.SlotTwo, UpdateSourceTrigger=PropertyChanged}" Height="35"/>
-                    <ListView Grid.Column="1" Grid.Row="2" ItemsSource="{Binding SpellBook.SecondLvl}"
-                              HorizontalContentAlignment="Center">
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Content="2nd" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Height="35"
+                        Text="{Binding SpellBook.SlotTwo, UpdateSourceTrigger=PropertyChanged}" />
+                    <ListView
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        HorizontalContentAlignment="Center"
+                        ItemsSource="{Binding SpellBook.SecondLvl}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Value}"/>
+                                <CheckBox IsChecked="{Binding Value}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <!--#endregion-->
                     <!--#region 3-->
-                    <Label Grid.Column="2" Grid.Row="0"  
-                        Content="3rd"/>
-                    <TextBox Grid.Column="2" Grid.Row="1" 
-                        Text="{Binding SpellBook.SlotThree, UpdateSourceTrigger=PropertyChanged}" Height="35"/>
-                    <ListView Grid.Column="2" Grid.Row="2" ItemsSource="{Binding SpellBook.ThirdLvl}"
-                              HorizontalContentAlignment="Center">
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Content="3rd" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Height="35"
+                        Text="{Binding SpellBook.SlotThree, UpdateSourceTrigger=PropertyChanged}" />
+                    <ListView
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        HorizontalContentAlignment="Center"
+                        ItemsSource="{Binding SpellBook.ThirdLvl}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Value}"/>
+                                <CheckBox IsChecked="{Binding Value}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <!--#endregion-->
                     <!--#region 4-->
-                    <Label Grid.Column="3" Grid.Row="0"  
-                        Content="4th"/>
-                    <TextBox Grid.Column="3" Grid.Row="1" 
-                        Text="{Binding SpellBook.SlotFour, UpdateSourceTrigger=PropertyChanged}" Height="35"/>
-                    <ListView Grid.Column="3" Grid.Row="2" ItemsSource="{Binding SpellBook.FourthLvl}"
-                              HorizontalContentAlignment="Center">
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        Content="4th" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Height="35"
+                        Text="{Binding SpellBook.SlotFour, UpdateSourceTrigger=PropertyChanged}" />
+                    <ListView
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        HorizontalContentAlignment="Center"
+                        ItemsSource="{Binding SpellBook.FourthLvl}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Value}"/>
+                                <CheckBox IsChecked="{Binding Value}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <!--#endregion-->
                     <!--#region 5-->
-                    <Label Grid.Column="4" Grid.Row="0"  
-                        Content="5th"/>
-                    <TextBox Grid.Column="4" Grid.Row="1" 
-                        Text="{Binding SpellBook.SlotFive, UpdateSourceTrigger=PropertyChanged}" Height="35"/>
-                    <ListView Grid.Column="4" Grid.Row="2" ItemsSource="{Binding SpellBook.FifthLvl}"
-                              HorizontalContentAlignment="Center">
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="4"
+                        Content="5th" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="4"
+                        Height="35"
+                        Text="{Binding SpellBook.SlotFive, UpdateSourceTrigger=PropertyChanged}" />
+                    <ListView
+                        Grid.Row="2"
+                        Grid.Column="4"
+                        HorizontalContentAlignment="Center"
+                        ItemsSource="{Binding SpellBook.FifthLvl}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Value}"/>
+                                <CheckBox IsChecked="{Binding Value}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <!--#endregion-->
 
                     <!--#region 6-->
-                    <Label Grid.Column="5" Grid.Row="0"  
-                        Content="6th"/>
-                    <TextBox Grid.Column="5" Grid.Row="1" 
-                        Text="{Binding SpellBook.SlotSix, UpdateSourceTrigger=PropertyChanged}" Height="35"/>
-                    <ListView Grid.Column="5" Grid.Row="2" ItemsSource="{Binding SpellBook.SixLvl}"
-                              HorizontalContentAlignment="Center">
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="5"
+                        Content="6th" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="5"
+                        Height="35"
+                        Text="{Binding SpellBook.SlotSix, UpdateSourceTrigger=PropertyChanged}" />
+                    <ListView
+                        Grid.Row="2"
+                        Grid.Column="5"
+                        HorizontalContentAlignment="Center"
+                        ItemsSource="{Binding SpellBook.SixLvl}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Value}"/>
+                                <CheckBox IsChecked="{Binding Value}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <!--#endregion-->
                     <!--#region 7-->
-                    <Label Grid.Column="6" Grid.Row="0"  
-                        Content="7th"/>
-                    <TextBox Grid.Column="6" Grid.Row="1" 
-                        Text="{Binding SpellBook.SlotSeven, UpdateSourceTrigger=PropertyChanged}" Height="35"/>
-                    <ListView Grid.Column="6" Grid.Row="2" ItemsSource="{Binding SpellBook.SeventhLvl}"
-                              HorizontalContentAlignment="Center">
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="6"
+                        Content="7th" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="6"
+                        Height="35"
+                        Text="{Binding SpellBook.SlotSeven, UpdateSourceTrigger=PropertyChanged}" />
+                    <ListView
+                        Grid.Row="2"
+                        Grid.Column="6"
+                        HorizontalContentAlignment="Center"
+                        ItemsSource="{Binding SpellBook.SeventhLvl}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Value}"/>
+                                <CheckBox IsChecked="{Binding Value}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <!--#endregion-->
                     <!--#region 8-->
-                    <Label Grid.Column="7" Grid.Row="0"  
-                        Content="8th"/>
-                    <TextBox Grid.Column="7" Grid.Row="1" 
-                        Text="{Binding SpellBook.SlotEight, UpdateSourceTrigger=PropertyChanged}" Height="35"/>
-                    <ListView Grid.Column="7" Grid.Row="2" ItemsSource="{Binding SpellBook.EightLvl}"
-                              HorizontalContentAlignment="Center">
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="7"
+                        Content="8th" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="7"
+                        Height="35"
+                        Text="{Binding SpellBook.SlotEight, UpdateSourceTrigger=PropertyChanged}" />
+                    <ListView
+                        Grid.Row="2"
+                        Grid.Column="7"
+                        HorizontalContentAlignment="Center"
+                        ItemsSource="{Binding SpellBook.EightLvl}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Value}"/>
+                                <CheckBox IsChecked="{Binding Value}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <!--#endregion-->
                     <!--#region 9-->
-                    <Label Grid.Column="8" Grid.Row="0"  
-                        Content="9th"/>
-                    <TextBox Grid.Column="8" Grid.Row="1" 
-                        Text="{Binding SpellBook.SlotNine, UpdateSourceTrigger=PropertyChanged}" Height="35"/>
-                    <ListView Grid.Column="8" Grid.Row="2" ItemsSource="{Binding SpellBook.NinethLvl}"
-                              HorizontalContentAlignment="Center">
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="8"
+                        Content="9th" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="8"
+                        Height="35"
+                        Text="{Binding SpellBook.SlotNine, UpdateSourceTrigger=PropertyChanged}" />
+                    <ListView
+                        Grid.Row="2"
+                        Grid.Column="8"
+                        HorizontalContentAlignment="Center"
+                        ItemsSource="{Binding SpellBook.NinethLvl}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <CheckBox IsChecked="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <!--#endregion-->
-
                 </Grid>
                 <!--#endregion-->
 
-                <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2"
-                         Style="{DynamicResource Document}"
-                         Text="{Binding SpellBookNote.Notes, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox
+                    Grid.Row="3"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Text="{Binding SpellBookNote.Notes, UpdateSourceTrigger=PropertyChanged}" />
 
             </Grid>
         </ScrollViewer>
         <!--#endregion-->
 
-        <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="7">
+        <Grid
+            Grid.Row="1"
+            Grid.RowSpan="7"
+            Grid.Column="1"
+            Grid.ColumnSpan="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MaxWidth="50"/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition MaxWidth="50"/>
+                <ColumnDefinition MaxWidth="50" />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition MaxWidth="50" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <!--#region List-->
-            <TextBlock Text="Spells" Grid.Column="1" Grid.Row="0"
-                   Grid.ColumnSpan="2" Grid.RowSpan="1"/>
-            <Button Grid.Column="1" Grid.Row="1"
-                    FontSize="15"
-                    Command="{Binding AddSpellCommand}"
-                    Content="Add"/>
-            <Button Grid.Column="2" Grid.Row="1"
-                    Command="{Binding DeleteSpellCommand}"
-                    FontSize="15"
-                    Content="Remove"/>
-            <ListView Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" 
-                  SelectedItem="{Binding SelectedSpell}"
-                  ItemsSource="{Binding SpellsCollectionView}">
+            <Label
+                Grid.Row="0"
+                Grid.RowSpan="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                Content="Spells"
+                Style="{DynamicResource characterName}" />
+            <Button
+                Grid.Row="1"
+                Grid.Column="1"
+                Height="23"
+                Command="{Binding AddSpellCommand}"
+                FontSize="12">
+                <Image Source="{DynamicResource Add_Icon}" />
+            </Button>
+            <Button
+                Grid.Row="1"
+                Grid.Column="2"
+                Height="23"
+                Command="{Binding DeleteSpellCommand}"
+                FontSize="12">
+                <Image Source="{DynamicResource Move_To_Trash_Icon}" />
+            </Button>
+            <ListView
+                Grid.Row="2"
+                Grid.RowSpan="4"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                ItemsSource="{Binding SpellsCollectionView}"
+                SelectedItem="{Binding SelectedSpell}">
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Add Spell" InputGestureText="N/A" Command="{Binding AddSpellCommand}"/>
-                        <MenuItem Header="Remove Spell" Command="{Binding DeleteSpellCommand}"/>
+                        <MenuItem
+                            Command="{Binding AddSpellCommand}"
+                            Header="Add Spell"
+                            InputGestureText="N/A" />
+                        <MenuItem Command="{Binding DeleteSpellCommand}" Header="Remove Spell" />
                     </ContextMenu>
                 </ListView.ContextMenu>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <v:SpellItemEditableView/>
+                        <v:SpellItemEditableView />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
 
-            <TextBlock Text="Cantrips" Grid.Column="3" Grid.Row="0"
-                       Grid.ColumnSpan="2" Grid.RowSpan="1"/>
-            <Button Grid.Column="3" Grid.Row="1"
-                    Command="{Binding AddCantripCommand}"
-                    FontSize="15"
-                    Content="Add"/>
-            <Button Grid.Column="4" Grid.Row="1"
-                    FontSize="15"
-                    Command="{Binding DeleteCantripCommand}"
-                    Content="Remove"/>
-            <ListView Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" 
-                      SelectedItem="{Binding SelectedCantrip}"
-                      ItemsSource="{Binding CantripsCollectionView}">
+            <Label
+                Grid.Row="0"
+                Grid.RowSpan="1"
+                Grid.Column="3"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                Content="Cantrips"
+                Style="{DynamicResource characterName}" />
+            <Button
+                Grid.Row="1"
+                Grid.Column="3"
+                Height="23"
+                Command="{Binding AddCantripCommand}">
+                <Image Source="{DynamicResource Add_Icon}" />
+            </Button>
+            <Button
+                Grid.Row="1"
+                Grid.Column="4"
+                Height="23"
+                Command="{Binding DeleteCantripCommand}"
+                FontSize="12">
+                <Image Source="{DynamicResource Move_To_Trash_Icon}" />
+            </Button>
+            <ListView
+                Grid.Row="2"
+                Grid.RowSpan="4"
+                Grid.Column="3"
+                Grid.ColumnSpan="2"
+                ItemsSource="{Binding CantripsCollectionView}"
+                SelectedItem="{Binding SelectedCantrip}">
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Add Cantrip" InputGestureText="N/A" Command="{Binding AddCantripCommand}"/>
-                        <MenuItem Header="Remove Cantrip" Command="{Binding DeleteCantripCommand}"/>
+                        <MenuItem
+                            Command="{Binding AddCantripCommand}"
+                            Header="Add Cantrip"
+                            InputGestureText="N/A" />
+                        <MenuItem Command="{Binding DeleteCantripCommand}" Header="Remove Cantrip" />
                     </ContextMenu>
                 </ListView.ContextMenu>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <v:SpellItemEditableView/>
+                        <v:SpellItemEditableView />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
 
             <!--#endregion-->
         </Grid>
-       
+
     </Grid>
 </UserControl>

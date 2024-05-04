@@ -17,62 +17,62 @@ namespace PCCharacterManager.Models
 
 	public class Spell : Item
 	{
-		private string level = "1"; // can be a max of 9 regular 5e
+		private string _level = "1"; // can be a max of 9 regular 5e
 		public string Level
 		{
-			get { return level; }
-			set { OnPropertyChanged(ref level, value); }
+			get { return _level; }
+			set { OnPropertyChanged(ref _level, value); }
 		}
 		
-		private string castingTime = "1 Action";
+		private string _castingTime = "1 Action";
 		public string CastingTime
 		{
-			get { return castingTime; }
-			set { OnPropertyChanged(ref castingTime, value); }
+			get { return _castingTime; }
+			set { OnPropertyChanged(ref _castingTime, value); }
 		}
 		
-		private string range_Area;
+		private string _range_Area;
 		public string Range_Area
 		{
-			get { return range_Area; }
-			set { OnPropertyChanged(ref range_Area, value); }
+			get { return _range_Area; }
+			set { OnPropertyChanged(ref _range_Area, value); }
 		}
 		
-		private string damage_Effect;
+		private string _damage_Effect;
 		public string Damage_Effect
 		{
-			get { return damage_Effect; }
-			set { OnPropertyChanged(ref damage_Effect, value); }
+			get { return _damage_Effect; }
+			set { OnPropertyChanged(ref _damage_Effect, value); }
 		}
 		
-		private string attack_Save;
+		private string _attack_Save;
 		public string Attack_Save
 		{
-			get { return attack_Save; }
-			set { OnPropertyChanged(ref attack_Save, value); }
+			get { return _attack_Save; }
+			set { OnPropertyChanged(ref _attack_Save, value); }
 		}
 		
-		private string duration;
+		private string _duration;
 		public string Duration
 		{
-			get { return duration; }
-			set { OnPropertyChanged(ref duration, value); }
+			get { return _duration; }
+			set { OnPropertyChanged(ref _duration, value); }
 		}
 		
-		private bool isPrepared = false;
+		private bool _isPrepared = false;
 		public bool IsPrepared
 		{
-			get { return isPrepared; }
-			set { OnPropertyChanged(ref isPrepared, value); }
+			get { return _isPrepared; }
+			set { OnPropertyChanged(ref _isPrepared, value); }
 		}
 		
-		private SpellSchool school;
+		private SpellSchool _school;
 		[JsonProperty("School")]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public SpellSchool School
 		{
-			get { return school; }
-			set { OnPropertyChanged(ref school, value); }
+			get { return _school; }
+			set { OnPropertyChanged(ref _school, value); }
 		}
 
 		// physical requirements needed to cast the spell
@@ -96,14 +96,14 @@ namespace PCCharacterManager.Models
 
 		public Spell()
 		{
-			level = string.Empty;
-			level = string.Empty;
-			castingTime = string.Empty;
-			range_Area = string.Empty;
-			damage_Effect = string.Empty;
-			attack_Save = string.Empty;
-			school = SpellSchool.EVOCATION;
-			duration = string.Empty;
+			_level = string.Empty;
+			_level = string.Empty;
+			_castingTime = string.Empty;
+			_range_Area = string.Empty;
+			_damage_Effect = string.Empty;
+			_attack_Save = string.Empty;
+			_school = SpellSchool.EVOCATION;
+			_duration = string.Empty;
 			Components = new ObservableCollection<char>();
 		}
 	}

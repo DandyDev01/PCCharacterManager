@@ -15,7 +15,7 @@ namespace PCCharacterManager.ViewModels
 {
 	public class DialogWindowEditCharacterViewModel : ObservableObject
 	{
-		private readonly Window window;
+		private readonly Window _window;
 
 		public Array HitDice { get; } = Enum.GetValues(typeof(HitDie));
 		public DnD5eCharacter Character { get; }
@@ -28,10 +28,10 @@ namespace PCCharacterManager.ViewModels
 		
 		public ICommand OkCommand { get; }
 
-		public DialogWindowEditCharacterViewModel(Window _window, DnD5eCharacter _character)
+		public DialogWindowEditCharacterViewModel(Window window, DnD5eCharacter character)
 		{
-			window = _window;
-			Character = _character;
+			_window = window;
+			Character = character;
 
 			OkCommand = new RelayCommand(Ok);
 
@@ -45,7 +45,7 @@ namespace PCCharacterManager.ViewModels
 
 		public void Ok()
 		{
-			window.Close();
+			_window.Close();
 		}
 	}
 }

@@ -35,30 +35,30 @@ namespace PCCharacterManager.Models
 			new StarfinderSkill(),
 		};
 
-		private int ranks;
+		private int _ranks;
 		public int Ranks
 		{
 			get
 			{
-				return ranks;
+				return _ranks;
 			}
 			set
 			{
-				OnPropertyChanged(ref ranks, value);
+				OnPropertyChanged(ref _ranks, value);
 				OnPropertyChanged(nameof(Total));
 			}
 		}
 
-		private int classBonus;
+		private int _classBonus;
 		public int ClassBonus
 		{
 			get
 			{
-				return classBonus;
+				return _classBonus;
 			}
 			set
 			{
-				OnPropertyChanged(ref classBonus, value);
+				OnPropertyChanged(ref _classBonus, value);
 				OnPropertyChanged(nameof(Total));
 			}
 		}
@@ -67,11 +67,11 @@ namespace PCCharacterManager.Models
 		{
 			get
 			{
-				return score;
+				return _score;
 			}
 			set
 			{
-				OnPropertyChanged(ref score, value);
+				OnPropertyChanged(ref _score, value);
 				OnPropertyChanged(nameof(Total));
 			}
 		}
@@ -80,33 +80,33 @@ namespace PCCharacterManager.Models
 		{
 			get
 			{
-				return classBonus + ranks + MiscBonus + Score;
+				return _classBonus + _ranks + MiscBonus + Score;
 			}
 		}
 
-		private bool classSkill;
+		private bool _classSkill;
 		public bool ClassSkill
 		{
 			get
 			{
-				return classSkill;
+				return _classSkill;
 			}
 			set
 			{
-				OnPropertyChanged(ref classSkill, value);
+				OnPropertyChanged(ref _classSkill, value);
 			}
 		}
 
-		private bool trainedOnly;
+		private bool _trainedOnly;
 		public bool TrainedOnly
 		{
 			get
 			{
-				return trainedOnly;
+				return _trainedOnly;
 			}
 			set
 			{
-				OnPropertyChanged(ref trainedOnly, value);
+				OnPropertyChanged(ref _trainedOnly, value);
 			}
 		}
 	}

@@ -10,44 +10,46 @@ namespace PCCharacterManager.Models
 {
 	public class NoteSection : ObservableObject
 	{
-		private string sectionTitle;
+		private string _sectionTitle;
 		public string SectionTitle
 		{
-			get { return sectionTitle; }
+			get { return _sectionTitle; }
 			set
 			{
-				OnPropertyChanged(ref sectionTitle, value);
+				OnPropertyChanged(ref _sectionTitle, value);
 			}
 		}
 
 		public ObservableCollection<Note> Notes { get; private set; }
 
-		public NoteSection(string _sectionTitle)
+		public NoteSection(string sectionTitle)
 		{
-			sectionTitle = _sectionTitle;
+			_sectionTitle = sectionTitle;
 			Notes = new ObservableCollection<Note>();
 		}
 
 		/// <summary>
 		/// adds a given note to the section
 		/// </summary>
-		/// <param name="_note">note to remove</param>
-		public void Add(Note _note)
+		/// <param name="note">note to remove</param>
+		public void Add(Note note)
 		{
-			if (_note == null) return;
+			if (note == null) 
+				return;
 
-			Notes.Add(_note);
+			Notes.Add(note);
 		}
 
 		/// <summary>
 		/// removes a given note from the section
 		/// </summary>
-		/// <param name="_note">note to remove</param>
-		public void Remove(Note _note)
+		/// <param name="note">note to remove</param>
+		public void Remove(Note note)
 		{
-			if(_note == null || !Notes.Contains(_note)) return;
+			if(note == null || Notes.Contains(note) == false) 
+				return;
 
-			Notes.Remove(_note);
+			Notes.Remove(note);
 		}
 	}
 }

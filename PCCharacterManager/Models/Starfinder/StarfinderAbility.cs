@@ -24,31 +24,31 @@ namespace PCCharacterManager.Models
 		[JsonProperty]
 		public new StarfinderSkill[] Skills { get; private set; }
 
-		private int upgradedScore;
+		private int _upgradedScore;
 		public int UpgradedScore
 		{
 			get
 			{
-				return upgradedScore;
+				return _upgradedScore;
 			}
 			set
 			{
-				OnPropertyChanged(ref upgradedScore, value);
+				OnPropertyChanged(ref _upgradedScore, value);
 				SetUpgradedMod();
 				UpdateSkillInfo(0);
 			}
 		}
 
-		private int upgradedModifier;
+		private int _upgradedModifier;
 		public int UpgradedModifier
 		{
 			get
 			{
-				return upgradedModifier;
+				return _upgradedModifier;
 			}
 			set
 			{
-				OnPropertyChanged(ref upgradedModifier, value);
+				OnPropertyChanged(ref _upgradedModifier, value);
 			}
 		}
 
@@ -64,7 +64,7 @@ namespace PCCharacterManager.Models
 
 		private void SetUpgradedMod()
 		{
-			UpgradedModifier = upgradedScore switch
+			UpgradedModifier = _upgradedScore switch
 			{
 				1 => -5,
 				2 => -4,

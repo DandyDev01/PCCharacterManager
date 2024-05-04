@@ -10,54 +10,54 @@ namespace PCCharacterManager.Models
 	public class Property : ObservableObject, ICloneable
 	{
 
-		private string name;
-		private string desc;
-		private bool hidden;
+		private string _name;
+		private string _desc;
+		private bool _hidden;
 
 		public string Name
 		{
-			get { return name; }
-			set { OnPropertyChanged(ref name, value); }
+			get { return _name; }
+			set { OnPropertyChanged(ref _name, value); }
 		}
 		public string Desc
 		{
-			get { return desc; }
-			set { OnPropertyChanged(ref desc, value); }
+			get { return _desc; }
+			set { OnPropertyChanged(ref _desc, value); }
 		}
 		public bool Hidden
 		{
-			get { return hidden; }
-			set { OnPropertyChanged(ref hidden, value); }
+			get { return _hidden; }
+			set { OnPropertyChanged(ref _hidden, value); }
 		}
 
-		public Property(string _name, string _desc)
+		public Property(string name, string desc)
 		{
-			name = _name;
-			desc = _desc;
-			hidden = false;
+			_name = name;
+			_desc = desc;
+			_hidden = false;
 		}
 
-		public Property(string _name, string _desc, bool _hidden)
+		public Property(string name, string desc, bool hidden)
 		{
-			name = _name;
-			desc = _desc;
-			hidden = _hidden;
+			_name = name;
+			_desc = desc;
+			_hidden = hidden;
 		}
 
 		public Property()
 		{
-			name = string.Empty;
-			desc = string.Empty;
-			hidden = false;
+			_name = string.Empty;
+			_desc = string.Empty;
+			_hidden = false;
 		}
 
 		public object Clone()
 		{
 			return new Property
 			{
-				name = name,
-				desc = desc,
-				hidden = hidden
+				_name = _name,
+				_desc = _desc,
+				_hidden = _hidden
 			};
 		}
 	}

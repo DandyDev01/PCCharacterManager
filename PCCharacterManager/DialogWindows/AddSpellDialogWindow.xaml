@@ -1,96 +1,193 @@
-﻿<Window x:Class="PCCharacterManager.DialogWindows.AddSpellDialogWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PCCharacterManager.DialogWindows"
-        mc:Ignorable="d"
-        ResizeMode="NoResize"
-        ShowInTaskbar="false"
-        WindowStartupLocation="CenterOwner"
-        Background="{StaticResource ViewBackgroundColor}"
-        Title="NewSpellWindow" Height="500" Width="800">
+﻿<Window
+    x:Class="PCCharacterManager.DialogWindows.AddSpellDialogWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PCCharacterManager.DialogWindows"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="NewSpellWindow"
+    Width="800"
+    Height="500"
+    Background="{DynamicResource 1}"
+    ResizeMode="NoResize"
+    ShowInTaskbar="false"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
 
 
         <!--#region row 1-->
-        <Label Content="Spell Name" Grid.Column="0" Grid.Row="1"/>
-        <TextBox Grid.Column="0" Grid.Row="2" Margin="10" Padding="5" Height="40"
-                 Text="{Binding NewSpell.Name}"/>
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Content="Spell Name" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="0"
+            Height="40"
+            Margin="10"
+            Padding="5"
+            Text="{Binding NewSpell.Name}" />
 
-        <Label Content="Casting Time" Grid.Column="1" Grid.Row="1"/>
-        <TextBox Grid.Column="1" Grid.Row="2" Margin="10" Padding="5" Height="40"
-                 Text="{Binding NewSpell.CastingTime}"/>
+        <Label
+            Grid.Row="1"
+            Grid.Column="1"
+            Content="Casting Time" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Height="40"
+            Margin="10"
+            Padding="5"
+            Text="{Binding NewSpell.CastingTime}" />
 
-        <Label Content="Range / Area" Grid.Column="2" Grid.Row="1"/>
-        <TextBox Grid.Column="2" Grid.Row="2" Margin="10" Padding="5" Height="40"
-                 Text="{Binding NewSpell.Range_Area}"/>
+        <Label
+            Grid.Row="1"
+            Grid.Column="2"
+            Content="Range / Area" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="2"
+            Height="40"
+            Margin="10"
+            Padding="5"
+            Text="{Binding NewSpell.Range_Area}" />
 
-        <Label Content="Damage / Effect" Grid.Column="3" Grid.Row="1"/>
-        <TextBox Grid.Column="3" Grid.Row="2" Margin="10" Padding="5" Height="40"
-                 Text="{Binding NewSpell.Damage_Effect}"/>
+        <Label
+            Grid.Row="1"
+            Grid.Column="3"
+            Content="Damage / Effect" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="3"
+            Height="40"
+            Margin="10"
+            Padding="5"
+            Text="{Binding NewSpell.Damage_Effect}" />
 
-        <Label Content="attack / save" Grid.Column="4" Grid.Row="1"/>
-        <TextBox Grid.Column="4" Grid.Row="2" Margin="10" Padding="5" Height="40"
-                 IsEnabled="False"
-                 Text="{Binding NewSpell.Attack_Save}"/>
+        <Label
+            Grid.Row="1"
+            Grid.Column="4"
+            Content="attack / save" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="4"
+            Height="40"
+            Margin="10"
+            Padding="5"
+            IsEnabled="False"
+            Text="{Binding NewSpell.Attack_Save}" />
         <!--#endregion-->
 
         <!--#region row 2-->
-        <Label Content="School" Grid.Column="0" Grid.Row="3"/>
-        <ComboBox Grid.Column="0" Grid.Row="4" Margin="10" Padding="5" Height="40"
-                  ItemsSource="{Binding SpellSchools}"
-                  SelectedItem="{Binding SelectedSchool, Mode=OneWayToSource}"/>
+        <Label
+            Grid.Row="3"
+            Grid.Column="0"
+            Content="School" />
+        <ComboBox
+            Grid.Row="4"
+            Grid.Column="0"
+            Height="40"
+            Margin="10"
+            Padding="5"
+            ItemsSource="{Binding SpellSchools}"
+            SelectedItem="{Binding SelectedSchool, Mode=OneWayToSource}" />
 
-        <Label Content="Duration" Grid.Column="1" Grid.Row="3"/>
-        <TextBox Grid.Column="1" Grid.Row="4" Margin="10" Padding="5" Height="40"
-                 Text="{Binding NewSpell.Duration}"/>
+        <Label
+            Grid.Row="3"
+            Grid.Column="1"
+            Content="Duration" />
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="1"
+            Height="40"
+            Margin="10"
+            Padding="5"
+            Text="{Binding NewSpell.Duration}" />
 
-        <Label Content="Level" Grid.Column="2" Grid.Row="3"/>
-        <TextBox Grid.Column="2" Grid.Row="4" Margin="10" Padding="5" Height="40"
-                 Text="{Binding NewSpell.Level}"/>
+        <Label
+            Grid.Row="3"
+            Grid.Column="2"
+            Content="Level" />
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="2"
+            Height="40"
+            Margin="10"
+            Padding="5"
+            Text="{Binding NewSpell.Level}" />
 
-        <Label Content="Spell Components" Grid.Column="3" Grid.Row="3"/>
-        <TextBox Grid.Column="3" Grid.Row="4" Margin="10" Padding="5" Height="40"
-                 Text="{Binding SpellComponents}"/>
+        <Label
+            Grid.Row="3"
+            Grid.Column="3"
+            Content="Spell Components" />
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="3"
+            Height="40"
+            Margin="10"
+            Padding="5"
+            Text="{Binding SpellComponents}" />
 
-        <Label Content="N/A" Grid.Column="4" Grid.Row="2"/>
-        <TextBox Grid.Column="4" Grid.Row="4" Margin="10" Padding="5" Height="40"
-                 IsEnabled="False"/>
+        <Label
+            Grid.Row="2"
+            Grid.Column="4"
+            Content="N/A" />
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="4"
+            Height="40"
+            Margin="10"
+            Padding="5"
+            IsEnabled="False" />
         <!--#endregion-->
 
-        <Label Content="Description" Grid.Column="0" Grid.Row="5"/>
-        <TextBox Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="5" Grid.RowSpan="1" 
-                 Style="{StaticResource Document}"
-                 Text="{Binding NewSpell.Desc}"/>
+        <Label
+            Grid.Row="5"
+            Grid.Column="0"
+            Content="Description" />
+        <TextBox
+            Grid.Row="6"
+            Grid.RowSpan="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="5"
+            Text="{Binding NewSpell.Desc}" />
 
 
-        <Button Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="1" Grid.RowSpan="1" 
-                IsCancel="True"
-                Content="Cancel" 
-                Command="{Binding CancelCommand}"/>
+        <Button
+            Grid.Row="7"
+            Grid.RowSpan="1"
+            Grid.Column="3"
+            Grid.ColumnSpan="1"
+            Command="{Binding CancelCommand}"
+            Content="Cancel"
+            IsCancel="True" />
 
-        <Button Grid.Column="4" Grid.Row="7" Grid.ColumnSpan="1" Grid.RowSpan="1" 
-                IsDefault="True"
-                Content="Add Spell" 
-                Command="{Binding AddSpellCommand}"/>
+        <Button
+            Grid.Row="7"
+            Grid.RowSpan="1"
+            Grid.Column="4"
+            Grid.ColumnSpan="1"
+            Command="{Binding AddSpellCommand}"
+            Content="Add Spell"
+            IsDefault="True" />
     </Grid>
 </Window>

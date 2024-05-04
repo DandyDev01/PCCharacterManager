@@ -1,31 +1,57 @@
-﻿<UserControl x:Class="PCCharacterManager.Views.CharacterItemView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PCCharacterManager.Views"
-             mc:Ignorable="d" 
-             d:DesignWidth="500" Height="auto">
+﻿<UserControl
+    x:Class="PCCharacterManager.Views.CharacterItemView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PCCharacterManager.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Height="auto"
+    d:DesignWidth="500"
+    mc:Ignorable="d">
     <Grid Background="{DynamicResource ItemBackgroundColor}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Column="0" BorderBrush="{DynamicResource LightText}" BorderThickness="0,0,3,0"/>
-        <Border Grid.Column="1" BorderBrush="{DynamicResource LightText}" BorderThickness="0,0,3,0"/>
-        <Border Grid.Column="2" BorderBrush="{DynamicResource LightText}" BorderThickness="0,0,3,0"/>
+        <Border
+            Grid.Column="0"
+            BorderBrush="{DynamicResource LightText}"
+            BorderThickness="0,0,3,0" />
+        <Border
+            Grid.Column="1"
+            BorderBrush="{DynamicResource LightText}"
+            BorderThickness="0,0,3,0" />
+        <Border
+            Grid.Column="2"
+            BorderBrush="{DynamicResource LightText}"
+            BorderThickness="0,0,3,0" />
 
-        <Label FontSize="18" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
-               Content="{Binding CharacterName, FallbackValue=NAME}"/>
-        <Label FontSize="18" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"  
-               Content="{Binding CharacterClass, FallbackValue=CLASS}"/>
-        <Label FontSize="18" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  
-               Content="{Binding CharacterLevel, FallbackValue=LEVEL}"/>
+        <Label
+            Grid.Column="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="{Binding CharacterName, FallbackValue=NAME}"
+            FontSize="18" />
+        <Label
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="{Binding CharacterClass, FallbackValue=CLASS}"
+            FontSize="18" />
+        <Label
+            Grid.Column="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="{Binding CharacterLevel, FallbackValue=LEVEL}"
+            FontSize="18" />
 
-        <Button Content="select" FontSize="18" Grid.Column="3"
-                Command="{Binding SelectCharacterCommand}"/>
+        <Button
+            Grid.Column="3"
+            Command="{Binding SelectCharacterCommand}"
+            Content="select"
+            FontSize="18" />
     </Grid>
 </UserControl>

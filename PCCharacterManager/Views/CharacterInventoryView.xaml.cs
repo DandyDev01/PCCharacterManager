@@ -24,6 +24,7 @@ namespace PCCharacterManager.Views
 	{
 		private ICommand focusSearchCommand;
 		private ICommand deleteSelectedItemsCommand;
+		private ICommand addItemCommand;
 		private double lastItemRemoveTimeInSeconds;
 
 		public CharacterInventoryView()
@@ -33,15 +34,32 @@ namespace PCCharacterManager.Views
 			deleteSelectedItemsCommand = new RelayCommand(DeleteSelectedItems);
 			removeContextButton.Command = new RelayCommand(DeleteSelectedItems);
 			delKeyBinding.Command = new RelayCommand(DeleteSelectedItems);
-
-			this.InputBindings.Add(new KeyBinding(focusSearchCommand, Key.F, ModifierKeys.Control));
+			addItemCommand = new RelayCommand(AddItem);
+			
 			removeButton.Command = deleteSelectedItemsCommand;
+
+			InputBindings.Add(new KeyBinding(focusSearchCommand, Key.F, ModifierKeys.Control));
+			InputBindings.Add(new KeyBinding(addItemCommand, Key.OemPlus, ModifierKeys.Control));
+			InputBindings.Add(new KeyBinding(removeButton.Command, Key.OemMinus, ModifierKeys.Control));
+
 			TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
 			lastItemRemoveTimeInSeconds = timeSpan.TotalSeconds - 10;
 		}
 
+		private void AddItem()
+		{
+			var vm = DataContext as CharacterInventoryViewModel;
+
+			if (vm == null)
+				return;
+
+			vm.AddItemCommand.Execute(this);
+		}
+
 		public void FocusSearch()
 		{
+			placeholderText.Visibility = Visibility.Collapsed;
+			searchBox.Visibility = Visibility.Visible;
 			this.searchBox.Focus();
 		}
 
@@ -122,19 +140,23 @@ namespace PCCharacterManager.Views
 			inventoryVM.SelectedItem = inventoryVM.ItemDisplayVms[0];
 		}
 
-		private void searchBox_TextChanged(object sender, TextChangedEventArgs e)
+		private void searchBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			if (sender is TextBox textbox)
+			if (searchBox.Text == "")
 			{
-				if (string.IsNullOrEmpty(textbox.Text))
-				{
-					textbox.Text = "Search";
-				}
-				else
-				{
-					textbox.Text = "";
-				}
+				placeholderText.Visibility = Visibility.Visible;
+				searchBox.Visibility = Visibility.Collapsed;
 			}
-        }
-    }
+		}
+
+		private void searchBox_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if (searchBox.Text == "")
+			{
+				placeholderText.Visibility = Visibility.Collapsed;
+				searchBox.Visibility = Visibility.Visible;
+				FocusSearch();
+			}
+		}
+	}
 }

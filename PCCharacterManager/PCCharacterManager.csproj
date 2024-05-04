@@ -9,6 +9,37 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Add_Icon.png" />
+    <None Remove="Images\Add_Icon_Light.png" />
+    <None Remove="Images\Character_Duplicate_Icon.png" />
+    <None Remove="Images\Character_Duplicate_Icon_Light.png" />
+    <None Remove="Images\Create_Character_Icon.png" />
+    <None Remove="Images\Create_Character_Icon_Light.png" />
+    <None Remove="Images\Create_Folder_Icon_Light.png" />
+    <None Remove="Images\Dark_Mode_Icon_Light.png" />
+    <None Remove="Images\Download_Icon_Light.png" />
+    <None Remove="Images\Edit_Icon.png" />
+    <None Remove="Images\Edit_Icon_Light.png" />
+    <None Remove="Images\Exit_App_Icon.png" />
+    <None Remove="Images\Exit_App_Icon_Light.png" />
+    <None Remove="Images\Favorite_Icon_Light.png" />
+    <None Remove="Images\Light_Mode_Icon_Light.png" />
+    <None Remove="Images\Move_To_Trash_Icon_Light.png" />
+    <None Remove="Images\Open_File_Icon.png" />
+    <None Remove="Images\Open_File_Icon_Light.png" />
+    <None Remove="Images\Open_In_File_Exloperer_Icon.png" />
+    <None Remove="Images\Open_In_File_Exloperer_Icon_Light.png" />
+    <None Remove="Images\Pin_Icon.png" />
+    <None Remove="Images\Pin_Icon_Light.png" />
+    <None Remove="Images\Redo_Icon_Light.png" />
+    <None Remove="Images\Restore_From_Trash_Icon_Light.png" />
+    <None Remove="Images\Save_Icon.png" />
+    <None Remove="Images\Save_Icon_Light.png" />
+    <None Remove="Images\Settings_Icon_Light.png" />
+    <None Remove="Images\Undo_Icon_Light.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="PCCharacterManager.ico" />
   </ItemGroup>
 
@@ -16,6 +47,47 @@
     <PackageReference Include="FluentValidation" Version="11.5.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="ToastNotifications" Version="2.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Add_Icon.png" />
+    <Resource Include="Images\Add_Icon_Light.png" />
+    <Resource Include="Images\Character_Duplicate_Icon.png" />
+    <Resource Include="Images\Character_Duplicate_Icon_Light.png" />
+    <Resource Include="Images\Create_Character_Icon.png" />
+    <Resource Include="Images\Create_Character_Icon_Light.png" />
+    <Resource Include="Images\Create_Folder_Icon.png" />
+    <Resource Include="Images\Create_Folder_Icon_Light.png" />
+    <Resource Include="Images\Dark_Mode_Icon.png" />
+    <Resource Include="Images\Dark_Mode_Icon_Light.png" />
+    <Resource Include="Images\Download_Icon.png" />
+    <Resource Include="Images\Download_Icon_Light.png" />
+    <Resource Include="Images\Edit_Icon.png" />
+    <Resource Include="Images\Edit_Icon_Light.png" />
+    <Resource Include="Images\Exit_App_Icon.png" />
+    <Resource Include="Images\Exit_App_Icon_Light.png" />
+    <Resource Include="Images\Favorite_Icon.png" />
+    <Resource Include="Images\Favorite_Icon_Light.png" />
+    <Resource Include="Images\Light_Mode_Icon.png" />
+    <Resource Include="Images\Light_Mode_Icon_Light.png" />
+    <Resource Include="Images\Move_To_Trash_Icon.png" />
+    <Resource Include="Images\Move_To_Trash_Icon_Light.png" />
+    <Resource Include="Images\Open_File_Icon.png" />
+    <Resource Include="Images\Open_File_Icon_Light.png" />
+    <Resource Include="Images\Open_In_File_Exloperer_Icon.png" />
+    <Resource Include="Images\Open_In_File_Exloperer_Icon_Light.png" />
+    <Resource Include="Images\Pin_Icon.png" />
+    <Resource Include="Images\Pin_Icon_Light.png" />
+    <Resource Include="Images\Redo_Icon.png" />
+    <Resource Include="Images\Redo_Icon_Light.png" />
+    <Resource Include="Images\Restore_From_Trash_Icon.png" />
+    <Resource Include="Images\Restore_From_Trash_Icon_Light.png" />
+    <Resource Include="Images\Save_Icon.png" />
+    <Resource Include="Images\Save_Icon_Light.png" />
+    <Resource Include="Images\Settings_Icon.png" />
+    <Resource Include="Images\Settings_Icon_Light.png" />
+    <Resource Include="Images\Undo_Icon.png" />
+    <Resource Include="Images\Undo_Icon_Light.png" />
   </ItemGroup>
 
 </Project>

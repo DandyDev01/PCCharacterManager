@@ -15,43 +15,46 @@ namespace PCCharacterManager.ViewModels
 {
 	public class PropertyListViewModel : ObservableObject
 	{
-		private string listName;
+		private string _listName;
 		public string ListName
 		{
 			get
 			{
-				return listName;
+				return _listName;
 			}
 			private set
 			{
-				OnPropertyChanged(ref listName, value);
+				OnPropertyChanged(ref _listName, value);
 			}
 		}
 
-		private Property? selectedItem;
+		private Property? _selectedItem;
 		public Property? SelectedItem
 		{
 			get
 			{
-				return selectedItem;
+				return _selectedItem;
 			}
 			set
 			{
-				OnPropertyChanged(ref selectedItem, value);
+				OnPropertyChanged(ref _selectedItem, value);
 			}
 		}
 
-		public ObservableCollection<Property> ItemsToDisplay { get; }
+		public ObservableCollection<Property> ItemsToDisplay { get; private set; }
 
 		public ICommand AddItemCommand { get; protected set; }
 		public ICommand RemoveItemCommand { get; protected set; }
 		public ICommand EditItemCommand { get; protected set; }
 		public ICommand PropertyItemReceivedCommand { get; }
 
-		public PropertyListViewModel(string _listName, ObservableCollection<Property> _item)
+		public Action<Property>? OnAddItem;
+		public Action<Property>? OnRemoveItem;
+
+		public PropertyListViewModel(string listName, ObservableCollection<Property> item)
 		{
-			listName = _listName;
-			ItemsToDisplay = _item;
+			_listName = listName;
+			ItemsToDisplay = item;
 
 			AddItemCommand = new RelayCommand(AddItem);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
@@ -61,7 +64,7 @@ namespace PCCharacterManager.ViewModels
 
 		public PropertyListViewModel(string listName)
 		{
-			this.listName = listName;
+			_listName = listName;
 			AddItemCommand = new RelayCommand(AddItem);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
 			EditItemCommand = new RelayCommand(EditItem);
@@ -70,14 +73,11 @@ namespace PCCharacterManager.ViewModels
 			ItemsToDisplay = new();
 		}
 
-		public void UpdateCollection(ObservableCollection<Property> _items)
+		public void UpdateCollection(ObservableCollection<Property> items)
 		{
-			ItemsToDisplay.Clear();
+			ItemsToDisplay = items;
 
-			foreach (var item in _items)
-			{
-				ItemsToDisplay.Add(item);
-			}
+			OnPropertyChanged(nameof(ItemsToDisplay));
 		}
 
 		/// <summary>
@@ -105,6 +105,7 @@ namespace PCCharacterManager.ViewModels
 
 			Property property = new Property(windowVM.Answer, windowVM1.Answer);
 			ItemsToDisplay.Add(property);
+			OnAddItem?.Invoke(property);
 		}
 
 		/// <summary>
@@ -112,10 +113,11 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void RemoveItem()
 		{
-			if (selectedItem is null)
+			if (_selectedItem is null)
 				return;
 
-			ItemsToDisplay.Remove(selectedItem);
+			ItemsToDisplay.Remove(_selectedItem);
+			OnRemoveItem?.Invoke(_selectedItem);
 		}
 
 		/// <summary>
@@ -123,21 +125,21 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void EditItem()
 		{
-			if (selectedItem is null)
+			if (_selectedItem is null)
 				return;
 
 			Window window = new StringInputDialogWindow();
 			DialogWindowStringInputViewModel windowVM =
-				new DialogWindowStringInputViewModel(window, "Edit " + selectedItem.Name);
+				new DialogWindowStringInputViewModel(window, "Edit " + _selectedItem.Name);
 
-			windowVM.Answer = selectedItem.Desc;
+			windowVM.Answer = _selectedItem.Desc;
 			window.DataContext = windowVM;
 			window.ShowDialog();
 
 			if (window.DialogResult == false)
 				return;
 
-			selectedItem.Desc = windowVM.Answer;
+			_selectedItem.Desc = windowVM.Answer;
 		}
 
 	}

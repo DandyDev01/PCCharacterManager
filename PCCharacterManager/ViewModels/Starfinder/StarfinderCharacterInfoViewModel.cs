@@ -19,16 +19,16 @@ namespace PCCharacterManager.ViewModels
 		public PropertyListViewModel ClassFeatureListVM { get; protected set; }
 		public PropertyListViewModel RaceVarientListVM { get; protected set; }
 
-		private StarfinderCharacter? selectedCharacter;
-		public new StarfinderCharacter? SelectedCharacter
+		private StarfinderCharacter _selectedCharacter;
+		public new StarfinderCharacter SelectedCharacter
 		{
 			get
 			{
-				return selectedCharacter;
+				return _selectedCharacter;
 			}
 			set
 			{
-				OnPropertyChanged(ref selectedCharacter, value);
+				OnPropertyChanged(ref _selectedCharacter, value);
 			}
 		}
 
@@ -37,38 +37,38 @@ namespace PCCharacterManager.ViewModels
 			get; set;
 		}
 
-		private Property? selectedThemeFeature;
+		private Property? _selectedThemeFeature;
 		public Property? SelectedThemeFeature
 		{
 			get
 			{
-				return selectedThemeFeature;
+				return _selectedThemeFeature;
 			}
 			set
 			{
-				OnPropertyChanged(ref selectedThemeFeature, value);
+				OnPropertyChanged(ref _selectedThemeFeature, value);
 				SelectedThemeFeatureName = "Remove " + SelectedThemeFeature?.Name;
-				OnPropertyChanged("SelectedThemeFeatureName");
+				OnPropertyChanged(nameof(SelectedThemeFeatureName));
 			}
 		}
 
-		private StarfinderAugmentation? selectedAugmentation;
+		private StarfinderAugmentation? _selectedAugmentation;
 		public StarfinderAugmentation? SelectedAugmentation
 		{
 			get
 			{
-				return selectedAugmentation;
+				return _selectedAugmentation;
 			}
 			set
 			{
-				OnPropertyChanged(ref selectedAugmentation, value);
+				OnPropertyChanged(ref _selectedAugmentation, value);
 				OnPropertyChanged(nameof(RemoveSelectedAugmentationText));
 				OnPropertyChanged(nameof(EditSelectedAugmentationText));
 			}
 		}
 
-		public string RemoveSelectedAugmentationText { get { return "Remove " + selectedAugmentation?.Name; } }
-		public string EditSelectedAugmentationText { get { return "Edit " + selectedAugmentation?.Name; } }
+		public string RemoveSelectedAugmentationText { get { return "Remove " + _selectedAugmentation?.Name; } }
+		public string EditSelectedAugmentationText { get { return "Edit " + _selectedAugmentation?.Name; } }
 
 		public ICommand AddThemeFeatureCommand { get; }
 		public ICommand RemoveThemeFeatureCommand { get; }
@@ -79,15 +79,20 @@ namespace PCCharacterManager.ViewModels
 
 		public PropertyListViewModel ThemeListVM { get; private set; }
 
-		public StarfinderCharacterInfoViewModel(CharacterStore _characterStore) 
-			: base(_characterStore)
+		public StarfinderCharacterInfoViewModel(CharacterStore characterStore) 
+			: base(characterStore)
 		{
-			_characterStore.SelectedCharacterChange += OnCharacterChange;
+			characterStore.SelectedCharacterChange += OnCharacterChange;
 
-			RaceFeatureListVM = new PropertyListViewModel("Features", null);
-			ClassFeatureListVM = new PropertyListViewModel("Features", null);
-			RaceVarientListVM = new PropertyListViewModel("Features", null);
-			ThemeListVM = new PropertyListViewModel("Features", null);
+			if (characterStore.SelectedCharacter is StarfinderCharacter starfinderCharacter)
+				_selectedCharacter = starfinderCharacter;
+			else
+				_selectedCharacter = new StarfinderCharacter();
+
+			RaceFeatureListVM = new PropertyListViewModel("Features");
+			ClassFeatureListVM = new PropertyListViewModel("Features");
+			RaceVarientListVM = new PropertyListViewModel("Features");
+			ThemeListVM = new PropertyListViewModel("Features");
 
 			AddThemeFeatureCommand = new RelayCommand(AddThemeFeature);
 			RemoveThemeFeatureCommand = new RelayCommand(RemoveThemeFeature);
@@ -101,11 +106,15 @@ namespace PCCharacterManager.ViewModels
 
 		private void OnCharacterChange(DnD5eCharacter newCharacter)
 		{
-			if (newCharacter is not StarfinderCharacter) return;
+			if (newCharacter is StarfinderCharacter starfinderCharacter)
+				_selectedCharacter = starfinderCharacter;
+			else
+			{
+				_selectedCharacter = new StarfinderCharacter();
+				return;
+			}
 
-			SelectedCharacter = newCharacter as StarfinderCharacter;
-
-			ThemeListVM = new PropertyListViewModel("Themes", selectedCharacter.Theme.Features);
+			ThemeListVM = new PropertyListViewModel("Themes", _selectedCharacter.Theme.Features);
 			ClassFeatureListVM = new DnDClassFeatureListViewModel("Class Features", SelectedCharacter.CharacterClass.Features);
 			RaceFeatureListVM = new PropertyListViewModel("Race Features", SelectedCharacter.Race.Features);
 			
@@ -115,44 +124,44 @@ namespace PCCharacterManager.ViewModels
 			OnPropertyChanged(nameof(RaceFeatureListVM));
 			OnPropertyChanged(nameof(ThemeListVM));
 
-			MovementTypesListVM.UpdateCollection(selectedCharacter.MovementTypes_Speeds);
-			LanguagesVM.UpdateCollection(selectedCharacter.Languages);
-			ToolProfsVM.UpdateCollection(selectedCharacter.ToolProficiences);
-			ArmorProfsVM.UpdateCollection(selectedCharacter.ArmorProficiencies);
-			OtherProfsVM.UpdateCollection(selectedCharacter.OtherProficiences);
-			WeaponProfsVM.UpdateCollection(selectedCharacter.WeaponProficiencies);
+			MovementTypesListVM.UpdateCollection(_selectedCharacter.MovementTypes_Speeds);
+			LanguagesVM.UpdateCollection(_selectedCharacter.Languages);
+			ToolProfsVM.UpdateCollection(_selectedCharacter.ToolProficiences);
+			ArmorProfsVM.UpdateCollection(_selectedCharacter.ArmorProficiencies);
+			OtherProfsVM.UpdateCollection(_selectedCharacter.OtherProficiences);
+			WeaponProfsVM.UpdateCollection(_selectedCharacter.WeaponProficiencies);
 
 		}
 
 		private void EditRemoveAugmentation()
 		{
-			if (selectedAugmentation is null)
+			if (_selectedAugmentation is null)
 				return;
 
 			Window window = new StringInputDialogWindow();
 			DialogWindowStringInputViewModel viewModel = 
-				new(window, "Update description of " + selectedAugmentation.Name);
+				new(window, "Update description of " + _selectedAugmentation.Name);
 			window.DataContext = viewModel;
 			window.ShowDialog();
 
 			if (window.DialogResult == false)
 				return;
 
-			selectedAugmentation.Description = viewModel.Answer;
+			_selectedAugmentation.Description = viewModel.Answer;
 		}
 
 		private void RemoveAugmentation()
 		{
-			if (selectedCharacter is null ||
-				selectedAugmentation is null)
+			if (_selectedCharacter is null ||
+				_selectedAugmentation is null)
 				return;
 
-			selectedCharacter.Augmentations.Remove(selectedAugmentation);
+			_selectedCharacter.Augmentations.Remove(_selectedAugmentation);
 		}
 
 		private void AddAugmentation()
 		{
-			if (selectedCharacter is null)
+			if (_selectedCharacter is null)
 				return;
 
 			Window window = new AddAugmentationDialogWindow();
@@ -163,12 +172,12 @@ namespace PCCharacterManager.ViewModels
 			if (window.DialogResult == false)
 				return;
 
-			selectedCharacter.Augmentations.Add(windowVM.Augmentation);
+			_selectedCharacter.Augmentations.Add(windowVM.Augmentation);
 		}
 
 		private void AddThemeFeature()
 		{
-			if (selectedCharacter is null)
+			if (_selectedCharacter is null)
 				return;
 
 			Window window = new StringInputDialogWindow();
@@ -187,34 +196,34 @@ namespace PCCharacterManager.ViewModels
 			if (window1.DialogResult == false)
 				return;
 
-			selectedCharacter.Theme.Features.Add(new Property(windowVM.Answer, windowVM1.Answer));
+			_selectedCharacter.Theme.Features.Add(new Property(windowVM.Answer, windowVM1.Answer));
 		}
 
 		private void EditThemeFeature()
 		{
-			if (selectedThemeFeature is null)
+			if (_selectedThemeFeature is null)
 				return;
 
 			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new(window, "Edit " + selectedThemeFeature.Name);
+			DialogWindowStringInputViewModel windowVM = new(window, "Edit " + _selectedThemeFeature.Name);
 
-			windowVM.Answer = selectedThemeFeature.Desc;
+			windowVM.Answer = _selectedThemeFeature.Desc;
 			window.DataContext = windowVM;
 			window.ShowDialog();
 
 			if (window.DialogResult == false)
 				return;
 
-			selectedThemeFeature.Desc = windowVM.Answer;
+			_selectedThemeFeature.Desc = windowVM.Answer;
 		}
 
 		private void RemoveThemeFeature()
 		{
-			if (selectedCharacter is null ||
-				selectedThemeFeature is null)
+			if (_selectedCharacter is null ||
+				_selectedThemeFeature is null)
 				return;
 
-			selectedCharacter.Theme.Features.Remove(selectedThemeFeature);
+			_selectedCharacter.Theme.Features.Remove(_selectedThemeFeature);
 		}
 	}
 }

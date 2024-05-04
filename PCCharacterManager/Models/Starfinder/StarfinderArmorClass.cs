@@ -16,14 +16,14 @@ namespace PCCharacterManager.Models
 		{
 			get
 			{
-				return energyArmorBonus + energyArmorClassBase + energyDexMod + energyMiscMod;
+				return _energyArmorBonus + energyArmorClassBase + _energyDexMod + _energyMiscMod;
 			}
 		}
 		public int KineticArmorTotal
 		{
 			get
 			{
-				return kineticDexMod + kineticMiscMod + kineticArmorClassBase + kineticArmorBonus;
+				return _kineticDexMod + _kineticMiscMod + kineticArmorClassBase + _kineticArmorBonus;
 			}
 		}
 		public int AcVsCombatManeuvers
@@ -31,88 +31,88 @@ namespace PCCharacterManager.Models
 			get { return acVsCombatManeuversBase + KineticArmorTotal; }
 		}
 
-		private int energyArmorBonus;	
+		private int _energyArmorBonus;	
 		public int EnergyArmorBonus
 		{
 			get
 			{
-				return energyArmorBonus;
+				return _energyArmorBonus;
 			}
 			set
 			{
-				OnPropertyChanged(ref energyArmorBonus, value);
+				OnPropertyChanged(ref _energyArmorBonus, value);
 				OnPropertyChanged("energyArmorTotal");
 			}
 		}
 
-		private int energyDexMod;
+		private int _energyDexMod;
 		public int EnergyDexMod
 		{
 			get
 			{
-				return energyDexMod;
+				return _energyDexMod;
 			}
 			set
 			{
-				OnPropertyChanged(ref energyDexMod, value);
+				OnPropertyChanged(ref _energyDexMod, value);
 				OnPropertyChanged("energyArmorTotal");
 			}
 		}
 
-		private int energyMiscMod;
+		private int _energyMiscMod;
 		public int EnergyMiscMod
 		{
 			get
 			{
-				return energyMiscMod;
+				return _energyMiscMod;
 			}
 			set
 			{
-				OnPropertyChanged(ref energyMiscMod, value);
+				OnPropertyChanged(ref _energyMiscMod, value);
 				OnPropertyChanged("energyArmorTotal");
 			}
 		}
 
-		private int kineticArmorBonus;
+		private int _kineticArmorBonus;
 		public int KineticArmorBonus
 		{
 			get
 			{
-				return kineticArmorBonus;
+				return _kineticArmorBonus;
 			}
 			set
 			{
-				OnPropertyChanged(ref kineticArmorBonus, value);
+				OnPropertyChanged(ref _kineticArmorBonus, value);
 				OnPropertyChanged("KineticArmorTotal");
 				OnPropertyChanged("AcVsCombatManeuvers");
 			}
 		}
 
-		private int kineticDexMod;
+		private int _kineticDexMod;
 		public int KineticDexMod
 		{
 			get
 			{
-				return kineticDexMod;
+				return _kineticDexMod;
 			}
 			set
 			{
-				OnPropertyChanged(ref kineticDexMod, value);
+				OnPropertyChanged(ref _kineticDexMod, value);
 				OnPropertyChanged("KineticArmorTotal");
 				OnPropertyChanged("AcVsCombatManeuvers");
 			}
 		}
 
-		private int kineticMiscMod;
+		private int _kineticMiscMod;
 		public int KineticMiscMod
 		{
 			get
 			{
-				return kineticMiscMod;
+				return _kineticMiscMod;
 			}
 			set
 			{
-				OnPropertyChanged(ref kineticMiscMod, value);
+				OnPropertyChanged(ref _kineticMiscMod, value);
 				OnPropertyChanged("KineticArmorTotal");
 				OnPropertyChanged("AcVsCombatManeuvers");
 			}

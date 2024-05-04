@@ -10,91 +10,91 @@ namespace PCCharacterManager.ViewModels
 {
 	public class PropertyEditableViewModel : ObservableObject
 	{
-		private Property boundProperty;
+		private Property _boundProperty;
 		public Property BoundProperty
 		{
-			get { return boundProperty; }
-			set { OnPropertyChanged(ref boundProperty, value); }
+			get { return _boundProperty; }
+			set { OnPropertyChanged(ref _boundProperty, value); }
 		}
 
-		private string displayName;
+		private string _displayName;
 		public string DisplayName
 		{
-			get { return displayName; }
+			get { return _displayName; }
 			set
 			{ 
-				OnPropertyChanged(ref displayName, value); 
-				boundProperty.Name = value;
+				OnPropertyChanged(ref _displayName, value); 
+				_boundProperty.Name = value;
 			}
 		}
 
-		private string displayDesc;
+		private string _displayDesc;
 		public string DisplayDesc
 		{
-			get { return displayDesc; }
+			get { return _displayDesc; }
 			set
 			{
-				OnPropertyChanged(ref displayDesc, value);
-				boundProperty.Desc = value;
+				OnPropertyChanged(ref _displayDesc, value);
+				_boundProperty.Desc = value;
 			}
 		}
 
-		private bool displayHidden;
+		private bool _displayHidden;
 		public bool DisplayHidden
 		{
-			get { return displayHidden; }
+			get { return _displayHidden; }
 			set
 			{
-				OnPropertyChanged(ref displayHidden, value);
-				boundProperty.Hidden = value;
+				OnPropertyChanged(ref _displayHidden, value);
+				_boundProperty.Hidden = value;
 			}
 		}
 
-		private bool isEditMode;
+		private bool _isEditMode;
 		public bool IsEditMode
 		{
-			get { return isEditMode; }
+			get { return _isEditMode; }
 			set
 			{
-				OnPropertyChanged(ref isEditMode, value);
+				OnPropertyChanged(ref _isEditMode, value);
 				OnPropertyChanged("IsDisplayMode");
 			}
 		}
 
 		public bool IsDisplayMode
 		{
-			get { return !isEditMode; }
+			get { return !_isEditMode; }
 		}
 
-		public PropertyEditableViewModel(Property _property)
+		public PropertyEditableViewModel(Property property)
 		{
-			boundProperty = _property;
-			displayDesc = _property.Desc;
-			displayName = _property.Name;
-			displayHidden = _property.Hidden;
+			_boundProperty = property;
+			_displayDesc = property.Desc;
+			_displayName = property.Name;
+			_displayHidden = property.Hidden;
 			IsEditMode = false;
 		}
 
 		public PropertyEditableViewModel() 
 		{
-			displayName = string.Empty;
-			displayDesc = string.Empty;
-			displayHidden = false;
-			boundProperty = new Property();
+			_displayName = string.Empty;
+			_displayDesc = string.Empty;
+			_displayHidden = false;
+			_boundProperty = new Property();
 		}
 
-		public void Bind(Property _property)
+		public void Bind(Property property)
 		{
-			boundProperty = _property;
-			DisplayDesc = _property.Desc;
-			DisplayName = _property.Name;
-			DisplayHidden = _property.Hidden;
-			IsEditMode = _property.Hidden;
+			_boundProperty = property;
+			DisplayDesc = property.Desc;
+			DisplayName = property.Name;
+			DisplayHidden = property.Hidden;
+			IsEditMode = property.Hidden;
 		}
 
 		public void Edit()
 		{
-			IsEditMode = !isEditMode;
+			IsEditMode = !_isEditMode;
 		}
 	}
 }

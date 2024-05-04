@@ -15,22 +15,22 @@ namespace PCCharacterManager.ViewModels
 {
 	public class MainWindowViewModel : ObservableObject
 	{
-		private Object currView;
+		private Object _currView;
 		public Object CurrView
 		{
-			get { return currView; }
-			set { OnPropertyChanged(ref currView, value); }
+			get { return _currView; }
+			set { OnPropertyChanged(ref _currView, value); }
 		}
 
-		private TabControlViewModel tabVM;
+		private TabControlViewModel _tabVM;
 		public TabControlViewModel TabVM
 		{
-			get { return tabVM; }
-			set { OnPropertyChanged(ref tabVM, value); }
+			get { return _tabVM; }
+			set { OnPropertyChanged(ref _tabVM, value); }
 		}
 
-		private readonly CharacterStore characterStore;
-		private readonly ICharacterDataService dataService;
+		private readonly CharacterStore _characterStore;
+		private readonly ICharacterDataService _dataService;
 
 		public ICommand NewCharacterCommand { get; }
 		public ICommand DeleteCharacterCommand { get; }
@@ -45,41 +45,41 @@ namespace PCCharacterManager.ViewModels
 
 		public MainWindowViewModel()
 		{
-			characterStore = new CharacterStore();
-			dataService = new JsonCharacterDataService(characterStore);
+			_characterStore = new CharacterStore();
+			_dataService = new JsonCharacterDataService(_characterStore);
 
-			characterStore.SelectedCharacterChange += SaveCharacter;
+			_characterStore.SaveSelectedCharacterOnChange += SaveCharacter;
 
-			tabVM = new TabControlViewModel(characterStore, dataService);
-			currView = tabVM;
+			_tabVM = new TabControlViewModel(_characterStore, _dataService);
+			_currView = _tabVM;
 
-			NewCharacterCommand = new CreateCharacterCommand(characterStore);
-			DeleteCharacterCommand = new DeleteCharacterCommand(tabVM.CharacterListVM, dataService, characterStore);
+			NewCharacterCommand = new CreateCharacterCommand(_characterStore);
+			DeleteCharacterCommand = new DeleteCharacterCommand(_tabVM.CharacterListVM, _dataService, _characterStore);
 			SaveCharactersCommand = new SaveCharacterCommand(this);
-			LevelCharacterCommand = new LevelCharacterCommand(characterStore);
-			ExportCharacterCommand = new CharacterExportCommand(characterStore, tabVM);
-			OpenCommand = new OpenCharacterCommand(characterStore);
+			LevelCharacterCommand = new LevelCharacterCommand(_characterStore);
+			ExportCharacterCommand = new CharacterExportCommand(_characterStore, _tabVM);
+			OpenCommand = new OpenCharacterCommand(_characterStore);
 			EditCharacterCommand = new RelayCommand(EditCharacter);
 		}
 
 		private void SaveCharacter(DnD5eCharacter? character = null)
 		{
-			if (tabVM == null) 
+			if (_tabVM == null) 
 				return;
-
+			
 			if (character == null)
 				return;
 
-			tabVM.CharacterListVM.SaveCharacter();
+			_tabVM.CharacterListVM.SaveCharacter();
 		}
 
 		private void EditCharacter()
 		{
-			if (characterStore.SelectedCharacter == null)
+			if (_characterStore.SelectedCharacter == null)
 				return;
 
 			Window window = new EditCharacterDialogWindow();
-			DialogWindowEditCharacterViewModel windowVM = new(window, characterStore.SelectedCharacter);
+			DialogWindowEditCharacterViewModel windowVM = new(window, _characterStore.SelectedCharacter);
 			window.DataContext = windowVM;
 
 			window.ShowDialog();

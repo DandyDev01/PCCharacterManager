@@ -35,6 +35,8 @@ namespace PCCharacterManager.Views
 
 		public void FocusSearch()
 		{
+			placeholderText.Visibility = Visibility.Collapsed;
+			searchBox.Visibility = Visibility.Visible;
 			this.searchBox.Focus();
 		}
 
@@ -47,6 +49,25 @@ namespace PCCharacterManager.Views
 
 			vm.DeleteSpellCommand.Execute(null);
 			vm.DeleteCantripCommand.Execute(null);
+		}
+
+		private void searchBox_LostFocus(object sender, RoutedEventArgs e)
+		{
+			if (searchBox.Text == "")
+			{
+				placeholderText.Visibility = Visibility.Visible;
+				searchBox.Visibility = Visibility.Collapsed;
+			}
+		}
+
+		private void searchBox_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if (searchBox.Text == "")
+			{
+				placeholderText.Visibility = Visibility.Collapsed;
+				searchBox.Visibility = Visibility.Visible;
+				FocusSearch();
+			}
 		}
 	}
 }

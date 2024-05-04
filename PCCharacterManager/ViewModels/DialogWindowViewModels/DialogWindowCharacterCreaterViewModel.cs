@@ -17,22 +17,22 @@ namespace PCCharacterManager.ViewModels
 {
 	public class DialogWindowCharacterCreaterViewModel : ObservableObject
 	{
-		private readonly Window window;
-		private readonly CharacterStore characterStore;
+		private readonly Window _window;
+		private readonly CharacterStore _characterStore;
 
-		private CharacterType selectedCharacterType;
+		private CharacterType _selectedCharacterType;
 		public CharacterType SelectedCharacterType
 		{
 			get
 			{
-				return selectedCharacterType;
+				return _selectedCharacterType;
 			}
 			set
 			{
-				OnPropertyChanged(ref selectedCharacterType, value);
+				OnPropertyChanged(ref _selectedCharacterType, value);
 				SetViewFlags();
 
-				switch (selectedCharacterType)
+				switch (_selectedCharacterType)
 				{
 					case CharacterType.starfinder:
 						SelectedCreator = StarfinderCharacterCreatorVM;
@@ -44,42 +44,42 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private bool isStarfinderCharacter;
+		private bool _isStarfinderCharacter;
 		public bool IsStarfinderCharacter
 		{
 			get
 			{
-				return isStarfinderCharacter;
+				return _isStarfinderCharacter;
 			}
 			private set
 			{
-				OnPropertyChanged(ref isStarfinderCharacter, value);
+				OnPropertyChanged(ref _isStarfinderCharacter, value);
 			}
 		}
 
-		private bool isDnD5eCharacter = true;
+		private bool _isDnD5eCharacter = true;
 		public bool IsDnD5eCharacter
 		{
 			get
 			{
-				return isDnD5eCharacter;
+				return _isDnD5eCharacter;
 			}
 			private set
 			{
-				OnPropertyChanged(ref isDnD5eCharacter, value);
+				OnPropertyChanged(ref _isDnD5eCharacter, value);
 			}
 		}
 
-		private CharactorCreatorViewModelBase selectedCreator;
+		private CharactorCreatorViewModelBase _selectedCreator;
 		public CharactorCreatorViewModelBase SelectedCreator
 		{
 			get
 			{
-				return selectedCreator;
+				return _selectedCreator;
 			}
 			set
 			{
-				OnPropertyChanged(ref selectedCreator, value);
+				OnPropertyChanged(ref _selectedCreator, value);
 			}
 		}
 
@@ -92,14 +92,14 @@ namespace PCCharacterManager.ViewModels
 		public ICommand CloseCommand { get; private set; }
 		#endregion
 
-		public DialogWindowCharacterCreaterViewModel(CharacterStore _characterStore, Window _window)
+		public DialogWindowCharacterCreaterViewModel(CharacterStore characterStore, Window window)
 		{
 			DnD5eCharacterCreator = new CharacterCreatorViewModel();
 			StarfinderCharacterCreatorVM = new StarfinderCharacterCreatorViewModel();
-			selectedCreator = DnD5eCharacterCreator;
+			_selectedCreator = DnD5eCharacterCreator;
 
-			window = _window;
-			characterStore = _characterStore;
+			_window = window;
+			_characterStore = characterStore;
 
 			CreateCommand = new RelayCommand(Create);
 			CloseCommand = new RelayCommand(Close);
@@ -107,7 +107,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void SetViewFlags()
 		{
-			switch (selectedCharacterType)
+			switch (_selectedCharacterType)
 			{
 				case CharacterType.starfinder:
 					IsDnD5eCharacter = false;
@@ -122,7 +122,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void Create()
 		{
-			DnD5eCharacter? character = selectedCharacterType switch
+			DnD5eCharacter? character = _selectedCharacterType switch
 			{
 				CharacterType.starfinder => StarfinderCharacterCreatorVM.Create(),
 				CharacterType.DnD5e => DnD5eCharacterCreator.Create(),
@@ -132,15 +132,15 @@ namespace PCCharacterManager.ViewModels
 			if (character == null) 
 				return;
 
-			characterStore.CreateCharacter(character);
-			window.DialogResult = true;
-			window.Close();
+			_characterStore.CreateCharacter(character);
+			_window.DialogResult = true;
+			_window.Close();
 		}
 
 		private void Close()
 		{
-			window.DialogResult = false;
-			window.Close();
+			_window.DialogResult = false;
+			_window.Close();
 		}
 	}
 }

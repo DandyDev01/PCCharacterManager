@@ -17,23 +17,25 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterInfoViewModel : ObservableObject
 	{
-		private readonly CollectionViewPropertySort collectionViewPropertySort;
+		private readonly CollectionViewPropertySort _collectionViewPropertySort;
+		private readonly CharacterStore _characterStore;
 
-		private DnD5eCharacter? selectedCharacter;
-		public DnD5eCharacter? SelectedCharacter
+		private DnD5eCharacter _selectedCharacter;
+		public DnD5eCharacter SelectedCharacter
 		{
 			get
 			{
-				return selectedCharacter;
+				return _selectedCharacter;
 			}
 			set
 			{
-				OnPropertyChanged(ref selectedCharacter, value);
+				OnPropertyChanged(ref _selectedCharacter, value);
 			}
 		}
 
 		public PropertyListViewModel MovementTypesListVM { get; }
 		public PropertyListViewModel FeaturesListVM { get; }
+		public PropertyListViewModel ConditionsListVM { get; }
 
 		public StringListViewModel LanguagesVM { get; }
 		public StringListViewModel ArmorProfsVM { get; }
@@ -44,16 +46,68 @@ namespace PCCharacterManager.ViewModels
 		public ObservableCollection<Feature> AllFeatures { get; }
 		public ICollectionView FeaturesCollectionView { get; }
 
-		private Feature? selectedProperty;
+		private Feature? _selectedProperty;
 		public Feature? SelectedProperty
 		{
 			get
 			{
-				return selectedProperty;
+				return _selectedProperty;
 			}
 			set
 			{
-				OnPropertyChanged(ref selectedProperty, value);
+				OnPropertyChanged(ref _selectedProperty, value);
+			}
+		}
+
+		private string _race;
+		public string Race
+		{
+			get
+			{
+				return _race;
+			}
+			set
+			{
+				OnPropertyChanged(ref _race, value);
+			}
+		}
+
+		private string _health;
+		public string Health
+		{
+			get
+			{
+				return _health;
+			}
+			set
+			{
+				OnPropertyChanged(ref _health, value);
+			}
+		}
+
+		private string _armorClass;
+		public string ArmorClass
+		{
+			get
+			{
+				return _armorClass;
+			}
+			set
+			{
+				OnPropertyChanged(ref _armorClass, value);
+			}
+		}
+
+		private string _characterClass;
+		public string CharacterClass
+		{
+			get
+			{
+				return _characterClass;
+			}
+			set
+			{
+				OnPropertyChanged(ref _characterClass, value);
 			}
 		}
 
@@ -62,36 +116,56 @@ namespace PCCharacterManager.ViewModels
 		public ICommand LevelSortCommand { get; }
 		public ICommand AddFeatureCommand { get; }
 		public ICommand RemoveFeatureCommand { get; }
+		public ICommand AdjustExperienceCommand { get; }
+		public ICommand AdjustHealthCommand { get; }
+		public ICommand EditArmorClassCommand { get; }
+		public ICommand EditCharacterCommand { get; }
+		public ICommand LevelCharacterCommand { get; }
 
-		public CharacterInfoViewModel(CharacterStore _characterStore)
+		public CharacterInfoViewModel(CharacterStore characterStore)
 		{
+			_characterStore = characterStore;
+
+			_selectedCharacter = this._characterStore.SelectedCharacter;
+			_race = _selectedCharacter.Race.Name;
+			_health = _selectedCharacter.Health.CurrHealth.ToString();
+			_armorClass = _selectedCharacter.ArmorClass.ArmorClassValue;
+			_characterClass = _selectedCharacter.CharacterClass.Name;
+
 			AllFeatures = new ObservableCollection<Feature>();
 			FeaturesCollectionView = CollectionViewSource.GetDefaultView(AllFeatures);
-			collectionViewPropertySort = new CollectionViewPropertySort(FeaturesCollectionView);
+			_collectionViewPropertySort = new CollectionViewPropertySort(FeaturesCollectionView);
 
-			NameSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+			NameSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort,
 				nameof(Feature.Name));
-			FeatureTypeSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+			FeatureTypeSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort,
 				nameof(Feature.FeatureType));
-			LevelSortCommand = new ItemCollectionViewPropertySortCommand(collectionViewPropertySort,
+			LevelSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort,
 				nameof(Feature.Level));
 
 			AddFeatureCommand = new RelayCommand(AddFeature);
 			RemoveFeatureCommand = new RelayCommand(RemoveFeature);
 
-			_characterStore.SelectedCharacterChange += OnCharacterChanged;
+			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
-			selectedCharacter ??= new();
+			_selectedCharacter ??= new();
 
-			selectedProperty = AllFeatures.FirstOrDefault();	
+			_selectedProperty = AllFeatures.FirstOrDefault();	
 
-			FeaturesListVM = new PropertyListViewModel("Features", null);
-			MovementTypesListVM = new PropertyListViewModel("Movement", selectedCharacter.MovementTypes_Speeds);
-			LanguagesVM = new StringListViewModel("Languages", selectedCharacter.Languages);
-			ToolProfsVM = new StringListViewModel("Tool Profs", selectedCharacter.ToolProficiences);
-			ArmorProfsVM = new StringListViewModel("Armor Profs", selectedCharacter.ArmorProficiencies);
-			OtherProfsVM = new StringListViewModel("Other Profs", selectedCharacter.OtherProficiences);
-			WeaponProfsVM = new StringListViewModel("Weapon Profs", selectedCharacter.WeaponProficiencies);
+			FeaturesListVM = new PropertyListViewModel("Features");
+
+			ConditionsListVM = new PropertyListViewModel("Conditions", _selectedCharacter.Conditions);
+			MovementTypesListVM = new PropertyListViewModel("Movement", _selectedCharacter.MovementTypes_Speeds);
+			LanguagesVM = new StringListViewModel("Languages", _selectedCharacter.Languages);
+			ToolProfsVM = new StringListViewModel("Tool Profs", _selectedCharacter.ToolProficiences);
+			ArmorProfsVM = new StringListViewModel("Armor Profs", _selectedCharacter.ArmorProficiencies);
+			OtherProfsVM = new StringListViewModel("Other Profs", _selectedCharacter.OtherProficiences);
+			WeaponProfsVM = new StringListViewModel("Weapon Profs", _selectedCharacter.WeaponProficiencies);
+			LevelCharacterCommand = new LevelCharacterCommand(_characterStore);
+			AdjustExperienceCommand = new RelayCommand(AdjustExperience);
+			AdjustHealthCommand = new RelayCommand(AddHealth);
+			EditArmorClassCommand = new RelayCommand(EditArmorClass);
+			EditCharacterCommand = new RelayCommand(EditCharacter);
 		}
 
 		/// <summary>
@@ -107,19 +181,102 @@ namespace PCCharacterManager.ViewModels
 
 			SelectedCharacter.CharacterClass.Features.CollectionChanged += UpdateFeatures;
 
-			if (selectedCharacter is null)
+			if (_selectedCharacter is null)
 				return;
 
 			//FeaturesListVM.UpdateCollection(null);
-			MovementTypesListVM.UpdateCollection( selectedCharacter.MovementTypes_Speeds);
-			LanguagesVM.UpdateCollection(selectedCharacter.Languages);
-			ToolProfsVM.UpdateCollection(selectedCharacter.ToolProficiences);
-			ArmorProfsVM.UpdateCollection(selectedCharacter.ArmorProficiencies);
-			OtherProfsVM.UpdateCollection(selectedCharacter.OtherProficiences);
-			WeaponProfsVM.UpdateCollection(selectedCharacter.WeaponProficiencies);
+			ConditionsListVM.UpdateCollection(_selectedCharacter.Conditions);
+			MovementTypesListVM.UpdateCollection( _selectedCharacter.MovementTypes_Speeds);
+			LanguagesVM.UpdateCollection(_selectedCharacter.Languages);
+			ToolProfsVM.UpdateCollection(_selectedCharacter.ToolProficiences);
+			ArmorProfsVM.UpdateCollection(_selectedCharacter.ArmorProficiencies);
+			OtherProfsVM.UpdateCollection(_selectedCharacter.OtherProficiences);
+			WeaponProfsVM.UpdateCollection(_selectedCharacter.WeaponProficiencies);
+
+			Race = _selectedCharacter.Race.RaceVariant.Name;
+
+			var temp = _selectedCharacter.Health;
+			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth + " (" + temp.TempHitPoints + " temp)";
+
+			var characterClass = _selectedCharacter.CharacterClass;
+			CharacterClass = characterClass.Name + " " + characterClass.Level.Level;
+
+			ArmorClass = _selectedCharacter.ArmorClass.ArmorClassValue;
 
 			UpdateFeatures(null, null);
 			SelectedProperty = AllFeatures.FirstOrDefault();
+		}
+
+		private void EditArmorClass()
+		{
+			Window window = new StringInputDialogWindow();
+			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel(window);
+			window.DataContext = dataContext;
+
+			dataContext.Answer = _selectedCharacter.ArmorClass.ArmorClassValue;
+
+			window.ShowDialog();
+
+			if (window.DialogResult == false)
+				return;
+
+			
+
+			_selectedCharacter.ArmorClass.ArmorClassValue = dataContext.Answer;
+			ArmorClass = _selectedCharacter.ArmorClass.ArmorClassValue;
+		}
+
+		private void AdjustExperience()
+		{
+			Window window = new StringInputDialogWindow();
+			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel(window, "Enter amount to add or remove.");
+			window.DataContext = dataContext;
+			window.ShowDialog();
+
+			if (window.DialogResult == false)
+				return;
+
+			int temp;
+			try
+			{
+				temp = int.Parse(dataContext.Answer);
+			}
+			catch 
+			{
+				MessageBox.Show("Must be a whole number", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				AdjustExperience();
+				return;
+			}
+
+			_selectedCharacter.Level.ExperiencePoints += temp;
+			
+			// NOTE: check if they can level up, if they can, ask if they want to. 
+		}
+
+		private void AddHealth()
+		{
+			Window window = new ChangeHealthDialogWindow();
+			DialogWindowChangeHealthViewModel dataContext = new DialogWindowChangeHealthViewModel(window);
+			window.DataContext = dataContext;
+			window.ShowDialog();
+
+			if (window.DialogResult == false)
+				return;
+
+			var characterHealth = _selectedCharacter.Health;
+
+			if (dataContext.IsTempHealth)
+			{
+				characterHealth.TempHitPoints += dataContext.Amount;
+				characterHealth.TempHitPoints = Math.Clamp(characterHealth.TempHitPoints, 0, 1000000);
+			}
+			else
+			{
+				characterHealth.CurrHealth += dataContext.Amount;
+				characterHealth.CurrHealth = Math.Clamp(characterHealth.CurrHealth, 0, characterHealth.MaxHealth);
+			}
+
+			Health = characterHealth.CurrHealth.ToString() + '/' + characterHealth.MaxHealth.ToString() + " (" + characterHealth.TempHitPoints + " temp)";
 		}
 
 		private void AddFeature()
@@ -136,57 +293,69 @@ namespace PCCharacterManager.ViewModels
 
 		private void RemoveFeature()
 		{
-			if (selectedProperty == null || selectedCharacter == null)
+			if (_selectedProperty == null || _selectedCharacter == null)
 				return;
 
-			Feature feature = selectedProperty;
-			AllFeatures.Remove(selectedProperty);
+			Feature feature = _selectedProperty;
+			AllFeatures.Remove(_selectedProperty);
 
-			if (feature.FeatureType == selectedCharacter.CharacterClass.Name)
+			if (feature.FeatureType == _selectedCharacter.CharacterClass.Name)
 			{
 				// does not handle same name items
-				var toRemove = selectedCharacter.CharacterClass.Features.Where(x => x.Name == feature.Name).First();
-				selectedCharacter.CharacterClass.Features.Remove(toRemove);
+				var toRemove = _selectedCharacter.CharacterClass.Features.Where(x => x.Name == feature.Name).First();
+				_selectedCharacter.CharacterClass.Features.Remove(toRemove);
 			}
-			else if (feature.FeatureType == selectedCharacter.Race.Name)
+			else if (feature.FeatureType == _selectedCharacter.Race.Name)
 			{
 				// does not handle same name items
-				var toRemove = selectedCharacter.Race.Features.Where(x => x.Name == feature.Name).First();
-				selectedCharacter.Race.Features.Remove(toRemove);
+				var toRemove = _selectedCharacter.Race.Features.Where(x => x.Name == feature.Name).First();
+				_selectedCharacter.Race.Features.Remove(toRemove);
 			}
-			else if (feature.FeatureType == selectedCharacter.Race.RaceVariant.Name)
+			else if (feature.FeatureType == _selectedCharacter.Race.RaceVariant.Name)
 			{
 				// does not handle same name items
-				var toRemove = selectedCharacter.Race.RaceVariant.Properties.Where(x => x.Name == feature.Name).First();
-				selectedCharacter.Race.RaceVariant.Properties.Remove(toRemove);
+				var toRemove = _selectedCharacter.Race.RaceVariant.Properties.Where(x => x.Name == feature.Name).First();
+				_selectedCharacter.Race.RaceVariant.Properties.Remove(toRemove);
 			}
 
-			selectedProperty = AllFeatures.FirstOrDefault();
+			_selectedProperty = AllFeatures.FirstOrDefault();
 		}
 
-		private void UpdateFeatures(object? sender, NotifyCollectionChangedEventArgs e)
+		private void UpdateFeatures(object? sender, NotifyCollectionChangedEventArgs? e)
 		{
 			AllFeatures.Clear();
 
-			if (selectedCharacter is null)
+			if (_selectedCharacter is null)
 				return;
 
-			foreach (var item in selectedCharacter.CharacterClass.Features)
+			foreach (var item in _selectedCharacter.CharacterClass.Features)
 			{
-				AllFeatures.Add(new Feature(item, selectedCharacter.CharacterClass.Name, item.Level.ToString()));
+				AllFeatures.Add(new Feature(item, _selectedCharacter.CharacterClass.Name, item.Level.ToString()));
 			}
 
-			foreach (var item in selectedCharacter.Race.Features)
+			foreach (var item in _selectedCharacter.Race.Features)
 			{
-				AllFeatures.Add(new Feature(item, selectedCharacter.Race.Name, "-"));
+				AllFeatures.Add(new Feature(item, _selectedCharacter.Race.Name, "-"));
 			}
 
-			foreach (var item in selectedCharacter.Race.RaceVariant.Properties)
+			foreach (var item in _selectedCharacter.Race.RaceVariant.Properties)
 			{
-				AllFeatures.Add(new Feature(item, selectedCharacter.Race.RaceVariant.Name, "-"));
+				AllFeatures.Add(new Feature(item, _selectedCharacter.Race.RaceVariant.Name, "-"));
 			}
 
 			FeaturesCollectionView?.Refresh();
+		}
+
+		private void EditCharacter()
+		{
+			if (_characterStore.SelectedCharacter == null)
+				return;
+
+			Window window = new EditCharacterDialogWindow();
+			DialogWindowEditCharacterViewModel windowVM = new(window, _characterStore.SelectedCharacter);
+			window.DataContext = windowVM;
+
+			window.ShowDialog();
 		}
 	}
 }

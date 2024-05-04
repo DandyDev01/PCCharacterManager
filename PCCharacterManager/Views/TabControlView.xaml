@@ -1,29 +1,32 @@
-﻿<UserControl x:Class="PCCharacterManager.Views.TabControlView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PCCharacterManager.Views"
-             xmlns:v="clr-namespace:PCCharacterManager.Views" 
-             mc:Ignorable="d" 
-             Background="{DynamicResource ViewBackgroundColor}"
-             d:DesignHeight="1080" d:DesignWidth="1920" Padding="10">
+﻿<UserControl
+    x:Class="PCCharacterManager.Views.TabControlView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PCCharacterManager.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:v="clr-namespace:PCCharacterManager.Views"
+    Padding="20"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    Background="{DynamicResource 1}"
+    mc:Ignorable="d">
     <Grid>
-        <TabControl >
+        <TabControl>
             <TabItem Header="Character List">
-                <v:CharacterListView DataContext="{Binding CharacterListVM}"/>
+                <v:CharacterListView DataContext="{Binding CharacterListVM}" />
             </TabItem>
             <TabItem Header="Character Stats">
-                <v:CharacterStatsView DataContext="{Binding CharacterStatsVM}"/>
+                <v:CharacterStatsView DataContext="{Binding CharacterStatsVM}" />
             </TabItem>
             <TabItem Header="Character Inventory">
-                <v:CharacterInventoryView DataContext="{Binding InventoryVM}"/>
+                <v:CharacterInventoryView DataContext="{Binding InventoryVM}" />
             </TabItem>
             <TabItem Header="Spell Book">
-                <v:CharacterSpellBookView DataContext="{Binding SpellBookVM}"/>
+                <v:CharacterSpellBookView DataContext="{Binding SpellBookVM}" />
             </TabItem>
             <TabItem Header="Notes">
-                <v:CharacterNoteBookView DataContext="{Binding NotesVM}"/>
+                <v:CharacterNoteBookView DataContext="{Binding NotesVM}" />
             </TabItem>
         </TabControl>
     </Grid>
