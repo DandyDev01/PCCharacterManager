@@ -65,6 +65,7 @@ namespace PCCharacterManager.Models
 			get;
 			set;
 		}
+		public Note Note { get; set; }
 
 		public string[] SavingThrows { get; set; }
 
@@ -92,6 +93,7 @@ namespace PCCharacterManager.Models
 			StartEquipment = Array.Empty<string>();
 			PossibleSkillProficiences = Array.Empty<string>();
 			Features = Array.Empty<DnD5eCharacterClassFeature>();
+			Note = new Note();
 		}
 	}
 }

@@ -213,6 +213,11 @@ namespace PCCharacterManager.ViewModels
 
 			_newCharacter.DateModified = DateTime.Now.ToString();
 
+			if (SelectedCharacterClass.Note.Title != string.Empty)
+			{
+				_newCharacter.NoteManager.NoteSections[0].Notes.Add(SelectedCharacterClass.Note);
+			}
+
 			return _newCharacter;
 		}
 
