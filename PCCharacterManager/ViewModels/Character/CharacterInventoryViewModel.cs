@@ -213,7 +213,7 @@ namespace PCCharacterManager.ViewModels
 
 			foreach (var item in ItemDisplayVms)
 			{
-				item.PropertyChanged += CalculateWeightChange;
+				item.PropertyChanged -= HandleInventoryWeightChange;
 			}
 
 			ItemDisplayVms.Clear();
@@ -226,7 +226,7 @@ namespace PCCharacterManager.ViewModels
 				foreach (var item in pair.Value)
 				{
 					ItemViewModel itemVM = new(item);
-					itemVM.PropertyChanged += CalculateWeightChange;
+					itemVM.PropertyChanged += HandleInventoryWeightChange;
 					ItemDisplayVms.Add(itemVM);
 				}
 			}
@@ -238,7 +238,7 @@ namespace PCCharacterManager.ViewModels
 			CalculateInventoryWeight();
 		}
 
-		private void CalculateWeightChange(object? sender, PropertyChangedEventArgs e)
+		private void HandleInventoryWeightChange(object? sender, PropertyChangedEventArgs e)
 		{
 			CalculateInventoryWeight();
 		}
