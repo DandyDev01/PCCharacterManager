@@ -210,6 +210,12 @@ namespace PCCharacterManager.ViewModels
 			_selectedCharacter = newCharacter;
 
 			ReturnItemVMsToPool();
+
+			foreach (var item in ItemDisplayVms)
+			{
+				item.PropertyChanged += CalculateWeightChange;
+			}
+
 			ItemDisplayVms.Clear();
 			PropertiesToDisplay.Clear();
 			SelectedProperty = null;
@@ -220,6 +226,7 @@ namespace PCCharacterManager.ViewModels
 				foreach (var item in pair.Value)
 				{
 					ItemViewModel itemVM = new(item);
+					itemVM.PropertyChanged += CalculateWeightChange;
 					ItemDisplayVms.Add(itemVM);
 				}
 			}
@@ -228,6 +235,11 @@ namespace PCCharacterManager.ViewModels
 				SelectedItem = ItemDisplayVms[0];
 
 			ItemsCollectionView = CollectionViewSource.GetDefaultView(ItemDisplayVms);
+			CalculateInventoryWeight();
+		}
+
+		private void CalculateWeightChange(object? sender, PropertyChangedEventArgs e)
+		{
 			CalculateInventoryWeight();
 		}
 
@@ -302,7 +314,7 @@ namespace PCCharacterManager.ViewModels
 				}
 			}
 
-			_inventoryWeight = inventoryWeight + "/" + _selectedCharacter.Abilities.Where(x => x.Name == "Strength").First().Score * 15;
+			_inventoryWeight = inventoryWeight + "/" + _selectedCharacter.CarryWeight;
 			OnPropertyChanged(nameof(InventoryWeight));
 		}
 	} // end class

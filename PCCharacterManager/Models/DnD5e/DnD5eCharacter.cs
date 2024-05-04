@@ -77,6 +77,8 @@ namespace PCCharacterManager.Models
 			set { OnPropertyChanged(ref _passiveInsight, value); }
 		}
 
+		public virtual int CarryWeight => Abilities.Where(x => x.Name == "Strength").First().Score * 15;
+
 		public DnD5eCharacterClass CharacterClass { get; set; }
 		public DnD5eCharacterRace Race { get; set; }
 		public ArmorClass ArmorClass { get; set; }
