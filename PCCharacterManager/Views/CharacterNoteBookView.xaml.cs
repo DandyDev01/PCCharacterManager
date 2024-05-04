@@ -25,17 +25,17 @@ namespace PCCharacterManager.Views
 	/// </summary>
 	public partial class CharacterNoteBookView : UserControl
 	{
-		private readonly ICommand focusSearchCommand;
+		private readonly ICommand _focusSearchCommand;
 		private const string SEARCH = "Search";
 
 		public CharacterNoteBookView()
 		{
 			InitializeComponent();
 			
-			focusSearchCommand = new RelayCommand(FocusSearchBox);
+			_focusSearchCommand = new RelayCommand(FocusSearchBox);
 			findButton.Command = new RelayCommand(FindAndHighlightText);
 			
-			InputBindings.Add(new KeyBinding(focusSearchCommand, Key.Q, ModifierKeys.Control));
+			InputBindings.Add(new KeyBinding(_focusSearchCommand, Key.Q, ModifierKeys.Control));
 			
 			DataContextChanged += SetupHelper;
 
@@ -164,13 +164,13 @@ namespace PCCharacterManager.Views
 			if (DataContext is not CharacterNoteBookViewModel viewModel)
 				return;
 
-			string s = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd).Text;
+			string noteContents = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd).Text;
 
 			
 			if (viewModel.SelectedNote is null)
 				return;
 
-			viewModel.SelectedNote.Notes = s;
+			viewModel.SelectedNote.Notes = noteContents;
 		}
 
 		private void ExpandNoteTreeView()

@@ -194,33 +194,24 @@
                 ItemsSource="{Binding SkillsCollectionView}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn>
-                            <GridViewColumnHeader
-                                Width="auto"
-                                Command="{Binding SkillNameSortCommand}"
-                                Content="Name" />
+                        <GridViewColumn Width="165">
+                            <GridViewColumnHeader Command="{Binding SkillNameSortCommand}" Content="Name" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Name}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn>
-                            <GridViewColumnHeader
-                                Width="auto"
-                                Command="{Binding SkillScoreSortCommand}"
-                                Content="Score" />
+                        <GridViewColumn Width="120">
+                            <GridViewColumnHeader Command="{Binding SkillScoreSortCommand}" Content="Score" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Score}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn>
-                            <GridViewColumnHeader
-                                Width="auto"
-                                Command="{Binding SkillAbilitySortCommand}"
-                                Content="Ability" />
+                        <GridViewColumn Width="155">
+                            <GridViewColumnHeader Command="{Binding SkillAbilitySortCommand}" Content="Ability" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding AbilityName}" />
