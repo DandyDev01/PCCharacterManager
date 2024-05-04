@@ -30,23 +30,18 @@ namespace PCCharacterManager.ViewModels
 		public Array ItemCategories { get; } = Enum.GetValues(typeof(ItemCategory));
 		public Array ItemTypes { get; } = Enum.GetValues(typeof(ItemType));
 		public Inventory Inventory { get; private set; }
+		public string SearchTerm
+		{
+			get => _itemSearch.SearchTerm;
+			set
+			{
+				_itemSearch.SearchTerm = value;
+				ItemsCollectionView.Refresh();
+			}
+		}
 
-		public ICommand AddItemCommand { get; }
-		public ICommand RemoveItemCommand { get; }
-		public ICommand AddPropertyCommand { get; }
-		public ICommand RemovePropertyCommand { get; }
-
-		public ICommand NameSortCommand { get; }
-		public ICommand CostSortCommand { get; }
-		public ICommand QuantitySortCommand { get; }
-		public ICommand TypeSortCommand { get; }
-		public ICommand WeightSortCommand { get; }
-		public ICommand CategorySortCommand { get; }
-
-		public ICommand ShowPropertiesToDisplayCommand { get; }
-
-		public ICollectionView ItemsCollectionView { get; private set; }
 		public ObservableCollection<ItemViewModel> ItemDisplayVms { get; }
+		public ICollectionView ItemsCollectionView { get; private set; }
 
 		private ItemViewModel? _selectedItem;
 		public ItemViewModel? SelectedItem
@@ -90,18 +85,6 @@ namespace PCCharacterManager.ViewModels
 		public ObservableCollection<PropertyEditableViewModel> PropertiesToDisplay { get; }
 		public PropertyEditableViewModel? PrevSelectedProperty { get; private set; }
 
-		public string SearchTerm
-		{
-			get => _itemSearch.SearchTerm;
-			set
-			{
-				_itemSearch.SearchTerm = value;
-				ItemsCollectionView.Refresh();
-			}
-		}
-
-		private bool _showHiddenProperties = false;
-
 		private string _showHiddenPropertiesText;
 		public string ShowHiddenPropertiesText
 		{
@@ -115,14 +98,36 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		private string _inventoryWeight;
+		public string InventoryWeight => _inventoryWeight;
+
+		private bool _showHiddenProperties = false;
+		private DnD5eCharacter _selectedCharacter;
+
+		public ICommand AddItemCommand { get; }
+		public ICommand RemoveItemCommand { get; }
+		public ICommand AddPropertyCommand { get; }
+		public ICommand RemovePropertyCommand { get; }
+
+		public ICommand NameSortCommand { get; }
+		public ICommand CostSortCommand { get; }
+		public ICommand QuantitySortCommand { get; }
+		public ICommand TypeSortCommand { get; }
+		public ICommand WeightSortCommand { get; }
+		public ICommand CategorySortCommand { get; }
+
+		public ICommand ShowPropertiesToDisplayCommand { get; }
+
 		public CharacterInventoryViewModel(CharacterStore characterStore)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 			Inventory = characterStore.SelectedCharacter.Inventory;
+			_selectedCharacter = characterStore.SelectedCharacter;
 
 			_propertyVMPool = new PropertyEditableVMPool(5);
 			_itemSearch = new ItemSearch();
 
+			_inventoryWeight = string.Empty;
 			_showHiddenPropertiesText = string.Empty;
 
 			AddItemCommand = new AddItemToInventoryCommand(this);
@@ -161,9 +166,10 @@ namespace PCCharacterManager.ViewModels
 		{
 			_propertyVMPool = new PropertyEditableVMPool(5);
 			_itemSearch = new ItemSearch();
+			_selectedCharacter = DnD5eCharacter.Default;
 
 			Inventory = new();
-
+			_inventoryWeight = string.Empty;
 			_showHiddenPropertiesText = string.Empty;
 
 			AddItemCommand = new AddItemToInventoryCommand(this);
@@ -201,6 +207,7 @@ namespace PCCharacterManager.ViewModels
 		private void OnCharacterChanged(DnD5eCharacter newCharacter)
 		{
 			Inventory = newCharacter.Inventory;
+			_selectedCharacter = newCharacter;
 
 			ReturnItemVMsToPool();
 			ItemDisplayVms.Clear();
@@ -221,14 +228,7 @@ namespace PCCharacterManager.ViewModels
 				SelectedItem = ItemDisplayVms[0];
 
 			ItemsCollectionView = CollectionViewSource.GetDefaultView(ItemDisplayVms);
-		}
-
-		public void ReturnItemVMsToPool()
-		{
-			foreach (PropertyEditableViewModel propertyEditableVM in PropertiesToDisplay)
-			{
-				_propertyVMPool.Return(propertyEditableVM);
-			}
+			CalculateInventoryWeight();
 		}
 
 		private void PopulatePropertiesToDisplay()
@@ -273,5 +273,37 @@ namespace PCCharacterManager.ViewModels
 			} // end loop
 		} // end method
 
+		public void ReturnItemVMsToPool()
+		{
+			foreach (PropertyEditableViewModel propertyEditableVM in PropertiesToDisplay)
+			{
+				_propertyVMPool.Return(propertyEditableVM);
+			}
+		}
+
+		public void CalculateInventoryWeight()
+		{
+			int inventoryWeight = 0, length;
+			StringBuilder number = new();
+
+			foreach (var keyValuePair in Inventory.Items)
+			{
+				foreach (var item in keyValuePair.Value)
+				{
+					length = item.Weight.IndexOf(" ");
+					
+					if (length < 0)
+						length = item.Weight.Length;
+					
+					number.Clear();
+					number.Append(item.Weight.Substring(0, length));
+					if (int.TryParse(number.ToString(), out length))
+						inventoryWeight += length;
+				}
+			}
+
+			_inventoryWeight = inventoryWeight + "/" + _selectedCharacter.Abilities.Where(x => x.Name == "Strength").First().Score * 15;
+			OnPropertyChanged(nameof(InventoryWeight));
+		}
 	} // end class
 }

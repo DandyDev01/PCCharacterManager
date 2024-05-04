@@ -138,6 +138,7 @@ namespace PCCharacterManager.Views
 				return;
 			
 			inventoryVM.SelectedItem = inventoryVM.ItemDisplayVms[0];
+			inventoryVM.CalculateInventoryWeight();
 		}
 
 		private void searchBox_LostFocus(object sender, RoutedEventArgs e)

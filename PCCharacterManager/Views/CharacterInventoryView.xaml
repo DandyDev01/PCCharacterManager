@@ -111,6 +111,14 @@
                 Height="23">
                 <Image Source="{DynamicResource Move_To_Trash_Icon}" />
             </Button>
+            <TextBlock
+                Grid.Column="3"
+                HorizontalAlignment="right"
+                Text="Inventory Weight:" />
+            <TextBlock
+                Grid.Column="4"
+                Padding="4,0,0,0"
+                Text="{Binding InventoryWeight, FallbackValue=100}" />
 
             <ToggleButton
                 Grid.Row="1"
