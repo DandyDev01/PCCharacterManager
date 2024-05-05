@@ -16,7 +16,7 @@ namespace PCCharacterManager.Models
 			MessageBoxResult result = AskToAddClass();
 			if (result == MessageBoxResult.Yes) 
 			{
-				string classToAddName = GetClassToAddName();
+				string classToAddName = GetClassToAddName(character.CharacterClass.Name);
 				AddClassHelper addClassHelper = AddClass(character, classToAddName);
 
 				if (addClassHelper.didAddClass)
@@ -90,13 +90,18 @@ namespace PCCharacterManager.Models
 		/// Get the name of the class to add.
 		/// </summary>
 		/// <returns>Name of the class the user wants to add.</returns>
-		private string GetClassToAddName()
+		private string GetClassToAddName(string currentClasses)
 		{
-			var classes = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray();
+			var classes = ReadWriteJsonCollection<DnD5eCharacterClassData>
+				.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray();
 			string[] classNames = new string[classes.Length];
 
 			for (int i = 0; i < classes.Length; i++)
 			{
+				// exclude classes the character already has.
+				if (currentClasses.Contains(classes[i].Name))
+					continue;
+
 				classNames[i] = classes[i].Name;
 			}
 
