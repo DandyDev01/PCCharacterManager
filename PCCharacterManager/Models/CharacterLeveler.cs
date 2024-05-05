@@ -46,8 +46,12 @@ namespace PCCharacterManager.Models
 
 	public struct AddClassHelper
 	{
-		public bool didAddClass;
-		public string newClassName;
+		public bool didAddClass = false;
+		public string newClassName = string.Empty;
+
+		public AddClassHelper()
+		{
+		}
 	}
 
 	public struct MultiClass
