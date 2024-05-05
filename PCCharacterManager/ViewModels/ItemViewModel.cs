@@ -75,6 +75,7 @@ namespace PCCharacterManager.ViewModels
 			}
 			set
 			{
+				_boundItem.Weight = value;
 				OnPropertyChanged(ref _displayWeight, value);
 			}
 		}

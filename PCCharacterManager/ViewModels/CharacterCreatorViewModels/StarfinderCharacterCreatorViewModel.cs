@@ -220,6 +220,11 @@ namespace PCCharacterManager.ViewModels
 				return null;
 			}
 
+			if (SelectedClassData.Note.Title != string.Empty)
+			{
+				character.NoteManager.NoteSections[0].Notes.Add(SelectedClassData.Note);
+			}
+
 			return character;
 		}
 

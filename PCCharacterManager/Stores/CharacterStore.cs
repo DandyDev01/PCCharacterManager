@@ -14,6 +14,7 @@ namespace PCCharacterManager.Stores
 		public Action<DnD5eCharacter>? SaveSelectedCharacterOnChange { get; internal set; }
 		public event Action<DnD5eCharacter>? CharacterCreate;
 		public event Action<DnD5eCharacter>? SelectedCharacterChange;
+		public event Action<DnD5eCharacter>? OnCharacterLevelup;
 
 		public CharacterStore()
 		{ 
@@ -23,6 +24,11 @@ namespace PCCharacterManager.Stores
 		public void CreateCharacter(DnD5eCharacter character)
 		{
 			CharacterCreate?.Invoke(character);
+		}
+
+		public void LevelCharacter()
+		{
+			OnCharacterLevelup?.Invoke(SelectedCharacter);
 		}
 
 		/// <summary>

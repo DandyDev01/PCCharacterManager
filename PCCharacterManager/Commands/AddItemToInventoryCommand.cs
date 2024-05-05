@@ -40,6 +40,7 @@ namespace PCCharacterManager.Commands
 			ItemViewModel displayVM = new ItemViewModel(selectedItem);
 			vm.Inventory!.Add(selectedItem);
 			vm.ItemDisplayVms.Add(displayVM);
+			vm.CalculateInventoryWeight();
 		}
 	}
 }

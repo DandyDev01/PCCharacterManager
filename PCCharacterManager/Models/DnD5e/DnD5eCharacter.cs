@@ -18,6 +18,7 @@ namespace PCCharacterManager.Models
 	public enum DamageType { SLASHING, PIERCING, BLUDGENING, POISON, ACID, FIRE, COLD, RADIANT, NECROTIC, LIGHTING, THUNDER, FORCE, PSYCHIC };
 	public enum CreatureSize { TINY, SMALL, MEDIUM, LARGE, HUGE, GARGANTUAN }
 	public enum CharacterType { DnD5e, starfinder }
+	public enum CharacterStatus { COMBAT, IDLE }
 
 	public class DnD5eCharacter : ObservableObject
 	{
@@ -77,6 +78,49 @@ namespace PCCharacterManager.Models
 			set { OnPropertyChanged(ref _passiveInsight, value); }
 		}
 
+		protected int _combatRound;
+		public int CombatRound
+		{
+			get
+			{
+				return _combatRound;
+			}
+			set
+			{
+				OnPropertyChanged(ref _combatRound, value);
+			}
+		}
+
+		protected bool _isInCombat;
+		public bool IsInCombat
+		{
+			get
+			{
+				return _isInCombat;
+			}
+			set
+			{
+				OnPropertyChanged(ref _isInCombat, value);
+			}
+		}
+
+		protected CharacterStatus _status;
+		[JsonProperty(nameof(_status))]
+		[JsonConverter(typeof(StringEnumConverter))]
+		public CharacterStatus Status
+		{
+			get
+			{
+				return _status;
+			}
+			set
+			{
+				OnPropertyChanged(ref _status, value);
+			}
+		}
+
+		public virtual int CarryWeight => Abilities.Where(x => x.Name == "Strength").First().Score * 15;
+
 		public DnD5eCharacterClass CharacterClass { get; set; }
 		public DnD5eCharacterRace Race { get; set; }
 		public ArmorClass ArmorClass { get; set; }
@@ -93,6 +137,7 @@ namespace PCCharacterManager.Models
 
 		public ObservableCollection<Property> Conditions { get; set; }
 		public ObservableCollection<Property> MovementTypes_Speeds { get; set; }
+		public ObservableCollection<string> CombatActions { get; set; }
 		public ObservableCollection<string> WeaponProficiencies { get; set; }
 		public ObservableCollection<string> ArmorProficiencies { get; set; }
 		public ObservableCollection<string> OtherProficiences { get; set; }
@@ -117,6 +162,8 @@ namespace PCCharacterManager.Models
 		public DnD5eCharacter()
 		{
 			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
+
+			_status = CharacterStatus.IDLE;
 
 			Conditions = new ObservableCollection<Property>();
 			MovementTypes_Speeds = new ObservableCollection<Property>();
@@ -143,6 +190,7 @@ namespace PCCharacterManager.Models
 			ToolProficiences.CollectionChanged += OnCharacterChanged;
 			Languages.CollectionChanged += OnCharacterChanged;
 
+			_id = string.Empty;
 			_name = string.Empty;
 			_dateModified = string.Empty;
 			_background = string.Empty;
@@ -170,13 +218,15 @@ namespace PCCharacterManager.Models
 			SpellBook = new SpellBook();
 			Inventory = new Inventory();
 			Health = new Health(1);
-			
+
+			_id = string.Empty;
 			_name = string.Empty;
 			_dateModified = string.Empty;
 			_background = backgroundData.Name;
 			Size = raceData.Size;
 			Alignment = Alignment.LAWFUL_GOOD;
 			CharacterType = CharacterType.DnD5e;
+			_status = CharacterStatus.IDLE;
 
 			NoteManager.NewNoteSection(new NoteSection("Character"));
 			NoteManager.GetSection("Character")!.Add(new Note(backgroundData.Name, backgroundData.Desc));

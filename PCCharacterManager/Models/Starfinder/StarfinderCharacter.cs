@@ -30,6 +30,7 @@ namespace PCCharacterManager.Models
 
 		public string HomeWorld { get; set; }
 		public string KeyAbilityScore { get; set; }
+		public override int CarryWeight => Abilities.Where(x => x.Name == "Strength").First().Score / 2;
 
 		public StarfinderCharacter() : base()
 		{

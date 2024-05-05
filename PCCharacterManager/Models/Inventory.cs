@@ -13,8 +13,6 @@ namespace PCCharacterManager.Models
 		//		 of the amount of things that can be carried. this item should be hidden and can be toggled active
 		//		 inactive and toggle its visibility too.
 
-		//[Obsolete("Use Items")]
-		//public ObservableCollection<Item> All { get; private set; }
 	    public Dictionary<char, ObservableCollection<Item>> Items { get; private set; }
 
 		public Inventory()
@@ -45,7 +43,6 @@ namespace PCCharacterManager.Models
 				Items.Add(firstLetter, new ObservableCollection<Item> { item });
 
 		}
-
 
 		/// <summary>
 		/// Removes an item from inventory.

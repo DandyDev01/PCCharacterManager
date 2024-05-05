@@ -9,17 +9,22 @@ namespace PCCharacterManager.Models
 {
 	class StarfinderCharacterLeveler : CharacterLeveler
 	{
-		protected override void UnLockClassFeatures(DnD5eCharacter character)
+		protected override AddClassHelper AddClass(DnD5eCharacter character, string classToAddName)
 		{
 			throw new NotImplementedException();
 		}
 
-		protected override bool UpdateMaxHealth(DnD5eCharacter character)
+		protected override void UnLockClassFeatures(DnD5eCharacter character, string className, int classLevel)
+		{
+			throw new NotImplementedException();
+		}
+
+		protected override MultiClass UpdateMaxHealth(DnD5eCharacter character)
 		{
 			MessageBox.Show("Automatic Starfinder character leveling is not yet implemented.", 
 				"Action Not Yet Supported.", MessageBoxButton.OK, MessageBoxImage.Information);
 
-			return false;
+			return new MultiClass();
 		}
 	}
 }
