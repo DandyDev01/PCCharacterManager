@@ -25,7 +25,8 @@ namespace PCCharacterManager.Models
 					if (helper.success == false)
 						return;
 
-					UnLockClassFeatures(character, addClassHelper.newClassName, helper.classLevel);
+					UpdateCharacterClassName(character, helper.className, helper.classLevel);
+					UnLockClassFeatures(character, helper.className, helper.classLevel);
 				}
 			}
 			else if (result == MessageBoxResult.Cancel)
@@ -39,6 +40,8 @@ namespace PCCharacterManager.Models
 					return;
 
 				character.CharacterClass.Level.LevelUp();
+
+				UpdateCharacterClassName(character, helper.className, helper.classLevel);
 				UnLockClassFeatures(character, helper.className, helper.classLevel);
 			}
 
@@ -47,6 +50,29 @@ namespace PCCharacterManager.Models
 			{
 				ability.SetProfBonus(character.Level.ProficiencyBonus);
 			}
+		}
+
+		private void UpdateCharacterClassName(DnD5eCharacter character, string nameOfClassToUpdate, int level)
+		{
+			string[] classNames = character.CharacterClass.Name.Split("/");
+			classNames = character.CharacterClass.Name.Split("/");
+			for (int i = 0; i < classNames.Length; i++)
+			{
+				if (classNames[i].Contains(nameOfClassToUpdate))
+				{
+					int length = nameOfClassToUpdate.IndexOf(" ") == -1 ? nameOfClassToUpdate.Length : nameOfClassToUpdate.IndexOf(" ");
+					classNames[i] = nameOfClassToUpdate.Substring(0, length) + " " + level;
+				}
+			}
+
+			character.CharacterClass.Name = string.Empty;
+			for (int i = 0; i < classNames.Length; i++)
+			{
+				character.CharacterClass.Name += classNames[i];
+				if (i < classNames.Length - 1)
+					character.CharacterClass.Name += " / ";
+			}
+
 		}
 
 		/// <summary>

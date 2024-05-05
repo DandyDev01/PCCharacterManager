@@ -42,6 +42,8 @@ namespace PCCharacterManager.Models
 			// find character class
 			DnD5eCharacterClassData? data = classes.Find(x => x.Name.Equals(className));
 
+			data ??= classes.Find(x => x.Name.Equals(className.Substring(0, className.IndexOf(" "))));
+
 			if (data == null)
 				throw new Exception("The class " + className + " does not exist");
 
@@ -74,7 +76,7 @@ namespace PCCharacterManager.Models
 
 			if (numberOfClasses == 1)
 			{
-				character.CharacterClass.Name = currentClassName + " " + character.CharacterClass.Level.Level +
+				character.CharacterClass.Name = currentClassName +
 					" / " + classToAddName + " " + 0;
 			}
 			else
@@ -121,22 +123,6 @@ namespace PCCharacterManager.Models
 			helper.hitDie = hitDie;
 			helper.className = nameOfSelectedClass;
 			helper.classLevel = level + 1;
-
-			// update Character className
-			classNames = character.CharacterClass.Name.Split("/");
-			for (int i = 0; i < classNames.Length; i++)
-			{
-				if (classNames[i].Contains(nameOfSelectedClass))
-					classNames[i] = nameOfSelectedClass + " " + (level + 1);
-			}
-
-			character.CharacterClass.Name = string.Empty;
-			for (int i = 0; i < classNames.Length; i++)
-			{
-				character.CharacterClass.Name += classNames[i];
-				if (i < classNames.Length - 1)
-					character.CharacterClass.Name += " / ";
-			}
 
 			return helper;
 		}
