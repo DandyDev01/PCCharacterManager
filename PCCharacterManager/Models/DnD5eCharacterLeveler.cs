@@ -11,8 +11,11 @@ namespace PCCharacterManager.Models
 {
     class DnD5eCharacterLeveler : CharacterLeveler
     {
-		protected override bool UpdateMaxHealth(DnD5eCharacter character)
+		protected override MultiClass UpdateMaxHealth(DnD5eCharacter character)
 		{
+			MultiClass helper = MultiClasHelper(character);
+			helper.success = false;
+
 			var message = MessageBox.Show("Would you like to manually enter a new max health",
 				"", MessageBoxButton.YesNoCancel);
 
@@ -25,16 +28,17 @@ namespace PCCharacterManager.Models
 				window.ShowDialog();
 
 				if (window.DialogResult == false)
-					return false;
+					return helper;
 
 				int amount = int.Parse(windowVM.Answer);
 				character.Health.SetMaxHealth(amount);
 
-				return true;
+				helper.success = true;
+				return helper;
 			}
 			else if (message == MessageBoxResult.No)
 			{
-				string classHitDie = character.CharacterClass.HitDie.ToString();
+				string classHitDie = helper.hitDie;
 
 				int numRolls = 1;
 				int sides = (int.Parse(classHitDie.Substring(classHitDie.IndexOf('D') + 1)));
@@ -46,14 +50,71 @@ namespace PCCharacterManager.Models
 
 				character.Health.SetMaxHealth(currHealth + numToAddToHealth);
 
-				return true;
+				helper.success = true;
+				return helper;
 			}
 			else if (message == MessageBoxResult.Cancel)
 			{
-				return false;
+				return helper;
 			}
 
-			return false;
+			return helper;
+		}
+
+		private MultiClass MultiClasHelper(DnD5eCharacter character)
+		{
+			MultiClass helper = new MultiClass();
+			if (character.CharacterClass.Name.Contains("/") == false)
+				return helper;
+
+
+			var classes = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray();
+			string[] classNames = character.CharacterClass.Name.Split("/");
+
+			for (int i = 0; i < classNames.Length; i++)
+			{
+				classNames[i] = classNames[i].Trim();
+				classNames[i] = classNames[i].Substring(0, classNames[i].IndexOf(" ")).Trim();
+			}
+
+			Window selectClassWindow = new SelectStringValueDialogWindow();
+			DialogWindowSelectStingValue vm =
+				new DialogWindowSelectStingValue(selectClassWindow, classNames, 1);
+			selectClassWindow.DataContext = vm;
+			selectClassWindow.ShowDialog();
+
+			string nameOfSelectedClass = vm.SelectedItems.First();
+			string hitDie = classes.Where(x => x.Name == nameOfSelectedClass).First().HitDie.ToString();
+			
+			string className = character.CharacterClass.Name;
+			className = className.Substring(className.IndexOf(nameOfSelectedClass), nameOfSelectedClass.Length);
+			int level;
+			int.TryParse(className.Substring(className.IndexOf(" ")), out level);
+
+			if (level <= 0)
+				throw new Exception("Invalid Level: " + character.CharacterClass.Name);
+
+			helper.hitDie = hitDie;
+			helper.className = nameOfSelectedClass;
+			helper.classLevel = level + 1;
+
+			classNames = character.CharacterClass.Name.Split("/");
+			for (int i = 0; i < classNames.Length; i++)
+			{
+				if (classNames[i].Contains(nameOfSelectedClass))
+				{
+					classNames[i] = nameOfSelectedClass + " " + (level + 1);
+				}
+			}
+
+			for (int i = 0; i < classNames.Length; i++)
+			{
+				character.CharacterClass.Name += classNames[i];
+				if (i < classNames.Length - 1)
+					character.CharacterClass.Name += " / ";
+			}
+
+			return helper;
 		}
 
 		protected override void UnLockClassFeatures(DnD5eCharacter character, string className, int classLevel)
@@ -91,7 +152,7 @@ namespace PCCharacterManager.Models
 
 			if (results == MessageBoxResult.Yes)
 			{
-				var classes = ReadWriteJsonCollection<DnD5eCharacter>.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray();
+				var classes = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray();
 				string[] classNames = new string[classes.Length];
 
 				for (int i = 0; i < classes.Length; i++)
@@ -102,12 +163,14 @@ namespace PCCharacterManager.Models
 				Window selectClassWindow = new SelectStringValueDialogWindow();
 				DialogWindowSelectStingValue vm = 
 					new DialogWindowSelectStingValue(selectClassWindow, classNames, 1);
-
+				selectClassWindow.DataContext = vm;
+				selectClassWindow.ShowDialog();
+				
 				string nameOfSelectedClass = vm.SelectedItems.First();
 
 				string currentClassName = character.CharacterClass.Name;
-				character.CharacterClass.Name = currentClassName + character.CharacterClass.Level.Level + 
-					" / " + nameOfSelectedClass + 1;
+				character.CharacterClass.Name = currentClassName + " " + character.CharacterClass.Level.Level + 
+					" / " + nameOfSelectedClass + " " + 1;
 
 				helper.didAddClass = true;
 				helper.newClassName = nameOfSelectedClass;

@@ -17,16 +17,16 @@ namespace PCCharacterManager.Models
 
 			if (addClassHelper.didAddClass)
 			{
-
 				UnLockClassFeatures(character, addClassHelper.newClassName, 1);
 			}
 			else
 			{
-				if (UpdateMaxHealth(character) == false)
+				MultiClass helper = UpdateMaxHealth(character);
+				if (helper.success == false)
 					return;
 
 				character.CharacterClass.Level.LevelUp();
-				UnLockClassFeatures(character, "", 0);
+				UnLockClassFeatures(character, helper.className, helper.classLevel);
 
 			}
 			
@@ -39,7 +39,7 @@ namespace PCCharacterManager.Models
 
 		protected abstract AddClassHelper AddClass(DnD5eCharacter character);
 
-		protected abstract bool UpdateMaxHealth(DnD5eCharacter character);
+		protected abstract MultiClass UpdateMaxHealth(DnD5eCharacter character);
 
 		protected abstract void UnLockClassFeatures(DnD5eCharacter character, string className, int classLevel);
 	}
@@ -48,5 +48,17 @@ namespace PCCharacterManager.Models
 	{
 		public bool didAddClass;
 		public string newClassName;
+	}
+
+	public struct MultiClass
+	{
+		public string hitDie = string.Empty;
+		public string className = string.Empty;
+		public int classLevel = 1;
+		public bool success = false;
+
+		public MultiClass()
+		{
+		}
 	}
 }

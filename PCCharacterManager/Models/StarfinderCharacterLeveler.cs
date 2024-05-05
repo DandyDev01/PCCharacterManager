@@ -19,12 +19,12 @@ namespace PCCharacterManager.Models
 			throw new NotImplementedException();
 		}
 
-		protected override bool UpdateMaxHealth(DnD5eCharacter character)
+		protected override MultiClass UpdateMaxHealth(DnD5eCharacter character)
 		{
 			MessageBox.Show("Automatic Starfinder character leveling is not yet implemented.", 
 				"Action Not Yet Supported.", MessageBoxButton.OK, MessageBoxImage.Information);
 
-			return false;
+			return new MultiClass();
 		}
 	}
 }
