@@ -13,21 +13,40 @@ namespace PCCharacterManager.Models
 	{
 		public void LevelCharacter(DnD5eCharacter character)
 		{
-			if (UpdateMaxHealth(character) == false)
-				return;
+			var addClassHelper = AddClass(character);
 
+			if (addClassHelper.didAddClass)
+			{
+
+				UnLockClassFeatures(character, addClassHelper.newClassName, 1);
+			}
+			else
+			{
+				if (UpdateMaxHealth(character) == false)
+					return;
+
+				character.CharacterClass.Level.LevelUp();
+				UnLockClassFeatures(character, "", 0);
+
+			}
+			
 			character.Level.LevelUp();
-			character.CharacterClass.Level.LevelUp();
-			UnLockClassFeatures(character);
-
 			foreach (var ability in character.Abilities)
 			{
 				ability.SetProfBonus(character.Level.ProficiencyBonus);
 			}
 		}
 
+		protected abstract AddClassHelper AddClass(DnD5eCharacter character);
+
 		protected abstract bool UpdateMaxHealth(DnD5eCharacter character);
 
-		protected abstract void UnLockClassFeatures(DnD5eCharacter character);
+		protected abstract void UnLockClassFeatures(DnD5eCharacter character, string className, int classLevel);
+	}
+
+	public struct AddClassHelper
+	{
+		public bool didAddClass;
+		public string newClassName;
 	}
 }
