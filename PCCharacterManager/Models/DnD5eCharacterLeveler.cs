@@ -81,7 +81,7 @@ namespace PCCharacterManager.Models
 			}
 			else
 			{
-				character.CharacterClass.Name = currentClassName + " " +
+				character.CharacterClass.Name = currentClassName +
 					" / " + classToAddName + " " + 1;
 			}
 

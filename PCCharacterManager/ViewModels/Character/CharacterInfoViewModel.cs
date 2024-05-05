@@ -230,7 +230,7 @@ namespace PCCharacterManager.ViewModels
 			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth + " (" + temp.TempHitPoints + " temp)";
 
 			var characterClass = _selectedCharacter.CharacterClass;
-			CharacterClass = characterClass.Name + " " + characterClass.Level.Level;
+			CharacterClass = characterClass.Name + "(total: " + _selectedCharacter.Level.Level + ")";
 
 			ArmorClass = _selectedCharacter.ArmorClass.ArmorClassValue;
 
