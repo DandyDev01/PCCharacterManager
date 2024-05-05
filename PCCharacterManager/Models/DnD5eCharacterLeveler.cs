@@ -85,12 +85,17 @@ namespace PCCharacterManager.Models
 
 			string nameOfSelectedClass = vm.SelectedItems.First();
 			string hitDie = classes.Where(x => x.Name == nameOfSelectedClass).First().HitDie.ToString();
-			
-			string className = character.CharacterClass.Name;
-			className = className.Substring(className.IndexOf(nameOfSelectedClass), nameOfSelectedClass.Length);
-			int level;
-			int.TryParse(className.Substring(className.IndexOf(" ")), out level);
 
+			classNames = character.CharacterClass.Name.Split("/");
+			int level = 0;
+			foreach (var item in classNames) 
+			{
+				if (item.Contains(nameOfSelectedClass))
+				{
+					string temp = item.Trim();
+					int.TryParse(temp.Substring(temp.IndexOf(" ")), out level);
+				}
+			}
 			if (level <= 0)
 				throw new Exception("Invalid Level: " + character.CharacterClass.Name);
 
@@ -107,6 +112,7 @@ namespace PCCharacterManager.Models
 				}
 			}
 
+			character.CharacterClass.Name = string.Empty;
 			for (int i = 0; i < classNames.Length; i++)
 			{
 				character.CharacterClass.Name += classNames[i];
