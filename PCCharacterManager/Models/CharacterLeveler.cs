@@ -17,6 +17,10 @@ namespace PCCharacterManager.Models
 			if (result == MessageBoxResult.Yes) 
 			{
 				string classToAddName = GetClassToAddName(character.CharacterClass.Name);
+
+				if (classToAddName == string.Empty)
+					return;
+
 				AddClassHelper addClassHelper = AddClass(character, classToAddName);
 
 				if (addClassHelper.didAddClass)
@@ -105,11 +109,16 @@ namespace PCCharacterManager.Models
 				classNames[i] = classes[i].Name;
 			}
 
+			classNames = classNames.Where(x => x is not null).ToArray();
+
 			Window selectClassWindow = new SelectStringValueDialogWindow();
 			DialogWindowSelectStingValue vm =
 				new DialogWindowSelectStingValue(selectClassWindow, classNames, 1);
 			selectClassWindow.DataContext = vm;
 			selectClassWindow.ShowDialog();
+
+			if (selectClassWindow.DialogResult == false)
+				return string.Empty;
 
 			return vm.SelectedItems.First();
 		}

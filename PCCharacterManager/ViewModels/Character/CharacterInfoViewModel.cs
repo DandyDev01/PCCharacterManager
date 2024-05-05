@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Linq;
+using Condition = PCCharacterManager.Models.Condition;
 
 namespace PCCharacterManager.ViewModels
 {
@@ -35,7 +36,7 @@ namespace PCCharacterManager.ViewModels
 
 		public PropertyListViewModel MovementTypesListVM { get; }
 		public PropertyListViewModel FeaturesListVM { get; }
-		public PropertyListViewModel ConditionsListVM { get; }
+		public ConditionListViewModel ConditionsListVM { get; }
 
 		public StringListViewModel LanguagesVM { get; }
 		public StringListViewModel CombatActionsVM { get; }
@@ -164,7 +165,7 @@ namespace PCCharacterManager.ViewModels
 
 			FeaturesListVM = new PropertyListViewModel("Features");
 
-			ConditionsListVM = new PropertyListViewModel("Conditions", _selectedCharacter.Conditions);
+			ConditionsListVM = new ConditionListViewModel("Conditions", _selectedCharacter.Conditions);
 			MovementTypesListVM = new PropertyListViewModel("Movement", _selectedCharacter.MovementTypes_Speeds);
 			LanguagesVM = new StringListViewModel("Languages", _selectedCharacter.Languages);
 			CombatActionsVM = new StringListViewModel("Actions", _selectedCharacter.CombatActions);
@@ -196,6 +197,24 @@ namespace PCCharacterManager.ViewModels
 		private void NextCombatRound()
 		{
 			_selectedCharacter.CombatRound += 1;
+
+			if (_selectedCharacter.Conditions.Count <= 0)
+				return;
+
+			foreach (var condition in _selectedCharacter.Conditions)
+			{
+				condition.PassRound();
+			}
+
+			Condition[] expiredCondition = _selectedCharacter.Conditions
+				.Where(x => x.RoundsPassed >= x.DurationInRounds).ToArray();
+			
+
+			foreach (Condition condition in expiredCondition)
+			{
+				_selectedCharacter.Conditions.Remove(condition);
+			}
+
 		}
 
 		/// <summary>
