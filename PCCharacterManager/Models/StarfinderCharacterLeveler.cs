@@ -9,7 +9,7 @@ namespace PCCharacterManager.Models
 {
 	class StarfinderCharacterLeveler : CharacterLeveler
 	{
-		protected override AddClassHelper AddClass(DnD5eCharacter character)
+		protected override AddClassHelper AddClass(DnD5eCharacter character, string classToAddName)
 		{
 			throw new NotImplementedException();
 		}

@@ -130,6 +130,8 @@ namespace PCCharacterManager.ViewModels
 		{
 			_characterStore = characterStore;
 
+			_characterStore.OnCharacterLevelup += OnCharacterChanged;
+
 			_selectedCharacter = this._characterStore.SelectedCharacter;
 			_race = _selectedCharacter.Race.Name;
 			_health = _selectedCharacter.Health.CurrHealth.ToString();

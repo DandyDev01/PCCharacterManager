@@ -32,6 +32,7 @@ namespace PCCharacterManager.Commands
 
 			_leveler.LevelCharacter(_characterStore.SelectedCharacter);
 
+			_characterStore.LevelCharacter();
 			//OnPropertyChaged("characterStore.SelectedCharacter");
 		}
 	}

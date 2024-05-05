@@ -47,7 +47,7 @@ namespace PCCharacterManager.Models
 
 			foreach (var item in data.Features)
 			{
-				if (item.Level == character.Level.Level)
+				if (item.Level == classLevel)
 				{
 					if (item.Name.ToLower().Contains("ability score"))
 					{
@@ -60,49 +60,32 @@ namespace PCCharacterManager.Models
 			}
 		}
 		
-		protected override AddClassHelper AddClass(DnD5eCharacter character)
+		protected override AddClassHelper AddClass(DnD5eCharacter character, string classToAddName)
 		{
 			AddClassHelper helper = new AddClassHelper();
-			helper.didAddClass = false;
 
-			var results = MessageBox.Show("Would you like to add another class?", 
-				"Add Class", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+			string currentClassName = character.CharacterClass.Name;
 
-			if (results == MessageBoxResult.Yes)
+			int numberOfClasses = 1;
+			if (currentClassName.Contains("/"))
 			{
-				var classes = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray();
-				string[] classNames = new string[classes.Length];
-
-				for (int i = 0; i < classes.Length; i++)
-				{
-					classNames[i] = classes[i].Name;
-				}
-
-				Window selectClassWindow = new SelectStringValueDialogWindow();
-				DialogWindowSelectStingValue vm = 
-					new DialogWindowSelectStingValue(selectClassWindow, classNames, 1);
-				selectClassWindow.DataContext = vm;
-				selectClassWindow.ShowDialog();
-				
-				string nameOfSelectedClass = vm.SelectedItems.First();
-
-				string currentClassName = character.CharacterClass.Name;
-				character.CharacterClass.Name = currentClassName + " " + character.CharacterClass.Level.Level + 
-					" / " + nameOfSelectedClass + " " + 1;
-
-				helper.didAddClass = true;
-				helper.newClassName = nameOfSelectedClass;
-				return helper;
-			}
-			else if (results == MessageBoxResult.No)
-			{
-				return helper;
-			}
-			else if (results == MessageBoxResult.Cancel)
-			{
-				return helper;
+				numberOfClasses = currentClassName.Split("/").Length;
 			}
 
+			if (numberOfClasses == 1)
+			{
+				character.CharacterClass.Name = currentClassName + " " + character.CharacterClass.Level.Level +
+					" / " + classToAddName + " " + 0;
+			}
+			else
+			{
+				character.CharacterClass.Name = currentClassName + " " +
+					" / " + classToAddName + " " + 1;
+			}
+
+
+			helper.didAddClass = true;
+			helper.newClassName = classToAddName;
 			return helper;
 		}
 
@@ -120,7 +103,7 @@ namespace PCCharacterManager.Models
 			if (character.CharacterClass.Name.Contains("/") == false)
 			{
 				helper.hitDie = character.CharacterClass.HitDie.ToString();
-				helper.classLevel = character.CharacterClass.Level.Level;
+				helper.classLevel = character.CharacterClass.Level.Level + 1;
 				helper.className = character.CharacterClass.Name;
 				return helper;
 			}
@@ -144,9 +127,7 @@ namespace PCCharacterManager.Models
 			for (int i = 0; i < classNames.Length; i++)
 			{
 				if (classNames[i].Contains(nameOfSelectedClass))
-				{
 					classNames[i] = nameOfSelectedClass + " " + (level + 1);
-				}
 			}
 
 			character.CharacterClass.Name = string.Empty;
@@ -180,7 +161,7 @@ namespace PCCharacterManager.Models
 				}
 			}
 
-			if (level <= 0)
+			if (level < 0)
 				throw new Exception("Invalid Level: " + character.CharacterClass.Name);
 
 			return level;
