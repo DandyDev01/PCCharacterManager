@@ -313,12 +313,14 @@ namespace PCCharacterManager.ViewModels
 
 		private void AddHealth()
 		{
-			Window window = new ChangeHealthDialogWindow();
-			DialogWindowChangeHealthViewModel dataContext = new DialogWindowChangeHealthViewModel(window);
-			window.DataContext = dataContext;
-			window.ShowDialog();
+			DialogWindowChangeHealthViewModel dataContext = new DialogWindowChangeHealthViewModel();
+			string result = string.Empty;
+			_dialogService.ShowDialog<ChangeHealthDialogWindow, DialogWindowChangeHealthViewModel>(dataContext, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
 
 			var characterHealth = _selectedCharacter.Health;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCCharacterManager.ViewModels.DialogWindowViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +25,31 @@ namespace PCCharacterManager.DialogWindows
             InitializeComponent();
 			inputBox.Focus();
         }
+
+		private void Ok_Button_Click(object sender, RoutedEventArgs e)
+		{
+			DialogWindowChangeHealthViewModel vm = DataContext as DialogWindowChangeHealthViewModel;
+
+			if (vm is null)
+				return;
+
+			try
+			{
+				vm.Amount = int.Parse(vm.Answer);
+			}
+			catch
+			{
+				MessageBox.Show("value must be a whole number", "invalid data", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			DialogResult = true;
+			Close();
+		}
+
+		private void Cancel_Button_Click(object sender, RoutedEventArgs e)
+		{
+			Close();
+		}
 	}
 }
