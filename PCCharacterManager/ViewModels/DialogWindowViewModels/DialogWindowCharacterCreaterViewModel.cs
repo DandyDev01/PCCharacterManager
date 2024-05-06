@@ -92,10 +92,10 @@ namespace PCCharacterManager.ViewModels
 		public ICommand CloseCommand { get; private set; }
 		#endregion
 
-		public DialogWindowCharacterCreaterViewModel(CharacterStore characterStore, Window window)
+		public DialogWindowCharacterCreaterViewModel(CharacterStore characterStore, Window window, DialogService dialogService)
 		{
-			DnD5eCharacterCreator = new CharacterCreatorViewModel();
-			StarfinderCharacterCreatorVM = new StarfinderCharacterCreatorViewModel();
+			DnD5eCharacterCreator = new CharacterCreatorViewModel(dialogService);
+			StarfinderCharacterCreatorVM = new StarfinderCharacterCreatorViewModel(dialogService);
 			_selectedCreator = DnD5eCharacterCreator;
 
 			_window = window;

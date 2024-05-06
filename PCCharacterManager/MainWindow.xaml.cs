@@ -1,4 +1,8 @@
-﻿using PCCharacterManager.Helpers;
+﻿using PCCharacterManager.DialogWindows;
+using PCCharacterManager.Helpers;
+using PCCharacterManager.Services;
+using PCCharacterManager.ViewModels;
+using PCCharacterManager.ViewModels.DialogWindowViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +28,17 @@ namespace PCCharacterManager
 		public MainWindow()
 		{
 			InitializeComponent();
+			DialogService.RegisterDialog<DialogWindowAddAugmentationViewModel, AddAugmentationDialogWindow>();
+			DialogService.RegisterDialog<DialogWindowAddConditionViewModel, AddConditionDialogWindow>();
+			DialogService.RegisterDialog<DialogWindowAddFeatureViewModel, AddFeatureDialogWindow>();
+			DialogService.RegisterDialog<DialogWindowAddItemViewModel, AddItemDialogWindow>();
+			DialogService.RegisterDialog<DialogWindowAddSpellViewModel, AddSpellDialogWindow>();
+			DialogService.RegisterDialog<DialogWindowChangeHealthViewModel, ChangeHealthDialogWindow>();
+			DialogService.RegisterDialog<DialogWindowCharacterCreaterViewModel, CreateCharacterDialogWindow>();
+			DialogService.RegisterDialog<DialogWindowEditCharacterViewModel, EditCharacterDialogWindow>();
+			//DialogService.RegisterDialog<DialogWindowSelectAbilityViewModel, SelectAbilityToIncreaseScoreDialogWindow>();
+			DialogService.RegisterDialog<DialogWindowSelectStingValueViewModel, SelectStringValueDialogWindow>();
+			DialogService.RegisterDialog<DialogWindowStringInputViewModel, StringInputDialogWindow>();
 		}
 
 		private void DarkMode_Click(object sender, RoutedEventArgs e)

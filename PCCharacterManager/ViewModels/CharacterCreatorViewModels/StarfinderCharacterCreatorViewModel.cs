@@ -19,6 +19,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class StarfinderCharacterCreatorViewModel : CharactorCreatorViewModelBase, INotifyDataErrorInfo
 	{
+		private readonly DialogService _dialogService;
+
 		private string _name;
 		public string Name
 		{
@@ -97,8 +99,9 @@ namespace PCCharacterManager.ViewModels
 		public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 		public bool HasErrors => propertyNameToError.Any();
 
-		public StarfinderCharacterCreatorViewModel()
+		public StarfinderCharacterCreatorViewModel(DialogService dialogService)
 		{
+			_dialogService = dialogService;
 			propertyNameToError = new Dictionary<string, List<string>>();
 
 			RaceNamesToDisplay = ReadWriteJsonCollection<StarfinderRaceData>.ReadCollection(StarfinderResources.RaceDataJson).ToArray();
@@ -171,10 +174,18 @@ namespace PCCharacterManager.ViewModels
 				options[0] = options[0].Substring(options[0].IndexOf('(') + 1);
 				options[options.Length - 1] = options[options.Length - 1].Substring(0, options[options.Length - 1].Length - 1);
 				
-				Window window = new SelectStringValueDialogWindow();
-				DialogWindowSelectStingValue windowVM = new(window, options);
-				window.DataContext = windowVM;
-				window.ShowDialog();
+				
+				DialogWindowSelectStingValueViewModel windowVM = new(options);
+
+				string result = string.Empty;
+				_dialogService.ShowDialog<SelectStringValueDialogWindow, 
+					DialogWindowSelectStingValueViewModel>(windowVM, r =>
+				{
+					result = r;
+				});
+
+				if (result == false.ToString())
+					return null;
 
 				string selected = windowVM.SelectedItems.First();
 

@@ -54,14 +54,14 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public CharacterStatsViewModel(CharacterStore characterStore)
+		public CharacterStatsViewModel(CharacterStore characterStore, DialogService dialogService)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			_selectedCharacter = characterStore.SelectedCharacter;
 
-			CharacterInfoViewModel = new CharacterInfoViewModel(characterStore);
-			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(characterStore); 
+			CharacterInfoViewModel = new CharacterInfoViewModel(characterStore, dialogService);
+			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(characterStore, dialogService); 
 			StarfinderAbilitiesAndSkillsVM = new StarfinderAbilitiesAndSkillsViewModel(characterStore);
 			CharacterAbilitiesViewModel = new CharacterAbilitiesViewModel(characterStore);
 

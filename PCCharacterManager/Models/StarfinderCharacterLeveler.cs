@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCCharacterManager.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,10 @@ namespace PCCharacterManager.Models
 {
 	class StarfinderCharacterLeveler : CharacterLeveler
 	{
+		public StarfinderCharacterLeveler(DialogService dialogService) : base(dialogService)
+		{
+		}
+
 		protected override AddClassHelper AddClass(DnD5eCharacter character, string classToAddName)
 		{
 			throw new NotImplementedException();

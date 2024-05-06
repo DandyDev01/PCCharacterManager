@@ -1,5 +1,6 @@
 ﻿using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
+using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using System;
@@ -79,8 +80,8 @@ namespace PCCharacterManager.ViewModels
 
 		public PropertyListViewModel ThemeListVM { get; private set; }
 
-		public StarfinderCharacterInfoViewModel(CharacterStore characterStore) 
-			: base(characterStore)
+		public StarfinderCharacterInfoViewModel(CharacterStore characterStore, DialogService dialogService) 
+			: base(characterStore, dialogService)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChange;
 

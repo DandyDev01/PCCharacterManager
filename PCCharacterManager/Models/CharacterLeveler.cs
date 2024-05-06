@@ -1,5 +1,6 @@
 ﻿using PCCharacterManager.Commands;
 using PCCharacterManager.DialogWindows;
+using PCCharacterManager.Services;
 using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,13 @@ namespace PCCharacterManager.Models
 {
 	public abstract class CharacterLeveler
 	{
+		protected DialogService _dialogService;
+
+		public CharacterLeveler(DialogService dialogService)
+		{
+			_dialogService = dialogService;
+		}	
+
 		public void LevelCharacter(DnD5eCharacter character)
 		{
 			MessageBoxResult result = AskToAddClass();
@@ -79,9 +87,19 @@ namespace PCCharacterManager.Models
 
 			string[] proficientSkills = Ability.GetProficientSkillNames(character.Abilities);
 			string[] options = classData.PossibleSkillProficiences.Where(x => proficientSkills.Contains(x) == false).ToArray();
-			Window selectSkillWindow = new SelectStringValueDialogWindow();
-			DialogWindowSelectStingValue vm = new(selectSkillWindow, options, 
-				classData.numOfSkillProficiences);
+			DialogWindowSelectStingValueViewModel vm =
+				new DialogWindowSelectStingValueViewModel(options, 1);
+
+			string result = string.Empty;
+			_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(vm, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
+				return;
+
+			// TODO: do something with the selected item(s).
 		}
 
 		/// <summary>
@@ -147,14 +165,16 @@ namespace PCCharacterManager.Models
 
 			classNames = classNames.Where(x => x is not null).ToArray();
 
-			Window selectClassWindow = new SelectStringValueDialogWindow();
-			DialogWindowSelectStingValue vm =
-				new DialogWindowSelectStingValue(selectClassWindow, classNames, 1);
+			DialogWindowSelectStingValueViewModel vm =
+				new DialogWindowSelectStingValueViewModel(classNames, 1);
 
-			selectClassWindow.DataContext = vm;
-			selectClassWindow.ShowDialog();
+			string result = string.Empty;
+			_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(vm, r =>
+			{
+				result = r;
+			});
 
-			if (selectClassWindow.DialogResult == false)
+			if (result == false.ToString())
 				return string.Empty;
 
 			return vm.SelectedItems.First();

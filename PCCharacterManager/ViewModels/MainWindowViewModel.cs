@@ -31,6 +31,7 @@ namespace PCCharacterManager.ViewModels
 
 		private readonly CharacterStore _characterStore;
 		private readonly ICharacterDataService _dataService;
+		private readonly DialogService _dialogService;
 
 		public ICommand NewCharacterCommand { get; }
 		public ICommand DeleteCharacterCommand { get; }
@@ -47,17 +48,18 @@ namespace PCCharacterManager.ViewModels
 		{
 			_characterStore = new CharacterStore();
 			_dataService = new JsonCharacterDataService(_characterStore);
+			_dialogService = new DialogService();
 
 			_characterStore.SaveSelectedCharacterOnChange += SaveCharacter;
 
-			_tabVM = new TabControlViewModel(_characterStore, _dataService);
+			_tabVM = new TabControlViewModel(_characterStore, _dataService, _dialogService);
 			_currView = _tabVM;
 
-			NewCharacterCommand = new CreateCharacterCommand(_characterStore);
+			NewCharacterCommand = new CreateCharacterCommand(_characterStore, _dialogService);
 			DeleteCharacterCommand = new DeleteCharacterCommand(_tabVM.CharacterListVM, _dataService, _characterStore);
 			SaveCharactersCommand = new SaveCharacterCommand(this);
-			LevelCharacterCommand = new LevelCharacterCommand(_characterStore);
-			ExportCharacterCommand = new CharacterExportCommand(_characterStore, _tabVM);
+			LevelCharacterCommand = new LevelCharacterCommand(_characterStore, _dialogService);
+			ExportCharacterCommand = new CharacterExportCommand(_characterStore, _tabVM, _dialogService);
 			OpenCommand = new OpenCharacterCommand(_characterStore);
 			EditCharacterCommand = new RelayCommand(EditCharacter);
 		}

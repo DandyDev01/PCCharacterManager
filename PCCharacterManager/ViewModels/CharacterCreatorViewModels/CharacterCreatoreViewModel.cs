@@ -23,6 +23,8 @@ namespace PCCharacterManager.ViewModels
 	/// </summary>
 	public class CharacterCreatorViewModel : CharactorCreatorViewModelBase, INotifyDataErrorInfo
 	{
+		private readonly DialogService _dialogService;
+
 		private string _name;
 		public string Name
 		{
@@ -127,9 +129,10 @@ namespace PCCharacterManager.ViewModels
 		public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 		public bool HasErrors => propertyNameToError.Any();
 
-		public CharacterCreatorViewModel()
+		public CharacterCreatorViewModel(DialogService dialogService)
 		{
 			_newCharacter = new DnD5eCharacter();
+			_dialogService = dialogService;
 
 			propertyNameToError = new Dictionary<string, List<string>>();
 
@@ -265,13 +268,18 @@ namespace PCCharacterManager.ViewModels
 					if (item.Contains('^'))
 					{
 						var options = StringFormater.CreateGroup(item, '^');
-						Window window = new SelectStringValueDialogWindow();
-						DialogWindowSelectStingValue windowVM =
-							new DialogWindowSelectStingValue(window, options.ToArray(), 1);
-						window.DataContext = windowVM;
-						window.ShowDialog();
+						
+						DialogWindowSelectStingValueViewModel windowVM =
+							new DialogWindowSelectStingValueViewModel(options.ToArray(), 1);
 
-						if (window.DialogResult == false)
+						string result = string.Empty;
+						_dialogService.ShowDialog<SelectStringValueDialogWindow, 
+							DialogWindowSelectStingValueViewModel>(windowVM, r =>
+						{
+							result = r;
+						});
+
+						if (result == false.ToString())
 							return false;
 
 						_newCharacter.ToolProficiences.Add(windowVM.SelectedItems.First());
@@ -353,11 +361,18 @@ namespace PCCharacterManager.ViewModels
 				if (_selectedRace.AbilityScoreIncreases[i].Contains("your choice", StringComparison.OrdinalIgnoreCase))
 				{
 					int increaseAmount = StringFormater.FindQuantity(_selectedRace.AbilityScoreIncreases[i]);
-					Window window = new SelectStringValueDialogWindow();
-					DialogWindowSelectStingValue windowVM =
-						new DialogWindowSelectStingValue(window, Ability.GetAbilityNames(_newCharacter.Abilities).ToArray(), 1);
-					window.DataContext = windowVM;
-					window.ShowDialog();
+					
+					DialogWindowSelectStingValueViewModel windowVM =
+						new DialogWindowSelectStingValueViewModel(Ability.GetAbilityNames(_newCharacter.Abilities).ToArray(), 1);
+
+					string result = string.Empty;
+					_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
+					{
+						result = r;
+					});
+
+					if (result == false.ToString())
+						return;
 
 					foreach (var item in windowVM.SelectedItems)
 					{
@@ -394,13 +409,16 @@ namespace PCCharacterManager.ViewModels
 					options.Add(language);
 			}
 
-			Window window = new SelectStringValueDialogWindow();
-			DialogWindowSelectStingValue windowVM =
-							new DialogWindowSelectStingValue(window, options.ToArray(), amount);
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			DialogWindowSelectStingValueViewModel windowVM =
+				new DialogWindowSelectStingValueViewModel(options.ToArray(), amount);
 
-			if (window.DialogResult == false)
+			string result = string.Empty;
+			_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
 				return false;
 
 			_newCharacter.AddLanguages(windowVM.SelectedItems.ToArray());
@@ -459,12 +477,15 @@ namespace PCCharacterManager.ViewModels
 			}
 			else
 			{
-				Window window = new SelectStringValueDialogWindow();
-				DialogWindowSelectStingValue windowVM = new(window, options.ToArray(), 1);
-				window.DataContext = windowVM;
-				window.ShowDialog();
+				DialogWindowSelectStingValueViewModel windowVM = new(options.ToArray(), 1);
 
-				if (window.DialogResult == false)
+				string result = string.Empty;
+				_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
+				{
+					result = r;
+				});
+
+				if (result == false.ToString())
 					return false;
 
 				foreach (string item in windowVM.SelectedItems)
@@ -583,12 +604,16 @@ namespace PCCharacterManager.ViewModels
 				options.Remove(item);
 			}
 
-			Window window = new SelectStringValueDialogWindow();
-			DialogWindowSelectStingValue windowVM = new(window, options.ToArray(), 1);
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			DialogWindowSelectStingValueViewModel windowVM =
+				new DialogWindowSelectStingValueViewModel(options.ToArray(), 1);
+		
+			string result = string.Empty;
+			_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return false;
 
 			foreach (var item in windowVM.SelectedItems)

@@ -40,12 +40,13 @@ namespace PCCharacterManager.ViewModels
 		public ICommand CharacterTypeSortCommand { get; }
 		public ICommand CharacterRaceSortCommand { get; }
 
-		public CharacterListViewModel(CharacterStore characterStore, ICharacterDataService dataService)
+		public CharacterListViewModel(CharacterStore characterStore, ICharacterDataService dataService,
+			DialogService dialogService)
 		{
 			_characterStore = characterStore;
 			_dataService = dataService;
 
-			CreateCharacterCommand = new CreateCharacterCommand(characterStore);
+			CreateCharacterCommand = new CreateCharacterCommand(characterStore, dialogService);
 			DeleteCharacterCommand = new DeleteCharacterCommand(this, dataService, characterStore);
 
 			_characterStore.CharacterCreate += LoadCharacter;

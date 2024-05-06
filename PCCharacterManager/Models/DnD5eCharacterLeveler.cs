@@ -1,4 +1,5 @@
 ﻿using PCCharacterManager.DialogWindows;
+using PCCharacterManager.Services;
 using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,10 @@ namespace PCCharacterManager.Models
 {
     class DnD5eCharacterLeveler : CharacterLeveler
     {
+		public DnD5eCharacterLeveler(DialogService dialogService) : base(dialogService)
+		{
+		}
+
 		protected override MultiClass UpdateMaxHealth(DnD5eCharacter character)
 		{
 			MultiClass helper = MultiClassHelper(character);
@@ -218,7 +223,7 @@ namespace PCCharacterManager.Models
 		/// </summary>
 		/// <param name="character">The character that is being leveled up.</param>
 		/// <returns>The name of the class to level up.</returns>
-		private static string SelectClassToLevelup(DnD5eCharacter character)
+		private string SelectClassToLevelup(DnD5eCharacter character)
 		{
 			string[] classNames = character.CharacterClass.Name.Split("/");
 
@@ -229,12 +234,18 @@ namespace PCCharacterManager.Models
 					classNames[i] = classNames[i].Substring(0, classNames[i].IndexOf(" ")).Trim();
 			}
 
-			Window selectClassWindow = new SelectStringValueDialogWindow();
-			DialogWindowSelectStingValue vm =
-				new DialogWindowSelectStingValue(selectClassWindow, classNames, 1);
-			selectClassWindow.DataContext = vm;
-			selectClassWindow.ShowDialog();
+			
+			DialogWindowSelectStingValueViewModel vm =
+				new DialogWindowSelectStingValueViewModel(classNames, 1);
 
+			string result = string.Empty;
+			_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(vm, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
+				return string.Empty;
 			return vm.SelectedItems.First();
 		}
 

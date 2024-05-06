@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Linq;
 using Condition = PCCharacterManager.Models.Condition;
+using PCCharacterManager.Services;
 
 namespace PCCharacterManager.ViewModels
 {
@@ -127,7 +128,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand StartEncounterCommand { get; }
 		public ICommand EndEncounterCommand { get; }
 
-		public CharacterInfoViewModel(CharacterStore characterStore)
+		public CharacterInfoViewModel(CharacterStore characterStore, DialogService dialogService)
 		{
 			_characterStore = characterStore;
 
@@ -173,7 +174,7 @@ namespace PCCharacterManager.ViewModels
 			ArmorProfsVM = new StringListViewModel("Armor Profs", _selectedCharacter.ArmorProficiencies);
 			OtherProfsVM = new StringListViewModel("Other Profs", _selectedCharacter.OtherProficiences);
 			WeaponProfsVM = new StringListViewModel("Weapon Profs", _selectedCharacter.WeaponProficiencies);
-			LevelCharacterCommand = new LevelCharacterCommand(_characterStore);
+			LevelCharacterCommand = new LevelCharacterCommand(_characterStore, dialogService);
 			AdjustExperienceCommand = new RelayCommand(AdjustExperience);
 			AdjustHealthCommand = new RelayCommand(AddHealth);
 			EditArmorClassCommand = new RelayCommand(EditArmorClass);
