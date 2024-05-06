@@ -14,18 +14,20 @@ namespace PCCharacterManager.Commands
 {
 	public class AddItemToSpellBookCommand : BaseCommand
 	{
-		private readonly CharacterSpellBookViewModel vm;
-		private readonly SpellType spellType;
+		private readonly CharacterSpellBookViewModel _spellBookViewModel;
+		private readonly DialogService _dialogService;
+		private readonly SpellType _spellType;
 
-		public AddItemToSpellBookCommand(CharacterSpellBookViewModel _vm, SpellType _spellType)
+		public AddItemToSpellBookCommand(CharacterSpellBookViewModel spellBookViewModel, SpellType spellType, DialogService dialogService)
 		{
-			vm = _vm;
-			spellType = _spellType;
+			_spellBookViewModel = spellBookViewModel;
+			_spellType = spellType;
+			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			switch (spellType)
+			switch (_spellType)
 			{
 				case SpellType.SPELL:
 					AddSpellWindow();
@@ -41,17 +43,19 @@ namespace PCCharacterManager.Commands
 		/// </summary>
 		private void AddSpellWindow()
 		{
-			Window window = new AddSpellDialogWindow();
-			DialogWindowAddSpellViewModel data = new(window, SpellType.SPELL);
-			window.DataContext = data;
+			DialogWindowAddSpellViewModel data = new(SpellType.SPELL);
+			string result = string.Empty;
+			_dialogService.ShowDialog<AddSpellDialogWindow, DialogWindowAddSpellViewModel>(data, r =>
+			{
+				result = r;
+			});
 
-			var result = window.ShowDialog();
-
-			if (result == false) return;
+			if (result == false.ToString())
+				return;
 
 			SpellItemEditableViewModel temp = new(data.NewSpell);
-			vm.SpellsToDisplay.Add(temp);
-			vm.SpellBook.AddSpell(data.NewSpell);
+			_spellBookViewModel.SpellsToDisplay.Add(temp);
+			_spellBookViewModel.SpellBook.AddSpell(data.NewSpell);
 		}
 
 		/// <summary>
@@ -59,17 +63,19 @@ namespace PCCharacterManager.Commands
 		/// </summary>
 		private void AddCantripWindow()
 		{
-			Window window = new AddSpellDialogWindow();
-			DialogWindowAddSpellViewModel data = new(window, SpellType.CANTRIP);
-			window.DataContext = data;
+			DialogWindowAddSpellViewModel data = new(SpellType.CANTRIP);
+			string result = string.Empty;
+			_dialogService.ShowDialog<AddSpellDialogWindow, DialogWindowAddSpellViewModel>(data, r =>
+			{
+				result = r;
+			});
 
-			var result = window.ShowDialog();
-			
-			if(result == false) return;
+			if (result == false.ToString())
+				return;
 
 			SpellItemEditableViewModel temp = new(data.NewSpell);
-			vm.CantripsToDisplay.Add(temp);
-			vm.SpellBook.AddContrip(data.NewSpell);
+			_spellBookViewModel.CantripsToDisplay.Add(temp);
+			_spellBookViewModel.SpellBook.AddContrip(data.NewSpell);
 		}
 	}
 }

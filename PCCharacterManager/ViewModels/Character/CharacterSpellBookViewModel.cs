@@ -27,6 +27,7 @@ namespace PCCharacterManager.ViewModels
 		private readonly SpellSearch _cantripSearch;
 		private readonly CollectionViewPropertySort _spellPropertySort;
 		private readonly CollectionViewPropertySort _cantripPropertySort;
+		private readonly DialogService _dialogService;
 
 		public ICollectionView SpellsCollectionView { get; }
 		public ICollectionView CantripsCollectionView { get; }
@@ -189,10 +190,11 @@ namespace PCCharacterManager.ViewModels
 		public ICommand UnprepareSpellCommand { get; }
 		public ICommand NextFilterCommand { get; }
 
-		public CharacterSpellBookViewModel(CharacterStore characterStore)
+		public CharacterSpellBookViewModel(CharacterStore characterStore, DialogService dialogService)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
+			_dialogService = dialogService;
 			_spellSearch = new SpellSearch();
 			_cantripSearch = new SpellSearch();
 
@@ -212,8 +214,8 @@ namespace PCCharacterManager.ViewModels
 			SpellsCollectionView.Filter = _spellSearch.Search;
 			CantripsCollectionView.Filter = _cantripSearch.Search;
 
-			AddSpellCommand = new AddItemToSpellBookCommand(this, SpellType.SPELL);
-			AddCantripCommand = new AddItemToSpellBookCommand(this, SpellType.CANTRIP);
+			AddSpellCommand = new AddItemToSpellBookCommand(this, SpellType.SPELL, dialogService);
+			AddCantripCommand = new AddItemToSpellBookCommand(this, SpellType.CANTRIP, dialogService);
 			DeleteSpellCommand = new RemoveItemFromSpellBookCommand(this, SpellType.SPELL);
 			DeleteCantripCommand = new RemoveItemFromSpellBookCommand(this, SpellType.CANTRIP);
 			UnprepareSpellCommand = new RemovePreparedSpellCommand(this);
