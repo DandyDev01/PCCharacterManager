@@ -23,5 +23,15 @@ namespace PCCharacterManager.DialogWindows
 		{
 			InitializeComponent();
 		}
+
+		private void Ok_Button_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void Cancel_Button_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
 	}
 }

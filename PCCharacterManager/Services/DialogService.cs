@@ -9,10 +9,16 @@ using System.Windows;
 
 namespace PCCharacterManager.Services
 {
+	// https://www.youtube.com/watch?v=S8hEjLahNtU
 	public class DialogService
 	{
 		private static Dictionary<Type, Type> _mappings = new Dictionary<Type, Type>();
 
+		/// <summary>
+		/// Registering is done in the MainWindow.xaml.cs file
+		/// </summary>
+		/// <typeparam name="TViewModel"></typeparam>
+		/// <typeparam name="TView"></typeparam>
 		public static void RegisterDialog<TViewModel, TView>()
 		{
 			if (_mappings.ContainsKey(typeof(TViewModel)))
@@ -21,15 +27,14 @@ namespace PCCharacterManager.Services
 			_mappings.Add(typeof(TViewModel), typeof(TView));
 		}
 
-		public void ShowDialog<TViewModel>(Action<string> callBack)
-		{
-			var type = _mappings[typeof(TViewModel)];
-			ShowDialogInternal(type, typeof(TViewModel), callBack);
-		}
-
 		public void ShowDialog<TView, TViewModel>(TViewModel dataContext, Action<string> callBack)
 		{
-			var dialog = Activator.CreateInstance(_mappings[typeof(TViewModel)]) as Window;
+			var dialogWindow = _mappings[typeof(TViewModel)];
+
+			if (dialogWindow == null)
+				throw new Exception("Dialog window is not mapped");
+
+			var dialog = Activator.CreateInstance(dialogWindow) as Window;
 
 			if (dialog is null)
 				throw new InvalidCastException("Param window is not of type Window");
@@ -46,53 +51,5 @@ namespace PCCharacterManager.Services
 
 			dialog.ShowDialog();
 		}
-
-
-		private static void ShowDialogInternal(Type window, Type dataContext, Action<string> callBack)
-		{
-			var dialog = Activator.CreateInstance(window) as Window;
-
-			if (dialog is null)
-				throw new InvalidCastException("Param window is not of type Window");
-
-			dialog.DataContext = dataContext;
-
-			EventHandler closeEventhandler = null;
-			closeEventhandler = (s, e) =>
-			{
-				callBack(dialog.DialogResult.ToString());
-				dialog.Closed -= closeEventhandler;
-			};
-			dialog.Closed += closeEventhandler;
-
-			dialog.ShowDialog();
-		}
-
-		// https://www.youtube.com/watch?v=S8hEjLahNtU
-		//private static void ShowDialogInternal(Type vType, Type vmType, Action<string> callBack)
-		//{
-		//	var dialog = new DialogWindow();
-
-		//	EventHandler closeEventhandler = null;
-		//	closeEventhandler = (s, e) =>
-		//	{
-		//		callBack(dialog.DialogResult.ToString());
-		//		dialog.Closed -= closeEventhandler;
-		//	};
-		//	dialog.Closed += closeEventhandler;
-
-		//	var content = Activator.CreateInstance(vType);
-
-		//	if (vmType is not null)
-		//	{
-		//		var vm = Activator.CreateInstance(vmType);
-		//		(content as FrameworkElement).DataContext = vm;
-		//	}
-
-		//	dialog.Content = content;
-
-		//	dialog.ShowDialog();
-		//}
-
 	}
 }
