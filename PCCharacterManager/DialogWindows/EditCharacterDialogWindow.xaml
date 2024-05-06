@@ -130,7 +130,7 @@
                 Grid.RowSpan="1"
                 Grid.Column="11"
                 Grid.ColumnSpan="1"
-                Command="{Binding OkCommand}"
+                Click="Ok_Button_Click"
                 Content="Ok"
                 IsDefault="True" />
         </Grid>

@@ -80,11 +80,16 @@ namespace PCCharacterManager.ViewModels
 			if (_characterStore.SelectedCharacter == null)
 				return;
 
-			Window window = new EditCharacterDialogWindow();
-			DialogWindowEditCharacterViewModel windowVM = new(window, _characterStore.SelectedCharacter, _dialogService);
-			window.DataContext = windowVM;
+			DialogWindowEditCharacterViewModel windowVM = new(_characterStore.SelectedCharacter, _dialogService);
 
-			window.ShowDialog();
+			string result = string.Empty;
+			_dialogService.ShowDialog<EditCharacterDialogWindow, DialogWindowEditCharacterViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
+				return;
 		}
 	}
 }

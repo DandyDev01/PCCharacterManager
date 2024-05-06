@@ -16,7 +16,6 @@ namespace PCCharacterManager.ViewModels
 {
 	public class DialogWindowEditCharacterViewModel : ObservableObject
 	{
-		private readonly Window _window;
 		private readonly DialogService _dialogService;
 
 		public Array HitDice { get; } = Enum.GetValues(typeof(HitDie));
@@ -28,15 +27,10 @@ namespace PCCharacterManager.ViewModels
 		public StringListViewModel ToolProfsVM { get; }
 		public StringListViewModel OtherProfsVM { get; }
 		
-		public ICommand OkCommand { get; }
-
-		public DialogWindowEditCharacterViewModel(Window window, DnD5eCharacter character, DialogService dialogService)
+		public DialogWindowEditCharacterViewModel(DnD5eCharacter character, DialogService dialogService)
 		{
 			_dialogService = dialogService;
-			_window = window;
 			Character = character;
-
-			OkCommand = new RelayCommand(Ok);
 
 			MovementTypesListVM = new PropertyListViewModel("Movement", Character.MovementTypes_Speeds, _dialogService);
 			LanguagesVM = new StringListViewModel("Languages", Character.Languages, _dialogService);
@@ -44,11 +38,6 @@ namespace PCCharacterManager.ViewModels
 			ArmorProfsVM = new StringListViewModel("Armor Profs", Character.ArmorProficiencies, _dialogService);
 			OtherProfsVM = new StringListViewModel("Other Profs", Character.OtherProficiences, _dialogService);
 			WeaponProfsVM = new StringListViewModel("Weapon Profs", Character.WeaponProficiencies, _dialogService);
-		}
-
-		public void Ok()
-		{
-			_window.Close();
 		}
 	}
 }
