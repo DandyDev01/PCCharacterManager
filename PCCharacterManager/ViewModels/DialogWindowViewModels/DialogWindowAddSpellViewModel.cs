@@ -55,7 +55,8 @@ namespace PCCharacterManager.ViewModels
 		public void AddNewSpell()
 		{
 			_newSpell.School = _selectedSchool;
-			if (_spellFilterType == SpellType.CANTRIP) _newSpell.IsPrepared = true;
+			if (_spellFilterType == SpellType.CANTRIP) 
+				_newSpell.IsPrepared = true;
 		}
 	}
 }

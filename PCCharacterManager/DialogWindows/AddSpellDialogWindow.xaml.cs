@@ -37,7 +37,10 @@ namespace PCCharacterManager.DialogWindows
 			if (vm is not null)
 			{
 				vm.AddNewSpell();
+				DialogResult = true;
 			}
+
+			Close();
 		}
 	}
 }
