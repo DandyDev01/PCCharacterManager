@@ -14,6 +14,11 @@ namespace PCCharacterManager.Models
 			throw new NotImplementedException();
 		}
 
+		protected override bool MeetsPrerequisites(DnD5eCharacter character, CharacterMultiClassData characterMultiClassData)
+		{
+			throw new NotImplementedException();
+		}
+
 		protected override void UnLockClassFeatures(DnD5eCharacter character, string className, int classLevel)
 		{
 			throw new NotImplementedException();

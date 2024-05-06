@@ -15,6 +15,7 @@ namespace PCCharacterManager.Models
 		public const string AllItemsJson = @"Resources\DnD5e\Items.json";
 		public const string AbilitiesJson = @"Resources\DnD5e\Abilities.json";
 		public const string LanguagesJson = @"Resources\DnD5e\Languages.json";
+		public const string MultiClassDataJson = @"Resources\DnD5e\CharacterSubClass.json";
 	}
 
 	public static class StarfinderResources

@@ -91,6 +91,66 @@ namespace PCCharacterManager.Models
 			return helper;
 		}
 
+		protected override bool MeetsPrerequisites(DnD5eCharacter character, CharacterMultiClassData characterMultiClassData)
+		{
+			string[] prerequisites = characterMultiClassData.Prerequisites.Split('^', '&');
+			int[] score = new int[prerequisites.Length];
+
+			for (int i = 0; i < prerequisites.Length; i++)
+			{
+				prerequisites[i] = prerequisites[i].Trim();
+				if (int.TryParse(prerequisites[i].Substring(prerequisites[i].IndexOf(" ")).Trim(), out score[i]) == false)
+				{
+					throw new Exception("Could not find score.");
+				}
+				prerequisites[i] = prerequisites[i].Substring(0, prerequisites[i].IndexOf(" ")).Trim();
+			}
+
+			if (characterMultiClassData.Prerequisites.Contains('^'))
+			{
+				bool meetsOne = false;
+				for (int i = 0; i < prerequisites.Length; i++)
+				{
+					Ability ability = character.Abilities.Where(x => x.Name == prerequisites[i]).First();
+					if (ability.Score >= score[i])
+						meetsOne = true;
+				}
+
+				if (meetsOne)
+					return true;
+			}
+			else if (characterMultiClassData.Prerequisites.Contains('&'))
+			{
+				bool meetsAll = true;
+				for (int i = 0; i < prerequisites.Length; i++)
+				{
+					Ability ability = character.Abilities.Where(x => x.Name == prerequisites[i]).First();
+					if (ability.Score < score[i])
+						meetsAll = false;
+				}
+
+				if (meetsAll)
+					return true;
+			}
+			else
+			{
+				string abilityname = characterMultiClassData.Prerequisites;
+				int abilityScore = 0;
+				if (int.TryParse(abilityname.Substring(abilityname.IndexOf(" ")).Trim(), out abilityScore) == false)
+				{
+					throw new Exception("Could not find score.");
+				}
+				abilityname = abilityname.Substring(0, abilityname.IndexOf(" ")).Trim();
+				Ability a = character.Abilities.Where(x => x.Name == abilityname).First();
+
+				if (a.Score >= abilityScore)
+					return true;
+			}
+			
+
+			return false;
+		}
+		
 		/// <summary>
 		/// Gets information on the characters classes. Specifically, the class selected if there is
 		/// more than one class. Otherwise, information about the only class the character has.

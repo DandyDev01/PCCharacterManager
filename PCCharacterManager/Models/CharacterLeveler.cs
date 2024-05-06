@@ -16,7 +16,7 @@ namespace PCCharacterManager.Models
 			MessageBoxResult result = AskToAddClass();
 			if (result == MessageBoxResult.Yes) 
 			{
-				string classToAddName = GetClassToAddName(character.CharacterClass.Name);
+				string classToAddName = GetClassToAddName(character, character.CharacterClass.Name);
 
 				if (classToAddName == string.Empty)
 					return;
@@ -31,6 +31,7 @@ namespace PCCharacterManager.Models
 
 					UpdateCharacterClassName(character, helper.className, helper.classLevel);
 					UnLockClassFeatures(character, helper.className, helper.classLevel);
+					AddNewClassProficiences(character, helper.className);
 				}
 			}
 			else if (result == MessageBoxResult.Cancel)
@@ -54,6 +55,35 @@ namespace PCCharacterManager.Models
 			{
 				ability.SetProfBonus(character.Level.ProficiencyBonus);
 			}
+		}
+
+		private void AddNewClassProficiences(DnD5eCharacter character, string className)
+		{
+			var classData = ReadWriteJsonCollection<CharacterMultiClassData>
+			.ReadCollection(DnD5eResources.MultiClassDataJson).Where(x => x.Name == className).First();
+
+			if (classData is null)
+				throw new Exception("Could not find data for class " + className);
+
+			// add armor profs
+			foreach (var item in classData.ArmorProficiencies)
+			{
+				character.ArmorProficiencies.Add(item);
+			}
+
+			// add weapon profs
+			foreach (var item in classData.WeaponProficiencies)
+			{
+				character.WeaponProficiencies.Add(item);
+			}
+
+			// add tool profs
+			foreach (var item in classData.ToolProficiences)
+			{
+				character.ToolProficiences.Add(item);
+			}
+
+			// TODO: Choose a skill.
 		}
 
 		private void UpdateCharacterClassName(DnD5eCharacter character, string nameOfClassToUpdate, int level)
@@ -94,16 +124,17 @@ namespace PCCharacterManager.Models
 		/// Get the name of the class to add.
 		/// </summary>
 		/// <returns>Name of the class the user wants to add.</returns>
-		private string GetClassToAddName(string currentClasses)
+		private string GetClassToAddName(DnD5eCharacter character, string currentClasses)
 		{
-			var classes = ReadWriteJsonCollection<DnD5eCharacterClassData>
-				.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray();
+			var classes = ReadWriteJsonCollection<CharacterMultiClassData>
+				.ReadCollection(DnD5eResources.MultiClassDataJson).ToArray();
 			string[] classNames = new string[classes.Length];
 
 			for (int i = 0; i < classes.Length; i++)
 			{
-				// exclude classes the character already has.
-				if (currentClasses.Contains(classes[i].Name))
+				// exclude classes the character already has and classes the character does
+				// not meet the prerequisites for.
+				if (currentClasses.Contains(classes[i].Name) || MeetsPrerequisites(character, classes[i]) == false)
 					continue;
 
 				classNames[i] = classes[i].Name;
@@ -122,6 +153,14 @@ namespace PCCharacterManager.Models
 
 			return vm.SelectedItems.First();
 		}
+
+		/// <summary>
+		/// Determines if the character meets the prerequisites for the class they want to multiclass in.
+		/// </summary>
+		/// <param name="character">Character that is being checked.</param>
+		/// <param name="characterMultiClassData">Multiclass prerequisite data.</param>
+		/// <returns></returns>
+		protected abstract bool MeetsPrerequisites(DnD5eCharacter character, CharacterMultiClassData characterMultiClassData);
 
 		protected abstract AddClassHelper AddClass(DnD5eCharacter character, string classToAddName);
 

@@ -163,6 +163,10 @@ namespace PCCharacterManager.Models
 			File.WriteAllText(filePath, serializedCollection);
 		}
 
+		internal static object ReadCollection(object multiClass)
+		{
+			throw new NotImplementedException();
+		}
 	} // end ReadJsonCollection
 
 	public static class ReadWriteJsonFile<T>
