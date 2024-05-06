@@ -1,5 +1,6 @@
 ﻿using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
+using PCCharacterManager.Services;
 using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace PCCharacterManager.ViewModels
 	public class DialogWindowEditCharacterViewModel : ObservableObject
 	{
 		private readonly Window _window;
+		private readonly DialogService _dialogService;
 
 		public Array HitDice { get; } = Enum.GetValues(typeof(HitDie));
 		public DnD5eCharacter Character { get; }
@@ -28,19 +30,20 @@ namespace PCCharacterManager.ViewModels
 		
 		public ICommand OkCommand { get; }
 
-		public DialogWindowEditCharacterViewModel(Window window, DnD5eCharacter character)
+		public DialogWindowEditCharacterViewModel(Window window, DnD5eCharacter character, DialogService dialogService)
 		{
+			_dialogService = dialogService;
 			_window = window;
 			Character = character;
 
 			OkCommand = new RelayCommand(Ok);
 
-			MovementTypesListVM = new PropertyListViewModel("Movement", Character.MovementTypes_Speeds);
-			LanguagesVM = new StringListViewModel("Languages", Character.Languages);
-			ToolProfsVM = new StringListViewModel("Tool Profs", Character.ToolProficiences);
-			ArmorProfsVM = new StringListViewModel("Armor Profs", Character.ArmorProficiencies);
-			OtherProfsVM = new StringListViewModel("Other Profs", Character.OtherProficiences);
-			WeaponProfsVM = new StringListViewModel("Weapon Profs", Character.WeaponProficiencies);
+			MovementTypesListVM = new PropertyListViewModel("Movement", Character.MovementTypes_Speeds, _dialogService);
+			LanguagesVM = new StringListViewModel("Languages", Character.Languages, _dialogService);
+			ToolProfsVM = new StringListViewModel("Tool Profs", Character.ToolProficiences, _dialogService);
+			ArmorProfsVM = new StringListViewModel("Armor Profs", Character.ArmorProficiencies, _dialogService);
+			OtherProfsVM = new StringListViewModel("Other Profs", Character.OtherProficiences, _dialogService);
+			WeaponProfsVM = new StringListViewModel("Weapon Profs", Character.WeaponProficiencies, _dialogService);
 		}
 
 		public void Ok()

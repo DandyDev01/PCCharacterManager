@@ -81,7 +81,7 @@ namespace PCCharacterManager.ViewModels
 				return;
 
 			Window window = new EditCharacterDialogWindow();
-			DialogWindowEditCharacterViewModel windowVM = new(window, _characterStore.SelectedCharacter);
+			DialogWindowEditCharacterViewModel windowVM = new(window, _characterStore.SelectedCharacter, _dialogService);
 			window.DataContext = windowVM;
 
 			window.ShowDialog();
