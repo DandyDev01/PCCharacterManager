@@ -339,13 +339,16 @@ namespace PCCharacterManager.ViewModels
 
 		private void AddFeature()
 		{
-			Window window = new AddFeatureDialogWindow();
-			window.DataContext = new DialogWindowAddFeatureViewModel(window, this);
-			window.ShowDialog();
+			DialogWindowAddFeatureViewModel windowVM = new DialogWindowAddFeatureViewModel(this);
+			string result = string.Empty;
+			_dialogService.ShowDialog<AddFeatureDialogWindow, DialogWindowAddFeatureViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
-			
+
 			FeatureTypeSortCommand?.Execute(null);
 		}
 

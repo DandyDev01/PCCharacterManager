@@ -17,7 +17,6 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
     public class DialogWindowAddFeatureViewModel : ObservableObject, INotifyDataErrorInfo
 	{
 		private readonly CharacterInfoViewModel _characterInfoVM;
-		private readonly Window _window;
 
 		public ObservableCollection<string> FeatureTypeOptions { get; }
 
@@ -94,13 +93,9 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 		public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 		public bool HasErrors => propertyNameToError.Any();
 
-		public ICommand OkCommand { get; }
-		public ICommand CancelCommand { get; }
-
-		public DialogWindowAddFeatureViewModel(Window window, CharacterInfoViewModel characterInfoVM) 
+		public DialogWindowAddFeatureViewModel(CharacterInfoViewModel characterInfoVM) 
 		{
 			_characterInfoVM = characterInfoVM;
-			_window = window;
 
 			propertyNameToError = new Dictionary<string, List<string>>();
 
@@ -116,20 +111,12 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			_level = string.Empty;
 			_featureType = this._characterInfoVM.SelectedCharacter.CharacterClass.Name;
 
-			OkCommand = new RelayCommand(Ok);
-			CancelCommand = new RelayCommand(Cancel);
-
 			BasicStringFieldValidation(nameof(Name), _name);
 			BasicStringFieldValidation(nameof(Description), _description);
 			LevelValidation();
 		}
 
-		private void Cancel()
-		{
-			_window.DialogResult = false;
-		}
-
-		private void Ok()
+		public void Ok()
 		{
 			if (_characterInfoVM.SelectedCharacter is null)
 				return;
@@ -152,8 +139,6 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			{
 				_characterInfoVM.SelectedCharacter.Race.RaceVariant.Properties.Add(property);
 			}
-
-			_window.DialogResult = true;
 		}
 
 		public IEnumerable GetErrors(string? propertyName)
