@@ -21,6 +21,7 @@ namespace PCCharacterManager.ViewModels
 	{
 		private readonly CollectionViewPropertySort _collectionViewPropertySort;
 		private readonly CharacterStore _characterStore;
+		private readonly DialogService _dialogService;
 
 		private DnD5eCharacter _selectedCharacter;
 		public DnD5eCharacter SelectedCharacter
@@ -134,6 +135,7 @@ namespace PCCharacterManager.ViewModels
 
 			_characterStore.OnCharacterLevelup += OnCharacterChanged;
 
+			_dialogService = dialogService;
 			_selectedCharacter = this._characterStore.SelectedCharacter;
 			_race = _selectedCharacter.Race.Name;
 			_health = _selectedCharacter.Health.CurrHealth.ToString();
@@ -164,16 +166,16 @@ namespace PCCharacterManager.ViewModels
 
 			_selectedProperty = AllFeatures.FirstOrDefault();	
 
-			FeaturesListVM = new PropertyListViewModel("Features");
+			FeaturesListVM = new PropertyListViewModel("Features", dialogService);
 
-			ConditionsListVM = new ConditionListViewModel("Conditions", _selectedCharacter.Conditions);
-			MovementTypesListVM = new PropertyListViewModel("Movement", _selectedCharacter.MovementTypes_Speeds);
-			LanguagesVM = new StringListViewModel("Languages", _selectedCharacter.Languages);
-			CombatActionsVM = new StringListViewModel("Actions", _selectedCharacter.CombatActions);
-			ToolProfsVM = new StringListViewModel("Tool Profs", _selectedCharacter.ToolProficiences);
-			ArmorProfsVM = new StringListViewModel("Armor Profs", _selectedCharacter.ArmorProficiencies);
-			OtherProfsVM = new StringListViewModel("Other Profs", _selectedCharacter.OtherProficiences);
-			WeaponProfsVM = new StringListViewModel("Weapon Profs", _selectedCharacter.WeaponProficiencies);
+			ConditionsListVM = new ConditionListViewModel("Conditions", _selectedCharacter.Conditions, dialogService);
+			MovementTypesListVM = new PropertyListViewModel("Movement", _selectedCharacter.MovementTypes_Speeds, dialogService);
+			LanguagesVM = new StringListViewModel("Languages", _selectedCharacter.Languages, dialogService);
+			CombatActionsVM = new StringListViewModel("Actions", _selectedCharacter.CombatActions, dialogService);
+			ToolProfsVM = new StringListViewModel("Tool Profs", _selectedCharacter.ToolProficiences, dialogService);
+			ArmorProfsVM = new StringListViewModel("Armor Profs", _selectedCharacter.ArmorProficiencies, dialogService);
+			OtherProfsVM = new StringListViewModel("Other Profs", _selectedCharacter.OtherProficiences, dialogService);
+			WeaponProfsVM = new StringListViewModel("Weapon Profs", _selectedCharacter.WeaponProficiencies, dialogService);
 			LevelCharacterCommand = new LevelCharacterCommand(_characterStore, dialogService);
 			AdjustExperienceCommand = new RelayCommand(AdjustExperience);
 			AdjustHealthCommand = new RelayCommand(AddHealth);
@@ -260,18 +262,20 @@ namespace PCCharacterManager.ViewModels
 
 		private void EditArmorClass()
 		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel(window);
-			window.DataContext = dataContext;
+			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel();
 
 			dataContext.Answer = _selectedCharacter.ArmorClass.ArmorClassValue;
 
-			window.ShowDialog();
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(dataContext, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
 
-			
+
 
 			_selectedCharacter.ArmorClass.ArmorClassValue = dataContext.Answer;
 			ArmorClass = _selectedCharacter.ArmorClass.ArmorClassValue;
@@ -279,12 +283,15 @@ namespace PCCharacterManager.ViewModels
 
 		private void AdjustExperience()
 		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel(window, "Enter amount to add or remove.");
-			window.DataContext = dataContext;
-			window.ShowDialog();
+			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel("Enter amount to add or remove.");
 
-			if (window.DialogResult == false)
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(dataContext, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
 				return;
 
 			int temp;

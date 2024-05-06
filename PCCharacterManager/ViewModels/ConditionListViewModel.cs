@@ -12,11 +12,14 @@ using System.Windows.Input;
 using System.Windows;
 using Condition = PCCharacterManager.Models.Condition;
 using PCCharacterManager.ViewModels.DialogWindowViewModels;
+using PCCharacterManager.Services;
 
 namespace PCCharacterManager.ViewModels
 {
     public class ConditionListViewModel : ObservableObject
     {
+		private DialogService _dialogService;
+
 		private string _listName;
 		public string ListName
 		{
@@ -53,19 +56,22 @@ namespace PCCharacterManager.ViewModels
 		public Action<Condition>? OnAddItem;
 		public Action<Condition>? OnRemoveItem;
 
-		public ConditionListViewModel(string listName, ObservableCollection<Condition> item)
+		public ConditionListViewModel(string listName, ObservableCollection<Condition> item, DialogService dialogService)
 		{
 			_listName = listName;
 			ItemsToDisplay = item;
+			_dialogService = dialogService;
 
 			AddItemCommand = new RelayCommand(AddItem);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
 			EditItemCommand = new RelayCommand(EditItem);
 			PropertyItemReceivedCommand = new PropertyItemReceivedCommand();
+			_dialogService = dialogService;
 		}
 
-		public ConditionListViewModel(string listName)
+		public ConditionListViewModel(string listName, DialogService dialogService)
 		{
+			_dialogService = dialogService;
 			_listName = listName;
 			AddItemCommand = new RelayCommand(AddItem);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
@@ -120,16 +126,18 @@ namespace PCCharacterManager.ViewModels
 			if (_selectedItem is null)
 				return;
 
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM =
-				new DialogWindowStringInputViewModel(window, "Edit " + _selectedItem.Name);
+			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel("Edit " + _selectedItem.Name);
 
 			windowVM.Answer = _selectedItem.Desc;
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
+
 
 			_selectedItem.Desc = windowVM.Answer;
 		}

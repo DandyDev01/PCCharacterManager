@@ -255,7 +255,7 @@ namespace PCCharacterManager.Models
 		/// <param name="character">Character being leveled up</param>
 		/// <param name="helper">Information about the class being leveled up.</param>
 		/// <returns>Information about the levelup operation.</returns>
-		private static MultiClass AutoRollNewMaxHealth(DnD5eCharacter character, MultiClass helper)
+		private MultiClass AutoRollNewMaxHealth(DnD5eCharacter character, MultiClass helper)
 		{
 			string classHitDie = helper.hitDie;
 
@@ -279,15 +279,17 @@ namespace PCCharacterManager.Models
 		/// <param name="character">The character that is being leveledup.</param>
 		/// <param name="helper">Information about the class being leveled up.</param>
 		/// <returns>Information about the levelup operation.</returns>
-		private static MultiClass ManuallyEnterNewMaxHealth(DnD5eCharacter character, MultiClass helper)
+		private MultiClass ManuallyEnterNewMaxHealth(DnD5eCharacter character, MultiClass helper)
 		{
-			Window window = new StringInputDialogWindow();
 			DialogWindowStringInputViewModel windowVM =
-				new DialogWindowStringInputViewModel(window);
-			window.DataContext = windowVM;
-			window.ShowDialog();
+				new DialogWindowStringInputViewModel();
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return helper;
 
 			int amount = int.Parse(windowVM.Answer);

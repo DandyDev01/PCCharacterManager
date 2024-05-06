@@ -10,11 +10,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using PCCharacterManager.Services;
 
 namespace PCCharacterManager.ViewModels
 {
 	public class PropertyListViewModel : ObservableObject
 	{
+		private readonly DialogService _dialogService;
+
 		private string _listName;
 		public string ListName
 		{
@@ -51,10 +54,11 @@ namespace PCCharacterManager.ViewModels
 		public Action<Property>? OnAddItem;
 		public Action<Property>? OnRemoveItem;
 
-		public PropertyListViewModel(string listName, ObservableCollection<Property> item)
+		public PropertyListViewModel(string listName, ObservableCollection<Property> item, DialogService dialogService)
 		{
 			_listName = listName;
 			ItemsToDisplay = item;
+			_dialogService = dialogService;
 
 			AddItemCommand = new RelayCommand(AddItem);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
@@ -62,8 +66,9 @@ namespace PCCharacterManager.ViewModels
 			PropertyItemReceivedCommand = new PropertyItemReceivedCommand();
 		}
 
-		public PropertyListViewModel(string listName)
+		public PropertyListViewModel(string listName, DialogService dialogService)
 		{
+			_dialogService = dialogService;
 			_listName = listName;
 			AddItemCommand = new RelayCommand(AddItem);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
@@ -85,22 +90,25 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void AddItem()
 		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window, 
-				"Name");
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel("Name");
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
 
-			Window window1 = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM1 = new DialogWindowStringInputViewModel(window1, 
-				"Description");
-			window1.DataContext = windowVM1;
-			window1.ShowDialog();
 
-			if (window1.DialogResult == false)
+			DialogWindowStringInputViewModel windowVM1 = new DialogWindowStringInputViewModel("Description");
+			result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM1, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
 				return;
 
 			Property property = new Property(windowVM.Answer, windowVM1.Answer);
@@ -128,15 +136,17 @@ namespace PCCharacterManager.ViewModels
 			if (_selectedItem is null)
 				return;
 
-			Window window = new StringInputDialogWindow();
 			DialogWindowStringInputViewModel windowVM =
-				new DialogWindowStringInputViewModel(window, "Edit " + _selectedItem.Name);
+				new DialogWindowStringInputViewModel("Edit " + _selectedItem.Name);
 
 			windowVM.Answer = _selectedItem.Desc;
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
 
 			_selectedItem.Desc = windowVM.Answer;
