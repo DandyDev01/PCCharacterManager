@@ -12,10 +12,6 @@ namespace PCCharacterManager.Models
 {
 	public abstract class CharacterLeveler
 	{
-		private OpenMessageBoxCommand _askToAddClassCommand = new("Would you like to add another class?",
-				"Add Class", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-		private OpenDialogWindowCommand<DialogWindowSelectStingValue> _selectClassToAddCommand;
-
 		public void LevelCharacter(DnD5eCharacter character)
 		{
 			MessageBoxResult result = AskToAddClass();
@@ -125,9 +121,8 @@ namespace PCCharacterManager.Models
 		/// <returns>Weather or not a class will be added.</returns>
 		private MessageBoxResult AskToAddClass()
 		{
-			_askToAddClassCommand.Execute(this);
-
-			return _askToAddClassCommand.Result;
+			return MessageBox.Show("Would you like to add another class?",
+				"Add Class", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 		}
 
 		/// <summary>
@@ -156,8 +151,8 @@ namespace PCCharacterManager.Models
 			DialogWindowSelectStingValue vm =
 				new DialogWindowSelectStingValue(selectClassWindow, classNames, 1);
 
-			_selectClassToAddCommand = new(selectClassWindow, vm);
-			_selectClassToAddCommand.Execute(this);
+			selectClassWindow.DataContext = vm;
+			selectClassWindow.ShowDialog();
 
 			if (selectClassWindow.DialogResult == false)
 				return string.Empty;
