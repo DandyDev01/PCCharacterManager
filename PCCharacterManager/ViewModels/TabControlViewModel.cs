@@ -21,7 +21,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			CharacterListVM = new CharacterListViewModel(characterStore, dataService, dialogService);
 			CharacterStatsVM = new CharacterStatsViewModel(characterStore, dialogService);
-			InventoryVM = new CharacterInventoryViewModel(characterStore);
+			InventoryVM = new CharacterInventoryViewModel(characterStore, dialogService);
 			SpellBookVM = new CharacterSpellBookViewModel(characterStore);
 			NotesVM = new CharacterNoteBookViewModel(characterStore, dialogService);
 		}

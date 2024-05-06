@@ -118,7 +118,7 @@ namespace PCCharacterManager.ViewModels
 
 		public ICommand ShowPropertiesToDisplayCommand { get; }
 
-		public CharacterInventoryViewModel(CharacterStore characterStore)
+		public CharacterInventoryViewModel(CharacterStore characterStore, DialogService dialogService)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 			Inventory = characterStore.SelectedCharacter.Inventory;
@@ -130,7 +130,7 @@ namespace PCCharacterManager.ViewModels
 			_inventoryWeight = string.Empty;
 			_showHiddenPropertiesText = string.Empty;
 
-			AddItemCommand = new AddItemToInventoryCommand(this);
+			AddItemCommand = new AddItemToInventoryCommand(this, dialogService);
 			RemoveItemCommand = new RemoveItemFromInventoryCommand(this);
 			AddPropertyCommand = new AddPropertyToItemCommand(this);
 			RemovePropertyCommand = new RemovePropertyFromItemCommand(this);
@@ -162,7 +162,7 @@ namespace PCCharacterManager.ViewModels
 				nameof(ItemViewModel.DisplayItemCategory));
 		}
 
-		public CharacterInventoryViewModel(ObservableCollection<ItemViewModel> itemsToDisplay)
+		public CharacterInventoryViewModel(ObservableCollection<ItemViewModel> itemsToDisplay, DialogService dialogService)
 		{
 			_propertyVMPool = new PropertyEditableVMPool(5);
 			_itemSearch = new ItemSearch();
@@ -172,7 +172,7 @@ namespace PCCharacterManager.ViewModels
 			_inventoryWeight = string.Empty;
 			_showHiddenPropertiesText = string.Empty;
 
-			AddItemCommand = new AddItemToInventoryCommand(this);
+			AddItemCommand = new AddItemToInventoryCommand(this, dialogService);
 			RemoveItemCommand = new RemoveItemFromInventoryCommand(this);
 			AddPropertyCommand = new AddPropertyToItemCommand(this);
 			RemovePropertyCommand = new RemovePropertyFromItemCommand(this);

@@ -1,4 +1,5 @@
 ﻿using PCCharacterManager.Utility;
+using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,5 +57,22 @@ namespace PCCharacterManager.DialogWindows
 			}
 		}
 
+		private void Add_Button_Click(object sender, RoutedEventArgs e)
+		{
+			DialogResult = true;
+			Close();
+		}
+
+		private void Cancel_Button_Click(object sender, RoutedEventArgs e)
+		{
+			DialogWindowAddItemViewModel vm = DataContext as DialogWindowAddItemViewModel;
+
+			if (vm is not null)
+			{
+				vm.InventoryVM.ReturnItemVMsToPool();
+			}
+
+			Close();
+		}
 	}
 }
