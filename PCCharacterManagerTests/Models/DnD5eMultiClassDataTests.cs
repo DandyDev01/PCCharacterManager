@@ -15,6 +15,7 @@ namespace PCCharacterManagerTests.Models
 	{
 		DnD5eCharacterClassData[] classes = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray();
 		CharacterMultiClassData[] multiClassData = ReadWriteJsonCollection<CharacterMultiClassData>.ReadCollection(DnD5eResources.MultiClassDataJson).ToArray();
+		Ability[] abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 
 		[TestMethod()]
 		public void AllDataTest()
@@ -82,6 +83,19 @@ namespace PCCharacterManagerTests.Models
 					{
 						anyFail = true;
 						Trace.WriteLine("Failed tool prof: " + toolProf + " for " + classData.Name);
+					}
+				}
+
+				string[] prerequisites = classData.Prerequisites.Split('^', '&');
+				for (int i = 0; i < prerequisites.Length; i++)
+				{
+					prerequisites[i] = prerequisites[i].Substring(0, prerequisites[i].IndexOf(" ")).Trim();
+					if (prerequisites[i] == string.Empty)
+						continue;
+					if (abilities.Any(x => x.Name == prerequisites[i]) == false)
+					{
+						anyFail = true;
+						Trace.WriteLine("Failed prerequisite: " + prerequisites[i] + " for " + classData.Name);
 					}
 				}
 			}
