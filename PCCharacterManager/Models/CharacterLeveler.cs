@@ -57,6 +57,12 @@ namespace PCCharacterManager.Models
 			}
 		}
 
+		/// <summary>
+		/// Add the proficiences of a class to a character.
+		/// </summary>
+		/// <param name="character">Character to add the proficines too.</param>
+		/// <param name="className">Name of the class to get the proficiences from.</param>
+		/// <exception cref="Exception"></exception>
 		private void AddNewClassProficiences(DnD5eCharacter character, string className)
 		{
 			var classData = ReadWriteJsonCollection<CharacterMultiClassData>
@@ -77,6 +83,13 @@ namespace PCCharacterManager.Models
 				classData.numOfSkillProficiences);
 		}
 
+		/// <summary>
+		/// Update the character class name to show all the classes the character has a level in.
+		/// Will also show the level of each class.
+		/// </summary>
+		/// <param name="character">Character whose class name to update.</param>
+		/// <param name="nameOfClassToUpdate">Name of the class being updated.</param>
+		/// <param name="level">Level of the class being updated.</param>
 		private void UpdateCharacterClassName(DnD5eCharacter character, string nameOfClassToUpdate, int level)
 		{
 			string[] classNames = character.CharacterClass.Name.Split("/");
@@ -153,10 +166,27 @@ namespace PCCharacterManager.Models
 		/// <returns></returns>
 		protected abstract bool MeetsPrerequisites(DnD5eCharacter character, CharacterMultiClassData characterMultiClassData);
 
+		/// <summary>
+		/// Add a class to a character.
+		/// </summary>
+		/// <param name="character">Character to add the class too.</param>
+		/// <param name="classToAddName">Name of the class the character is getting.</param>
+		/// <returns></returns>
 		protected abstract AddClassHelper AddClass(DnD5eCharacter character, string classToAddName);
 
+		/// <summary>
+		/// Update the max health of a character.
+		/// </summary>
+		/// <param name="character">The character to update the max health of.</param>
+		/// <returns></returns>
 		protected abstract MultiClass UpdateMaxHealth(DnD5eCharacter character);
 
+		/// <summary>
+		/// Unlock the features of a specified class for a specified level.
+		/// </summary>
+		/// <param name="character">Character that will get the features.</param>
+		/// <param name="className">Name of the class whose features are being unlocked.</param>
+		/// <param name="classLevel">Level of the features being unlocked.</param>
 		protected abstract void UnLockClassFeatures(DnD5eCharacter character, string className, int classLevel);
 	}
 

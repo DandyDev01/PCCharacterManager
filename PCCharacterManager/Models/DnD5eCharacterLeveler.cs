@@ -42,6 +42,7 @@ namespace PCCharacterManager.Models
 			// find character class
 			DnD5eCharacterClassData? data = classes.Find(x => x.Name.Equals(className));
 
+			// className contains extra data, cut it off and search again.
 			data ??= classes.Find(x => x.Name.Equals(className.Substring(0, className.IndexOf(" "))));
 
 			if (data == null)
@@ -96,6 +97,7 @@ namespace PCCharacterManager.Models
 			string[] prerequisites = characterMultiClassData.Prerequisites.Split('^', '&');
 			int[] score = new int[prerequisites.Length];
 
+			// get ability prerequisite name and score.
 			for (int i = 0; i < prerequisites.Length; i++)
 			{
 				prerequisites[i] = prerequisites[i].Trim();
@@ -106,6 +108,7 @@ namespace PCCharacterManager.Models
 				prerequisites[i] = prerequisites[i].Substring(0, prerequisites[i].IndexOf(" ")).Trim();
 			}
 
+			// prerequsite contains an OR
 			if (characterMultiClassData.Prerequisites.Contains('^'))
 			{
 				bool meetsOne = false;
@@ -119,6 +122,7 @@ namespace PCCharacterManager.Models
 				if (meetsOne)
 					return true;
 			}
+			// prerequisite contains an AND
 			else if (characterMultiClassData.Prerequisites.Contains('&'))
 			{
 				bool meetsAll = true;
@@ -132,6 +136,7 @@ namespace PCCharacterManager.Models
 				if (meetsAll)
 					return true;
 			}
+			// there is only a single prerequisite 
 			else
 			{
 				string abilityname = characterMultiClassData.Prerequisites;
@@ -147,7 +152,6 @@ namespace PCCharacterManager.Models
 					return true;
 			}
 			
-
 			return false;
 		}
 		
