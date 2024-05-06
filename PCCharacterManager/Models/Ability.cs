@@ -351,5 +351,21 @@ namespace PCCharacterManager.Models
 			return skillNames;
 		}
 
+		public static string[] GetProficientSkillNames(Ability[] abilities)
+		{
+			List<string> results = new();
+
+			foreach (Ability ability in abilities)
+			{
+				foreach (AbilitySkill skill in ability.Skills)
+				{
+					if (skill.SkillProficiency)
+						results.Add(skill.Name);
+				}
+			}
+
+			return results.ToArray();
+		}
+
 	} // end class
 }

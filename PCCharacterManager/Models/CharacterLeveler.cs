@@ -65,25 +65,16 @@ namespace PCCharacterManager.Models
 			if (classData is null)
 				throw new Exception("Could not find data for class " + className);
 
-			// add armor profs
-			foreach (var item in classData.ArmorProficiencies)
-			{
-				character.ArmorProficiencies.Add(item);
-			}
+			
+			character.ToolProficiences.AddRange(classData.ToolProficiences.Where(x => character.ToolProficiences.Contains(x) == false));
+			character.WeaponProficiencies.AddRange(classData.WeaponProficiencies.Where(x => character.WeaponProficiencies.Contains(x) == false));
+			character.ArmorProficiencies.AddRange(classData.ArmorProficiencies.Where(x => character.ArmorProficiencies.Contains(x) == false));
 
-			// add weapon profs
-			foreach (var item in classData.WeaponProficiencies)
-			{
-				character.WeaponProficiencies.Add(item);
-			}
-
-			// add tool profs
-			foreach (var item in classData.ToolProficiences)
-			{
-				character.ToolProficiences.Add(item);
-			}
-
-			// TODO: Choose a skill.
+			string[] proficientSkills = Ability.GetProficientSkillNames(character.Abilities);
+			string[] options = classData.PossibleSkillProficiences.Where(x => proficientSkills.Contains(x) == false).ToArray();
+			Window selectSkillWindow = new SelectStringValueDialogWindow();
+			DialogWindowSelectStingValue vm = new(selectSkillWindow, options, 
+				classData.numOfSkillProficiences);
 		}
 
 		private void UpdateCharacterClassName(DnD5eCharacter character, string nameOfClassToUpdate, int level)
