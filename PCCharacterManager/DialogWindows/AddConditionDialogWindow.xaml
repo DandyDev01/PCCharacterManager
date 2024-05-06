@@ -65,14 +65,14 @@
             Grid.Column="2"
             Grid.ColumnSpan="1"
             Margin="5"
-            Command="{Binding OkCommand}"
+            Click="Ok_Button_Click"
             Content="Ok" />
         <Button
             Grid.Row="4"
             Grid.Column="1"
             Grid.ColumnSpan="1"
             Margin="5"
-            Command="{Binding CancelCommand}"
+            Click="Cancel_Button_Click"
             Content="Cancel"
             IsCancel="True" />
     </Grid>

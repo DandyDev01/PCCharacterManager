@@ -93,12 +93,14 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void AddItem()
 		{
-			Window window = new AddConditionDialogWindow();
-			DialogWindowAddConditionViewModel windowVM = new DialogWindowAddConditionViewModel(window);
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			DialogWindowAddConditionViewModel windowVM = new DialogWindowAddConditionViewModel();
+			string result = string.Empty;
+			_dialogService.ShowDialog<AddConditionDialogWindow, DialogWindowAddConditionViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
 
 			Condition property = new Condition(windowVM.Name, windowVM.Description, windowVM.Duration);
