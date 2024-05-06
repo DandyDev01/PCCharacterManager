@@ -24,11 +24,13 @@ namespace PCCharacterManager.Commands
 
 		public override void Execute(object? parameter)
 		{
-			Window newCharacterWindow = new CreateCharacterDialogWindow();
-			newCharacterWindow.DataContext = new DialogWindowCharacterCreaterViewModel(characterStore, newCharacterWindow,
-				_dialogService);
+			var vm = new DialogWindowCharacterCreaterViewModel(characterStore, _dialogService);
 
-			newCharacterWindow.ShowDialog();
+			string result = string.Empty;
+			_dialogService.ShowDialog<CreateCharacterDialogWindow, DialogWindowCharacterCreaterViewModel>(vm, r =>
+			{
+				result = r;
+			});
 		}
 	}
 }
