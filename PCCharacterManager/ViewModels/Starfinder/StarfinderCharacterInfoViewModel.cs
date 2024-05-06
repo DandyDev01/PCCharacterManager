@@ -173,12 +173,14 @@ namespace PCCharacterManager.ViewModels
 			if (_selectedCharacter is null)
 				return;
 
-			Window window = new AddAugmentationDialogWindow();
-			DialogWindowAddAugmentationViewModel windowVM = new(window);
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			DialogWindowAddAugmentationViewModel windowVM = new();
+			string result = string.Empty;
+			_dialogService.ShowDialog<AddAugmentationDialogWindow, DialogWindowAddAugmentationViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
 
 			_selectedCharacter.Augmentations.Add(windowVM.Augmentation);
