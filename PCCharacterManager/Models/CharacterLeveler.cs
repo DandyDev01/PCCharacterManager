@@ -1,4 +1,5 @@
-﻿using PCCharacterManager.DialogWindows;
+﻿using PCCharacterManager.Commands;
+using PCCharacterManager.DialogWindows;
 using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,10 @@ namespace PCCharacterManager.Models
 {
 	public abstract class CharacterLeveler
 	{
+		private OpenMessageBoxCommand _askToAddClassCommand = new("Would you like to add another class?",
+				"Add Class", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+		private OpenDialogWindowCommand<DialogWindowSelectStingValue> _selectClassToAddCommand;
+
 		public void LevelCharacter(DnD5eCharacter character)
 		{
 			MessageBoxResult result = AskToAddClass();
@@ -120,8 +125,9 @@ namespace PCCharacterManager.Models
 		/// <returns>Weather or not a class will be added.</returns>
 		private MessageBoxResult AskToAddClass()
 		{
-			return MessageBox.Show("Would you like to add another class?",
-				"Add Class", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+			_askToAddClassCommand.Execute(this);
+
+			return _askToAddClassCommand.Result;
 		}
 
 		/// <summary>
@@ -149,8 +155,9 @@ namespace PCCharacterManager.Models
 			Window selectClassWindow = new SelectStringValueDialogWindow();
 			DialogWindowSelectStingValue vm =
 				new DialogWindowSelectStingValue(selectClassWindow, classNames, 1);
-			selectClassWindow.DataContext = vm;
-			selectClassWindow.ShowDialog();
+
+			_selectClassToAddCommand = new(selectClassWindow, vm);
+			_selectClassToAddCommand.Execute(this);
 
 			if (selectClassWindow.DialogResult == false)
 				return string.Empty;

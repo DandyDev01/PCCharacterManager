@@ -69,21 +69,17 @@ namespace PCCharacterManager.Models
 
 			string currentClassName = character.CharacterClass.Name;
 
-			int numberOfClasses = 1;
-			if (currentClassName.Contains("/"))
-			{
-				numberOfClasses = currentClassName.Split("/").Length;
-			}
+			int numberOfClasses = character.CharacterClass.Name.Split("/").Length;
 
 			if (numberOfClasses == 1)
 			{
-				character.CharacterClass.Name = currentClassName +
+				character.CharacterClass.Name = currentClassName + " " + character.Level.Level +
 					" / " + classToAddName + " " + 0;
 			}
 			else
 			{
-				character.CharacterClass.Name = currentClassName +
-					" / " + classToAddName + " " + 1;
+				character.CharacterClass.Name = currentClassName + 
+					" / " + classToAddName + " " + 0;
 			}
 
 
@@ -229,7 +225,8 @@ namespace PCCharacterManager.Models
 			for (int i = 0; i < classNames.Length; i++)
 			{
 				classNames[i] = classNames[i].Trim();
-				classNames[i] = classNames[i].Substring(0, classNames[i].IndexOf(" ")).Trim();
+				if (classNames[i].Contains(" ") == true)
+					classNames[i] = classNames[i].Substring(0, classNames[i].IndexOf(" ")).Trim();
 			}
 
 			Window selectClassWindow = new SelectStringValueDialogWindow();
