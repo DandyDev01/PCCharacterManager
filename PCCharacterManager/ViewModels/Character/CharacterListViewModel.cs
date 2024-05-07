@@ -41,7 +41,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand CharacterRaceSortCommand { get; }
 
 		public CharacterListViewModel(CharacterStore characterStore, ICharacterDataService dataService,
-			DialogService dialogService)
+			DialogServiceBase dialogService)
 		{
 			_characterStore = characterStore;
 			_dataService = dataService;

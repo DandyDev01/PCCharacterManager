@@ -77,7 +77,7 @@ namespace PCCharacterManager.ViewModels
 		public Action<Note>? selectedNoteChange;
 		public Action? characterChange;
 
-		public CharacterNoteBookViewModel(CharacterStore characterStore, DialogService dialogService)
+		public CharacterNoteBookViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 

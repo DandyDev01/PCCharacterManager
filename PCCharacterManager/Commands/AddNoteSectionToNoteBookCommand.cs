@@ -14,9 +14,9 @@ namespace PCCharacterManager.Commands
 	public class AddNoteSectionToNoteBookCommand : BaseCommand
 	{
 		private readonly CharacterNoteBookViewModel viewModel;
-		private readonly DialogService _dialogService;
+		private readonly DialogServiceBase _dialogService;
 
-		public AddNoteSectionToNoteBookCommand(CharacterNoteBookViewModel _viewModel, DialogService dialogService)
+		public AddNoteSectionToNoteBookCommand(CharacterNoteBookViewModel _viewModel, DialogServiceBase dialogService)
 		{
 			viewModel = _viewModel;
 			_dialogService = dialogService;

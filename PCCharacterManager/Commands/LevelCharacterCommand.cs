@@ -12,11 +12,11 @@ namespace PCCharacterManager.Commands
 	public class LevelCharacterCommand : BaseCommand
 	{
 		private readonly CharacterStore _characterStore;
-		private readonly DnD5eCharacterLeveler _dnd5eLeveler;
+		private readonly DnD5eDialogStreamCharacterLeveler _dnd5eLeveler;
 		private readonly StarfinderCharacterLeveler _starfinderLeveler;
 		private CharacterLeveler _leveler;
 
-		public LevelCharacterCommand(CharacterStore characterStore, DialogService dialogService)
+		public LevelCharacterCommand(CharacterStore characterStore, DialogServiceBase dialogService)
 		{
 			_characterStore = characterStore;
 			_dnd5eLeveler = new(dialogService);

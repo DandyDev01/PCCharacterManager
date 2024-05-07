@@ -9,10 +9,9 @@ using System.Windows;
 
 namespace PCCharacterManager.Services
 {
-	// https://www.youtube.com/watch?v=S8hEjLahNtU
-	public class DialogService
+	public abstract class DialogServiceBase
 	{
-		private static Dictionary<Type, Type> _mappings = new Dictionary<Type, Type>();
+		protected static Dictionary<Type, Type> _mappings = new Dictionary<Type, Type>();
 
 		/// <summary>
 		/// Registering is done in the MainWindow.xaml.cs file
@@ -27,7 +26,13 @@ namespace PCCharacterManager.Services
 			_mappings.Add(typeof(TViewModel), typeof(TView));
 		}
 
-		public void ShowDialog<TView, TViewModel>(TViewModel dataContext, Action<string> callBack)
+		public abstract void ShowDialog<TView, TViewModel>(TViewModel dataContext, Action<string> callBack);
+	}
+
+	// https://www.youtube.com/watch?v=S8hEjLahNtU
+	public class DialogService : DialogServiceBase
+	{
+		public override void ShowDialog<TView, TViewModel>(TViewModel dataContext, Action<string> callBack)
 		{
 			var dialogWindow = _mappings[typeof(TViewModel)];
 

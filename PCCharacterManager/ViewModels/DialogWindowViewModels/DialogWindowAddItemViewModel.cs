@@ -21,7 +21,7 @@ namespace PCCharacterManager.ViewModels
 		private ObservableCollection<ItemViewModel> AllItemVMs { get; }
 		public CharacterInventoryViewModel InventoryVM { get; }
 
-		public DialogWindowAddItemViewModel(DialogService dialogService)
+		public DialogWindowAddItemViewModel(DialogServiceBase dialogService)
 		{
 			IEnumerable<Item> allItems = ReadWriteJsonCollection<Item>.ReadCollection(DnD5eResources.AllItemsJson);
 			AllItemVMs = new ObservableCollection<ItemViewModel>();

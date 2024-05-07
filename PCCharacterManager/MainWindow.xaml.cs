@@ -28,17 +28,18 @@ namespace PCCharacterManager
 		public MainWindow()
 		{
 			InitializeComponent();
-			DialogService.RegisterDialog<DialogWindowAddAugmentationViewModel, AddAugmentationDialogWindow>();
-			DialogService.RegisterDialog<DialogWindowAddConditionViewModel, AddConditionDialogWindow>();
-			DialogService.RegisterDialog<DialogWindowAddFeatureViewModel, AddFeatureDialogWindow>();
-			DialogService.RegisterDialog<DialogWindowAddItemViewModel, AddItemDialogWindow>();
-			DialogService.RegisterDialog<DialogWindowAddSpellViewModel, AddSpellDialogWindow>();
-			DialogService.RegisterDialog<DialogWindowChangeHealthViewModel, ChangeHealthDialogWindow>();
-			DialogService.RegisterDialog<DialogWindowCharacterCreaterViewModel, CreateCharacterDialogWindow>();
-			DialogService.RegisterDialog<DialogWindowEditCharacterViewModel, EditCharacterDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowAddAugmentationViewModel, AddAugmentationDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowAddConditionViewModel, AddConditionDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowAddFeatureViewModel, AddFeatureDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowAddItemViewModel, AddItemDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowAddSpellViewModel, AddSpellDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowChangeHealthViewModel, ChangeHealthDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowCharacterCreaterViewModel, CreateCharacterDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowEditCharacterViewModel, EditCharacterDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowDnD5eCharacterLevelupViewModel, DnD5eLevelupCharacterDialogWindow>();
 			//DialogService.RegisterDialog<DialogWindowSelectAbilityViewModel, SelectAbilityToIncreaseScoreDialogWindow>();
-			DialogService.RegisterDialog<DialogWindowSelectStingValueViewModel, SelectStringValueDialogWindow>();
-			DialogService.RegisterDialog<DialogWindowStringInputViewModel, StringInputDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowSelectStingValueViewModel, SelectStringValueDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowStringInputViewModel, StringInputDialogWindow>();
 		}
 
 		private void DarkMode_Click(object sender, RoutedEventArgs e)

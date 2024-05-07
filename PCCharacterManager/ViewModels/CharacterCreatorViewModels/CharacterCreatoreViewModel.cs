@@ -23,7 +23,7 @@ namespace PCCharacterManager.ViewModels
 	/// </summary>
 	public class CharacterCreatorViewModel : CharactorCreatorViewModelBase, INotifyDataErrorInfo
 	{
-		private readonly DialogService _dialogService;
+		private readonly DialogServiceBase _dialogService;
 
 		private string _name;
 		public string Name
@@ -129,7 +129,7 @@ namespace PCCharacterManager.ViewModels
 		public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 		public bool HasErrors => propertyNameToError.Any();
 
-		public CharacterCreatorViewModel(DialogService dialogService)
+		public CharacterCreatorViewModel(DialogServiceBase dialogService)
 		{
 			_newCharacter = new DnD5eCharacter();
 			_dialogService = dialogService;

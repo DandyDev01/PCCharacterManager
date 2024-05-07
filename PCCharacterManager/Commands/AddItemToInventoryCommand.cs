@@ -15,9 +15,9 @@ namespace PCCharacterManager.Commands
 	public class AddItemToInventoryCommand : BaseCommand
 	{
 		private readonly CharacterInventoryViewModel vm;
-		private readonly DialogService _dialogService;
+		private readonly DialogServiceBase _dialogService;
 
-		public AddItemToInventoryCommand(CharacterInventoryViewModel _vm, DialogService dialogService)
+		public AddItemToInventoryCommand(CharacterInventoryViewModel _vm, DialogServiceBase dialogService)
 		{
 			vm = _vm;
 			_dialogService = dialogService;

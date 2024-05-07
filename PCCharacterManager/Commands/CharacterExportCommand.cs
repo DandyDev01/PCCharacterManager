@@ -15,12 +15,12 @@ namespace PCCharacterManager.Commands
 {
 	public class CharacterExportCommand : BaseCommand
 	{
-		private DialogService _dialogService;
+		private DialogServiceBase _dialogService;
 		private readonly CharacterStore _characterStore;
 		private readonly TabControlViewModel _tabVM;
 
 		public CharacterExportCommand(CharacterStore characterStore, TabControlViewModel tabVM, 
-			DialogService dialogService)
+			DialogServiceBase dialogService)
 		{
 			_characterStore = characterStore;
 			_tabVM = tabVM;

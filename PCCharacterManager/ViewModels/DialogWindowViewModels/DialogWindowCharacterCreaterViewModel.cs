@@ -86,7 +86,7 @@ namespace PCCharacterManager.ViewModels
 		public StarfinderCharacterCreatorViewModel StarfinderCharacterCreatorVM { get; }
 		public Array CharacterTypes { get; } = Enum.GetValues(typeof(CharacterType));
 
-		public DialogWindowCharacterCreaterViewModel(CharacterStore characterStore, DialogService dialogService)
+		public DialogWindowCharacterCreaterViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
 		{
 			DnD5eCharacterCreator = new CharacterCreatorViewModel(dialogService);
 			StarfinderCharacterCreatorVM = new StarfinderCharacterCreatorViewModel(dialogService);

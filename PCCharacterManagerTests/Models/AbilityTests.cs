@@ -19,13 +19,13 @@ namespace PCCharacterManagerTests.Models
 		[TestMethod()]
 		public void SetProfBonusTest()
 		{
-
+			
 		}
 
 		[TestMethod()]
 		public void SetSaveTest()
 		{
-
+			
 		}
 
 		[TestMethod()]
@@ -37,7 +37,11 @@ namespace PCCharacterManagerTests.Models
 		[TestMethod()]
 		public void SetProfSaveTest()
 		{
-
+			Ability ability = new Ability();
+			Assert.IsFalse(ability.ProfSave);
+			
+			ability.ProfSave = true;
+			Assert.IsTrue(ability.ProfSave);
 		}
 
 		[TestMethod()]

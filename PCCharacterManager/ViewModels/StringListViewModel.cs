@@ -14,7 +14,7 @@ namespace PCCharacterManager.ViewModels
 {
 	public class StringListViewModel : ObservableObject
 	{
-		private readonly DialogService _dialogService;
+		private readonly DialogServiceBase _dialogService;
 		private readonly string _listName;
 		public string ListName => _listName;
 
@@ -40,7 +40,7 @@ namespace PCCharacterManager.ViewModels
 		public Action<string>? OnAddItem;
 		public Action<string>? OnRemoveItem;
 
-		public StringListViewModel(string listName, ObservableCollection<string> item, DialogService dialogService)
+		public StringListViewModel(string listName, ObservableCollection<string> item, DialogServiceBase dialogService)
 		{
 			_listName = listName;
 			ItemsToDisplay = item;

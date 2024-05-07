@@ -14,9 +14,9 @@ namespace PCCharacterManager.Commands
 	public class CreateCharacterCommand : BaseCommand
 	{
 		private readonly CharacterStore characterStore;
-		private readonly DialogService _dialogService;
+		private readonly DialogServiceBase _dialogService;
 
-		public CreateCharacterCommand(CharacterStore _characterStore, DialogService dialogService)
+		public CreateCharacterCommand(CharacterStore _characterStore, DialogServiceBase dialogService)
 		{
 			characterStore = _characterStore;
 			_dialogService = dialogService;

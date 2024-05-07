@@ -16,7 +16,7 @@ namespace PCCharacterManager.ViewModels
 {
 	public class StarfinderCharacterInfoViewModel : CharacterInfoViewModel
 	{
-		private readonly DialogService _dialogService;
+		private readonly DialogServiceBase _dialogService;
 
 		public PropertyListViewModel RaceFeatureListVM { get; protected set; }
 		public PropertyListViewModel ClassFeatureListVM { get; protected set; }
@@ -82,7 +82,7 @@ namespace PCCharacterManager.ViewModels
 
 		public PropertyListViewModel ThemeListVM { get; private set; }
 
-		public StarfinderCharacterInfoViewModel(CharacterStore characterStore, DialogService dialogService) 
+		public StarfinderCharacterInfoViewModel(CharacterStore characterStore, DialogServiceBase dialogService) 
 			: base(characterStore, dialogService)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChange;

@@ -16,7 +16,7 @@ namespace PCCharacterManager.ViewModels
 {
 	public class DialogWindowEditCharacterViewModel : ObservableObject
 	{
-		private readonly DialogService _dialogService;
+		private readonly DialogServiceBase _dialogService;
 
 		public Array HitDice { get; } = Enum.GetValues(typeof(HitDie));
 		public DnD5eCharacter Character { get; }
@@ -27,7 +27,7 @@ namespace PCCharacterManager.ViewModels
 		public StringListViewModel ToolProfsVM { get; }
 		public StringListViewModel OtherProfsVM { get; }
 		
-		public DialogWindowEditCharacterViewModel(DnD5eCharacter character, DialogService dialogService)
+		public DialogWindowEditCharacterViewModel(DnD5eCharacter character, DialogServiceBase dialogService)
 		{
 			_dialogService = dialogService;
 			Character = character;

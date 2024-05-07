@@ -54,7 +54,7 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public CharacterStatsViewModel(CharacterStore characterStore, DialogService dialogService)
+		public CharacterStatsViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 

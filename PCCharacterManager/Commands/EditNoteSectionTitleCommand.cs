@@ -13,9 +13,9 @@ namespace PCCharacterManager.Commands
 	public class EditNoteSectionTitleCommand : BaseCommand
 	{
 		private readonly CharacterNoteBookViewModel viewModel;
-		private readonly DialogService _dialogService;
+		private readonly DialogServiceBase _dialogService;
 
-		public EditNoteSectionTitleCommand(CharacterNoteBookViewModel _viewModel, DialogService dialogService)
+		public EditNoteSectionTitleCommand(CharacterNoteBookViewModel _viewModel, DialogServiceBase dialogService)
 		{
 			viewModel = _viewModel;
 			_dialogService = dialogService;

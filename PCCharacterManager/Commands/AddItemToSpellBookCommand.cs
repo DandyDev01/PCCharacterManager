@@ -15,10 +15,10 @@ namespace PCCharacterManager.Commands
 	public class AddItemToSpellBookCommand : BaseCommand
 	{
 		private readonly CharacterSpellBookViewModel _spellBookViewModel;
-		private readonly DialogService _dialogService;
+		private readonly DialogServiceBase _dialogService;
 		private readonly SpellType _spellType;
 
-		public AddItemToSpellBookCommand(CharacterSpellBookViewModel spellBookViewModel, SpellType spellType, DialogService dialogService)
+		public AddItemToSpellBookCommand(CharacterSpellBookViewModel spellBookViewModel, SpellType spellType, DialogServiceBase dialogService)
 		{
 			_spellBookViewModel = spellBookViewModel;
 			_spellType = spellType;

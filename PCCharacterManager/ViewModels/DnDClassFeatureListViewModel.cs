@@ -14,12 +14,12 @@ namespace PCCharacterManager.ViewModels
 {
 	public class DnDClassFeatureListViewModel : PropertyListViewModel
 	{
-		private readonly DialogService _dialogService;
+		private readonly DialogServiceBase _dialogService;
 
 		public new ObservableCollection<DnD5eCharacterClassFeature> ItemsToDisplay { get; }
 
 		public DnDClassFeatureListViewModel(string _listName, ObservableCollection<DnD5eCharacterClassFeature> _item, 
-			DialogService dialogService) : base(_listName, dialogService)
+			DialogServiceBase dialogService) : base(_listName, dialogService)
 		{
 			ItemsToDisplay = _item;
 			AddItemCommand = new RelayCommand(AddItem);

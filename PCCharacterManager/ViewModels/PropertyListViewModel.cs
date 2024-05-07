@@ -16,7 +16,7 @@ namespace PCCharacterManager.ViewModels
 {
 	public class PropertyListViewModel : ObservableObject
 	{
-		private readonly DialogService _dialogService;
+		private readonly DialogServiceBase _dialogService;
 
 		private string _listName;
 		public string ListName
@@ -54,7 +54,7 @@ namespace PCCharacterManager.ViewModels
 		public Action<Property>? OnAddItem;
 		public Action<Property>? OnRemoveItem;
 
-		public PropertyListViewModel(string listName, ObservableCollection<Property> item, DialogService dialogService)
+		public PropertyListViewModel(string listName, ObservableCollection<Property> item, DialogServiceBase dialogService)
 		{
 			_listName = listName;
 			ItemsToDisplay = item;
@@ -66,7 +66,7 @@ namespace PCCharacterManager.ViewModels
 			PropertyItemReceivedCommand = new PropertyItemReceivedCommand();
 		}
 
-		public PropertyListViewModel(string listName, DialogService dialogService)
+		public PropertyListViewModel(string listName, DialogServiceBase dialogService)
 		{
 			_dialogService = dialogService;
 			_listName = listName;

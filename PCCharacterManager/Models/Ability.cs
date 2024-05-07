@@ -88,7 +88,8 @@ namespace PCCharacterManager.Models
 		/// <exception cref="Exception">when _profBonus is below 0</exception>
 		public void SetProfBonus(int profBonus)
 		{
-			if (profBonus <= 0) throw new Exception("param _profBonus must be greater than 0");
+			if (profBonus <= 0) 
+				throw new Exception("param _profBonus must be greater than 0");
 
 			if (profBonus < 2)
 				profBonus = 2;

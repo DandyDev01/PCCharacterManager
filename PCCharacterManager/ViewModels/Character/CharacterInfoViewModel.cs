@@ -21,7 +21,7 @@ namespace PCCharacterManager.ViewModels
 	{
 		private readonly CollectionViewPropertySort _collectionViewPropertySort;
 		private readonly CharacterStore _characterStore;
-		private readonly DialogService _dialogService;
+		private readonly DialogServiceBase _dialogService;
 
 		private DnD5eCharacter _selectedCharacter;
 		public DnD5eCharacter SelectedCharacter
@@ -129,7 +129,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand StartEncounterCommand { get; }
 		public ICommand EndEncounterCommand { get; }
 
-		public CharacterInfoViewModel(CharacterStore characterStore, DialogService dialogService)
+		public CharacterInfoViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
 		{
 			_characterStore = characterStore;
 

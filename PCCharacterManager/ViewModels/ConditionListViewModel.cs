@@ -18,7 +18,7 @@ namespace PCCharacterManager.ViewModels
 {
     public class ConditionListViewModel : ObservableObject
     {
-		private DialogService _dialogService;
+		private DialogServiceBase _dialogService;
 
 		private string _listName;
 		public string ListName
@@ -56,7 +56,7 @@ namespace PCCharacterManager.ViewModels
 		public Action<Condition>? OnAddItem;
 		public Action<Condition>? OnRemoveItem;
 
-		public ConditionListViewModel(string listName, ObservableCollection<Condition> item, DialogService dialogService)
+		public ConditionListViewModel(string listName, ObservableCollection<Condition> item, DialogServiceBase dialogService)
 		{
 			_listName = listName;
 			ItemsToDisplay = item;
@@ -69,7 +69,7 @@ namespace PCCharacterManager.ViewModels
 			_dialogService = dialogService;
 		}
 
-		public ConditionListViewModel(string listName, DialogService dialogService)
+		public ConditionListViewModel(string listName, DialogServiceBase dialogService)
 		{
 			_dialogService = dialogService;
 			_listName = listName;

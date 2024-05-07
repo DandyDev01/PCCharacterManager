@@ -360,7 +360,6 @@
                 <v:ConditionListView DataContext="{Binding ConditionsListVM}" />
             </ContentControl>
 
-
             <Label
                 Grid.Row="13"
                 Grid.RowSpan="1"

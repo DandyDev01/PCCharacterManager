@@ -31,7 +31,7 @@ namespace PCCharacterManager.ViewModels
 
 		private readonly CharacterStore _characterStore;
 		private readonly ICharacterDataService _dataService;
-		private readonly DialogService _dialogService;
+		private readonly DialogServiceBase _dialogService;
 
 		public ICommand NewCharacterCommand { get; }
 		public ICommand DeleteCharacterCommand { get; }

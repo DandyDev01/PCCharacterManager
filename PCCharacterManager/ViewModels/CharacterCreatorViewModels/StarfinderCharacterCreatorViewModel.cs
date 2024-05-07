@@ -19,7 +19,7 @@ namespace PCCharacterManager.ViewModels
 {
 	public class StarfinderCharacterCreatorViewModel : CharactorCreatorViewModelBase, INotifyDataErrorInfo
 	{
-		private readonly DialogService _dialogService;
+		private readonly DialogServiceBase _dialogService;
 
 		private string _name;
 		public string Name
@@ -99,7 +99,7 @@ namespace PCCharacterManager.ViewModels
 		public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 		public bool HasErrors => propertyNameToError.Any();
 
-		public StarfinderCharacterCreatorViewModel(DialogService dialogService)
+		public StarfinderCharacterCreatorViewModel(DialogServiceBase dialogService)
 		{
 			_dialogService = dialogService;
 			propertyNameToError = new Dictionary<string, List<string>>();
