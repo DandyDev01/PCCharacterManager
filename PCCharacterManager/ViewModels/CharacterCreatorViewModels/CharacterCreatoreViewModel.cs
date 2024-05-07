@@ -659,6 +659,33 @@ namespace PCCharacterManager.ViewModels
 			IsValid = !HasErrors;
 		}
 	
-		
+		public static DnD5eCharacter CreateRamdonCharacter()
+		{
+			var characterClassData = ReadWriteJsonCollection<DnD5eCharacterClassData>
+				.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray().GetRandom();
+
+			var characterBackgroundData = ReadWriteJsonCollection<DnD5eBackgroundData>
+				.ReadCollection(DnD5eResources.BackgroundDataJson).ToArray().GetRandom();
+
+			var characterRaceData = ReadWriteJsonCollection<DnD5eCharacterRaceData>
+				.ReadCollection(DnD5eResources.RaceDataJson).ToArray().GetRandom();
+			var characterRaceVarient = characterRaceData.Variants.ToArray().GetRandom();	
+
+			characterRaceData.RaceVariant = characterRaceVarient;
+
+			DnD5eCharacter character = new(characterClassData, characterRaceData, characterBackgroundData);
+			character.Name = "John Doe";
+
+			// roll abilities
+			RollDie rollDie = new();
+			for (int i = 0; i < 6; i++)
+			{
+				character.Abilities[i].Score = rollDie.AbilityScoreRoll();
+			}
+
+			// TODO: deal with languages, starting equipment, etc.
+
+			return character;
+		}
 	}
 }

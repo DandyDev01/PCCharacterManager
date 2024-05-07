@@ -20,15 +20,18 @@ namespace PCCharacterManager.Models
 		/// Open a serise of dialog windows to level up the character.
 		/// </summary>
 		/// <param name="character">The character to levelup</param>
-		public override void LevelCharacter(DnD5eCharacter character)
+		public override bool LevelCharacter(DnD5eCharacter character)
 		{
+			if (character is null)
+				throw new NullReferenceException("Character cannot be null");
+
 			MessageBoxResult result = AskToAddClass();
 			if (result == MessageBoxResult.Yes)
 			{
 				string classToAddName = GetClassToAddName(character, character.CharacterClass.Name);
 
 				if (classToAddName == string.Empty)
-					return;
+					return false;
 
 				AddClassHelper addClassHelper = AddClass(character, classToAddName);
 
@@ -36,7 +39,7 @@ namespace PCCharacterManager.Models
 				{
 					MultiClass helper = UpdateMaxHealth(character);
 					if (helper.success == false)
-						return;
+						return false;
 
 					UpdateCharacterClassName(character, helper.className, helper.classLevel);
 					UnLockClassFeatures(character, helper.className, helper.classLevel);
@@ -45,13 +48,13 @@ namespace PCCharacterManager.Models
 			}
 			else if (result == MessageBoxResult.Cancel)
 			{
-				return;
+				return false;
 			}
 			else if (result == MessageBoxResult.No)
 			{
 				MultiClass helper = UpdateMaxHealth(character);
 				if (helper.success == false)
-					return;
+					return false;
 
 				character.CharacterClass.Level.LevelUp();
 
@@ -64,6 +67,8 @@ namespace PCCharacterManager.Models
 			{
 				ability.SetProfBonus(character.Level.ProficiencyBonus);
 			}
+
+			return true;
 		}
 
 		/// <summary>
@@ -139,7 +144,7 @@ namespace PCCharacterManager.Models
 		/// <returns>Weather or not a class will be added.</returns>
 		private MessageBoxResult AskToAddClass()
 		{
-			return MessageBox.Show("Would you like to add another class?",
+			return _dialogService.ShowMessage("Would you like to add another class?",
 				"Add Class", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 		}
 
@@ -191,8 +196,8 @@ namespace PCCharacterManager.Models
 			MultiClass helper = MultiClassHelper(character);
 			helper.success = false;
 
-			var message = MessageBox.Show("Would you like to manually enter a new max health",
-				"", MessageBoxButton.YesNoCancel);
+			var message = _dialogService.ShowMessage("Would you like to manually enter a new max health",
+				"", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
 			if (message == MessageBoxResult.Yes)
 			{
@@ -471,6 +476,9 @@ namespace PCCharacterManager.Models
 		{
 			DialogWindowStringInputViewModel windowVM =
 				new DialogWindowStringInputViewModel();
+
+			windowVM.Answer = character.Health.MaxHealth.ToString();
+
 			string result = string.Empty;
 			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM, r =>
 			{

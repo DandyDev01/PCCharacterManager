@@ -27,6 +27,12 @@ namespace PCCharacterManager.Services
 		}
 
 		public abstract void ShowDialog<TView, TViewModel>(TViewModel dataContext, Action<string> callBack);
+
+		public virtual MessageBoxResult ShowMessage(string message, string caption, MessageBoxButton button, 
+			MessageBoxImage image)
+		{
+			return MessageBox.Show(message, caption, button, image);
+		}
 	}
 
 	// https://www.youtube.com/watch?v=S8hEjLahNtU

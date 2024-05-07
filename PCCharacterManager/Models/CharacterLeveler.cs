@@ -20,6 +20,6 @@ namespace PCCharacterManager.Models
 			_dialogService = dialogService;
 		}
 
-		public abstract void LevelCharacter(DnD5eCharacter character);
+		public abstract bool LevelCharacter(DnD5eCharacter character);
 	}
 }

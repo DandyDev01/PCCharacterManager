@@ -28,5 +28,14 @@ namespace PCCharacterManager
 		{
 			return collection.Where(p).Any();
 		}
+
+		public static T GetRandom<T>(this T[] array)
+		{
+			int randomIndex = new Random().Next(0, array.Length);
+
+			T random = array[randomIndex];
+
+			return random;
+		}
 	}
 }

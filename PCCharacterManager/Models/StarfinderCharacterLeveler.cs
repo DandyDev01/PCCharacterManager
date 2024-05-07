@@ -14,10 +14,12 @@ namespace PCCharacterManager.Models
 		{
 		}
 
-		public override void LevelCharacter(DnD5eCharacter character)
+		public override bool LevelCharacter(DnD5eCharacter character)
 		{
 			MessageBox.Show("Automatic Starfinder character leveling is not yet implemented.",
 				"Action Not Yet Supported.", MessageBoxButton.OK, MessageBoxImage.Information);
+
+			return false;
 		}
 	}
 }

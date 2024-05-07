@@ -24,6 +24,7 @@
         <ListView
             Grid.Row="1"
             ItemsSource="{Binding Items}"
+            SelectedIndex="0"
             SelectedItem="{Binding ListSelectedItem}">
             <ListView.ItemTemplate>
                 <DataTemplate>

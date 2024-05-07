@@ -19,7 +19,7 @@ namespace PCCharacterManager.Models
 		/// Opens a dialog window for the user to levelup the character.
 		/// </summary>
 		/// <param name="character">The character to level up</param>
-		public override void LevelCharacter(DnD5eCharacter character)
+		public override bool LevelCharacter(DnD5eCharacter character)
 		{
 			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(_dialogService);
 
@@ -31,9 +31,11 @@ namespace PCCharacterManager.Models
 			});
 
 			if (result == false.ToString())
-				return;
+				return false;
 
 			vm.ProcessLevelup();
+
+			return true;
 		}
 	}
 }
