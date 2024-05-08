@@ -21,7 +21,7 @@ namespace PCCharacterManager.Models
 		/// <param name="character">The character to level up</param>
 		public override bool LevelCharacter(DnD5eCharacter character)
 		{
-			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(_dialogService);
+			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(_dialogService, character);
 
 			string result = string.Empty;
 			_dialogService.ShowDialog<DnD5eLevelupCharacterDialogWindow, 

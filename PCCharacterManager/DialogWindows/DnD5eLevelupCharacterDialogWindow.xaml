@@ -105,11 +105,13 @@
         <Button
             Grid.Row="7"
             Grid.Column="7"
+            Click="Levelup_Button_Click"
             Content="Level up"
             IsDefault="True" />
         <Button
             Grid.Row="7"
             Grid.Column="6"
+            Click="Cancel_Button_Click"
             Content="Cancel"
             IsCancel="True"
             IsDefault="false" />
