@@ -80,7 +80,7 @@ namespace PCCharacterManager.Models
 		private void AddNewClassProficiences(DnD5eCharacter character, string className)
 		{
 			var classData = ReadWriteJsonCollection<CharacterMultiClassData>
-			.ReadCollection(DnD5eResources.MultiClassDataJson).Where(x => x.Name == className).First();
+				.ReadCollection(DnD5eResources.MultiClassDataJson).Where(x => x.Name == className).First();
 
 			if (classData is null)
 				throw new Exception("Could not find data for class " + className);

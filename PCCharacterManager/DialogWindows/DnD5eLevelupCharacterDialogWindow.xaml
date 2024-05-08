@@ -44,11 +44,15 @@
         <ListView
             Grid.Row="2"
             Grid.RowSpan="5"
-            Grid.ColumnSpan="2" />
+            Grid.ColumnSpan="2"
+            ItemsSource="{Binding ClassesToDisplay}"
+            SelectedIndex="0"
+            SelectedItem="{Binding SelectedCharacterClass}" />
         <Button
             Grid.Row="7"
             Grid.Column="0"
             Grid.ColumnSpan="2"
+            Command="{Binding AddClassCommand}"
             Content="Add Class" />
 
         <Label
@@ -58,7 +62,7 @@
         <TextBlock
             Grid.Row="2"
             Grid.Column="2"
-            Text="{Binding SelectedClass, FallbackValue=class}" />
+            Text="{Binding SelectedCharacterClass.Name, FallbackValue=class}" />
 
         <Label
             Grid.Row="1"
@@ -67,7 +71,7 @@
         <TextBlock
             Grid.Row="2"
             Grid.Column="3"
-            Text="{Binding SelectedClassLevel, FallbackValue=1}" />
+            Text="{Binding SelectedCharacterClass.Level.Level, FallbackValue=1}" />
 
         <Label
             Grid.Row="1"
@@ -76,7 +80,7 @@
         <TextBlock
             Grid.Row="2"
             Grid.Column="4"
-            Text="{Binding SelectedClassHitDie, FallbackValue=D4}" />
+            Text="{Binding SelectedCharacterClass.HitDie, FallbackValue=D4}" />
 
         <Label
             Grid.Row="1"
@@ -89,6 +93,7 @@
         <Button
             Grid.Row="3"
             Grid.Column="5"
+            Command="{Binding RollHitdieCommand}"
             Content="Roll Hitdie" />
 
         <Label

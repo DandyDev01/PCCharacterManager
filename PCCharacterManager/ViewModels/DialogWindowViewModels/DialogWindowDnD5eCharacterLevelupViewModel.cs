@@ -5,6 +5,7 @@ using PCCharacterManager.Services;
 using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,34 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 		private readonly DialogServiceBase _dialogService;
 		private readonly DnD5eCharacter _character;
 
+		private DnD5eCharacterClassData _selectedCharacterClass;
+		public DnD5eCharacterClassData SelectedCharacterClass
+		{
+			get
+			{
+				return _selectedCharacterClass;
+			}
+			set
+			{
+				OnPropertyChanged(ref _selectedCharacterClass, value);
+			}
+		}
+
+		private int _maxHealth;
+		public int MaxHealth
+		{
+			get
+			{
+				return _maxHealth;
+			}
+			set
+			{
+				OnPropertyChanged(ref _maxHealth, value);
+			}
+		}
+
+		public ObservableCollection<DnD5eCharacterClassData> ClassesToDisplay { get; }
+
 		public ICommand AddClassCommand { get; }
 		public ICommand RollHitdieCommand { get; }
 
@@ -24,8 +53,49 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 		{
 			_dialogService = dialogService;
 			_character = character;
+
+			ClassesToDisplay = new(GetClassesToDisplay(character));
+			_selectedCharacterClass = ClassesToDisplay[0];
+
 			AddClassCommand = new RelayCommand(AddClass);
 			RollHitdieCommand = new RelayCommand(RollForMaxHealth);
+		}
+
+		/// <summary>
+		/// Gets data about the classes the character has.
+		/// </summary>
+		/// <param name="character">Character to get class data from.</param>
+		/// <returns>Array of class data for each class the character has.</returns>
+		/// <exception cref="Exception">Could not find data on any of the characters classes.</exception>
+		/// <exception cref="ArithmeticException">Could not get the level from one of the classes the character has.</exception>
+		private DnD5eCharacterClassData[] GetClassesToDisplay(DnD5eCharacter character)
+		{
+			List<DnD5eCharacterClassData> results = new();
+			var classData = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray();
+			var characterClassNames = character.CharacterClass.Name.Split('/');
+			var classLevels = new int[characterClassNames.Length];
+
+			for (int i = 0; i < characterClassNames.Length; i++)
+			{
+				string name = characterClassNames[i].Substring(0, characterClassNames[i].IndexOf(" "));
+				characterClassNames[i] = name;
+				
+				string level = characterClassNames[i].Substring(characterClassNames[i].IndexOf(" "));
+				if (int.TryParse(level, out classLevels[i]) == false)
+					throw new ArithmeticException("Could not get level.");
+			}
+
+			results.AddRange(classData.Where(x => characterClassNames.Contains(x.Name)));
+
+			if (results.Any() == false)
+				throw new Exception("Could not find any classes");
+
+			for (int i = 0; i < results.Count; i++)
+			{
+				results[i].Level.Level = classLevels[i];
+			}
+
+			return results.ToArray();
 		}
 
 		private void AddClass()
