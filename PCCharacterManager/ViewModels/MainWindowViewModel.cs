@@ -56,7 +56,7 @@ namespace PCCharacterManager.ViewModels
 			_currView = _tabVM;
 
 			NewCharacterCommand = new CreateCharacterCommand(_characterStore, _dialogService);
-			DeleteCharacterCommand = new DeleteCharacterCommand(_tabVM.CharacterListVM, _dataService, _characterStore);
+			DeleteCharacterCommand = new DeleteCharacterCommand(_tabVM.CharacterListVM, _dataService, _characterStore, _dialogService);
 			SaveCharactersCommand = new SaveCharacterCommand(this);
 			LevelCharacterCommand = new LevelCharacterCommand(_characterStore, _dialogService);
 			ExportCharacterCommand = new CharacterExportCommand(_characterStore, _tabVM, _dialogService);

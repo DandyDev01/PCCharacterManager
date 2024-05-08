@@ -26,6 +26,7 @@ namespace PCCharacterManager.ViewModels
 	{
 		private readonly CharacterStore _characterStore;
 		private readonly ICharacterDataService _dataService;
+		private readonly DialogServiceBase _dialogService;
 		private readonly CollectionViewPropertySort _collectionViewPropertySort;
 
 		public ObservableCollection<CharacterItemViewModel> CharacterItems { get; private set; }
@@ -45,9 +46,10 @@ namespace PCCharacterManager.ViewModels
 		{
 			_characterStore = characterStore;
 			_dataService = dataService;
+			_dialogService = dialogService;
 
 			CreateCharacterCommand = new CreateCharacterCommand(characterStore, dialogService);
-			DeleteCharacterCommand = new DeleteCharacterCommand(this, dataService, characterStore);
+			DeleteCharacterCommand = new DeleteCharacterCommand(this, dataService, characterStore, dialogService);
 
 			_characterStore.CharacterCreate += LoadCharacter;
 			_dataService.OnSave += Update;
@@ -67,7 +69,7 @@ namespace PCCharacterManager.ViewModels
 			List<string> characterPaths = dataService.GetCharacterFilePaths().ToList();
 			for (int i = 0; i < characters.Count; i++)
 			{
-				CharacterItemViewModel characterItemVM = new(this._characterStore, characters[i], characterPaths[i]);
+				CharacterItemViewModel characterItemVM = new(this._characterStore, characters[i], characterPaths[i], dialogService);
 				characterItemVM.DeleteAction += DeleteCharacter;
 
 				CharacterItems.Add(characterItemVM);
@@ -115,7 +117,7 @@ namespace PCCharacterManager.ViewModels
 			if (character == null)
 				return;
 
-			CharacterItemViewModel characterItemVM = CharacterItemVMFactory.Create(character, _characterStore);
+			CharacterItemViewModel characterItemVM = CharacterItemVMFactory.Create(character, _characterStore, _dialogService);
 			characterItemVM.DeleteAction += DeleteCharacter;
 
 			CharacterItems.Add(characterItemVM);

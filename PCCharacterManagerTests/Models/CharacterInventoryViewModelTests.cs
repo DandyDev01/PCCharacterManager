@@ -4,6 +4,7 @@ using PCCharacterManager.Stores;
 using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,6 +61,21 @@ namespace PCCharacterManagerTests.Models
 
 			vm.CalculateInventoryWeight();
 			Assert.AreEqual(vm.InventoryWeight, item.Weight + "/" + character.CarryWeight);
+		}
+
+		[TestMethod]
+		public void OtherConstructor()
+		{
+			var items = ReadWriteJsonCollection<Item>.ReadCollection(DnD5eResources.AllItemsJson);
+			ObservableCollection<ItemViewModel> itemVMs = new ObservableCollection<ItemViewModel>();
+
+			foreach (var item in items)
+			{
+				itemVMs.Add(new ItemViewModel(item));
+			}
+
+			var dialogService = new PassDialogService();
+			CharacterInventoryViewModel vm = new(itemVMs, dialogService);
 		}
 	}
 }

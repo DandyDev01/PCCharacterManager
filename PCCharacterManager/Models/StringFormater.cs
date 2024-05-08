@@ -178,6 +178,9 @@ namespace PCCharacterManager.Models
 		/// <returns></returns>
 		public static T? ReadFile(string filePath)
 		{
+			if (File.Exists(filePath) == false)
+				return default(T);
+
 			var serializedObject = File.ReadAllText(filePath);
 			var objectType = JsonConvert.DeserializeObject<T>(serializedObject);
 

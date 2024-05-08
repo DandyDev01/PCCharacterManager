@@ -655,6 +655,8 @@ namespace PCCharacterManager.ViewModels
 			DnD5eCharacter character = new(characterClassData, characterRaceData, characterBackgroundData);
 			character.Name = "John Doe";
 
+			character.DateModified = DateTime.Now.ToString();
+
 			// roll abilities
 			RollDie rollDie = new();
 			for (int i = 0; i < 6; i++)

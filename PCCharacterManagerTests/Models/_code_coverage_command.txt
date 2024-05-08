@@ -1,5 +1,7 @@
 code coverage command
-D:\Documents\repos\C#\PCCharacterManager\PCCharacterManagerTests> coverlet .\bin\Debug\net6.0-windows\PCCharacterManager.dll --target "dotnet" --targetargs "test --no-build"
+dotnet build // from the project test directory
+
+PS D:\Documents\repos\C#\PCCharacterManager\PCCharacterManagerTests> coverlet .\bin\Debug\net6.0-windows\PCCharacterManager.dll --target "dotnet" --targetargs "test --no-build" --exclude "[*]PCCharacterManager.Views*"
  
 D:\Documents\repos\C#\PCCharacterManager\PCCharacterManagerTests> dotnet test --collect: "XPlat Code Coverage"
 
@@ -17,3 +19,11 @@ D:\Documents\repos\C#\PCCharacterManager\PCCharacterManagerTests> reportgenerato
  property
  Note
  rollDie
+ tabControllViewModel
+ DialogWindowAddItemViewModel
+ tabItemViewModel
+ dialogWindowEditCharacterViewModel
+ dialogWindowStringInputViewModel
+ startfinderAbilitiesAndSkillsViewModel
+ dialogWindowAddSpellViewModel
+

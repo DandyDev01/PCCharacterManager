@@ -13,53 +13,55 @@ namespace PCCharacterManager.Commands
 {
 	public class DeleteCharacterCommand : BaseCommand
 	{
-		private readonly CharacterListViewModel characterListVM;
-		private readonly ICharacterDataService dataService;
-		private readonly CharacterStore characterStore;
+		private readonly CharacterListViewModel _characterListVM;
+		private readonly ICharacterDataService _dataService;
+		private readonly CharacterStore _characterStore;
+		private readonly DialogServiceBase _dialogService;
 
-		public DeleteCharacterCommand(CharacterListViewModel _characterListVM, ICharacterDataService _dataService,
-			CharacterStore _characterStore)
+		public DeleteCharacterCommand(CharacterListViewModel characterListVM, ICharacterDataService dataService,
+			CharacterStore characterStore, DialogServiceBase dialogService)
 		{
-			characterListVM = _characterListVM;
-			dataService = _dataService;
-			characterStore = _characterStore;
+			this._characterListVM = characterListVM;
+			_dataService = dataService;
+			_characterStore = characterStore;
+			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			if (characterStore.SelectedCharacter == null)
+			if (_characterStore.SelectedCharacter == null)
 				return;
 
-			string resultsText = "are you sure you want to delete the character " + characterStore.SelectedCharacter.Name + "?";
+			string resultsText = "are you sure you want to delete the character " + _characterStore.SelectedCharacter.Name + "?";
 			string resultsCaption = "Delete Character";
 
-			var results = MessageBox.Show(resultsText, resultsCaption, MessageBoxButton.YesNo, MessageBoxImage.Question);
+			var results = _dialogService.ShowMessage(resultsText, resultsCaption, MessageBoxButton.YesNo, MessageBoxImage.Question);
 
 			if (results == MessageBoxResult.No)
 				return;
 
-			DnD5eCharacter character = characterStore.SelectedCharacter;
-			CharacterItemViewModel? item = characterListVM.CharacterItems.First(x => x.CharacterName == character.Name);
+			DnD5eCharacter character = _characterStore.SelectedCharacter;
+			CharacterItemViewModel? item = _characterListVM.CharacterItems.First(x => x.CharacterName == character.Name);
 
 			if (item == null)
 			{
-				string errorText = "no character with name " + characterStore.SelectedCharacter.Name + " exists";
+				string errorText = "no character with name " + _characterStore.SelectedCharacter.Name + " exists";
 				string errorCaption = "Could not find Character";
 
-				MessageBox.Show(errorText, errorCaption, MessageBoxButton.OK, MessageBoxImage.Error);
+				_dialogService.ShowMessage(errorText, errorCaption, MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
-			dataService.Delete(characterStore.SelectedCharacter);
-			characterListVM.CharacterItems.Remove(item);
+			_dataService.Delete(_characterStore.SelectedCharacter);
+			_characterListVM.CharacterItems.Remove(item);
 
-			if (characterListVM.CharacterItems.Count <= 0)
+			if (_characterListVM.CharacterItems.Count <= 0)
 			{
-				characterListVM.CreateCharacterCommand.Execute(null);
+				_characterListVM.CreateCharacterCommand.Execute(null);
 				return;
 			}
 
-			characterListVM.CharacterItems[0].SelectCharacterCommand?.Execute(null);
+			_characterListVM.CharacterItems[0].SelectCharacterCommand?.Execute(null);
 		}
 	}
 }
