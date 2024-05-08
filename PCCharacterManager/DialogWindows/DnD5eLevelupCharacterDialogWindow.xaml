@@ -10,9 +10,108 @@
     Height="450"
     Background="{DynamicResource 1}"
     mc:Ignorable="d">
-    <Grid>
+    <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="250" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="{Binding CharacterName, FallbackValue=Name}" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Content="Classes" />
+        <ListView
+            Grid.Row="2"
+            Grid.RowSpan="5"
+            Grid.ColumnSpan="2" />
+        <Button
+            Grid.Row="7"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Content="Add Class" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="2"
+            Content="Selected Class" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="2"
+            Text="{Binding SelectedClass, FallbackValue=class}" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="3"
+            Content="Level" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="3"
+            Text="{Binding SelectedClassLevel, FallbackValue=1}" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="4"
+            Content="Hitdie" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="4"
+            Text="{Binding SelectedClassHitDie, FallbackValue=D4}" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="5"
+            Content="Max Health" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="5"
+            Text="{Binding MaxHealth}" />
+        <Button
+            Grid.Row="3"
+            Grid.Column="5"
+            Content="Roll Hitdie" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="6"
+            Grid.ColumnSpan="2"
+            Content="New Features" />
+        <ListView
+            Grid.Row="2"
+            Grid.RowSpan="5"
+            Grid.Column="6"
+            Grid.ColumnSpan="2" />
+
+        <Button
+            Grid.Row="7"
+            Grid.Column="7"
+            Content="Level up"
+            IsDefault="True" />
+        <Button
+            Grid.Row="7"
+            Grid.Column="6"
+            Content="Cancel"
+            IsCancel="True"
+            IsDefault="false" />
     </Grid>
 </Window>

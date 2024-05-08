@@ -104,7 +104,13 @@ namespace PCCharacterManager.ViewModels
 			characterItemVM.DeleteAction -= DeleteCharacter;
 
 			CharacterItems.Remove(characterItemVM);
-			CharacterItems[0].SelectCharacterCommand?.Execute(null);
+			if (CharacterItems.Any())
+				CharacterItems[0].SelectCharacterCommand?.Execute(null);
+			else
+			{
+				CreateCharacterCommand?.Execute(null);
+				CharacterItems[0].SelectCharacterCommand?.Execute(null);
+			}
 		}
 
 		/// <summary>
