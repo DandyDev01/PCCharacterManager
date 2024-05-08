@@ -81,6 +81,26 @@ namespace PCCharacterManager.Models
 			UpdateProfSaveCommand = new RelayCommand(SetProfSave);
 		}
 
+		public Ability(int score, int modifier, int save, bool profSave, int profBonus,
+			string name, string description, AbilitySkill[] skills)
+		{
+			Score = score;
+			Modifier = modifier;
+			Save = save;
+			ProfSave = profSave;
+			_profBonus = profBonus;
+			Score = score;
+			ProfSave = profSave;
+			Name = name;
+			Description = description;
+			Modifier = modifier;
+			Save = save;
+			Skills = skills;
+			UpdateProfSaveCommand = new RelayCommand(SetProfSave);
+		}
+
+
+
 		/// <summary>
 		/// set the proficiency bonus and update associated skill info and ability save info
 		/// </summary>

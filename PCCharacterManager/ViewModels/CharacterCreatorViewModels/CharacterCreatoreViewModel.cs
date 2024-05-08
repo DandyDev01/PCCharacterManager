@@ -210,9 +210,7 @@ namespace PCCharacterManager.ViewModels
 				ability.Score = temp;
 			}
 
-			int id = GetUniqueID();
-
-			_newCharacter.Id = "#" + id;
+			_newCharacter.Id = CharacterIDGenerator.GenerateID();
 
 			_newCharacter.DateModified = DateTime.Now.ToString();
 
@@ -222,25 +220,6 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			return _newCharacter;
-		}
-
-		private static int GetUniqueID()
-		{
-			string[] characterFilePaths = new JsonCharacterDataService().GetCharacterFilePaths().ToArray();
-			string[] ids = new string[characterFilePaths.Length];
-
-			for (int i = 0; i < characterFilePaths.Length; i++)
-			{
-				ids[i] = characterFilePaths[i].Substring(characterFilePaths[i].IndexOf("#"));
-			}
-
-			int id;
-			do
-			{
-				id = new Random().Next(1, 10000);
-			}
-			while (ids.Contains(x => x.Contains(id.ToString())));
-			return id;
 		}
 
 		private void AddFirstLevelClassFeatures()
@@ -265,9 +244,9 @@ namespace PCCharacterManager.ViewModels
 			{
 				if (item.ToLower().Contains("tool", StringComparison.OrdinalIgnoreCase))
 				{
-					if (item.Contains('^'))
+					if (item.Contains(StringConstants.OR))
 					{
-						var options = StringFormater.CreateGroup(item, '^');
+						var options = StringFormater.CreateGroup(item, StringConstants.OR);
 						
 						DialogWindowSelectStingValueViewModel windowVM =
 							new DialogWindowSelectStingValueViewModel(options.ToArray(), 1);
@@ -304,7 +283,7 @@ namespace PCCharacterManager.ViewModels
 			foreach (string skillName in _selectedBackground.SkillProfs)
 			{
 				// you can choose one of at least 2
-				if (skillName.Contains('^'))
+				if (skillName.Contains(StringConstants.OR))
 				{
 					return ChooseSkillToHaveProficiencyInFromBackground(skillName);
 				}
@@ -316,7 +295,7 @@ namespace PCCharacterManager.ViewModels
 				// class give prof to skill
 				if (_selectedClassSkillProfs.SelectedItems.Contains(skillName))
 				{
-					MessageBox.Show("class and background both give skill prof to " + skillName +
+					_dialogService.ShowMessage("class and background both give skill prof to " + skillName +
 						" please select a different skill to have prof in", "cannot double prof in skill",
 						MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -461,7 +440,7 @@ namespace PCCharacterManager.ViewModels
 		private bool ChooseSkillToHaveProficiencyInFromBackground(string skillName)
 		{
 			List<string> selectedSkills = new();
-			List<string> options = StringFormater.CreateGroup(skillName, '^').ToList();
+			List<string> options = StringFormater.CreateGroup(skillName, StringConstants.OR).ToList();
 
 			// removes options that class give prof in
 			foreach (string item in notAnOption)
@@ -515,7 +494,7 @@ namespace PCCharacterManager.ViewModels
 				// iterate over all selected items
 				foreach (string selectedItemName in viewModel.SelectedItems)
 				{
-					string[] itemNames = StringFormater.CreateGroup(selectedItemName, '&');
+					string[] itemNames = StringFormater.CreateGroup(selectedItemName, StringConstants.AND);
 					int[] quantities = new int[itemNames.Length];
 
 					for (int i = 0; i < itemNames.Length; i++)
@@ -572,7 +551,7 @@ namespace PCCharacterManager.ViewModels
 			SelectedStartingEquipmentVMs.Clear();
 			foreach (var item in _selectedCharacterClass.StartEquipment)
 			{
-				string[] group = StringFormater.CreateGroup(item, '^');
+				string[] group = StringFormater.CreateGroup(item, StringConstants.OR);
 				SelectedStartingEquipmentVMs.Add(new ListViewMultiSelectItemsLimitedCountViewModel(1, group.ToList()));
 			}
 		}

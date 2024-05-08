@@ -120,9 +120,9 @@ namespace PCCharacterManager.ViewModels
 
 		public CharacterInventoryViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
 		{
-			characterStore.SelectedCharacterChange += OnCharacterChanged;
-			Inventory = characterStore.SelectedCharacter.Inventory;
 			_selectedCharacter = characterStore.SelectedCharacter;
+			Inventory = characterStore.SelectedCharacter.Inventory;
+			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			_propertyVMPool = new PropertyEditableVMPool(5);
 			_itemSearch = new ItemSearch();
@@ -267,21 +267,13 @@ namespace PCCharacterManager.ViewModels
 			foreach (var property in _selectedItem.BoundItem.Properties)
 			{
 				PropertyEditableViewModel editablePropertyVM = _propertyVMPool.GetItem();
-				
-				// only show properties that are not marked HIDDEN
-				if (!_showHiddenProperties)
-				{
-					if (property.Hidden)
-						continue;
 
-					editablePropertyVM.Bind(property);
-					PropertiesToDisplay.Add(editablePropertyVM);
-				}
-				else
-				{
-					editablePropertyVM.Bind(property);
-					PropertiesToDisplay.Add(editablePropertyVM);
-				}
+				// only show properties that are not marked HIDDEN
+				if (_showHiddenProperties == false && property.Hidden)
+					continue;
+
+				editablePropertyVM.Bind(property);
+				PropertiesToDisplay.Add(editablePropertyVM);
 			} // end loop
 		} // end method
 

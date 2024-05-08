@@ -62,7 +62,12 @@ namespace PCCharacterManager.Services
 				return;
 
 			string[] characterFiles = GetCharacterFilePaths().ToArray();
-			var test = characterFiles[0].Substring(characterFiles[0].LastIndexOf('\\')+1, characterFiles[0].IndexOf("#") - characterFiles[0].LastIndexOf('\\')-1);
+
+			if (characterFiles.Any())
+			{
+				var test = characterFiles[0].Substring(characterFiles[0].LastIndexOf('\\')+1, characterFiles[0].IndexOf("#") - characterFiles[0].LastIndexOf('\\')-1);
+			}
+			
 			if (characterFiles.Contains(x => x.Contains(character.Id)))
 			{
 				string path = characterFiles.Where(x => x.Contains(character.Id)).First();

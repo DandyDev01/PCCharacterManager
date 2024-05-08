@@ -1,0 +1,65 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PCCharacterManager.Models;
+using PCCharacterManager.Stores;
+using PCCharacterManager.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PCCharacterManagerTests.Models
+{
+	[TestClass()]
+	public class CharacterInventoryViewModelTests
+	{
+		[TestMethod()]
+		public void PopulatePropertiesToDisplayTest()
+		{
+			var characterStore = new CharacterStore();
+			var dialogService = new PassDialogService();
+			CharacterInventoryViewModel vm = new(characterStore, dialogService);
+
+			Item item = new();
+			Property visibel = new();
+			Property hidden = new();
+			hidden.Hidden = true;
+
+			item.AddProperty(visibel);
+			item.AddProperty(hidden);
+
+			vm.SelectedItem = new ItemViewModel(item);
+			
+			Assert.AreEqual(2, vm.PropertiesToDisplay.Count);
+			
+			vm.ShowPropertiesToDisplayCommand.Execute(vm);
+
+			Assert.AreEqual("Don't show hidden properties", vm.ShowHiddenPropertiesText);
+			Assert.AreEqual(1, vm.PropertiesToDisplay.Count);
+		}
+
+		[TestMethod()]
+		public void CalculateInventoryWeightTest()
+		{
+			var characterStore = new CharacterStore();
+			var dialogService = new PassDialogService();
+			CharacterInventoryViewModel vm = new(characterStore, dialogService);
+			DnD5eCharacter character = new();
+			characterStore.BindSelectedCharacter(character);
+
+			Item item = new();
+			Property visibel = new();
+			Property hidden = new();
+			hidden.Hidden = true;
+
+			item.Weight = 10.ToString();
+			item.AddProperty(visibel);
+			item.AddProperty(hidden);
+
+			character.Inventory.Add(item);
+
+			vm.CalculateInventoryWeight();
+			Assert.AreEqual(vm.InventoryWeight, item.Weight + "/" + character.CarryWeight);
+		}
+	}
+}

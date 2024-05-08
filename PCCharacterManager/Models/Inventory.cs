@@ -33,7 +33,15 @@ namespace PCCharacterManager.Models
 		/// <param name="item">The item to add.</param>
 		public void Add(Item item)
 		{
-			char firstLetter = Char.ToLower(item.Name.First());
+			char firstLetter;
+			if (string.IsNullOrEmpty(item.Name))
+			{
+				firstLetter = '_';
+			}
+			else
+			{
+				firstLetter = Char.ToLower(item.Name.First());
+			}
 
 			if (Items.ContainsKey(firstLetter))
 			{

@@ -27,7 +27,7 @@ namespace PCCharacterManager
 	{
 		public MainWindow()
 		{
-			InitializeComponent();
+			DialogServiceBase.RegisterDialog<DialogWindowCharacterCreaterViewModel, CreateCharacterDialogWindow>();
 			DialogServiceBase.RegisterDialog<DialogWindowAddAugmentationViewModel, AddAugmentationDialogWindow>();
 			DialogServiceBase.RegisterDialog<DialogWindowAddConditionViewModel, AddConditionDialogWindow>();
 			DialogServiceBase.RegisterDialog<DialogWindowAddFeatureViewModel, AddFeatureDialogWindow>();
@@ -40,6 +40,7 @@ namespace PCCharacterManager
 			//DialogService.RegisterDialog<DialogWindowSelectAbilityViewModel, SelectAbilityToIncreaseScoreDialogWindow>();
 			DialogServiceBase.RegisterDialog<DialogWindowSelectStingValueViewModel, SelectStringValueDialogWindow>();
 			DialogServiceBase.RegisterDialog<DialogWindowStringInputViewModel, StringInputDialogWindow>();
+			InitializeComponent();
 		}
 
 		private void DarkMode_Click(object sender, RoutedEventArgs e)

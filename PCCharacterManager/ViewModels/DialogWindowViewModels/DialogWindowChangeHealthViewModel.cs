@@ -11,7 +11,7 @@ using System.Xml.Linq;
 
 namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 {
-    class DialogWindowChangeHealthViewModel : ObservableObject
+    public class DialogWindowChangeHealthViewModel : ObservableObject
     {
 		public int Amount { get; set; }
 

@@ -198,7 +198,7 @@ namespace PCCharacterManager.ViewModels
 		}
 
 		private void NextCombatRound()
-		{
+		{ 
 			_selectedCharacter.CombatRound += 1;
 
 			if (_selectedCharacter.Conditions.Count <= 0)
@@ -301,7 +301,7 @@ namespace PCCharacterManager.ViewModels
 			}
 			catch 
 			{
-				MessageBox.Show("Must be a whole number", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				_dialogService.ShowMessage("Must be a whole number", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				AdjustExperience();
 				return;
 			}
