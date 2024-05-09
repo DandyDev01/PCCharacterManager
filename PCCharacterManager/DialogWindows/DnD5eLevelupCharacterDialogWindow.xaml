@@ -105,7 +105,9 @@
             Grid.Row="2"
             Grid.RowSpan="5"
             Grid.Column="6"
-            Grid.ColumnSpan="2" />
+            Grid.ColumnSpan="2"
+            Focusable="False"
+            ItemsSource="{Binding FeaturesToDisplay}" />
 
         <Button
             Grid.Row="7"

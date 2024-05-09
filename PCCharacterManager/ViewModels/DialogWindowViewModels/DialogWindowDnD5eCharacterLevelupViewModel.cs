@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels.DialogWindowViewModels
@@ -28,6 +29,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			set
 			{
 				OnPropertyChanged(ref _selectedCharacterClass, value);
+				PopulateFeaturesToDisplay();
 			}
 		}
 
@@ -44,6 +46,20 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			}
 		}
 
+		private string _characterName;
+		public string CharacterName
+		{
+			get
+			{
+				return _characterName;
+			}
+			set
+			{
+				OnPropertyChanged(ref _characterName, value);
+			}
+		}
+
+		public ObservableCollection<DnD5eCharacterClassFeature> FeaturesToDisplay { get; }
 		public ObservableCollection<DnD5eCharacterClassData> ClassesToDisplay { get; }
 
 		public ICommand AddClassCommand { get; }
@@ -54,11 +70,46 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			_dialogService = dialogService;
 			_character = character;
 
+			_characterName = character.Name;
+			_maxHealth = _character.Health.MaxHealth;
+
+			FeaturesToDisplay = new();
 			ClassesToDisplay = new(GetClassesToDisplay(character));
 			_selectedCharacterClass = ClassesToDisplay[0];
+			PopulateFeaturesToDisplay();
+
 
 			AddClassCommand = new RelayCommand(AddClass);
 			RollHitdieCommand = new RelayCommand(RollForMaxHealth);
+		}
+
+		private void PopulateFeaturesToDisplay()
+		{
+			FeaturesToDisplay.Clear();
+			var classes = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson);
+
+			// find character class
+			DnD5eCharacterClassData? data = classes.Find(x => x.Name.Equals(_selectedCharacterClass.Name));
+
+			// className contains extra data, cut it off and search again.
+			data ??= classes.Find(x => x.Name.Equals(_selectedCharacterClass.Name.Substring(0, _selectedCharacterClass.Name.IndexOf(" "))));
+
+			if (data == null)
+				throw new Exception("The class " + _selectedCharacterClass.Name + " does not exist");
+
+			foreach (var item in data.Features)
+			{
+				if (item.Level == _selectedCharacterClass.Level.Level + 1)
+				{
+					if (item.Name.ToLower().Contains("ability score"))
+					{
+						var message = MessageBox.Show(item.Desc, "You get an ability score improvement", MessageBoxButton.OK);
+						continue;
+					}
+
+					FeaturesToDisplay.Add(item);
+				}
+			}
 		}
 
 		/// <summary>
@@ -77,12 +128,12 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 
 			for (int i = 0; i < characterClassNames.Length; i++)
 			{
-				string name = characterClassNames[i].Substring(0, characterClassNames[i].IndexOf(" "));
-				characterClassNames[i] = name;
-				
 				string level = characterClassNames[i].Substring(characterClassNames[i].IndexOf(" "));
 				if (int.TryParse(level, out classLevels[i]) == false)
 					throw new ArithmeticException("Could not get level.");
+
+				string name = characterClassNames[i].Substring(0, characterClassNames[i].IndexOf(" "));
+				characterClassNames[i] = name;
 			}
 
 			results.AddRange(classData.Where(x => characterClassNames.Contains(x.Name)));
@@ -98,9 +149,25 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			return results.ToArray();
 		}
 
+		/// <summary>
+		/// User selects a class to add to their character.
+		/// </summary>
+		/// <exception cref="Exception">Cannot find data on class the user wants to add.</exception>
 		private void AddClass()
 		{
 			string classToAddName = GetClassToAddName(_character, _character.CharacterClass.Name);
+			var classData = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray();
+
+			DnD5eCharacterClassData classToAddData = classData.Where(x => x.Name.Equals(classToAddName)).First();
+			
+			if (classToAddData == null)
+				throw new Exception("Cannot find data for class " + classToAddName);
+
+			classToAddData.Level.Level = 0;
+
+			_character.CharacterClass.Name += "/" + classToAddName + " 0";
+
+			ClassesToDisplay.Add(classToAddData);
 		}
 
 		private void IncreaseAbilityScore()

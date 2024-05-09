@@ -219,6 +219,8 @@ namespace PCCharacterManager.ViewModels
 				_newCharacter.NoteManager.NoteSections[0].Notes.Add(SelectedCharacterClass.Note);
 			}
 
+			_newCharacter.CharacterClass.Name += " 1";
+
 			return _newCharacter;
 		}
 

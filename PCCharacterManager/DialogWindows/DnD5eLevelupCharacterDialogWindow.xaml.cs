@@ -24,7 +24,7 @@ namespace PCCharacterManager.DialogWindows
 			InitializeComponent();
 		}
 
-		private void Level_Button_Click(object sender, RoutedEventArgs e)
+		private void Levelup_Button_Click(object sender, RoutedEventArgs e)
 		{
 			DialogResult = true;
 			Close();
