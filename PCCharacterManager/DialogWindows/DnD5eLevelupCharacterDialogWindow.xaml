@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:PCCharacterManager.DialogWindows"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:v="clr-namespace:PCCharacterManager.Views"
     Title="DnD5eLevelupCharacterDialogWindow"
     Width="800"
     Height="450"
@@ -47,7 +48,29 @@
             Grid.ColumnSpan="2"
             ItemsSource="{Binding ClassesToDisplay}"
             SelectedIndex="0"
-            SelectedItem="{Binding SelectedCharacterClass}" />
+            SelectedItem="{Binding SelectedCharacterClass}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="130">
+                        <GridViewColumnHeader Content="Name" />
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="50">
+                        <GridViewColumnHeader Content="Level" />
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Level.Level}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
         <Button
             Grid.Row="7"
             Grid.Column="0"
@@ -107,7 +130,28 @@
             Grid.Column="6"
             Grid.ColumnSpan="2"
             Focusable="False"
-            ItemsSource="{Binding FeaturesToDisplay}" />
+            ItemsSource="{Binding FeaturesToDisplay}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="130">
+                        <GridViewColumnHeader Content="Name" />
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="50">
+                        <GridViewColumnHeader Content="Level" />
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Level}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
 
         <Label
             Grid.Row="4"

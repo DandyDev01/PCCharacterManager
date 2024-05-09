@@ -107,6 +107,12 @@ namespace PCCharacterManagerTests.Models
 		}
 
 		[TestMethod]
+		public void AddTwoNewClassesTest()
+		{
+			Assert.Fail();
+		}
+
+		[TestMethod]
 		public void LevelupToolProfsCheckTest()
 		{
 			var dialogService = new SelectDialogService();

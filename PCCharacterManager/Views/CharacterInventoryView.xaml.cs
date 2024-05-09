@@ -1,4 +1,5 @@
-﻿using PCCharacterManager.Utility;
+﻿using PCCharacterManager.Models;
+using PCCharacterManager.Utility;
 using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -77,58 +78,14 @@ namespace PCCharacterManager.Views
 			// more than one item is being deleted
 			if (items.SelectedItems.Count > 1)
 			{
-				var confirmationMessageBox = MessageBox.Show(confirmationBoxMessage, 
-					messageBoxCaption, MessageBoxButton.YesNo);
-				
-				if (confirmationMessageBox == MessageBoxResult.No) 
-					return;
-
-				List<ItemViewModel> itemVMs = new List<ItemViewModel>();
-				
-				foreach (var item in items.SelectedItems)
-				{
-					if (item is not ItemViewModel itemVM ||
-						itemVM.BoundItem == null)
-						continue;
-
-					inventoryVM.Inventory.Remove(itemVM.BoundItem);
-					itemVMs.Add(itemVM);
-				}
-
-				foreach (var item in itemVMs)
-				{
-					inventoryVM.ItemDisplayVms.Remove(item);
-				}
-
-				itemVMs.Clear();
+				DeleteMultipleItems(inventoryVM, confirmationBoxMessage, messageBoxCaption);
 			}
 			// only one item is being deleted
 			else
 			{
-				if (inventoryVM.SelectedItem == null)
-					return;
-
 				double currTimeSeconds = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
 				double timePassed = currTimeSeconds - lastItemRemoveTimeInSeconds;
-				
-				// only ask for confirmation if it has been more than
-				// five seconds since last deletion
-				if (timePassed > 5)
-				{
-					confirmationBoxMessage = "Are you sure you want to remove " + inventoryVM.SelectedItem.DisplayName;
-
-					var messageBox = MessageBox.Show(confirmationBoxMessage, messageBoxCaption, MessageBoxButton.YesNo);
-
-					if (messageBox == MessageBoxResult.No)
-						return;
-				}
-
-				if (inventoryVM.SelectedItem is not ItemViewModel itemVM ||
-					itemVM.BoundItem == null)
-					return;
-
-				inventoryVM.Inventory.Remove(itemVM.BoundItem);
-				inventoryVM.ItemDisplayVms.Remove(inventoryVM.SelectedItem);
+				DeleteSingleItem(inventoryVM, confirmationBoxMessage, messageBoxCaption, timePassed);
 			}
 
 			TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
@@ -139,6 +96,72 @@ namespace PCCharacterManager.Views
 			
 			inventoryVM.SelectedItem = inventoryVM.ItemDisplayVms[0];
 			inventoryVM.CalculateInventoryWeight();
+		}
+
+		/// <summary>
+		/// Only a single item is selected for deletion.
+		/// </summary>
+		/// <param name="inventoryVM">Where the item will be removed from.</param>
+		/// <param name="confirmationBoxMessage">Confirmation message.</param>
+		/// <param name="messageBoxCaption">Confirmation caption.</param>
+		private void DeleteSingleItem(CharacterInventoryViewModel inventoryVM, string confirmationBoxMessage,
+			string messageBoxCaption, double timePassedSinceLastDeletion)
+		{
+			if (inventoryVM.SelectedItem == null)
+				return;
+
+			// only ask for confirmation if it has been more than
+			// five seconds since last deletion
+			if (timePassedSinceLastDeletion > 5)
+			{
+				confirmationBoxMessage = "Are you sure you want to remove " + inventoryVM.SelectedItem.DisplayName;
+
+				var messageBox = MessageBox.Show(confirmationBoxMessage, messageBoxCaption, MessageBoxButton.YesNo);
+
+				if (messageBox == MessageBoxResult.No)
+					return;
+			}
+
+			if (inventoryVM.SelectedItem is not ItemViewModel itemVM ||
+				itemVM.BoundItem == null)
+				return;
+
+			inventoryVM.Inventory.Remove(itemVM.BoundItem);
+			inventoryVM.ItemDisplayVms.Remove(inventoryVM.SelectedItem);
+		}
+
+		/// <summary>
+		/// More than one item is selected for deletion.
+		/// </summary>
+		/// <param name="inventoryVM">Where the item will be removed from.</param>
+		/// <param name="confirmationBoxMessage">Confirmation message.</param>
+		/// <param name="messageBoxCaption">Confirmation caption.</param>
+		private void DeleteMultipleItems(CharacterInventoryViewModel inventoryVM, string confirmationBoxMessage, string messageBoxCaption)
+		{
+			var confirmationMessageBox = MessageBox.Show(confirmationBoxMessage,
+					messageBoxCaption, MessageBoxButton.YesNo);
+
+			if (confirmationMessageBox == MessageBoxResult.No)
+				return;
+
+			List<ItemViewModel> itemVMs = new List<ItemViewModel>();
+
+			foreach (var item in items.SelectedItems)
+			{
+				if (item is not ItemViewModel itemVM ||
+					itemVM.BoundItem == null)
+					continue;
+
+				inventoryVM.Inventory.Remove(itemVM.BoundItem);
+				itemVMs.Add(itemVM);
+			}
+
+			foreach (var item in itemVMs)
+			{
+				inventoryVM.ItemDisplayVms.Remove(item);
+			}
+
+			itemVMs.Clear();
 		}
 
 		private void searchBox_LostFocus(object sender, RoutedEventArgs e)
