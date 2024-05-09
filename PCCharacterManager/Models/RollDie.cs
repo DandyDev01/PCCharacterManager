@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -97,6 +98,12 @@ namespace PCCharacterManager.Models
 
 			}
 			return total;
+		}
+
+		public int Roll(HitDie hitdie, int times = 1)
+		{
+			int sides = (int.Parse(hitdie.ToString().Substring(hitdie.ToString().IndexOf('D') + 1)));
+			return Roll(sides, times);
 		}
 
 		/// <summary>

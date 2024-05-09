@@ -177,7 +177,12 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 
 		private void RollForMaxHealth()
 		{
-			throw new NotImplementedException();
+			RollDie rollDie = new RollDie();
+
+			int numToAddToHealth = rollDie.Roll(_selectedCharacterClass.HitDie, 1);
+			int currHealth = _character.Health.MaxHealth;
+
+			MaxHealth = currHealth + numToAddToHealth;
 		}
 
 		/// <summary>

@@ -366,7 +366,7 @@ namespace PCCharacterManager.Models
 			// Character is not multiclassing.
 			if (character.CharacterClass.Name.Contains("/") == false)
 			{
-				helper.hitDie = character.CharacterClass.HitDie.ToString();
+				helper.hitDie = character.CharacterClass.HitDie;
 				helper.classLevel = character.CharacterClass.Level.Level + 1;
 				helper.className = character.CharacterClass.Name;
 				return helper;
@@ -377,7 +377,7 @@ namespace PCCharacterManager.Models
 			// character is multiclassing. Get information on the class they wish to 
 			// level up.
 			string nameOfSelectedClass = SelectClassToLevelup(character);
-			string hitDie = classes.Where(x => x.Name == nameOfSelectedClass).First().HitDie.ToString();
+			HitDie hitDie = classes.Where(x => x.Name == nameOfSelectedClass).First().HitDie;
 
 			string[] classNames = character.CharacterClass.Name.Split("/");
 			int level = GetCurrentLevelOfClassBeingLeveledUp(character, nameOfSelectedClass, classNames);
@@ -454,14 +454,9 @@ namespace PCCharacterManager.Models
 		/// <returns>Information about the levelup operation.</returns>
 		private MultiClass AutoRollNewMaxHealth(DnD5eCharacter character, MultiClass helper)
 		{
-			string classHitDie = helper.hitDie;
-
-			int numRolls = 1;
-			int sides = (int.Parse(classHitDie.Substring(classHitDie.IndexOf('D') + 1)));
-
 			RollDie rollDie = new RollDie();
 
-			int numToAddToHealth = rollDie.Roll(sides, numRolls);
+			int numToAddToHealth = rollDie.Roll(helper.hitDie, 1);
 			int currHealth = character.Health.MaxHealth;
 
 			character.Health.SetMaxHealth(currHealth + numToAddToHealth);
@@ -512,7 +507,7 @@ namespace PCCharacterManager.Models
 
 	public struct MultiClass
 	{
-		public string hitDie = string.Empty;
+		public HitDie hitDie = 0;
 		public string className = string.Empty;
 		public int classLevel = 1;
 		public bool success = false;
