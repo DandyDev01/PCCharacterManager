@@ -657,6 +657,8 @@ namespace PCCharacterManager.ViewModels
 			DnD5eCharacter character = new(characterClassData, characterRaceData, characterBackgroundData);
 			character.Name = "John Doe";
 
+			character.CharacterClass.Name += " 1";
+
 			character.DateModified = DateTime.Now.ToString();
 
 			// roll abilities

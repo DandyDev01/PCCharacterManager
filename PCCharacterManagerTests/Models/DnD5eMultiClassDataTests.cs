@@ -17,6 +17,25 @@ namespace PCCharacterManagerTests.Models
 		CharacterMultiClassData[] multiClassData = ReadWriteJsonCollection<CharacterMultiClassData>.ReadCollection(DnD5eResources.MultiClassDataJson).ToArray();
 		Ability[] abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 
+		DnD5eCharacterClassData[] classData = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray();
+
+		[TestMethod()]
+		public void CheckForAllMultiClassData()
+		{
+			bool anyFailed = false;
+
+			foreach (var characterClass in classes)
+			{
+				if (multiClassData.Contains(x => x.Name == characterClass.Name) == false)
+				{
+					anyFailed = true;
+					Trace.WriteLine("Failed " + characterClass.Name);
+				}
+			}
+
+			Assert.IsFalse(anyFailed);
+		}
+
 		[TestMethod()]
 		public void AllDataTest()
 		{

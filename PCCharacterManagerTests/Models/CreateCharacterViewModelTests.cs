@@ -43,6 +43,9 @@ namespace PCCharacterManagerTests.Models
 
 	}
 
+	/// <summary>
+	/// Use this dialog service when a selectStringValueViewModel needs to have a selected item
+	/// </summary>
 	internal class SelectDialogService : DialogServiceBase
 	{
 		public override void ShowDialog<TView, TViewModel>(TViewModel dataContext, Action<string> callBack)
