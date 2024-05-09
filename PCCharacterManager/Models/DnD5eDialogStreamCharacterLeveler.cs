@@ -41,7 +41,7 @@ namespace PCCharacterManager.Models
 					if (helper.success == false)
 						return false;
 
-					UpdateCharacterClassName(character, helper.className, helper.classLevel);
+					character.CharacterClass.UpdateCharacterClassName(helper.className, helper.classLevel);
 					UnLockClassFeatures(character, helper.className, helper.classLevel);
 					AddNewClassProficiences(character, helper.className);
 				}
@@ -58,7 +58,7 @@ namespace PCCharacterManager.Models
 
 				character.CharacterClass.Level.LevelUp();
 
-				UpdateCharacterClassName(character, helper.className, helper.classLevel);
+				character.CharacterClass.UpdateCharacterClassName(helper.className, helper.classLevel);
 				UnLockClassFeatures(character, helper.className, helper.classLevel);
 			}
 
@@ -85,10 +85,7 @@ namespace PCCharacterManager.Models
 			if (classData is null)
 				throw new Exception("Could not find data for class " + className);
 
-
-			character.ToolProficiences.AddRange(classData.ToolProficiences.Where(x => character.ToolProficiences.Contains(x) == false));
-			character.WeaponProficiencies.AddRange(classData.WeaponProficiencies.Where(x => character.WeaponProficiencies.Contains(x) == false));
-			character.ArmorProficiencies.AddRange(classData.ArmorProficiencies.Where(x => character.ArmorProficiencies.Contains(x) == false));
+			classData.AddProficiences(character);
 
 			string[] proficientSkills = Ability.GetProficientSkillNames(character.Abilities);
 			string[] options = classData.PossibleSkillProficiences.Where(x => proficientSkills.Contains(x) == false).ToArray();
@@ -109,36 +106,6 @@ namespace PCCharacterManager.Models
 			}
 
 			// TODO: do something with the selected item(s).
-		}
-
-		/// <summary>
-		/// Update the character class name to show all the classes the character has a level in.
-		/// Will also show the level of each class.
-		/// </summary>
-		/// <param name="character">Character whose class name to update.</param>
-		/// <param name="nameOfClassToUpdate">Name of the class being updated.</param>
-		/// <param name="level">Level of the class being updated.</param>
-		private void UpdateCharacterClassName(DnD5eCharacter character, string nameOfClassToUpdate, int level)
-		{
-			string[] classNames = character.CharacterClass.Name.Split("/");
-			classNames = character.CharacterClass.Name.Split("/");
-			for (int i = 0; i < classNames.Length; i++)
-			{
-				if (classNames[i].Contains(nameOfClassToUpdate))
-				{
-					int length = nameOfClassToUpdate.IndexOf(" ") == -1 ? nameOfClassToUpdate.Length : nameOfClassToUpdate.IndexOf(" ");
-					classNames[i] = nameOfClassToUpdate.Substring(0, length) + " " + level;
-				}
-			}
-
-			character.CharacterClass.Name = string.Empty;
-			for (int i = 0; i < classNames.Length; i++)
-			{
-				character.CharacterClass.Name += classNames[i];
-				if (i < classNames.Length - 1)
-					character.CharacterClass.Name += " / ";
-			}
-
 		}
 
 		/// <summary>
@@ -166,7 +133,7 @@ namespace PCCharacterManager.Models
 			{
 				// exclude classes the character already has and classes the character does
 				// not meet the prerequisites for.
-				if (currentClasses.Contains(classes[i].Name) || MeetsPrerequisites(character, classes[i]) == false)
+				if (currentClasses.Contains(classes[i].Name) || classes[i].MeetsPrerequisites(character) == false)
 					continue;
 
 				classNames[i] = classes[i].Name;
@@ -244,7 +211,8 @@ namespace PCCharacterManager.Models
 				{
 					if (item.Name.ToLower().Contains("ability score"))
 					{
-						var message = MessageBox.Show(item.Desc, "You get an ability score improvement", MessageBoxButton.OK);
+						var message = _dialogService.ShowMessage(item.Desc, "You get an ability score improvement", 
+							MessageBoxButton.OK, MessageBoxImage.None);
 						continue;
 					}
 
@@ -284,74 +252,6 @@ namespace PCCharacterManager.Models
 			return helper;
 		}
 
-		/// <summary>
-		/// Determines if the character meets the prerequisites for the class they want to multiclass in.
-		/// </summary>
-		/// <param name="character">Character that is being checked.</param>
-		/// <param name="characterMultiClassData">Multiclass prerequisite data.</param>
-		/// <returns></returns>
-		private bool MeetsPrerequisites(DnD5eCharacter character, CharacterMultiClassData characterMultiClassData)
-		{
-			string[] prerequisites = characterMultiClassData.Prerequisites.Split('^', '&');
-			int[] score = new int[prerequisites.Length];
-
-			// get ability prerequisite name and score.
-			for (int i = 0; i < prerequisites.Length; i++)
-			{
-				prerequisites[i] = prerequisites[i].Trim();
-				if (int.TryParse(prerequisites[i].Substring(prerequisites[i].IndexOf(" ")).Trim(), out score[i]) == false)
-				{
-					throw new Exception("Could not find score.");
-				}
-				prerequisites[i] = prerequisites[i].Substring(0, prerequisites[i].IndexOf(" ")).Trim();
-			}
-
-			// prerequsite contains an OR
-			if (characterMultiClassData.Prerequisites.Contains('^'))
-			{
-				bool meetsOne = false;
-				for (int i = 0; i < prerequisites.Length; i++)
-				{
-					Ability ability = character.Abilities.Where(x => x.Name == prerequisites[i]).First();
-					if (ability.Score >= score[i])
-						meetsOne = true;
-				}
-
-				if (meetsOne)
-					return true;
-			}
-			// prerequisite contains an AND
-			else if (characterMultiClassData.Prerequisites.Contains('&'))
-			{
-				bool meetsAll = true;
-				for (int i = 0; i < prerequisites.Length; i++)
-				{
-					Ability ability = character.Abilities.Where(x => x.Name == prerequisites[i]).First();
-					if (ability.Score < score[i])
-						meetsAll = false;
-				}
-
-				if (meetsAll)
-					return true;
-			}
-			// there is only a single prerequisite 
-			else
-			{
-				string abilityname = characterMultiClassData.Prerequisites;
-				int abilityScore = 0;
-				if (int.TryParse(abilityname.Substring(abilityname.IndexOf(" ")).Trim(), out abilityScore) == false)
-				{
-					throw new Exception("Could not find score.");
-				}
-				abilityname = abilityname.Substring(0, abilityname.IndexOf(" ")).Trim();
-				Ability a = character.Abilities.Where(x => x.Name == abilityname).First();
-
-				if (a.Score >= abilityScore)
-					return true;
-			}
-			
-			return false;
-		}
 		
 		/// <summary>
 		/// Gets information on the characters classes. Specifically, the class selected if there is
@@ -385,34 +285,9 @@ namespace PCCharacterManager.Models
 			helper.hitDie = hitDie;
 			helper.className = nameOfSelectedClass;
 			helper.classLevel = level + 1;
+			helper.classData = classes.Where(x => x.Name == nameOfSelectedClass).First();
 
 			return helper;
-		}
-
-		/// <summary>
-		/// Extracts the current level of a class from a string.
-		/// </summary>
-		/// <param name="character">Character the operation is being performed on.</param>
-		/// <param name="nameOfSelectedClass">Name of the class that we want the level from.</param>
-		/// <param name="classNames">Names of the classes the character has at least one level in.</param>
-		/// <returns>The level found in nameOfSelectedClass</returns>
-		/// <exception cref="Exception">When no level is found in nameOfSelectedClass</exception>
-		private static int GetCurrentLevelOfClassBeingLeveledUp(DnD5eCharacter character, string nameOfSelectedClass, string[] classNames)
-		{
-			int level = 0;
-			foreach (var item in classNames)
-			{
-				if (item.Contains(nameOfSelectedClass))
-				{
-					string temp = item.Trim();
-					int.TryParse(temp.Substring(temp.IndexOf(" ")), out level);
-				}
-			}
-
-			if (level < 0)
-				throw new Exception("Invalid Level: " + character.CharacterClass.Name);
-
-			return level;
 		}
 
 		/// <summary>
@@ -493,6 +368,33 @@ namespace PCCharacterManager.Models
 			helper.success = true;
 			return helper;
 		}
+
+		/// <summary>
+		/// Extracts the current level of a class from a string.
+		/// </summary>
+		/// <param name="character">Character the operation is being performed on.</param>
+		/// <param name="nameOfSelectedClass">Name of the class that we want the level from.</param>
+		/// <param name="classNames">Names of the classes the character has at least one level in.</param>
+		/// <returns>The level found in nameOfSelectedClass</returns>
+		/// <exception cref="Exception">When no level is found in nameOfSelectedClass</exception>
+		public static int GetCurrentLevelOfClassBeingLeveledUp(DnD5eCharacter character, 
+			string nameOfSelectedClass, string[] classNames)
+		{
+			int level = 0;
+			foreach (var item in classNames)
+			{
+				if (item.Contains(nameOfSelectedClass))
+				{
+					string temp = item.Trim();
+					int.TryParse(temp.Substring(temp.IndexOf(" ")), out level);
+				}
+			}
+
+			if (level < 0)
+				throw new Exception("Invalid Level: " + character.CharacterClass.Name);
+
+			return level;
+		}
 	}
 
 	public struct AddClassHelper
@@ -511,9 +413,11 @@ namespace PCCharacterManager.Models
 		public string className = string.Empty;
 		public int classLevel = 1;
 		public bool success = false;
+		public DnD5eCharacterClassData classData = null;
 
 		public MultiClass()
 		{
+			
 		}
 	}
 }

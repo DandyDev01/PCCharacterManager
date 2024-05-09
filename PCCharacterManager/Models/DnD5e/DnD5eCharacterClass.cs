@@ -65,5 +65,34 @@ namespace PCCharacterManager.Models
 
 			Features = new ObservableCollection<DnD5eCharacterClassFeature>();
 		}
+
+		/// <summary>
+		/// Update the character class name to show all the classes the character has a level in.
+		/// Will also show the level of each class.
+		/// </summary>
+		/// <param name="nameOfClassToUpdate">Name of the class being updated.</param>
+		/// <param name="level">Level of the class being updated.</param>
+		public void UpdateCharacterClassName(string nameOfClassToUpdate, int level)
+		{
+			string[] classNames = Name.Split("/");
+			classNames = Name.Split("/");
+			for (int i = 0; i < classNames.Length; i++)
+			{
+				if (classNames[i].Contains(nameOfClassToUpdate))
+				{
+					int length = nameOfClassToUpdate.IndexOf(" ") == -1 ? nameOfClassToUpdate.Length : nameOfClassToUpdate.IndexOf(" ");
+					classNames[i] = nameOfClassToUpdate.Substring(0, length) + " " + level;
+				}
+			}
+
+			Name = string.Empty;
+			for (int i = 0; i < classNames.Length; i++)
+			{
+				Name += classNames[i];
+				if (i < classNames.Length - 1)
+					Name += " / ";
+			}
+
+		}
 	}
 }

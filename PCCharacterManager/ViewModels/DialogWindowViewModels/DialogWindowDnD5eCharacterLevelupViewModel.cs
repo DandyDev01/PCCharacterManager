@@ -30,6 +30,8 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			{
 				OnPropertyChanged(ref _selectedCharacterClass, value);
 				PopulateFeaturesToDisplay();
+				PopulateProfsToDisplay();
+				MaxHealth = _character.Health.MaxHealth;
 			}
 		}
 
@@ -59,6 +61,9 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			}
 		}
 
+		public ObservableCollection<string> WeaponProfsToDisplay { get; }
+		public ObservableCollection<string> ArmorProfsToDisplay { get; }
+		public ObservableCollection<string> ToolProfsToDisplay { get; }
 		public ObservableCollection<DnD5eCharacterClassFeature> FeaturesToDisplay { get; }
 		public ObservableCollection<DnD5eCharacterClassData> ClassesToDisplay { get; }
 
@@ -73,6 +78,10 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			_characterName = character.Name;
 			_maxHealth = _character.Health.MaxHealth;
 
+			WeaponProfsToDisplay = new();
+			ArmorProfsToDisplay = new();
+			ToolProfsToDisplay = new();
+
 			FeaturesToDisplay = new();
 			ClassesToDisplay = new(GetClassesToDisplay(character));
 			_selectedCharacterClass = ClassesToDisplay[0];
@@ -83,6 +92,10 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			RollHitdieCommand = new RelayCommand(RollForMaxHealth);
 		}
 
+		/// <summary>
+		/// Populate the features that the character will unlock if they take a level in the selected class.
+		/// </summary>
+		/// <exception cref="Exception">Data for the selected class cannot be found.</exception>
 		private void PopulateFeaturesToDisplay()
 		{
 			FeaturesToDisplay.Clear();
@@ -101,15 +114,64 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			{
 				if (item.Level == _selectedCharacterClass.Level.Level + 1)
 				{
-					if (item.Name.ToLower().Contains("ability score"))
-					{
-						var message = MessageBox.Show(item.Desc, "You get an ability score improvement", MessageBoxButton.OK);
-						continue;
-					}
-
 					FeaturesToDisplay.Add(item);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Unlock the features of a specified class for a specified level.
+		/// </summary>
+		/// <param name="character">Character that will get the features.</param>
+		/// <param name="className">Name of the class whose features are being unlocked.</param>
+		/// <param name="classLevel">Level of the features being unlocked.</param>
+		private void UnlockNewClassFeatures(DnD5eCharacter character, string className, int classLevel)
+		{
+			var classes = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson);
+
+			// find character class
+			DnD5eCharacterClassData? data = classes.Find(x => x.Name.Equals(className));
+
+			// className contains extra data, cut it off and search again.
+			data ??= classes.Find(x => x.Name.Equals(className.Substring(0, className.IndexOf(" "))));
+
+			if (data == null)
+				throw new Exception("The class " + className + " does not exist");
+
+			foreach (var item in data.Features)
+			{
+				if (item.Level == classLevel)
+				{
+					if (item.Name.ToLower().Contains("ability score"))
+					{
+						var message = _dialogService.ShowMessage(item.Desc, "You get an ability score improvement",
+							MessageBoxButton.OK, MessageBoxImage.None); 
+						continue;
+					}
+
+					character.CharacterClass.Features.Add(item);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Populates the weapon, armor, and tool profs the character will gain if they take a level in the selected class.
+		/// </summary>
+		private void PopulateProfsToDisplay()
+		{
+			var classData = ReadWriteJsonCollection<CharacterMultiClassData>
+				.ReadCollection(DnD5eResources.MultiClassDataJson).Where(x => x.Name == _selectedCharacterClass.Name).First();
+
+			if (classData is null)
+				throw new Exception("Could not find data for class " + _selectedCharacterClass.Name);
+
+			ToolProfsToDisplay.Clear();
+			WeaponProfsToDisplay.Clear();
+			ArmorProfsToDisplay.Clear();
+
+			ToolProfsToDisplay.AddRange(classData.GetGainedToolProficiences(_character));
+			WeaponProfsToDisplay.AddRange(classData.GetGainedWeaponProficiences(_character));
+			ArmorProfsToDisplay.AddRange(classData.GetGainedArmorProficiences(_character));
 		}
 
 		/// <summary>
@@ -155,7 +217,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 		/// <exception cref="Exception">Cannot find data on class the user wants to add.</exception>
 		private void AddClass()
 		{
-			string classToAddName = GetClassToAddName(_character, _character.CharacterClass.Name);
+			string classToAddName = GetClassToAddName(_character);
 			var classData = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray();
 
 			DnD5eCharacterClassData classToAddData = classData.Where(x => x.Name.Equals(classToAddName)).First();
@@ -170,11 +232,9 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			ClassesToDisplay.Add(classToAddData);
 		}
 
-		private void IncreaseAbilityScore()
-		{
-			throw new NotImplementedException();
-		}
-
+		/// <summary>
+		/// Rolls the selected classes hitdie to determine a new max health value.
+		/// </summary>
 		private void RollForMaxHealth()
 		{
 			RollDie rollDie = new RollDie();
@@ -186,10 +246,53 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 		}
 
 		/// <summary>
-		/// Get the name of the class to add.
+		/// Add the proficiences of a class to a character.
 		/// </summary>
+		/// <param name="character">Character to add the proficines too.</param>
+		/// <param name="className">Name of the class to get the proficiences from.</param>
+		/// <exception cref="Exception"></exception>
+		private void AddNewClassProficiences(DnD5eCharacter character, string className)
+		{
+			var classData = ReadWriteJsonCollection<CharacterMultiClassData>
+				.ReadCollection(DnD5eResources.MultiClassDataJson).Where(x => x.Name == className).First();
+
+			if (classData is null)
+				throw new Exception("Could not find data for class " + className);
+
+			classData.AddProficiences(character);
+
+			string[] proficientSkills = Ability.GetProficientSkillNames(character.Abilities);
+			string[] options = classData.PossibleSkillProficiences.Where(x => proficientSkills.Contains(x) == false).ToArray();
+
+			if (options.Any())
+			{
+				DialogWindowSelectStingValueViewModel vm =
+					new DialogWindowSelectStingValueViewModel(options, 1);
+
+				string result = string.Empty;
+				_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(vm, r =>
+				{
+					result = r;
+				});
+
+				if (result == false.ToString())
+					return;
+			}
+
+			// TODO: do something with the selected item(s).
+		}
+
+		private void IncreaseAbilityScore()
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Ask the user for the name of the class they want to add.
+		/// </summary>
+		/// <param name="character">Character that will get the class.</param>
 		/// <returns>Name of the class the user wants to add.</returns>
-		private string GetClassToAddName(DnD5eCharacter character, string currentClasses)
+		private string GetClassToAddName(DnD5eCharacter character)
 		{
 			var classes = ReadWriteJsonCollection<CharacterMultiClassData>
 				.ReadCollection(DnD5eResources.MultiClassDataJson).ToArray();
@@ -199,7 +302,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			{
 				// exclude classes the character already has and classes the character does
 				// not meet the prerequisites for.
-				if (currentClasses.Contains(classes[i].Name) || MeetsPrerequisites(character, classes[i]) == false)
+				if (character.CharacterClass.Name.Contains(classes[i].Name) || classes[i].MeetsPrerequisites(character) == false)
 					continue;
 
 				classNames[i] = classes[i].Name;
@@ -222,79 +325,22 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			return vm.SelectedItems.First();
 		}
 
-		/// <summary>
-		/// Determines if the character meets the prerequisites for the class they want to multiclass in.
-		/// </summary>
-		/// <param name="character">Character that is being checked.</param>
-		/// <param name="characterMultiClassData">Multiclass prerequisite data.</param>
-		/// <returns></returns>
-		private bool MeetsPrerequisites(DnD5eCharacter character, CharacterMultiClassData characterMultiClassData)
-		{
-			string[] prerequisites = characterMultiClassData.Prerequisites.Split('^', '&');
-			int[] score = new int[prerequisites.Length];
-
-			// get ability prerequisite name and score.
-			for (int i = 0; i < prerequisites.Length; i++)
-			{
-				prerequisites[i] = prerequisites[i].Trim();
-				if (int.TryParse(prerequisites[i].Substring(prerequisites[i].IndexOf(" ")).Trim(), out score[i]) == false)
-				{
-					throw new Exception("Could not find score.");
-				}
-				prerequisites[i] = prerequisites[i].Substring(0, prerequisites[i].IndexOf(" ")).Trim();
-			}
-
-			// prerequsite contains an OR
-			if (characterMultiClassData.Prerequisites.Contains('^'))
-			{
-				bool meetsOne = false;
-				for (int i = 0; i < prerequisites.Length; i++)
-				{
-					Ability ability = character.Abilities.Where(x => x.Name == prerequisites[i]).First();
-					if (ability.Score >= score[i])
-						meetsOne = true;
-				}
-
-				if (meetsOne)
-					return true;
-			}
-			// prerequisite contains an AND
-			else if (characterMultiClassData.Prerequisites.Contains('&'))
-			{
-				bool meetsAll = true;
-				for (int i = 0; i < prerequisites.Length; i++)
-				{
-					Ability ability = character.Abilities.Where(x => x.Name == prerequisites[i]).First();
-					if (ability.Score < score[i])
-						meetsAll = false;
-				}
-
-				if (meetsAll)
-					return true;
-			}
-			// there is only a single prerequisite 
-			else
-			{
-				string abilityname = characterMultiClassData.Prerequisites;
-				int abilityScore = 0;
-				if (int.TryParse(abilityname.Substring(abilityname.IndexOf(" ")).Trim(), out abilityScore) == false)
-				{
-					throw new Exception("Could not find score.");
-				}
-
-				abilityname = abilityname.Substring(0, abilityname.IndexOf(" ")).Trim();
-				Ability a = character.Abilities.Where(x => x.Name == abilityname).First();
-
-				if (a.Score >= abilityScore)
-					return true;
-			}
-
-			return false;
-		}
-
 		public void ProcessLevelup()
 		{
-			throw new NotImplementedException();
+			int newLevel = DnD5eDialogStreamCharacterLeveler.GetCurrentLevelOfClassBeingLeveledUp(_character, 
+				_selectedCharacterClass.Name, _character.CharacterClass.Name.Split("/"));
+			
+			AddNewClassProficiences(_character, _selectedCharacterClass.Name);
+			UnlockNewClassFeatures(_character, _selectedCharacterClass.Name, newLevel);
+			_character.CharacterClass.UpdateCharacterClassName(_selectedCharacterClass.Name, newLevel);
+			
+			_character.Health.MaxHealth = MaxHealth;
+
+			_character.Level.LevelUp();
+			foreach (var ability in _character.Abilities)
+			{
+				ability.SetProfBonus(_character.Level.ProficiencyBonus);
+			}
 		}
 	}
 }
