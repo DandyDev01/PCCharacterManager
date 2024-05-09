@@ -19,7 +19,7 @@ namespace PCCharacterManagerTests.Models
 		public void AddClassCharacterClassNameTest()
 		{
 			var dialogService = new SelectDialogService();
-			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var character = CharacterCreatorViewModel.CreateRandonCharacter();
 			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
 
 			string className = character.CharacterClass.Name;
@@ -32,7 +32,7 @@ namespace PCCharacterManagerTests.Models
 		public void AddClassClassesToDisplayTest()
 		{
 			var dialogService = new SelectDialogService();
-			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var character = CharacterCreatorViewModel.CreateRandonCharacter();
 			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
 
 			Assert.AreEqual(vm.ClassesToDisplay.Count, 1);
@@ -44,7 +44,7 @@ namespace PCCharacterManagerTests.Models
 		public void FeaturesToDisplayTest()
 		{
 			var dialogService = new SelectDialogService();
-			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var character = CharacterCreatorViewModel.CreateRandonCharacter();
 			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
 
 			var features = vm.SelectedCharacterClass.Features.Where(x => x.Level == vm.SelectedCharacterClass.Level.Level+1).ToArray();
@@ -72,7 +72,7 @@ namespace PCCharacterManagerTests.Models
 		public void RollForHealthTest()
 		{
 			var dialogService = new SelectDialogService();
-			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var character = CharacterCreatorViewModel.CreateRandonCharacter();
 			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
 
 			Assert.AreEqual(vm.MaxHealth, character.Health.MaxHealth);
@@ -84,7 +84,7 @@ namespace PCCharacterManagerTests.Models
 		public void ProrocessLevelupOnlyOneClassTest()
 		{
 			var dialogService = new SelectDialogService();
-			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var character = CharacterCreatorViewModel.CreateRandonCharacter();
 			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
 
 			int currentLevel = character.Level.Level;
@@ -96,7 +96,7 @@ namespace PCCharacterManagerTests.Models
 		public void ProrocessLevelupMultipleClassesTest()
 		{
 			var dialogService = new SelectDialogService();
-			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var character = CharacterCreatorViewModel.CreateRandonCharacter();
 			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
 
 			vm.AddClassCommand.Execute(character);
@@ -109,14 +109,53 @@ namespace PCCharacterManagerTests.Models
 		[TestMethod]
 		public void AddTwoNewClassesTest()
 		{
-			Assert.Fail();
+			var dialogService = new SelectDialogService();
+			var character = CharacterCreatorViewModel.CreateRandonCharacter();
+			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
+
+			vm.AddClassCommand.Execute(character);
+			vm.AddClassCommand.Execute(character);
+
+			int currentLevel = character.Level.Level;
+			vm.ProcessLevelup();
+			Assert.AreEqual(currentLevel + 1, character.Level.Level);
+		}
+
+		[TestMethod]
+		public void CancelAddClassOperation()
+		{
+			var dialogService = new CancelDialogService();
+			var character = CharacterCreatorViewModel.CreateRandonCharacter();
+			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
+
+			vm.AddClassCommand.Execute(character);
+
+			// no exception is thrown, pass.
+
+			Assert.IsTrue(true);
+		}
+
+		[TestMethod]
+		public void AddProcessAddNewClassesTest()
+		{
+			var dialogService = new SelectDialogService();
+			var character = CharacterCreatorViewModel.CreateRandonCharacter();
+			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
+
+			vm.AddClassCommand.Execute(character);
+			vm.ProcessLevelup();
+			vm.AddClassCommand.Execute(character);
+
+			int currentLevel = character.Level.Level;
+			vm.ProcessLevelup();
+			Assert.AreEqual(currentLevel + 1, character.Level.Level);
 		}
 
 		[TestMethod]
 		public void LevelupToolProfsCheckTest()
 		{
 			var dialogService = new SelectDialogService();
-			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var character = CharacterCreatorViewModel.CreateRandonCharacter();
 			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
 			var multiClassData = ReadWriteJsonCollection<CharacterMultiClassData>
 				.ReadCollection(DnD5eResources.MultiClassDataJson).ToArray().Where(x => x.Name 
@@ -141,7 +180,7 @@ namespace PCCharacterManagerTests.Models
 		public void LevelupWeaponProfsCheckTest()
 		{
 			var dialogService = new SelectDialogService();
-			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var character = CharacterCreatorViewModel.CreateRandonCharacter();
 			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
 			var multiClassData = ReadWriteJsonCollection<CharacterMultiClassData>
 				.ReadCollection(DnD5eResources.MultiClassDataJson).ToArray().Where(x => x.Name
@@ -166,7 +205,7 @@ namespace PCCharacterManagerTests.Models
 		public void LevelupArmorProfsCheckTest()
 		{
 			var dialogService = new SelectDialogService();
-			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var character = CharacterCreatorViewModel.CreateRandonCharacter();
 			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
 			var multiClassData = ReadWriteJsonCollection<CharacterMultiClassData>
 				.ReadCollection(DnD5eResources.MultiClassDataJson).ToArray().Where(x => x.Name
@@ -192,7 +231,7 @@ namespace PCCharacterManagerTests.Models
 		public void LeveupNewClassFeaturesCheckTest()
 		{
 			var dialogService = new SelectDialogService();
-			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var character = CharacterCreatorViewModel.CreateRandonCharacter();
 			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
 			var classData = ReadWriteJsonCollection<DnD5eCharacterClassData>
 				.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray().Where(x => x.Name

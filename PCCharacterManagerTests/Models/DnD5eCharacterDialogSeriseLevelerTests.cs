@@ -20,7 +20,7 @@ namespace PCCharacterManagerTests.Models
 			 DialogServiceBase dialogService = new CancelDialogService();
 			 CharacterLeveler dndCharacterLeveler = new DnD5eDialogStreamCharacterLeveler(dialogService);
 
-			Assert.IsFalse(dndCharacterLeveler.LevelCharacter(CharacterCreatorViewModel.CreateRamdonCharacter()));
+			Assert.IsFalse(dndCharacterLeveler.LevelCharacter(CharacterCreatorViewModel.CreateRandonCharacter()));
 		}
 
 		[TestMethod()]
@@ -29,7 +29,7 @@ namespace PCCharacterManagerTests.Models
 			DialogServiceBase dialogService = new PassDialogService();
 			CharacterLeveler dndCharacterLeveler = new DnD5eDialogStreamCharacterLeveler(dialogService);
 
-			Assert.IsTrue(dndCharacterLeveler.LevelCharacter(CharacterCreatorViewModel.CreateRamdonCharacter()));
+			Assert.IsTrue(dndCharacterLeveler.LevelCharacter(CharacterCreatorViewModel.CreateRandonCharacter()));
 		}
 
 		[TestMethod()]
@@ -38,7 +38,7 @@ namespace PCCharacterManagerTests.Models
 			DialogServiceBase dialogService = new PassDialogNoMessageDialogService();
 			CharacterLeveler dndCharacterLeveler = new DnD5eDialogStreamCharacterLeveler(dialogService);
 
-			Assert.IsTrue(dndCharacterLeveler.LevelCharacter(CharacterCreatorViewModel.CreateRamdonCharacter()));
+			Assert.IsTrue(dndCharacterLeveler.LevelCharacter(CharacterCreatorViewModel.CreateRandonCharacter()));
 		}
 
 		[TestMethod()]

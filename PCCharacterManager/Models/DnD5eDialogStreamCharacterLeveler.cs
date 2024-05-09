@@ -318,6 +318,7 @@ namespace PCCharacterManager.Models
 
 			if (result == false.ToString())
 				return string.Empty;
+
 			return vm.SelectedItems.First();
 		}
 
@@ -381,17 +382,10 @@ namespace PCCharacterManager.Models
 			string nameOfSelectedClass, string[] classNames)
 		{
 			int level = 0;
-			foreach (var item in classNames)
-			{
-				if (item.Contains(nameOfSelectedClass))
-				{
-					string temp = item.Trim();
-					int.TryParse(temp.Substring(temp.IndexOf(" ")), out level);
-				}
-			}
 
-			if (level < 0)
-				throw new Exception("Invalid Level: " + character.CharacterClass.Name);
+			var levels = character.CharacterClass.GetClassNamesAndLevels();
+
+			level = levels.Where(x => x.Key == nameOfSelectedClass).First().Value;
 
 			return level;
 		}

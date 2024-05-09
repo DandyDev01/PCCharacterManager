@@ -640,7 +640,7 @@ namespace PCCharacterManager.ViewModels
 			IsValid = !HasErrors;
 		}
 	
-		public static DnD5eCharacter CreateRamdonCharacter()
+		public static DnD5eCharacter CreateRandonCharacter()
 		{
 			var characterClassData = ReadWriteJsonCollection<DnD5eCharacterClassData>
 				.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray().GetRandom();

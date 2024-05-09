@@ -185,27 +185,17 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 		{
 			List<DnD5eCharacterClassData> results = new();
 			var classData = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray();
-			var characterClassNames = character.CharacterClass.Name.Split('/');
-			var classLevels = new int[characterClassNames.Length];
 
-			for (int i = 0; i < characterClassNames.Length; i++)
-			{
-				string level = characterClassNames[i].Substring(characterClassNames[i].IndexOf(" "));
-				if (int.TryParse(level, out classLevels[i]) == false)
-					throw new ArithmeticException("Could not get level.");
+			var classNamesAndLevels = character.CharacterClass.GetClassNamesAndLevels();
 
-				string name = characterClassNames[i].Substring(0, characterClassNames[i].IndexOf(" "));
-				characterClassNames[i] = name;
-			}
-
-			results.AddRange(classData.Where(x => characterClassNames.Contains(x.Name)));
+			results.AddRange(classData.Where(x => classNamesAndLevels.Contains(y => y.Key.Contains(x.Name))));
 
 			if (results.Any() == false)
 				throw new Exception("Could not find any classes");
 
 			for (int i = 0; i < results.Count; i++)
 			{
-				results[i].Level.Level = classLevels[i];
+				results[i].Level.Level = classNamesAndLevels.Where(x => x.Key == results[i].Name).First().Value;
 			}
 
 			return results.ToArray();
@@ -218,6 +208,10 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 		private void AddClass()
 		{
 			string classToAddName = GetClassToAddName(_character);
+
+			if (classToAddName == string.Empty)
+				return;
+
 			var classData = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray();
 
 			DnD5eCharacterClassData classToAddData = classData.Where(x => x.Name.Equals(classToAddName)).First();
@@ -288,10 +282,10 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 		}
 
 		/// <summary>
-		/// Ask the user for the name of the class they want to add.
+		/// Ask the user for the name of the class they want to add. 
 		/// </summary>
 		/// <param name="character">Character that will get the class.</param>
-		/// <returns>Name of the class the user wants to add.</returns>
+		/// <returns>Name of the class the user wants to add OR  an empty string when no class is selected.</returns>
 		private string GetClassToAddName(DnD5eCharacter character)
 		{
 			var classes = ReadWriteJsonCollection<CharacterMultiClassData>

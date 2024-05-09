@@ -81,8 +81,10 @@ namespace PCCharacterManager.Models
 				if (classNames[i].Contains(nameOfClassToUpdate))
 				{
 					int length = nameOfClassToUpdate.IndexOf(" ") == -1 ? nameOfClassToUpdate.Length : nameOfClassToUpdate.IndexOf(" ");
-					classNames[i] = nameOfClassToUpdate.Substring(0, length) + " " + level;
+					classNames[i] = nameOfClassToUpdate.Substring(0, length).Trim() + " " + (level+1);
 				}
+
+				classNames[i] = classNames[i].Trim();
 			}
 
 			Name = string.Empty;
@@ -92,7 +94,27 @@ namespace PCCharacterManager.Models
 				if (i < classNames.Length - 1)
 					Name += " / ";
 			}
+		}
 
+		public KeyValuePair<string, int>[] GetClassNamesAndLevels()
+		{
+			var characterClassNames = Name.Split('/');
+			KeyValuePair<string, int>[] results = new KeyValuePair<string, int>[characterClassNames.Length];
+
+			for (int i = 0; i < characterClassNames.Length; i++)
+			{
+				string name = characterClassNames[i].Trim();
+				string levelStr = name.Substring(name.IndexOf(" "));
+				int level = 0;
+
+				if (int.TryParse(levelStr.Trim(), out level) == false)
+					throw new ArithmeticException("Could not get level.");
+
+				name = name.Substring(0, name.IndexOf(" "));
+				results[i] = new KeyValuePair<string, int>(name, level);
+			}
+
+			return results;
 		}
 	}
 }

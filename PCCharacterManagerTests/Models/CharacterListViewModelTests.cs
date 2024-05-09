@@ -23,7 +23,7 @@ namespace PCCharacterManagerTests.Models
 			var dataService = new MockCharacterDataService();
 			CharacterListViewModel vm = new(characterStore, dataService, dialogService);
 
-			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var character = CharacterCreatorViewModel.CreateRandonCharacter();
 			characterStore.CreateCharacter(character);
 
 			Assert.IsTrue(vm.CharacterItems.Count == 2);
@@ -39,7 +39,7 @@ namespace PCCharacterManagerTests.Models
 			var dataService = new MockCharacterDataService();
 			CharacterListViewModel vm = new(characterStore, dataService, dialogService);
 
-			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var character = CharacterCreatorViewModel.CreateRandonCharacter();
 			characterStore.CreateCharacter(character);
 
 			Assert.IsTrue(vm.CharacterItems.Any());
