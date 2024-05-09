@@ -29,6 +29,11 @@ namespace PCCharacterManagerTests.Models
 			return collection.Where(p).Any();
 		}
 
+		public static bool Contains<T>(this ObservableCollection<T> collection, Func<T, bool> p)
+		{
+			return collection.Where(p).Any();
+		}
+
 		public static T GetRandom<T>(this T[] array)
 		{
 			int randomIndex = new Random().Next(0, array.Length);

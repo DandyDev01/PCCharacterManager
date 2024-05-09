@@ -140,7 +140,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 
 			foreach (var item in data.Features)
 			{
-				if (item.Level == classLevel)
+				if (item.Level == classLevel+1)
 				{
 					if (item.Name.ToLower().Contains("ability score"))
 					{

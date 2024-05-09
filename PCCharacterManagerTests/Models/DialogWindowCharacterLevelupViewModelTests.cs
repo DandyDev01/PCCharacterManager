@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.ViewModels;
 using PCCharacterManager.ViewModels.DialogWindowViewModels;
@@ -103,6 +104,107 @@ namespace PCCharacterManagerTests.Models
 			int currentLevel = character.Level.Level;
 			vm.ProcessLevelup();
 			Assert.AreEqual(currentLevel + 1, character.Level.Level);
+		}
+
+		[TestMethod]
+		public void LevelupToolProfsCheckTest()
+		{
+			var dialogService = new SelectDialogService();
+			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
+			var multiClassData = ReadWriteJsonCollection<CharacterMultiClassData>
+				.ReadCollection(DnD5eResources.MultiClassDataJson).ToArray().Where(x => x.Name 
+				== vm.SelectedCharacterClass.Name).First();
+
+			vm.AddClassCommand.Execute(character);
+
+			int currentLevel = character.Level.Level;
+			vm.SelectedCharacterClass = vm.ClassesToDisplay[1];
+			vm.ProcessLevelup();
+
+			for (int i = 0; i < vm.ToolProfsToDisplay.Count; i++)
+			{
+				if (character.ToolProficiences.Contains(vm.ToolProfsToDisplay[i]) == false)
+					Assert.Fail();
+			}
+
+			Assert.IsTrue(true);
+		}
+
+		[TestMethod]
+		public void LevelupWeaponProfsCheckTest()
+		{
+			var dialogService = new SelectDialogService();
+			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
+			var multiClassData = ReadWriteJsonCollection<CharacterMultiClassData>
+				.ReadCollection(DnD5eResources.MultiClassDataJson).ToArray().Where(x => x.Name
+				== vm.SelectedCharacterClass.Name).First();
+
+			vm.AddClassCommand.Execute(character);
+
+			int currentLevel = character.Level.Level;
+			vm.SelectedCharacterClass = vm.ClassesToDisplay[1];
+			vm.ProcessLevelup();
+
+			for (int i = 0; i < vm.WeaponProfsToDisplay.Count; i++)
+			{
+				if (character.WeaponProficiencies.Contains(vm.WeaponProfsToDisplay[i]) == false)
+					Assert.Fail();
+			}
+
+			Assert.IsTrue(true);
+		}
+
+		[TestMethod]
+		public void LevelupArmorProfsCheckTest()
+		{
+			var dialogService = new SelectDialogService();
+			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
+			var multiClassData = ReadWriteJsonCollection<CharacterMultiClassData>
+				.ReadCollection(DnD5eResources.MultiClassDataJson).ToArray().Where(x => x.Name
+				== vm.SelectedCharacterClass.Name).First();
+
+			vm.AddClassCommand.Execute(character);
+
+			int currentLevel = character.Level.Level;
+			vm.SelectedCharacterClass = vm.ClassesToDisplay[1];
+			vm.ProcessLevelup();
+
+			for (int i = 0; i < vm.ToolProfsToDisplay.Count; i++)
+			{
+				if (character.ArmorProficiencies.Contains(vm.ArmorProfsToDisplay[i]) == false)
+					Assert.Fail();
+			}
+
+			Assert.IsTrue(true);
+		}
+
+
+		[TestMethod]
+		public void LeveupNewClassFeaturesCheckTest()
+		{
+			var dialogService = new SelectDialogService();
+			var character = CharacterCreatorViewModel.CreateRamdonCharacter();
+			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
+			var classData = ReadWriteJsonCollection<DnD5eCharacterClassData>
+				.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray().Where(x => x.Name
+				== vm.SelectedCharacterClass.Name).First();
+
+			vm.AddClassCommand.Execute(character);
+
+			int currentLevel = character.Level.Level;
+			vm.SelectedCharacterClass = vm.ClassesToDisplay[1];
+			vm.ProcessLevelup();
+
+			for (int i = 0; i < vm.FeaturesToDisplay.Count; i++)
+			{
+				if (character.CharacterClass.Features.Contains(x => x.Name == vm.FeaturesToDisplay[i].Name) == false)
+					Assert.Fail();
+			}
+
+			Assert.IsTrue(true);
 		}
 
 	}
