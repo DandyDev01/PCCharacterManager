@@ -1,0 +1,211 @@
+﻿<Window
+    x:Class="PCCharacterManager.DialogWindows.DnD5eLevelupCharacterDialogWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PCCharacterManager.DialogWindows"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:v="clr-namespace:PCCharacterManager.Views"
+    Title="DnD5eLevelupCharacterDialogWindow"
+    Width="800"
+    Height="450"
+    Background="{DynamicResource 1}"
+    mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="250" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="{Binding CharacterName, FallbackValue=Name}" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Content="Classes" />
+        <ListView
+            Grid.Row="2"
+            Grid.RowSpan="5"
+            Grid.ColumnSpan="2"
+            ItemsSource="{Binding ClassesToDisplay}"
+            SelectedIndex="0"
+            SelectedItem="{Binding SelectedCharacterClass}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="130">
+                        <GridViewColumnHeader Content="Name" />
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="50">
+                        <GridViewColumnHeader Content="Level" />
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Level.Level}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Button
+            Grid.Row="7"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Command="{Binding AddClassCommand}"
+            Content="Add Class" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="2"
+            Content="Selected Class" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="2"
+            Text="{Binding SelectedCharacterClass.Name, FallbackValue=class}" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="3"
+            Content="Level" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="3"
+            Text="{Binding SelectedCharacterClass.Level.Level, FallbackValue=1}" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="4"
+            Content="Hitdie" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="4"
+            Text="{Binding SelectedCharacterClass.HitDie, FallbackValue=D4}" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="5"
+            Content="Max Health" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="5"
+            Text="{Binding MaxHealth}" />
+        <Button
+            Grid.Row="3"
+            Grid.Column="5"
+            Command="{Binding RollHitdieCommand}"
+            Content="Roll Hitdie" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="6"
+            Grid.ColumnSpan="2"
+            Content="New Features" />
+        <ListView
+            Grid.Row="2"
+            Grid.RowSpan="5"
+            Grid.Column="6"
+            Grid.ColumnSpan="2"
+            Focusable="False"
+            ItemsSource="{Binding FeaturesToDisplay}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="130">
+                        <GridViewColumnHeader Content="Name" />
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="50">
+                        <GridViewColumnHeader Content="Level" />
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Level}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Label
+            Grid.Row="4"
+            Grid.Column="2"
+            Grid.ColumnSpan="1"
+            Content="New Weapon Profs" />
+        <ListView
+            Grid.Row="5"
+            Grid.RowSpan="2"
+            Grid.Column="2"
+            Grid.ColumnSpan="1"
+            Focusable="False"
+            ItemsSource="{Binding WeaponProfsToDisplay}" />
+
+        <Label
+            Grid.Row="4"
+            Grid.Column="3"
+            Grid.ColumnSpan="1"
+            Content="New Armor Profs" />
+        <ListView
+            Grid.Row="5"
+            Grid.RowSpan="2"
+            Grid.Column="3"
+            Grid.ColumnSpan="1"
+            Focusable="False"
+            ItemsSource="{Binding ArmorProfsToDisplay}" />
+
+        <Label
+            Grid.Row="4"
+            Grid.Column="4"
+            Grid.ColumnSpan="1"
+            Content="New Tool Profs" />
+        <ListView
+            Grid.Row="5"
+            Grid.RowSpan="2"
+            Grid.Column="4"
+            Grid.ColumnSpan="1"
+            Focusable="False"
+            ItemsSource="{Binding ToolProfsToDisplay}" />
+
+
+
+        <Button
+            Grid.Row="7"
+            Grid.Column="7"
+            Click="Levelup_Button_Click"
+            Content="Level up"
+            IsDefault="True" />
+        <Button
+            Grid.Row="7"
+            Grid.Column="6"
+            Click="Cancel_Button_Click"
+            Content="Cancel"
+            IsCancel="True"
+            IsDefault="false" />
+    </Grid>
+</Window>

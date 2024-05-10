@@ -99,8 +99,8 @@
             Grid.RowSpan="1"
             Grid.Column="5"
             Grid.ColumnSpan="1"
-            Command="{Binding OkCommand}"
             Content="Ok"
+            Click="Ok_Button_Click"
             IsDefault="True"
             IsEnabled="{Binding IsValid}" />
         <Button
@@ -108,8 +108,8 @@
             Grid.RowSpan="1"
             Grid.Column="4"
             Grid.ColumnSpan="1"
-            Command="{Binding CancelCommand}"
             Content="Cancel"
+            Click="Cancel_Button_Click"
             IsCancel="True" />
     </Grid>
 </Window>

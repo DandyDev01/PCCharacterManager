@@ -135,7 +135,7 @@ namespace PCCharacterManager.Models
 			set { _abilities = value; }
 		}
 
-		public ObservableCollection<Property> Conditions { get; set; }
+		public ObservableCollection<Condition> Conditions { get; set; }
 		public ObservableCollection<Property> MovementTypes_Speeds { get; set; }
 		public ObservableCollection<string> CombatActions { get; set; }
 		public ObservableCollection<string> WeaponProficiencies { get; set; }
@@ -165,9 +165,10 @@ namespace PCCharacterManager.Models
 
 			_status = CharacterStatus.IDLE;
 
-			Conditions = new ObservableCollection<Property>();
+			Conditions = new ObservableCollection<Condition>();
 			MovementTypes_Speeds = new ObservableCollection<Property>();
 			WeaponProficiencies = new ObservableCollection<string>();
+			CombatActions = new ObservableCollection<string>();
 			ArmorProficiencies = new ObservableCollection<string>();
 			OtherProficiences = new ObservableCollection<string>();
 			ToolProficiences = new ObservableCollection<string>();
@@ -202,10 +203,11 @@ namespace PCCharacterManager.Models
 		{
 			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 
-			Conditions = new ObservableCollection<Property>();
+			Conditions = new ObservableCollection<Condition>();
 			MovementTypes_Speeds = new ObservableCollection<Property>();
 			WeaponProficiencies = new ObservableCollection<string>(classData.WeaponProficiencies);
 			ArmorProficiencies = new ObservableCollection<string>(classData.ArmorProficiencies);
+			CombatActions = new ObservableCollection<string>();
 			OtherProficiences = new ObservableCollection<string>();
 			ToolProficiences = new ObservableCollection<string>();
 			Languages = new ObservableCollection<string>();

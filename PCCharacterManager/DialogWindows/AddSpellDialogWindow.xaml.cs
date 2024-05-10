@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCCharacterManager.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,24 @@ namespace PCCharacterManager.DialogWindows
 		public AddSpellDialogWindow()
 		{
 			InitializeComponent();
+		}
+
+		private void Cancel_Button_Click(object sender, RoutedEventArgs e)
+		{
+			Close();
+		}
+
+		private void Add_Button_Click(object sender, RoutedEventArgs e)
+		{
+			DialogWindowAddSpellViewModel vm = DataContext as DialogWindowAddSpellViewModel;
+
+			if (vm is not null)
+			{
+				vm.AddNewSpell();
+				DialogResult = true;
+			}
+
+			Close();
 		}
 	}
 }

@@ -45,7 +45,7 @@
             Grid.Column="2"
             Grid.ColumnSpan="3"
             Width="60"
-            Command="{Binding CloseCommand}"
+            Click="Cancel_Button_Click"
             Content="Cancel"
             IsCancel="True" />
 
@@ -55,7 +55,7 @@
             Grid.Column="4"
             Grid.ColumnSpan="3"
             Width="60"
-            Command="{Binding AddSelectedCommand}"
+            Click="Ok_Button_Click"
             Content="OK"
             IsDefault="True" />
     </Grid>

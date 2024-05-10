@@ -128,7 +128,7 @@
             Grid.RowSpan="1"
             Grid.Column="5"
             Grid.ColumnSpan="1"
-            Command="{Binding OkCommand}"
+            Click="Ok_Button_Click"
             Content="Ok"
             IsDefault="True" />
         <Button
@@ -136,7 +136,7 @@
             Grid.RowSpan="1"
             Grid.Column="4"
             Grid.ColumnSpan="1"
-            Command="{Binding CancelCommand}"
+            Click="Cancel_Button_Click"
             Content="Cancel"
             IsCancel="True" />
 

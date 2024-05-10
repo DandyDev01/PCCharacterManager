@@ -1,4 +1,5 @@
 ﻿using PCCharacterManager.DialogWindows;
+using PCCharacterManager.Services;
 using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace PCCharacterManager.ViewModels
 {
 	public class StringListViewModel : ObservableObject
 	{
+		private readonly DialogServiceBase _dialogService;
 		private readonly string _listName;
 		public string ListName => _listName;
 
@@ -38,7 +40,7 @@ namespace PCCharacterManager.ViewModels
 		public Action<string>? OnAddItem;
 		public Action<string>? OnRemoveItem;
 
-		public StringListViewModel(string listName, ObservableCollection<string> item)
+		public StringListViewModel(string listName, ObservableCollection<string> item, DialogServiceBase dialogService)
 		{
 			_listName = listName;
 			ItemsToDisplay = item;
@@ -46,6 +48,7 @@ namespace PCCharacterManager.ViewModels
 			AddItemCommand = new RelayCommand(AddItem);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
 			EditItemCommand = new RelayCommand(EditItem);
+			_dialogService = dialogService;	
 		}
 
 		public void UpdateCollection(ObservableCollection<string> items)
@@ -60,13 +63,15 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void AddItem()
 		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window,
-				"enter text");
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel("Enter text.");
 
-			if (window.DialogResult == false)
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
 				return;
 
 			OnAddItem?.Invoke(windowVM.Answer);
@@ -90,19 +95,18 @@ namespace PCCharacterManager.ViewModels
 		/// </summary>
 		private void EditItem()
 		{
-			Window window = new StringInputDialogWindow();
 			DialogWindowStringInputViewModel windowVM =
-				new DialogWindowStringInputViewModel(window, "Edit ");
-
-			if (_selectedItem == null)
-				return;
+				new DialogWindowStringInputViewModel("Edit ");
 
 			windowVM.Answer = _selectedItem;
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
 
 			ItemsToDisplay.Remove(_selectedItem);

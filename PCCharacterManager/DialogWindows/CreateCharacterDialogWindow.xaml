@@ -50,7 +50,7 @@
                 Width="200"
                 Height="auto"
                 HorizontalAlignment="Right"
-                Command="{Binding CloseCommand}"
+                Click="Cancel_Button_Click"
                 Content="Close"
                 IsCancel="True" />
 
@@ -60,7 +60,7 @@
                 Width="200"
                 Height="auto"
                 HorizontalAlignment="Right"
-                Command="{Binding CreateCommand}"
+                Click="Create_Button_Click"
                 Content="Create"
                 IsDefault="True"
                 IsEnabled="{Binding SelectedCreator.IsValid}" />

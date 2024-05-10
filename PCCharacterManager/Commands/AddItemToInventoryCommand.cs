@@ -15,22 +15,24 @@ namespace PCCharacterManager.Commands
 	public class AddItemToInventoryCommand : BaseCommand
 	{
 		private readonly CharacterInventoryViewModel vm;
+		private readonly DialogServiceBase _dialogService;
 
-		public AddItemToInventoryCommand(CharacterInventoryViewModel _vm)
+		public AddItemToInventoryCommand(CharacterInventoryViewModel _vm, DialogServiceBase dialogService)
 		{
 			vm = _vm;
+			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			Window window = new AddItemDialogWindow();
-			DialogWindowAddItemViewModel dialogContext =
-				new DialogWindowAddItemViewModel(window);
-			window.DataContext = dialogContext;
+			DialogWindowAddItemViewModel dialogContext = new DialogWindowAddItemViewModel(_dialogService);
+			string result = string.Empty;
+			_dialogService.ShowDialog<AddItemDialogWindow, DialogWindowAddItemViewModel>(dialogContext, r =>
+			{
+				result = r;
+			});
 
-			window.ShowDialog();
-
-			if (window.DialogResult == false || dialogContext.InventoryVM.SelectedItem == null) 
+			if (result == false.ToString() || dialogContext.InventoryVM.SelectedItem == null) 
 				return;
 
 			if (dialogContext.InventoryVM.SelectedItem.BoundItem is not Item item)

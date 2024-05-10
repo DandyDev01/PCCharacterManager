@@ -16,7 +16,6 @@ namespace PCCharacterManager.ViewModels
 	{
 		public Array SpellSchools { get; } = Enum.GetValues(typeof(SpellSchool));
 		private readonly SpellType _spellFilterType;
-		private readonly Window _window;
 
 		private Spell _newSpell;
 		public Spell NewSpell
@@ -45,34 +44,19 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public ICommand AddSpellCommand { get; private set; }
-		public ICommand CancelCommand { get; private set; }
-
-		public DialogWindowAddSpellViewModel(Window window, SpellType spellFilterType)
+		public DialogWindowAddSpellViewModel(SpellType spellFilterType)
 		{
-			_window = window;
 			_newSpell = new Spell();
 			_spellComponents = string.Empty;
 
 			_spellFilterType = spellFilterType;
-
-			AddSpellCommand = new RelayCommand(AddNewSpell);
-			CancelCommand = new RelayCommand(Close);
 		}
 
-		private void AddNewSpell()
+		public void AddNewSpell()
 		{
 			_newSpell.School = _selectedSchool;
-			if (_spellFilterType == SpellType.CANTRIP) _newSpell.IsPrepared = true;
-
-			_window.DialogResult = true;
-			_window.Close();
-		}
-
-		private void Close()
-		{
-			_window.DialogResult = false;
-			_window.Close();
+			if (_spellFilterType == SpellType.CANTRIP) 
+				_newSpell.IsPrepared = true;
 		}
 	}
 }

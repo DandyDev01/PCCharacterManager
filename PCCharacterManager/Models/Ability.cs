@@ -81,6 +81,26 @@ namespace PCCharacterManager.Models
 			UpdateProfSaveCommand = new RelayCommand(SetProfSave);
 		}
 
+		public Ability(int score, int modifier, int save, bool profSave, int profBonus,
+			string name, string description, AbilitySkill[] skills)
+		{
+			Score = score;
+			Modifier = modifier;
+			Save = save;
+			ProfSave = profSave;
+			_profBonus = profBonus;
+			Score = score;
+			ProfSave = profSave;
+			Name = name;
+			Description = description;
+			Modifier = modifier;
+			Save = save;
+			Skills = skills;
+			UpdateProfSaveCommand = new RelayCommand(SetProfSave);
+		}
+
+
+
 		/// <summary>
 		/// set the proficiency bonus and update associated skill info and ability save info
 		/// </summary>
@@ -88,7 +108,8 @@ namespace PCCharacterManager.Models
 		/// <exception cref="Exception">when _profBonus is below 0</exception>
 		public void SetProfBonus(int profBonus)
 		{
-			if (profBonus <= 0) throw new Exception("param _profBonus must be greater than 0");
+			if (profBonus <= 0) 
+				throw new Exception("param _profBonus must be greater than 0");
 
 			if (profBonus < 2)
 				profBonus = 2;
@@ -349,6 +370,22 @@ namespace PCCharacterManager.Models
 			}
 
 			return skillNames;
+		}
+
+		public static string[] GetProficientSkillNames(Ability[] abilities)
+		{
+			List<string> results = new();
+
+			foreach (Ability ability in abilities)
+			{
+				foreach (AbilitySkill skill in ability.Skills)
+				{
+					if (skill.SkillProficiency)
+						results.Add(skill.Name);
+				}
+			}
+
+			return results.ToArray();
 		}
 
 	} // end class

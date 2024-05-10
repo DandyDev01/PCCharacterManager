@@ -26,6 +26,7 @@ namespace PCCharacterManager.ViewModels
 	{
 		private readonly CharacterStore _characterStore;
 		private readonly ICharacterDataService _dataService;
+		private readonly DialogServiceBase _dialogService;
 		private readonly CollectionViewPropertySort _collectionViewPropertySort;
 
 		public ObservableCollection<CharacterItemViewModel> CharacterItems { get; private set; }
@@ -40,13 +41,15 @@ namespace PCCharacterManager.ViewModels
 		public ICommand CharacterTypeSortCommand { get; }
 		public ICommand CharacterRaceSortCommand { get; }
 
-		public CharacterListViewModel(CharacterStore characterStore, ICharacterDataService dataService)
+		public CharacterListViewModel(CharacterStore characterStore, ICharacterDataService dataService,
+			DialogServiceBase dialogService)
 		{
 			_characterStore = characterStore;
 			_dataService = dataService;
+			_dialogService = dialogService;
 
-			CreateCharacterCommand = new CreateCharacterCommand(characterStore);
-			DeleteCharacterCommand = new DeleteCharacterCommand(this, dataService, characterStore);
+			CreateCharacterCommand = new CreateCharacterCommand(characterStore, dialogService);
+			DeleteCharacterCommand = new DeleteCharacterCommand(this, dataService, characterStore, dialogService);
 
 			_characterStore.CharacterCreate += LoadCharacter;
 			_dataService.OnSave += Update;
@@ -66,7 +69,7 @@ namespace PCCharacterManager.ViewModels
 			List<string> characterPaths = dataService.GetCharacterFilePaths().ToList();
 			for (int i = 0; i < characters.Count; i++)
 			{
-				CharacterItemViewModel characterItemVM = new(this._characterStore, characters[i], characterPaths[i]);
+				CharacterItemViewModel characterItemVM = new(this._characterStore, characters[i], characterPaths[i], dialogService);
 				characterItemVM.DeleteAction += DeleteCharacter;
 
 				CharacterItems.Add(characterItemVM);
@@ -101,7 +104,13 @@ namespace PCCharacterManager.ViewModels
 			characterItemVM.DeleteAction -= DeleteCharacter;
 
 			CharacterItems.Remove(characterItemVM);
-			CharacterItems[0].SelectCharacterCommand?.Execute(null);
+			if (CharacterItems.Any())
+				CharacterItems[0].SelectCharacterCommand?.Execute(null);
+			else
+			{
+				CreateCharacterCommand?.Execute(null);
+				CharacterItems[0].SelectCharacterCommand?.Execute(null);
+			}
 		}
 
 		/// <summary>
@@ -114,7 +123,7 @@ namespace PCCharacterManager.ViewModels
 			if (character == null)
 				return;
 
-			CharacterItemViewModel characterItemVM = CharacterItemVMFactory.Create(character, _characterStore);
+			CharacterItemViewModel characterItemVM = CharacterItemVMFactory.Create(character, _characterStore, _dialogService);
 			characterItemVM.DeleteAction += DeleteCharacter;
 
 			CharacterItems.Add(characterItemVM);

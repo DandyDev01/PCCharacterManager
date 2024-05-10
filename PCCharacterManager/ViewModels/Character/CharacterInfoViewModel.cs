@@ -12,6 +12,8 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Linq;
+using Condition = PCCharacterManager.Models.Condition;
+using PCCharacterManager.Services;
 
 namespace PCCharacterManager.ViewModels
 {
@@ -19,6 +21,7 @@ namespace PCCharacterManager.ViewModels
 	{
 		private readonly CollectionViewPropertySort _collectionViewPropertySort;
 		private readonly CharacterStore _characterStore;
+		private readonly DialogServiceBase _dialogService;
 
 		private DnD5eCharacter _selectedCharacter;
 		public DnD5eCharacter SelectedCharacter
@@ -35,7 +38,7 @@ namespace PCCharacterManager.ViewModels
 
 		public PropertyListViewModel MovementTypesListVM { get; }
 		public PropertyListViewModel FeaturesListVM { get; }
-		public PropertyListViewModel ConditionsListVM { get; }
+		public ConditionListViewModel ConditionsListVM { get; }
 
 		public StringListViewModel LanguagesVM { get; }
 		public StringListViewModel CombatActionsVM { get; }
@@ -115,6 +118,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand NameSortCommand { get; }
 		public ICommand FeatureTypeSortCommand { get; }
 		public ICommand LevelSortCommand { get; }
+
 		public ICommand AddFeatureCommand { get; }
 		public ICommand RemoveFeatureCommand { get; }
 		public ICommand AdjustExperienceCommand { get; }
@@ -126,12 +130,13 @@ namespace PCCharacterManager.ViewModels
 		public ICommand StartEncounterCommand { get; }
 		public ICommand EndEncounterCommand { get; }
 
-		public CharacterInfoViewModel(CharacterStore characterStore)
+		public CharacterInfoViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
 		{
 			_characterStore = characterStore;
 
 			_characterStore.OnCharacterLevelup += OnCharacterChanged;
 
+			_dialogService = dialogService;
 			_selectedCharacter = this._characterStore.SelectedCharacter;
 			_race = _selectedCharacter.Race.Name;
 			_health = _selectedCharacter.Health.CurrHealth.ToString();
@@ -162,17 +167,17 @@ namespace PCCharacterManager.ViewModels
 
 			_selectedProperty = AllFeatures.FirstOrDefault();	
 
-			FeaturesListVM = new PropertyListViewModel("Features");
+			FeaturesListVM = new PropertyListViewModel("Features", dialogService);
 
-			ConditionsListVM = new PropertyListViewModel("Conditions", _selectedCharacter.Conditions);
-			MovementTypesListVM = new PropertyListViewModel("Movement", _selectedCharacter.MovementTypes_Speeds);
-			LanguagesVM = new StringListViewModel("Languages", _selectedCharacter.Languages);
-			CombatActionsVM = new StringListViewModel("Actions", _selectedCharacter.CombatActions);
-			ToolProfsVM = new StringListViewModel("Tool Profs", _selectedCharacter.ToolProficiences);
-			ArmorProfsVM = new StringListViewModel("Armor Profs", _selectedCharacter.ArmorProficiencies);
-			OtherProfsVM = new StringListViewModel("Other Profs", _selectedCharacter.OtherProficiences);
-			WeaponProfsVM = new StringListViewModel("Weapon Profs", _selectedCharacter.WeaponProficiencies);
-			LevelCharacterCommand = new LevelCharacterCommand(_characterStore);
+			ConditionsListVM = new ConditionListViewModel("Conditions", _selectedCharacter.Conditions, dialogService);
+			MovementTypesListVM = new PropertyListViewModel("Movement", _selectedCharacter.MovementTypes_Speeds, dialogService);
+			LanguagesVM = new StringListViewModel("Languages", _selectedCharacter.Languages, dialogService);
+			CombatActionsVM = new StringListViewModel("Actions", _selectedCharacter.CombatActions, dialogService);
+			ToolProfsVM = new StringListViewModel("Tool Profs", _selectedCharacter.ToolProficiences, dialogService);
+			ArmorProfsVM = new StringListViewModel("Armor Profs", _selectedCharacter.ArmorProficiencies, dialogService);
+			OtherProfsVM = new StringListViewModel("Other Profs", _selectedCharacter.OtherProficiences, dialogService);
+			WeaponProfsVM = new StringListViewModel("Weapon Profs", _selectedCharacter.WeaponProficiencies, dialogService);
+			LevelCharacterCommand = new LevelCharacterCommand(_characterStore, dialogService);
 			AdjustExperienceCommand = new RelayCommand(AdjustExperience);
 			AdjustHealthCommand = new RelayCommand(AddHealth);
 			EditArmorClassCommand = new RelayCommand(EditArmorClass);
@@ -194,8 +199,26 @@ namespace PCCharacterManager.ViewModels
 		}
 
 		private void NextCombatRound()
-		{
+		{ 
 			_selectedCharacter.CombatRound += 1;
+
+			if (_selectedCharacter.Conditions.Count <= 0)
+				return;
+
+			foreach (var condition in _selectedCharacter.Conditions)
+			{
+				condition.PassRound();
+			}
+
+			Condition[] expiredCondition = _selectedCharacter.Conditions
+				.Where(x => x.RoundsPassed >= x.DurationInRounds).ToArray();
+			
+
+			foreach (Condition condition in expiredCondition)
+			{
+				_selectedCharacter.Conditions.Remove(condition);
+			}
+
 		}
 
 		/// <summary>
@@ -230,7 +253,8 @@ namespace PCCharacterManager.ViewModels
 			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth + " (" + temp.TempHitPoints + " temp)";
 
 			var characterClass = _selectedCharacter.CharacterClass;
-			CharacterClass = characterClass.Name + "(total: " + _selectedCharacter.Level.Level + ")";
+			CharacterClass = characterClass.Name + "(total: " + _selectedCharacter.Level.Level 
+				+ ", PB: " + _selectedCharacter.Level.ProficiencyBonus + ")";
 
 			ArmorClass = _selectedCharacter.ArmorClass.ArmorClassValue;
 
@@ -240,18 +264,20 @@ namespace PCCharacterManager.ViewModels
 
 		private void EditArmorClass()
 		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel(window);
-			window.DataContext = dataContext;
+			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel();
 
 			dataContext.Answer = _selectedCharacter.ArmorClass.ArmorClassValue;
 
-			window.ShowDialog();
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(dataContext, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
 
-			
+
 
 			_selectedCharacter.ArmorClass.ArmorClassValue = dataContext.Answer;
 			ArmorClass = _selectedCharacter.ArmorClass.ArmorClassValue;
@@ -259,12 +285,15 @@ namespace PCCharacterManager.ViewModels
 
 		private void AdjustExperience()
 		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel(window, "Enter amount to add or remove.");
-			window.DataContext = dataContext;
-			window.ShowDialog();
+			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel("Enter amount to add or remove.");
 
-			if (window.DialogResult == false)
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(dataContext, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
 				return;
 
 			int temp;
@@ -274,7 +303,7 @@ namespace PCCharacterManager.ViewModels
 			}
 			catch 
 			{
-				MessageBox.Show("Must be a whole number", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				_dialogService.ShowMessage("Must be a whole number", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				AdjustExperience();
 				return;
 			}
@@ -286,12 +315,14 @@ namespace PCCharacterManager.ViewModels
 
 		private void AddHealth()
 		{
-			Window window = new ChangeHealthDialogWindow();
-			DialogWindowChangeHealthViewModel dataContext = new DialogWindowChangeHealthViewModel(window);
-			window.DataContext = dataContext;
-			window.ShowDialog();
+			DialogWindowChangeHealthViewModel dataContext = new DialogWindowChangeHealthViewModel();
+			string result = string.Empty;
+			_dialogService.ShowDialog<ChangeHealthDialogWindow, DialogWindowChangeHealthViewModel>(dataContext, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
 
 			var characterHealth = _selectedCharacter.Health;
@@ -312,13 +343,16 @@ namespace PCCharacterManager.ViewModels
 
 		private void AddFeature()
 		{
-			Window window = new AddFeatureDialogWindow();
-			window.DataContext = new DialogWindowAddFeatureViewModel(window, this);
-			window.ShowDialog();
+			DialogWindowAddFeatureViewModel windowVM = new DialogWindowAddFeatureViewModel(this);
+			string result = string.Empty;
+			_dialogService.ShowDialog<AddFeatureDialogWindow, DialogWindowAddFeatureViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
-			
+
 			FeatureTypeSortCommand?.Execute(null);
 		}
 
@@ -382,11 +416,16 @@ namespace PCCharacterManager.ViewModels
 			if (_characterStore.SelectedCharacter == null)
 				return;
 
-			Window window = new EditCharacterDialogWindow();
-			DialogWindowEditCharacterViewModel windowVM = new(window, _characterStore.SelectedCharacter);
-			window.DataContext = windowVM;
+			DialogWindowEditCharacterViewModel windowVM = new(_characterStore.SelectedCharacter, _dialogService);
 
-			window.ShowDialog();
+			string result = string.Empty;
+			_dialogService.ShowDialog<EditCharacterDialogWindow, DialogWindowEditCharacterViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
+				return;
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using PCCharacterManager.Models;
+using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,11 @@ namespace PCCharacterManager.Commands
 		private readonly StarfinderCharacterLeveler _starfinderLeveler;
 		private CharacterLeveler _leveler;
 
-		public LevelCharacterCommand(CharacterStore characterStore)
+		public LevelCharacterCommand(CharacterStore characterStore, DialogServiceBase dialogService)
 		{
 			_characterStore = characterStore;
-			_dnd5eLeveler = new();
-			_starfinderLeveler = new();
+			_dnd5eLeveler = new(dialogService);
+			_starfinderLeveler = new(dialogService);
 			_leveler = _dnd5eLeveler;
 		}
 

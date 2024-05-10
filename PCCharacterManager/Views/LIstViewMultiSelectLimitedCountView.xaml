@@ -21,10 +21,7 @@
             Content="{Binding AmountToBeSelected, FallbackValue=2}"
             Style="{DynamicResource small}" />
 
-        <ListView
-            Grid.Row="1"
-            ItemsSource="{Binding Items}"
-            SelectedItem="{Binding ListSelectedItem}">
+        <ListView Grid.Row="1" ItemsSource="{Binding Items}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <v:ListViewSelectableItemView />

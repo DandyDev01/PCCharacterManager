@@ -1,4 +1,8 @@
-﻿using PCCharacterManager.Helpers;
+﻿using PCCharacterManager.DialogWindows;
+using PCCharacterManager.Helpers;
+using PCCharacterManager.Services;
+using PCCharacterManager.ViewModels;
+using PCCharacterManager.ViewModels.DialogWindowViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +27,20 @@ namespace PCCharacterManager
 	{
 		public MainWindow()
 		{
+			DialogServiceBase.RegisterDialog<DialogWindowCharacterCreaterViewModel, CreateCharacterDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowAddAugmentationViewModel, AddAugmentationDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowAddConditionViewModel, AddConditionDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowAddFeatureViewModel, AddFeatureDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowAddItemViewModel, AddItemDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowAddSpellViewModel, AddSpellDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowChangeHealthViewModel, ChangeHealthDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowCharacterCreaterViewModel, CreateCharacterDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowEditCharacterViewModel, EditCharacterDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowDnD5eCharacterLevelupViewModel, DnD5eLevelupCharacterDialogWindow>();
+			//DialogService.RegisterDialog<DialogWindowSelectAbilityViewModel, SelectAbilityToIncreaseScoreDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowSelectStingValueViewModel, SelectStringValueDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowListViewSelectItemViewModel, SelectStringValueDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowStringInputViewModel, StringInputDialogWindow>();
 			InitializeComponent();
 		}
 

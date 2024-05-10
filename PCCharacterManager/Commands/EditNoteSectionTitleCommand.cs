@@ -1,4 +1,5 @@
 ﻿using PCCharacterManager.DialogWindows;
+using PCCharacterManager.Services;
 using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace PCCharacterManager.Commands
 	public class EditNoteSectionTitleCommand : BaseCommand
 	{
 		private readonly CharacterNoteBookViewModel viewModel;
+		private readonly DialogServiceBase _dialogService;
 
-		public EditNoteSectionTitleCommand(CharacterNoteBookViewModel _viewModel)
+		public EditNoteSectionTitleCommand(CharacterNoteBookViewModel _viewModel, DialogServiceBase dialogService)
 		{
 			viewModel = _viewModel;
+			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
@@ -27,13 +30,16 @@ namespace PCCharacterManager.Commands
 				return;
 			}
 
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel dataContext = new(window);
-			window.DataContext = dataContext;
+			DialogWindowStringInputViewModel dataContext = new();
 
-			bool? result = window.ShowDialog();
 
-			if (result == false)
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(dataContext, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
 				return;
 
 			string inputTitle = dataContext.Answer;

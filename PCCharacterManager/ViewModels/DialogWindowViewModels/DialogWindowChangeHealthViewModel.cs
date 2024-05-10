@@ -11,11 +11,9 @@ using System.Xml.Linq;
 
 namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 {
-    class DialogWindowChangeHealthViewModel : ObservableObject
+    public class DialogWindowChangeHealthViewModel : ObservableObject
     {
-		private readonly Window _window;
-
-		public int Amount { get; private set; }
+		public int Amount { get; set; }
 
 		private string _answer;
 		public string Answer
@@ -43,37 +41,10 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			}
 		}
 
-		public ICommand OkCommand { get; }
-		public ICommand CancelCommand { get; }
-
-		public DialogWindowChangeHealthViewModel(Window window)
+		public DialogWindowChangeHealthViewModel()
 		{
-			_window = window;
-			OkCommand = new RelayCommand(Ok);
-			CancelCommand = new RelayCommand(Cancel);
 			_answer = string.Empty;
 		}
 
-		private void Cancel()
-		{
-			_window.DialogResult = false;
-			_window.Close();
-		}
-
-		private void Ok()
-		{
-			try
-			{
-				Amount = int.Parse(_answer);
-			}
-			catch
-			{
-				MessageBox.Show("value must be a whole number", "invalid data", MessageBoxButton.OK, MessageBoxImage.Error);
-				return;
-			}
-
-			_window.DialogResult = true;
-			_window.Close();
-		}
 	}
 }

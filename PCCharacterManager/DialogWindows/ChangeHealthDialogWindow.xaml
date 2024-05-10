@@ -52,13 +52,13 @@
         <Button
             Grid.Row="2"
             Grid.Column="2"
-            Command="{Binding CancelCommand}"
             Content="Cancel"
+            Click="Cancel_Button_Click"
             IsCancel="true" />
         <Button
             Grid.Row="2"
             Grid.Column="3"
-            Command="{Binding OkCommand}"
+            Click="Ok_Button_Click"
             Content="Ok" />
     </Grid>
 </Window>

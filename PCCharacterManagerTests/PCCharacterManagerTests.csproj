@@ -18,4 +18,8 @@
     <ProjectReference Include="..\PCCharacterManager\PCCharacterManager.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TestResults\" />
+  </ItemGroup>
+
 </Project>

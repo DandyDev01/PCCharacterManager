@@ -1,5 +1,6 @@
 ﻿using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
+using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using System;
@@ -15,6 +16,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class StarfinderCharacterInfoViewModel : CharacterInfoViewModel
 	{
+		private readonly DialogServiceBase _dialogService;
+
 		public PropertyListViewModel RaceFeatureListVM { get; protected set; }
 		public PropertyListViewModel ClassFeatureListVM { get; protected set; }
 		public PropertyListViewModel RaceVarientListVM { get; protected set; }
@@ -79,8 +82,8 @@ namespace PCCharacterManager.ViewModels
 
 		public PropertyListViewModel ThemeListVM { get; private set; }
 
-		public StarfinderCharacterInfoViewModel(CharacterStore characterStore) 
-			: base(characterStore)
+		public StarfinderCharacterInfoViewModel(CharacterStore characterStore, DialogServiceBase dialogService) 
+			: base(characterStore, dialogService)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChange;
 
@@ -89,10 +92,10 @@ namespace PCCharacterManager.ViewModels
 			else
 				_selectedCharacter = new StarfinderCharacter();
 
-			RaceFeatureListVM = new PropertyListViewModel("Features");
-			ClassFeatureListVM = new PropertyListViewModel("Features");
-			RaceVarientListVM = new PropertyListViewModel("Features");
-			ThemeListVM = new PropertyListViewModel("Features");
+			RaceFeatureListVM = new PropertyListViewModel("Features", dialogService);
+			ClassFeatureListVM = new PropertyListViewModel("Features", dialogService);
+			RaceVarientListVM = new PropertyListViewModel("Features", dialogService);
+			ThemeListVM = new PropertyListViewModel("Features", dialogService);
 
 			AddThemeFeatureCommand = new RelayCommand(AddThemeFeature);
 			RemoveThemeFeatureCommand = new RelayCommand(RemoveThemeFeature);
@@ -102,6 +105,8 @@ namespace PCCharacterManager.ViewModels
 			EditAugmentationCommand = new RelayCommand(EditRemoveAugmentation);
 
 			SelectedThemeFeatureName = string.Empty;
+
+			_dialogService = dialogService;
 		}
 
 		private void OnCharacterChange(DnD5eCharacter newCharacter)
@@ -114,9 +119,11 @@ namespace PCCharacterManager.ViewModels
 				return;
 			}
 
-			ThemeListVM = new PropertyListViewModel("Themes", _selectedCharacter.Theme.Features);
-			ClassFeatureListVM = new DnDClassFeatureListViewModel("Class Features", SelectedCharacter.CharacterClass.Features);
-			RaceFeatureListVM = new PropertyListViewModel("Race Features", SelectedCharacter.Race.Features);
+			ThemeListVM = new PropertyListViewModel("Themes", _selectedCharacter.Theme.Features, _dialogService);
+			ClassFeatureListVM = new DnDClassFeatureListViewModel("Class Features", 
+				SelectedCharacter.CharacterClass.Features, _dialogService);
+			RaceFeatureListVM = new PropertyListViewModel("Race Features", SelectedCharacter.Race.Features, 
+				_dialogService);
 			
 			OnPropertyChanged(nameof(ClassFeatureListVM));
 			OnPropertyChanged(nameof(RaceFeatureListVM));
@@ -138,13 +145,15 @@ namespace PCCharacterManager.ViewModels
 			if (_selectedAugmentation is null)
 				return;
 
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel viewModel = 
-				new(window, "Update description of " + _selectedAugmentation.Name);
-			window.DataContext = viewModel;
-			window.ShowDialog();
+			DialogWindowStringInputViewModel viewModel = new("Update description of " + _selectedAugmentation.Name);
+			
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(viewModel, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
 
 			_selectedAugmentation.Description = viewModel.Answer;
@@ -164,12 +173,14 @@ namespace PCCharacterManager.ViewModels
 			if (_selectedCharacter is null)
 				return;
 
-			Window window = new AddAugmentationDialogWindow();
-			DialogWindowAddAugmentationViewModel windowVM = new(window);
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			DialogWindowAddAugmentationViewModel windowVM = new();
+			string result = string.Empty;
+			_dialogService.ShowDialog<AddAugmentationDialogWindow, DialogWindowAddAugmentationViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
 
 			_selectedCharacter.Augmentations.Add(windowVM.Augmentation);
@@ -180,20 +191,25 @@ namespace PCCharacterManager.ViewModels
 			if (_selectedCharacter is null)
 				return;
 
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new(window, "Feature Name");
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			DialogWindowStringInputViewModel windowVM = new("Feature Name");
+			
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
 
-			Window window1 = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM1 = new(window1, "Feature Description");
-			window1.DataContext = windowVM1;
-			window1.ShowDialog();
+			DialogWindowStringInputViewModel windowVM1 = new("Feature Description");
+			result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM1, r =>
+			{
+				result = r;
+			});
 
-			if (window1.DialogResult == false)
+			if (result == false.ToString())
 				return;
 
 			_selectedCharacter.Theme.Features.Add(new Property(windowVM.Answer, windowVM1.Answer));
@@ -204,14 +220,17 @@ namespace PCCharacterManager.ViewModels
 			if (_selectedThemeFeature is null)
 				return;
 
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new(window, "Edit " + _selectedThemeFeature.Name);
+			DialogWindowStringInputViewModel windowVM = new("Edit " + _selectedThemeFeature.Name);
 
 			windowVM.Answer = _selectedThemeFeature.Desc;
-			window.DataContext = windowVM;
-			window.ShowDialog();
 
-			if (window.DialogResult == false)
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
 				return;
 
 			_selectedThemeFeature.Desc = windowVM.Answer;

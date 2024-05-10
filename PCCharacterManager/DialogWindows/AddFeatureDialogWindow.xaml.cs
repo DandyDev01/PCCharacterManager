@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCCharacterManager.ViewModels.DialogWindowViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,5 +24,23 @@ namespace PCCharacterManager.DialogWindows
         {
             InitializeComponent();
         }
-    }
+
+		private void Ok_Button_Click(object sender, RoutedEventArgs e)
+		{
+			DialogWindowAddFeatureViewModel vm = DataContext as DialogWindowAddFeatureViewModel;
+
+			if (vm is not null)
+			{
+				vm.Ok();
+				DialogResult = true;
+			}
+
+			Close();
+		}
+
+		private void Cancel_Button_Click(object sender, RoutedEventArgs e)
+		{
+			Close();
+		}
+	}
 }

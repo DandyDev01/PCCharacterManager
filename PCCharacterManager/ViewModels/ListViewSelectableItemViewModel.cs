@@ -37,5 +37,10 @@ namespace PCCharacterManager.ViewModels
 		{
 			_boundItem = item;
 		}
+
+		public void Toggle()
+		{
+			IsSelected = !IsSelected;
+		}
 	}
 }

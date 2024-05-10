@@ -1,4 +1,5 @@
-﻿using PCCharacterManager.Stores;
+﻿using PCCharacterManager.Services;
+using PCCharacterManager.Stores;
 using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ namespace PCCharacterManager.Models.Factories
 {
 	public static class CharacterItemVMFactory
 	{
-		public static CharacterItemViewModel Create(DnD5eCharacter character, CharacterStore characterStore)
+		public static CharacterItemViewModel Create(DnD5eCharacter character, CharacterStore characterStore, 
+			DialogServiceBase dialogService)
 		{
 			if (character == null)
 				throw new Exception("null value exeption");
@@ -18,12 +20,12 @@ namespace PCCharacterManager.Models.Factories
 			if (character is StarfinderCharacter starfinder)
 			{
 				return new CharacterItemViewModel(characterStore, character,
-					StarfinderResources.CharacterDataDir + "/" + character.Name + character.Id + ".json");
+					StarfinderResources.CharacterDataDir + "/" + character.Name + character.Id + ".json", dialogService);
 			}
 			else if (character is DnD5eCharacter)
 			{
 				return new CharacterItemViewModel(characterStore, character,
-					DnD5eResources.CharacterDataDir + "/" + character.Name + character.Id + ".json");
+					DnD5eResources.CharacterDataDir + "/" + character.Name + character.Id + ".json", dialogService);
 			}
 
 			throw new Exception("Fail");

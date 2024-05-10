@@ -11,42 +11,15 @@ namespace PCCharacterManager.ViewModels
 {
 	internal class DialogWindowListViewSelectItemViewModel : ObservableObject
 	{
-		private readonly Window _window;
 		private readonly ListViewMultiSelectItemsLimitedCountViewModel _limitedMultiSelectVM;
 
 		public ListViewMultiSelectItemsLimitedCountViewModel LimitedMultiSelectVM { get { return _limitedMultiSelectVM; } }
 		public IEnumerable<string> SelectedItems { get { return LimitedMultiSelectVM.SelectedItems; } }
 
-		public ICommand AddSelectedCommand { get; set; }
-		public ICommand CloseCommand { get; set; }
-
-		public DialogWindowListViewSelectItemViewModel(Window window, string[] options, int maxSelections = 1)
+		public DialogWindowListViewSelectItemViewModel(string[] options, int maxSelections = 1)
 		{
-			_window = window;
 			_limitedMultiSelectVM = new ListViewMultiSelectItemsLimitedCountViewModel(maxSelections, options.ToList());
-
-			AddSelectedCommand = new RelayCommand(AddSelected);
-			CloseCommand = new RelayCommand(Close);
-
 			OnPropertyChanged("MonsterNPCsToDisplay");
-		}
-
-		/// <summary>
-		/// Add the selected to the in param _selected
-		/// </summary>
-		private void AddSelected()
-		{
-			_window.DialogResult = true;
-			_window.Close();
-		}
-
-		/// <summary>
-		/// Will close the dialog window
-		/// </summary>
-		private void Close()
-		{
-			_window.DialogResult = false;
-			_window.Close();
 		}
 	}
 }

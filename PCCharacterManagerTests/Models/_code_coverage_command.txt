@@ -1,0 +1,29 @@
+code coverage command
+dotnet build // from the project test directory
+
+PS D:\Documents\repos\C#\PCCharacterManager\PCCharacterManagerTests> coverlet .\bin\Debug\net6.0-windows\PCCharacterManager.dll --target "dotnet" --targetargs "test --no-build" --exclude "[*]PCCharacterManager.Views*"
+ 
+D:\Documents\repos\C#\PCCharacterManager\PCCharacterManagerTests> dotnet test --collect: "XPlat Code Coverage"
+
+D:\Documents\repos\C#\PCCharacterManager\PCCharacterManagerTests> reportgenerator -reports:".\TestResults\576786d5-640f-4431-b111-51c844f5df05\coverage.cobertura.xml" -targetdir:"coverageresults" -reporttypes:Html
+
+ https://www.youtube.com/watch?v=xwMWGYD8rgk&t=303s 
+
+ classes to ignore
+
+ abilitySkill
+ armorClass
+ condition
+ CharactermulticlassData
+ feature
+ property
+ Note
+ rollDie
+ tabControllViewModel
+ DialogWindowAddItemViewModel
+ tabItemViewModel
+ dialogWindowEditCharacterViewModel
+ dialogWindowStringInputViewModel
+ startfinderAbilitiesAndSkillsViewModel
+ dialogWindowAddSpellViewModel
+

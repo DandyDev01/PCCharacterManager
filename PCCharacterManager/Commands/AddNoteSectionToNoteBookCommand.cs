@@ -1,5 +1,6 @@
 ﻿using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
+using PCCharacterManager.Services;
 using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,21 +14,28 @@ namespace PCCharacterManager.Commands
 	public class AddNoteSectionToNoteBookCommand : BaseCommand
 	{
 		private readonly CharacterNoteBookViewModel viewModel;
+		private readonly DialogServiceBase _dialogService;
 
-		public AddNoteSectionToNoteBookCommand(CharacterNoteBookViewModel _viewModel)
+		public AddNoteSectionToNoteBookCommand(CharacterNoteBookViewModel _viewModel, DialogServiceBase dialogService)
 		{
 			viewModel = _viewModel;
+			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
 		{
 			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window);
+			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel();
 			window.DataContext = windowVM;
 
-			var result = window.ShowDialog();
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
-			if (result == false) return;
+			if (result == false.ToString())
+				return;
 
 			string sectionTitle = windowVM.Answer;
 			NoteSection newNoteSection = new NoteSection(sectionTitle);

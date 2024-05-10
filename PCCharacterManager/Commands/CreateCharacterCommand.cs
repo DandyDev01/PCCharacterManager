@@ -1,4 +1,5 @@
 ﻿using PCCharacterManager.DialogWindows;
+using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.ViewModels;
 using System;
@@ -13,18 +14,23 @@ namespace PCCharacterManager.Commands
 	public class CreateCharacterCommand : BaseCommand
 	{
 		private readonly CharacterStore characterStore;
+		private readonly DialogServiceBase _dialogService;
 
-		public CreateCharacterCommand(CharacterStore _characterStore)
+		public CreateCharacterCommand(CharacterStore _characterStore, DialogServiceBase dialogService)
 		{
 			characterStore = _characterStore;
+			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			Window newCharacterWindow = new CreateCharacterDialogWindow();
-			newCharacterWindow.DataContext = new DialogWindowCharacterCreaterViewModel(characterStore, newCharacterWindow);
+			var vm = new DialogWindowCharacterCreaterViewModel(characterStore, _dialogService);
 
-			newCharacterWindow.ShowDialog();
+			string result = string.Empty;
+			_dialogService.ShowDialog<CreateCharacterDialogWindow, DialogWindowCharacterCreaterViewModel>(vm, r =>
+			{
+				result = r;
+			});
 		}
 	}
 }

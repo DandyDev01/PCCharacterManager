@@ -77,7 +77,7 @@ namespace PCCharacterManager.ViewModels
 		public Action<Note>? selectedNoteChange;
 		public Action? characterChange;
 
-		public CharacterNoteBookViewModel(CharacterStore characterStore)
+		public CharacterNoteBookViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
@@ -89,11 +89,11 @@ namespace PCCharacterManager.ViewModels
 			_highlightTerm = string.Empty;
 			_selectedNote = new Note();
 
-			AddNoteCommand = new AddNoteToNoteBookCommand(this);
-			AddNoteSectionCommand = new AddNoteSectionToNoteBookCommand(this);
+			AddNoteCommand = new AddNoteToNoteBookCommand(this, dialogService);
+			AddNoteSectionCommand = new AddNoteSectionToNoteBookCommand(this, dialogService);
 			DeleteNoteCommand = new RemoveNoteFromNoteBookCommand(this);
-			DeleteNoteSectionCommand = new DeleteNoteSectionFromNoteBookCommand(this);
-			EditSectionTitleCommand = new EditNoteSectionTitleCommand(this);
+			DeleteNoteSectionCommand = new DeleteNoteSectionFromNoteBookCommand(this, dialogService);
+			EditSectionTitleCommand = new EditNoteSectionTitleCommand(this, dialogService);
 			FindInNoteCommand = new RelayCommand(FindInNote);
 		}
 

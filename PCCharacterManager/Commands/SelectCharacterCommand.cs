@@ -1,4 +1,5 @@
 ﻿using PCCharacterManager.Models;
+using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.ViewModels;
 using System;
@@ -14,11 +15,13 @@ namespace PCCharacterManager.Commands
 	{
 		public string characterPath;
 		private readonly CharacterStore characterStore;
+		private readonly DialogServiceBase _dialogService;
 
-		public SelectCharacterCommand(CharacterStore characterStore, string _characterPath)
+		public SelectCharacterCommand(CharacterStore characterStore, string _characterPath, DialogServiceBase dialogService)
 		{
 			this.characterStore = characterStore;
 			characterPath = _characterPath;
+			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
@@ -35,18 +38,19 @@ namespace PCCharacterManager.Commands
 			}
 			else
 			{
-				MessageBox.Show("There is a problem with the character path you wish to select", "character select problem", MessageBoxButton.OK, MessageBoxImage.Error);
+				_dialogService.ShowMessage("There is a problem with the character path you wish to select",
+					"character select problem", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
 			if (selectedCharacter == null)
 			{
-				MessageBox.Show("There is a problem with the character you wish to select", "character select problem", MessageBoxButton.OK, MessageBoxImage.Error);
+				_dialogService.ShowMessage("There is a problem with the character you wish to select", 
+					"character select problem", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
 			characterStore.BindSelectedCharacter(selectedCharacter);
-
 		}
 	}
 }

@@ -86,17 +86,11 @@ namespace PCCharacterManager.ViewModels
 		public Array AugmentationSystemToDisplay = Enum.GetValues(typeof(AugmentationSystem));
 		public ObservableCollection<ListViewSelectableItemViewModel> SelectableAugmentationSystems { get; private set; }
 
-		private readonly Window _window;
-		private readonly List<string> _systems;
-		public ICommand OkCommand { get; }
-		public ICommand CancelCommand { get; }
+		public readonly List<string> systems;
 
-		public DialogWindowAddAugmentationViewModel(Window window)
+		public DialogWindowAddAugmentationViewModel()
 		{
-			_window = window;
-			_systems = new List<string>();
-			OkCommand = new RelayCommand(Ok);
-			CancelCommand = new RelayCommand(Cancel);
+			systems = new List<string>();
 			_augmentation = new StarfinderAugmentation();
 			_name = string.Empty;
 			_description = string.Empty;
@@ -107,33 +101,6 @@ namespace PCCharacterManager.ViewModels
 			{
 				SelectableAugmentationSystems.Add(new ListViewSelectableItemViewModel(system.ToString().ToLower()));
 			}
-		}
-
-		private void Cancel()
-		{
-			_window.DialogResult = false;
-			_window.Close();
-		}
-
-		private void Ok()
-		{
-			_augmentation.Name = _name;
-			_augmentation.Description = _description;
-			_augmentation.Level = _level;
-			_augmentation.Price = _price;
-			_augmentation.Category = Category;
-
-			foreach (var item in SelectableAugmentationSystems)
-			{
-				if (item.IsSelected)
-				{
-					_systems.Add(item.BoundItem);
-				}
-			}
-			_augmentation.Systems = _systems.ToArray();
-
-			_window.DialogResult = true;
-			_window.Close();
 		}
 	}
 }

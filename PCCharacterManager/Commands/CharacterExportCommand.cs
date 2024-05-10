@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
+using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.ViewModels;
 using System;
@@ -14,18 +15,21 @@ namespace PCCharacterManager.Commands
 {
 	public class CharacterExportCommand : BaseCommand
 	{
-		private readonly CharacterStore characterStore;
-		private readonly TabControlViewModel tabVM;
+		private DialogServiceBase _dialogService;
+		private readonly CharacterStore _characterStore;
+		private readonly TabControlViewModel _tabVM;
 
-		public CharacterExportCommand(CharacterStore _characterStore, TabControlViewModel _tabVM)
+		public CharacterExportCommand(CharacterStore characterStore, TabControlViewModel tabVM, 
+			DialogServiceBase dialogService)
 		{
-			characterStore = _characterStore;
-			tabVM = _tabVM;
+			_characterStore = characterStore;
+			_tabVM = tabVM;
+			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			CharacterItemViewModel[] characterItems = tabVM.CharacterListVM.CharacterItems.ToArray();
+			CharacterItemViewModel[] characterItems = _tabVM.CharacterListVM.CharacterItems.ToArray();
 			string[] characterNames = new string[characterItems.Length];
 			SaveFileDialog saveFile = new SaveFileDialog();
 			saveFile.Filter = "Json files|*.json";
@@ -38,15 +42,17 @@ namespace PCCharacterManager.Commands
 			}
 
 			// select characters to export
-			Window selectCharactersWindow = new SelectStringValueDialogWindow();
-			DialogWindowSelectStingValue dataContext =
-				new DialogWindowSelectStingValue(selectCharactersWindow,
-				characterNames, characterNames.Length);
+			DialogWindowSelectStingValueViewModel dataContext =
+				new DialogWindowSelectStingValueViewModel(characterNames, characterNames.Length);
 
-			selectCharactersWindow.DataContext = dataContext;
-			selectCharactersWindow.ShowDialog();
+			string result = string.Empty;
+			_dialogService.ShowDialog<SelectStringValueDialogWindow, 
+				DialogWindowSelectStingValueViewModel>(dataContext, r =>
+			{
+				result = r;
+			});
 
-			if (selectCharactersWindow.DialogResult.GetValueOrDefault() == false) 
+			if (result == false.ToString())
 				return;
 
 			string[] selectedCharacterNames = dataContext.SelectedItems.ToArray();
@@ -77,7 +83,8 @@ namespace PCCharacterManager.Commands
 		/// <param name="savePath"></param>
 		/// <param name="selectedCharacterNames"></param>
 		/// <param name="characterPaths"></param>
-		private void SingleFileExport(CharacterItemViewModel[] characterItems, string savePath, string[] selectedCharacterNames, string[] characterPaths)
+		private void SingleFileExport(CharacterItemViewModel[] characterItems, string savePath, 
+			string[] selectedCharacterNames, string[] characterPaths)
 		{
 			DnD5eCharacter[] characters = new DnD5eCharacter[characterPaths.Length];
 			
@@ -95,9 +102,9 @@ namespace PCCharacterManager.Commands
 			for (int i = 0; i < characters.Length; i++)
 			{
 				// selectedCharacter is to be exported
-				if (characterPaths[i].Contains(characterStore.SelectedCharacter.Name))
+				if (characterPaths[i].Contains(_characterStore.SelectedCharacter.Name))
 				{
-					characters[i] = characterStore.SelectedCharacter;
+					characters[i] = _characterStore.SelectedCharacter;
 					continue;
 				}
 
@@ -117,7 +124,8 @@ namespace PCCharacterManager.Commands
 		/// <param name="savePath"></param>
 		/// <param name="selectedCharacterNames"></param>
 		/// <param name="characterPaths"></param>
-		private void MultiFileExport(CharacterItemViewModel[] characterItems, string savePath, string[] selectedCharacterNames, string[] characterPaths)
+		private void MultiFileExport(CharacterItemViewModel[] characterItems, string savePath, 
+			string[] selectedCharacterNames, string[] characterPaths)
 		{
 			for (int i = 0; i < selectedCharacterNames.Length; i++)
 			{
@@ -130,9 +138,10 @@ namespace PCCharacterManager.Commands
 			for (int i = 0; i < characterPaths.Length; i++)
 			{
 				savePath = savePath.Substring(0, savePath.IndexOf('.'));
-				if (characterPaths[i].Contains(characterStore.SelectedCharacter.Name))
+				if (characterPaths[i].Contains(_characterStore.SelectedCharacter.Name))
 				{
-					ReadWriteJsonFile<DnD5eCharacter>.WriteFile(savePath + "_" + characterStore.SelectedCharacter.Name + ".json", characterStore.SelectedCharacter);
+					ReadWriteJsonFile<DnD5eCharacter>.WriteFile(savePath + "_" + _characterStore.SelectedCharacter.Name 
+						+ ".json", _characterStore.SelectedCharacter);
 					savePath += ".json";
 					continue;
 				}

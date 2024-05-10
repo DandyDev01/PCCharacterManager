@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCCharacterManager.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,24 @@ namespace PCCharacterManager.DialogWindows
 		public CreateCharacterDialogWindow()
 		{
 			InitializeComponent();
+		}
+
+		private void Cancel_Button_Click(object sender, RoutedEventArgs e)
+		{
+			Close();
+		}
+
+		private void Create_Button_Click(object sender, RoutedEventArgs e)
+		{
+			DialogWindowCharacterCreaterViewModel vm = DataContext as DialogWindowCharacterCreaterViewModel;
+
+			if (vm is not null)
+			{
+				vm.Create();
+				DialogResult = true;
+			}
+
+			Close();
 		}
 	}
 }

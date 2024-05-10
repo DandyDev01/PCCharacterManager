@@ -118,11 +118,11 @@ namespace PCCharacterManager.ViewModels
 
 		public ICommand ShowPropertiesToDisplayCommand { get; }
 
-		public CharacterInventoryViewModel(CharacterStore characterStore)
+		public CharacterInventoryViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
 		{
-			characterStore.SelectedCharacterChange += OnCharacterChanged;
-			Inventory = characterStore.SelectedCharacter.Inventory;
 			_selectedCharacter = characterStore.SelectedCharacter;
+			Inventory = characterStore.SelectedCharacter.Inventory;
+			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			_propertyVMPool = new PropertyEditableVMPool(5);
 			_itemSearch = new ItemSearch();
@@ -130,7 +130,7 @@ namespace PCCharacterManager.ViewModels
 			_inventoryWeight = string.Empty;
 			_showHiddenPropertiesText = string.Empty;
 
-			AddItemCommand = new AddItemToInventoryCommand(this);
+			AddItemCommand = new AddItemToInventoryCommand(this, dialogService);
 			RemoveItemCommand = new RemoveItemFromInventoryCommand(this);
 			AddPropertyCommand = new AddPropertyToItemCommand(this);
 			RemovePropertyCommand = new RemovePropertyFromItemCommand(this);
@@ -162,7 +162,7 @@ namespace PCCharacterManager.ViewModels
 				nameof(ItemViewModel.DisplayItemCategory));
 		}
 
-		public CharacterInventoryViewModel(ObservableCollection<ItemViewModel> itemsToDisplay)
+		public CharacterInventoryViewModel(ObservableCollection<ItemViewModel> itemsToDisplay, DialogServiceBase dialogService)
 		{
 			_propertyVMPool = new PropertyEditableVMPool(5);
 			_itemSearch = new ItemSearch();
@@ -172,7 +172,7 @@ namespace PCCharacterManager.ViewModels
 			_inventoryWeight = string.Empty;
 			_showHiddenPropertiesText = string.Empty;
 
-			AddItemCommand = new AddItemToInventoryCommand(this);
+			AddItemCommand = new AddItemToInventoryCommand(this, dialogService);
 			RemoveItemCommand = new RemoveItemFromInventoryCommand(this);
 			AddPropertyCommand = new AddPropertyToItemCommand(this);
 			RemovePropertyCommand = new RemovePropertyFromItemCommand(this);
@@ -267,21 +267,13 @@ namespace PCCharacterManager.ViewModels
 			foreach (var property in _selectedItem.BoundItem.Properties)
 			{
 				PropertyEditableViewModel editablePropertyVM = _propertyVMPool.GetItem();
-				
-				// only show properties that are not marked HIDDEN
-				if (!_showHiddenProperties)
-				{
-					if (property.Hidden)
-						continue;
 
-					editablePropertyVM.Bind(property);
-					PropertiesToDisplay.Add(editablePropertyVM);
-				}
-				else
-				{
-					editablePropertyVM.Bind(property);
-					PropertiesToDisplay.Add(editablePropertyVM);
-				}
+				// only show properties that are not marked HIDDEN
+				if (_showHiddenProperties == false && property.Hidden)
+					continue;
+
+				editablePropertyVM.Bind(property);
+				PropertiesToDisplay.Add(editablePropertyVM);
 			} // end loop
 		} // end method
 

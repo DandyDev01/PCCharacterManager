@@ -1,5 +1,6 @@
 ﻿using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
+using PCCharacterManager.Services;
 using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
@@ -13,43 +14,54 @@ namespace PCCharacterManager.ViewModels
 {
 	public class DnDClassFeatureListViewModel : PropertyListViewModel
 	{
+		private readonly DialogServiceBase _dialogService;
+
 		public new ObservableCollection<DnD5eCharacterClassFeature> ItemsToDisplay { get; }
 
-		public DnDClassFeatureListViewModel(string _listName, ObservableCollection<DnD5eCharacterClassFeature> _item) : base(_listName)
+		public DnDClassFeatureListViewModel(string _listName, ObservableCollection<DnD5eCharacterClassFeature> _item, 
+			DialogServiceBase dialogService) : base(_listName, dialogService)
 		{
 			ItemsToDisplay = _item;
 			AddItemCommand = new RelayCommand(AddItem);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
 			EditItemCommand = new RelayCommand(EditItem);
+			_dialogService = dialogService;
 		}
 
 		private void AddItem()
 		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel(window,
-				"Name");
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel("Name");
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
 
-			Window window1 = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM1 = new DialogWindowStringInputViewModel(window1,
-				"Description");
-			window1.DataContext = windowVM1;
-			window1.ShowDialog();
 
-			if (window1.DialogResult == false)
+			DialogWindowStringInputViewModel windowVM1 = new DialogWindowStringInputViewModel("Description");
+			result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM1, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
 				return;
 
-			Window window2 = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM2 = new DialogWindowStringInputViewModel(window2, "Feature Level");
-			window2.DataContext = windowVM2;
-			window2.ShowDialog();
 
-			if (window2.DialogResult == false)
+			DialogWindowStringInputViewModel windowVM2 = new DialogWindowStringInputViewModel("Feature Level");
+			result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM2, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
 				return;
+
 
 			int level;
 			try
@@ -80,16 +92,19 @@ namespace PCCharacterManager.ViewModels
 			if (SelectedItem == null)
 				return;
 
-			Window window = new StringInputDialogWindow();
 			DialogWindowStringInputViewModel windowVM =
-				new DialogWindowStringInputViewModel(window, "Edit " + SelectedItem.Name);
+				new DialogWindowStringInputViewModel("Edit " + SelectedItem.Name);
 
 			windowVM.Answer = SelectedItem.Desc;
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return;
+
 
 			SelectedItem.Desc = windowVM.Answer;
 		}

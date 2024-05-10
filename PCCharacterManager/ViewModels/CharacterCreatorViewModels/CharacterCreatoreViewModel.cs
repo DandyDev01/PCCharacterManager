@@ -23,6 +23,8 @@ namespace PCCharacterManager.ViewModels
 	/// </summary>
 	public class CharacterCreatorViewModel : CharactorCreatorViewModelBase, INotifyDataErrorInfo
 	{
+		private readonly DialogServiceBase _dialogService;
+
 		private string _name;
 		public string Name
 		{
@@ -127,9 +129,10 @@ namespace PCCharacterManager.ViewModels
 		public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 		public bool HasErrors => propertyNameToError.Any();
 
-		public CharacterCreatorViewModel()
+		public CharacterCreatorViewModel(DialogServiceBase dialogService)
 		{
 			_newCharacter = new DnD5eCharacter();
+			_dialogService = dialogService;
 
 			propertyNameToError = new Dictionary<string, List<string>>();
 
@@ -207,9 +210,7 @@ namespace PCCharacterManager.ViewModels
 				ability.Score = temp;
 			}
 
-			int id = GetUniqueID();
-
-			_newCharacter.Id = "#" + id;
+			_newCharacter.Id = CharacterIDGenerator.GenerateID();
 
 			_newCharacter.DateModified = DateTime.Now.ToString();
 
@@ -218,26 +219,9 @@ namespace PCCharacterManager.ViewModels
 				_newCharacter.NoteManager.NoteSections[0].Notes.Add(SelectedCharacterClass.Note);
 			}
 
+			_newCharacter.CharacterClass.Name += " 1";
+
 			return _newCharacter;
-		}
-
-		private static int GetUniqueID()
-		{
-			string[] characterFilePaths = new JsonCharacterDataService().GetCharacterFilePaths().ToArray();
-			string[] ids = new string[characterFilePaths.Length];
-
-			for (int i = 0; i < characterFilePaths.Length; i++)
-			{
-				ids[i] = characterFilePaths[i].Substring(characterFilePaths[i].IndexOf("#"));
-			}
-
-			int id;
-			do
-			{
-				id = new Random().Next(1, 10000);
-			}
-			while (ids.Contains(x => x.Contains(id.ToString())));
-			return id;
 		}
 
 		private void AddFirstLevelClassFeatures()
@@ -262,16 +246,21 @@ namespace PCCharacterManager.ViewModels
 			{
 				if (item.ToLower().Contains("tool", StringComparison.OrdinalIgnoreCase))
 				{
-					if (item.Contains('^'))
+					if (item.Contains(StringConstants.OR))
 					{
-						var options = StringFormater.CreateGroup(item, '^');
-						Window window = new SelectStringValueDialogWindow();
-						DialogWindowSelectStingValue windowVM =
-							new DialogWindowSelectStingValue(window, options.ToArray(), 1);
-						window.DataContext = windowVM;
-						window.ShowDialog();
+						var options = StringFormater.CreateGroup(item, StringConstants.OR);
+						
+						DialogWindowSelectStingValueViewModel windowVM =
+							new DialogWindowSelectStingValueViewModel(options.ToArray(), 1);
 
-						if (window.DialogResult == false)
+						string result = string.Empty;
+						_dialogService.ShowDialog<SelectStringValueDialogWindow, 
+							DialogWindowSelectStingValueViewModel>(windowVM, r =>
+						{
+							result = r;
+						});
+
+						if (result == false.ToString())
 							return false;
 
 						_newCharacter.ToolProficiences.Add(windowVM.SelectedItems.First());
@@ -296,7 +285,7 @@ namespace PCCharacterManager.ViewModels
 			foreach (string skillName in _selectedBackground.SkillProfs)
 			{
 				// you can choose one of at least 2
-				if (skillName.Contains('^'))
+				if (skillName.Contains(StringConstants.OR))
 				{
 					return ChooseSkillToHaveProficiencyInFromBackground(skillName);
 				}
@@ -308,7 +297,7 @@ namespace PCCharacterManager.ViewModels
 				// class give prof to skill
 				if (_selectedClassSkillProfs.SelectedItems.Contains(skillName))
 				{
-					MessageBox.Show("class and background both give skill prof to " + skillName +
+					_dialogService.ShowMessage("class and background both give skill prof to " + skillName +
 						" please select a different skill to have prof in", "cannot double prof in skill",
 						MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -353,11 +342,18 @@ namespace PCCharacterManager.ViewModels
 				if (_selectedRace.AbilityScoreIncreases[i].Contains("your choice", StringComparison.OrdinalIgnoreCase))
 				{
 					int increaseAmount = StringFormater.FindQuantity(_selectedRace.AbilityScoreIncreases[i]);
-					Window window = new SelectStringValueDialogWindow();
-					DialogWindowSelectStingValue windowVM =
-						new DialogWindowSelectStingValue(window, Ability.GetAbilityNames(_newCharacter.Abilities).ToArray(), 1);
-					window.DataContext = windowVM;
-					window.ShowDialog();
+					
+					DialogWindowSelectStingValueViewModel windowVM =
+						new DialogWindowSelectStingValueViewModel(Ability.GetAbilityNames(_newCharacter.Abilities).ToArray(), 1);
+
+					string result = string.Empty;
+					_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
+					{
+						result = r;
+					});
+
+					if (result == false.ToString())
+						return;
 
 					foreach (var item in windowVM.SelectedItems)
 					{
@@ -394,13 +390,16 @@ namespace PCCharacterManager.ViewModels
 					options.Add(language);
 			}
 
-			Window window = new SelectStringValueDialogWindow();
-			DialogWindowSelectStingValue windowVM =
-							new DialogWindowSelectStingValue(window, options.ToArray(), amount);
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			DialogWindowSelectStingValueViewModel windowVM =
+				new DialogWindowSelectStingValueViewModel(options.ToArray(), amount);
 
-			if (window.DialogResult == false)
+			string result = string.Empty;
+			_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
 				return false;
 
 			_newCharacter.AddLanguages(windowVM.SelectedItems.ToArray());
@@ -443,7 +442,7 @@ namespace PCCharacterManager.ViewModels
 		private bool ChooseSkillToHaveProficiencyInFromBackground(string skillName)
 		{
 			List<string> selectedSkills = new();
-			List<string> options = StringFormater.CreateGroup(skillName, '^').ToList();
+			List<string> options = StringFormater.CreateGroup(skillName, StringConstants.OR).ToList();
 
 			// removes options that class give prof in
 			foreach (string item in notAnOption)
@@ -459,12 +458,15 @@ namespace PCCharacterManager.ViewModels
 			}
 			else
 			{
-				Window window = new SelectStringValueDialogWindow();
-				DialogWindowSelectStingValue windowVM = new(window, options.ToArray(), 1);
-				window.DataContext = windowVM;
-				window.ShowDialog();
+				DialogWindowSelectStingValueViewModel windowVM = new(options.ToArray(), 1);
 
-				if (window.DialogResult == false)
+				string result = string.Empty;
+				_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
+				{
+					result = r;
+				});
+
+				if (result == false.ToString())
 					return false;
 
 				foreach (string item in windowVM.SelectedItems)
@@ -494,7 +496,7 @@ namespace PCCharacterManager.ViewModels
 				// iterate over all selected items
 				foreach (string selectedItemName in viewModel.SelectedItems)
 				{
-					string[] itemNames = StringFormater.CreateGroup(selectedItemName, '&');
+					string[] itemNames = StringFormater.CreateGroup(selectedItemName, StringConstants.AND);
 					int[] quantities = new int[itemNames.Length];
 
 					for (int i = 0; i < itemNames.Length; i++)
@@ -551,7 +553,7 @@ namespace PCCharacterManager.ViewModels
 			SelectedStartingEquipmentVMs.Clear();
 			foreach (var item in _selectedCharacterClass.StartEquipment)
 			{
-				string[] group = StringFormater.CreateGroup(item, '^');
+				string[] group = StringFormater.CreateGroup(item, StringConstants.OR);
 				SelectedStartingEquipmentVMs.Add(new ListViewMultiSelectItemsLimitedCountViewModel(1, group.ToList()));
 			}
 		}
@@ -583,12 +585,16 @@ namespace PCCharacterManager.ViewModels
 				options.Remove(item);
 			}
 
-			Window window = new SelectStringValueDialogWindow();
-			DialogWindowSelectStingValue windowVM = new(window, options.ToArray(), 1);
-			window.DataContext = windowVM;
-			window.ShowDialog();
+			DialogWindowSelectStingValueViewModel windowVM =
+				new DialogWindowSelectStingValueViewModel(options.ToArray(), 1);
+		
+			string result = string.Empty;
+			_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
 
-			if (window.DialogResult == false)
+			if (result == false.ToString())
 				return false;
 
 			foreach (var item in windowVM.SelectedItems)
@@ -634,6 +640,37 @@ namespace PCCharacterManager.ViewModels
 			IsValid = !HasErrors;
 		}
 	
-		
+		public static DnD5eCharacter CreateRandonCharacter()
+		{
+			var characterClassData = ReadWriteJsonCollection<DnD5eCharacterClassData>
+				.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray().GetRandom();
+
+			var characterBackgroundData = ReadWriteJsonCollection<DnD5eBackgroundData>
+				.ReadCollection(DnD5eResources.BackgroundDataJson).ToArray().GetRandom();
+
+			var characterRaceData = ReadWriteJsonCollection<DnD5eCharacterRaceData>
+				.ReadCollection(DnD5eResources.RaceDataJson).ToArray().GetRandom();
+			var characterRaceVarient = characterRaceData.Variants.ToArray().GetRandom();	
+
+			characterRaceData.RaceVariant = characterRaceVarient;
+
+			DnD5eCharacter character = new(characterClassData, characterRaceData, characterBackgroundData);
+			character.Name = "John Doe";
+
+			character.CharacterClass.Name += " 1";
+
+			character.DateModified = DateTime.Now.ToString();
+
+			// roll abilities
+			RollDie rollDie = new();
+			for (int i = 0; i < 6; i++)
+			{
+				character.Abilities[i].Score = rollDie.AbilityScoreRoll();
+			}
+
+			// TODO: deal with languages, starting equipment, etc.
+
+			return character;
+		}
 	}
 }
