@@ -118,6 +118,7 @@ namespace PCCharacterManager.ViewModels
 		public ICommand NameSortCommand { get; }
 		public ICommand FeatureTypeSortCommand { get; }
 		public ICommand LevelSortCommand { get; }
+
 		public ICommand AddFeatureCommand { get; }
 		public ICommand RemoveFeatureCommand { get; }
 		public ICommand AdjustExperienceCommand { get; }
@@ -252,7 +253,8 @@ namespace PCCharacterManager.ViewModels
 			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth + " (" + temp.TempHitPoints + " temp)";
 
 			var characterClass = _selectedCharacter.CharacterClass;
-			CharacterClass = characterClass.Name + "(total: " + _selectedCharacter.Level.Level + ")";
+			CharacterClass = characterClass.Name + "(total: " + _selectedCharacter.Level.Level 
+				+ ", PB: " + _selectedCharacter.Level.ProficiencyBonus + ")";
 
 			ArmorClass = _selectedCharacter.ArmorClass.ArmorClassValue;
 

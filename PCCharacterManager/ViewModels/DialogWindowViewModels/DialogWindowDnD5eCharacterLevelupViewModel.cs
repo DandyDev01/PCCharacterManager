@@ -19,6 +19,8 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 		private readonly DialogServiceBase _dialogService;
 		private readonly DnD5eCharacter _character;
 
+		private bool _hasAddedClass = false;
+
 		private DnD5eCharacterClassData _selectedCharacterClass;
 		public DnD5eCharacterClassData SelectedCharacterClass
 		{
@@ -224,6 +226,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			_character.CharacterClass.Name += "/" + classToAddName + " 0";
 
 			ClassesToDisplay.Add(classToAddData);
+			_hasAddedClass = true;
 		}
 
 		/// <summary>
@@ -324,7 +327,9 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			int newLevel = DnD5eDialogStreamCharacterLeveler.GetCurrentLevelOfClassBeingLeveledUp(_character, 
 				_selectedCharacterClass.Name, _character.CharacterClass.Name.Split("/"));
 			
-			AddNewClassProficiences(_character, _selectedCharacterClass.Name);
+			if (_hasAddedClass)
+				AddNewClassProficiences(_character, _selectedCharacterClass.Name);
+			
 			UnlockNewClassFeatures(_character, _selectedCharacterClass.Name, newLevel);
 			_character.CharacterClass.UpdateCharacterClassName(_selectedCharacterClass.Name, newLevel);
 			
