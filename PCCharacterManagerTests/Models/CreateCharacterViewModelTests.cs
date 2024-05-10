@@ -53,7 +53,7 @@ namespace PCCharacterManagerTests.Models
 			if (typeof(TViewModel) == typeof(DialogWindowSelectStingValueViewModel))
 			{
 				var d = dataContext as DialogWindowSelectStingValueViewModel;
-				d.LimitedMultiSelectVM.Items.ElementAt(0).IsSelected = true;
+				d.LimitedMultiSelectVM.Items.ElementAt(0).Toggle();
 			}
 			EventHandler closeEventhandler = null;
 			closeEventhandler = (s, e) =>

@@ -1,5 +1,6 @@
 ﻿using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
+using PCCharacterManager.Services;
 using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,16 +14,18 @@ namespace PCCharacterManager.Commands
 {
 	public class DeleteNoteSectionFromNoteBookCommand : BaseCommand
 	{
-		private readonly CharacterNoteBookViewModel viewModel;
+		private readonly CharacterNoteBookViewModel _viewModel;
+		private readonly DialogServiceBase _dialogService;
 
-		public DeleteNoteSectionFromNoteBookCommand(CharacterNoteBookViewModel _viewModel)
+		public DeleteNoteSectionFromNoteBookCommand(CharacterNoteBookViewModel viewModel, DialogServiceBase dialogService)
 		{
-			viewModel = _viewModel;
+			_viewModel = viewModel;
+			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			if (viewModel.NoteBook is not NoteBook noteBook)
+			if (_viewModel.NoteBook is not NoteBook noteBook)
 				return;
 
 			string[] sectionTitles = new string[noteBook.NoteSections.Count];
@@ -31,13 +34,17 @@ namespace PCCharacterManager.Commands
 				sectionTitles[i] = noteBook.NoteSections[i].SectionTitle;
 			}
 
-			Window dialogWindow = new SelectStringValueDialogWindow();
 			DialogWindowListViewSelectItemViewModel dataContext = 
-				new(dialogWindow, sectionTitles, sectionTitles.Length);
-			dialogWindow.DataContext = dataContext;
-			var result = dialogWindow.ShowDialog();
+				new(sectionTitles, sectionTitles.Length);
 
-			if (result == false) return;
+			string results = string.Empty;
+			_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowListViewSelectItemViewModel>(dataContext, r =>
+			{
+				results = r.ToString();
+			});
+
+			if (results == false.ToString())
+				return;
 
 			string[] selectedSections = dataContext.SelectedItems.ToArray();
 			List<NoteSection> sectionsToRemove = noteBook.NoteSections.
@@ -46,7 +53,7 @@ namespace PCCharacterManager.Commands
 			foreach (var item in sectionsToRemove)
 			{
 				noteBook.NoteSections.Remove(item);
-				viewModel.NoteSectionsToDisplay.Remove(item);
+				_viewModel.NoteSectionsToDisplay.Remove(item);
 			}
 		}
 	}

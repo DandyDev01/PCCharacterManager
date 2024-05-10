@@ -8,70 +8,88 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Diagnostics;
+using PCCharacterManager.Services;
 
 namespace PCCharacterManager.Commands
 {
 	public class AddNoteToNoteBookCommand : BaseCommand
 	{
-		private readonly CharacterNoteBookViewModel viewModel;
+		private readonly CharacterNoteBookViewModel _viewModel;
+		private readonly DialogServiceBase _dialogService;
 
-		public AddNoteToNoteBookCommand(CharacterNoteBookViewModel _viewModel)
+		public AddNoteToNoteBookCommand(CharacterNoteBookViewModel vviewModel, DialogServiceBase dialogService)
 		{
-			viewModel = _viewModel;
+			_viewModel = vviewModel;
+			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			if (viewModel.NoteBook is not NoteBook noteBook)
+			if (_viewModel.NoteBook is not NoteBook noteBook)
 				return;
 
-			// there are no note sections
-			if(noteBook.NoteSections.Count == 0)
-			{
-				MessageBox.Show("You need to create a notes section before creating any notes", 
-					"need at least 1 notes section", MessageBoxButton.OK, MessageBoxImage.Information);
+			if (Validate(_viewModel.NoteBook) == false)
 				return;
-			}
 
-			// there is only 1 note section, so you don't need to select one
-			if(noteBook.NoteSections.Count == 1)
-			{
-				noteBook.NoteSections.First().Add(new Note("new Note"));
-				return;
-			}
-
-			// a note section is selected, add a new note to it
-			if(viewModel.SelectedSection != null)
-			{
-				viewModel.SelectedSection.Add(new Note("new note"));
-				return;
-			}
-
-			#region select section(s) to add new note to
-			string[] sectionTitles = new string[viewModel.NoteBook.NoteSections.Count];
+			string[] sectionTitles = new string[_viewModel.NoteBook.NoteSections.Count];
 			for (int i = 0; i < sectionTitles.Length; i++)
 			{
-				sectionTitles[i] = viewModel.NoteBook.NoteSections[i].SectionTitle;
+				sectionTitles[i] = _viewModel.NoteBook.NoteSections[i].SectionTitle;
 			}
 
-			Window dialogWindow = new SelectStringValueDialogWindow();
-			DialogWindowListViewSelectItemViewModel dataContext = new(dialogWindow, sectionTitles, 1);
-			dialogWindow.DataContext = dataContext;
-			var result = dialogWindow.ShowDialog();
+			string titleOfSectionToAddNote = GetSectionToAddNote(sectionTitles);
 
-			if (result == false)
-				return;
-
-			string selectedSection = dataContext.SelectedItems.First();
-
-			foreach (NoteSection noteSection in viewModel.NoteBook.NoteSections)
+			foreach (NoteSection noteSection in _viewModel.NoteBook.NoteSections)
 			{
-				if (noteSection.SectionTitle.Equals(selectedSection))
+				if (noteSection.SectionTitle.Equals(titleOfSectionToAddNote))
 				{
 					noteSection.Add(new Note("new note"));
 				}
 			}
-			#endregion
+		}
+
+		private string GetSectionToAddNote(string[] sectionTitles)
+		{
+			DialogWindowListViewSelectItemViewModel dataContext = new(sectionTitles, 1);
+
+			string results = string.Empty;
+			_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowListViewSelectItemViewModel>(dataContext, r =>
+			{
+				results = r.ToString();
+			});
+
+			if (results == false.ToString())
+				return string.Empty;
+
+
+			return dataContext.SelectedItems.First();
+		}
+
+		private bool Validate(NoteBook noteBook)
+		{
+			// there are no note sections
+			if (noteBook.NoteSections.Count == 0)
+			{
+				_dialogService.ShowMessage("You need to create a notes section before creating any notes",
+					"need at least 1 notes section", MessageBoxButton.OK, MessageBoxImage.Information);
+				return false;
+			}
+
+			// there is only 1 note section, so you don't need to select one
+			if (noteBook.NoteSections.Count == 1)
+			{
+				noteBook.NoteSections.First().Add(new Note("new Note"));
+				return false;
+			}
+
+			// a note section is selected, add a new note to it
+			if (_viewModel.SelectedSection != null)
+			{
+				_viewModel.SelectedSection.Add(new Note("new note"));
+				return false;
+			}
+
+			return true;
 		}
 	}
 }

@@ -96,6 +96,11 @@ namespace PCCharacterManager.Models
 			}
 		}
 
+		/// <summary>
+		/// Get the names and levels of each of the classes.
+		/// </summary>
+		/// <returns>Key value pair array with the name:key and level:value of each class.</returns>
+		/// <exception cref="ArithmeticException">Cannot get the level from one of the classes.</exception>
 		public KeyValuePair<string, int>[] GetClassNamesAndLevels()
 		{
 			var characterClassNames = Name.Split('/');

@@ -89,10 +89,10 @@ namespace PCCharacterManager.ViewModels
 			_highlightTerm = string.Empty;
 			_selectedNote = new Note();
 
-			AddNoteCommand = new AddNoteToNoteBookCommand(this);
+			AddNoteCommand = new AddNoteToNoteBookCommand(this, dialogService);
 			AddNoteSectionCommand = new AddNoteSectionToNoteBookCommand(this, dialogService);
 			DeleteNoteCommand = new RemoveNoteFromNoteBookCommand(this);
-			DeleteNoteSectionCommand = new DeleteNoteSectionFromNoteBookCommand(this);
+			DeleteNoteSectionCommand = new DeleteNoteSectionFromNoteBookCommand(this, dialogService);
 			EditSectionTitleCommand = new EditNoteSectionTitleCommand(this, dialogService);
 			FindInNoteCommand = new RelayCommand(FindInNote);
 		}

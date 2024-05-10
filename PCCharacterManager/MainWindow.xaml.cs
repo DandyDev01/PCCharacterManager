@@ -39,6 +39,7 @@ namespace PCCharacterManager
 			DialogServiceBase.RegisterDialog<DialogWindowDnD5eCharacterLevelupViewModel, DnD5eLevelupCharacterDialogWindow>();
 			//DialogService.RegisterDialog<DialogWindowSelectAbilityViewModel, SelectAbilityToIncreaseScoreDialogWindow>();
 			DialogServiceBase.RegisterDialog<DialogWindowSelectStingValueViewModel, SelectStringValueDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowListViewSelectItemViewModel, SelectStringValueDialogWindow>();
 			DialogServiceBase.RegisterDialog<DialogWindowStringInputViewModel, StringInputDialogWindow>();
 			InitializeComponent();
 		}

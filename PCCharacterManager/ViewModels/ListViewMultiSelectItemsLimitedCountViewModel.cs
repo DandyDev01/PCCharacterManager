@@ -14,7 +14,6 @@ namespace PCCharacterManager.ViewModels
 		private List<string> _possibleOptions;
 		private List<string> _selectedItems;
 		private int _amountToBeSelected;
-		private ListViewSelectableItemViewModel _listSelectedItem;
 
 		public int AmountSelected { get; private set; }
 		public int AmountToBeSelected
@@ -23,14 +22,6 @@ namespace PCCharacterManager.ViewModels
 			set { OnPropertyChanged(ref _amountToBeSelected, value); }
 		}
 
-		/// <summary>
-		/// Item that is selected in the list
-		/// </summary>
-		public ListViewSelectableItemViewModel ListSelectedItem
-		{
-			get { return _listSelectedItem; }
-			set { OnPropertyChanged(ref _listSelectedItem, value); }
-		}
 
 		public IEnumerable<string> SelectedItems { get { return _selectedItems; } }
 		public ObservableCollection<ListViewSelectableItemViewModel> Items { get; private set; }
@@ -41,7 +32,7 @@ namespace PCCharacterManager.ViewModels
 			_possibleOptions = possibleOptions;
 			_selectedItems = new List<string>();
 			Items = new ObservableCollection<ListViewSelectableItemViewModel>();
-			_listSelectedItem = new(_possibleOptions[0]);
+
 			PopulateItems();
 		}
 
@@ -71,12 +62,11 @@ namespace PCCharacterManager.ViewModels
 			AmountSelected += 1;
 			if (AmountSelected > _amountToBeSelected)
 			{
-				itemToAdd.IsSelected = false;
+				itemToAdd.Toggle();
 				return;
 			}
 
 			_selectedItems.Add(itemToAdd.BoundItem);
-			ListSelectedItem = itemToAdd;
 		}
 
 		private void RemoveSelectedItem(ListViewSelectableItemViewModel itemToRemove)

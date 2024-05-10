@@ -313,7 +313,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 				result = r;
 			});
 
-			if (result == false.ToString())
+			if (result == false.ToString() || vm.SelectedItems.Any() == false)
 				return string.Empty;
 
 			return vm.SelectedItems.First();
