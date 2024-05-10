@@ -12,7 +12,7 @@
     Background="{DynamicResource 1}"
     ResizeMode="NoResize"
     ShowInTaskbar="false"
-    WindowStartupLocation="CenterOwner"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Margin="10">
