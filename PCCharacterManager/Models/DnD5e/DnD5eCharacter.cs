@@ -78,6 +78,20 @@ namespace PCCharacterManager.Models
 			set { OnPropertyChanged(ref _passiveInsight, value); }
 		}
 
+		private int _spentHitDie;
+		public int SpentHitDie
+		{
+			get
+			{
+				return _spentHitDie;
+			}
+			set
+			{
+				value = Math.Min(value, Level.Level);
+				OnPropertyChanged(ref _spentHitDie, value);
+			}
+		}
+
 		protected int _combatRound;
 		public int CombatRound
 		{

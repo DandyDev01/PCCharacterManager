@@ -119,6 +119,8 @@ namespace PCCharacterManager.ViewModels
 		public ICommand FeatureTypeSortCommand { get; }
 		public ICommand LevelSortCommand { get; }
 
+		public ICommand ShortRestCommand { get; }
+		public ICommand LongRestCommand { get; }
 		public ICommand AddFeatureCommand { get; }
 		public ICommand RemoveFeatureCommand { get; }
 		public ICommand AdjustExperienceCommand { get; }
@@ -182,6 +184,35 @@ namespace PCCharacterManager.ViewModels
 			AdjustHealthCommand = new RelayCommand(AddHealth);
 			EditArmorClassCommand = new RelayCommand(EditArmorClass);
 			EditCharacterCommand = new RelayCommand(EditCharacter);
+			ShortRestCommand = new RelayCommand(ShortRest);
+			LongRestCommand = new RelayCommand(LongRest);
+		}
+
+		private void LongRest()
+		{
+			int maxNumberOfRegainedHitDie = Math.Max(1, _selectedCharacter.Level.Level / 2);
+			int spentHitDie = _selectedCharacter.SpentHitDie;
+			int regainedHitDie = Math.Clamp(_selectedCharacter.Level.Level - spentHitDie, 1, maxNumberOfRegainedHitDie);
+			_selectedCharacter.SpentHitDie -= regainedHitDie;
+			_selectedCharacter.SpentHitDie = Math.Clamp(_selectedCharacter.SpentHitDie, 0, _selectedCharacter.Level.Level);
+		}
+
+		private void ShortRest()
+		{
+			DialogWindowShortRestViewModel vm = new(_selectedCharacter);
+			string result = string.Empty;
+			_dialogService.ShowDialog<ShortRestDialogWindow, DialogWindowShortRestViewModel>(vm, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
+				return;
+
+			_selectedCharacter.Health.CurrHealth = vm.Health;
+			_selectedCharacter.SpentHitDie = vm.SpentHitDice;
+
+			Health = _selectedCharacter.Health.CurrHealth.ToString() + '/' + _selectedCharacter.Health.MaxHealth.ToString() + " (" + _selectedCharacter.Health.TempHitPoints + " temp)";
 		}
 
 		private void EndEncounter()
