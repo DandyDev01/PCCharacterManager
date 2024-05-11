@@ -195,6 +195,11 @@ namespace PCCharacterManager.ViewModels
 			int regainedHitDie = Math.Clamp(_selectedCharacter.Level.Level - spentHitDie, 1, maxNumberOfRegainedHitDie);
 			_selectedCharacter.SpentHitDie -= regainedHitDie;
 			_selectedCharacter.SpentHitDie = Math.Clamp(_selectedCharacter.SpentHitDie, 0, _selectedCharacter.Level.Level);
+			
+			_selectedCharacter.Health.CurrHealth = _selectedCharacter.Health.MaxHealth;
+			_selectedCharacter.SpellBook.RechargeSpellSlots();
+
+			UpdateHealth();
 		}
 
 		private void ShortRest()
@@ -212,7 +217,7 @@ namespace PCCharacterManager.ViewModels
 			_selectedCharacter.Health.CurrHealth = vm.Health;
 			_selectedCharacter.SpentHitDie = vm.SpentHitDice;
 
-			Health = _selectedCharacter.Health.CurrHealth.ToString() + '/' + _selectedCharacter.Health.MaxHealth.ToString() + " (" + _selectedCharacter.Health.TempHitPoints + " temp)";
+			UpdateHealth();
 		}
 
 		private void EndEncounter()
@@ -369,7 +374,12 @@ namespace PCCharacterManager.ViewModels
 				characterHealth.CurrHealth = Math.Clamp(characterHealth.CurrHealth, 0, characterHealth.MaxHealth);
 			}
 
-			Health = characterHealth.CurrHealth.ToString() + '/' + characterHealth.MaxHealth.ToString() + " (" + characterHealth.TempHitPoints + " temp)";
+			UpdateHealth();
+		}
+
+		private void UpdateHealth()
+		{
+			Health = _selectedCharacter.Health.CurrHealth.ToString() + '/' + _selectedCharacter.Health.MaxHealth.ToString() + " (" + _selectedCharacter.Health.TempHitPoints + " temp)";
 		}
 
 		private void AddFeature()
