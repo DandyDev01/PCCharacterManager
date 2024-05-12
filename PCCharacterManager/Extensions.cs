@@ -37,5 +37,31 @@ namespace PCCharacterManager
 
 			return random;
 		}
+
+		/// <summary>
+		/// Capitalizes the first character in the string.
+		/// </summary>
+		/// <param name="str">string to capitilise the first character of.</param>
+		/// <returns>new string where the first letter is in upper case.</returns>
+		public static string CapitalizeFirst(this string str)
+		{
+			if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str))
+				return str;	
+
+			string title = string.Empty;
+
+			str = title.Trim();
+			str = str.ToLower();
+			title = str.Substring(0, 1);
+			title = title.ToUpper();
+			title += str.Substring(1);
+
+			return title;
+		}
+
+		public static string CapitalizeFirst(this Enum e)
+		{
+			return e.ToString().CapitalizeFirst();
+		}
 	}
 }
