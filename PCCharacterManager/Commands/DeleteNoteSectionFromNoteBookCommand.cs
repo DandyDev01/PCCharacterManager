@@ -14,19 +14,21 @@ namespace PCCharacterManager.Commands
 {
 	public class DeleteNoteSectionFromNoteBookCommand : BaseCommand
 	{
-		private readonly CharacterNoteBookViewModel _viewModel;
+		private readonly CharacterNoteBookViewModel _characterNoteBookViewModel;
 		private readonly DialogServiceBase _dialogService;
 
-		public DeleteNoteSectionFromNoteBookCommand(CharacterNoteBookViewModel viewModel, DialogServiceBase dialogService)
+		public DeleteNoteSectionFromNoteBookCommand(CharacterNoteBookViewModel characterNoteBookViewModel, DialogServiceBase dialogService)
 		{
-			_viewModel = viewModel;
+			_characterNoteBookViewModel = characterNoteBookViewModel;
 			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			if (_viewModel.NoteBook is not NoteBook noteBook)
+			if (_characterNoteBookViewModel.NoteBook is null)
 				return;
+
+			NoteBook noteBook = _characterNoteBookViewModel.NoteBook;
 
 			string[] sectionTitles = new string[noteBook.NoteSections.Count];
 			for (int i = 0; i < sectionTitles.Length; i++)
@@ -53,7 +55,7 @@ namespace PCCharacterManager.Commands
 			foreach (var item in sectionsToRemove)
 			{
 				noteBook.NoteSections.Remove(item);
-				_viewModel.NoteSectionsToDisplay.Remove(item);
+				_characterNoteBookViewModel.NoteSectionsToDisplay.Remove(item);
 			}
 		}
 	}

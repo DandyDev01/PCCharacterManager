@@ -10,18 +10,18 @@ namespace PCCharacterManager.Commands
 {
 	public class ItemCollectionViewPropertySortCommand : BaseCommand
 	{
-		private readonly CollectionViewPropertySort collectionView;
-		private readonly string propertyName;
+		private readonly CollectionViewPropertySort _collectionView;
+		private readonly string _propertyName;
 
-		public ItemCollectionViewPropertySortCommand(CollectionViewPropertySort _collectionView, string _propertyName)
+		public ItemCollectionViewPropertySortCommand(CollectionViewPropertySort collectionView, string propertyName)
 		{
-			collectionView = _collectionView;
-			propertyName = _propertyName;
+			_collectionView = collectionView;
+			_propertyName = propertyName;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			collectionView.Sort(propertyName);
+			_collectionView.Sort(_propertyName);
 		}
 	}
 }

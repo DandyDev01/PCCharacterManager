@@ -78,7 +78,7 @@ namespace PCCharacterManager.ViewModels
 				_characterPath = DnD5eResources.CharacterDataDir + "/" + character.Name + character.Id + ".json";
 			}
 
-			SelectCharacterCommand.characterPath = _characterPath;
+			SelectCharacterCommand._characterPath = _characterPath;
 
 			OnPropertyChanged(nameof(_characterName));
 			OnPropertyChanged(nameof(_characterClass));

@@ -1,4 +1,5 @@
 ﻿using PCCharacterManager.Models;
+using PCCharacterManager.Services;
 using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,29 +12,31 @@ namespace PCCharacterManager.Commands
 {
 	public class RemoveNoteFromNoteBookCommand : BaseCommand
 	{
-		private readonly CharacterNoteBookViewModel viewModel;
+		private readonly CharacterNoteBookViewModel _characterNoteBookViewModel;
+		private readonly DialogServiceBase _dialogService;
 
-		public RemoveNoteFromNoteBookCommand(CharacterNoteBookViewModel _viewModel)
+		public RemoveNoteFromNoteBookCommand(CharacterNoteBookViewModel characterNoteBookViewModel, DialogServiceBase dialogService)
 		{
-			viewModel = _viewModel;
+			_characterNoteBookViewModel = characterNoteBookViewModel;
+			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			if (viewModel.SelectedNote == null) return;
+			if (_characterNoteBookViewModel.SelectedNote == null) return;
 
-			var result = MessageBox.Show("Are you sure you want to delete " +
-				 viewModel.SelectedNote.Title + "?", "Permenently Delete Note",
+			var result = _dialogService.ShowMessage("Are you sure you want to delete " +
+				 _characterNoteBookViewModel.SelectedNote.Title + "?", "Permenently Delete Note",
 				 MessageBoxButton.YesNo, MessageBoxImage.Question);
 
 			if (result == MessageBoxResult.No)
 				return;
 
-			foreach (NoteSection noteSection in viewModel.NoteBook.NoteSections)
+			foreach (NoteSection noteSection in _characterNoteBookViewModel.NoteBook.NoteSections)
 			{
-				if (noteSection.Notes.Contains(viewModel.SelectedNote))
+				if (noteSection.Notes.Contains(_characterNoteBookViewModel.SelectedNote))
 				{
-					noteSection.Remove(viewModel.SelectedNote);
+					noteSection.Remove(_characterNoteBookViewModel.SelectedNote);
 					break;
 				}
 			}

@@ -91,7 +91,7 @@ namespace PCCharacterManager.ViewModels
 
 			AddNoteCommand = new AddNoteToNoteBookCommand(this, dialogService);
 			AddNoteSectionCommand = new AddNoteSectionToNoteBookCommand(this, dialogService);
-			DeleteNoteCommand = new RemoveNoteFromNoteBookCommand(this);
+			DeleteNoteCommand = new RemoveNoteFromNoteBookCommand(this, dialogService);
 			DeleteNoteSectionCommand = new DeleteNoteSectionFromNoteBookCommand(this, dialogService);
 			EditSectionTitleCommand = new EditNoteSectionTitleCommand(this, dialogService);
 			FindInNoteCommand = new RelayCommand(FindInNote);

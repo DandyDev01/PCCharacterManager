@@ -10,32 +10,32 @@ namespace PCCharacterManager.Commands
 {
 	public class RemovePreparedSpellCommand : BaseCommand
     {
-        private readonly CharacterSpellBookViewModel spellBookVM;
+        private readonly CharacterSpellBookViewModel _characterSpellBookViewModel;
 
-		public RemovePreparedSpellCommand(CharacterSpellBookViewModel _spellBookVM)
+		public RemovePreparedSpellCommand(CharacterSpellBookViewModel characterSpellBookViewModel)
 		{
-			spellBookVM = _spellBookVM;
+			_characterSpellBookViewModel = characterSpellBookViewModel;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			if (spellBookVM.SelectedPreparedSpell == null)
+			if (_characterSpellBookViewModel.SelectedPreparedSpell == null)
 				return;
 
-			if (spellBookVM.SpellBook.PreparedSpells.Contains(spellBookVM.SelectedPreparedSpell))
+			if (_characterSpellBookViewModel.SpellBook.PreparedSpells.Contains(_characterSpellBookViewModel.SelectedPreparedSpell))
 			{
-				spellBookVM.SelectedPreparedSpell.IsPrepared = false;
-				spellBookVM.SpellBook.PreparedSpells.Remove(spellBookVM.SelectedPreparedSpell);
+				_characterSpellBookViewModel.SelectedPreparedSpell.IsPrepared = false;
+				_characterSpellBookViewModel.SpellBook.PreparedSpells.Remove(_characterSpellBookViewModel.SelectedPreparedSpell);
 				
-				List<SpellItemEditableViewModel> spells = spellBookVM.SpellsToDisplay.ToList();
+				List<SpellItemEditableViewModel> spells = _characterSpellBookViewModel.SpellsToDisplay.ToList();
 				SpellItemEditableViewModel? spellItem
-					= spells.Find(x => x.Spell.Name.Equals(spellBookVM.SelectedPreparedSpell.Name));
+					= spells.Find(x => x.Spell.Name.Equals(_characterSpellBookViewModel.SelectedPreparedSpell.Name));
 				
 				if (spellItem == null) 
 					return;
 				
 				spellItem.IsPrepared = false;
-				spellBookVM.SelectedPreparedSpell = null;
+				_characterSpellBookViewModel.SelectedPreparedSpell = null;
 			}
 		}
 	}

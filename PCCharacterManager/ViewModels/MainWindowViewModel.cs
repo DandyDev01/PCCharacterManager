@@ -60,7 +60,7 @@ namespace PCCharacterManager.ViewModels
 			SaveCharactersCommand = new SaveCharacterCommand(this);
 			LevelCharacterCommand = new LevelCharacterCommand(_characterStore, _dialogService);
 			ExportCharacterCommand = new CharacterExportCommand(_characterStore, _tabVM, _dialogService);
-			OpenCommand = new OpenCharacterCommand(_characterStore);
+			OpenCommand = new OpenCharacterCommand(_characterStore, _dialogService);
 			EditCharacterCommand = new RelayCommand(EditCharacter);
 		}
 

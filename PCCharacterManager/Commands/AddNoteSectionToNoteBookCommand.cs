@@ -13,23 +13,21 @@ namespace PCCharacterManager.Commands
 {
 	public class AddNoteSectionToNoteBookCommand : BaseCommand
 	{
-		private readonly CharacterNoteBookViewModel viewModel;
+		private readonly CharacterNoteBookViewModel _characterNoteBookViewModel;
 		private readonly DialogServiceBase _dialogService;
 
-		public AddNoteSectionToNoteBookCommand(CharacterNoteBookViewModel _viewModel, DialogServiceBase dialogService)
+		public AddNoteSectionToNoteBookCommand(CharacterNoteBookViewModel characterNoteBookViewModel, DialogServiceBase dialogService)
 		{
-			viewModel = _viewModel;
+			_characterNoteBookViewModel = characterNoteBookViewModel;
 			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			Window window = new StringInputDialogWindow();
-			DialogWindowStringInputViewModel windowVM = new DialogWindowStringInputViewModel();
-			window.DataContext = windowVM;
+			DialogWindowStringInputViewModel dataContext = new();
 
 			string result = string.Empty;
-			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM, r =>
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(dataContext, r =>
 			{
 				result = r;
 			});
@@ -37,10 +35,10 @@ namespace PCCharacterManager.Commands
 			if (result == false.ToString())
 				return;
 
-			string sectionTitle = windowVM.Answer;
-			NoteSection newNoteSection = new NoteSection(sectionTitle);
-			viewModel.NoteBook!.NewNoteSection(newNoteSection);
-			viewModel.NoteSectionsToDisplay.Add(newNoteSection);
+			string sectionTitle = dataContext.Answer;
+			NoteSection newNoteSection = new(sectionTitle);
+			_characterNoteBookViewModel.NoteBook!.NewNoteSection(newNoteSection);
+			_characterNoteBookViewModel.NoteSectionsToDisplay.Add(newNoteSection);
 		}
 	}
 }

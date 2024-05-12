@@ -12,26 +12,25 @@ namespace PCCharacterManager.Commands
 {
 	public class EditNoteSectionTitleCommand : BaseCommand
 	{
-		private readonly CharacterNoteBookViewModel viewModel;
+		private readonly CharacterNoteBookViewModel _characterNoteBookViewModel;
 		private readonly DialogServiceBase _dialogService;
 
-		public EditNoteSectionTitleCommand(CharacterNoteBookViewModel _viewModel, DialogServiceBase dialogService)
+		public EditNoteSectionTitleCommand(CharacterNoteBookViewModel characterNoteBookViewModel, DialogServiceBase dialogService)
 		{
-			viewModel = _viewModel;
+			_characterNoteBookViewModel = characterNoteBookViewModel;
 			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			if (viewModel.SelectedSection == null)
+			if (_characterNoteBookViewModel.SelectedSection == null)
 			{
-				MessageBox.Show("No section selected", "Requres selected section",
+				_dialogService.ShowMessage("No section selected", "Requres selected section",
 					MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
 			DialogWindowStringInputViewModel dataContext = new();
-
 
 			string result = string.Empty;
 			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(dataContext, r =>
@@ -43,7 +42,7 @@ namespace PCCharacterManager.Commands
 				return;
 
 			string inputTitle = dataContext.Answer;
-			viewModel.SelectedSection.SectionTitle = inputTitle;
+			_characterNoteBookViewModel.SelectedSection.SectionTitle = inputTitle;
 		}
 	}
 }

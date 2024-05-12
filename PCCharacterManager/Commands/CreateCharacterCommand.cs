@@ -13,21 +13,21 @@ namespace PCCharacterManager.Commands
 {
 	public class CreateCharacterCommand : BaseCommand
 	{
-		private readonly CharacterStore characterStore;
+		private readonly CharacterStore _characterStore;
 		private readonly DialogServiceBase _dialogService;
 
-		public CreateCharacterCommand(CharacterStore _characterStore, DialogServiceBase dialogService)
+		public CreateCharacterCommand(CharacterStore characterStore, DialogServiceBase dialogService)
 		{
-			characterStore = _characterStore;
+			_characterStore = characterStore;
 			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			var vm = new DialogWindowCharacterCreaterViewModel(characterStore, _dialogService);
+			DialogWindowCharacterCreaterViewModel dataContext = new(_characterStore, _dialogService);
 
 			string result = string.Empty;
-			_dialogService.ShowDialog<CreateCharacterDialogWindow, DialogWindowCharacterCreaterViewModel>(vm, r =>
+			_dialogService.ShowDialog<CreateCharacterDialogWindow, DialogWindowCharacterCreaterViewModel>(dataContext, r =>
 			{
 				result = r;
 			});

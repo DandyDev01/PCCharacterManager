@@ -15,24 +15,23 @@ namespace PCCharacterManager.Commands
 {
 	public class CharacterExportCommand : BaseCommand
 	{
-		private DialogServiceBase _dialogService;
+		private readonly DialogServiceBase _dialogService;
 		private readonly CharacterStore _characterStore;
-		private readonly TabControlViewModel _tabVM;
+		private readonly TabControlViewModel _tabControlViewModel;
 
-		public CharacterExportCommand(CharacterStore characterStore, TabControlViewModel tabVM, 
+		public CharacterExportCommand(CharacterStore characterStore, TabControlViewModel tabControlViewModel, 
 			DialogServiceBase dialogService)
 		{
 			_characterStore = characterStore;
-			_tabVM = tabVM;
+			_tabControlViewModel = tabControlViewModel;
 			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			CharacterItemViewModel[] characterItems = _tabVM.CharacterListVM.CharacterItems.ToArray();
+			CharacterItemViewModel[] characterItems = _tabControlViewModel.CharacterListVM.CharacterItems.ToArray();
 			string[] characterNames = new string[characterItems.Length];
-			SaveFileDialog saveFile = new SaveFileDialog();
-			saveFile.Filter = "Json files|*.json";
+			SaveFileDialog saveFile = new();
 			saveFile.FileName = "PCManager_Export.json";
 
 			// get all character names
@@ -42,8 +41,7 @@ namespace PCCharacterManager.Commands
 			}
 
 			// select characters to export
-			DialogWindowSelectStingValueViewModel dataContext =
-				new DialogWindowSelectStingValueViewModel(characterNames, characterNames.Length);
+			DialogWindowSelectStingValueViewModel dataContext = new(characterNames, characterNames.Length);
 
 			string result = string.Empty;
 			_dialogService.ShowDialog<SelectStringValueDialogWindow, 
@@ -59,17 +57,18 @@ namespace PCCharacterManager.Commands
 			string[] characterPaths = new string[selectedCharacterNames.Length];
 
 			// select where to save export files
-			var fileDialogResult = saveFile.ShowDialog();
+			bool? fileDialogResult = saveFile.ShowDialog();
 
 			if (fileDialogResult.GetValueOrDefault() == false) 
 				return;
 
 			string savePath = saveFile.FileName;
 
-			var messageBoxResult = MessageBox.Show("Single file export? (yes) for 1.json file (no) for individual .json files",
+			var messageBoxResult = _dialogService.ShowMessage("Single file export? (yes) for 1.json file (no) for individual .json files",
 				"single or multiple files", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
-			if (messageBoxResult == MessageBoxResult.Cancel) return;
+			if (messageBoxResult == MessageBoxResult.Cancel) 
+				return;
 			else if (messageBoxResult == MessageBoxResult.Yes)
 				SingleFileExport(characterItems, savePath, selectedCharacterNames, characterPaths);
 			else if (messageBoxResult == MessageBoxResult.No)

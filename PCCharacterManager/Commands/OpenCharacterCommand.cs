@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using PCCharacterManager.Models;
+using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,13 @@ namespace PCCharacterManager.Commands
 {
 	public class OpenCharacterCommand : BaseCommand
 	{
-		private readonly CharacterStore characterStore;
+		private readonly CharacterStore _characterStore;
+		private readonly DialogServiceBase _dialogService;
 
-		public OpenCharacterCommand(CharacterStore _characterStore)
+		public OpenCharacterCommand(CharacterStore characterStore, DialogServiceBase dialogService)
 		{
-			characterStore = _characterStore;
+			_characterStore = characterStore;
+			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
@@ -30,11 +33,11 @@ namespace PCCharacterManager.Commands
 				DnD5eCharacter? character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(path) 
 					?? throw new Exception("Character with path " + path + " does not exist.");
 
-				characterStore.BindSelectedCharacter(character);
+				_characterStore.BindSelectedCharacter(character);
 			}
 			catch
 			{
-				MessageBox.Show("selected file did not contain PCManager character",
+				_dialogService.ShowMessage("selected file did not contain PCManager character",
 					"selected file was not a PCManager character.", MessageBoxButton.OK,
 					MessageBoxImage.Error);
 			}

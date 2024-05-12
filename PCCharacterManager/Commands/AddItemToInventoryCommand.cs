@@ -14,12 +14,12 @@ namespace PCCharacterManager.Commands
 {
 	public class AddItemToInventoryCommand : BaseCommand
 	{
-		private readonly CharacterInventoryViewModel vm;
+		private readonly CharacterInventoryViewModel _characterInventoryViewModel;
 		private readonly DialogServiceBase _dialogService;
 
-		public AddItemToInventoryCommand(CharacterInventoryViewModel _vm, DialogServiceBase dialogService)
+		public AddItemToInventoryCommand(CharacterInventoryViewModel characterInventoryViewModel, DialogServiceBase dialogService)
 		{
-			vm = _vm;
+			_characterInventoryViewModel = characterInventoryViewModel;
 			_dialogService = dialogService;
 		}
 
@@ -40,9 +40,9 @@ namespace PCCharacterManager.Commands
 
 			Item selectedItem = item;
 			ItemViewModel displayVM = new ItemViewModel(selectedItem);
-			vm.Inventory!.Add(selectedItem);
-			vm.ItemDisplayVms.Add(displayVM);
-			vm.CalculateInventoryWeight();
+			_characterInventoryViewModel.Inventory.Add(selectedItem);
+			_characterInventoryViewModel.ItemDisplayVms.Add(displayVM);
+			_characterInventoryViewModel.CalculateInventoryWeight();
 		}
 	}
 }

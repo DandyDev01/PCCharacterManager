@@ -14,13 +14,13 @@ namespace PCCharacterManager.Commands
 {
 	public class AddItemToSpellBookCommand : BaseCommand
 	{
-		private readonly CharacterSpellBookViewModel _spellBookViewModel;
+		private readonly CharacterSpellBookViewModel _characterSpellBookViewModel;
 		private readonly DialogServiceBase _dialogService;
 		private readonly SpellType _spellType;
 
-		public AddItemToSpellBookCommand(CharacterSpellBookViewModel spellBookViewModel, SpellType spellType, DialogServiceBase dialogService)
+		public AddItemToSpellBookCommand(CharacterSpellBookViewModel characterSpellBookViewModel, SpellType spellType, DialogServiceBase dialogService)
 		{
-			_spellBookViewModel = spellBookViewModel;
+			_characterSpellBookViewModel = characterSpellBookViewModel;
 			_spellType = spellType;
 			_dialogService = dialogService;
 		}
@@ -43,9 +43,9 @@ namespace PCCharacterManager.Commands
 		/// </summary>
 		private void AddSpellWindow()
 		{
-			DialogWindowAddSpellViewModel data = new(SpellType.SPELL);
+			DialogWindowAddSpellViewModel dataContext = new(SpellType.SPELL);
 			string result = string.Empty;
-			_dialogService.ShowDialog<AddSpellDialogWindow, DialogWindowAddSpellViewModel>(data, r =>
+			_dialogService.ShowDialog<AddSpellDialogWindow, DialogWindowAddSpellViewModel>(dataContext, r =>
 			{
 				result = r;
 			});
@@ -53,9 +53,9 @@ namespace PCCharacterManager.Commands
 			if (result == false.ToString())
 				return;
 
-			SpellItemEditableViewModel temp = new(data.NewSpell);
-			_spellBookViewModel.SpellsToDisplay.Add(temp);
-			_spellBookViewModel.SpellBook.AddSpell(data.NewSpell);
+			SpellItemEditableViewModel newSpellItem = new(dataContext.NewSpell);
+			_characterSpellBookViewModel.SpellsToDisplay.Add(newSpellItem);
+			_characterSpellBookViewModel.SpellBook.AddSpell(dataContext.NewSpell);
 		}
 
 		/// <summary>
@@ -63,9 +63,9 @@ namespace PCCharacterManager.Commands
 		/// </summary>
 		private void AddCantripWindow()
 		{
-			DialogWindowAddSpellViewModel data = new(SpellType.CANTRIP);
+			DialogWindowAddSpellViewModel dataContext = new(SpellType.CANTRIP);
 			string result = string.Empty;
-			_dialogService.ShowDialog<AddSpellDialogWindow, DialogWindowAddSpellViewModel>(data, r =>
+			_dialogService.ShowDialog<AddSpellDialogWindow, DialogWindowAddSpellViewModel>(dataContext, r =>
 			{
 				result = r;
 			});
@@ -73,9 +73,9 @@ namespace PCCharacterManager.Commands
 			if (result == false.ToString())
 				return;
 
-			SpellItemEditableViewModel temp = new(data.NewSpell);
-			_spellBookViewModel.CantripsToDisplay.Add(temp);
-			_spellBookViewModel.SpellBook.AddContrip(data.NewSpell);
+			SpellItemEditableViewModel newSpellItem = new(dataContext.NewSpell);
+			_characterSpellBookViewModel.CantripsToDisplay.Add(newSpellItem);
+			_characterSpellBookViewModel.SpellBook.AddContrip(dataContext.NewSpell);
 		}
 	}
 }

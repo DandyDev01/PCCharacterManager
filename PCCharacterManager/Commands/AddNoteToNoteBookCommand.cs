@@ -14,32 +14,32 @@ namespace PCCharacterManager.Commands
 {
 	public class AddNoteToNoteBookCommand : BaseCommand
 	{
-		private readonly CharacterNoteBookViewModel _viewModel;
+		private readonly CharacterNoteBookViewModel _characterNoteBookViewModel;
 		private readonly DialogServiceBase _dialogService;
 
-		public AddNoteToNoteBookCommand(CharacterNoteBookViewModel vviewModel, DialogServiceBase dialogService)
+		public AddNoteToNoteBookCommand(CharacterNoteBookViewModel characterNoteBookViewModel, DialogServiceBase dialogService)
 		{
-			_viewModel = vviewModel;
+			_characterNoteBookViewModel = characterNoteBookViewModel;
 			_dialogService = dialogService;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			if (_viewModel.NoteBook is not NoteBook noteBook)
+			if (_characterNoteBookViewModel.NoteBook is null)
 				return;
 
-			if (Validate(_viewModel.NoteBook) == false)
+			if (Validate(_characterNoteBookViewModel.NoteBook) == false)
 				return;
 
-			string[] sectionTitles = new string[_viewModel.NoteBook.NoteSections.Count];
+			string[] sectionTitles = new string[_characterNoteBookViewModel.NoteBook.NoteSections.Count];
 			for (int i = 0; i < sectionTitles.Length; i++)
 			{
-				sectionTitles[i] = _viewModel.NoteBook.NoteSections[i].SectionTitle;
+				sectionTitles[i] = _characterNoteBookViewModel.NoteBook.NoteSections[i].SectionTitle;
 			}
 
 			string titleOfSectionToAddNote = GetSectionToAddNote(sectionTitles);
 
-			foreach (NoteSection noteSection in _viewModel.NoteBook.NoteSections)
+			foreach (NoteSection noteSection in _characterNoteBookViewModel.NoteBook.NoteSections)
 			{
 				if (noteSection.SectionTitle.Equals(titleOfSectionToAddNote))
 				{
@@ -83,9 +83,9 @@ namespace PCCharacterManager.Commands
 			}
 
 			// a note section is selected, add a new note to it
-			if (_viewModel.SelectedSection != null)
+			if (_characterNoteBookViewModel.SelectedSection != null)
 			{
-				_viewModel.SelectedSection.Add(new Note("new note"));
+				_characterNoteBookViewModel.SelectedSection.Add(new Note("new note"));
 				return false;
 			}
 
