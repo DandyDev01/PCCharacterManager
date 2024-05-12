@@ -121,7 +121,7 @@ namespace PCCharacterManager.ViewModels
 		public ObservableCollection<DnD5eCharacterRaceVariant> RaceVariantsToDisplay { get; private set; }
 		public ObservableCollection<int> AbilityScores { get; private set; }
 		
-		private List<string> notAnOption;
+		private readonly List<string> notAnOption;
 
 		public ICommand RollAbilityScoresCommand { get; private set; }
 
@@ -250,8 +250,7 @@ namespace PCCharacterManager.ViewModels
 					{
 						var options = StringFormater.CreateGroup(item, StringConstants.OR);
 						
-						DialogWindowSelectStingValueViewModel windowVM =
-							new DialogWindowSelectStingValueViewModel(options.ToArray(), 1);
+						DialogWindowSelectStingValueViewModel windowVM = new(options.ToArray(), 1);
 
 						string result = string.Empty;
 						_dialogService.ShowDialog<SelectStringValueDialogWindow, 
@@ -343,8 +342,7 @@ namespace PCCharacterManager.ViewModels
 				{
 					int increaseAmount = StringFormater.FindQuantity(_selectedRace.AbilityScoreIncreases[i]);
 					
-					DialogWindowSelectStingValueViewModel windowVM =
-						new DialogWindowSelectStingValueViewModel(Ability.GetAbilityNames(_newCharacter.Abilities).ToArray(), 1);
+					DialogWindowSelectStingValueViewModel windowVM =new(Ability.GetAbilityNames(_newCharacter.Abilities).ToArray(), 1);
 
 					string result = string.Empty;
 					_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
@@ -383,15 +381,14 @@ namespace PCCharacterManager.ViewModels
 			int amount = StringFormater.FindQuantity(str);
 
 			var languages = ReadWriteJsonCollection<string>.ReadCollection(DnD5eResources.LanguagesJson);
-			List<string> options = new List<string>();
+			List<string> options = new();
 			foreach (var language in languages)
 			{
 				if (!_newCharacter.Languages.Contains(language))
 					options.Add(language);
 			}
 
-			DialogWindowSelectStingValueViewModel windowVM =
-				new DialogWindowSelectStingValueViewModel(options.ToArray(), amount);
+			DialogWindowSelectStingValueViewModel windowVM = new(options.ToArray(), amount);
 
 			string result = string.Empty;
 			_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
@@ -585,8 +582,7 @@ namespace PCCharacterManager.ViewModels
 				options.Remove(item);
 			}
 
-			DialogWindowSelectStingValueViewModel windowVM =
-				new DialogWindowSelectStingValueViewModel(options.ToArray(), 1);
+			DialogWindowSelectStingValueViewModel windowVM = new(options.ToArray(), 1);
 		
 			string result = string.Empty;
 			_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
@@ -654,8 +650,10 @@ namespace PCCharacterManager.ViewModels
 
 			characterRaceData.RaceVariant = characterRaceVarient;
 
-			DnD5eCharacter character = new(characterClassData, characterRaceData, characterBackgroundData);
-			character.Name = "John Doe";
+			DnD5eCharacter character = new(characterClassData, characterRaceData, characterBackgroundData)
+			{
+				Name = "John Doe"
+			};
 
 			character.CharacterClass.Name += " 1";
 

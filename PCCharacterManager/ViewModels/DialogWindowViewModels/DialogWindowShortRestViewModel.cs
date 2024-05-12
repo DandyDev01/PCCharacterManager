@@ -26,6 +26,8 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			}
 		}
 
+		private int _spentHitDice;
+		public int SpentHitDice => _spentHitDice;
 
 		private string _remainingRolls;
 		public string RemainingRolls
@@ -52,9 +54,6 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 				OnPropertyChanged(ref _canRoll, value);
 			}
 		}
-
-		private int _spentHitDice;
-		public int SpentHitDice => _spentHitDice;
 
 		private bool _hasHitDice;
 		private bool _canGainHealth;

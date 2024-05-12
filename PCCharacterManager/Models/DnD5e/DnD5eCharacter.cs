@@ -22,7 +22,7 @@ namespace PCCharacterManager.Models
 
 	public class DnD5eCharacter : ObservableObject
 	{
-		public static DnD5eCharacter Default => new DnD5eCharacter();
+		public static DnD5eCharacter Default => new();
 
 		protected Ability[] _abilities;
 
@@ -251,6 +251,11 @@ namespace PCCharacterManager.Models
 			AddLanguages(raceData.Languages);
 		}
 
+		/// <summary>
+		/// Used to notify when any aspect of the character changes.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void OnCharacterChanged(object? sender, NotifyCollectionChangedEventArgs? e)
 		{
 			OnCharacterChangedAction?.Invoke();
