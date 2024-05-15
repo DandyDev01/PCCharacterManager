@@ -216,8 +216,8 @@ namespace PCCharacterManager.ViewModels
 
 			AddSpellCommand = new AddItemToSpellBookCommand(this, SpellType.SPELL, dialogService);
 			AddCantripCommand = new AddItemToSpellBookCommand(this, SpellType.CANTRIP, dialogService);
-			DeleteSpellCommand = new RemoveItemFromSpellBookCommand(this, SpellType.SPELL);
-			DeleteCantripCommand = new RemoveItemFromSpellBookCommand(this, SpellType.CANTRIP);
+			DeleteSpellCommand = new RemoveItemFromSpellBookCommand(this, dialogService, SpellType.SPELL);
+			DeleteCantripCommand = new RemoveItemFromSpellBookCommand(this, dialogService, SpellType.CANTRIP);
 			UnprepareSpellCommand = new RemovePreparedSpellCommand(this);
 			ClearPreparedSpellsCommand = new ClearPreparedSpellsCommand(this);
 			NextFilterCommand = new RelayCommand(NextFilter);

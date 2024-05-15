@@ -32,7 +32,8 @@ namespace PCCharacterManager.Models
 			get { return _name; }
 			set 
 			{ 
-				OnPropertyChanged(ref _name, value); 
+				OnCharacterChangedAction?.Invoke(this);
+				OnPropertyChanged(ref _name, value);
 			}
 		}
 
@@ -47,35 +48,55 @@ namespace PCCharacterManager.Models
 		public string Background
 		{
 			get { return _background; }
-			set { OnPropertyChanged(ref _background, value); }
+			set 
+			{ 
+				OnCharacterChangedAction?.Invoke(this);
+				OnPropertyChanged(ref _background, value);
+			}
 		}
 		
 		protected string _dateModified;
 		public string DateModified
 		{
 			get { return _dateModified; }	
-			set { OnPropertyChanged(ref _dateModified, value); }
+			set 
+			{ 
+				OnCharacterChangedAction?.Invoke(this);
+				OnPropertyChanged(ref _dateModified, value);
+			}
 		}
 		
 		protected int _initiative;
 		public int Initiative
 		{
 			get { return _initiative; }
-			set { OnPropertyChanged(ref _initiative, value); }
+			set 
+			{ 
+				OnCharacterChangedAction?.Invoke(this);
+				OnPropertyChanged(ref _initiative, value); 
+			}
 		}
 		
 		protected int _passivePerception;
 		public int PassivePerception
 		{
 			get { return _passivePerception; }
-			set { OnPropertyChanged(ref _passivePerception, value); }
+			set 
+			{
+				OnCharacterChangedAction?.Invoke(this);
+				OnPropertyChanged(ref _passivePerception, value);
+			}
 		}
 		
 		protected int _passiveInsight;
 		public int PassiveInsight
 		{
 			get { return _passiveInsight; }
-			set { OnPropertyChanged(ref _passiveInsight, value); }
+			set 
+			{ 
+				OnCharacterChangedAction?.Invoke(this);
+				OnPropertyChanged(ref _passiveInsight, value);
+			}
 		}
 
 		private int _spentHitDie;
@@ -87,6 +108,7 @@ namespace PCCharacterManager.Models
 			}
 			set
 			{
+				OnCharacterChangedAction?.Invoke(this);
 				value = Math.Min(value, Level.Level);
 				OnPropertyChanged(ref _spentHitDie, value);
 			}
@@ -101,6 +123,7 @@ namespace PCCharacterManager.Models
 			}
 			set
 			{
+				OnCharacterChangedAction?.Invoke(this);
 				OnPropertyChanged(ref _combatRound, value);
 			}
 		}
@@ -114,6 +137,7 @@ namespace PCCharacterManager.Models
 			}
 			set
 			{
+				OnCharacterChangedAction?.Invoke(this);
 				OnPropertyChanged(ref _isInCombat, value);
 			}
 		}
@@ -171,7 +195,7 @@ namespace PCCharacterManager.Models
 		public Alignment Alignment { get; set; }
 
 		[JsonIgnore]
-		public Action? OnCharacterChangedAction { get; set; }
+		public Action<DnD5eCharacter>? OnCharacterChangedAction { get; set; }
 
 		public DnD5eCharacter()
 		{
@@ -258,7 +282,7 @@ namespace PCCharacterManager.Models
 		/// <param name="e"></param>
 		private void OnCharacterChanged(object? sender, NotifyCollectionChangedEventArgs? e)
 		{
-			OnCharacterChangedAction?.Invoke();
+			OnCharacterChangedAction?.Invoke(this);
 		}
 
 		/// <summary>
