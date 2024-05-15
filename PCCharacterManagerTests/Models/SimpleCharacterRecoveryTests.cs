@@ -31,5 +31,32 @@ namespace PCCharacterManagerTests.Models
 
 			Assert.AreEqual(name, character.Name);
 		}
+
+		[TestMethod]
+		public void RedoTest()
+		{
+			DnD5eCharacter character = CharacterCreatorViewModel.CreateRandonCharacter();
+			SimpleCharacterRecovery recovery = new();
+
+			character.OnCharacterChangedAction += recovery.RegisterChange;
+
+			string name = character.Name;
+
+			character.Name = "test";
+
+			Assert.AreEqual("test", character.Name);
+
+			int numberOfLanguages = character.Languages.Count;
+
+			character.AddLanguage("test language");
+
+			Assert.AreEqual(numberOfLanguages + 1, character.Languages.Count);
+
+			character = recovery.Undo();
+			character = recovery.Undo();
+			character = recovery.Redo();
+
+			Assert.AreEqual("test", character.Name);	
+		}
 	}
 }

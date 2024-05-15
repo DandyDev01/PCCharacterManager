@@ -259,6 +259,14 @@ namespace PCCharacterManager.Models
 			Inventory = new Inventory();
 			Health = new Health(1);
 
+			Conditions.CollectionChanged += OnCharacterChanged;
+			MovementTypes_Speeds.CollectionChanged += OnCharacterChanged;
+			WeaponProficiencies.CollectionChanged += OnCharacterChanged;
+			ArmorProficiencies.CollectionChanged += OnCharacterChanged;
+			OtherProficiences.CollectionChanged += OnCharacterChanged;
+			ToolProficiences.CollectionChanged += OnCharacterChanged;
+			Languages.CollectionChanged += OnCharacterChanged;
+
 			_id = string.Empty;
 			_name = string.Empty;
 			_dateModified = string.Empty;

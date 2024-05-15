@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,12 +10,12 @@ namespace PCCharacterManager.Models
 {
 	public class SimpleCharacterRecovery : RecoveryBase
 	{
-		private readonly List<DnD5eCharacter> _stateHistory;
+		private readonly List<string> _stateHistory;
 		private int _stateIndex;
 
 		public SimpleCharacterRecovery()
 		{
-			_stateHistory = new List<DnD5eCharacter>();
+			_stateHistory = new List<string>();
 			_stateIndex = 0;
 		}
 
@@ -26,7 +28,12 @@ namespace PCCharacterManager.Models
 			else
 				_stateIndex += 1;
 
-			return _stateHistory[indexOfStateToReturn];
+			var objectType = JsonConvert.DeserializeObject<DnD5eCharacter>(_stateHistory[indexOfStateToReturn]);
+
+			if (objectType == null)
+				throw new Exception("error");
+
+			return objectType;
 		}
 
 		public DnD5eCharacter Undo()
@@ -36,14 +43,20 @@ namespace PCCharacterManager.Models
 			if (indexOfStateToReturn < 0)
 				indexOfStateToReturn = 0;
 			else
-				_stateIndex += 1;
+				_stateIndex -= 1;
 
-			return _stateHistory[indexOfStateToReturn];
+			var objectType = JsonConvert.DeserializeObject<DnD5eCharacter>(_stateHistory[indexOfStateToReturn]);
+
+			if (objectType == null)
+				throw new Exception("error");
+
+			return objectType;
 		}
 		
 		public void RegisterChange(DnD5eCharacter state)
 		{
-			_stateHistory.Add(state);
+			string json = JsonConvert.SerializeObject(state);
+			_stateHistory.Add(json);
 			_stateIndex += 1;
 		}
 	}
