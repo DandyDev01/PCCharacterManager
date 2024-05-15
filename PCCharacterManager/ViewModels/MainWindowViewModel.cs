@@ -41,6 +41,8 @@ namespace PCCharacterManager.ViewModels
 		public ICommand ExportCharacterCommand { get; }
 		public ICommand OpenCommand { get; }
 		public ICommand EditCharacterCommand { get; }
+		public ICommand UndoCommand { get; }
+		public ICommand RedoCommand { get; }
 
 		//NOTE: because of the way that CharacterCreateWindow is made the program does
 		//		not end when main window is closed. 
@@ -64,6 +66,28 @@ namespace PCCharacterManager.ViewModels
 			ExportCharacterCommand = new CharacterExportCommand(_characterStore, _tabVM, _dialogService);
 			OpenCommand = new OpenCharacterCommand(_characterStore, _dialogService);
 			EditCharacterCommand = new RelayCommand(EditCharacter);
+			UndoCommand = new RelayCommand(Undo);
+			RedoCommand = new RelayCommand(Redo);
+		}
+
+		private void Redo()
+		{
+			DnD5eCharacter character = _recovery.Redo();
+
+			if (character == null)
+				return;
+
+			_characterStore.BindSelectedCharacter(character);
+		}
+
+		private void Undo()
+		{
+			DnD5eCharacter character = _recovery.Undo();
+
+			if (character == null)
+				return;
+
+			_characterStore.BindSelectedCharacter(character);
 		}
 
 		private void SaveCharacter(DnD5eCharacter? character = null)
