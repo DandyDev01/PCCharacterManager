@@ -17,8 +17,6 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterStatsViewModel : ObservableObject
 	{
-		private readonly RecoveryBase _recovery;
-
 		private DnD5eCharacter _selectedCharacter;
 		public DnD5eCharacter SelectedCharacter 
 		{ 
@@ -59,16 +57,15 @@ namespace PCCharacterManager.ViewModels
 
 		public CharacterStatsViewModel(CharacterStore characterStore, DialogServiceBase dialogService, RecoveryBase recovery)
 		{
-			_recovery = recovery;
-
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			_selectedCharacter = characterStore.SelectedCharacter;
 
-			CharacterInfoViewModel = new CharacterInfoViewModel(characterStore, dialogService);
-			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(characterStore, dialogService); 
-			StarfinderAbilitiesAndSkillsVM = new StarfinderAbilitiesAndSkillsViewModel(characterStore);
+			CharacterInfoViewModel = new CharacterInfoViewModel(characterStore, dialogService, recovery);
 			CharacterAbilitiesViewModel = new CharacterAbilitiesViewModel(characterStore);
+
+			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(characterStore, dialogService, recovery); 
+			StarfinderAbilitiesAndSkillsVM = new StarfinderAbilitiesAndSkillsViewModel(characterStore);
 
 			if (_selectedCharacter is StarfinderCharacter)
 			{

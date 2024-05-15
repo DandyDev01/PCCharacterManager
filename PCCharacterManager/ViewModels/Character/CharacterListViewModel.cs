@@ -28,7 +28,6 @@ namespace PCCharacterManager.ViewModels
 		private readonly ICharacterDataService _dataService;
 		private readonly DialogServiceBase _dialogService;
 		private readonly CollectionViewPropertySort _collectionViewPropertySort;
-		private readonly RecoveryBase _recovery;
 
 		public ObservableCollection<CharacterItemViewModel> CharacterItems { get; private set; }
 		public ICollectionView CharacterCollectionView { get; }
@@ -43,12 +42,11 @@ namespace PCCharacterManager.ViewModels
 		public ICommand CharacterRaceSortCommand { get; }
 
 		public CharacterListViewModel(CharacterStore characterStore, ICharacterDataService dataService,
-			DialogServiceBase dialogService, RecoveryBase recovery)
+			DialogServiceBase dialogService)
 		{
 			_characterStore = characterStore;
 			_dataService = dataService;
 			_dialogService = dialogService;
-			_recovery = recovery;
 
 			CreateCharacterCommand = new CreateCharacterCommand(characterStore, dialogService);
 			DeleteCharacterCommand = new DeleteCharacterCommand(this, dataService, characterStore, dialogService);

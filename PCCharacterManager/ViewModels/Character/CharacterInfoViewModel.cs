@@ -22,6 +22,7 @@ namespace PCCharacterManager.ViewModels
 		private readonly CollectionViewPropertySort _collectionViewPropertySort;
 		private readonly CharacterStore _characterStore;
 		private readonly DialogServiceBase _dialogService;
+		private readonly RecoveryBase _recovery;
 
 		private DnD5eCharacter _selectedCharacter;
 		public DnD5eCharacter SelectedCharacter
@@ -132,12 +133,13 @@ namespace PCCharacterManager.ViewModels
 		public ICommand StartEncounterCommand { get; }
 		public ICommand EndEncounterCommand { get; }
 
-		public CharacterInfoViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
+		public CharacterInfoViewModel(CharacterStore characterStore, DialogServiceBase dialogService, RecoveryBase recovery)
 		{
 			_characterStore = characterStore;
 
 			_characterStore.OnCharacterLevelup += OnCharacterChanged;
 
+			_recovery = recovery;
 			_dialogService = dialogService;
 			_selectedCharacter = this._characterStore.SelectedCharacter;
 			_race = _selectedCharacter.Race.Name;

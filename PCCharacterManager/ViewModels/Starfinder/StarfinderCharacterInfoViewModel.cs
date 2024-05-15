@@ -17,6 +17,7 @@ namespace PCCharacterManager.ViewModels
 	public class StarfinderCharacterInfoViewModel : CharacterInfoViewModel
 	{
 		private readonly DialogServiceBase _dialogService;
+		private readonly RecoveryBase _recovery;
 
 		public PropertyListViewModel RaceFeatureListVM { get; protected set; }
 		public PropertyListViewModel ClassFeatureListVM { get; protected set; }
@@ -82,9 +83,11 @@ namespace PCCharacterManager.ViewModels
 
 		public PropertyListViewModel ThemeListVM { get; private set; }
 
-		public StarfinderCharacterInfoViewModel(CharacterStore characterStore, DialogServiceBase dialogService) 
-			: base(characterStore, dialogService)
+		public StarfinderCharacterInfoViewModel(CharacterStore characterStore, DialogServiceBase dialogService, 
+			RecoveryBase recovery) 
+			: base(characterStore, dialogService, recovery)
 		{
+			_recovery = recovery;
 			characterStore.SelectedCharacterChange += OnCharacterChange;
 
 			if (characterStore.SelectedCharacter is StarfinderCharacter starfinderCharacter)
