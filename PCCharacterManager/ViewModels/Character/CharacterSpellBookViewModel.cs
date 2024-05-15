@@ -28,6 +28,7 @@ namespace PCCharacterManager.ViewModels
 		private readonly CollectionViewPropertySort _spellPropertySort;
 		private readonly CollectionViewPropertySort _cantripPropertySort;
 		private readonly DialogServiceBase _dialogService;
+		private readonly RecoveryBase _recovery;
 
 		public ICollectionView SpellsCollectionView { get; }
 		public ICollectionView CantripsCollectionView { get; }
@@ -190,10 +191,11 @@ namespace PCCharacterManager.ViewModels
 		public ICommand UnprepareSpellCommand { get; }
 		public ICommand NextFilterCommand { get; }
 
-		public CharacterSpellBookViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
+		public CharacterSpellBookViewModel(CharacterStore characterStore, DialogServiceBase dialogService, RecoveryBase recovery)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
+			_recovery = recovery;
 			_dialogService = dialogService;
 			_spellSearch = new SpellSearch();
 			_cantripSearch = new SpellSearch();

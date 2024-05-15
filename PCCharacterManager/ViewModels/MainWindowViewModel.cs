@@ -32,6 +32,7 @@ namespace PCCharacterManager.ViewModels
 		private readonly CharacterStore _characterStore;
 		private readonly ICharacterDataService _dataService;
 		private readonly DialogServiceBase _dialogService;
+		private readonly RecoveryBase _recovery;
 
 		public ICommand NewCharacterCommand { get; }
 		public ICommand DeleteCharacterCommand { get; }
@@ -49,10 +50,11 @@ namespace PCCharacterManager.ViewModels
 			_characterStore = new CharacterStore();
 			_dataService = new JsonCharacterDataService(_characterStore);
 			_dialogService = new DialogService();
+			_recovery = new SimpleCharacterRecovery();
 
 			_characterStore.SaveSelectedCharacterOnChange += SaveCharacter;
 
-			_tabVM = new TabControlViewModel(_characterStore, _dataService, _dialogService);
+			_tabVM = new TabControlViewModel(_characterStore, _dataService, _dialogService, _recovery);
 			_currView = _tabVM;
 
 			NewCharacterCommand = new CreateCharacterCommand(_characterStore, _dialogService);

@@ -18,6 +18,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterNoteBookViewModel : ObservableObject
 	{
+		private readonly RecoveryBase _recovery;
+
 		private NoteBook _noteBook;
 		public NoteBook NoteBook => _noteBook;
 
@@ -77,8 +79,9 @@ namespace PCCharacterManager.ViewModels
 		public Action<Note>? selectedNoteChange;
 		public Action? characterChange;
 
-		public CharacterNoteBookViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
+		public CharacterNoteBookViewModel(CharacterStore characterStore, DialogServiceBase dialogService, RecoveryBase recovery)
 		{
+			_recovery = recovery;
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			_noteBook = characterStore.SelectedCharacter.NoteManager;

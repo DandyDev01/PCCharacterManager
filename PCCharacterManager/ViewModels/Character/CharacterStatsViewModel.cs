@@ -7,6 +7,7 @@ using PCCharacterManager.ViewModels.Character;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,6 +17,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterStatsViewModel : ObservableObject
 	{
+		private readonly RecoveryBase _recovery;
+
 		private DnD5eCharacter _selectedCharacter;
 		public DnD5eCharacter SelectedCharacter 
 		{ 
@@ -54,8 +57,10 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public CharacterStatsViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
+		public CharacterStatsViewModel(CharacterStore characterStore, DialogServiceBase dialogService, RecoveryBase recovery)
 		{
+			_recovery = recovery;
+
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			_selectedCharacter = characterStore.SelectedCharacter;
