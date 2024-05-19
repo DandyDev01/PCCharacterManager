@@ -47,12 +47,12 @@ namespace PCCharacterManager
 
 		private void DarkMode_Click(object sender, RoutedEventArgs e)
 		{
-			ThemeChanger.ChangeTheme("Themes/DarkMode.xaml");
+			ThemeChanger.ChangeTheme(ThemeChanger.DarkMode);
 		}
 
 		private void LightMode_Click(object sender, RoutedEventArgs e)
 		{
-			ThemeChanger.ChangeTheme("Themes/LightMode.xaml");
+			ThemeChanger.ChangeTheme(ThemeChanger.LightMode);
 		}
 	}
 }

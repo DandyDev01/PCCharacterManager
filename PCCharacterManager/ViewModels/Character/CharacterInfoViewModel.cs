@@ -208,7 +208,7 @@ namespace PCCharacterManager.ViewModels
 			SelectedCharacter = newCharacter;
 
 			SelectedCharacter.CharacterClass.Features.CollectionChanged += UpdateFeatures;
-			//SelectedCharacter.OnCharacterChangedAction += _recovery.RegisterChange;
+			SelectedCharacter.OnCharacterChangedAction += _recovery.RegisterChange;
 
 
 			//FeaturesListVM.UpdateCollection(null);

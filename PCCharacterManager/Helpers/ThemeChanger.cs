@@ -9,6 +9,9 @@ namespace PCCharacterManager.Helpers
 {
     static class ThemeChanger
     {
+		public readonly static string DarkMode = "Themes/DarkMode.xaml";
+		public readonly static string LightMode = "Themes/LightMode.xaml";
+
 		public static void ChangeTheme(string uri)
 		{
 			ResourceDictionary theme = new ResourceDictionary();

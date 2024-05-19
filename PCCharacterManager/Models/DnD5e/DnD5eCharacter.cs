@@ -173,14 +173,14 @@ namespace PCCharacterManager.Models
 			set { _abilities = value; }
 		}
 
-		public ObservableCollection<Condition> Conditions { get; set; }
-		public ObservableCollection<Property> MovementTypes_Speeds { get; set; }
+		public ObservableCollection<Condition> Conditions { get; protected set; }
+		public ObservableCollection<Property> MovementTypes_Speeds { get; protected set; }
 		public ObservableCollection<string> CombatActions { get; set; }
-		public ObservableCollection<string> WeaponProficiencies { get; set; }
-		public ObservableCollection<string> ArmorProficiencies { get; set; }
-		public ObservableCollection<string> OtherProficiences { get; set; }
-		public ObservableCollection<string> ToolProficiences { get; set; }
-		public ObservableCollection<string> Languages { get; set; }
+		public ObservableCollection<string> WeaponProficiencies { get;protected set; }
+		public ObservableCollection<string> ArmorProficiencies { get;protected set; }
+		public ObservableCollection<string> OtherProficiences { get; protected set; }
+		public ObservableCollection<string> ToolProficiences { get; protected set; }
+		public ObservableCollection<string> Languages { get; protected set; }
 
 		[JsonProperty(nameof(Size))]
 		[JsonConverter(typeof(StringEnumConverter))]
@@ -260,12 +260,10 @@ namespace PCCharacterManager.Models
 			Health = new Health(1);
 
 			Conditions.CollectionChanged += OnCharacterChanged;
-			MovementTypes_Speeds.CollectionChanged += OnCharacterChanged;
 			WeaponProficiencies.CollectionChanged += OnCharacterChanged;
 			ArmorProficiencies.CollectionChanged += OnCharacterChanged;
 			OtherProficiences.CollectionChanged += OnCharacterChanged;
 			ToolProficiences.CollectionChanged += OnCharacterChanged;
-			Languages.CollectionChanged += OnCharacterChanged;
 
 			_id = string.Empty;
 			_name = string.Empty;
@@ -302,6 +300,8 @@ namespace PCCharacterManager.Models
 			if (MovementTypes_Speeds.Contains(movementTypeToAdd))
 				return false;
 
+			OnCharacterChangedAction?.Invoke(this);
+
 			MovementTypes_Speeds.Add(movementTypeToAdd);
 			return true;
 		}
@@ -314,6 +314,8 @@ namespace PCCharacterManager.Models
 		{
 			if (Languages.Contains(language))
 				return;
+
+			OnCharacterChangedAction?.Invoke(this);
 
 			Languages.Add(language);
 		}
