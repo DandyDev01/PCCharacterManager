@@ -48,6 +48,7 @@ namespace PCCharacterManager.ViewModels.Character
 		public ICommand AbilitySaveSortCommand { get; }
 		public ICommand AbilityProficiencySortCommand { get; }
 
+		public ICommand SkillProficiencySortCommand { get; }
 		public ICommand SkillNameSortCommand { get; }
 		public ICommand SkillScoreSortCommand { get; }
 		public ICommand SkillAbilitySortCommand { get; }
@@ -77,7 +78,9 @@ namespace PCCharacterManager.ViewModels.Character
 				nameof(Ability.Save));
 			AbilityProficiencySortCommand = new ItemCollectionViewPropertySortCommand(_abilitiesCollectionViewPropertySort,
 				nameof(Ability.ProfSave));
-			
+
+			SkillProficiencySortCommand = new ItemCollectionViewPropertySortCommand(_skillsCollectionViewPropertySort,
+				nameof(AbilitySkill.SkillProficiency));
 			SkillNameSortCommand = new ItemCollectionViewPropertySortCommand(_skillsCollectionViewPropertySort,
 				nameof(AbilitySkill.Name));
 			SkillScoreSortCommand = new ItemCollectionViewPropertySortCommand(_skillsCollectionViewPropertySort,

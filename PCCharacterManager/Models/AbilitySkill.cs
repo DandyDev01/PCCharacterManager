@@ -13,10 +13,10 @@ namespace PCCharacterManager.Models
 		protected string _desc = string.Empty;
 		protected string _abilityName = string.Empty;
 		protected int _score;
+		protected int _abilityModifier;
+		protected int _proficiencyModifier;
 		protected int _miscBonus;
 		protected bool _skillProficiency;
-		protected bool _doubleSkillProficiency;
-		protected bool _halfSkillProficiency;
 
 		public string Name
 		{
@@ -44,6 +44,16 @@ namespace PCCharacterManager.Models
 			get { return _score; }
 			set { OnPropertyChanged(ref _score, value); }
 		}
+		public int AbilityModifier
+		{
+			get { return _abilityModifier; }
+			set { OnPropertyChanged(ref _abilityModifier, value); }
+		}
+		public int ProficiencyModifier
+		{
+			get { return _proficiencyModifier; }
+			set { OnPropertyChanged(ref _proficiencyModifier, value); }
+		}
 		public int MiscBonus
 		{
 			get { return _miscBonus; }
@@ -52,17 +62,13 @@ namespace PCCharacterManager.Models
 		public bool SkillProficiency
 		{
 			get { return _skillProficiency; }
-			set { OnPropertyChanged(ref _skillProficiency, value); }
-		}
-		public bool DoubleSkillProficiency
-		{
-			get { return _doubleSkillProficiency; }
-			set { OnPropertyChanged(ref _doubleSkillProficiency, value); }
-		}
-		public bool HalfSkillProficiency
-		{
-			get { return _halfSkillProficiency; }
-			set { OnPropertyChanged(ref _halfSkillProficiency, value); }
+			set 
+			{ 
+				OnPropertyChanged(ref _skillProficiency, value);
+
+				int score = _skillProficiency ? _abilityModifier + _proficiencyModifier : _abilityModifier;
+				Score = score;
+			}
 		}
 	}
 }

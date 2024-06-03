@@ -133,7 +133,15 @@
                 ItemsSource="{Binding SkillsCollectionView}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="165">
+                        <GridViewColumn Width="70">
+                            <GridViewColumnHeader Command="{Binding SkillProficiencySortCommand}" Content="Is Proficient" />
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding SkillProficiency}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="135">
                             <GridViewColumnHeader Command="{Binding SkillNameSortCommand}" Content="Name" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -141,7 +149,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="120">
+                        <GridViewColumn Width="100">
                             <GridViewColumnHeader Command="{Binding SkillScoreSortCommand}" Content="Score" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -149,7 +157,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="155">
+                        <GridViewColumn Width="135">
                             <GridViewColumnHeader Command="{Binding SkillAbilitySortCommand}" Content="Ability" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>

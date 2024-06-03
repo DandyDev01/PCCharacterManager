@@ -244,7 +244,8 @@ namespace PCCharacterManager.Models
 
 			foreach (var skill in Skills)
 			{
-
+				skill.AbilityModifier = _modifier;
+				skill.ProficiencyModifier = profBonus;
 				if (skill.SkillProficiency)
 				{
 					skill.Score = profBonus + _modifier;
