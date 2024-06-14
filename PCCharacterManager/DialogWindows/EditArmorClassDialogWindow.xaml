@@ -21,46 +21,49 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
             <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Label
-            Grid.Row="1"
+            Grid.Row="0"
             Grid.Column="0"
             Content="Armor" />
         <TextBox
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="0"
+            Margin="10,160"
             Text="{Binding Armor}" />
 
         <Label
-            Grid.Row="1"
+            Grid.Row="0"
             Grid.Column="1"
             Content="Shild" />
         <TextBox
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="1"
+            Margin="10,160"
             Text="{Binding Shild}" />
 
         <Label
-            Grid.Row="1"
+            Grid.Row="0"
             Grid.Column="2"
             Content="Misc" />
         <TextBox
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="2"
+            Margin="10,160"
             Text="{Binding Misc}" />
 
         <Label
-            Grid.Row="1"
+            Grid.Row="0"
             Grid.Column="3"
             Content="Temp" />
         <TextBox
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="3"
+            Margin="10,160"
             Text="{Binding Temp}" />
 
         <Button

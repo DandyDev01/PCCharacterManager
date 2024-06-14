@@ -302,7 +302,6 @@ namespace PCCharacterManager.ViewModels
 			{
 				_selectedCharacter.Conditions.Remove(condition);
 			}
-
 		}
 
 		private void EditArmorClass()
