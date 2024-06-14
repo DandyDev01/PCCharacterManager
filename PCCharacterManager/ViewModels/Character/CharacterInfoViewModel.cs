@@ -327,7 +327,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void AdjustExperience()
 		{
-			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel("Enter amount to add or remove.");
+			DialogWindowStringInputViewModel dataContext = new("Enter amount to add or remove.");
 
 			string result = string.Empty;
 			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(dataContext, r =>
@@ -357,7 +357,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void AddHealth()
 		{
-			DialogWindowChangeHealthViewModel dataContext = new DialogWindowChangeHealthViewModel();
+			DialogWindowChangeHealthViewModel dataContext = new();
 			string result = string.Empty;
 			_dialogService.ShowDialog<ChangeHealthDialogWindow, DialogWindowChangeHealthViewModel>(dataContext, r =>
 			{
@@ -390,7 +390,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void AddFeature()
 		{
-			DialogWindowAddFeatureViewModel windowVM = new DialogWindowAddFeatureViewModel(this);
+			DialogWindowAddFeatureViewModel windowVM = new(this);
 			string result = string.Empty;
 			_dialogService.ShowDialog<AddFeatureDialogWindow, DialogWindowAddFeatureViewModel>(windowVM, r =>
 			{
