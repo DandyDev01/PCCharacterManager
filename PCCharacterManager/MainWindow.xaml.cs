@@ -42,6 +42,7 @@ namespace PCCharacterManager
 			DialogServiceBase.RegisterDialog<DialogWindowListViewSelectItemViewModel, SelectStringValueDialogWindow>();
 			DialogServiceBase.RegisterDialog<DialogWindowStringInputViewModel, StringInputDialogWindow>();
 			DialogServiceBase.RegisterDialog<DialogWindowShortRestViewModel, ShortRestDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowEditArmorClassViewModel, EditArmorClassDialogWindow>();
 			InitializeComponent();
 		}
 

@@ -142,7 +142,7 @@ namespace PCCharacterManager.ViewModels
 			_selectedCharacter = characterStore.SelectedCharacter;
 			_race = _selectedCharacter.Race.Name;
 			_health = _selectedCharacter.Health.CurrHealth.ToString();
-			_armorClass = _selectedCharacter.ArmorClass.ArmorClassValue;
+			_armorClass = _selectedCharacter.ArmorClass.TotalArmorClass;
 			_characterClass = _selectedCharacter.CharacterClass.Name;
 
 			AllFeatures = new ObservableCollection<Feature>();
@@ -230,7 +230,7 @@ namespace PCCharacterManager.ViewModels
 			CharacterClass = characterClass.Name + "(total: " + _selectedCharacter.Level.Level 
 				+ ", PB: " + _selectedCharacter.Level.ProficiencyBonus + ")";
 
-			ArmorClass = _selectedCharacter.ArmorClass.ArmorClassValue;
+			ArmorClass = _selectedCharacter.ArmorClass.TotalArmorClass;
 
 			UpdateFeatures(null, null);
 			SelectedProperty = AllFeatures.FirstOrDefault();
@@ -307,12 +307,10 @@ namespace PCCharacterManager.ViewModels
 
 		private void EditArmorClass()
 		{
-			DialogWindowStringInputViewModel dataContext = new DialogWindowStringInputViewModel();
-
-			dataContext.Answer = _selectedCharacter.ArmorClass.ArmorClassValue;
+			DialogWindowEditArmorClassViewModel dataContext = new(_selectedCharacter.ArmorClass);
 
 			string result = string.Empty;
-			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(dataContext, r =>
+			_dialogService.ShowDialog<EditArmorClassDialogWindow, DialogWindowEditArmorClassViewModel>(dataContext, r =>
 			{
 				result = r;
 			});
@@ -320,10 +318,12 @@ namespace PCCharacterManager.ViewModels
 			if (result == false.ToString())
 				return;
 
+			_selectedCharacter.ArmorClass.Armor = dataContext.Armor;
+			_selectedCharacter.ArmorClass.Shild = dataContext.Shild;
+			_selectedCharacter.ArmorClass.Misc = dataContext.Misc;
+			_selectedCharacter.ArmorClass.Temp = dataContext.Temp;
 
-
-			_selectedCharacter.ArmorClass.ArmorClassValue = dataContext.Answer;
-			ArmorClass = _selectedCharacter.ArmorClass.ArmorClassValue;
+			ArmorClass = _selectedCharacter.ArmorClass.TotalArmorClass;
 		}
 
 		private void AdjustExperience()

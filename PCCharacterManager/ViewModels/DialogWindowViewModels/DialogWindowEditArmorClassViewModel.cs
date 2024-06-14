@@ -1,22 +1,15 @@
-﻿using PCCharacterManager.Utility;
+﻿using PCCharacterManager.Models;
+using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PCCharacterManager.Models
+namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 {
-	public class ArmorClass : ObservableObject
-	{
-		public string TotalArmorClass
-		{
-			get
-			{
-				return (_armor + _shild + _misc) + "(temp " + _temp + ")";
-			}
-		}
-
+    public class DialogWindowEditArmorClassViewModel : ObservableObject
+    {
 		private int _armor;
 		public int Armor
 		{
@@ -68,5 +61,13 @@ namespace PCCharacterManager.Models
 				OnPropertyChanged(ref _temp, value);
 			}
 		}
-	}
+
+		public DialogWindowEditArmorClassViewModel(ArmorClass armorClass)
+		{
+			_armor = armorClass.Armor;
+			_shild = armorClass.Shild;
+			_misc = armorClass.Misc;
+			_temp = armorClass.Temp;
+		}
+    }
 }
