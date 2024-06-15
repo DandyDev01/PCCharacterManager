@@ -12,13 +12,11 @@ namespace PCCharacterManager.Models
 	{
 		private readonly List<string> _stateHistory;
 		private int _stateIndex;
-		private int _numberOfUndos;
 
 		public SimpleCharacterRecovery()
 		{
 			_stateHistory = new List<string>();
 			_stateIndex = 0;
-			_numberOfUndos = 0;
 		}
 
 		public DnD5eCharacter Redo()
@@ -37,8 +35,6 @@ namespace PCCharacterManager.Models
 
 			if (objectType == null)
 				throw new Exception("error");
-
-			_numberOfUndos = 0;
 
 			return objectType;
 		}
@@ -60,8 +56,6 @@ namespace PCCharacterManager.Models
 			if (objectType == null)
 				throw new Exception("error");
 
-			_numberOfUndos += 1;
-
 			return objectType;
 		}
 		
@@ -69,14 +63,19 @@ namespace PCCharacterManager.Models
 		{
 			string json = JsonConvert.SerializeObject(state);
 			_stateHistory.Add(json);
-			_stateIndex = _stateIndex + 1 + _numberOfUndos;
+			_stateIndex = _stateIndex + 1;
+
+
+
+			if (_stateIndex != _stateHistory.Count-1)
+				_stateHistory.RemoveRange(_stateIndex, _stateHistory.Count - _stateIndex);
+
 		}
 
 		public void ClearHistory()
 		{
 			_stateHistory.Clear();
 			_stateIndex = 0;
-			_numberOfUndos = 0;
 		}
 	}
 }

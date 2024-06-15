@@ -32,8 +32,8 @@ namespace PCCharacterManager.Models
 			get { return _name; }
 			set 
 			{ 
-				OnCharacterChangedAction?.Invoke(this);
 				OnPropertyChanged(ref _name, value);
+				OnCharacterChangedAction?.Invoke(this);
 			}
 		}
 
@@ -50,8 +50,8 @@ namespace PCCharacterManager.Models
 			get { return _background; }
 			set 
 			{ 
-				OnCharacterChangedAction?.Invoke(this);
 				OnPropertyChanged(ref _background, value);
+				OnCharacterChangedAction?.Invoke(this);
 			}
 		}
 		
@@ -71,8 +71,8 @@ namespace PCCharacterManager.Models
 			get { return _initiative; }
 			set 
 			{ 
-				OnCharacterChangedAction?.Invoke(this);
 				OnPropertyChanged(ref _initiative, value); 
+				OnCharacterChangedAction?.Invoke(this);
 			}
 		}
 		
@@ -82,8 +82,8 @@ namespace PCCharacterManager.Models
 			get { return _passivePerception; }
 			set 
 			{
-				OnCharacterChangedAction?.Invoke(this);
 				OnPropertyChanged(ref _passivePerception, value);
+				OnCharacterChangedAction?.Invoke(this);
 			}
 		}
 		
@@ -93,8 +93,8 @@ namespace PCCharacterManager.Models
 			get { return _passiveInsight; }
 			set 
 			{ 
-				OnCharacterChangedAction?.Invoke(this);
 				OnPropertyChanged(ref _passiveInsight, value);
+				OnCharacterChangedAction?.Invoke(this);
 			}
 		}
 
@@ -107,9 +107,9 @@ namespace PCCharacterManager.Models
 			}
 			set
 			{
-				OnCharacterChangedAction?.Invoke(this);
 				value = Math.Min(value, Level.Level);
 				OnPropertyChanged(ref _spentHitDie, value);
+				OnCharacterChangedAction?.Invoke(this);
 			}
 		}
 
@@ -122,8 +122,8 @@ namespace PCCharacterManager.Models
 			}
 			set
 			{
-				OnCharacterChangedAction?.Invoke(this);
 				OnPropertyChanged(ref _combatRound, value);
+				OnCharacterChangedAction?.Invoke(this);
 			}
 		}
 
@@ -136,8 +136,8 @@ namespace PCCharacterManager.Models
 			}
 			set
 			{
-				OnCharacterChangedAction?.Invoke(this);
 				OnPropertyChanged(ref _isInCombat, value);
+				OnCharacterChangedAction?.Invoke(this);
 			}
 		}
 
@@ -299,9 +299,9 @@ namespace PCCharacterManager.Models
 			if (MovementTypes_Speeds.Contains(movementTypeToAdd))
 				return false;
 
-			OnCharacterChangedAction?.Invoke(this);
-
 			MovementTypes_Speeds.Add(movementTypeToAdd);
+
+			OnCharacterChangedAction?.Invoke(this);
 			return true;
 		}
 
@@ -314,9 +314,9 @@ namespace PCCharacterManager.Models
 			if (Languages.Contains(language))
 				return;
 
-			OnCharacterChangedAction?.Invoke(this);
-
 			Languages.Add(language);
+
+			OnCharacterChangedAction?.Invoke(this);
 		}
 
 		/// <summary>
