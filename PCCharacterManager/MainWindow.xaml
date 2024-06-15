@@ -139,12 +139,12 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Command="{Binding UndoCommand}" IsEnabled="false">
+            <MenuItem Command="{Binding UndoCommand}" IsEnabled="true">
                 <MenuItem.Icon>
                     <Image Source="{DynamicResource Undo_Icon}" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="{Binding RedoCommand}" IsEnabled="false">
+            <MenuItem Command="{Binding RedoCommand}" IsEnabled="true">
                 <MenuItem.Icon>
                     <Image Source="{DynamicResource Redo_Icon}" />
                 </MenuItem.Icon>

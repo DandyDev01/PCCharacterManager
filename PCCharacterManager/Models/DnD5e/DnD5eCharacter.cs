@@ -17,7 +17,7 @@ namespace PCCharacterManager.Models
 	public enum MovementType { BURROW, CLIMB, FLY, SWIM, WALK }
 	public enum DamageType { SLASHING, PIERCING, BLUDGENING, POISON, ACID, FIRE, COLD, RADIANT, NECROTIC, LIGHTING, THUNDER, FORCE, PSYCHIC };
 	public enum CreatureSize { TINY, SMALL, MEDIUM, LARGE, HUGE, GARGANTUAN }
-	public enum CharacterType { DnD5e, starfinder }
+	public enum CharacterType { DnD5e, starfinder, dark_souls }
 	public enum CharacterStatus { COMBAT, IDLE }
 
 	public class DnD5eCharacter : ObservableObject
@@ -61,7 +61,6 @@ namespace PCCharacterManager.Models
 			get { return _dateModified; }	
 			set 
 			{ 
-				OnCharacterChangedAction?.Invoke(this);
 				OnPropertyChanged(ref _dateModified, value);
 			}
 		}

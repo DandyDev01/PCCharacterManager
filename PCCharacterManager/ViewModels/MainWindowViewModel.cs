@@ -49,10 +49,10 @@ namespace PCCharacterManager.ViewModels
 
 		public MainWindowViewModel()
 		{
-			_characterStore = new CharacterStore();
+			_recovery = new SimpleCharacterRecovery();
+			_characterStore = new CharacterStore(_recovery);
 			_dataService = new JsonCharacterDataService(_characterStore);
 			_dialogService = new DialogService();
-			_recovery = new SimpleCharacterRecovery();
 
 			_characterStore.SaveSelectedCharacterOnChange += SaveCharacter;
 

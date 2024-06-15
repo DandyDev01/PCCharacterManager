@@ -198,7 +198,6 @@ namespace PCCharacterManager.ViewModels
 			if (SelectedCharacter is not null)
 			{
 				SelectedCharacter.CharacterClass.Features.CollectionChanged -= UpdateFeatures;
-				SelectedCharacter.OnCharacterChangedAction -= _recovery.RegisterChange;
 			}
 			else
 			{
@@ -208,8 +207,6 @@ namespace PCCharacterManager.ViewModels
 			SelectedCharacter = newCharacter;
 
 			SelectedCharacter.CharacterClass.Features.CollectionChanged += UpdateFeatures;
-			SelectedCharacter.OnCharacterChangedAction += _recovery.RegisterChange;
-
 
 			//FeaturesListVM.UpdateCollection(null);
 			ConditionsListVM.UpdateCollection(_selectedCharacter.Conditions);
