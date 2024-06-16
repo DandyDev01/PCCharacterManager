@@ -174,7 +174,7 @@ namespace PCCharacterManager.Models
 
 		public ObservableCollection<Condition> Conditions { get; protected set; }
 		public ObservableCollection<Property> MovementTypes_Speeds { get; protected set; }
-		public ObservableCollection<string> CombatActions { get; set; }
+		public ObservableCollection<string> CombatActions { get; protected set; }
 		public ObservableCollection<string> WeaponProficiencies { get;protected set; }
 		public ObservableCollection<string> ArmorProficiencies { get;protected set; }
 		public ObservableCollection<string> OtherProficiences { get; protected set; }
@@ -220,6 +220,24 @@ namespace PCCharacterManager.Models
 			Inventory = new Inventory();
 			Health = new Health(1);
 
+			CharacterClass.PropertyChanged += OnCharacterChanged;
+			ArmorClass.PropertyChanged += OnCharacterChanged;
+			Level.PropertyChanged += OnCharacterChanged;
+			Health.PropertyChanged += OnCharacterChanged;
+			SpellBook.PropertyChanged += OnCharacterChanged;
+			SpellBook.CantripsKnown.CollectionChanged += OnCharacterChanged;
+			SpellBook.PreparedSpells.CollectionChanged += OnCharacterChanged;
+
+			foreach (var item in SpellBook.SpellsKnown)
+			{
+				item.Value.CollectionChanged += OnCharacterChanged;
+			}
+
+			foreach (var item in Inventory.Items)
+			{
+				item.Value.CollectionChanged += OnCharacterChanged;
+			}
+
 			Conditions.CollectionChanged += OnCharacterChanged;
 			MovementTypes_Speeds.CollectionChanged += OnCharacterChanged;
 			WeaponProficiencies.CollectionChanged += OnCharacterChanged;
@@ -234,6 +252,8 @@ namespace PCCharacterManager.Models
 			_background = string.Empty;
 			CharacterType = CharacterType.DnD5e;
 		}
+
+		
 
 		public DnD5eCharacter(DnD5eCharacterClassData classData, DnD5eCharacterRaceData raceData, 
 			DnD5eBackgroundData backgroundData)
@@ -257,6 +277,24 @@ namespace PCCharacterManager.Models
 			SpellBook = new SpellBook();
 			Inventory = new Inventory();
 			Health = new Health(1);
+
+			CharacterClass.PropertyChanged += OnCharacterChanged;
+			ArmorClass.PropertyChanged += OnCharacterChanged;
+			Level.PropertyChanged += OnCharacterChanged;
+			Health.PropertyChanged += OnCharacterChanged;
+			SpellBook.PropertyChanged += OnCharacterChanged;
+			SpellBook.CantripsKnown.CollectionChanged += OnCharacterChanged;
+			SpellBook.PreparedSpells.CollectionChanged += OnCharacterChanged;
+
+			foreach (var item in SpellBook.SpellsKnown)
+			{
+				item.Value.CollectionChanged += OnCharacterChanged;
+			}
+
+			foreach (var item in Inventory.Items)
+			{
+				item.Value.CollectionChanged += OnCharacterChanged;
+			}
 
 			Conditions.CollectionChanged += OnCharacterChanged;
 			WeaponProficiencies.CollectionChanged += OnCharacterChanged;
@@ -286,6 +324,11 @@ namespace PCCharacterManager.Models
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void OnCharacterChanged(object? sender, NotifyCollectionChangedEventArgs? e)
+		{
+			OnCharacterChangedAction?.Invoke(this);
+		}
+
+		private void OnCharacterChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			OnCharacterChangedAction?.Invoke(this);
 		}
