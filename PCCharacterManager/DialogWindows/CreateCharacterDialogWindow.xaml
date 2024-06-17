@@ -35,6 +35,9 @@
         <ContentControl Grid.Row="1" Visibility="{Binding IsStarfinderCharacter, Converter={StaticResource IsEditConverter}}">
             <v:StarfinderCharacterCreatorView DataContext="{Binding StarfinderCharacterCreatorVM}" />
         </ContentControl>
+        <ContentControl Grid.Row="1" Visibility="{Binding IsDnD5eCharacter, Converter={StaticResource IsEditConverter}}">
+            <v:DarkSoulsCharacterCreatorView DataContext="{Binding DarkSoulsCharacterCreatorVM}" />
+        </ContentControl>
 
         <Grid
             Grid.Row="2"

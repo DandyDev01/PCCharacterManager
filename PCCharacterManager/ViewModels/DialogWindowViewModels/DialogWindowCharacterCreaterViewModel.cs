@@ -69,6 +69,19 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		private bool _isDarkSoulsCharacter;
+		public bool IsDarkSoulsCharacter
+		{
+			get
+			{
+				return _isDarkSoulsCharacter;
+			}
+			set
+			{
+				OnPropertyChanged(ref _isDarkSoulsCharacter, value);
+			}
+		}
+
 		private CharactorCreatorViewModelBase _selectedCreator;
 		public CharactorCreatorViewModelBase SelectedCreator
 		{
@@ -84,12 +97,14 @@ namespace PCCharacterManager.ViewModels
 
 		public CharacterCreatorViewModel DnD5eCharacterCreator { get; }
 		public StarfinderCharacterCreatorViewModel StarfinderCharacterCreatorVM { get; }
+		public DarkSoulsCharacterCreatorViewModel DarkSoulsCharacterCreatorVM { get; }
 		public Array CharacterTypes { get; } = Enum.GetValues(typeof(CharacterType));
 
 		public DialogWindowCharacterCreaterViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
 		{
 			DnD5eCharacterCreator = new CharacterCreatorViewModel(dialogService);
 			StarfinderCharacterCreatorVM = new StarfinderCharacterCreatorViewModel(dialogService);
+			DarkSoulsCharacterCreatorVM = new DarkSoulsCharacterCreatorViewModel(dialogService);
 			_selectedCreator = DnD5eCharacterCreator;
 
 			_characterStore = characterStore;
@@ -102,10 +117,17 @@ namespace PCCharacterManager.ViewModels
 				case CharacterType.starfinder:
 					IsDnD5eCharacter = false;
 					IsStarfinderCharacter = true;
+					IsDarkSoulsCharacter = false;
 					break;
 				case CharacterType.DnD5e:
 					IsDnD5eCharacter = true;
 					IsStarfinderCharacter = false;
+					IsDarkSoulsCharacter = false;
+					break;
+				case CharacterType.dark_souls:
+					IsDnD5eCharacter = false;
+					IsStarfinderCharacter = false;
+					IsDarkSoulsCharacter = true;
 					break;
 			}
 		}
@@ -116,6 +138,7 @@ namespace PCCharacterManager.ViewModels
 			{
 				CharacterType.starfinder => StarfinderCharacterCreatorVM.Create(),
 				CharacterType.DnD5e => DnD5eCharacterCreator.Create(),
+				CharacterType.dark_souls => DarkSoulsCharacterCreatorVM.Create(),
 				_ => throw new Exception("SelectedCharacterType issue"),
 			};
 
