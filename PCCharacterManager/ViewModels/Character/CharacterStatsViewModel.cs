@@ -26,6 +26,8 @@ namespace PCCharacterManager.ViewModels
 
 		public CharacterInfoViewModel CharacterInfoViewModel { get; }
 		public StarfinderCharacterInfoViewModel StarfinderCharacterInfoViewModel { get; }
+		public DarkSoulsCharacterInfoViewModel DarkSoulsCharacterInfoViewModel { get; }
+
 		public StarfinderAbilitiesAndSkillsViewModel StarfinderAbilitiesAndSkillsVM { get; }
 		public CharacterAbilitiesViewModel CharacterAbilitiesViewModel { get; }
 
@@ -55,6 +57,19 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		private bool _isDarkSouls;
+		public bool IsDarkSouls
+		{
+			get
+			{
+				return _isDarkSouls;
+			}
+			set
+			{
+				OnPropertyChanged(ref _isDarkSouls, value);
+			}
+		}
+
 		public CharacterStatsViewModel(CharacterStore characterStore, DialogServiceBase dialogService, RecoveryBase recovery)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
@@ -64,33 +79,43 @@ namespace PCCharacterManager.ViewModels
 			CharacterInfoViewModel = new CharacterInfoViewModel(characterStore, dialogService, recovery);
 			CharacterAbilitiesViewModel = new CharacterAbilitiesViewModel(characterStore);
 
-			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(characterStore, dialogService, recovery); 
-			StarfinderAbilitiesAndSkillsVM = new StarfinderAbilitiesAndSkillsViewModel(characterStore);
+			DarkSoulsCharacterInfoViewModel = new DarkSoulsCharacterInfoViewModel();
 
-			if (_selectedCharacter is StarfinderCharacter)
-			{
-				Is5e = false;
-				IsStarfinder = true;
-			}
-			else if (_selectedCharacter is not null)
-			{
-				Is5e = true;
-				IsStarfinder = false;
-			}
+			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(characterStore, dialogService, recovery);
+			StarfinderAbilitiesAndSkillsVM = new StarfinderAbilitiesAndSkillsViewModel(characterStore);
+			
+			SetCharacterType();
 		}
+
 
 		private void OnCharacterChanged(DnD5eCharacter newCharacter)
 		{
 			SelectedCharacter = newCharacter;
 
-			if(_selectedCharacter is StarfinderCharacter)
+			SetCharacterType();
+		}
+		
+		/// <summary>
+		/// Updates the flags for character types
+		/// </summary>
+		private void SetCharacterType()
+		{
+			if (_selectedCharacter is StarfinderCharacter)
 			{
 				Is5e = false;
+				IsDarkSouls = false;
 				IsStarfinder = true;
 			}
-			else if (_selectedCharacter is DnD5eCharacter)
+			else if (_selectedCharacter is DarkSoulsCharacter)
+			{
+				Is5e = false;
+				IsDarkSouls = true;
+				IsStarfinder = false;
+			}
+			else if (_selectedCharacter is not null)
 			{
 				Is5e = true;
+				IsDarkSouls = false;
 				IsStarfinder = false;
 			}
 		}

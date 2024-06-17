@@ -17,6 +17,9 @@
         <DataTemplate DataType="{x:Type vm:StarfinderCharacterInfoViewModel}">
             <v:CharacterInfoView DataContext="{Binding StarfinderCharacterInfoViewModel}" />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DarkSoulsCharacterInfoViewModel}">
+            <v:DarkSoulsCharacterInfoView DataContext="{Binding DarkSoulsCharacterInfoViewModel}" />
+        </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
