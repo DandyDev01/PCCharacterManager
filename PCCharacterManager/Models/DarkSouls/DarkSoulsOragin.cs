@@ -36,13 +36,11 @@ namespace PCCharacterManager.Models.DarkSouls
 			}
 		}
 
-		[JsonProperty]
 		private Property _bloodiedEffect;
-		public Property BloodiedEffect => _bloodiedEffect;
+		public Property BloodiedEffect { get => _bloodiedEffect; set => _bloodiedEffect = value; }	
 
-		[JsonProperty]
 		private string[] _baseStatistics;
-		public string[] BaseStatistics => _baseStatistics;
+		public string[] BaseStatistics { get => _baseStatistics; set => _baseStatistics = value; }
 
 		public DarkSoulsOragin()
 		{

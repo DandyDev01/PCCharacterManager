@@ -57,7 +57,11 @@ namespace PCCharacterManager.ViewModels
 		public DarkSoulsOragin SelectedOrigin
 		{
 			get { return _selectedOrigin; }
-			set { OnPropertyChanged(ref _selectedOrigin, value); }
+			set 
+			{ 
+				OnPropertyChanged(ref _selectedOrigin, value);
+				UpdateAbilities();
+			}
 		}
 
 		private DnD5eCharacter _newCharacter;
@@ -80,13 +84,10 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		public Array AlignmentsToDisplay { get; private set; }
-		public List<DnD5eCharacterRaceData> RacesToDisplay { get; private set; }
-		public List<DarkSoulsOragin> OrginsToDisplay { get; private set; }
+		public List<DarkSoulsOragin> OriginsToDisplay { get; private set; }
 		public List<DnD5eCharacterClassData> CharacterClassesToDisplay { get; private set; }
 
 		public ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel> SelectedStartingEquipmentVMs { get; private set; }
-		public ObservableCollection<DnD5eCharacterRaceVariant> RaceVariantsToDisplay { get; private set; }
 		public ObservableCollection<int> AbilityScores { get; private set; }
 
 		private readonly List<string> notAnOption;
@@ -102,15 +103,12 @@ namespace PCCharacterManager.ViewModels
 
 			propertyNameToError = new Dictionary<string, List<string>>();
 
-			OrginsToDisplay = ReadWriteJsonCollection<DarkSoulsOragin>.ReadCollection(DarkSoulsResources.OriginsDataJson);
+			OriginsToDisplay = ReadWriteJsonCollection<DarkSoulsOragin>.ReadCollection(DarkSoulsResources.OriginsDataJson);
 			CharacterClassesToDisplay = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DarkSoulsResources.CharacterClassDataJson);
-			RacesToDisplay = ReadWriteJsonCollection<DnD5eCharacterRaceData>.ReadCollection(DarkSoulsResources.RaceDataJson);
-			RaceVariantsToDisplay = new ObservableCollection<DnD5eCharacterRaceVariant>();
-			AlignmentsToDisplay = Enum.GetValues(typeof(Alignment));
 
 			_name = string.Empty;
 			_selectedCharacterClass = CharacterClassesToDisplay[0];
-			_selectedOrigin = OrginsToDisplay[0];
+			_selectedOrigin = OriginsToDisplay[0];
 			_selectedClassSkillProfs = new ListViewMultiSelectItemsLimitedCountViewModel(_selectedCharacterClass.NumOfSkillProficiences,
 				_selectedCharacterClass.PossibleSkillProficiences.ToList());
 			notAnOption = new List<string>();
@@ -166,6 +164,15 @@ namespace PCCharacterManager.ViewModels
 			return _newCharacter;
 		}
 
+
+		private void UpdateAbilities()
+		{
+			for (int i = 0; i < AbilityScores.Count; i++)
+			{
+				NewCharacter.Abilities[i].Score = StringFormater.FindQuantity(_selectedOrigin.BaseStatistics[i]);
+			}
+		}
+
 		private void AddFirstLevelClassFeatures()
 		{
 			foreach (var item in _selectedCharacterClass.Features)
@@ -179,7 +186,6 @@ namespace PCCharacterManager.ViewModels
 				return;
 			}
 		}
-
 		
 		/// <summary>
 		/// choose languages the character will know, based on the background selected
