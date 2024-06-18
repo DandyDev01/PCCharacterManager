@@ -263,7 +263,7 @@
                             Grid.RowSpan="1"
                             Grid.Column="12"
                             Grid.ColumnSpan="3"
-                            Content="{Binding SelectedCharacterClass.HitDie, FallbackValue=d8}"
+                            Content="{Binding SelectedOrigin.HitDie, FallbackValue=d8}"
                             Style="{DynamicResource xlarge}" />
 
                         <!--#region Armor Profs-->

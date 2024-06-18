@@ -22,6 +22,11 @@ namespace PCCharacterManager.Models.Factories
 				return new CharacterItemViewModel(characterStore, character,
 					StarfinderResources.CharacterDataDir + "/" + character.Name + character.Id + ".json", dialogService);
 			}
+			else if (character is DarkSoulsCharacter)
+			{
+				return new CharacterItemViewModel(characterStore, character,
+					DarkSoulsResources.CharacterDataDir + "/" + character.Name + character.Id + ".json", dialogService);
+			}
 			else if (character is DnD5eCharacter)
 			{
 				return new CharacterItemViewModel(characterStore, character,

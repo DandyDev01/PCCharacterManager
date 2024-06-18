@@ -36,6 +36,10 @@ namespace PCCharacterManager.Commands
 			{
 				selectedCharacter = ReadWriteJsonFile<StarfinderCharacter>.ReadFile(_characterPath);
 			}
+			else if(_characterPath.Contains("darkSouls", StringComparison.OrdinalIgnoreCase))
+			{
+				selectedCharacter = ReadWriteJsonFile<DarkSoulsCharacter>.ReadFile(_characterPath);
+			}
 			else
 			{
 				_dialogService.ShowMessage("There is a problem with the character path you wish to select",

@@ -39,6 +39,9 @@ namespace PCCharacterManager.ViewModels
 					case CharacterType.DnD5e:
 						SelectedCreator = DnD5eCharacterCreator;
 						break;
+					case CharacterType.dark_souls:
+						SelectedCreator = DarkSoulsCharacterCreatorVM;
+						break;
 				}
 			}
 		}
@@ -144,6 +147,8 @@ namespace PCCharacterManager.ViewModels
 
 			if (character == null) 
 				return;
+
+			character.CharacterType = _selectedCharacterType;
 
 			_characterStore.CreateCharacter(character);
 		}

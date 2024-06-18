@@ -20,5 +20,10 @@ namespace PCCharacterManager.Models
 			_oragin = oragin;
 			_background = oragin.Name;
 		}
+
+		public DarkSoulsCharacter() : base()
+		{
+
+		}
 	}
 }

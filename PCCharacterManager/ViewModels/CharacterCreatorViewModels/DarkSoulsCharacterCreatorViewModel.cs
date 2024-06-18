@@ -2,7 +2,6 @@
 using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Utility;
-using PCCharacterManager.ViewModels.CharacterCreatorViewModels;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,7 +15,7 @@ using System.Windows.Input;
 using System.Windows;
 using PCCharacterManager.Models.DarkSouls;
 
-namespace PCCharacterManager.ViewModels
+namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 {
 	public class DarkSoulsCharacterCreatorViewModel : CharactorCreatorViewModelBase, INotifyDataErrorInfo
 	{
@@ -57,15 +56,15 @@ namespace PCCharacterManager.ViewModels
 		public DarkSoulsOragin SelectedOrigin
 		{
 			get { return _selectedOrigin; }
-			set 
-			{ 
+			set
+			{
 				OnPropertyChanged(ref _selectedOrigin, value);
 				UpdateAbilities();
 			}
 		}
 
-		private DnD5eCharacter _newCharacter;
-		public DnD5eCharacter NewCharacter
+		private DarkSoulsCharacter _newCharacter;
+		public DarkSoulsCharacter NewCharacter
 		{
 			get { return _newCharacter; }
 			set { OnPropertyChanged(ref _newCharacter, value); }
@@ -98,7 +97,7 @@ namespace PCCharacterManager.ViewModels
 
 		public DarkSoulsCharacterCreatorViewModel(DialogServiceBase dialogService)
 		{
-			_newCharacter = new DnD5eCharacter();
+			_newCharacter = new DarkSoulsCharacter();
 			_dialogService = dialogService;
 
 			propertyNameToError = new Dictionary<string, List<string>>();
@@ -125,7 +124,7 @@ namespace PCCharacterManager.ViewModels
 		/// <returns>new character that was created</returns>
 		public override DnD5eCharacter Create()
 		{
-			DnD5eCharacter tempCharacter = _newCharacter;
+			DarkSoulsCharacter tempCharacter = _newCharacter;
 			_newCharacter = new DarkSoulsCharacter(SelectedCharacterClass, SelectedOrigin);
 			_newCharacter.Name = Name;
 			_newCharacter.Abilities = tempCharacter.Abilities;
@@ -161,6 +160,7 @@ namespace PCCharacterManager.ViewModels
 
 			_newCharacter.CharacterClass.Name += " 1";
 
+
 			return _newCharacter;
 		}
 
@@ -186,7 +186,7 @@ namespace PCCharacterManager.ViewModels
 				return;
 			}
 		}
-		
+
 		/// <summary>
 		/// choose languages the character will know, based on the background selected
 		/// </summary>
@@ -460,4 +460,3 @@ namespace PCCharacterManager.ViewModels
 		}
 	}
 }
- 

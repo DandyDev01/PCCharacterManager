@@ -315,7 +315,7 @@
                 Grid.ColumnSpan="2"
                 Margin="10,0,0,0"
                 Style="{DynamicResource DefaultTextBlock}"
-                Text="{Binding SelectedCharacter.CharacterClass.HitDie, FallbackValue=test}" />
+                Text="{Binding SelectedCharacter.Origin.HitDie, FallbackValue=test}" />
 
             <Grid
                 Grid.Row="3"

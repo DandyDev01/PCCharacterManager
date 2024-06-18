@@ -105,6 +105,7 @@ namespace PCCharacterManager.Services
 			}
 
 			dnd5eCharacters.AddRange(starfinderCharacters);
+			dnd5eCharacters.AddRange(darkSoulsCharacters);
 
 			return dnd5eCharacters;
 		}
@@ -116,6 +117,10 @@ namespace PCCharacterManager.Services
 				if (item is StarfinderCharacter starfinderCharacter)
 				{
 					_starFinderCharacterDataService.Save(starfinderCharacter);
+				}
+				else if (item is DarkSoulsCharacter darkSoulsCharacter)
+				{
+					_darkSoulsCharacterDataService.Save(darkSoulsCharacter);
 				}
 				else if (item is DnD5eCharacter)
 				{
@@ -129,6 +134,10 @@ namespace PCCharacterManager.Services
 			if (character is StarfinderCharacter starfinderCharacter)
 			{
 				_starFinderCharacterDataService.Save(starfinderCharacter);
+			}
+			else if (character is DarkSoulsCharacter darkSoulsCharacter)
+			{
+				_darkSoulsCharacterDataService.Save(darkSoulsCharacter);
 			}
 			else if (character is DnD5eCharacter)
 			{
