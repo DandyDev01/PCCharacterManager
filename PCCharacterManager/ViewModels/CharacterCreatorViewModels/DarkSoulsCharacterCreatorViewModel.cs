@@ -160,6 +160,14 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 
 			_newCharacter.CharacterClass.Name += " 1";
 
+			string[] startingItems = StringFormater.CreateGroup(_selectedCharacterClass.StartEquipment[0], '&');
+
+			foreach (string item in startingItems)
+			{
+				Item itemToAdd = new();
+				itemToAdd.Name = item;
+				_newCharacter.Inventory.Add(itemToAdd);
+			}
 
 			return _newCharacter;
 		}

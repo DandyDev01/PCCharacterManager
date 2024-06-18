@@ -73,7 +73,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="9"
             Visibility="{Binding IsDarkSouls, Converter={StaticResource IsEditConverter}}">
-            <v:CharacterInfoView DataContext="{Binding DarkSoulsCharacterInfoViewModel}" />
+            <v:DarkSoulsCharacterInfoView DataContext="{Binding DarkSoulsCharacterInfoViewModel}" />
         </ContentControl>
 
         <ContentControl

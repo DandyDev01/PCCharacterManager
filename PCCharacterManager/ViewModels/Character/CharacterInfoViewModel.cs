@@ -430,7 +430,24 @@ namespace PCCharacterManager.ViewModels
 			_selectedProperty = AllFeatures.FirstOrDefault();
 		}
 
-		private void UpdateFeatures(object? sender, NotifyCollectionChangedEventArgs? e)
+		private void EditCharacter()
+		{
+			if (_characterStore.SelectedCharacter == null)
+				return;
+
+			DialogWindowEditCharacterViewModel windowVM = new(_characterStore.SelectedCharacter, _dialogService);
+
+			string result = string.Empty;
+			_dialogService.ShowDialog<EditCharacterDialogWindow, DialogWindowEditCharacterViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
+				return;
+		}
+
+		protected void UpdateFeatures(object? sender, NotifyCollectionChangedEventArgs? e)
 		{
 			AllFeatures.Clear();
 
@@ -453,23 +470,6 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			FeaturesCollectionView?.Refresh();
-		}
-
-		private void EditCharacter()
-		{
-			if (_characterStore.SelectedCharacter == null)
-				return;
-
-			DialogWindowEditCharacterViewModel windowVM = new(_characterStore.SelectedCharacter, _dialogService);
-
-			string result = string.Empty;
-			_dialogService.ShowDialog<EditCharacterDialogWindow, DialogWindowEditCharacterViewModel>(windowVM, r =>
-			{
-				result = r;
-			});
-
-			if (result == false.ToString())
-				return;
 		}
 	}
 }

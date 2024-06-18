@@ -79,7 +79,7 @@ namespace PCCharacterManager.ViewModels
 			CharacterInfoViewModel = new CharacterInfoViewModel(characterStore, dialogService, recovery);
 			CharacterAbilitiesViewModel = new CharacterAbilitiesViewModel(characterStore);
 
-			DarkSoulsCharacterInfoViewModel = new DarkSoulsCharacterInfoViewModel();
+			DarkSoulsCharacterInfoViewModel = new DarkSoulsCharacterInfoViewModel(characterStore, dialogService, recovery);
 
 			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(characterStore, dialogService, recovery);
 			StarfinderAbilitiesAndSkillsVM = new StarfinderAbilitiesAndSkillsViewModel(characterStore);
