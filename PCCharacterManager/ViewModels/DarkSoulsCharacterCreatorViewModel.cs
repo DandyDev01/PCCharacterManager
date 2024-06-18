@@ -53,11 +53,11 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private DarkSoulsOragin _selectedOragin;
-		public DarkSoulsOragin SelectedOragin
+		private DarkSoulsOragin _selectedOrigin;
+		public DarkSoulsOragin SelectedOrigin
 		{
-			get { return _selectedOragin; }
-			set { OnPropertyChanged(ref _selectedOragin, value); }
+			get { return _selectedOrigin; }
+			set { OnPropertyChanged(ref _selectedOrigin, value); }
 		}
 
 		private DnD5eCharacter _newCharacter;
@@ -82,7 +82,7 @@ namespace PCCharacterManager.ViewModels
 
 		public Array AlignmentsToDisplay { get; private set; }
 		public List<DnD5eCharacterRaceData> RacesToDisplay { get; private set; }
-		public List<DarkSoulsOragin> OraginsToDisplay { get; private set; }
+		public List<DarkSoulsOragin> OrginsToDisplay { get; private set; }
 		public List<DnD5eCharacterClassData> CharacterClassesToDisplay { get; private set; }
 
 		public ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel> SelectedStartingEquipmentVMs { get; private set; }
@@ -102,7 +102,7 @@ namespace PCCharacterManager.ViewModels
 
 			propertyNameToError = new Dictionary<string, List<string>>();
 
-			OraginsToDisplay = ReadWriteJsonCollection<DarkSoulsOragin>.ReadCollection(DarkSoulsResources.OriginsDataJson);
+			OrginsToDisplay = ReadWriteJsonCollection<DarkSoulsOragin>.ReadCollection(DarkSoulsResources.OriginsDataJson);
 			CharacterClassesToDisplay = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DarkSoulsResources.CharacterClassDataJson);
 			RacesToDisplay = ReadWriteJsonCollection<DnD5eCharacterRaceData>.ReadCollection(DarkSoulsResources.RaceDataJson);
 			RaceVariantsToDisplay = new ObservableCollection<DnD5eCharacterRaceVariant>();
@@ -110,7 +110,7 @@ namespace PCCharacterManager.ViewModels
 
 			_name = string.Empty;
 			_selectedCharacterClass = CharacterClassesToDisplay[0];
-			_selectedOragin = OraginsToDisplay[0];
+			_selectedOrigin = OrginsToDisplay[0];
 			_selectedClassSkillProfs = new ListViewMultiSelectItemsLimitedCountViewModel(_selectedCharacterClass.NumOfSkillProficiences,
 				_selectedCharacterClass.PossibleSkillProficiences.ToList());
 			notAnOption = new List<string>();
@@ -128,7 +128,7 @@ namespace PCCharacterManager.ViewModels
 		public override DnD5eCharacter Create()
 		{
 			DnD5eCharacter tempCharacter = _newCharacter;
-			_newCharacter = new DarkSoulsCharacter(SelectedCharacterClass, SelectedOragin);
+			_newCharacter = new DarkSoulsCharacter(SelectedCharacterClass, SelectedOrigin);
 			_newCharacter.Name = Name;
 			_newCharacter.Abilities = tempCharacter.Abilities;
 			_newCharacter.Level.ProficiencyBonus = 2;

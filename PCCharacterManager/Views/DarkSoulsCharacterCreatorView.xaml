@@ -95,62 +95,6 @@
             SelectedItem="{Binding SelectedOrigin}" />
         <!--#endregion-->
 
-        <!--#region Race Select-->
-        <Label
-            Grid.Row="2"
-            Grid.RowSpan="1"
-            Grid.Column="0"
-            Grid.ColumnSpan="1"
-            Content="Race"
-            Style="{DynamicResource large}" />
-        <ComboBox
-            Grid.Row="3"
-            Grid.RowSpan="1"
-            Grid.Column="0"
-            Grid.ColumnSpan="1"
-            DisplayMemberPath="Name"
-            ItemsSource="{Binding RacesToDisplay}"
-            SelectedIndex="0"
-            SelectedItem="{Binding SelectedRace}" />
-        <!--#endregion-->
-
-        <!--#region Race Variant Select-->
-        <Label
-            Grid.Row="2"
-            Grid.RowSpan="1"
-            Grid.Column="1"
-            Grid.ColumnSpan="1"
-            Content="Race Variant"
-            Style="{DynamicResource large}" />
-        <ComboBox
-            Grid.Row="3"
-            Grid.RowSpan="1"
-            Grid.Column="1"
-            Grid.ColumnSpan="1"
-            DisplayMemberPath="Name"
-            ItemsSource="{Binding RaceVariantsToDisplay}"
-            SelectedIndex="0"
-            SelectedItem="{Binding SelectedRaceVariant}" />
-        <!--#endregion-->
-
-        <!--#region Alignment-->
-        <Label
-            Grid.Row="2"
-            Grid.RowSpan="1"
-            Grid.Column="2"
-            Grid.ColumnSpan="1"
-            Content="Alignment"
-            Style="{DynamicResource large}" />
-        <ComboBox
-            Grid.Row="3"
-            Grid.RowSpan="1"
-            Grid.Column="2"
-            Grid.ColumnSpan="1"
-            ItemsSource="{Binding AlignmentsToDisplay}"
-            SelectedIndex="0"
-            SelectedItem="{Binding SelectedAlignment}" />
-        <!--#endregion-->
-
         <!--#region Ability Scorse-->
         <ContentControl
             Grid.Row="6"
