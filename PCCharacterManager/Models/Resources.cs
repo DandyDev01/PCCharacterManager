@@ -35,7 +35,7 @@ namespace PCCharacterManager.Models
 	{
 		public const string CharacterDataDir = @"Resources\DarkSouls\CharacterData";
 		public const string CharacterClassDataJson = @"Resources\DarkSouls\CharacterClassData.json";
-		public const string OriginsDataJson = @"Resources\DarkSouls\Origin.json";
+		public const string OriginsDataJson = @"Resources\DarkSouls\OriginsData.json";
 		public const string RaceDataJson = @"Resources\DarkSouls\RaceData.json";
 		public const string AllItemsJson = @"Resources\DarkSouls\Items.json";
 		public const string AbilitiesJson = @"Resources\DarkSouls\Abilities.json";
