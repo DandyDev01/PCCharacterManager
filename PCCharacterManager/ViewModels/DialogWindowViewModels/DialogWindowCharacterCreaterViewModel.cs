@@ -29,20 +29,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChanged(ref _selectedCharacterType, value);
-				SetViewFlags();
-
-				switch (_selectedCharacterType)
-				{
-					case CharacterType.starfinder:
-						SelectedCreator = StarfinderCharacterCreatorVM;
-						break;
-					case CharacterType.DnD5e:
-						SelectedCreator = DnD5eCharacterCreator;
-						break;
-					case CharacterType.dark_souls:
-						SelectedCreator = DarkSoulsCharacterCreatorVM;
-						break;
-				}
+				SetViewFlagsAndSelectedCreator();
 			}
 		}
 
@@ -113,21 +100,24 @@ namespace PCCharacterManager.ViewModels
 			_characterStore = characterStore;
 		}
 
-		private void SetViewFlags()
+		private void SetViewFlagsAndSelectedCreator()
 		{
 			switch (_selectedCharacterType)
 			{
 				case CharacterType.starfinder:
+					SelectedCreator = StarfinderCharacterCreatorVM;
 					IsDnD5eCharacter = false;
 					IsStarfinderCharacter = true;
 					IsDarkSoulsCharacter = false;
 					break;
 				case CharacterType.DnD5e:
+					SelectedCreator = DnD5eCharacterCreator;
 					IsDnD5eCharacter = true;
 					IsStarfinderCharacter = false;
 					IsDarkSoulsCharacter = false;
 					break;
 				case CharacterType.dark_souls:
+					SelectedCreator = DarkSoulsCharacterCreatorVM;
 					IsDnD5eCharacter = false;
 					IsStarfinderCharacter = false;
 					IsDarkSoulsCharacter = true;
@@ -137,13 +127,7 @@ namespace PCCharacterManager.ViewModels
 
 		public void Create()
 		{
-			DnD5eCharacter? character = _selectedCharacterType switch
-			{
-				CharacterType.starfinder => StarfinderCharacterCreatorVM.Create(),
-				CharacterType.DnD5e => DnD5eCharacterCreator.Create(),
-				CharacterType.dark_souls => DarkSoulsCharacterCreatorVM.Create(),
-				_ => throw new Exception("SelectedCharacterType issue"),
-			};
+			DnD5eCharacter? character = SelectedCreator.Create();
 
 			if (character == null) 
 				return;
