@@ -17,9 +17,9 @@ namespace PCCharacterManager.Services
 
 		public bool Delete(DarkSoulsCharacter item)
 		{
-			if (File.Exists(DarkSoulsResources.CharacterDataDir + "/" + item.Name + item.Id + ".json"))
+			if (File.Exists(CharacterTypeHelper.BuildPath(item)))
 			{
-				File.Delete(DarkSoulsResources.CharacterDataDir + "/" + item.Name + item.Id + ".json");
+				File.Delete(CharacterTypeHelper.BuildPath(item));
 				return true;
 			}
 
@@ -75,7 +75,7 @@ namespace PCCharacterManager.Services
 
 			character.DateModified = DateTime.Now.ToString();
 
-			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(DarkSoulsResources.CharacterDataDir + "/" + character.Name + character.Id + ".json", character);
+			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(CharacterTypeHelper.BuildPath(character), character);
 		}
 	}
 }

@@ -323,12 +323,12 @@ namespace PCCharacterManager.Models
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void OnCharacterChanged(object? sender, NotifyCollectionChangedEventArgs? e)
+		protected void OnCharacterChanged(object? sender, NotifyCollectionChangedEventArgs? e)
 		{
 			OnCharacterChangedAction?.Invoke(this);
 		}
 
-		private void OnCharacterChanged(object? sender, PropertyChangedEventArgs e)
+		protected void OnCharacterChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			OnCharacterChangedAction?.Invoke(this);
 		}

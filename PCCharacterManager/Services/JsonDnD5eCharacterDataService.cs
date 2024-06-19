@@ -16,7 +16,7 @@ namespace PCCharacterManager.Services
 
 		public JsonDnD5eCharacterDataService(CharacterStore characterStore)
 		{
-			this._characterStore = characterStore;
+			_characterStore = characterStore;
 		}
 
 		public override void Add(DnD5eCharacter newCharacter)
@@ -46,7 +46,7 @@ namespace PCCharacterManager.Services
 		{
 			foreach (DnD5eCharacter character in characters)
 			{
-				ReadWriteJsonFile<DnD5eCharacter>.WriteFile(DnD5eResources.CharacterDataDir + "/" + character.Name + ".json", character);
+				ReadWriteJsonFile<DnD5eCharacter>.WriteFile(CharacterTypeHelper.BuildPath(character), character);
 			}
 		}
 
@@ -80,14 +80,14 @@ namespace PCCharacterManager.Services
 
 			character.DateModified = DateTime.Now.ToString();
 
-			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(DnD5eResources.CharacterDataDir + "/" + character.Name + character.Id + ".json", character);
+			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(CharacterTypeHelper.BuildPath(character), character);
 		}
 
 		public override bool Delete(DnD5eCharacter character)
 		{
-			if (File.Exists(DnD5eResources.CharacterDataDir + "/" + character.Name + ".json"))
+			if (File.Exists(CharacterTypeHelper.BuildPath(character)))
 			{
-				File.Delete(DnD5eResources.CharacterDataDir + "/" + character.Name + ".json");
+				File.Delete(CharacterTypeHelper.BuildPath(character));
 				return true;
 			}
 

@@ -17,9 +17,9 @@ namespace PCCharacterManager.Services
 
 		public bool Delete(StarfinderCharacter item)
 		{
-			if (File.Exists(StarfinderResources.CharacterDataDir + "/" + item.Name + item.Id + ".json"))
+			if (File.Exists(CharacterTypeHelper.BuildPath(item)))
 			{
-				File.Delete(StarfinderResources.CharacterDataDir + "/" + item.Name + item.Id + ".json");
+				File.Delete(CharacterTypeHelper.BuildPath(item));
 				return true;
 			}
 
@@ -76,7 +76,7 @@ namespace PCCharacterManager.Services
 
 			character.DateModified = DateTime.Now.ToString();
 
-			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(StarfinderResources.CharacterDataDir + "/" + character.Name + character.Id + ".json", character);
+			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(CharacterTypeHelper.BuildPath(character), character);
 		}
 	}
 }

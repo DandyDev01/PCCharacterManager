@@ -193,7 +193,7 @@ namespace PCCharacterManager.ViewModels
 		/// What to do when the selectedCharacter changes
 		/// </summary>
 		/// <param name="newCharacter">the newly selected character</param>
-		private void OnCharacterChanged(DnD5eCharacter newCharacter)
+		protected virtual void OnCharacterChanged(DnD5eCharacter newCharacter)
 		{
 			if (SelectedCharacter is not null)
 			{

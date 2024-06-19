@@ -28,13 +28,14 @@ namespace PCCharacterManager.ViewModels
 		public DarkSoulsCharacterInfoViewModel(CharacterStore characterStore, DialogServiceBase dialogService, 
 			RecoveryBase recovery) : base(characterStore, dialogService, recovery)
 		{
+			Race = "Unkindled";
 		}
 
 		/// <summary>
 		/// What to do when the selectedCharacter changes
 		/// </summary>
 		/// <param name="newCharacter">the newly selected character</param>
-		private void OnCharacterChanged(DnD5eCharacter newCharacter)
+		protected override void OnCharacterChanged(DnD5eCharacter newCharacter)
 		{
 			if (SelectedCharacter is not null)
 			{
