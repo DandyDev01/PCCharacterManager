@@ -17,9 +17,10 @@ namespace PCCharacterManagerTests.Models
 		[TestMethod()]
 		public void PopulatePropertiesToDisplayTest()
 		{
-			var characterStore = new CharacterStore();
+			var recovery = new SimpleCharacterRecovery();
+			var characterStore = new CharacterStore(recovery);
 			var dialogService = new PassDialogService();
-			CharacterInventoryViewModel vm = new(characterStore, dialogService);
+			CharacterInventoryViewModel vm = new(characterStore, dialogService, recovery);
 
 			Item item = new();
 			Property visibel = new();
@@ -42,9 +43,10 @@ namespace PCCharacterManagerTests.Models
 		[TestMethod()]
 		public void CalculateInventoryWeightTest()
 		{
-			var characterStore = new CharacterStore();
+			var recovery = new SimpleCharacterRecovery();
+			var characterStore = new CharacterStore(recovery);
 			var dialogService = new PassDialogService();
-			CharacterInventoryViewModel vm = new(characterStore, dialogService);
+			CharacterInventoryViewModel vm = new(characterStore, dialogService, recovery);
 			DnD5eCharacter character = new();
 			characterStore.BindSelectedCharacter(character);
 

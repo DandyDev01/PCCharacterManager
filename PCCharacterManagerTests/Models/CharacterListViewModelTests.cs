@@ -18,8 +18,9 @@ namespace PCCharacterManagerTests.Models
 		[TestMethod]
 		public void DeleteCharacterTest()
 		{
+			var recovery = new SimpleCharacterRecovery();
 			var dialogService = new PassDialogService();
-			var characterStore = new CharacterStore();
+			var characterStore = new CharacterStore(recovery);
 			var dataService = new MockCharacterDataService();
 			CharacterListViewModel vm = new(characterStore, dataService, dialogService);
 
@@ -34,8 +35,9 @@ namespace PCCharacterManagerTests.Models
 		[TestMethod]
 		public void LoadCharacterTest()
 		{
+			var recovery = new SimpleCharacterRecovery();
 			var dialogService = new PassDialogService();
-			var characterStore = new CharacterStore();
+			var characterStore = new CharacterStore(recovery);
 			var dataService = new MockCharacterDataService();
 			CharacterListViewModel vm = new(characterStore, dataService, dialogService);
 
@@ -67,15 +69,15 @@ namespace PCCharacterManagerTests.Models
 
 	internal class MockCharacterDataService : ICharacterDataService
 	{
-		public List<DnD5eCharacter> characters = new List<DnD5eCharacter>();
-		private List<DnD5eCharacter> _saved = new List<DnD5eCharacter>();
+		public List<CharacterBase> characters = new List<CharacterBase>();
+		private List<CharacterBase> _saved = new List<CharacterBase>();
 
-		public override void Add(DnD5eCharacter newCharacter)
+		public override void Add(CharacterBase newCharacter)
 		{
 			characters.Add(newCharacter);
 		}
 
-		public override bool Delete(DnD5eCharacter character)
+		public override bool Delete(CharacterBase character)
 		{
 			return _saved.Remove(character);
 		}
@@ -91,7 +93,7 @@ namespace PCCharacterManagerTests.Models
 			return results;
 		}
 
-		public override IEnumerable<DnD5eCharacter> GetCharacters()
+		public override IEnumerable<CharacterBase> GetCharacters()
 		{
 			if (_saved.Any() == false)
 				Save(new DnD5eCharacter());
@@ -99,12 +101,12 @@ namespace PCCharacterManagerTests.Models
 			return _saved;
 		}
 
-		public override void Save(IEnumerable<DnD5eCharacter> characters)
+		public override void Save(IEnumerable<CharacterBase> characters)
 		{
 			_saved.AddRange(characters);
 		}
 
-		public override void Save(DnD5eCharacter character)
+		public override void Save(CharacterBase character)
 		{
 			_saved.Add(character);
 			characters.Add(character);
