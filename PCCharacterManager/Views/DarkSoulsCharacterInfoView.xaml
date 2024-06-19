@@ -117,10 +117,7 @@
                     Command="{Binding LongRestCommand}"
                     Header="Long Rest"
                     IsEnabled="False" />
-                <MenuItem
-                    Command="{Binding LevelCharacterCommand}"
-                    Header="Level Up"
-                    IsEnabled="False">
+                <MenuItem Command="{Binding LevelCharacterCommand}" Header="Level Up">
                     <MenuItem.Icon>
                         <Image Source="{DynamicResource Character_Levelup_Icon}" />
                     </MenuItem.Icon>
