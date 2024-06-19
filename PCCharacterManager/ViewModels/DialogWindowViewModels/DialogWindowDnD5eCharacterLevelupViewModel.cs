@@ -279,11 +279,6 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			// TODO: do something with the selected item(s).
 		}
 
-		private void IncreaseAbilityScore()
-		{
-			throw new NotImplementedException();
-		}
-
 		/// <summary>
 		/// Ask the user for the name of the class they want to add. 
 		/// </summary>

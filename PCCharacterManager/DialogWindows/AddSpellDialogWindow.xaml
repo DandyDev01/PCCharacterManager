@@ -11,7 +11,7 @@
     Background="{DynamicResource 1}"
     ResizeMode="NoResize"
     ShowInTaskbar="false"
-    WindowStartupLocation="CenterOwner"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>

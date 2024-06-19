@@ -17,6 +17,9 @@
         <DataTemplate DataType="{x:Type vm:StarfinderCharacterInfoViewModel}">
             <v:CharacterInfoView DataContext="{Binding StarfinderCharacterInfoViewModel}" />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DarkSoulsCharacterInfoViewModel}">
+            <v:DarkSoulsCharacterInfoView DataContext="{Binding DarkSoulsCharacterInfoViewModel}" />
+        </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -49,7 +52,7 @@
             Grid.RowSpan="7"
             Grid.Column="0"
             Grid.ColumnSpan="9"
-            Visibility="{Binding Is5e, Converter={StaticResource IsEditConverter}}">
+            Visibility="{Binding CharacterTypeHelper.IsDnD5e, Converter={StaticResource IsEditConverter}}">
             <v:CharacterInfoView DataContext="{Binding CharacterInfoViewModel}" />
         </ContentControl>
 
@@ -58,7 +61,27 @@
             Grid.RowSpan="7"
             Grid.Column="9"
             Grid.ColumnSpan="3"
-            Visibility="{Binding Is5e, Converter={StaticResource IsEditConverter}}">
+            Visibility="{Binding CharacterTypeHelper.IsDnD5e, Converter={StaticResource IsEditConverter}}">
+            <v:CharacterAbilitiesView DataContext="{Binding CharacterAbilitiesViewModel}" />
+        </ContentControl>
+        <!--#endregion-->
+
+        <!--#region Dark Souls-->
+        <ContentControl
+            Grid.Row="0"
+            Grid.RowSpan="7"
+            Grid.Column="0"
+            Grid.ColumnSpan="9"
+            Visibility="{Binding CharacterTypeHelper.IsDarkSouls, Converter={StaticResource IsEditConverter}}">
+            <v:DarkSoulsCharacterInfoView DataContext="{Binding DarkSoulsCharacterInfoViewModel}" />
+        </ContentControl>
+
+        <ContentControl
+            Grid.Row="0"
+            Grid.RowSpan="7"
+            Grid.Column="9"
+            Grid.ColumnSpan="3"
+            Visibility="{Binding CharacterTypeHelper.IsDarkSouls, Converter={StaticResource IsEditConverter}}">
             <v:CharacterAbilitiesView DataContext="{Binding CharacterAbilitiesViewModel}" />
         </ContentControl>
         <!--#endregion-->
@@ -69,7 +92,7 @@
             Grid.RowSpan="7"
             Grid.Column="0"
             Grid.ColumnSpan="8"
-            Visibility="{Binding IsStarfinder, Converter={StaticResource IsEditConverter}}">
+            Visibility="{Binding CharacterTypeHelper.IsStarfinder, Converter={StaticResource IsEditConverter}}">
             <v:StarfinderCharacterInfoView DataContext="{Binding StarfinderCharacterInfoViewModel}" />
         </ContentControl>
 
@@ -79,7 +102,7 @@
             Grid.RowSpan="7"
             Grid.Column="8"
             Grid.ColumnSpan="4"
-            Visibility="{Binding IsStarfinder, Converter={StaticResource IsEditConverter}}">
+            Visibility="{Binding CharacterTypeHelper.IsStarfinder, Converter={StaticResource IsEditConverter}}">
             <v:StarfinderCharacterAbilitysAndSkillsView DataContext="{Binding StarfinderAbilitiesAndSkillsVM}" />
         </ContentControl>
         <!--#endregion-->

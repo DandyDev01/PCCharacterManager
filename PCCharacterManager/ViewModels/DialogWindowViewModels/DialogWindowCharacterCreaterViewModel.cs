@@ -18,6 +18,7 @@ namespace PCCharacterManager.ViewModels
 	public class DialogWindowCharacterCreaterViewModel : ObservableObject
 	{
 		private readonly CharacterStore _characterStore;
+		private readonly CharacterTypeHelper _characterTypeHelper;
 
 		private CharacterType _selectedCharacterType;
 		public CharacterType SelectedCharacterType
@@ -29,43 +30,8 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChanged(ref _selectedCharacterType, value);
-				SetViewFlags();
-
-				switch (_selectedCharacterType)
-				{
-					case CharacterType.starfinder:
-						SelectedCreator = StarfinderCharacterCreatorVM;
-						break;
-					case CharacterType.DnD5e:
-						SelectedCreator = DnD5eCharacterCreator;
-						break;
-				}
-			}
-		}
-
-		private bool _isStarfinderCharacter;
-		public bool IsStarfinderCharacter
-		{
-			get
-			{
-				return _isStarfinderCharacter;
-			}
-			private set
-			{
-				OnPropertyChanged(ref _isStarfinderCharacter, value);
-			}
-		}
-
-		private bool _isDnD5eCharacter = true;
-		public bool IsDnD5eCharacter
-		{
-			get
-			{
-				return _isDnD5eCharacter;
-			}
-			private set
-			{
-				OnPropertyChanged(ref _isDnD5eCharacter, value);
+				_characterTypeHelper.SetCharacterTypeFlags(_selectedCharacterType);
+				SetSelectedCreator();
 			}
 		}
 
@@ -84,43 +50,45 @@ namespace PCCharacterManager.ViewModels
 
 		public CharacterCreatorViewModel DnD5eCharacterCreator { get; }
 		public StarfinderCharacterCreatorViewModel StarfinderCharacterCreatorVM { get; }
+		public DarkSoulsCharacterCreatorViewModel DarkSoulsCharacterCreatorVM { get; }
 		public Array CharacterTypes { get; } = Enum.GetValues(typeof(CharacterType));
+		public CharacterTypeHelper CharacterTypeHelper => _characterTypeHelper;
 
 		public DialogWindowCharacterCreaterViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
 		{
+			_characterTypeHelper = new CharacterTypeHelper();
 			DnD5eCharacterCreator = new CharacterCreatorViewModel(dialogService);
 			StarfinderCharacterCreatorVM = new StarfinderCharacterCreatorViewModel(dialogService);
+			DarkSoulsCharacterCreatorVM = new DarkSoulsCharacterCreatorViewModel(dialogService);
 			_selectedCreator = DnD5eCharacterCreator;
 
 			_characterStore = characterStore;
 		}
 
-		private void SetViewFlags()
+		private void SetSelectedCreator()
 		{
 			switch (_selectedCharacterType)
 			{
 				case CharacterType.starfinder:
-					IsDnD5eCharacter = false;
-					IsStarfinderCharacter = true;
+					SelectedCreator = StarfinderCharacterCreatorVM;
 					break;
 				case CharacterType.DnD5e:
-					IsDnD5eCharacter = true;
-					IsStarfinderCharacter = false;
+					SelectedCreator = DnD5eCharacterCreator;
+					break;
+				case CharacterType.dark_souls:
+					SelectedCreator = DarkSoulsCharacterCreatorVM;
 					break;
 			}
 		}
 
 		public void Create()
 		{
-			DnD5eCharacter? character = _selectedCharacterType switch
-			{
-				CharacterType.starfinder => StarfinderCharacterCreatorVM.Create(),
-				CharacterType.DnD5e => DnD5eCharacterCreator.Create(),
-				_ => throw new Exception("SelectedCharacterType issue"),
-			};
+			DnD5eCharacter? character = SelectedCreator.Create();
 
 			if (character == null) 
 				return;
+
+			character.CharacterType = _selectedCharacterType;
 
 			_characterStore.CreateCharacter(character);
 		}

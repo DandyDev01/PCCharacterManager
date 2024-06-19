@@ -10,23 +10,23 @@ namespace PCCharacterManager.Commands
 {
 	public class AddPropertyToItemCommand : BaseCommand
 	{
-		private readonly CharacterInventoryViewModel vm;
+		private readonly CharacterInventoryViewModel _characterInventoryViewModel;
 
-		public AddPropertyToItemCommand(CharacterInventoryViewModel _vm)
+		public AddPropertyToItemCommand(CharacterInventoryViewModel characterInventoryViewModel)
 		{
-			vm = _vm;
+			_characterInventoryViewModel = characterInventoryViewModel;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			if (vm.SelectedItem == null || vm.SelectedItem.BoundItem == null)
+			if (_characterInventoryViewModel.SelectedItem == null || _characterInventoryViewModel.SelectedItem.BoundItem == null)
 				return;
 
-			vm.SelectedItem.BoundItem.AddProperty(new Property("name", "desc"));
-			vm.PropertiesToDisplay.Clear();
-			foreach (var property in vm.SelectedItem.BoundItem.Properties)
+			_characterInventoryViewModel.SelectedItem.BoundItem.AddProperty(new Property("name", "desc"));
+			_characterInventoryViewModel.PropertiesToDisplay.Clear();
+			foreach (var property in _characterInventoryViewModel.SelectedItem.BoundItem.Properties)
 			{
-				vm.PropertiesToDisplay.Add(new PropertyEditableViewModel(property));
+				_characterInventoryViewModel.PropertiesToDisplay.Add(new PropertyEditableViewModel(property));
 			}
 		}
 	}

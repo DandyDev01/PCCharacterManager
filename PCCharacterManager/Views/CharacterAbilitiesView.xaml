@@ -12,67 +12,6 @@
     mc:Ignorable="d">
 
     <ScrollViewer>
-        <!--#region old-->
-        <!--<Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-        -->
-        <!--#region row 1-->
-        <!--
-            <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1" >
-                <ContentControl>
-                    <v:AbilityView DataContext="{Binding Abilities[0]}"/>
-                </ContentControl>
-            </DockPanel>
-            <DockPanel Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1" >
-                <ContentControl>
-                    <v:AbilityView DataContext="{Binding Abilities[1]}"/>
-                </ContentControl>
-            </DockPanel>
-        -->
-        <!--#endregion-->
-        <!--#region row 2-->
-        <!--
-            <DockPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1" >
-                <ContentControl>
-                    <v:AbilityView DataContext="{Binding Abilities[2]}"/>
-                </ContentControl>
-            </DockPanel>
-            <DockPanel Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1" >
-                <ContentControl>
-                    <v:AbilityView DataContext="{Binding Abilities[3]}"/>
-                </ContentControl>
-            </DockPanel>
-        -->
-        <!--#endregion-->
-        <!--#region row 3-->
-        <!--
-            <DockPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="1" >
-                <ContentControl>
-                    <v:AbilityView DataContext="{Binding Abilities[4]}"/>
-                </ContentControl>
-            </DockPanel>
-            <DockPanel Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="1" >
-                <ContentControl>
-                    <v:AbilityView DataContext="{Binding Abilities[5]}"/>
-                </ContentControl>
-            </DockPanel>
-        -->
-        <!--#endregion-->
-        <!--
-        </Grid>-->
-        <!--#endregion-->
-
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -194,7 +133,15 @@
                 ItemsSource="{Binding SkillsCollectionView}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="165">
+                        <GridViewColumn Width="70">
+                            <GridViewColumnHeader Command="{Binding SkillProficiencySortCommand}" Content="Is Proficient" />
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding SkillProficiency}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="135">
                             <GridViewColumnHeader Command="{Binding SkillNameSortCommand}" Content="Name" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -202,7 +149,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="120">
+                        <GridViewColumn Width="100">
                             <GridViewColumnHeader Command="{Binding SkillScoreSortCommand}" Content="Score" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -210,7 +157,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="155">
+                        <GridViewColumn Width="135">
                             <GridViewColumnHeader Command="{Binding SkillAbilitySortCommand}" Content="Ability" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>

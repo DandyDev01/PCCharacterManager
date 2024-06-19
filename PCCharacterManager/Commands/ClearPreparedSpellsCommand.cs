@@ -10,18 +10,18 @@ namespace PCCharacterManager.Commands
 {
 	public class ClearPreparedSpellsCommand : BaseCommand
 	{
-		private readonly CharacterSpellBookViewModel spellBookVM;
+		private readonly CharacterSpellBookViewModel _characterSpellBookViewModel;
 
-		public ClearPreparedSpellsCommand(CharacterSpellBookViewModel _spellBookVM) 
+		public ClearPreparedSpellsCommand(CharacterSpellBookViewModel characterSpellBookViewModel) 
 		{
-			spellBookVM = _spellBookVM;
+			_characterSpellBookViewModel = characterSpellBookViewModel;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			spellBookVM.SpellBook.ClearPreparedSpells();
+			_characterSpellBookViewModel.SpellBook.ClearPreparedSpells();
 
-			foreach (var spellItemView in spellBookVM.SpellsToDisplay)
+			foreach (var spellItemView in _characterSpellBookViewModel.SpellsToDisplay)
 			{
 				spellItemView.IsPrepared = false;
 			}

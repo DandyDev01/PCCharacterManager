@@ -32,6 +32,7 @@ namespace PCCharacterManager.ViewModels
 		private readonly CharacterStore _characterStore;
 		private readonly ICharacterDataService _dataService;
 		private readonly DialogServiceBase _dialogService;
+		private readonly RecoveryBase _recovery;
 
 		public ICommand NewCharacterCommand { get; }
 		public ICommand DeleteCharacterCommand { get; }
@@ -40,19 +41,22 @@ namespace PCCharacterManager.ViewModels
 		public ICommand ExportCharacterCommand { get; }
 		public ICommand OpenCommand { get; }
 		public ICommand EditCharacterCommand { get; }
+		public ICommand UndoCommand { get; }
+		public ICommand RedoCommand { get; }
 
 		//NOTE: because of the way that CharacterCreateWindow is made the program does
 		//		not end when main window is closed. 
 
 		public MainWindowViewModel()
 		{
-			_characterStore = new CharacterStore();
+			_recovery = new SimpleCharacterRecovery();
+			_characterStore = new CharacterStore(_recovery);
 			_dataService = new JsonCharacterDataService(_characterStore);
 			_dialogService = new DialogService();
 
 			_characterStore.SaveSelectedCharacterOnChange += SaveCharacter;
 
-			_tabVM = new TabControlViewModel(_characterStore, _dataService, _dialogService);
+			_tabVM = new TabControlViewModel(_characterStore, _dataService, _dialogService, _recovery);
 			_currView = _tabVM;
 
 			NewCharacterCommand = new CreateCharacterCommand(_characterStore, _dialogService);
@@ -60,8 +64,30 @@ namespace PCCharacterManager.ViewModels
 			SaveCharactersCommand = new SaveCharacterCommand(this);
 			LevelCharacterCommand = new LevelCharacterCommand(_characterStore, _dialogService);
 			ExportCharacterCommand = new CharacterExportCommand(_characterStore, _tabVM, _dialogService);
-			OpenCommand = new OpenCharacterCommand(_characterStore);
+			OpenCommand = new OpenCharacterCommand(_characterStore, _dialogService);
 			EditCharacterCommand = new RelayCommand(EditCharacter);
+			UndoCommand = new RelayCommand(Undo);
+			RedoCommand = new RelayCommand(Redo);
+		}
+
+		private void Redo()
+		{
+			DnD5eCharacter character = _recovery.Redo();
+
+			if (character == null)
+				return;
+
+			_characterStore.BindSelectedCharacter(character);
+		}
+
+		private void Undo()
+		{
+			DnD5eCharacter character = _recovery.Undo();
+
+			if (character == null)
+				return;
+
+			_characterStore.BindSelectedCharacter(character);
 		}
 
 		private void SaveCharacter(DnD5eCharacter? character = null)

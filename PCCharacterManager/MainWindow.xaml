@@ -12,6 +12,7 @@
     Height="650"
     MinWidth="800"
     MinHeight="500"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
     <Window.InputBindings>
@@ -138,12 +139,12 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem IsEnabled="false">
+            <MenuItem Command="{Binding UndoCommand}" IsEnabled="true">
                 <MenuItem.Icon>
                     <Image Source="{DynamicResource Undo_Icon}" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem IsEnabled="False">
+            <MenuItem Command="{Binding RedoCommand}" IsEnabled="true">
                 <MenuItem.Icon>
                     <Image Source="{DynamicResource Redo_Icon}" />
                 </MenuItem.Icon>

@@ -11,16 +11,15 @@ namespace PCCharacterManager.Commands
 {
 	public class SaveCharacterCommand : BaseCommand
 	{
-		private readonly MainWindowViewModel mainWindowViewModel;
+		private readonly MainWindowViewModel _mainWindowViewModel;
 
-		public SaveCharacterCommand(MainWindowViewModel _mainWindowViewModel)
+		public SaveCharacterCommand(MainWindowViewModel mainWindowViewModel)
 		{
-			mainWindowViewModel = _mainWindowViewModel;
+			_mainWindowViewModel = mainWindowViewModel;
 		}
 		public override void Execute(object? parameter)
 		{
-			//dataService.Save(characterStore.SelectedCharacter);
-			mainWindowViewModel.TabVM.CharacterListVM.SaveCharacter();
+			_mainWindowViewModel.TabVM.CharacterListVM.SaveCharacter();
 		}
 	}
 }

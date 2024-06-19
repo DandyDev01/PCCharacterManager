@@ -13,15 +13,15 @@ namespace PCCharacterManager.Commands
 {
 	public class DeleteCharacterCommand : BaseCommand
 	{
-		private readonly CharacterListViewModel _characterListVM;
+		private readonly CharacterListViewModel _characterListViewModel;
 		private readonly ICharacterDataService _dataService;
 		private readonly CharacterStore _characterStore;
 		private readonly DialogServiceBase _dialogService;
 
-		public DeleteCharacterCommand(CharacterListViewModel characterListVM, ICharacterDataService dataService,
+		public DeleteCharacterCommand(CharacterListViewModel characterListViewModel, ICharacterDataService dataService,
 			CharacterStore characterStore, DialogServiceBase dialogService)
 		{
-			this._characterListVM = characterListVM;
+			this._characterListViewModel = characterListViewModel;
 			_dataService = dataService;
 			_characterStore = characterStore;
 			_dialogService = dialogService;
@@ -41,7 +41,7 @@ namespace PCCharacterManager.Commands
 				return;
 
 			DnD5eCharacter character = _characterStore.SelectedCharacter;
-			CharacterItemViewModel? item = _characterListVM.CharacterItems.First(x => x.CharacterName == character.Name);
+			CharacterItemViewModel? item = _characterListViewModel.CharacterItems.First(x => x.CharacterName == character.Name);
 
 			if (item == null)
 			{
@@ -53,15 +53,15 @@ namespace PCCharacterManager.Commands
 			}
 
 			_dataService.Delete(_characterStore.SelectedCharacter);
-			_characterListVM.CharacterItems.Remove(item);
+			_characterListViewModel.CharacterItems.Remove(item);
 
-			if (_characterListVM.CharacterItems.Count <= 0)
+			if (_characterListViewModel.CharacterItems.Count <= 0)
 			{
-				_characterListVM.CreateCharacterCommand.Execute(null);
+				_characterListViewModel.CreateCharacterCommand.Execute(null);
 				return;
 			}
 
-			_characterListVM.CharacterItems[0].SelectCharacterCommand?.Execute(null);
+			_characterListViewModel.CharacterItems[0].SelectCharacterCommand?.Execute(null);
 		}
 	}
 }

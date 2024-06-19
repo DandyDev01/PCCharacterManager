@@ -7,6 +7,7 @@ using PCCharacterManager.ViewModels.Character;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,6 +17,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterStatsViewModel : ObservableObject
 	{
+		private readonly CharacterTypeHelper _characterTypeHelper;
+
 		private DnD5eCharacter _selectedCharacter;
 		public DnD5eCharacter SelectedCharacter 
 		{ 
@@ -25,72 +28,36 @@ namespace PCCharacterManager.ViewModels
 
 		public CharacterInfoViewModel CharacterInfoViewModel { get; }
 		public StarfinderCharacterInfoViewModel StarfinderCharacterInfoViewModel { get; }
+		public DarkSoulsCharacterInfoViewModel DarkSoulsCharacterInfoViewModel { get; }
+
 		public StarfinderAbilitiesAndSkillsViewModel StarfinderAbilitiesAndSkillsVM { get; }
 		public CharacterAbilitiesViewModel CharacterAbilitiesViewModel { get; }
 
-		private bool _is5e;
-		public bool Is5e
-		{
-			get
-			{
-				return _is5e;
-			}
-			set
-			{
-				OnPropertyChanged(ref _is5e, value);
-			}
-		}
-
-		private bool _isStarfinder;
-		public bool IsStarfinder
-		{
-			get
-			{
-				return _isStarfinder;
-			}
-			set
-			{
-				OnPropertyChanged(ref _isStarfinder, value);
-			}
-		}
-
-		public CharacterStatsViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
+		public CharacterTypeHelper CharacterTypeHelper => _characterTypeHelper;
+		
+		public CharacterStatsViewModel(CharacterStore characterStore, DialogServiceBase dialogService, RecoveryBase recovery)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
+			_characterTypeHelper = new CharacterTypeHelper();
 			_selectedCharacter = characterStore.SelectedCharacter;
 
-			CharacterInfoViewModel = new CharacterInfoViewModel(characterStore, dialogService);
-			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(characterStore, dialogService); 
-			StarfinderAbilitiesAndSkillsVM = new StarfinderAbilitiesAndSkillsViewModel(characterStore);
+			CharacterInfoViewModel = new CharacterInfoViewModel(characterStore, dialogService, recovery);
 			CharacterAbilitiesViewModel = new CharacterAbilitiesViewModel(characterStore);
 
-			if (_selectedCharacter is StarfinderCharacter)
-			{
-				Is5e = false;
-				IsStarfinder = true;
-			}
-			else if (_selectedCharacter is not null)
-			{
-				Is5e = true;
-				IsStarfinder = false;
-			}
+			DarkSoulsCharacterInfoViewModel = new DarkSoulsCharacterInfoViewModel(characterStore, dialogService, recovery);
+
+			StarfinderCharacterInfoViewModel = new StarfinderCharacterInfoViewModel(characterStore, dialogService, recovery);
+			StarfinderAbilitiesAndSkillsVM = new StarfinderAbilitiesAndSkillsViewModel(characterStore);
+
+			_characterTypeHelper.SetCharacterTypeFlags(_selectedCharacter.CharacterType);
 		}
 
 		private void OnCharacterChanged(DnD5eCharacter newCharacter)
 		{
 			SelectedCharacter = newCharacter;
 
-			if(_selectedCharacter is StarfinderCharacter)
-			{
-				Is5e = false;
-				IsStarfinder = true;
-			}
-			else if (_selectedCharacter is DnD5eCharacter)
-			{
-				Is5e = true;
-				IsStarfinder = false;
-			}
+			_characterTypeHelper.SetCharacterTypeFlags(newCharacter.CharacterType);
 		}
 	}
 }

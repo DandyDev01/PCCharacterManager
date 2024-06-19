@@ -9,20 +9,20 @@ namespace PCCharacterManager.Commands
 {
 	public class RemovePropertyFromItemCommand : BaseCommand
 	{
-		private readonly CharacterInventoryViewModel vm;
+		private readonly CharacterInventoryViewModel _characterInventoryViewModel;
 
-		public RemovePropertyFromItemCommand(CharacterInventoryViewModel _vm)
+		public RemovePropertyFromItemCommand(CharacterInventoryViewModel characterInventoryViewModel)
 		{
-			vm = _vm;
+			_characterInventoryViewModel = characterInventoryViewModel;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			if (vm.SelectedItem == null || vm.PrevSelectedProperty == null)
+			if (_characterInventoryViewModel.SelectedItem == null || _characterInventoryViewModel.PrevSelectedProperty == null)
 				return;
 
-			vm.SelectedItem.BoundItem.RemoveProperty(vm.PrevSelectedProperty.BoundProperty);
-			vm.PropertiesToDisplay.Remove(vm.PrevSelectedProperty);
+			_characterInventoryViewModel.SelectedItem.BoundItem.RemoveProperty(_characterInventoryViewModel.PrevSelectedProperty.BoundProperty);
+			_characterInventoryViewModel.PropertiesToDisplay.Remove(_characterInventoryViewModel.PrevSelectedProperty);
 		}
 	}
 }

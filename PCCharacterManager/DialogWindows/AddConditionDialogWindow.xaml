@@ -9,6 +9,9 @@
     Width="800"
     MaxHeight="400"
     Background="{DynamicResource 1}"
+    ResizeMode="NoResize"
+    ShowInTaskbar="false"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>

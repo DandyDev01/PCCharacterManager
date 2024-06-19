@@ -18,6 +18,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterNoteBookViewModel : ObservableObject
 	{
+		private readonly RecoveryBase _recovery;
+
 		private NoteBook _noteBook;
 		public NoteBook NoteBook => _noteBook;
 
@@ -77,8 +79,9 @@ namespace PCCharacterManager.ViewModels
 		public Action<Note>? selectedNoteChange;
 		public Action? characterChange;
 
-		public CharacterNoteBookViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
+		public CharacterNoteBookViewModel(CharacterStore characterStore, DialogServiceBase dialogService, RecoveryBase recovery)
 		{
+			_recovery = recovery;
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
 			_noteBook = characterStore.SelectedCharacter.NoteManager;
@@ -91,7 +94,7 @@ namespace PCCharacterManager.ViewModels
 
 			AddNoteCommand = new AddNoteToNoteBookCommand(this, dialogService);
 			AddNoteSectionCommand = new AddNoteSectionToNoteBookCommand(this, dialogService);
-			DeleteNoteCommand = new RemoveNoteFromNoteBookCommand(this);
+			DeleteNoteCommand = new RemoveNoteFromNoteBookCommand(this, dialogService);
 			DeleteNoteSectionCommand = new DeleteNoteSectionFromNoteBookCommand(this, dialogService);
 			EditSectionTitleCommand = new EditNoteSectionTitleCommand(this, dialogService);
 			FindInNoteCommand = new RelayCommand(FindInNote);
@@ -124,7 +127,10 @@ namespace PCCharacterManager.ViewModels
 				NoteSectionsToDisplay.Add(noteSection);
 			}
 
-			if (_noteBook.NoteSections.Count <= 0) return;
+			if (_noteBook.NoteSections.Count <= 0 ||
+				NoteSectionsToDisplay.Count <= 0 ||
+				NoteSectionsToDisplay[0].Notes.Count <= 0) 
+				return;
 
 			SelectedNote = NoteSectionsToDisplay[0].Notes[0];
 

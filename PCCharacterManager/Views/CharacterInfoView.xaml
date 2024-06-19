@@ -106,8 +106,8 @@
                         <Image Source="{DynamicResource Edit_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Short Rest" />
-                <MenuItem Header="Long Rest" />
+                <MenuItem Command="{Binding ShortRestCommand}" Header="Short Rest" />
+                <MenuItem Command="{Binding LongRestCommand}" Header="Long Rest" />
                 <MenuItem Command="{Binding LevelCharacterCommand}" Header="Level Up">
                     <MenuItem.Icon>
                         <Image Source="{DynamicResource Character_Levelup_Icon}" />

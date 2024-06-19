@@ -29,11 +29,14 @@
             SelectedIndex="0"
             SelectedItem="{Binding SelectedCharacterType}" />
 
-        <ContentControl Grid.Row="1" Visibility="{Binding IsDnD5eCharacter, Converter={StaticResource IsEditConverter}}">
+        <ContentControl Grid.Row="1" Visibility="{Binding CharacterTypeHelper.IsDnD5e, Converter={StaticResource IsEditConverter}}">
             <v:CharacterCreatorView DataContext="{Binding DnD5eCharacterCreator}" />
         </ContentControl>
-        <ContentControl Grid.Row="1" Visibility="{Binding IsStarfinderCharacter, Converter={StaticResource IsEditConverter}}">
+        <ContentControl Grid.Row="1" Visibility="{Binding CharacterTypeHelper.IsStarfinder, Converter={StaticResource IsEditConverter}}">
             <v:StarfinderCharacterCreatorView DataContext="{Binding StarfinderCharacterCreatorVM}" />
+        </ContentControl>
+        <ContentControl Grid.Row="1" Visibility="{Binding CharacterTypeHelper.IsDarkSouls, Converter={StaticResource IsEditConverter}}">
+            <v:DarkSoulsCharacterCreatorView DataContext="{Binding DarkSoulsCharacterCreatorVM}" />
         </ContentControl>
 
         <Grid

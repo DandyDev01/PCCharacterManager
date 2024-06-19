@@ -11,19 +11,20 @@ namespace PCCharacterManager.ViewModels
 {
 	public class TabControlViewModel
 	{
-		public CharacterStatsViewModel CharacterStatsVM { get; private set; }
-		public CharacterListViewModel CharacterListVM { get; private set; }
-		public CharacterInventoryViewModel InventoryVM { get; private set; }
-		public CharacterSpellBookViewModel SpellBookVM { get; private set; }
-		public CharacterNoteBookViewModel NotesVM { get; private set; }
+		public CharacterStatsViewModel CharacterStatsVM { get; }
+		public CharacterListViewModel CharacterListVM { get; }
+		public CharacterInventoryViewModel InventoryVM { get; }
+		public CharacterSpellBookViewModel SpellBookVM { get; }
+		public CharacterNoteBookViewModel NotesVM { get; }
 
-		public TabControlViewModel(CharacterStore characterStore, ICharacterDataService dataService, DialogServiceBase dialogService)
+		public TabControlViewModel(CharacterStore characterStore, ICharacterDataService dataService, 
+			DialogServiceBase dialogService, RecoveryBase recovery)
 		{
 			CharacterListVM = new CharacterListViewModel(characterStore, dataService, dialogService);
-			CharacterStatsVM = new CharacterStatsViewModel(characterStore, dialogService);
-			InventoryVM = new CharacterInventoryViewModel(characterStore, dialogService);
-			SpellBookVM = new CharacterSpellBookViewModel(characterStore, dialogService);
-			NotesVM = new CharacterNoteBookViewModel(characterStore, dialogService);
+			CharacterStatsVM = new CharacterStatsViewModel(characterStore, dialogService, recovery);
+			InventoryVM = new CharacterInventoryViewModel(characterStore, dialogService, recovery);
+			SpellBookVM = new CharacterSpellBookViewModel(characterStore, dialogService, recovery);
+			NotesVM = new CharacterNoteBookViewModel(characterStore, dialogService, recovery);
 		}
 	}
 }

@@ -17,12 +17,12 @@ namespace PCCharacterManager.Models
 	public enum MovementType { BURROW, CLIMB, FLY, SWIM, WALK }
 	public enum DamageType { SLASHING, PIERCING, BLUDGENING, POISON, ACID, FIRE, COLD, RADIANT, NECROTIC, LIGHTING, THUNDER, FORCE, PSYCHIC };
 	public enum CreatureSize { TINY, SMALL, MEDIUM, LARGE, HUGE, GARGANTUAN }
-	public enum CharacterType { DnD5e, starfinder }
+	public enum CharacterType { DnD5e, starfinder, dark_souls }
 	public enum CharacterStatus { COMBAT, IDLE }
 
 	public class DnD5eCharacter : ObservableObject
 	{
-		public static DnD5eCharacter Default => new DnD5eCharacter();
+		public static DnD5eCharacter Default => new();
 
 		protected Ability[] _abilities;
 
@@ -32,7 +32,8 @@ namespace PCCharacterManager.Models
 			get { return _name; }
 			set 
 			{ 
-				OnPropertyChanged(ref _name, value); 
+				OnPropertyChanged(ref _name, value);
+				OnCharacterChangedAction?.Invoke(this);
 			}
 		}
 
@@ -47,35 +48,69 @@ namespace PCCharacterManager.Models
 		public string Background
 		{
 			get { return _background; }
-			set { OnPropertyChanged(ref _background, value); }
+			set 
+			{ 
+				OnPropertyChanged(ref _background, value);
+				OnCharacterChangedAction?.Invoke(this);
+			}
 		}
 		
 		protected string _dateModified;
 		public string DateModified
 		{
 			get { return _dateModified; }	
-			set { OnPropertyChanged(ref _dateModified, value); }
+			set 
+			{ 
+				OnPropertyChanged(ref _dateModified, value);
+			}
 		}
 		
 		protected int _initiative;
 		public int Initiative
 		{
 			get { return _initiative; }
-			set { OnPropertyChanged(ref _initiative, value); }
+			set 
+			{ 
+				OnPropertyChanged(ref _initiative, value); 
+				OnCharacterChangedAction?.Invoke(this);
+			}
 		}
 		
 		protected int _passivePerception;
 		public int PassivePerception
 		{
 			get { return _passivePerception; }
-			set { OnPropertyChanged(ref _passivePerception, value); }
+			set 
+			{
+				OnPropertyChanged(ref _passivePerception, value);
+				OnCharacterChangedAction?.Invoke(this);
+			}
 		}
 		
 		protected int _passiveInsight;
 		public int PassiveInsight
 		{
 			get { return _passiveInsight; }
-			set { OnPropertyChanged(ref _passiveInsight, value); }
+			set 
+			{ 
+				OnPropertyChanged(ref _passiveInsight, value);
+				OnCharacterChangedAction?.Invoke(this);
+			}
+		}
+
+		private int _spentHitDie;
+		public int SpentHitDie
+		{
+			get
+			{
+				return _spentHitDie;
+			}
+			set
+			{
+				value = Math.Min(value, Level.Level);
+				OnPropertyChanged(ref _spentHitDie, value);
+				OnCharacterChangedAction?.Invoke(this);
+			}
 		}
 
 		protected int _combatRound;
@@ -88,6 +123,7 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref _combatRound, value);
+				OnCharacterChangedAction?.Invoke(this);
 			}
 		}
 
@@ -101,6 +137,7 @@ namespace PCCharacterManager.Models
 			set
 			{
 				OnPropertyChanged(ref _isInCombat, value);
+				OnCharacterChangedAction?.Invoke(this);
 			}
 		}
 
@@ -135,14 +172,14 @@ namespace PCCharacterManager.Models
 			set { _abilities = value; }
 		}
 
-		public ObservableCollection<Condition> Conditions { get; set; }
-		public ObservableCollection<Property> MovementTypes_Speeds { get; set; }
-		public ObservableCollection<string> CombatActions { get; set; }
-		public ObservableCollection<string> WeaponProficiencies { get; set; }
-		public ObservableCollection<string> ArmorProficiencies { get; set; }
-		public ObservableCollection<string> OtherProficiences { get; set; }
-		public ObservableCollection<string> ToolProficiences { get; set; }
-		public ObservableCollection<string> Languages { get; set; }
+		public ObservableCollection<Condition> Conditions { get; protected set; }
+		public ObservableCollection<Property> MovementTypes_Speeds { get; protected set; }
+		public ObservableCollection<string> CombatActions { get; protected set; }
+		public ObservableCollection<string> WeaponProficiencies { get;protected set; }
+		public ObservableCollection<string> ArmorProficiencies { get;protected set; }
+		public ObservableCollection<string> OtherProficiences { get; protected set; }
+		public ObservableCollection<string> ToolProficiences { get; protected set; }
+		public ObservableCollection<string> Languages { get; protected set; }
 
 		[JsonProperty(nameof(Size))]
 		[JsonConverter(typeof(StringEnumConverter))]
@@ -157,7 +194,7 @@ namespace PCCharacterManager.Models
 		public Alignment Alignment { get; set; }
 
 		[JsonIgnore]
-		public Action? OnCharacterChangedAction { get; set; }
+		public Action<DnD5eCharacter>? OnCharacterChangedAction { get; set; }
 
 		public DnD5eCharacter()
 		{
@@ -183,6 +220,24 @@ namespace PCCharacterManager.Models
 			Inventory = new Inventory();
 			Health = new Health(1);
 
+			CharacterClass.PropertyChanged += OnCharacterChanged;
+			ArmorClass.PropertyChanged += OnCharacterChanged;
+			Level.PropertyChanged += OnCharacterChanged;
+			Health.PropertyChanged += OnCharacterChanged;
+			SpellBook.PropertyChanged += OnCharacterChanged;
+			SpellBook.CantripsKnown.CollectionChanged += OnCharacterChanged;
+			SpellBook.PreparedSpells.CollectionChanged += OnCharacterChanged;
+
+			foreach (var item in SpellBook.SpellsKnown)
+			{
+				item.Value.CollectionChanged += OnCharacterChanged;
+			}
+
+			foreach (var item in Inventory.Items)
+			{
+				item.Value.CollectionChanged += OnCharacterChanged;
+			}
+
 			Conditions.CollectionChanged += OnCharacterChanged;
 			MovementTypes_Speeds.CollectionChanged += OnCharacterChanged;
 			WeaponProficiencies.CollectionChanged += OnCharacterChanged;
@@ -197,6 +252,8 @@ namespace PCCharacterManager.Models
 			_background = string.Empty;
 			CharacterType = CharacterType.DnD5e;
 		}
+
+		
 
 		public DnD5eCharacter(DnD5eCharacterClassData classData, DnD5eCharacterRaceData raceData, 
 			DnD5eBackgroundData backgroundData)
@@ -221,6 +278,30 @@ namespace PCCharacterManager.Models
 			Inventory = new Inventory();
 			Health = new Health(1);
 
+			CharacterClass.PropertyChanged += OnCharacterChanged;
+			ArmorClass.PropertyChanged += OnCharacterChanged;
+			Level.PropertyChanged += OnCharacterChanged;
+			Health.PropertyChanged += OnCharacterChanged;
+			SpellBook.PropertyChanged += OnCharacterChanged;
+			SpellBook.CantripsKnown.CollectionChanged += OnCharacterChanged;
+			SpellBook.PreparedSpells.CollectionChanged += OnCharacterChanged;
+
+			foreach (var item in SpellBook.SpellsKnown)
+			{
+				item.Value.CollectionChanged += OnCharacterChanged;
+			}
+
+			foreach (var item in Inventory.Items)
+			{
+				item.Value.CollectionChanged += OnCharacterChanged;
+			}
+
+			Conditions.CollectionChanged += OnCharacterChanged;
+			WeaponProficiencies.CollectionChanged += OnCharacterChanged;
+			ArmorProficiencies.CollectionChanged += OnCharacterChanged;
+			OtherProficiences.CollectionChanged += OnCharacterChanged;
+			ToolProficiences.CollectionChanged += OnCharacterChanged;
+
 			_id = string.Empty;
 			_name = string.Empty;
 			_dateModified = string.Empty;
@@ -237,9 +318,19 @@ namespace PCCharacterManager.Models
 			AddLanguages(raceData.Languages);
 		}
 
-		private void OnCharacterChanged(object? sender, NotifyCollectionChangedEventArgs? e)
+		/// <summary>
+		/// Used to notify when any aspect of the character changes.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OnCharacterChanged(object? sender, NotifyCollectionChangedEventArgs? e)
 		{
-			OnCharacterChangedAction?.Invoke();
+			OnCharacterChangedAction?.Invoke(this);
+		}
+
+		protected void OnCharacterChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			OnCharacterChangedAction?.Invoke(this);
 		}
 
 		/// <summary>
@@ -252,6 +343,8 @@ namespace PCCharacterManager.Models
 				return false;
 
 			MovementTypes_Speeds.Add(movementTypeToAdd);
+
+			OnCharacterChangedAction?.Invoke(this);
 			return true;
 		}
 
@@ -265,6 +358,8 @@ namespace PCCharacterManager.Models
 				return;
 
 			Languages.Add(language);
+
+			OnCharacterChangedAction?.Invoke(this);
 		}
 
 		/// <summary>

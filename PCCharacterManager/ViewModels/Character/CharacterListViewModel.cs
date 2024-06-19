@@ -1,7 +1,6 @@
 ﻿using PCCharacterManager.Commands;
 using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
-using PCCharacterManager.Models.Factories;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
@@ -69,7 +68,7 @@ namespace PCCharacterManager.ViewModels
 			List<string> characterPaths = dataService.GetCharacterFilePaths().ToList();
 			for (int i = 0; i < characters.Count; i++)
 			{
-				CharacterItemViewModel characterItemVM = new(this._characterStore, characters[i], characterPaths[i], dialogService);
+				CharacterItemViewModel characterItemVM = new(_characterStore, characters[i], characterPaths[i], dialogService);
 				characterItemVM.DeleteAction += DeleteCharacter;
 
 				CharacterItems.Add(characterItemVM);
@@ -123,7 +122,7 @@ namespace PCCharacterManager.ViewModels
 			if (character == null)
 				return;
 
-			CharacterItemViewModel characterItemVM = CharacterItemVMFactory.Create(character, _characterStore, _dialogService);
+			CharacterItemViewModel characterItemVM = new(_characterStore, character, CharacterTypeHelper.BuildPath(character), _dialogService);
 			characterItemVM.DeleteAction += DeleteCharacter;
 
 			CharacterItems.Add(characterItemVM);

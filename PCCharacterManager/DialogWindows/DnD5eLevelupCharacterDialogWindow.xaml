@@ -8,8 +8,11 @@
     xmlns:v="clr-namespace:PCCharacterManager.Views"
     Title="DnD5eLevelupCharacterDialogWindow"
     Width="800"
-    Height="450"
+    Height="460"
     Background="{DynamicResource 1}"
+    ResizeMode="NoResize"
+    ShowInTaskbar="false"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid Margin="5">
         <Grid.ColumnDefinitions>

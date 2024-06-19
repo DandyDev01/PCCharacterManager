@@ -6,28 +6,32 @@ using System.Threading.Tasks;
 using PCCharacterManager.ViewModels;
 using PCCharacterManager.Models;
 using System.Windows;
+using PCCharacterManager.Services;
 
 namespace PCCharacterManager.Commands
 {
 	public class RemoveItemFromSpellBookCommand : BaseCommand
 	{
-		private readonly CharacterSpellBookViewModel vm;
-		private readonly SpellType spellType;
-		private double lastSpellRemoveTimeInSeconds;
-		private double lastCantripRemoveTimeInSeconds;
+		private readonly CharacterSpellBookViewModel _characterSpellBookViewModel;
+		private readonly DialogServiceBase _dialogService;
+		private readonly SpellType _spellType;
+		private double _lastSpellRemoveTimeInSeconds;
+		private double _lastCantripRemoveTimeInSeconds;
 
-		public RemoveItemFromSpellBookCommand(CharacterSpellBookViewModel _vm, SpellType _spellType)
+		public RemoveItemFromSpellBookCommand(CharacterSpellBookViewModel characterSpellBookViewModel, DialogServiceBase dialogService, SpellType spellType)
 		{
-			vm = _vm;
-			spellType = _spellType;
+			_characterSpellBookViewModel = characterSpellBookViewModel;
+			_dialogService = dialogService;
+			_spellType = spellType;
+
 			TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
-			lastSpellRemoveTimeInSeconds = timeSpan.TotalSeconds - 10;
-			lastCantripRemoveTimeInSeconds = timeSpan.TotalSeconds - 10;
+			_lastSpellRemoveTimeInSeconds = timeSpan.TotalSeconds - 10;
+			_lastCantripRemoveTimeInSeconds = timeSpan.TotalSeconds - 10;
 		}
 
 		public override void Execute(object? parameter)
 		{
-			switch (spellType)
+			switch (_spellType)
 			{
 				case SpellType.SPELL:
 					DeleteSpell();
@@ -43,24 +47,27 @@ namespace PCCharacterManager.Commands
 		/// </summary>
 		private void DeleteSpell()
 		{
-			if (vm.PrevSelectedSpell == null)
+			if (_characterSpellBookViewModel.PrevSelectedSpell == null)
 				return;
 
 			double currTimeSeconds = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
-			double timePassed = currTimeSeconds - lastSpellRemoveTimeInSeconds;
+			double timePassed = currTimeSeconds - _lastSpellRemoveTimeInSeconds;
 			if (timePassed > 5)
 			{
-				var messageBox = MessageBox.Show("Are you sure you want to delete " + vm.PrevSelectedSpell.Spell.Name, "Delete Spell", MessageBoxButton.YesNo);
+				var messageBox = _dialogService.ShowMessage("Are you sure you want to delete " + 
+					_characterSpellBookViewModel.PrevSelectedSpell.Spell.Name, "Delete Spell", 
+					MessageBoxButton.YesNo, MessageBoxImage.Question);
+
 				if (messageBox == MessageBoxResult.No)
 					return;
 			}
 
-			vm.SpellBook.RemoveSpell(vm.PrevSelectedSpell.Spell);
-			vm.SpellsToDisplay.Remove(vm.PrevSelectedSpell);
-			vm.SelectedSpell = null;
+			_characterSpellBookViewModel.SpellBook.RemoveSpell(_characterSpellBookViewModel.PrevSelectedSpell.Spell);
+			_characterSpellBookViewModel.SpellsToDisplay.Remove(_characterSpellBookViewModel.PrevSelectedSpell);
+			_characterSpellBookViewModel.SelectedSpell = null;
 
 			TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
-			lastSpellRemoveTimeInSeconds = timeSpan.TotalSeconds;
+			_lastSpellRemoveTimeInSeconds = timeSpan.TotalSeconds;
 		}
 
 		/// <summary>
@@ -68,24 +75,27 @@ namespace PCCharacterManager.Commands
 		/// </summary>
 		private void DeleteCantrip()
 		{
-			if (vm.PrevSelectedCantrip == null)
+			if (_characterSpellBookViewModel.PrevSelectedCantrip == null)
 				return;
 
 			double currTimeSeconds = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
-			double timePassed = currTimeSeconds - lastSpellRemoveTimeInSeconds;
+			double timePassed = currTimeSeconds - _lastSpellRemoveTimeInSeconds;
 			if (timePassed > 5)
 			{
-				var messageBox = MessageBox.Show("Are you sure you want to delete " + vm.PrevSelectedCantrip.Spell.Name, "Delete Spell", MessageBoxButton.YesNo);
+				var messageBox = _dialogService.ShowMessage("Are you sure you want to delete " + 
+					_characterSpellBookViewModel.PrevSelectedCantrip.Spell.Name, "Delete Spell", 
+					MessageBoxButton.YesNo, MessageBoxImage.Question);
+
 				if (messageBox == MessageBoxResult.No)
 					return;
 			}
 
-			vm.SpellBook.RemoveCantrip(vm.PrevSelectedCantrip.Spell);
-			vm.CantripsToDisplay.Remove(vm.PrevSelectedCantrip);
-			vm.SelectedCantrip = null;
+			_characterSpellBookViewModel.SpellBook.RemoveCantrip(_characterSpellBookViewModel.PrevSelectedCantrip.Spell);
+			_characterSpellBookViewModel.CantripsToDisplay.Remove(_characterSpellBookViewModel.PrevSelectedCantrip);
+			_characterSpellBookViewModel.SelectedCantrip = null;
 
 			TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
-			lastSpellRemoveTimeInSeconds = timeSpan.TotalSeconds;
+			_lastSpellRemoveTimeInSeconds = timeSpan.TotalSeconds;
 		}
 	}
 }

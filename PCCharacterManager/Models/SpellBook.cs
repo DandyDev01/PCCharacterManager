@@ -252,5 +252,53 @@ namespace PCCharacterManager.Models
 			OnPropertyChanged(ref numberOfSlots, value);
 		}
 
+		public void RechargeSpellSlots()
+		{
+			foreach (var item in FirstLvl)
+			{
+				item.Value = false;
+			}
+
+			foreach (var item in SecondLvl)
+			{
+				item.Value = false;
+			}
+
+			foreach (var item in ThirdLvl)
+			{
+				item.Value = false;			
+			}
+
+			foreach (var item in FourthLvl)
+			{
+				item.Value = false;				
+			}
+
+			foreach (var item in FifthLvl)
+			{
+				item.Value = false;					
+			}
+
+			foreach (var item in SixLvl)
+			{
+				item.Value = false;						
+			}
+
+			foreach (var item in SeventhLvl)
+			{
+				item.Value = false;							
+			}
+
+			foreach (var item in EightLvl)
+			{
+				item.Value = false;								
+			}
+
+			foreach (var item in NinethLvl)
+			{
+				item.Value = false;
+			}
+
+	}
 	} // end class
 }

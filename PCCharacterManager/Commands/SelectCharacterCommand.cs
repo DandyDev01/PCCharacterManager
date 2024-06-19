@@ -13,14 +13,14 @@ namespace PCCharacterManager.Commands
 {
 	public class SelectCharacterCommand : BaseCommand
 	{
-		public string characterPath;
-		private readonly CharacterStore characterStore;
+		public string _characterPath;
+		private readonly CharacterStore _characterStore;
 		private readonly DialogServiceBase _dialogService;
 
-		public SelectCharacterCommand(CharacterStore characterStore, string _characterPath, DialogServiceBase dialogService)
+		public SelectCharacterCommand(CharacterStore characterStore, string characterPath, DialogServiceBase dialogService)
 		{
-			this.characterStore = characterStore;
-			characterPath = _characterPath;
+			_characterStore = characterStore;
+			_characterPath = characterPath;
 			_dialogService = dialogService;
 		}
 
@@ -28,13 +28,17 @@ namespace PCCharacterManager.Commands
 		{
 			DnD5eCharacter? selectedCharacter;
 			//Console.WriteLine("selected character is: " + characterToSelect.Name);
-			if (characterPath.Contains("dnd5e", StringComparison.OrdinalIgnoreCase))
+			if (_characterPath.Contains("dnd5e", StringComparison.OrdinalIgnoreCase))
 			{
-				selectedCharacter = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterPath);
+				selectedCharacter = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(_characterPath);
 			}
-			else if(characterPath.Contains("starfinder", StringComparison.OrdinalIgnoreCase))
+			else if(_characterPath.Contains("starfinder", StringComparison.OrdinalIgnoreCase))
 			{
-				selectedCharacter = ReadWriteJsonFile<StarfinderCharacter>.ReadFile(characterPath);
+				selectedCharacter = ReadWriteJsonFile<StarfinderCharacter>.ReadFile(_characterPath);
+			}
+			else if(_characterPath.Contains("darkSouls", StringComparison.OrdinalIgnoreCase))
+			{
+				selectedCharacter = ReadWriteJsonFile<DarkSoulsCharacter>.ReadFile(_characterPath);
 			}
 			else
 			{
@@ -50,7 +54,7 @@ namespace PCCharacterManager.Commands
 				return;
 			}
 
-			characterStore.BindSelectedCharacter(selectedCharacter);
+			_characterStore.BindSelectedCharacter(selectedCharacter);
 		}
 	}
 }
