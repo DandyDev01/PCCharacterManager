@@ -12,6 +12,13 @@ namespace PCCharacterManager.Models
 {
 	public class DarkSoulsCharacter : CharacterBase
 	{
+		private Ability[] _abilities;
+		public Ability[] Abilities
+		{
+			get { return _abilities; }
+			set { _abilities = value; }
+		}
+	
 		private int _spentHitDie;
 		public int SpentHitDie
 		{
@@ -27,7 +34,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		protected int _combatRound;
+		private int _combatRound;
 		public int CombatRound
 		{
 			get
@@ -41,7 +48,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		protected bool _isInCombat;
+		private bool _isInCombat;
 		public bool IsInCombat
 		{
 			get
@@ -55,7 +62,43 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		protected CharacterStatus _status;
+		private int _initiative;
+		public int Initiative
+		{
+			get { return _initiative; }
+			set
+			{
+				OnPropertyChanged(ref _initiative, value);
+				OnCharacterChangedAction?.Invoke(this);
+			}
+		}
+
+		private int _drivePoints;
+		public int DrivePoints
+		{
+			get
+			{
+				return _drivePoints;
+			}
+			set
+			{
+				OnPropertyChanged(ref _drivePoints, value);
+			}
+		}
+
+		private DarkSoulsOrigin _origin;
+		public DarkSoulsOrigin Origin { get => _origin; set => OnPropertyChanged(ref _origin, value); }
+		
+		public ObservableCollection<Condition> Conditions { get; protected set; }
+		public ObservableCollection<Property> MovementTypes_Speeds { get; protected set; }
+		public ObservableCollection<string> CombatActions { get; protected set; }
+		public ObservableCollection<string> WeaponProficiencies { get; protected set; }
+		public ObservableCollection<string> ArmorProficiencies { get; protected set; }
+		public ObservableCollection<string> OtherProficiences { get; protected set; }
+		public ObservableCollection<string> ToolProficiences { get; protected set; }
+		public ObservableCollection<string> Languages { get; protected set; }
+		
+		private CharacterStatus _status;
 		[JsonProperty(nameof(_status))]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public CharacterStatus Status
@@ -70,37 +113,6 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-
-		protected Ability[] _abilities;
-		public Ability[] Abilities
-		{
-			get { return _abilities; }
-			set { _abilities = value; }
-		}
-
-		public ObservableCollection<Condition> Conditions { get; protected set; }
-		public ObservableCollection<Property> MovementTypes_Speeds { get; protected set; }
-		public ObservableCollection<string> CombatActions { get; protected set; }
-		public ObservableCollection<string> WeaponProficiencies { get; protected set; }
-		public ObservableCollection<string> ArmorProficiencies { get; protected set; }
-		public ObservableCollection<string> OtherProficiences { get; protected set; }
-		public ObservableCollection<string> ToolProficiences { get; protected set; }
-		public ObservableCollection<string> Languages { get; protected set; }
-
-		protected int _initiative;
-		public int Initiative
-		{
-			get { return _initiative; }
-			set
-			{
-				OnPropertyChanged(ref _initiative, value);
-				OnCharacterChangedAction?.Invoke(this);
-			}
-		}
-
-		private DarkSoulsOrigin _origin;
-		public DarkSoulsOrigin Origin { get => _origin; set => _origin = value; }
-
 		[JsonProperty(nameof(Size))]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public CreatureSize Size { get; set; }
@@ -110,6 +122,7 @@ namespace PCCharacterManager.Models
 			CharacterClass = new DnD5eCharacterClass(classData);
 			
 			_origin = oragin;
+			_drivePoints = 0;
 
 			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 
@@ -180,6 +193,8 @@ namespace PCCharacterManager.Models
 			Languages = new ObservableCollection<string>();
 
 			_origin = new DarkSoulsOrigin();
+
+			_drivePoints = 0;
 
 			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 		}

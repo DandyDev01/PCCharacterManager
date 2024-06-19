@@ -19,10 +19,10 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterInfoViewModel : ObservableObject
 	{
-		private readonly CollectionViewPropertySort _collectionViewPropertySort;
-		private readonly CharacterStore _characterStore;
-		private readonly DialogServiceBase _dialogService;
-		private readonly RecoveryBase _recovery;
+		protected readonly CollectionViewPropertySort _collectionViewPropertySort;
+		protected readonly CharacterStore _characterStore;
+		protected readonly DialogServiceBase _dialogService;
+		protected readonly RecoveryBase _recovery;
 
 		private DnD5eCharacter? _selectedCharacter;
 		public DnD5eCharacter? SelectedCharacter
@@ -222,17 +222,17 @@ namespace PCCharacterManager.ViewModels
 			OtherProfsVM.UpdateCollection(SelectedCharacter.OtherProficiences);
 			WeaponProfsVM.UpdateCollection(SelectedCharacter.WeaponProficiencies);
 
-			Race = SelectedCharacter.Race.RaceVariant.Name;
+			Race = SelectedCharacter.Race.Name + " " + SelectedCharacter.Race.RaceVariant.Name;
 
-			Health characterHealth = _selectedCharacter.Health;
+			Health characterHealth = SelectedCharacter.Health;
 			Health = characterHealth.CurrHealth.ToString() + '/' + characterHealth.MaxHealth + " (" + 
 				characterHealth.TempHitPoints + " temp)";
 
-			DnD5eCharacterClass characterClass = _selectedCharacter.CharacterClass;
-			CharacterClass = characterClass.Name + "(total: " + _selectedCharacter.Level.Level 
-				+ ", PB: " + _selectedCharacter.Level.ProficiencyBonus + ")";
+			DnD5eCharacterClass characterClass = SelectedCharacter.CharacterClass;
+			CharacterClass = characterClass.Name + "(total: " + SelectedCharacter.Level.Level 
+				+ ", PB: " + SelectedCharacter.Level.ProficiencyBonus + ")";
 
-			ArmorClass = _selectedCharacter.ArmorClass.TotalArmorClass;
+			ArmorClass = SelectedCharacter.ArmorClass.TotalArmorClass;
 
 			UpdateFeatures(null, null);
 			SelectedProperty = AllFeatures.FirstOrDefault();

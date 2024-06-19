@@ -101,20 +101,38 @@
                 Grid.Row="0"
                 Grid.Column="0"
                 Grid.ColumnSpan="9">
-                <MenuItem Command="{Binding EditCharacterCommand}" Header="Edit">
+                <MenuItem
+                    Command="{Binding EditCharacterCommand}"
+                    Header="Edit"
+                    IsEnabled="False">
                     <MenuItem.Icon>
                         <Image Source="{DynamicResource Edit_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Command="{Binding ShortRestCommand}" Header="Short Rest" />
-                <MenuItem Command="{Binding LongRestCommand}" Header="Long Rest" />
-                <MenuItem Command="{Binding LevelCharacterCommand}" Header="Level Up">
+                <MenuItem
+                    Command="{Binding ShortRestCommand}"
+                    Header="Short Rest"
+                    IsEnabled="False" />
+                <MenuItem
+                    Command="{Binding LongRestCommand}"
+                    Header="Long Rest"
+                    IsEnabled="False" />
+                <MenuItem
+                    Command="{Binding LevelCharacterCommand}"
+                    Header="Level Up"
+                    IsEnabled="False">
                     <MenuItem.Icon>
                         <Image Source="{DynamicResource Character_Levelup_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Command="{Binding StartEncounterCommand}" Header="Start Encounter" />
-                <MenuItem Command="{Binding EndEncounterCommand}" Header="End Encounter" />
+                <MenuItem
+                    Command="{Binding StartEncounterCommand}"
+                    Header="Start Encounter"
+                    IsEnabled="False" />
+                <MenuItem
+                    Command="{Binding EndEncounterCommand}"
+                    Header="End Encounter"
+                    IsEnabled="False" />
             </Menu>
             <!--#endregion-->
 
@@ -289,7 +307,7 @@
                 Width="30"
                 Height="20"
                 HorizontalAlignment="Left"
-                Command="{Binding EditArmorClassCommand}">
+                Command="{Binding EditDrivePointsCommand}">
                 <Image Source="{DynamicResource Edit_Icon}" />
             </Button>
             <TextBlock

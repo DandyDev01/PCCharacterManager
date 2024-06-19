@@ -10,6 +10,11 @@ namespace PCCharacterManager.Models
 	public class StarfinderCharacter : CharacterBase
 	{
 		private StarfinderAbility[] _abilities;
+		public StarfinderAbility[] Abilities
+		{
+			get { return _abilities; }
+			set { _abilities = value; }
+		}
 
 		public ObservableCollection<Property> MovementTypes_Speeds { get; protected set; }
 		public ObservableCollection<string> WeaponProficiencies { get; protected set; }
@@ -29,11 +34,6 @@ namespace PCCharacterManager.Models
 		public StarfinderStatBlock SavingThrowFortitude { get; set; }
 		public ObservableCollection<StarfinderAugmentation> Augmentations { get; set; }
 		public new StarfinderArmorClass ArmorClass { get; set; }
-		public new StarfinderAbility[] Abilities
-		{
-			get { return _abilities; }
-			set { _abilities = value; }
-		}
 
 		public string HomeWorld { get; set; }
 		public string KeyAbilityScore { get; set; }

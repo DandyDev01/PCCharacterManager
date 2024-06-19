@@ -22,15 +22,14 @@ namespace PCCharacterManager.Models
 
 	public class DnD5eCharacter : CharacterBase
 	{
-
-		protected Ability[] _abilities;
+		private Ability[] _abilities;
 		public Ability[] Abilities
 		{
 			get { return _abilities; }
 			set { _abilities = value; }
 		}
 
-		protected string _background;
+		private string _background;
 		public string Background
 		{
 			get { return _background; }
@@ -41,7 +40,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 		
-		protected int _initiative;
+		private int _initiative;
 		public int Initiative
 		{
 			get { return _initiative; }
@@ -52,7 +51,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 		
-		protected int _passivePerception;
+		private int _passivePerception;
 		public int PassivePerception
 		{
 			get { return _passivePerception; }
@@ -63,7 +62,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 		
-		protected int _passiveInsight;
+		private int _passiveInsight;
 		public int PassiveInsight
 		{
 			get { return _passiveInsight; }
@@ -89,7 +88,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		protected int _combatRound;
+		private int _combatRound;
 		public int CombatRound
 		{
 			get
@@ -103,7 +102,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		protected bool _isInCombat;
+		private bool _isInCombat;
 		public bool IsInCombat
 		{
 			get

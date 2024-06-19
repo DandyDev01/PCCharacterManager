@@ -172,6 +172,11 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 
 			_newCharacter.Initiative = _newCharacter.Abilities.First(x => x.Name == "Dexterity").Modifier;
 
+			var race = new DnD5eCharacterRace();
+			race.Name = "Unkindled";
+
+			_newCharacter.Race = race;
+
 			return _newCharacter;
 		}
 

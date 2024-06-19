@@ -152,7 +152,5 @@ namespace PCCharacterManager.Models
 		{
 			OnCharacterChangedAction?.Invoke(this);
 		}
-
-
 	}
 }

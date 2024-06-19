@@ -1,4 +1,5 @@
-﻿using PCCharacterManager.Models;
+﻿using PCCharacterManager.DialogWindows;
+using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
@@ -8,6 +9,8 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
@@ -26,10 +29,13 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
+		public ICommand EditDrivePointsCommand { get; }
+
 		public DarkSoulsCharacterInfoViewModel(CharacterStore characterStore, DialogServiceBase dialogService, 
 			RecoveryBase recovery) : base(characterStore, dialogService, recovery)
 		{
 			Race = "Unkindled";
+			EditDrivePointsCommand = new RelayCommand(EditDrivePoints); 
 		}
 
 		/// <summary>
@@ -40,7 +46,6 @@ namespace PCCharacterManager.ViewModels
 		{
 			if(_selectedCharacter is not null)
 				_selectedCharacter.CharacterClass.Features.CollectionChanged -= UpdateFeatures;
-
 
 			if (CharacterTypeHelper.IsValidCharacterType(newCharacter, CharacterType.dark_souls)
 				&& newCharacter is DarkSoulsCharacter c)
@@ -64,8 +69,6 @@ namespace PCCharacterManager.ViewModels
 			ArmorProfsVM.UpdateCollection(SelectedCharacter.ArmorProficiencies);
 			OtherProfsVM.UpdateCollection(SelectedCharacter.OtherProficiences);
 			WeaponProfsVM.UpdateCollection(SelectedCharacter.WeaponProficiencies);
-
-			Race = SelectedCharacter.Race.RaceVariant.Name;
 
 			var temp = SelectedCharacter.Health;
 			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth + " (" + temp.TempHitPoints + " temp)";
@@ -95,6 +98,36 @@ namespace PCCharacterManager.ViewModels
 			AllFeatures.Add(new Feature(_selectedCharacter.Origin.BloodiedEffect, _selectedCharacter.Origin.Name, "-"));
 
 			FeaturesCollectionView?.Refresh();
+		}
+
+		private void EditDrivePoints()
+		{
+			DialogWindowStringInputViewModel dataContext = new("Enter amount to add or remove.");
+
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(dataContext, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
+				return;
+
+			int temp;
+			try
+			{
+				temp = int.Parse(dataContext.Answer);
+			}
+			catch
+			{
+				_dialogService.ShowMessage("Must be a whole number", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				EditDrivePoints();
+				return;
+			}
+
+			_selectedCharacter.DrivePoints = temp;
+
+			// NOTE: check if they can level up, if they can, ask if they want to. 
 		}
 	}
 }
