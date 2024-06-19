@@ -12,7 +12,7 @@ namespace PCCharacterManager.Models
 	{
 
 		private DarkSoulsOrigin _origin;
-		public DarkSoulsOrigin Origin => _origin;
+		public DarkSoulsOrigin Origin { get => _origin; set => _origin = value; }
 
 		public DarkSoulsCharacter(DnD5eCharacterClassData classData, DarkSoulsOrigin oragin)
 		{

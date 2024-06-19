@@ -16,7 +16,7 @@ namespace PCCharacterManager.Models.Levelers
 
 		public override bool LevelCharacter(DnD5eCharacter character)
 		{
-			MessageBox.Show("Automatic Starfinder character leveling is not yet implemented.",
+			MessageBox.Show("Automatic Dark Souls character leveling is not yet implemented.",
 				"Action Not Yet Supported.", MessageBoxButton.OK, MessageBoxImage.Information);
 
 			return false;

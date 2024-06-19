@@ -127,7 +127,10 @@ namespace PCCharacterManager.ViewModels
 				NoteSectionsToDisplay.Add(noteSection);
 			}
 
-			if (_noteBook.NoteSections.Count <= 0) return;
+			if (_noteBook.NoteSections.Count <= 0 ||
+				NoteSectionsToDisplay.Count <= 0 ||
+				NoteSectionsToDisplay[0].Notes.Count <= 0) 
+				return;
 
 			SelectedNote = NoteSectionsToDisplay[0].Notes[0];
 

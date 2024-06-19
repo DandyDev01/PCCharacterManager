@@ -220,10 +220,11 @@ namespace PCCharacterManager.ViewModels
 
 			Race = _selectedCharacter.Race.RaceVariant.Name;
 
-			var temp = _selectedCharacter.Health;
-			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth + " (" + temp.TempHitPoints + " temp)";
+			Health characterHealth = _selectedCharacter.Health;
+			Health = characterHealth.CurrHealth.ToString() + '/' + characterHealth.MaxHealth + " (" + 
+				characterHealth.TempHitPoints + " temp)";
 
-			var characterClass = _selectedCharacter.CharacterClass;
+			DnD5eCharacterClass characterClass = _selectedCharacter.CharacterClass;
 			CharacterClass = characterClass.Name + "(total: " + _selectedCharacter.Level.Level 
 				+ ", PB: " + _selectedCharacter.Level.ProficiencyBonus + ")";
 

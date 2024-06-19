@@ -44,6 +44,7 @@ namespace PCCharacterManager.ViewModels
 			}
 			else
 			{
+				SelectedCharacter = new DarkSoulsCharacter();
 				return;
 			}
 
