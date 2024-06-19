@@ -103,7 +103,7 @@ namespace PCCharacterManager.ViewModels
 		public string InventoryWeight => _inventoryWeight;
 
 		private bool _showHiddenProperties = false;
-		private DnD5eCharacter _selectedCharacter;
+		private CharacterBase _selectedCharacter;
 
 		public ICommand AddItemCommand { get; }
 		public ICommand RemoveItemCommand { get; }
@@ -206,7 +206,7 @@ namespace PCCharacterManager.ViewModels
 				nameof(ItemViewModel.DisplayItemCategory));
 		}
 
-		private void OnCharacterChanged(DnD5eCharacter newCharacter)
+		private void OnCharacterChanged(CharacterBase newCharacter)
 		{
 			Inventory = newCharacter.Inventory;
 			_selectedCharacter = newCharacter;

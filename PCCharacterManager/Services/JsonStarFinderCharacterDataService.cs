@@ -76,7 +76,7 @@ namespace PCCharacterManager.Services
 
 			character.DateModified = DateTime.Now.ToString();
 
-			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(CharacterTypeHelper.BuildPath(character), character);
+			ReadWriteJsonFile<CharacterBase>.WriteFile(CharacterTypeHelper.BuildPath(character), character);
 		}
 	}
 }

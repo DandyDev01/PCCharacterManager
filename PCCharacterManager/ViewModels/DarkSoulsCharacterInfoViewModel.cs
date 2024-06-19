@@ -13,8 +13,8 @@ namespace PCCharacterManager.ViewModels
 {
 	public class DarkSoulsCharacterInfoViewModel : CharacterInfoViewModel
 	{
-		private DarkSoulsCharacter _selectedCharacter;
-		public new DarkSoulsCharacter SelectedCharacter
+		private DarkSoulsCharacter? _selectedCharacter;
+		public new DarkSoulsCharacter? SelectedCharacter
 		{
 			get
 			{
@@ -36,42 +36,45 @@ namespace PCCharacterManager.ViewModels
 		/// What to do when the selectedCharacter changes
 		/// </summary>
 		/// <param name="newCharacter">the newly selected character</param>
-		protected override void OnCharacterChanged(DnD5eCharacter newCharacter)
+		protected override void OnCharacterChanged(CharacterBase newCharacter)
 		{
-			if (SelectedCharacter is not null)
+			if(_selectedCharacter is not null)
+				_selectedCharacter.CharacterClass.Features.CollectionChanged -= UpdateFeatures;
+
+
+			if (CharacterTypeHelper.IsValidCharacterType(newCharacter, CharacterType.dark_souls)
+				&& newCharacter is DarkSoulsCharacter c)
 			{
-				SelectedCharacter.CharacterClass.Features.CollectionChanged -= UpdateFeatures;
+				SelectedCharacter = c;
 			}
 			else
 			{
-				SelectedCharacter = new DarkSoulsCharacter();
+				SelectedCharacter = null;
 				return;
 			}
-
-			SelectedCharacter = newCharacter as DarkSoulsCharacter;
 
 			SelectedCharacter.CharacterClass.Features.CollectionChanged += UpdateFeatures;
 
 			//FeaturesListVM.UpdateCollection(null);
-			ConditionsListVM.UpdateCollection(_selectedCharacter.Conditions);
-			MovementTypesListVM.UpdateCollection(_selectedCharacter.MovementTypes_Speeds);
-			LanguagesVM.UpdateCollection(_selectedCharacter.Languages);
-			CombatActionsVM.UpdateCollection(_selectedCharacter.CombatActions);
-			ToolProfsVM.UpdateCollection(_selectedCharacter.ToolProficiences);
-			ArmorProfsVM.UpdateCollection(_selectedCharacter.ArmorProficiencies);
-			OtherProfsVM.UpdateCollection(_selectedCharacter.OtherProficiences);
-			WeaponProfsVM.UpdateCollection(_selectedCharacter.WeaponProficiencies);
+			ConditionsListVM.UpdateCollection(SelectedCharacter.Conditions);
+			MovementTypesListVM.UpdateCollection(SelectedCharacter.MovementTypes_Speeds);
+			LanguagesVM.UpdateCollection(SelectedCharacter.Languages);
+			CombatActionsVM.UpdateCollection(SelectedCharacter.CombatActions);
+			ToolProfsVM.UpdateCollection(SelectedCharacter.ToolProficiences);
+			ArmorProfsVM.UpdateCollection(SelectedCharacter.ArmorProficiencies);
+			OtherProfsVM.UpdateCollection(SelectedCharacter.OtherProficiences);
+			WeaponProfsVM.UpdateCollection(SelectedCharacter.WeaponProficiencies);
 
-			Race = _selectedCharacter.Race.RaceVariant.Name;
+			Race = SelectedCharacter.Race.RaceVariant.Name;
 
-			var temp = _selectedCharacter.Health;
+			var temp = SelectedCharacter.Health;
 			Health = temp.CurrHealth.ToString() + '/' + temp.MaxHealth + " (" + temp.TempHitPoints + " temp)";
 
-			var characterClass = _selectedCharacter.CharacterClass;
-			CharacterClass = characterClass.Name + "(total: " + _selectedCharacter.Level.Level
-				+ ", PB: " + _selectedCharacter.Level.ProficiencyBonus + ")";
+			var characterClass = SelectedCharacter.CharacterClass;
+			CharacterClass = characterClass.Name + "(total: " + SelectedCharacter.Level.Level
+				+ ", PB: " + SelectedCharacter.Level.ProficiencyBonus + ")";
 
-			ArmorClass = _selectedCharacter.ArmorClass.TotalArmorClass;
+			ArmorClass = SelectedCharacter.ArmorClass.TotalArmorClass;
 
 			UpdateFeatures(null, null);
 			SelectedProperty = AllFeatures.FirstOrDefault();

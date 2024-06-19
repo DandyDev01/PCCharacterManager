@@ -53,7 +53,7 @@ namespace PCCharacterManager.ViewModels
 			_characterStore.CharacterCreate += LoadCharacter;
 			_dataService.OnSave += Update;
 
-			List<DnD5eCharacter> characters = new(dataService.GetCharacters());
+			List<CharacterBase> characters = new(dataService.GetCharacters());
 
 			CharacterItems = new ObservableCollection<CharacterItemViewModel>();
 			CharacterCollectionView = CollectionViewSource.GetDefaultView(CharacterItems);
@@ -117,7 +117,7 @@ namespace PCCharacterManager.ViewModels
 		/// characters to display
 		/// </summary>
 		/// <param name="character">character to add</param>
-		private void LoadCharacter(DnD5eCharacter character)
+		private void LoadCharacter(CharacterBase character)
 		{
 			if (character == null)
 				return;

@@ -225,7 +225,7 @@ namespace PCCharacterManager.ViewModels
 			NextFilterCommand = new RelayCommand(NextFilter);
 		}
 
-		private void OnCharacterChanged(DnD5eCharacter newCharacter)
+		private void OnCharacterChanged(CharacterBase newCharacter)
 		{
 			CantripsToDisplay.Clear();
 			SpellsToDisplay.Clear();

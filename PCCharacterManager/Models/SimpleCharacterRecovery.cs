@@ -59,7 +59,7 @@ namespace PCCharacterManager.Models
 			return objectType;
 		}
 		
-		public void RegisterChange(DnD5eCharacter state)
+		public void RegisterChange(CharacterBase state)
 		{
 			string json = JsonConvert.SerializeObject(state);
 			_stateHistory.Add(json);

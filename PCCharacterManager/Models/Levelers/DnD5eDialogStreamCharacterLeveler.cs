@@ -19,31 +19,40 @@ namespace PCCharacterManager.Models
 		/// <summary>
 		/// Open a serise of dialog windows to level up the character.
 		/// </summary>
-		/// <param name="character">The character to levelup</param>
-		public override bool LevelCharacter(DnD5eCharacter character)
+		/// <param name="_character">The character to levelup</param>
+		public override bool LevelCharacter(CharacterBase character)
 		{
-			if (character is null)
+			DnD5eCharacter? dndCharacter;
+
+			if (CharacterTypeHelper.IsValidCharacterType(character, CharacterType.DnD5e) &&
+				character is DnD5eCharacter c)
+			{
+				dndCharacter = c;
+			}
+			else
+			{
 				throw new NullReferenceException("Character cannot be null");
+			}
 
 			MessageBoxResult result = AskToAddClass();
 			if (result == MessageBoxResult.Yes)
 			{
-				string classToAddName = GetClassToAddName(character, character.CharacterClass.Name);
+				string classToAddName = GetClassToAddName(dndCharacter, dndCharacter.CharacterClass.Name);
 
 				if (classToAddName == string.Empty)
 					return false;
 
-				AddClassHelper addClassHelper = AddClass(character, classToAddName);
+				AddClassHelper addClassHelper = AddClass(dndCharacter, classToAddName);
 
 				if (addClassHelper.didAddClass)
 				{
-					MultiClass helper = UpdateMaxHealth(character);
+					MultiClass helper = UpdateMaxHealth(dndCharacter);
 					if (helper.success == false)
 						return false;
 
-					character.CharacterClass.UpdateCharacterClassName(helper.className, helper.classLevel);
-					UnLockClassFeatures(character, helper.className, helper.classLevel);
-					AddNewClassProficiences(character, helper.className);
+					dndCharacter.CharacterClass.UpdateCharacterClassName(helper.className, helper.classLevel);
+					UnLockClassFeatures(dndCharacter, helper.className, helper.classLevel);
+					AddNewClassProficiences(dndCharacter, helper.className);
 				}
 			}
 			else if (result == MessageBoxResult.Cancel)
@@ -52,20 +61,20 @@ namespace PCCharacterManager.Models
 			}
 			else if (result == MessageBoxResult.No)
 			{
-				MultiClass helper = UpdateMaxHealth(character);
+				MultiClass helper = UpdateMaxHealth(dndCharacter);
 				if (helper.success == false)
 					return false;
 
-				character.CharacterClass.Level.LevelUp();
+				dndCharacter.CharacterClass.Level.LevelUp();
 
-				character.CharacterClass.UpdateCharacterClassName(helper.className, helper.classLevel);
-				UnLockClassFeatures(character, helper.className, helper.classLevel);
+				dndCharacter.CharacterClass.UpdateCharacterClassName(helper.className, helper.classLevel);
+				UnLockClassFeatures(dndCharacter, helper.className, helper.classLevel);
 			}
 
-			character.Level.LevelUp();
-			foreach (var ability in character.Abilities)
+			dndCharacter.Level.LevelUp();
+			foreach (var ability in dndCharacter.Abilities)
 			{
-				ability.SetProfBonus(character.Level.ProficiencyBonus);
+				ability.SetProfBonus(dndCharacter.Level.ProficiencyBonus);
 			}
 
 			return true;

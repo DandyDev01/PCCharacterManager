@@ -171,7 +171,7 @@
                 Grid.Column="5"
                 Grid.ColumnSpan="1"
                 Style="{DynamicResource DefaultTextBlock}"
-                Text="{Binding SelectedCharacter.Background, FallbackValue=Background}" />
+                Text="{Binding SelectedCharacter.Origin.Name, FallbackValue=Origin}" />
 
             <Label
                 Grid.Row="2"

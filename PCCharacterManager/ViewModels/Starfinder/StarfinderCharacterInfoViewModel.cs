@@ -23,6 +23,7 @@ namespace PCCharacterManager.ViewModels
 		public PropertyListViewModel ClassFeatureListVM { get; protected set; }
 		public PropertyListViewModel RaceVarientListVM { get; protected set; }
 
+
 		private StarfinderCharacter _selectedCharacter;
 		public new StarfinderCharacter SelectedCharacter
 		{
@@ -112,17 +113,24 @@ namespace PCCharacterManager.ViewModels
 			_dialogService = dialogService;
 		}
 
-		private void OnCharacterChange(DnD5eCharacter newCharacter)
+		private void OnCharacterChange(CharacterBase newCharacter)
 		{
-			if (newCharacter is StarfinderCharacter starfinderCharacter)
-				_selectedCharacter = starfinderCharacter;
+			if (_selectedCharacter is not null)
+				_selectedCharacter.CharacterClass.Features.CollectionChanged -= UpdateFeatures;
+
+
+			if (CharacterTypeHelper.IsValidCharacterType(newCharacter, CharacterType.starfinder)
+				&& newCharacter is StarfinderCharacter c)
+			{
+				SelectedCharacter = c;
+			}
 			else
 			{
-				_selectedCharacter = new StarfinderCharacter();
+				SelectedCharacter = null;
 				return;
 			}
 
-			ThemeListVM = new PropertyListViewModel("Themes", _selectedCharacter.Theme.Features, _dialogService);
+			ThemeListVM = new PropertyListViewModel("Themes", SelectedCharacter.Theme.Features, _dialogService);
 			ClassFeatureListVM = new DnDClassFeatureListViewModel("Class Features", 
 				SelectedCharacter.CharacterClass.Features, _dialogService);
 			RaceFeatureListVM = new PropertyListViewModel("Race Features", SelectedCharacter.Race.Features, 
@@ -134,12 +142,12 @@ namespace PCCharacterManager.ViewModels
 			OnPropertyChanged(nameof(RaceFeatureListVM));
 			OnPropertyChanged(nameof(ThemeListVM));
 
-			MovementTypesListVM.UpdateCollection(_selectedCharacter.MovementTypes_Speeds);
-			LanguagesVM.UpdateCollection(_selectedCharacter.Languages);
-			ToolProfsVM.UpdateCollection(_selectedCharacter.ToolProficiences);
-			ArmorProfsVM.UpdateCollection(_selectedCharacter.ArmorProficiencies);
-			OtherProfsVM.UpdateCollection(_selectedCharacter.OtherProficiences);
-			WeaponProfsVM.UpdateCollection(_selectedCharacter.WeaponProficiencies);
+			MovementTypesListVM.UpdateCollection(SelectedCharacter.MovementTypes_Speeds);
+			LanguagesVM.UpdateCollection(SelectedCharacter.Languages);
+			ToolProfsVM.UpdateCollection(SelectedCharacter.ToolProficiences);
+			ArmorProfsVM.UpdateCollection(SelectedCharacter.ArmorProficiencies);
+			OtherProfsVM.UpdateCollection(SelectedCharacter.OtherProficiences);
+			WeaponProfsVM.UpdateCollection(SelectedCharacter.WeaponProficiencies);
 
 		}
 

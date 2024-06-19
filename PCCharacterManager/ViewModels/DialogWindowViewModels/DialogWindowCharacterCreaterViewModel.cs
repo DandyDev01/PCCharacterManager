@@ -83,7 +83,7 @@ namespace PCCharacterManager.ViewModels
 
 		public void Create()
 		{
-			DnD5eCharacter? character = SelectedCreator.Create();
+			CharacterBase? character = SelectedCreator.Create();
 
 			if (character == null) 
 				return;

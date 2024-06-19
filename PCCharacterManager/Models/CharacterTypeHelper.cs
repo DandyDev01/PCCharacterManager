@@ -71,7 +71,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		public static string BuildPath(DnD5eCharacter character)
+		public static string BuildPath(CharacterBase character)
 		{
 			string path = "/" + character.Name + character.Id + ".json";
 
@@ -86,6 +86,32 @@ namespace PCCharacterManager.Models
 				default:
 					throw new Exception("Character Pathing Issue.");
 			}
+		}
+
+		public static bool IsValidCharacterType(CharacterBase character, CharacterType characterType) 
+		{
+			//if (character.CharacterType == CharacterType.DnD5e && character is not DnD5eCharacter)
+			//	return false;
+
+			//if (character.CharacterType == CharacterType.starfinder && character is not StarfinderCharacter)
+			//	return false;
+
+			//if (character.CharacterType == CharacterType.dark_souls && character is not DarkSoulsCharacter)
+			//	return false;
+
+			if (characterType == CharacterType.DnD5e && character is not DnD5eCharacter)
+				return false;
+
+			if (characterType == CharacterType.starfinder && character is not StarfinderCharacter)
+				return false;
+
+			if (characterType == CharacterType.dark_souls && character is not DarkSoulsCharacter)
+				return false;
+
+			if (character is null)
+				return false;
+
+			return true;
 		}
 
 	}

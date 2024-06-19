@@ -20,28 +20,14 @@ namespace PCCharacterManager.Models
 	public enum CharacterType { DnD5e, starfinder, dark_souls }
 	public enum CharacterStatus { COMBAT, IDLE }
 
-	public class DnD5eCharacter : ObservableObject
+	public class DnD5eCharacter : CharacterBase
 	{
-		public static DnD5eCharacter Default => new();
 
 		protected Ability[] _abilities;
-
-		protected string _name;
-		public string Name
+		public Ability[] Abilities
 		{
-			get { return _name; }
-			set 
-			{ 
-				OnPropertyChanged(ref _name, value);
-				OnCharacterChangedAction?.Invoke(this);
-			}
-		}
-
-		protected string _id;
-		public string Id
-		{
-			get => _id;
-			set => OnPropertyChanged(ref _id, value);
+			get { return _abilities; }
+			set { _abilities = value; }
 		}
 
 		protected string _background;
@@ -52,16 +38,6 @@ namespace PCCharacterManager.Models
 			{ 
 				OnPropertyChanged(ref _background, value);
 				OnCharacterChangedAction?.Invoke(this);
-			}
-		}
-		
-		protected string _dateModified;
-		public string DateModified
-		{
-			get { return _dateModified; }	
-			set 
-			{ 
-				OnPropertyChanged(ref _dateModified, value);
 			}
 		}
 		
@@ -156,21 +132,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		public virtual int CarryWeight => Abilities.Where(x => x.Name == "Strength").First().Score * 15;
-
-		public DnD5eCharacterClass CharacterClass { get; set; }
-		public DnD5eCharacterRace Race { get; set; }
-		public ArmorClass ArmorClass { get; set; }
-		public CharacterLevel Level { get; set; }
-		public NoteBook NoteManager { get; set; }
-		public Inventory Inventory { get; set; }
-		public SpellBook SpellBook { get; set; }
-		public Health Health { get; set; }
-		public Ability[] Abilities
-		{
-			get { return _abilities; }
-			set { _abilities = value; }
-		}
+		public override int CarryWeight => Abilities.Where(x => x.Name == "Strength").First().Score * 15;
 
 		public ObservableCollection<Condition> Conditions { get; protected set; }
 		public ObservableCollection<Property> MovementTypes_Speeds { get; protected set; }
@@ -185,16 +147,9 @@ namespace PCCharacterManager.Models
 		[JsonConverter(typeof(StringEnumConverter))]
 		public CreatureSize Size { get; set; }
 
-		[JsonProperty(nameof(CharacterType))]
-		[JsonConverter(typeof(StringEnumConverter))]
-		public CharacterType CharacterType { get; set; }
-
 		[JsonProperty(nameof(Alignment))]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public Alignment Alignment { get; set; }
-
-		[JsonIgnore]
-		public Action<DnD5eCharacter>? OnCharacterChangedAction { get; set; }
 
 		public DnD5eCharacter()
 		{
@@ -316,21 +271,6 @@ namespace PCCharacterManager.Models
 
 			AddMovementType(new Property(MovementType.WALK.ToString(), raceData.Speed));
 			AddLanguages(raceData.Languages);
-		}
-
-		/// <summary>
-		/// Used to notify when any aspect of the character changes.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		protected void OnCharacterChanged(object? sender, NotifyCollectionChangedEventArgs? e)
-		{
-			OnCharacterChangedAction?.Invoke(this);
-		}
-
-		protected void OnCharacterChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			OnCharacterChangedAction?.Invoke(this);
 		}
 
 		/// <summary>

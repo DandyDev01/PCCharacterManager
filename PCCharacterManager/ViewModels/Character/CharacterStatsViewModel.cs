@@ -19,8 +19,8 @@ namespace PCCharacterManager.ViewModels
 	{
 		private readonly CharacterTypeHelper _characterTypeHelper;
 
-		private DnD5eCharacter _selectedCharacter;
-		public DnD5eCharacter SelectedCharacter 
+		private CharacterBase _selectedCharacter;
+		public CharacterBase SelectedCharacter 
 		{ 
 			get { return _selectedCharacter; }
 			set { OnPropertyChanged(ref _selectedCharacter, value); }
@@ -53,7 +53,7 @@ namespace PCCharacterManager.ViewModels
 			_characterTypeHelper.SetCharacterTypeFlags(_selectedCharacter.CharacterType);
 		}
 
-		private void OnCharacterChanged(DnD5eCharacter newCharacter)
+		private void OnCharacterChanged(CharacterBase newCharacter)
 		{
 			SelectedCharacter = newCharacter;
 

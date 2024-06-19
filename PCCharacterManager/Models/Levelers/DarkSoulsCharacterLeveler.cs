@@ -14,7 +14,7 @@ namespace PCCharacterManager.Models.Levelers
 		{
 		}
 
-		public override bool LevelCharacter(DnD5eCharacter character)
+		public override bool LevelCharacter(CharacterBase character)
 		{
 			MessageBox.Show("Automatic Dark Souls character leveling is not yet implemented.",
 				"Action Not Yet Supported.", MessageBoxButton.OK, MessageBoxImage.Information);

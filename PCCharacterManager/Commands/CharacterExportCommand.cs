@@ -85,7 +85,7 @@ namespace PCCharacterManager.Commands
 		private void SingleFileExport(CharacterItemViewModel[] characterItems, string savePath, 
 			string[] selectedCharacterNames, string[] characterPaths)
 		{
-			DnD5eCharacter[] characters = new DnD5eCharacter[characterPaths.Length];
+			var characters = new CharacterBase[characterPaths.Length];
 			
 			// get path's of characters to export
 			for (int i = 0; i < selectedCharacterNames.Length; i++)
@@ -107,13 +107,13 @@ namespace PCCharacterManager.Commands
 					continue;
 				}
 
-				var character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterPaths[i]) 
+				var character = ReadWriteJsonFile<CharacterBase>.ReadFile(characterPaths[i]) 
 					?? throw new Exception("The characater at " + characterPaths[i] + " does not exist.");
 				
 				characters[i] = character;
 			}
 
-			ReadWriteJsonCollection<DnD5eCharacter>.WriteCollection(savePath, characters);
+			ReadWriteJsonCollection<CharacterBase>.WriteCollection(savePath, characters);
 		}
 
 		/// <summary>
@@ -139,19 +139,19 @@ namespace PCCharacterManager.Commands
 				savePath = savePath.Substring(0, savePath.IndexOf('.'));
 				if (characterPaths[i].Contains(_characterStore.SelectedCharacter.Name))
 				{
-					ReadWriteJsonFile<DnD5eCharacter>.WriteFile(savePath + "_" + _characterStore.SelectedCharacter.Name 
+					ReadWriteJsonFile<CharacterBase>.WriteFile(savePath + "_" + _characterStore.SelectedCharacter.Name 
 						+ ".json", _characterStore.SelectedCharacter);
 					savePath += ".json";
 					continue;
 				}
-				DnD5eCharacter? character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterPaths[i]);
+				var character = ReadWriteJsonFile<CharacterBase>.ReadFile(characterPaths[i]);
 
 				if (character is null)
 				{
 					throw new Exception("Character path " + characterPaths[i] + " does not exist.");
 				}
 
-				ReadWriteJsonFile<DnD5eCharacter>.WriteFile(savePath + "_" + character.Name + ".json", character);
+				ReadWriteJsonFile<CharacterBase>.WriteFile(savePath + "_" + character.Name + ".json", character);
 				savePath += ".json";
 			}
 		}

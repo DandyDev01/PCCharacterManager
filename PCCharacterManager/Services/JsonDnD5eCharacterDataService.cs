@@ -19,12 +19,12 @@ namespace PCCharacterManager.Services
 			_characterStore = characterStore;
 		}
 
-		public override void Add(DnD5eCharacter newCharacter)
+		public override void Add(CharacterBase newCharacter)
 		{
 			Save(newCharacter);
 		}
 
-		public override IEnumerable<DnD5eCharacter> GetCharacters()
+		public override IEnumerable<CharacterBase> GetCharacters()
 		{
 			List<DnD5eCharacter> characters = new List<DnD5eCharacter>();	
 			string[] characterEntries = Directory.GetFiles(DnD5eResources.CharacterDataDir);
@@ -42,7 +42,7 @@ namespace PCCharacterManager.Services
 			return Directory.GetFiles(DnD5eResources.CharacterDataDir);
 		}
 
-		public override void Save(IEnumerable<DnD5eCharacter> characters)
+		public override void Save(IEnumerable<CharacterBase> characters)
 		{
 			foreach (DnD5eCharacter character in characters)
 			{
@@ -50,7 +50,7 @@ namespace PCCharacterManager.Services
 			}
 		}
 
-		public override void Save(DnD5eCharacter character)
+		public override void Save(CharacterBase character)
 		{
 			// character data folder does not exist
 			if (!Directory.Exists(DnD5eResources.CharacterDataDir))
@@ -80,10 +80,10 @@ namespace PCCharacterManager.Services
 
 			character.DateModified = DateTime.Now.ToString();
 
-			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(CharacterTypeHelper.BuildPath(character), character);
+			ReadWriteJsonFile<CharacterBase>.WriteFile(CharacterTypeHelper.BuildPath(character), character);
 		}
 
-		public override bool Delete(DnD5eCharacter character)
+		public override bool Delete(CharacterBase character)
 		{
 			if (File.Exists(CharacterTypeHelper.BuildPath(character)))
 			{

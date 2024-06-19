@@ -1,4 +1,6 @@
-﻿using PCCharacterManager.Models.DarkSouls;
+﻿using Newtonsoft.Json.Converters;
+using Newtonsoft.Json;
+using PCCharacterManager.Models.DarkSouls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,18 +10,106 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-	public class DarkSoulsCharacter : DnD5eCharacter
+	public class DarkSoulsCharacter : CharacterBase
 	{
+		private int _spentHitDie;
+		public int SpentHitDie
+		{
+			get
+			{
+				return _spentHitDie;
+			}
+			set
+			{
+				value = Math.Min(value, Level.Level);
+				OnPropertyChanged(ref _spentHitDie, value);
+				OnCharacterChangedAction?.Invoke(this);
+			}
+		}
+
+		protected int _combatRound;
+		public int CombatRound
+		{
+			get
+			{
+				return _combatRound;
+			}
+			set
+			{
+				OnPropertyChanged(ref _combatRound, value);
+				OnCharacterChangedAction?.Invoke(this);
+			}
+		}
+
+		protected bool _isInCombat;
+		public bool IsInCombat
+		{
+			get
+			{
+				return _isInCombat;
+			}
+			set
+			{
+				OnPropertyChanged(ref _isInCombat, value);
+				OnCharacterChangedAction?.Invoke(this);
+			}
+		}
+
+		protected CharacterStatus _status;
+		[JsonProperty(nameof(_status))]
+		[JsonConverter(typeof(StringEnumConverter))]
+		public CharacterStatus Status
+		{
+			get
+			{
+				return _status;
+			}
+			set
+			{
+				OnPropertyChanged(ref _status, value);
+			}
+		}
+
+
+		protected Ability[] _abilities;
+		public Ability[] Abilities
+		{
+			get { return _abilities; }
+			set { _abilities = value; }
+		}
+
+		public ObservableCollection<Condition> Conditions { get; protected set; }
+		public ObservableCollection<Property> MovementTypes_Speeds { get; protected set; }
+		public ObservableCollection<string> CombatActions { get; protected set; }
+		public ObservableCollection<string> WeaponProficiencies { get; protected set; }
+		public ObservableCollection<string> ArmorProficiencies { get; protected set; }
+		public ObservableCollection<string> OtherProficiences { get; protected set; }
+		public ObservableCollection<string> ToolProficiences { get; protected set; }
+		public ObservableCollection<string> Languages { get; protected set; }
+
+		protected int _initiative;
+		public int Initiative
+		{
+			get { return _initiative; }
+			set
+			{
+				OnPropertyChanged(ref _initiative, value);
+				OnCharacterChangedAction?.Invoke(this);
+			}
+		}
 
 		private DarkSoulsOrigin _origin;
 		public DarkSoulsOrigin Origin { get => _origin; set => _origin = value; }
+
+		[JsonProperty(nameof(Size))]
+		[JsonConverter(typeof(StringEnumConverter))]
+		public CreatureSize Size { get; set; }
 
 		public DarkSoulsCharacter(DnD5eCharacterClassData classData, DarkSoulsOrigin oragin)
 		{
 			CharacterClass = new DnD5eCharacterClass(classData);
 			
 			_origin = oragin;
-			_background = oragin.Name;
 
 			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 
@@ -67,21 +157,31 @@ namespace PCCharacterManager.Models
 			_id = string.Empty;
 			_name = string.Empty;
 			_dateModified = string.Empty;
-			_background = _origin.Name;
 			Size = CreatureSize.MEDIUM;
-			Alignment = Alignment.LAWFUL_GOOD;
 			CharacterType = CharacterType.dark_souls;
 			_status = CharacterStatus.IDLE;
+			_initiative = Abilities.First(x => x.Name == "Dexterity").Modifier;
 
 			NoteManager.NewNoteSection(new NoteSection("Character"));
 
-			AddMovementType(new Property(MovementType.WALK.ToString(), "30ft"));
-			AddLanguage("Common");
+			MovementTypes_Speeds.Add(new Property(MovementType.WALK.ToString(), "30ft"));
+			Languages.Add("Common");
 		}
 
 		public DarkSoulsCharacter() : base()
 		{
+			Conditions = new ObservableCollection<Condition>();
+			MovementTypes_Speeds = new ObservableCollection<Property>();
+			WeaponProficiencies = new ObservableCollection<string>();
+			ArmorProficiencies = new ObservableCollection<string>();
+			CombatActions = new ObservableCollection<string>();
+			OtherProficiences = new ObservableCollection<string>();
+			ToolProficiences = new ObservableCollection<string>();
+			Languages = new ObservableCollection<string>();
 
+			_origin = new DarkSoulsOrigin();
+
+			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 		}
 	}
 }

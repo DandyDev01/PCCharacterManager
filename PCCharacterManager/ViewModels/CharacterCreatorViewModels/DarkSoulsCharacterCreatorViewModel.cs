@@ -122,14 +122,13 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 		/// builds a new character with inputted data
 		/// </summary>
 		/// <returns>new character that was created</returns>
-		public override DnD5eCharacter Create()
+		public override CharacterBase Create()
 		{
 			DarkSoulsCharacter tempCharacter = _newCharacter;
 			_newCharacter = new DarkSoulsCharacter(SelectedCharacterClass, SelectedOrigin);
 			_newCharacter.Name = Name;
 			_newCharacter.Abilities = tempCharacter.Abilities;
 			_newCharacter.Level.ProficiencyBonus = 2;
-			_newCharacter.Background = _selectedOrigin.Name;
 			_newCharacter.CharacterClass.HitDie = _selectedOrigin.HitDie;
 
 			_newCharacter.Inventory.AddRange(GetStartEquipment());
@@ -171,6 +170,8 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 				_newCharacter.Inventory.Add(itemToAdd);
 			}
 
+			_newCharacter.Initiative = _newCharacter.Abilities.First(x => x.Name == "Dexterity").Modifier;
+
 			return _newCharacter;
 		}
 
@@ -198,39 +199,6 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 		}
 
 		/// <summary>
-		/// choose languages the character will know, based on the background selected
-		/// </summary>
-		/// <param name="str"></param>
-		/// <returns></returns>
-		private bool OraginChooseLanguage(string str)
-		{
-			int amount = StringFormater.FindQuantity(str);
-
-			var languages = ReadWriteJsonCollection<string>.ReadCollection(DnD5eResources.LanguagesJson);
-			List<string> options = new();
-			foreach (var language in languages)
-			{
-				if (!_newCharacter.Languages.Contains(language))
-					options.Add(language);
-			}
-
-			DialogWindowSelectStingValueViewModel windowVM = new(options.ToArray(), amount);
-
-			string result = string.Empty;
-			_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
-			{
-				result = r;
-			});
-
-			if (result == false.ToString())
-				return false;
-
-			_newCharacter.AddLanguages(windowVM.SelectedItems.ToArray());
-
-			return true;
-		}
-
-		/// <summary>
 		/// set the characters skill proficiencies, based on the class selected
 		/// </summary>
 		private void SetSelectedClassSkillProfs()
@@ -255,57 +223,6 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 			{
 				Ability.FindAbility(_newCharacter.Abilities, str).ProfSave = true;
 			}
-		}
-
-		/// <summary>
-		/// Choose a skill to have proficiency in. Choices are determined by the selected background
-		/// </summary>
-		/// <param name="skillName"></param>
-		/// <returns></returns>
-		private bool ChooseSkillToHaveProficiencyInFromBackground(string skillName)
-		{
-			List<string> selectedSkills = new();
-			List<string> options = StringFormater.CreateGroup(skillName, StringConstants.OR).ToList();
-
-			// removes options that class give prof in
-			foreach (string item in notAnOption)
-			{
-				options.Remove(item);
-			}
-
-			// all options are chosen. Can happen with Rouge & Urban Bounty Hunter
-			if (options.Count <= 0)
-			{
-				if (!OraginChooseSkillYourChoice())
-					return false;
-			}
-			else
-			{
-				DialogWindowSelectStingValueViewModel windowVM = new(options.ToArray(), 1);
-
-				string result = string.Empty;
-				_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
-				{
-					result = r;
-				});
-
-				if (result == false.ToString())
-					return false;
-
-				foreach (string item in windowVM.SelectedItems)
-				{
-					AbilitySkill skill = Ability.FindSkill(_newCharacter.Abilities, item);
-					Ability ability = Ability.FindAbility(_newCharacter.Abilities, skill);
-
-					skill.SkillProficiency = true;
-					ability.SetProfBonus(2);
-
-					notAnOption.Add(item);
-					selectedSkills.Add(item);
-				}
-			}
-
-			return true;
 		}
 
 		private List<Item> GetStartEquipment()
@@ -365,42 +282,6 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 				string[] group = StringFormater.CreateGroup(item, StringConstants.OR);
 				SelectedStartingEquipmentVMs.Add(new ListViewMultiSelectItemsLimitedCountViewModel(1, group.ToList()));
 			}
-		}
-
-		/// <summary>
-		/// open a dialog window to choose a skill the character will 
-		/// be proficient in
-		/// </summary>
-		/// <returns>wheather or not the user cancels or selects</returns>
-		private bool OraginChooseSkillYourChoice()
-		{
-			List<string> options = Ability.GetSkillNames();
-			foreach (var item in notAnOption)
-			{
-				options.Remove(item);
-			}
-
-			DialogWindowSelectStingValueViewModel windowVM = new(options.ToArray(), 1);
-
-			string result = string.Empty;
-			_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
-			{
-				result = r;
-			});
-
-			if (result == false.ToString())
-				return false;
-
-			foreach (var item in windowVM.SelectedItems)
-			{
-				AbilitySkill s = Ability.FindSkill(_newCharacter.Abilities, item);
-				s.SkillProficiency = true;
-				Ability a = Ability.FindAbility(_newCharacter.Abilities, s);
-				a.SetProfBonus(2);
-				notAnOption.Add(item);
-			}
-
-			return true;
 		}
 
 		public IEnumerable GetErrors(string? propertyName)

@@ -23,8 +23,8 @@ namespace PCCharacterManager.ViewModels.Character
 		private readonly CollectionViewPropertySort _abilitiesCollectionViewPropertySort;
 		private readonly CollectionViewPropertySort _skillsCollectionViewPropertySort;
 
-		private DnD5eCharacter _selectedCharacter;
-		public DnD5eCharacter SelectedCharacter
+		private CharacterBase _selectedCharacter;
+		public CharacterBase SelectedCharacter
 		{
 			get
 			{
@@ -93,7 +93,7 @@ namespace PCCharacterManager.ViewModels.Character
 		/// What to do when the selectedCharacter changes
 		/// </summary>
 		/// <param name="newCharacter">the newly selected character</param>
-		private void OnCharacterChanged(DnD5eCharacter newCharacter)
+		private void OnCharacterChanged(CharacterBase newCharacter)
 		{
 			SelectedCharacter = newCharacter;
 
@@ -112,7 +112,22 @@ namespace PCCharacterManager.ViewModels.Character
 			if (_selectedCharacter is null)
 				return;
 
-			foreach (Ability ability in _selectedCharacter.Abilities)
+			Ability[] abilities = Array.Empty<Ability>();
+
+			if (_selectedCharacter is DnD5eCharacter dnd)
+			{
+				abilities = dnd.Abilities;
+			}
+			else if (_selectedCharacter is DarkSoulsCharacter dark)
+			{
+				abilities = dark.Abilities;
+			}
+			else
+			{
+				return;
+			}
+
+			foreach (Ability ability in abilities)
 			{
 				Abilities.Add(ability);
 			}
