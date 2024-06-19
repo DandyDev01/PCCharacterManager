@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models.DarkSouls
 {
-    public class DarkSoulsOragin : ObservableObject
+    public class DarkSoulsOrigin : ObservableObject
     {
 		private string _name;
 		public string Name
@@ -42,7 +42,7 @@ namespace PCCharacterManager.Models.DarkSouls
 		private string[] _baseStatistics;
 		public string[] BaseStatistics { get => _baseStatistics; set => _baseStatistics = value; }
 
-		public DarkSoulsOragin()
+		public DarkSoulsOrigin()
 		{
 			_name = string.Empty;
 			_hitDie = HitDie.D10;

@@ -11,14 +11,14 @@ namespace PCCharacterManager.Models
 	public class DarkSoulsCharacter : DnD5eCharacter
 	{
 
-		private DarkSoulsOragin _oragin;
-		public DarkSoulsOragin Oragin => _oragin;
+		private DarkSoulsOrigin _origin;
+		public DarkSoulsOrigin Origin => _origin;
 
-		public DarkSoulsCharacter(DnD5eCharacterClassData classData, DarkSoulsOragin oragin)
+		public DarkSoulsCharacter(DnD5eCharacterClassData classData, DarkSoulsOrigin oragin)
 		{
 			CharacterClass = new DnD5eCharacterClass(classData);
 			
-			_oragin = oragin;
+			_origin = oragin;
 			_background = oragin.Name;
 
 			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
@@ -67,7 +67,7 @@ namespace PCCharacterManager.Models
 			_id = string.Empty;
 			_name = string.Empty;
 			_dateModified = string.Empty;
-			_background = _oragin.Name;
+			_background = _origin.Name;
 			Size = CreatureSize.MEDIUM;
 			Alignment = Alignment.LAWFUL_GOOD;
 			CharacterType = CharacterType.dark_souls;

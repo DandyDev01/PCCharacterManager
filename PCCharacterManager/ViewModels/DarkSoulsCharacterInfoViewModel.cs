@@ -4,6 +4,7 @@ using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,6 +74,23 @@ namespace PCCharacterManager.ViewModels
 
 			UpdateFeatures(null, null);
 			SelectedProperty = AllFeatures.FirstOrDefault();
+		}
+
+		protected override void UpdateFeatures(object? sender, NotifyCollectionChangedEventArgs? e)
+		{
+			AllFeatures.Clear();
+
+			if (_selectedCharacter is null)
+				return;
+
+			foreach (var item in _selectedCharacter.CharacterClass.Features)
+			{
+				AllFeatures.Add(new Feature(item, _selectedCharacter.CharacterClass.Name, item.Level.ToString()));
+			}
+
+			AllFeatures.Add(new Feature(_selectedCharacter.Origin.BloodiedEffect, _selectedCharacter.Origin.Name, "-"));
+
+			FeaturesCollectionView?.Refresh();
 		}
 	}
 }

@@ -52,8 +52,8 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 			}
 		}
 
-		private DarkSoulsOragin _selectedOrigin;
-		public DarkSoulsOragin SelectedOrigin
+		private DarkSoulsOrigin _selectedOrigin;
+		public DarkSoulsOrigin SelectedOrigin
 		{
 			get { return _selectedOrigin; }
 			set
@@ -83,7 +83,7 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 			}
 		}
 
-		public List<DarkSoulsOragin> OriginsToDisplay { get; private set; }
+		public List<DarkSoulsOrigin> OriginsToDisplay { get; private set; }
 		public List<DnD5eCharacterClassData> CharacterClassesToDisplay { get; private set; }
 
 		public ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel> SelectedStartingEquipmentVMs { get; private set; }
@@ -102,7 +102,7 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 
 			propertyNameToError = new Dictionary<string, List<string>>();
 
-			OriginsToDisplay = ReadWriteJsonCollection<DarkSoulsOragin>.ReadCollection(DarkSoulsResources.OriginsDataJson);
+			OriginsToDisplay = ReadWriteJsonCollection<DarkSoulsOrigin>.ReadCollection(DarkSoulsResources.OriginsDataJson);
 			CharacterClassesToDisplay = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DarkSoulsResources.CharacterClassDataJson);
 
 			_name = string.Empty;
@@ -129,6 +129,8 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 			_newCharacter.Name = Name;
 			_newCharacter.Abilities = tempCharacter.Abilities;
 			_newCharacter.Level.ProficiencyBonus = 2;
+			_newCharacter.Background = _selectedOrigin.Name;
+			_newCharacter.CharacterClass.HitDie = _selectedOrigin.HitDie;
 
 			_newCharacter.Inventory.AddRange(GetStartEquipment());
 

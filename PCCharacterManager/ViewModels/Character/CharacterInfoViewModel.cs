@@ -447,7 +447,7 @@ namespace PCCharacterManager.ViewModels
 				return;
 		}
 
-		protected void UpdateFeatures(object? sender, NotifyCollectionChangedEventArgs? e)
+		protected virtual void UpdateFeatures(object? sender, NotifyCollectionChangedEventArgs? e)
 		{
 			AllFeatures.Clear();
 
