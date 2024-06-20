@@ -136,9 +136,6 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 			SetClassSavingThrows();
 			SetSelectedClassSkillProfs();
 
-			// add class tool profs to character tool profs
-			// NOTE: does not handle duplicates from background
-			_newCharacter.ToolProficiences.AddRange(_selectedCharacterClass.ToolProficiencies);
 
 			AddFirstLevelClassFeatures();
 

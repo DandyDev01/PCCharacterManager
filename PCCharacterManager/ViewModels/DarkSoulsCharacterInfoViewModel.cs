@@ -3,6 +3,7 @@ using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
+using PCCharacterManager.ViewModels.DialogWindowViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -35,7 +36,24 @@ namespace PCCharacterManager.ViewModels
 			RecoveryBase recovery) : base(characterStore, dialogService, recovery)
 		{
 			Race = "Unkindled";
-			EditDrivePointsCommand = new RelayCommand(EditDrivePoints); 
+			EditDrivePointsCommand = new RelayCommand(EditDrivePoints);
+		}
+
+		protected override void EditCharacter()
+		{
+			if (SelectedCharacter == null)
+				return;
+
+			DialogWindowEditDarkSoulsCharacterViewModel windowVM = new(SelectedCharacter, _dialogService);
+
+			string result = string.Empty;
+			_dialogService.ShowDialog<EditDarkSoulsCharacterDialogWindow, DialogWindowEditDarkSoulsCharacterViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
+				return;
 		}
 
 		/// <summary>
@@ -63,9 +81,7 @@ namespace PCCharacterManager.ViewModels
 			//FeaturesListVM.UpdateCollection(null);
 			ConditionsListVM.UpdateCollection(SelectedCharacter.Conditions);
 			MovementTypesListVM.UpdateCollection(SelectedCharacter.MovementTypes_Speeds);
-			LanguagesVM.UpdateCollection(SelectedCharacter.Languages);
 			CombatActionsVM.UpdateCollection(SelectedCharacter.CombatActions);
-			ToolProfsVM.UpdateCollection(SelectedCharacter.ToolProficiences);
 			ArmorProfsVM.UpdateCollection(SelectedCharacter.ArmorProficiencies);
 			OtherProfsVM.UpdateCollection(SelectedCharacter.OtherProficiences);
 			WeaponProfsVM.UpdateCollection(SelectedCharacter.WeaponProficiencies);

@@ -101,10 +101,7 @@
                 Grid.Row="0"
                 Grid.Column="0"
                 Grid.ColumnSpan="9">
-                <MenuItem
-                    Command="{Binding EditCharacterCommand}"
-                    Header="Edit"
-                    IsEnabled="False">
+                <MenuItem Command="{Binding EditCharacterCommand}" Header="Edit">
                     <MenuItem.Icon>
                         <Image Source="{DynamicResource Edit_Icon}" />
                     </MenuItem.Icon>
@@ -497,14 +494,6 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <ContentControl
-                    Grid.Row="0"
-                    Grid.RowSpan="1"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="1">
-                    <v:StringListView DataContext="{Binding LanguagesVM}" />
-                </ContentControl>
-
-                <ContentControl
                     Grid.Row="1"
                     Grid.RowSpan="1"
                     Grid.Column="0"
@@ -534,14 +523,6 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="1">
                     <v:StringListView DataContext="{Binding OtherProfsVM}" />
-                </ContentControl>
-
-                <ContentControl
-                    Grid.Row="5"
-                    Grid.RowSpan="1"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="1">
-                    <v:StringListView DataContext="{Binding ToolProfsVM}" />
                 </ContentControl>
             </Grid>
 

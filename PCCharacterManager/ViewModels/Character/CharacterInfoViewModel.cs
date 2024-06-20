@@ -435,7 +435,7 @@ namespace PCCharacterManager.ViewModels
 			_selectedProperty = AllFeatures.FirstOrDefault();
 		}
 
-		private void EditCharacter()
+		protected virtual void EditCharacter()
 		{
 			if (SelectedCharacter == null)
 				return;

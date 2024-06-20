@@ -95,8 +95,6 @@ namespace PCCharacterManager.Models
 		public ObservableCollection<string> WeaponProficiencies { get; protected set; }
 		public ObservableCollection<string> ArmorProficiencies { get; protected set; }
 		public ObservableCollection<string> OtherProficiences { get; protected set; }
-		public ObservableCollection<string> ToolProficiences { get; protected set; }
-		public ObservableCollection<string> Languages { get; protected set; }
 		
 		private CharacterStatus _status;
 		[JsonProperty(nameof(_status))]
@@ -132,8 +130,6 @@ namespace PCCharacterManager.Models
 			ArmorProficiencies = new ObservableCollection<string>(classData.ArmorProficiencies);
 			CombatActions = new ObservableCollection<string>();
 			OtherProficiences = new ObservableCollection<string>();
-			ToolProficiences = new ObservableCollection<string>();
-			Languages = new ObservableCollection<string>();
 
 			CharacterClass = new DnD5eCharacterClass(classData);
 			ArmorClass = new ArmorClass();
@@ -165,7 +161,6 @@ namespace PCCharacterManager.Models
 			WeaponProficiencies.CollectionChanged += OnCharacterChanged;
 			ArmorProficiencies.CollectionChanged += OnCharacterChanged;
 			OtherProficiences.CollectionChanged += OnCharacterChanged;
-			ToolProficiences.CollectionChanged += OnCharacterChanged;
 
 			_id = string.Empty;
 			_name = string.Empty;
@@ -178,7 +173,6 @@ namespace PCCharacterManager.Models
 			NoteManager.NewNoteSection(new NoteSection("Character"));
 
 			MovementTypes_Speeds.Add(new Property(MovementType.WALK.ToString(), "30ft"));
-			Languages.Add("Common");
 		}
 
 		public DarkSoulsCharacter() : base()
@@ -189,8 +183,6 @@ namespace PCCharacterManager.Models
 			ArmorProficiencies = new ObservableCollection<string>();
 			CombatActions = new ObservableCollection<string>();
 			OtherProficiences = new ObservableCollection<string>();
-			ToolProficiences = new ObservableCollection<string>();
-			Languages = new ObservableCollection<string>();
 
 			_origin = new DarkSoulsOrigin();
 
