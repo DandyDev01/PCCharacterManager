@@ -236,6 +236,8 @@ namespace PCCharacterManager.ViewModels
 				character.NoteManager.NoteSections[0].Notes.Add(SelectedClassData.Note);
 			}
 
+			character.Id = CharacterIDGenerator.GenerateID();
+
 			return character;
 		}
 
