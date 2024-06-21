@@ -89,8 +89,6 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 		public ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel> SelectedStartingEquipmentVMs { get; private set; }
 		public ObservableCollection<int> AbilityScores { get; private set; }
 
-		private readonly List<string> notAnOption;
-
 		public Dictionary<string, List<string>> propertyNameToError;
 		public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 		public bool HasErrors => propertyNameToError.Any();
@@ -110,7 +108,6 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 			_selectedOrigin = OriginsToDisplay[0];
 			_selectedClassSkillProfs = new ListViewMultiSelectItemsLimitedCountViewModel(_selectedCharacterClass.NumOfSkillProficiences,
 				_selectedCharacterClass.PossibleSkillProficiences.ToList());
-			notAnOption = new List<string>();
 
 			SelectedStartingEquipmentVMs = new ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel>();
 			AbilityScores = new ObservableCollection<int>(RollDie.DefaultAbilityScores);

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Converters;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,6 +11,17 @@ namespace PCCharacterManager.Models
 {
 	public class StarfinderCharacter : CharacterBase
 	{
+		private int _initiative;
+		public int Initiative
+		{
+			get { return _initiative; }
+			set
+			{
+				OnPropertyChanged(ref _initiative, value);
+				OnCharacterChangedAction?.Invoke(this);
+			}
+		}
+
 		private StarfinderAbility[] _abilities;
 		public StarfinderAbility[] Abilities
 		{
@@ -38,6 +51,15 @@ namespace PCCharacterManager.Models
 		public string HomeWorld { get; set; }
 		public string KeyAbilityScore { get; set; }
 		public override int CarryWeight => Abilities.Where(x => x.Name == "Strength").First().Score / 2;
+
+		[JsonProperty(nameof(Size))]
+		[JsonConverter(typeof(StringEnumConverter))]
+		public CreatureSize Size { get; set; }
+
+		[JsonProperty(nameof(Alignment))]
+		[JsonConverter(typeof(StringEnumConverter))]
+		public Alignment Alignment { get; set; }
+
 
 		public StarfinderCharacter() : base()
 		{
