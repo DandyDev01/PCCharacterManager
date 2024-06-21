@@ -113,6 +113,7 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 			AbilityScores = new ObservableCollection<int>(RollDie.DefaultAbilityScores);
 
 			BasicStringFieldValidation(nameof(Name), Name);
+			UpdateSelectedClassStartEquipment();
 		}
 
 		/// <summary>

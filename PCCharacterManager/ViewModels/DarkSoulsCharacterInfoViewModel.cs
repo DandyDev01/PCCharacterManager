@@ -39,23 +39,6 @@ namespace PCCharacterManager.ViewModels
 			EditDrivePointsCommand = new RelayCommand(EditDrivePoints);
 		}
 
-		protected override void EditCharacter()
-		{
-			if (SelectedCharacter == null)
-				return;
-
-			DialogWindowEditDarkSoulsCharacterViewModel windowVM = new(SelectedCharacter, _dialogService);
-
-			string result = string.Empty;
-			_dialogService.ShowDialog<EditDarkSoulsCharacterDialogWindow, DialogWindowEditDarkSoulsCharacterViewModel>(windowVM, r =>
-			{
-				result = r;
-			});
-
-			if (result == false.ToString())
-				return;
-		}
-
 		/// <summary>
 		/// What to do when the selectedCharacter changes
 		/// </summary>
@@ -63,7 +46,10 @@ namespace PCCharacterManager.ViewModels
 		protected override void OnCharacterChanged(CharacterBase newCharacter)
 		{
 			if(_selectedCharacter is not null)
+			{
 				_selectedCharacter.CharacterClass.Features.CollectionChanged -= UpdateFeatures;
+				_selectedCharacter.Health.PropertyChanged -= UpdateHealth;
+			}
 
 			if (CharacterTypeHelper.IsValidCharacterType(newCharacter, CharacterType.dark_souls)
 				&& newCharacter is DarkSoulsCharacter c)
@@ -77,6 +63,7 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			SelectedCharacter.CharacterClass.Features.CollectionChanged += UpdateFeatures;
+			SelectedCharacter.Health.PropertyChanged += UpdateHealth;
 
 			//FeaturesListVM.UpdateCollection(null);
 			ConditionsListVM.UpdateCollection(SelectedCharacter.Conditions);
@@ -115,6 +102,57 @@ namespace PCCharacterManager.ViewModels
 
 			FeaturesCollectionView?.Refresh();
 		}
+
+		protected override void EditCharacter()
+		{
+			if (SelectedCharacter == null)
+				return;
+
+			DialogWindowEditDarkSoulsCharacterViewModel windowVM = new(SelectedCharacter, _dialogService);
+
+			string result = string.Empty;
+			_dialogService.ShowDialog<EditDarkSoulsCharacterDialogWindow, DialogWindowEditDarkSoulsCharacterViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
+				return;
+		}
+
+		protected override void AddHealth()
+		{
+			DialogWindowChangeHealthViewModel dataContext = new();
+			string result = string.Empty;
+			_dialogService.ShowDialog<ChangeHealthDialogWindow, DialogWindowChangeHealthViewModel>(dataContext, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
+				return;
+
+			var characterHealth = SelectedCharacter.Health;
+
+			if (dataContext.IsTempHealth)
+			{
+				characterHealth.TempHitPoints += dataContext.Amount;
+				characterHealth.TempHitPoints = Math.Clamp(characterHealth.TempHitPoints, 0, 1000000);
+			}
+			else
+			{
+				characterHealth.CurrHealth += dataContext.Amount;
+				characterHealth.CurrHealth = Math.Clamp(characterHealth.CurrHealth, 0, characterHealth.MaxHealth);
+			}
+
+			UpdateHealth();
+		}
+
+		protected override void UpdateHealth()
+		{
+			Health = SelectedCharacter.Health.CurrHealth.ToString() + '/' + SelectedCharacter.Health.MaxHealth.ToString() + " (" + SelectedCharacter.Health.TempHitPoints + " temp)";
+		}
+
 
 		private void EditDrivePoints()
 		{

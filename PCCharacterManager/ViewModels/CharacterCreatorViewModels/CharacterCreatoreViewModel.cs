@@ -158,6 +158,7 @@ namespace PCCharacterManager.ViewModels
 			RollAbilityScoresCommand = new RelayCommand(AbilityRoll);
 
 			BasicStringFieldValidation(nameof(Name), Name);
+			UpdateSelectedClassStartEquipment();
 		}
 		
 		/// <summary>

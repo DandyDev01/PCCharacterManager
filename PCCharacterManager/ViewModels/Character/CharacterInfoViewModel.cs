@@ -196,7 +196,10 @@ namespace PCCharacterManager.ViewModels
 		protected virtual void OnCharacterChanged(CharacterBase newCharacter)
 		{
 			if (_selectedCharacter is not null)
+			{
 				_selectedCharacter.CharacterClass.Features.CollectionChanged -= UpdateFeatures;
+				_selectedCharacter.Health.PropertyChanged -= UpdateHealth;
+			}
 
 
 			if (CharacterTypeHelper.IsValidCharacterType(newCharacter, CharacterType.DnD5e)
@@ -210,6 +213,7 @@ namespace PCCharacterManager.ViewModels
 				return;
 			}
 
+			SelectedCharacter.Health.PropertyChanged += UpdateHealth;
 			SelectedCharacter.CharacterClass.Features.CollectionChanged += UpdateFeatures;
 
 			//FeaturesListVM.UpdateCollection(null);
@@ -236,6 +240,11 @@ namespace PCCharacterManager.ViewModels
 
 			UpdateFeatures(null, null);
 			SelectedProperty = AllFeatures.FirstOrDefault();
+		}
+
+		protected void UpdateHealth(object? sender, PropertyChangedEventArgs e)
+		{
+			UpdateHealth();
 		}
 
 		private void LongRest()
@@ -357,7 +366,7 @@ namespace PCCharacterManager.ViewModels
 			// NOTE: check if they can level up, if they can, ask if they want to. 
 		}
 
-		private void AddHealth()
+		protected virtual void AddHealth()
 		{
 			DialogWindowChangeHealthViewModel dataContext = new();
 			string result = string.Empty;
@@ -369,7 +378,7 @@ namespace PCCharacterManager.ViewModels
 			if (result == false.ToString())
 				return;
 
-			var characterHealth = _selectedCharacter.Health;
+			var characterHealth = SelectedCharacter.Health;
 
 			if (dataContext.IsTempHealth)
 			{
@@ -385,9 +394,9 @@ namespace PCCharacterManager.ViewModels
 			UpdateHealth();
 		}
 
-		private void UpdateHealth()
+		protected virtual void UpdateHealth()
 		{
-			Health = _selectedCharacter.Health.CurrHealth.ToString() + '/' + _selectedCharacter.Health.MaxHealth.ToString() + " (" + _selectedCharacter.Health.TempHitPoints + " temp)";
+			Health = SelectedCharacter.Health.CurrHealth.ToString() + '/' + SelectedCharacter.Health.MaxHealth.ToString() + " (" + SelectedCharacter.Health.TempHitPoints + " temp)";
 		}
 
 		private void AddFeature()

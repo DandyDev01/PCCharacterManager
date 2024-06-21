@@ -76,7 +76,7 @@
             SelectedItem="{Binding SelectedCharacterClass}" />
         <!--#endregion-->
 
-        <!--#region Background Select-->
+        <!--#region Origin Select-->
         <Label
             Grid.Row="0"
             Grid.RowSpan="1"
