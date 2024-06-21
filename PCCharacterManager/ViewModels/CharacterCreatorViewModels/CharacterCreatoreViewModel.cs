@@ -150,6 +150,7 @@ namespace PCCharacterManager.ViewModels
 			_selectedClassSkillProfs = new ListViewMultiSelectItemsLimitedCountViewModel(_selectedCharacterClass.NumOfSkillProficiences,
 				_selectedCharacterClass.PossibleSkillProficiences.ToList());
 			notAnOption = new List<string>();
+			RaceVariantsToDisplay.AddRange(_selectedRace.Variants);
 
 			SelectedStartingEquipmentVMs = new ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel>();
 			AbilityScores = new ObservableCollection<int>(RollDie.DefaultAbilityScores);
@@ -528,10 +529,8 @@ namespace PCCharacterManager.ViewModels
 		private void UpdateRaceVariantsToDisplay()
 		{
 			RaceVariantsToDisplay.Clear();
-			foreach (var raceVariant in _selectedRace.Variants)
-			{
-				RaceVariantsToDisplay.Add(raceVariant);
-			}
+			
+			RaceVariantsToDisplay.AddRange(_selectedRace.Variants);
 
 			SelectedRaceVariant = RaceVariantsToDisplay[0];
 		}
