@@ -103,6 +103,36 @@ namespace PCCharacterManager.ViewModels
 			FeaturesCollectionView?.Refresh();
 		}
 
+		protected override void AdjustExperience()
+		{
+			DialogWindowStringInputViewModel dataContext = new("Enter amount to add or remove.");
+
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(dataContext, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
+				return;
+
+			int temp;
+			try
+			{
+				temp = int.Parse(dataContext.Answer);
+			}
+			catch
+			{
+				_dialogService.ShowMessage("Must be a whole number", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				AdjustExperience();
+				return;
+			}
+
+			_selectedCharacter.Level.ExperiencePoints += temp;
+
+			// NOTE: check if they can level up, if they can, ask if they want to. 
+		}
+
 		protected override void EditCharacter()
 		{
 			if (SelectedCharacter == null)
@@ -153,6 +183,71 @@ namespace PCCharacterManager.ViewModels
 			Health = SelectedCharacter.Health.CurrHealth.ToString() + '/' + SelectedCharacter.Health.MaxHealth.ToString() + " (" + SelectedCharacter.Health.TempHitPoints + " temp)";
 		}
 
+		protected override void AddFeature()
+		{
+			DialogWindowAddFeatureViewModel windowVM = new(this);
+			string result = string.Empty;
+			_dialogService.ShowDialog<AddFeatureDialogWindow, DialogWindowAddFeatureViewModel>(windowVM, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
+				return;
+
+			FeatureTypeSortCommand?.Execute(null);
+		}
+
+		protected override void EditArmorClass()
+		{
+			DialogWindowEditArmorClassViewModel dataContext = new(_selectedCharacter.ArmorClass);
+
+			string result = string.Empty;
+			_dialogService.ShowDialog<EditArmorClassDialogWindow, DialogWindowEditArmorClassViewModel>(dataContext, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
+				return;
+
+			_selectedCharacter.ArmorClass.Armor = dataContext.Armor;
+			_selectedCharacter.ArmorClass.Shild = dataContext.Shild;
+			_selectedCharacter.ArmorClass.Misc = dataContext.Misc;
+			_selectedCharacter.ArmorClass.Temp = dataContext.Temp;
+
+			ArmorClass = _selectedCharacter.ArmorClass.TotalArmorClass;
+		}
+
+		protected override void RemoveFeature()
+		{
+			if (_selectedProperty == null || _selectedCharacter == null)
+				return;
+
+			Feature feature = _selectedProperty;
+			AllFeatures.Remove(_selectedProperty);
+
+			if (feature.FeatureType == _selectedCharacter.CharacterClass.Name)
+			{
+				// does not handle same name items
+				var toRemove = _selectedCharacter.CharacterClass.Features.Where(x => x.Name == feature.Name).First();
+				_selectedCharacter.CharacterClass.Features.Remove(toRemove);
+			}
+			else if (feature.FeatureType == _selectedCharacter.Race.Name)
+			{
+				// does not handle same name items
+				var toRemove = _selectedCharacter.Race.Features.Where(x => x.Name == feature.Name).First();
+				_selectedCharacter.Race.Features.Remove(toRemove);
+			}
+			else if (feature.FeatureType == _selectedCharacter.Race.RaceVariant.Name)
+			{
+				// does not handle same name items
+				var toRemove = _selectedCharacter.Race.RaceVariant.Properties.Where(x => x.Name == feature.Name).First();
+				_selectedCharacter.Race.RaceVariant.Properties.Remove(toRemove);
+			}
+
+			_selectedProperty = AllFeatures.FirstOrDefault();
+		}
 
 		private void EditDrivePoints()
 		{

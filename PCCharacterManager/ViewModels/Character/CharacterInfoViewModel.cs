@@ -51,7 +51,7 @@ namespace PCCharacterManager.ViewModels
 		public ObservableCollection<Feature> AllFeatures { get; }
 		public ICollectionView FeaturesCollectionView { get; }
 
-		private Feature? _selectedProperty;
+		protected Feature? _selectedProperty;
 		public Feature? SelectedProperty
 		{
 			get
@@ -315,7 +315,7 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private void EditArmorClass()
+		protected virtual void EditArmorClass()
 		{
 			DialogWindowEditArmorClassViewModel dataContext = new(_selectedCharacter.ArmorClass);
 
@@ -336,7 +336,7 @@ namespace PCCharacterManager.ViewModels
 			ArmorClass = _selectedCharacter.ArmorClass.TotalArmorClass;
 		}
 
-		private void AdjustExperience()
+		protected virtual void AdjustExperience()
 		{
 			DialogWindowStringInputViewModel dataContext = new("Enter amount to add or remove.");
 
@@ -399,7 +399,7 @@ namespace PCCharacterManager.ViewModels
 			Health = SelectedCharacter.Health.CurrHealth.ToString() + '/' + SelectedCharacter.Health.MaxHealth.ToString() + " (" + SelectedCharacter.Health.TempHitPoints + " temp)";
 		}
 
-		private void AddFeature()
+		protected virtual void AddFeature()
 		{
 			DialogWindowAddFeatureViewModel windowVM = new(this);
 			string result = string.Empty;
@@ -414,7 +414,7 @@ namespace PCCharacterManager.ViewModels
 			FeatureTypeSortCommand?.Execute(null);
 		}
 
-		private void RemoveFeature()
+		protected virtual void RemoveFeature()
 		{
 			if (_selectedProperty == null || _selectedCharacter == null)
 				return;
