@@ -123,7 +123,8 @@ namespace PCCharacterManager.ViewModels
 		
 		private readonly List<string> notAnOption;
 
-		public ICommand RollAbilityScoresCommand { get; private set; }
+		public ICommand RollAbilityScoresCommand { get; }
+		public ICommand RollForHealthCommand { get; }
 
 		public Dictionary<string, List<string>> propertyNameToError;
 		public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
@@ -156,6 +157,7 @@ namespace PCCharacterManager.ViewModels
 			AbilityScores = new ObservableCollection<int>(RollDie.DefaultAbilityScores);
 
 			RollAbilityScoresCommand = new RelayCommand(AbilityRoll);
+			RollForHealthCommand = new RelayCommand(RollForHealth);
 
 			BasicStringFieldValidation(nameof(Name), Name);
 			UpdateSelectedClassStartEquipment();
@@ -174,6 +176,9 @@ namespace PCCharacterManager.ViewModels
 			_newCharacter.Level.ProficiencyBonus = 2;
 
 			_newCharacter.Inventory.AddRange(GetStartEquipment());
+
+			_newCharacter.Health = tempCharacter.Health;
+			_newCharacter.Health.CurrHealth = tempCharacter.Health.MaxHealth;
 
 			SetClassSavingThrows();
 			SetSelectedClassSkillProfs();
@@ -224,6 +229,17 @@ namespace PCCharacterManager.ViewModels
 			_newCharacter.CharacterClass.Name += " 1";
 
 			return _newCharacter;
+		}
+
+		private void RollForHealth()
+		{
+			RollDie rollDie = new RollDie();
+
+			int numToAddToHealth = rollDie.Roll(NewCharacter.CharacterClass.HitDie, 1);
+			int currHealth = NewCharacter.Health.MaxHealth;
+			int conMod = NewCharacter.Abilities.First(x => x.Name.ToLower().Equals("constitution")).Modifier;
+
+			NewCharacter.Health.SetMaxHealth(currHealth + numToAddToHealth + conMod + NewCharacter.Level.Level + 1);
 		}
 
 		private void AddFirstLevelClassFeatures()

@@ -95,6 +95,30 @@
             SelectedItem="{Binding SelectedOrigin}" />
         <!--#endregion-->
 
+        <!--#region Health-->
+        <Button
+            Grid.Row="2"
+            Grid.RowSpan="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="1"
+            Command="{Binding RollForHealthCommand}"
+            Content="Roll for health" />
+        <Label
+            Grid.Row="3"
+            Grid.RowSpan="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="1"
+            Content="Max Health"
+            Style="{DynamicResource large}" />
+        <TextBox
+            Grid.Row="4"
+            Grid.RowSpan="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="1"
+            Style="{DynamicResource large}"
+            Text="{Binding NewCharacter.Health.MaxHealth}" />
+        <!--#endregion-->
+
         <!--#region Ability Scorse-->
         <ContentControl
             Grid.Row="6"

@@ -93,6 +93,8 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 		public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 		public bool HasErrors => propertyNameToError.Any();
 
+		public ICommand RollForHealthCommand { get; }
+
 		public DarkSoulsCharacterCreatorViewModel(DialogServiceBase dialogService)
 		{
 			_newCharacter = new DarkSoulsCharacter();
@@ -102,6 +104,8 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 
 			OriginsToDisplay = ReadWriteJsonCollection<DarkSoulsOrigin>.ReadCollection(DarkSoulsResources.OriginsDataJson);
 			CharacterClassesToDisplay = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DarkSoulsResources.CharacterClassDataJson);
+
+			RollForHealthCommand = new RelayCommand(RollForHealth);
 
 			_name = string.Empty;
 			_selectedCharacterClass = CharacterClassesToDisplay[0];
@@ -114,6 +118,17 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 
 			BasicStringFieldValidation(nameof(Name), Name);
 			UpdateSelectedClassStartEquipment();
+		}
+
+		private void RollForHealth()
+		{
+			RollDie rollDie = new RollDie();
+
+			int numToAddToHealth = rollDie.Roll(NewCharacter.Origin.HitDie, 1);
+			int currHealth = NewCharacter.Health.MaxHealth;
+			int conMod = NewCharacter.Abilities.First(x => x.Name.ToLower().Equals("constitution")).Modifier;
+
+			NewCharacter.Health.SetMaxHealth(currHealth + numToAddToHealth + conMod + NewCharacter.Level.Level + 1);
 		}
 
 		/// <summary>
@@ -130,6 +145,8 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 			_newCharacter.CharacterClass.HitDie = _selectedOrigin.HitDie;
 
 			_newCharacter.Inventory.AddRange(GetStartEquipment());
+			_newCharacter.Health = tempCharacter.Health;
+			_newCharacter.Health.CurrHealth = tempCharacter.Health.MaxHealth;
 
 			SetClassSavingThrows();
 			SetSelectedClassSkillProfs();
