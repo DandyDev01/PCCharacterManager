@@ -45,9 +45,30 @@
                 MinWidth="470px"
                 HorizontalContentAlignment="Stretch"
                 Background="{DynamicResource 1}"
-                ItemsSource="{Binding AbilitiesCollectionView}">
+                ItemsSource="{Binding AbilitiesCollectionView}"
+                SelectedItem="{Binding SelectedAbility}">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Command="{Binding EditSelectedAbilityCommand}" Header="Edit Ability">
+                            <MenuItem.Icon>
+                                <Image Source="{DynamicResource Edit_Icon}" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </ListView.ContextMenu>
                 <ListView.View>
                     <GridView>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding ProfSave}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumnHeader
+                                Width="90"
+                                Command="{Binding AbilityProficiencySortCommand}"
+                                Content="Proficiency" />
+                        </GridViewColumn>
                         <GridViewColumn>
                             <GridViewColumnHeader
                                 MaxWidth="80"
@@ -93,17 +114,6 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn>
-                            <GridViewColumnHeader
-                                Width="90"
-                                Command="{Binding AbilityProficiencySortCommand}"
-                                Content="Proficiency" />
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ProfSave}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn>
                             <GridViewColumnHeader Width="85" Content="Misc Modifier" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -134,7 +144,7 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="70">
-                            <GridViewColumnHeader Command="{Binding SkillProficiencySortCommand}" Content="Is Proficient" />
+                            <GridViewColumnHeader Command="{Binding SkillProficiencySortCommand}" Content="Proficient" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <CheckBox IsChecked="{Binding SkillProficiency}" />

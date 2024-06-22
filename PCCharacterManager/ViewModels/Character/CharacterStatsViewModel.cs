@@ -43,7 +43,7 @@ namespace PCCharacterManager.ViewModels
 			_selectedCharacter = characterStore.SelectedCharacter;
 
 			CharacterInfoViewModel = new CharacterInfoViewModel(characterStore, dialogService, recovery);
-			CharacterAbilitiesViewModel = new CharacterAbilitiesViewModel(characterStore);
+			CharacterAbilitiesViewModel = new CharacterAbilitiesViewModel(characterStore, dialogService);
 
 			DarkSoulsCharacterInfoViewModel = new DarkSoulsCharacterInfoViewModel(characterStore, dialogService, recovery);
 

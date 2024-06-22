@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows;
+using PCCharacterManager.Services;
 
 namespace PCCharacterManager.ViewModels.Character
 {
@@ -22,7 +23,8 @@ namespace PCCharacterManager.ViewModels.Character
 	{
 		private readonly CollectionViewPropertySort _abilitiesCollectionViewPropertySort;
 		private readonly CollectionViewPropertySort _skillsCollectionViewPropertySort;
-
+		private readonly DialogServiceBase _dialogService;
+		
 		private CharacterBase _selectedCharacter;
 		public CharacterBase SelectedCharacter
 		{
@@ -36,11 +38,26 @@ namespace PCCharacterManager.ViewModels.Character
 			}
 		}
 
+		private Ability _selectedAbility;
+		public Ability SelectedAbility
+		{
+			get
+			{
+				return _selectedAbility;
+			}
+			set
+			{
+				OnPropertyChanged(ref _selectedAbility, value);
+			}
+		}
+
 		public ObservableCollection<Ability> Abilities { get; }
 		public ICollectionView AbilitiesCollectionView { get; }
 
 		public ObservableCollection<AbilitySkill> Skills { get; }
 		public ICollectionView SkillsCollectionView { get; }
+
+		public ICommand EditSelectedAbilityCommand { get; }
 
 		public ICommand AbilityNameSortCommand { get; }
 		public ICommand AbilityScoreSortCommand { get; }
@@ -53,10 +70,11 @@ namespace PCCharacterManager.ViewModels.Character
 		public ICommand SkillScoreSortCommand { get; }
 		public ICommand SkillAbilitySortCommand { get; }
 
-		public CharacterAbilitiesViewModel(CharacterStore characterStore)
+		public CharacterAbilitiesViewModel(CharacterStore characterStore, DialogServiceBase dialogService)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
 
+			_dialogService = dialogService;
 			_selectedCharacter = characterStore.SelectedCharacter;
 
 
@@ -67,6 +85,8 @@ namespace PCCharacterManager.ViewModels.Character
 			Skills = new ObservableCollection<AbilitySkill>();
 			SkillsCollectionView = CollectionViewSource.GetDefaultView(Skills);
 			_skillsCollectionViewPropertySort = new CollectionViewPropertySort(SkillsCollectionView);
+
+			EditSelectedAbilityCommand = new RelayCommand(EditSelectedAbility);
 
 			AbilityNameSortCommand = new ItemCollectionViewPropertySortCommand(_abilitiesCollectionViewPropertySort,
 				nameof(Ability.Name));
@@ -87,6 +107,41 @@ namespace PCCharacterManager.ViewModels.Character
 				nameof(AbilitySkill.Score));
 			SkillAbilitySortCommand = new ItemCollectionViewPropertySortCommand(_skillsCollectionViewPropertySort,
 				nameof(AbilitySkill.AbilityName));
+		}
+
+		private void EditSelectedAbility()
+		{
+			DialogWindowStringInputViewModel dataContext = new("Please enter a whole number between the values 1 and 30.");
+
+			string result = string.Empty;
+			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(dataContext, r =>
+			{
+				result = r;
+			});
+
+			if (result == false.ToString())
+				return;
+
+			int intValue = -1;
+			try
+			{
+				intValue = int.Parse(dataContext.Answer);
+			}
+			catch
+			{
+				_dialogService.ShowMessage("Could not parse input to whole number", 
+					"Input error. input must be a whole number", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			if (intValue > 30 || intValue < 1)
+			{
+				_dialogService.ShowMessage("Input must be between the values 1 and 30", "Invalid input",
+					MessageBoxButton.OK, MessageBoxImage.Exclamation);
+				return;
+			}
+
+			SelectedAbility.Score = intValue;
 		}
 
 		/// <summary>
