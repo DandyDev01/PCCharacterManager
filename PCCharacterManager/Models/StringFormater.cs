@@ -151,6 +151,9 @@ namespace PCCharacterManager.Models
 	{
 		public static List<T> ReadCollection(string filePath)
 		{
+			if (File.Exists(filePath) == false)
+				return new List<T>();
+
 			var serializedCollection = File.ReadAllText(filePath);
 			var collection = JsonConvert.DeserializeObject<IEnumerable<T>>(serializedCollection);
 

@@ -208,7 +208,6 @@ namespace PCCharacterManager.ViewModels
 			RaceVariantAbilityScoreIncreases();
 			AddFirstLevelClassFeatures();
 
-
 			// there is a issue when the skill scores are not setting properly unless this is done
 			foreach (Ability ability in _newCharacter.Abilities)
 			{

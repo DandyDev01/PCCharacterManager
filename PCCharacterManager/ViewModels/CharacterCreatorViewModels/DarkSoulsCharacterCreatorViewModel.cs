@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
 using PCCharacterManager.Models.DarkSouls;
+using System.IO;
 
 namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 {

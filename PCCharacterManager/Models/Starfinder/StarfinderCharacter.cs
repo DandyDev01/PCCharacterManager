@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace PCCharacterManager.Models
 {
@@ -63,6 +64,9 @@ namespace PCCharacterManager.Models
 
 		public StarfinderCharacter() : base()
 		{
+			if (Directory.Exists(StarfinderResources.Root) == false)
+				return;
+
 			HomeWorld = string.Empty;
 			KeyAbilityScore = string.Empty;
 			CharacterType = CharacterType.starfinder;
@@ -83,6 +87,9 @@ namespace PCCharacterManager.Models
 		public StarfinderCharacter(StarfinderClassData classData, StarfinderRaceData raceData, 
 			DnD5eBackgroundData backgroundData) : base(classData, raceData, backgroundData)
 		{
+			if (Directory.Exists(StarfinderResources.Root) == false)
+				return;
+
 			HomeWorld = string.Empty;
 			KeyAbilityScore = string.Empty;
 			CharacterType = CharacterType.starfinder;
@@ -102,6 +109,9 @@ namespace PCCharacterManager.Models
 
 		public StarfinderCharacter(StarfinderClassData classData, StarfinderRaceData raceData, StarfinderThemeData themeData)
 		{
+			if (Directory.Exists(StarfinderResources.Root) == false)
+				return;
+
 			HomeWorld = string.Empty;
 			KeyAbilityScore = string.Empty;
 			CharacterClass = new DnD5eCharacterClass(classData);

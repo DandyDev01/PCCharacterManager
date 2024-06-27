@@ -28,6 +28,7 @@
     <!--#endregion-->
 
     <helper:BoolToVisibilityConverter x:Key="IsEditConverter" />
+    <helper:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
     <helper:NullToVisibilityConverter x:Key="SelectedItemConverter" />
     <helper:InverseBooleanConverter x:Key="InverseBoolConverter" />
     <helper:NullToEnabledConverter x:Key="NullToEnabledConverter" />

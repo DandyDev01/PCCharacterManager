@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -152,6 +153,9 @@ namespace PCCharacterManager.Models
 
 		public DnD5eCharacter()
 		{
+			if (Directory.Exists(DnD5eResources.Root) == false)
+				return;
+
 			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 
 			_status = CharacterStatus.IDLE;
@@ -212,6 +216,9 @@ namespace PCCharacterManager.Models
 		public DnD5eCharacter(DnD5eCharacterClassData classData, DnD5eCharacterRaceData raceData, 
 			DnD5eBackgroundData backgroundData)
 		{
+			if (Directory.Exists(DnD5eResources.Root) == false)
+				return;
+
 			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 
 			Conditions = new ObservableCollection<Condition>();

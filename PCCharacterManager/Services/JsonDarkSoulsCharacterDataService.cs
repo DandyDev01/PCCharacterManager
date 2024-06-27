@@ -28,12 +28,18 @@ namespace PCCharacterManager.Services
 
 		public IEnumerable<string> GetByFilePaths()
 		{
+			if (Directory.Exists(DarkSoulsResources.CharacterDataDir) == false)
+				return Enumerable.Empty<string>();
+
 			return Directory.GetFiles(DarkSoulsResources.CharacterDataDir);
 		}
 
 
 		public IEnumerable<DarkSoulsCharacter> GetItems()
 		{
+			if (Directory.Exists(DarkSoulsResources.CharacterDataDir) == false)
+				return new List<DarkSoulsCharacter>();
+
 			List<DarkSoulsCharacter> characters = new();
 			string[] characterEntries = Directory.GetFiles(DarkSoulsResources.CharacterDataDir);
 			foreach (string characterEntry in characterEntries)

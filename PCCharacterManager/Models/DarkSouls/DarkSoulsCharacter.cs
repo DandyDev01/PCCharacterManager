@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace PCCharacterManager.Models
 {
@@ -117,12 +118,15 @@ namespace PCCharacterManager.Models
 
 		public DarkSoulsCharacter(DnD5eCharacterClassData classData, DarkSoulsOrigin oragin)
 		{
+			if (Directory.Exists(DarkSoulsResources.Root) == false)
+				return;
+
 			CharacterClass = new DnD5eCharacterClass(classData);
 			
 			_origin = oragin;
 			_drivePoints = 0;
 
-			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
+			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DarkSoulsResources.AbilitiesJson).ToArray();
 
 			Conditions = new ObservableCollection<Condition>();
 			MovementTypes_Speeds = new ObservableCollection<Property>();
@@ -177,6 +181,9 @@ namespace PCCharacterManager.Models
 
 		public DarkSoulsCharacter() : base()
 		{
+			if (Directory.Exists(DarkSoulsResources.Root) == false)
+				return;
+
 			Conditions = new ObservableCollection<Condition>();
 			MovementTypes_Speeds = new ObservableCollection<Property>();
 			WeaponProficiencies = new ObservableCollection<string>();

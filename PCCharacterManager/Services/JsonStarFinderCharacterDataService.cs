@@ -28,12 +28,18 @@ namespace PCCharacterManager.Services
 
 		public IEnumerable<string> GetByFilePaths()
 		{
+			if (Directory.Exists(StarfinderResources.CharacterDataDir) == false)
+				return Enumerable.Empty<string>();
+
 			return Directory.GetFiles(StarfinderResources.CharacterDataDir);
 		}
 
 
 		public IEnumerable<StarfinderCharacter> GetItems()
 		{
+			if (Directory.Exists(StarfinderResources.CharacterDataDir) == false)
+				return new List<StarfinderCharacter>();
+
 			List<StarfinderCharacter> characters = new List<StarfinderCharacter>();
 			string[] characterEntries = Directory.GetFiles(StarfinderResources.CharacterDataDir);
 			foreach (string characterEntry in characterEntries)
@@ -54,7 +60,7 @@ namespace PCCharacterManager.Services
 		public void Save(StarfinderCharacter character)
 		{
 			// character data folder does not exist
-			if (!Directory.Exists(StarfinderResources.CharacterDataDir))
+			if (Directory.Exists(StarfinderResources.CharacterDataDir) == false)
 			{
 				Directory.CreateDirectory(StarfinderResources.CharacterDataDir);
 			}
