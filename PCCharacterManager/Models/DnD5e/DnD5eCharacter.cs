@@ -23,6 +23,8 @@ namespace PCCharacterManager.Models
 
 	public class DnD5eCharacter : CharacterBase
 	{
+		public static DnD5eCharacter Default => new();
+
 		private Ability[] _abilities;
 		public Ability[] Abilities
 		{
@@ -151,12 +153,10 @@ namespace PCCharacterManager.Models
 		[JsonConverter(typeof(StringEnumConverter))]
 		public Alignment Alignment { get; set; }
 
-		public DnD5eCharacter()
+		[JsonConstructor]
+		private DnD5eCharacter() : base()
 		{
-			if (Directory.Exists(DnD5eResources.Root) == false)
-				return;
-
-			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
+			_abilities = Ability.Default;
 
 			_status = CharacterStatus.IDLE;
 
@@ -169,32 +169,6 @@ namespace PCCharacterManager.Models
 			ToolProficiences = new ObservableCollection<string>();
 			Languages = new ObservableCollection<string>();
 
-			CharacterClass = new DnD5eCharacterClass();
-			Race = new DnD5eCharacterRace();
-			ArmorClass = new ArmorClass();
-			Level = new CharacterLevel();
-			NoteManager = new NoteBook();
-			SpellBook = new SpellBook();
-			Inventory = new Inventory();
-			Health = new Health(1);
-
-			CharacterClass.PropertyChanged += OnCharacterChanged;
-			ArmorClass.PropertyChanged += OnCharacterChanged;
-			Level.PropertyChanged += OnCharacterChanged;
-			Health.PropertyChanged += OnCharacterChanged;
-			SpellBook.PropertyChanged += OnCharacterChanged;
-			SpellBook.CantripsKnown.CollectionChanged += OnCharacterChanged;
-			SpellBook.PreparedSpells.CollectionChanged += OnCharacterChanged;
-
-			foreach (var item in SpellBook.SpellsKnown)
-			{
-				item.Value.CollectionChanged += OnCharacterChanged;
-			}
-
-			foreach (var item in Inventory.Items)
-			{
-				item.Value.CollectionChanged += OnCharacterChanged;
-			}
 
 			Conditions.CollectionChanged += OnCharacterChanged;
 			MovementTypes_Speeds.CollectionChanged += OnCharacterChanged;
@@ -204,22 +178,15 @@ namespace PCCharacterManager.Models
 			ToolProficiences.CollectionChanged += OnCharacterChanged;
 			Languages.CollectionChanged += OnCharacterChanged;
 
-			_id = string.Empty;
-			_name = string.Empty;
-			_dateModified = string.Empty;
 			_background = string.Empty;
-			CharacterType = CharacterType.DnD5e;
 		}
 
 		
 
 		public DnD5eCharacter(DnD5eCharacterClassData classData, DnD5eCharacterRaceData raceData, 
-			DnD5eBackgroundData backgroundData)
+			DnD5eBackgroundData backgroundData, Ability[] abilities)
 		{
-			if (Directory.Exists(DnD5eResources.Root) == false)
-				return;
-
-			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
+			_abilities = abilities;
 
 			Conditions = new ObservableCollection<Condition>();
 			MovementTypes_Speeds = new ObservableCollection<Property>();

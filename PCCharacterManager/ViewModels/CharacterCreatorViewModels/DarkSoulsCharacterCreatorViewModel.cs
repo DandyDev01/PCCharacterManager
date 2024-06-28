@@ -33,6 +33,26 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 			}
 		}
 
+		private Ability[] _abilities;
+		public Ability[] Abilities
+		{
+			get { return _abilities; }
+			set { _abilities = value; }
+		}
+
+		private int _maxHealth;
+		public int MaxHealth
+		{
+			get
+			{
+				return _maxHealth;
+			}
+			set
+			{
+				OnPropertyChanged(ref _maxHealth, value);
+			}
+		}
+
 		private ListViewMultiSelectItemsLimitedCountViewModel _selectedClassSkillProfs;
 		public ListViewMultiSelectItemsLimitedCountViewModel SelectedClassSkillProfs
 		{
@@ -64,13 +84,6 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 			}
 		}
 
-		private DarkSoulsCharacter _newCharacter;
-		public DarkSoulsCharacter NewCharacter
-		{
-			get { return _newCharacter; }
-			set { OnPropertyChanged(ref _newCharacter, value); }
-		}
-
 		private bool _isValid;
 		public bool IsValid
 		{
@@ -88,7 +101,6 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 		public List<DnD5eCharacterClassData> CharacterClassesToDisplay { get; private set; }
 
 		public ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel> SelectedStartingEquipmentVMs { get; private set; }
-		public ObservableCollection<int> AbilityScores { get; private set; }
 
 		public Dictionary<string, List<string>> propertyNameToError;
 		public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
@@ -98,11 +110,11 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 
 		public DarkSoulsCharacterCreatorViewModel(DialogServiceBase dialogService)
 		{
-			_newCharacter = new DarkSoulsCharacter();
 			_dialogService = dialogService;
 
 			propertyNameToError = new Dictionary<string, List<string>>();
 
+			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DarkSoulsResources.AbilitiesJson).ToArray();
 			OriginsToDisplay = ReadWriteJsonCollection<DarkSoulsOrigin>.ReadCollection(DarkSoulsResources.OriginsDataJson);
 			CharacterClassesToDisplay = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DarkSoulsResources.CharacterClassDataJson);
 
@@ -115,21 +127,21 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 				_selectedCharacterClass.PossibleSkillProficiences.ToList());
 
 			SelectedStartingEquipmentVMs = new ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel>();
-			AbilityScores = new ObservableCollection<int>(RollDie.DefaultAbilityScores);
 
 			BasicStringFieldValidation(nameof(Name), Name);
 			UpdateSelectedClassStartEquipment();
+			UpdateAbilities();
 		}
 
 		private void RollForHealth()
 		{
 			RollDie rollDie = new RollDie();
 
-			int numToAddToHealth = rollDie.Roll(NewCharacter.Origin.HitDie, 1);
-			int currHealth = NewCharacter.Health.MaxHealth;
-			int conMod = NewCharacter.Abilities.First(x => x.Name.ToLower().Equals("constitution")).Modifier;
+			int numToAddToHealth = rollDie.Roll(_selectedOrigin.HitDie, 1);
+			int currHealth = MaxHealth;
+			int conMod = Abilities.First(x => x.Name.ToLower().Equals("constitution")).Modifier;
 
-			NewCharacter.Health.SetMaxHealth(currHealth + numToAddToHealth + conMod + NewCharacter.Level.Level + 1);
+			MaxHealth = currHealth + numToAddToHealth + conMod + 2;
 		}
 
 		/// <summary>
@@ -138,41 +150,39 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 		/// <returns>new character that was created</returns>
 		public override CharacterBase Create()
 		{
-			DarkSoulsCharacter tempCharacter = _newCharacter;
-			_newCharacter = new DarkSoulsCharacter(SelectedCharacterClass, SelectedOrigin);
-			_newCharacter.Name = Name;
-			_newCharacter.Abilities = tempCharacter.Abilities;
-			_newCharacter.Level.ProficiencyBonus = 2;
-			_newCharacter.CharacterClass.HitDie = _selectedOrigin.HitDie;
+			var newCharacter = new DarkSoulsCharacter(SelectedCharacterClass, SelectedOrigin, _abilities);
+			newCharacter.Name = Name;
+			newCharacter.Level.ProficiencyBonus = 2;
+			newCharacter.CharacterClass.HitDie = _selectedOrigin.HitDie;
 
-			_newCharacter.Inventory.AddRange(GetStartEquipment());
-			_newCharacter.Health = tempCharacter.Health;
-			_newCharacter.Health.CurrHealth = tempCharacter.Health.MaxHealth;
+			newCharacter.Inventory.AddRange(GetStartEquipment());
+			newCharacter.Health.SetMaxHealth(_maxHealth);
+			newCharacter.Health.CurrHealth = _maxHealth;
 
-			SetClassSavingThrows();
-			SetSelectedClassSkillProfs();
+			SetClassSavingThrows(newCharacter);
+			SetSelectedClassSkillProfs(newCharacter);
 
 
-			AddFirstLevelClassFeatures();
+			AddFirstLevelClassFeatures(newCharacter);
 
 			// there is a issue when the skill scores are not setting properly unless this is done
-			foreach (Ability ability in _newCharacter.Abilities)
+			foreach (Ability ability in newCharacter.Abilities)
 			{
 				int temp = ability.Score;
 				ability.Score = 1;
 				ability.Score = temp;
 			}
 
-			_newCharacter.Id = CharacterIDGenerator.GenerateID();
+			newCharacter.Id = CharacterIDGenerator.GenerateID();
 
-			_newCharacter.DateModified = DateTime.Now.ToString();
+			newCharacter.DateModified = DateTime.Now.ToString();
 
 			if (SelectedCharacterClass.Note.Title != string.Empty)
 			{
-				_newCharacter.NoteManager.NoteSections[0].Notes.Add(SelectedCharacterClass.Note);
+				newCharacter.NoteManager.NoteSections[0].Notes.Add(SelectedCharacterClass.Note);
 			}
 
-			_newCharacter.CharacterClass.Name += " 1";
+			newCharacter.CharacterClass.Name += " 1";
 
 			string[] startingItems = StringFormater.CreateGroup(_selectedCharacterClass.StartEquipment[0], '&');
 
@@ -180,35 +190,35 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 			{
 				Item itemToAdd = new();
 				itemToAdd.Name = item;
-				_newCharacter.Inventory.Add(itemToAdd);
+				newCharacter.Inventory.Add(itemToAdd);
 			}
 
-			_newCharacter.Initiative = _newCharacter.Abilities.First(x => x.Name == "Dexterity").Modifier;
+			newCharacter.Initiative = newCharacter.Abilities.First(x => x.Name == "Dexterity").Modifier;
 
 			var race = new DnD5eCharacterRace();
 			race.Name = "Unkindled";
 
-			_newCharacter.Race = race;
+			newCharacter.Race = race;
 
-			return _newCharacter;
+			return newCharacter;
 		}
 
 
 		private void UpdateAbilities()
 		{
-			for (int i = 0; i < AbilityScores.Count; i++)
+			for (int i = 0; i < Abilities.Length; i++)
 			{
-				NewCharacter.Abilities[i].Score = StringFormater.FindQuantity(_selectedOrigin.BaseStatistics[i]);
+				Abilities[i].Score = StringFormater.FindQuantity(_selectedOrigin.BaseStatistics[i]);
 			}
 		}
 
-		private void AddFirstLevelClassFeatures()
+		private void AddFirstLevelClassFeatures(DarkSoulsCharacter newCharacter)
 		{
 			foreach (var item in _selectedCharacterClass.Features)
 			{
 				if (item.Level == 1)
 				{
-					_newCharacter.CharacterClass.Features.Add(item);
+					newCharacter.CharacterClass.Features.Add(item);
 					continue;
 				}
 
@@ -219,14 +229,14 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 		/// <summary>
 		/// set the characters skill proficiencies, based on the class selected
 		/// </summary>
-		private void SetSelectedClassSkillProfs()
+		private void SetSelectedClassSkillProfs(DarkSoulsCharacter newCharacter)
 		{
 			// class selected skill profs
 			foreach (var item in _selectedClassSkillProfs.SelectedItems)
 			{
-				AbilitySkill s = Ability.FindSkill(_newCharacter.Abilities, item);
+				AbilitySkill s = Ability.FindSkill(newCharacter.Abilities, item);
 				s.SkillProficiency = true;
-				Ability a = Ability.FindAbility(_newCharacter.Abilities, s);
+				Ability a = Ability.FindAbility(newCharacter.Abilities, s);
 				a.SetProfBonus(2);
 			}
 		}
@@ -234,12 +244,12 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 		/// <summary>
 		/// Set the characters saving throws, based on the chosen class
 		/// </summary>
-		private void SetClassSavingThrows()
+		private void SetClassSavingThrows(DarkSoulsCharacter newCharacter)
 		{
 			// set ability saving throws, Class
 			foreach (var str in _selectedCharacterClass.SavingThrows)
 			{
-				Ability.FindAbility(_newCharacter.Abilities, str).ProfSave = true;
+				Ability.FindAbility(newCharacter.Abilities, str).ProfSave = true;
 			}
 		}
 
@@ -344,10 +354,12 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 			var characterRaceData = ReadWriteJsonCollection<DnD5eCharacterRaceData>
 				.ReadCollection(DnD5eResources.RaceDataJson).ToArray().GetRandom();
 			var characterRaceVarient = characterRaceData.Variants.ToArray().GetRandom();
+			
+			var abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 
 			characterRaceData.RaceVariant = characterRaceVarient;
 
-			DnD5eCharacter character = new(characterClassData, characterRaceData, characterBackgroundData)
+			DnD5eCharacter character = new(characterClassData, characterRaceData, characterBackgroundData, abilities)
 			{
 				Name = "John Doe"
 			};

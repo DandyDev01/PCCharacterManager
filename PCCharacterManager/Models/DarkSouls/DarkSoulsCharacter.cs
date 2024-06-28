@@ -8,6 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Text.Json.Serialization;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
+using JsonConverter = Newtonsoft.Json.JsonConverter;
+using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 
 namespace PCCharacterManager.Models
 {
@@ -116,17 +120,14 @@ namespace PCCharacterManager.Models
 		[JsonConverter(typeof(StringEnumConverter))]
 		public CreatureSize Size { get; set; }
 
-		public DarkSoulsCharacter(DnD5eCharacterClassData classData, DarkSoulsOrigin oragin)
+		public DarkSoulsCharacter(DnD5eCharacterClassData classData, DarkSoulsOrigin oragin, Ability[] abilities)
 		{
-			if (Directory.Exists(DarkSoulsResources.Root) == false)
-				return;
-
 			CharacterClass = new DnD5eCharacterClass(classData);
 			
 			_origin = oragin;
 			_drivePoints = 0;
 
-			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DarkSoulsResources.AbilitiesJson).ToArray();
+			_abilities = abilities;
 
 			Conditions = new ObservableCollection<Condition>();
 			MovementTypes_Speeds = new ObservableCollection<Property>();
@@ -179,11 +180,9 @@ namespace PCCharacterManager.Models
 			MovementTypes_Speeds.Add(new Property(MovementType.WALK.ToString(), "30ft"));
 		}
 
-		public DarkSoulsCharacter() : base()
+		[JsonConstructor] 
+		private DarkSoulsCharacter() : base()
 		{
-			if (Directory.Exists(DarkSoulsResources.Root) == false)
-				return;
-
 			Conditions = new ObservableCollection<Condition>();
 			MovementTypes_Speeds = new ObservableCollection<Property>();
 			WeaponProficiencies = new ObservableCollection<string>();
@@ -195,7 +194,7 @@ namespace PCCharacterManager.Models
 
 			_drivePoints = 0;
 
-			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
+			_abilities = Ability.Default;
 		}
 	}
 }

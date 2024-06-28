@@ -14,8 +14,6 @@ namespace PCCharacterManager.Models
 {
     public abstract class CharacterBase : ObservableObject
     {
-		public static DnD5eCharacter Default => new();
-
 		protected string _name;
 		public string Name
 		{
@@ -64,7 +62,6 @@ namespace PCCharacterManager.Models
 
 		public CharacterBase()
 		{
-
 			ArmorClass = new ArmorClass();
 			CharacterClass = new DnD5eCharacterClass();
 			Race = new DnD5eCharacterRace();

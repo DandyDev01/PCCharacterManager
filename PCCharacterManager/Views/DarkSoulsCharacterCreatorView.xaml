@@ -116,7 +116,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="1"
             Style="{DynamicResource large}"
-            Text="{Binding NewCharacter.Health.MaxHealth}" />
+            Text="{Binding MaxHealth}" />
         <!--#endregion-->
 
         <!--#region Ability Scorse-->
@@ -161,7 +161,7 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Text="{Binding NewCharacter.Abilities[0].Score, UpdateSourceTrigger=LostFocus}" />
+                    Text="{Binding Abilities[0].Score, UpdateSourceTrigger=LostFocus}" />
                 <!--#endregion-->
                 <!--#region Dex-->
                 <Label
@@ -173,7 +173,7 @@
                     Grid.Row="2"
                     Grid.Column="3"
                     Grid.ColumnSpan="2"
-                    Text="{Binding NewCharacter.Abilities[1].Score, UpdateSourceTrigger=LostFocus}" />
+                    Text="{Binding Abilities[1].Score, UpdateSourceTrigger=LostFocus}" />
                 <!--#endregion-->
                 <!--#region Con-->
                 <Label
@@ -185,7 +185,7 @@
                     Grid.Row="4"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Text="{Binding NewCharacter.Abilities[2].Score, UpdateSourceTrigger=LostFocus}" />
+                    Text="{Binding Abilities[2].Score, UpdateSourceTrigger=LostFocus}" />
                 <!--#endregion-->
                 <!--#region Int-->
                 <Label
@@ -197,7 +197,7 @@
                     Grid.Row="4"
                     Grid.Column="3"
                     Grid.ColumnSpan="2"
-                    Text="{Binding NewCharacter.Abilities[3].Score, UpdateSourceTrigger=LostFocus}" />
+                    Text="{Binding Abilities[3].Score, UpdateSourceTrigger=LostFocus}" />
                 <!--#endregion-->
                 <!--#region Wis-->
                 <Label
@@ -209,7 +209,7 @@
                     Grid.Row="6"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Text="{Binding NewCharacter.Abilities[4].Score, UpdateSourceTrigger=LostFocus}" />
+                    Text="{Binding Abilities[4].Score, UpdateSourceTrigger=LostFocus}" />
                 <!--#endregion-->
                 <!--#region Char-->
                 <Label
@@ -221,7 +221,7 @@
                     Grid.Row="6"
                     Grid.Column="3"
                     Grid.ColumnSpan="2"
-                    Text="{Binding NewCharacter.Abilities[5].Score, UpdateSourceTrigger=LostFocus}" />
+                    Text="{Binding Abilities[5].Score, UpdateSourceTrigger=LostFocus}" />
                 <!--#endregion-->
             </Grid>
         </ContentControl>

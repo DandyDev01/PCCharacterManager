@@ -47,7 +47,7 @@ namespace PCCharacterManagerTests.Models
 			var characterStore = new CharacterStore(recovery);
 			var dialogService = new PassDialogService();
 			CharacterInventoryViewModel vm = new(characterStore, dialogService, recovery);
-			DnD5eCharacter character = new();
+			DnD5eCharacter character = CharacterCreatorViewModel.CreateRandonCharacter();
 			characterStore.BindSelectedCharacter(character);
 
 			Item item = new();

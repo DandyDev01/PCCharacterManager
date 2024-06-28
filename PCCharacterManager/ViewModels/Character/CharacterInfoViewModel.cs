@@ -166,8 +166,6 @@ namespace PCCharacterManager.ViewModels
 			_characterStore.OnCharacterLevelup += OnCharacterChanged;
 			_characterStore.SelectedCharacterChange += OnCharacterChanged;
 
-			_selectedCharacter ??= new();
-
 			_selectedProperty = AllFeatures.FirstOrDefault();	
 
 			FeaturesListVM = new PropertyListViewModel("Features", dialogService);

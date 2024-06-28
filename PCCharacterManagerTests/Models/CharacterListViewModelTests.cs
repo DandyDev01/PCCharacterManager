@@ -3,6 +3,7 @@ using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.ViewModels;
+using PCCharacterManager.ViewModels.CharacterCreatorViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,7 +97,7 @@ namespace PCCharacterManagerTests.Models
 		public override IEnumerable<CharacterBase> GetCharacters()
 		{
 			if (_saved.Any() == false)
-				Save(new DnD5eCharacter());
+				Save(CharacterCreatorViewModel.CreateRandonCharacter());
 
 			return _saved;
 		}

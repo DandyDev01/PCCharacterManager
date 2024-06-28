@@ -11,7 +11,7 @@ namespace PCCharacterManager.Models
 {
 	public class StarfinderAbility : Ability
 	{
-		public static StarfinderAbility[] Default = 
+		public new static StarfinderAbility[] Default = 
 		{
 			new StarfinderAbility(),
 			new StarfinderAbility(),
