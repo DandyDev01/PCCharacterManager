@@ -164,8 +164,9 @@ namespace PCCharacterManager.ViewModels
 				nameof(ItemViewModel.DisplayItemCategory));
 		}
 
-		public CharacterInventoryViewModel(ObservableCollection<ItemViewModel> itemsToDisplay, DialogServiceBase dialogService)
+		public CharacterInventoryViewModel(ObservableCollection<ItemViewModel> itemsToDisplay, DialogServiceBase dialogService, RecoveryBase recovery)
 		{
+			_recovery = recovery;
 			_propertyVMPool = new PropertyEditableVMPool(5);
 			_itemSearch = new ItemSearch();
 			_selectedCharacter = DnD5eCharacter.Default;

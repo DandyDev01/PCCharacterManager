@@ -31,7 +31,7 @@ namespace PCCharacterManager.ViewModels
 				itemVM.Bind(item);
 				AllItemVMs.Add(itemVM);
 			}
-			InventoryVM = new CharacterInventoryViewModel(AllItemVMs, dialogService);
+			InventoryVM = new CharacterInventoryViewModel(AllItemVMs, dialogService, null);
 		
 		}
 	}

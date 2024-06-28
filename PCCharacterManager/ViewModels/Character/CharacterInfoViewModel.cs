@@ -247,6 +247,9 @@ namespace PCCharacterManager.ViewModels
 
 		private void LongRest()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			int maxNumberOfRegainedHitDie = Math.Max(1, _selectedCharacter.Level.Level / 2);
 			int spentHitDie = _selectedCharacter.SpentHitDie;
 			int regainedHitDie = Math.Clamp(_selectedCharacter.Level.Level - spentHitDie, 1, maxNumberOfRegainedHitDie);
@@ -261,6 +264,9 @@ namespace PCCharacterManager.ViewModels
 
 		private void ShortRest()
 		{
+			if (_selectedCharacter is null) 
+				return;
+			
 			DialogWindowShortRestViewModel vm = new(_selectedCharacter);
 			string result = string.Empty;
 			_dialogService.ShowDialog<ShortRestDialogWindow, DialogWindowShortRestViewModel>(vm, r =>
@@ -279,6 +285,9 @@ namespace PCCharacterManager.ViewModels
 
 		private void EndEncounter()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			_selectedCharacter.CombatRound = 0;
 			_selectedCharacter.IsInCombat = false;
 			_selectedCharacter.Status = CharacterStatus.IDLE;
@@ -286,13 +295,19 @@ namespace PCCharacterManager.ViewModels
 
 		private void StartEncounter()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			_selectedCharacter.CombatRound = 0;
 			_selectedCharacter.IsInCombat = true;
 			_selectedCharacter.Status = CharacterStatus.COMBAT;
 		}
 
 		private void NextCombatRound()
-		{ 
+		{
+			if (_selectedCharacter is null)
+				return;
+
 			_selectedCharacter.CombatRound += 1;
 
 			if (_selectedCharacter.Conditions.Count <= 0)
@@ -315,6 +330,9 @@ namespace PCCharacterManager.ViewModels
 
 		protected virtual void EditArmorClass()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			DialogWindowEditArmorClassViewModel dataContext = new(_selectedCharacter.ArmorClass);
 
 			string result = string.Empty;
@@ -336,6 +354,9 @@ namespace PCCharacterManager.ViewModels
 
 		protected virtual void AdjustExperience()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			DialogWindowStringInputViewModel dataContext = new("Enter amount to add or remove.");
 
 			string result = string.Empty;
@@ -366,6 +387,9 @@ namespace PCCharacterManager.ViewModels
 
 		protected virtual void AddHealth()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			DialogWindowChangeHealthViewModel dataContext = new();
 			string result = string.Empty;
 			_dialogService.ShowDialog<ChangeHealthDialogWindow, DialogWindowChangeHealthViewModel>(dataContext, r =>
@@ -376,7 +400,7 @@ namespace PCCharacterManager.ViewModels
 			if (result == false.ToString())
 				return;
 
-			var characterHealth = SelectedCharacter.Health;
+			var characterHealth = _selectedCharacter.Health;
 
 			if (dataContext.IsTempHealth)
 			{
@@ -394,7 +418,11 @@ namespace PCCharacterManager.ViewModels
 
 		protected virtual void UpdateHealth()
 		{
-			Health = SelectedCharacter.Health.CurrHealth.ToString() + '/' + SelectedCharacter.Health.MaxHealth.ToString() + " (" + SelectedCharacter.Health.TempHitPoints + " temp)";
+			if (_selectedCharacter is null)
+				return;
+
+			Health = _selectedCharacter.Health.CurrHealth.ToString() + '/' + _selectedCharacter.Health.MaxHealth.ToString() 
+				+ " (" + _selectedCharacter.Health.TempHitPoints + " temp)";
 		}
 
 		protected virtual void AddFeature()

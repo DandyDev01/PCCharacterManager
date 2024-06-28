@@ -105,6 +105,9 @@ namespace PCCharacterManager.ViewModels
 
 		protected override void AdjustExperience()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			DialogWindowStringInputViewModel dataContext = new("Enter amount to add or remove.");
 
 			string result = string.Empty;
@@ -152,6 +155,9 @@ namespace PCCharacterManager.ViewModels
 
 		protected override void AddHealth()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			DialogWindowChangeHealthViewModel dataContext = new();
 			string result = string.Empty;
 			_dialogService.ShowDialog<ChangeHealthDialogWindow, DialogWindowChangeHealthViewModel>(dataContext, r =>
@@ -162,7 +168,7 @@ namespace PCCharacterManager.ViewModels
 			if (result == false.ToString())
 				return;
 
-			var characterHealth = SelectedCharacter.Health;
+			var characterHealth = _selectedCharacter.Health;
 
 			if (dataContext.IsTempHealth)
 			{
@@ -180,7 +186,11 @@ namespace PCCharacterManager.ViewModels
 
 		protected override void UpdateHealth()
 		{
-			Health = SelectedCharacter.Health.CurrHealth.ToString() + '/' + SelectedCharacter.Health.MaxHealth.ToString() + " (" + SelectedCharacter.Health.TempHitPoints + " temp)";
+			if (_selectedCharacter is null)
+				return;
+
+			Health = _selectedCharacter.Health.CurrHealth.ToString() + '/' + _selectedCharacter.Health.MaxHealth.ToString() 
+				+ " (" + _selectedCharacter.Health.TempHitPoints + " temp)";
 		}
 
 		protected override void AddFeature()
@@ -200,6 +210,9 @@ namespace PCCharacterManager.ViewModels
 
 		protected override void EditArmorClass()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			DialogWindowEditArmorClassViewModel dataContext = new(_selectedCharacter.ArmorClass);
 
 			string result = string.Empty;
@@ -251,6 +264,9 @@ namespace PCCharacterManager.ViewModels
 
 		private void EditDrivePoints()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			DialogWindowStringInputViewModel dataContext = new("Enter amount to add or remove.");
 
 			string result = string.Empty;

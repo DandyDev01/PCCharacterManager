@@ -16,16 +16,13 @@ namespace PCCharacterManager.ViewModels
 {
 	public class StarfinderCharacterInfoViewModel : CharacterInfoViewModel
 	{
-		private readonly DialogServiceBase _dialogService;
-		private readonly RecoveryBase _recovery;
-
 		public PropertyListViewModel RaceFeatureListVM { get; protected set; }
 		public PropertyListViewModel ClassFeatureListVM { get; protected set; }
 		public PropertyListViewModel RaceVarientListVM { get; protected set; }
 
 
-		private StarfinderCharacter _selectedCharacter;
-		public new StarfinderCharacter SelectedCharacter
+		private StarfinderCharacter? _selectedCharacter;
+		public new StarfinderCharacter? SelectedCharacter
 		{
 			get
 			{
@@ -88,7 +85,6 @@ namespace PCCharacterManager.ViewModels
 			RecoveryBase recovery) 
 			: base(characterStore, dialogService, recovery)
 		{
-			_recovery = recovery;
 			characterStore.SelectedCharacterChange += OnCharacterChange;
 
 			if (characterStore.SelectedCharacter is StarfinderCharacter starfinderCharacter)
@@ -109,8 +105,6 @@ namespace PCCharacterManager.ViewModels
 			EditAugmentationCommand = new RelayCommand(EditRemoveAugmentation);
 
 			SelectedThemeFeatureName = string.Empty;
-
-			_dialogService = dialogService;
 		}
 
 		private void OnCharacterChange(CharacterBase newCharacter)

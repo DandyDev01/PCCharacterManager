@@ -10,6 +10,6 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 {
 	public abstract class CharactorCreatorViewModelBase : ObservableObject
 	{
-		public abstract CharacterBase Create();
+		public abstract CharacterBase? Create();
 	}
 }
