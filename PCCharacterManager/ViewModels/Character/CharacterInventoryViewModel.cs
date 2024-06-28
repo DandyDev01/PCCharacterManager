@@ -26,6 +26,7 @@ namespace PCCharacterManager.ViewModels
 		private readonly PropertyEditableVMPool _propertyVMPool;
 		private readonly CollectionViewPropertySort _collectionViewPropertySort;
 		private readonly ItemSearch _itemSearch;
+		private readonly RecoveryBase _recovery;
 
 		public Array ItemCategories { get; } = Enum.GetValues(typeof(ItemCategory));
 		public Array ItemTypes { get; } = Enum.GetValues(typeof(ItemType));

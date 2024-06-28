@@ -29,7 +29,10 @@ namespace PCCharacterManager.DialogWindows
 
 		private void Ok_Button_Click(object sender, RoutedEventArgs e)
 		{
-			DialogWindowAddAugmentationViewModel vm = DataContext as DialogWindowAddAugmentationViewModel;
+			DialogWindowAddAugmentationViewModel? vm = DataContext as DialogWindowAddAugmentationViewModel;
+
+			if (vm is null)
+				return;
 
 			if (vm is not null)
 			{

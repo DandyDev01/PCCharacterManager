@@ -170,14 +170,14 @@ namespace PCCharacterManager.ViewModels
 
 			FeaturesListVM = new PropertyListViewModel("Features", dialogService);
 
-			ConditionsListVM = new ConditionListViewModel("Conditions", _selectedCharacter.Conditions, dialogService);
-			MovementTypesListVM = new PropertyListViewModel("Movement", _selectedCharacter.MovementTypes_Speeds, dialogService);
-			LanguagesVM = new StringListViewModel("Languages", _selectedCharacter.Languages, dialogService);
-			CombatActionsVM = new StringListViewModel("Actions", _selectedCharacter.CombatActions, dialogService);
-			ToolProfsVM = new StringListViewModel("Tool Profs", _selectedCharacter.ToolProficiences, dialogService);
-			ArmorProfsVM = new StringListViewModel("Armor Profs", _selectedCharacter.ArmorProficiencies, dialogService);
-			OtherProfsVM = new StringListViewModel("Other Profs", _selectedCharacter.OtherProficiences, dialogService);
-			WeaponProfsVM = new StringListViewModel("Weapon Profs", _selectedCharacter.WeaponProficiencies, dialogService);
+			ConditionsListVM = new ConditionListViewModel("Conditions", dialogService);
+			MovementTypesListVM = new PropertyListViewModel("Movement", dialogService);
+			LanguagesVM = new StringListViewModel("Languages", dialogService);
+			CombatActionsVM = new StringListViewModel("Actions", dialogService);
+			ToolProfsVM = new StringListViewModel("Tool Profs", dialogService);
+			ArmorProfsVM = new StringListViewModel("Armor Profs", dialogService);
+			OtherProfsVM = new StringListViewModel("Other Profs", dialogService);
+			WeaponProfsVM = new StringListViewModel("Weapon Profs", dialogService);
 			LevelCharacterCommand = new LevelCharacterCommand(_characterStore, dialogService);
 			AdjustExperienceCommand = new RelayCommand(AdjustExperience);
 			AdjustHealthCommand = new RelayCommand(AddHealth);
