@@ -153,7 +153,8 @@ namespace PCCharacterManager.ViewModels
 			// set class skills
 			foreach (var classSkill in _selectedClassData.ClassSkills)
 			{
-				if (classSkill.Contains("Profession")) continue;
+				if (classSkill.Contains("Profession")) 
+					continue;
 
 				try
 				{
