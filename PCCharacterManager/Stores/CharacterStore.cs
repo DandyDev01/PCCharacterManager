@@ -50,6 +50,12 @@ namespace PCCharacterManager.Stores
 				return;
 			}
 
+			if (characterToBind is null)
+			{
+				_selectedCharacter = null;
+				return;
+			}
+
 			string oldID = SelectedCharacter.Id;
 
 			SaveSelectedCharacterOnChange?.Invoke(_selectedCharacter);

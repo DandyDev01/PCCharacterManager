@@ -93,6 +93,7 @@ namespace PCCharacterManager.ViewModels
 		private void DeleteCharacter(string path)
 		{
 			_dataService.Delete(path);
+			_characterStore.BindSelectedCharacter(null);
 
 			CharacterItemViewModel? characterItemVM 
 				= CharacterItems.Where(c => path.Contains(c.CharacterName)).FirstOrDefault();
