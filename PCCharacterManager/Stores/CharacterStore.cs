@@ -11,20 +11,21 @@ namespace PCCharacterManager.Stores
 	{
 		private readonly RecoveryBase _recovery;
 
-		public DnD5eCharacter SelectedCharacter { get; private set; }
+		private CharacterBase _selectedCharacter;
+		public CharacterBase SelectedCharacter => _selectedCharacter;
 
-		public Action<DnD5eCharacter>? SaveSelectedCharacterOnChange { get; internal set; }
-		public event Action<DnD5eCharacter>? CharacterCreate;
-		public event Action<DnD5eCharacter>? SelectedCharacterChange;
-		public event Action<DnD5eCharacter>? OnCharacterLevelup;
+		public Action<CharacterBase>? SaveSelectedCharacterOnChange { get; internal set; }
+		public event Action<CharacterBase>? CharacterCreate;
+		public event Action<CharacterBase>? SelectedCharacterChange;
+		public event Action<CharacterBase>? OnCharacterLevelup;
 
 		public CharacterStore(RecoveryBase recovery)
 		{ 
-			SelectedCharacter = DnD5eCharacter.Default;
+			_selectedCharacter = DnD5eCharacter.Default;
 			_recovery = recovery;
 		}
 
-		public void CreateCharacter(DnD5eCharacter character)
+		public void CreateCharacter(CharacterBase character)
 		{
 			CharacterCreate?.Invoke(character);
 		}
@@ -38,7 +39,7 @@ namespace PCCharacterManager.Stores
 		/// binds the selected character to a specified character
 		/// </summary>
 		/// <param name="characterToBind">character to bind to</param>
-		public void BindSelectedCharacter(DnD5eCharacter characterToBind)
+		public void BindSelectedCharacter(CharacterBase characterToBind)
 		{
 			if (SelectedCharacter is not null)
 			{
@@ -49,10 +50,16 @@ namespace PCCharacterManager.Stores
 				return;
 			}
 
+			if (characterToBind is null)
+			{
+				_selectedCharacter = null;
+				return;
+			}
+
 			string oldID = SelectedCharacter.Id;
 
-			SaveSelectedCharacterOnChange?.Invoke(SelectedCharacter);
-			SelectedCharacter = characterToBind;
+			SaveSelectedCharacterOnChange?.Invoke(_selectedCharacter);
+			_selectedCharacter = characterToBind;
 
 			SelectedCharacter.OnCharacterChangedAction += _recovery.RegisterChange;
 

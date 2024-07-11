@@ -143,29 +143,46 @@ namespace PCCharacterManager.Models
 			int space = value.IndexOf(' ');
 			return value.Substring(0, space).Trim();
 		}
-
-
+	
 	} // end StringFormater
 
 	public static class ReadWriteJsonCollection<T>
 	{
-		public static List<T> ReadCollection(string filePath)
+		/// <summary>
+		/// Parses a json file that contains a collection of items to get their c# object.
+		/// </summary>
+		/// <param name="filePath">Path of the file to be parsed</param>
+		/// <returns>A list of the objects that were parsed.</returns>
+		public static List<T> ReadCollection(string? filePath)
 		{
-			var serializedCollection = File.ReadAllText(filePath);
-			var collection = JsonConvert.DeserializeObject<IEnumerable<T>>(serializedCollection);
+			List<T> collection = new();
 
-			return new List<T>(collection);
+			if (File.Exists(filePath) == false || filePath.Contains(".json") == false ||
+				string.IsNullOrEmpty(filePath) || string.IsNullOrWhiteSpace(filePath))
+				return collection;
+
+			string serializedCollection = File.ReadAllText(filePath);
+
+			IEnumerable<T>? deserializedCollectionItems = JsonConvert.DeserializeObject<IEnumerable<T>>(serializedCollection);
+
+			if (deserializedCollectionItems != null)
+				collection.AddRange(deserializedCollectionItems);
+
+			return collection;
 		}
 
-		public static void WriteCollection(string filePath, IEnumerable<T> collection)
+		/// <summary>
+		/// Takes a collection of objects an writes them to a json file.
+		/// </summary>
+		/// <param name="filePath">Where the file will be written to.</param>
+		/// <param name="collection">Collection of the objects to write in json.</param>
+		public static void WriteCollection(string? filePath, IEnumerable<T> collection)
 		{
-			var serializedCollection = JsonConvert.SerializeObject(collection);
+			if (string.IsNullOrEmpty(filePath) || string.IsNullOrWhiteSpace(filePath)) 
+				return;
+
+			string serializedCollection = JsonConvert.SerializeObject(collection);
 			File.WriteAllText(filePath, serializedCollection);
-		}
-
-		internal static object ReadCollection(object multiClass)
-		{
-			throw new NotImplementedException();
 		}
 	} // end ReadJsonCollection
 
@@ -178,11 +195,12 @@ namespace PCCharacterManager.Models
 		/// <returns></returns>
 		public static T? ReadFile(string filePath)
 		{
-			if (File.Exists(filePath) == false)
+			if (File.Exists(filePath) == false || string.IsNullOrEmpty(filePath) ||
+				string.IsNullOrWhiteSpace(filePath))
 				return default(T);
 
-			var serializedObject = File.ReadAllText(filePath);
-			var objectType = JsonConvert.DeserializeObject<T>(serializedObject);
+			string serializedObject = File.ReadAllText(filePath);
+			T? objectType = JsonConvert.DeserializeObject<T>(serializedObject);
 
 			return objectType;
 		}
@@ -192,8 +210,11 @@ namespace PCCharacterManager.Models
 		/// </summary>
 		/// <param name="filePath">where to store the file</param>
 		/// <param name="classType"></param>
-		public static void WriteFile(string filePath, T classType)
+		public static void WriteFile(string? filePath, T classType)
 		{
+			if (string.IsNullOrEmpty(filePath) || string.IsNullOrWhiteSpace(filePath))
+				return;
+
 			var serializedObject = JsonConvert.SerializeObject(classType);
 			File.WriteAllText(filePath, serializedObject);
 		}

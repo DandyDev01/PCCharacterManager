@@ -44,7 +44,7 @@ namespace PCCharacterManager.ViewModels
 		public Action<string>? DeleteAction;
 
 		//TODO: get the characterStore from BookVM
-		public CharacterItemViewModel(CharacterStore characterStore, DnD5eCharacter character, string characterPath, 
+		public CharacterItemViewModel(CharacterStore characterStore, CharacterBase character, string characterPath, 
 			DialogServiceBase dialogService)
 		{
 			_characterName = character.Name;
@@ -60,7 +60,7 @@ namespace PCCharacterManager.ViewModels
 			DeleteCharacterCommand = new RelayCommand(DeleteCharacter);
 		}
 
-		public void Update(DnD5eCharacter character)
+		public void Update(CharacterBase character)
 		{
 			_characterName = character.Name;
 			_characterClass = character.CharacterClass.Name;

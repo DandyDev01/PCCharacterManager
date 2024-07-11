@@ -106,15 +106,27 @@
                         <Image Source="{DynamicResource Edit_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Command="{Binding ShortRestCommand}" Header="Short Rest" />
-                <MenuItem Command="{Binding LongRestCommand}" Header="Long Rest" />
+                <MenuItem
+                    Command="{Binding ShortRestCommand}"
+                    Header="Short Rest"
+                    IsEnabled="False" />
+                <MenuItem
+                    Command="{Binding LongRestCommand}"
+                    Header="Long Rest"
+                    IsEnabled="False" />
                 <MenuItem Command="{Binding LevelCharacterCommand}" Header="Level Up">
                     <MenuItem.Icon>
                         <Image Source="{DynamicResource Character_Levelup_Icon}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Command="{Binding StartEncounterCommand}" Header="Start Encounter" />
-                <MenuItem Command="{Binding EndEncounterCommand}" Header="End Encounter" />
+                <MenuItem
+                    Command="{Binding StartEncounterCommand}"
+                    Header="Start Encounter"
+                    IsEnabled="False" />
+                <MenuItem
+                    Command="{Binding EndEncounterCommand}"
+                    Header="End Encounter"
+                    IsEnabled="False" />
             </Menu>
             <!--#endregion-->
 
@@ -171,7 +183,7 @@
                 Grid.Column="5"
                 Grid.ColumnSpan="1"
                 Style="{DynamicResource DefaultTextBlock}"
-                Text="{Binding SelectedCharacter.Background, FallbackValue=Background}" />
+                Text="{Binding SelectedCharacter.Origin.Name, FallbackValue=Origin}" />
 
             <Label
                 Grid.Row="2"
@@ -289,7 +301,7 @@
                 Width="30"
                 Height="20"
                 HorizontalAlignment="Left"
-                Command="{Binding EditArmorClassCommand}">
+                Command="{Binding EditDrivePointsCommand}">
                 <Image Source="{DynamicResource Edit_Icon}" />
             </Button>
             <TextBlock
@@ -482,14 +494,6 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <ContentControl
-                    Grid.Row="0"
-                    Grid.RowSpan="1"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="1">
-                    <v:StringListView DataContext="{Binding LanguagesVM}" />
-                </ContentControl>
-
-                <ContentControl
                     Grid.Row="1"
                     Grid.RowSpan="1"
                     Grid.Column="0"
@@ -519,14 +523,6 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="1">
                     <v:StringListView DataContext="{Binding OtherProfsVM}" />
-                </ContentControl>
-
-                <ContentControl
-                    Grid.Row="5"
-                    Grid.RowSpan="1"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="1">
-                    <v:StringListView DataContext="{Binding ToolProfsVM}" />
                 </ContentControl>
             </Grid>
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.ViewModels;
@@ -20,9 +21,11 @@ namespace PCCharacterManagerTests.Models
 		[TestMethod]
 		public void EndEncouterTest()
 		{
-			CharacterStore store = new CharacterStore();
+
+			var recovery = new SimpleCharacterRecovery();
+			var characterStore = new CharacterStore(recovery);
 			DialogServiceBase service = new PassDialogService();
-			CharacterInfoViewModel vm = new(store, service);
+			CharacterInfoViewModel vm = new(characterStore, service, recovery);
 
 			vm.EndEncounterCommand.Execute(this);
 
@@ -33,9 +36,10 @@ namespace PCCharacterManagerTests.Models
 		[TestMethod]
 		public void StartEncouterTest()
 		{
-			CharacterStore store = new CharacterStore();
+			var recovery = new SimpleCharacterRecovery();
+			var characterStore = new CharacterStore(recovery);
 			DialogServiceBase service = new PassDialogService();
-			CharacterInfoViewModel vm = new(store, service);
+			CharacterInfoViewModel vm = new(characterStore, service, recovery);
 
 			vm.StartEncounterCommand.Execute(this);
 
@@ -46,9 +50,10 @@ namespace PCCharacterManagerTests.Models
 		[TestMethod]
 		public void NextComabtRoundEncouterTest()
 		{
-			CharacterStore store = new CharacterStore();
+			var recovery = new SimpleCharacterRecovery();
+			var characterStore = new CharacterStore(recovery);
 			DialogServiceBase service = new PassDialogService();
-			CharacterInfoViewModel vm = new(store, service);
+			CharacterInfoViewModel vm = new(characterStore, service, recovery);
 
 			vm.SelectedCharacter.Conditions.Add(new PCCharacterManager.Models.Condition("", "", 1));
 			vm.NextCombatRoundCommand.Execute(this);
@@ -61,9 +66,10 @@ namespace PCCharacterManagerTests.Models
 		public void AddToCurrentHealthTest()
 		{
 			int amount = 10;
-			CharacterStore store = new CharacterStore();
+			var recovery = new SimpleCharacterRecovery();
+			var characterStore = new CharacterStore(recovery);
 			DialogServiceBase service = new ChangeHealthDialogService(amount, false);
-			CharacterInfoViewModel vm = new(store, service);
+			CharacterInfoViewModel vm = new(characterStore, service, recovery);
 
 			vm.SelectedCharacter.Health.CurrHealth = 0;
 			vm.SelectedCharacter.Health.MaxHealth = 20;
@@ -77,9 +83,10 @@ namespace PCCharacterManagerTests.Models
 		public void RemoveFromCurrentHealthTest()
 		{
 			int amount = -10;
-			CharacterStore store = new CharacterStore();
+			var recovery = new SimpleCharacterRecovery();
+			var characterStore = new CharacterStore(recovery);
 			DialogServiceBase service = new ChangeHealthDialogService(amount, false);
-			CharacterInfoViewModel vm = new(store, service);
+			CharacterInfoViewModel vm = new(characterStore, service, recovery);
 
 			vm.SelectedCharacter.Health.CurrHealth = 20;
 			vm.SelectedCharacter.Health.MaxHealth = 20;
@@ -93,9 +100,10 @@ namespace PCCharacterManagerTests.Models
 		public void AddToTempHealthTest()
 		{
 			int amount = 10;
-			CharacterStore store = new CharacterStore();
+			var recovery = new SimpleCharacterRecovery();
+			var characterStore = new CharacterStore(recovery);
 			DialogServiceBase service = new ChangeHealthDialogService(amount, true);
-			CharacterInfoViewModel vm = new(store, service);
+			CharacterInfoViewModel vm = new(characterStore, service, recovery);
 
 			vm.SelectedCharacter.Health.TempHitPoints = 0;
 			int currentTemp = vm.SelectedCharacter.Health.TempHitPoints;
@@ -108,9 +116,10 @@ namespace PCCharacterManagerTests.Models
 		public void RemoveFromTempHealthTest()
 		{
 			int amount = -10;
-			CharacterStore store = new CharacterStore();
+			var recovery = new SimpleCharacterRecovery();
+			var characterStore = new CharacterStore(recovery);
 			DialogServiceBase service = new ChangeHealthDialogService(amount, true);
-			CharacterInfoViewModel vm = new(store, service);
+			CharacterInfoViewModel vm = new(characterStore, service, recovery);
 
 			vm.SelectedCharacter.Health.TempHitPoints = 20;
 			int currentTemp = vm.SelectedCharacter.Health.TempHitPoints;

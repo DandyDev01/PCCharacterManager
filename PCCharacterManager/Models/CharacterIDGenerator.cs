@@ -11,7 +11,7 @@ namespace PCCharacterManager.Models
 	{
 		public static string GenerateID()
 		{
-			string[] characterFilePaths = new JsonCharacterDataService().GetCharacterFilePaths().ToArray();
+			string[] characterFilePaths = new JsonCharacterDataService(null).GetCharacterFilePaths().ToArray();
 			string[] ids = new string[characterFilePaths.Length];
 
 			for (int i = 0; i < characterFilePaths.Length; i++)

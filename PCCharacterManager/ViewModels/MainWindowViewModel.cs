@@ -90,7 +90,7 @@ namespace PCCharacterManager.ViewModels
 			_characterStore.BindSelectedCharacter(character);
 		}
 
-		private void SaveCharacter(DnD5eCharacter? character = null)
+		private void SaveCharacter(CharacterBase? character = null)
 		{
 			if (_tabVM == null) 
 				return;
@@ -106,7 +106,11 @@ namespace PCCharacterManager.ViewModels
 			if (_characterStore.SelectedCharacter == null)
 				return;
 
-			DialogWindowEditCharacterViewModel windowVM = new(_characterStore.SelectedCharacter, _dialogService);
+			// NOTE: setup to work with all character types
+			if (_characterStore.SelectedCharacter is not DnD5eCharacter)
+				return;
+
+			DialogWindowEditCharacterViewModel windowVM = new(_characterStore.SelectedCharacter as DnD5eCharacter, _dialogService);
 
 			string result = string.Empty;
 			_dialogService.ShowDialog<EditCharacterDialogWindow, DialogWindowEditCharacterViewModel>(windowVM, r =>

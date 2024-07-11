@@ -7,6 +7,7 @@ using PCCharacterManager.ViewModels.CharacterCreatorViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,19 @@ namespace PCCharacterManager.ViewModels
 				OnPropertyChanged(ref _selectedCharacterType, value);
 				_characterTypeHelper.SetCharacterTypeFlags(_selectedCharacterType);
 				SetSelectedCreator();
+			}
+		}
+
+		private bool _hasData;
+		public bool HasData
+		{
+			get
+			{
+				return _hasData;
+			}
+			set
+			{
+				OnPropertyChanged(ref _hasData, value);
 			}
 		}
 
@@ -63,6 +77,8 @@ namespace PCCharacterManager.ViewModels
 			_selectedCreator = DnD5eCharacterCreator;
 
 			_characterStore = characterStore;
+
+			HasData = true;
 		}
 
 		private void SetSelectedCreator()
@@ -70,20 +86,38 @@ namespace PCCharacterManager.ViewModels
 			switch (_selectedCharacterType)
 			{
 				case CharacterType.starfinder:
+					if (Directory.Exists(StarfinderResources.CharacterDataDir) == false)
+					{
+						HasData = false;
+						return;
+					}
 					SelectedCreator = StarfinderCharacterCreatorVM;
+					HasData = true;
 					break;
 				case CharacterType.DnD5e:
+					if (Directory.Exists(DnD5eResources.CharacterDataDir) == false)
+					{
+						HasData = false;
+						return;
+					}
 					SelectedCreator = DnD5eCharacterCreator;
+					HasData = true;
 					break;
 				case CharacterType.dark_souls:
+					if (Directory.Exists(DarkSoulsResources.CharacterDataDir) == false)
+					{
+						HasData = false;
+						return;
+					}
 					SelectedCreator = DarkSoulsCharacterCreatorVM;
+					HasData = true;
 					break;
 			}
 		}
 
 		public void Create()
 		{
-			DnD5eCharacter? character = SelectedCreator.Create();
+			CharacterBase? character = SelectedCreator.Create();
 
 			if (character == null) 
 				return;

@@ -10,23 +10,19 @@ using System.Threading.Tasks;
 
 namespace PCCharacterManager.Services
 {
-	public class JsonDnD5eCharacterDataService : ICharacterDataService
+	public class JsonDnD5eCharacterDataService : IDataService<DnD5eCharacter>
 	{
-		private readonly CharacterStore _characterStore;
-
-		public JsonDnD5eCharacterDataService(CharacterStore characterStore)
-		{
-			_characterStore = characterStore;
-		}
-
-		public override void Add(DnD5eCharacter newCharacter)
+		public void Add(DnD5eCharacter newCharacter)
 		{
 			Save(newCharacter);
 		}
 
-		public override IEnumerable<DnD5eCharacter> GetCharacters()
+		public IEnumerable<DnD5eCharacter> GetItems()
 		{
-			List<DnD5eCharacter> characters = new List<DnD5eCharacter>();	
+			if (Directory.Exists(DnD5eResources.CharacterDataDir) == false)
+				return new List<DnD5eCharacter>();
+
+			List<DnD5eCharacter> characters = new();	
 			string[] characterEntries = Directory.GetFiles(DnD5eResources.CharacterDataDir);
 			foreach (string characterEntry in characterEntries)
 			{
@@ -37,12 +33,15 @@ namespace PCCharacterManager.Services
 			return characters;
 		}
 
-		public override IEnumerable<string> GetCharacterFilePaths()
+		public IEnumerable<string> GetByFilePaths()
 		{
+			if (Directory.Exists(DnD5eResources.CharacterDataDir) == false)
+				return Enumerable.Empty<string>();
+
 			return Directory.GetFiles(DnD5eResources.CharacterDataDir);
 		}
 
-		public override void Save(IEnumerable<DnD5eCharacter> characters)
+		public void Save(IEnumerable<DnD5eCharacter> characters)
 		{
 			foreach (DnD5eCharacter character in characters)
 			{
@@ -50,7 +49,7 @@ namespace PCCharacterManager.Services
 			}
 		}
 
-		public override void Save(DnD5eCharacter character)
+		public void Save(DnD5eCharacter character)
 		{
 			// character data folder does not exist
 			if (!Directory.Exists(DnD5eResources.CharacterDataDir))
@@ -61,7 +60,7 @@ namespace PCCharacterManager.Services
 			if (character == null) 
 				return;
 
-			string[] characterFiles = GetCharacterFilePaths().ToArray();
+			string[] characterFiles = GetByFilePaths().ToArray();
 
 			if (characterFiles.Any())
 			{
@@ -83,7 +82,7 @@ namespace PCCharacterManager.Services
 			ReadWriteJsonFile<DnD5eCharacter>.WriteFile(CharacterTypeHelper.BuildPath(character), character);
 		}
 
-		public override bool Delete(DnD5eCharacter character)
+		public bool Delete(DnD5eCharacter character)
 		{
 			if (File.Exists(CharacterTypeHelper.BuildPath(character)))
 			{

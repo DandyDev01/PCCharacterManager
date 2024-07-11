@@ -12,7 +12,7 @@ namespace PCCharacterManager.Models
 
 		public DnD5eCharacter Redo();
 
-		public void RegisterChange(DnD5eCharacter state);
+		public void RegisterChange(CharacterBase state);
 
 		public void ClearHistory();
 	}

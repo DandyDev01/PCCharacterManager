@@ -40,7 +40,7 @@ namespace PCCharacterManager.Commands
 			if (results == MessageBoxResult.No)
 				return;
 
-			DnD5eCharacter character = _characterStore.SelectedCharacter;
+			CharacterBase character = _characterStore.SelectedCharacter;
 			CharacterItemViewModel? item = _characterListViewModel.CharacterItems.First(x => x.CharacterName == character.Name);
 
 			if (item == null)

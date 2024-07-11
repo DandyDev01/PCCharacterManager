@@ -19,13 +19,13 @@ namespace PCCharacterManager.ViewModels
 {
 	public class CharacterInfoViewModel : ObservableObject
 	{
-		private readonly CollectionViewPropertySort _collectionViewPropertySort;
-		private readonly CharacterStore _characterStore;
-		private readonly DialogServiceBase _dialogService;
-		private readonly RecoveryBase _recovery;
+		protected readonly CollectionViewPropertySort _collectionViewPropertySort;
+		protected readonly CharacterStore _characterStore;
+		protected readonly DialogServiceBase _dialogService;
+		protected readonly RecoveryBase _recovery;
 
-		private DnD5eCharacter _selectedCharacter;
-		public DnD5eCharacter SelectedCharacter
+		private DnD5eCharacter? _selectedCharacter;
+		public DnD5eCharacter? SelectedCharacter
 		{
 			get
 			{
@@ -51,7 +51,7 @@ namespace PCCharacterManager.ViewModels
 		public ObservableCollection<Feature> AllFeatures { get; }
 		public ICollectionView FeaturesCollectionView { get; }
 
-		private Feature? _selectedProperty;
+		protected Feature? _selectedProperty;
 		public Feature? SelectedProperty
 		{
 			get
@@ -139,11 +139,11 @@ namespace PCCharacterManager.ViewModels
 
 			_recovery = recovery;
 			_dialogService = dialogService;
-			_selectedCharacter = characterStore.SelectedCharacter;
-			_race = _selectedCharacter.Race.Name;
-			_health = _selectedCharacter.Health.CurrHealth.ToString();
-			_armorClass = _selectedCharacter.ArmorClass.TotalArmorClass;
-			_characterClass = _selectedCharacter.CharacterClass.Name;
+
+			_race = string.Empty;
+			_health = string.Empty;
+			_armorClass = string.Empty;
+			_characterClass = string.Empty;
 
 			AllFeatures = new ObservableCollection<Feature>();
 			FeaturesCollectionView = CollectionViewSource.GetDefaultView(AllFeatures);
@@ -166,20 +166,18 @@ namespace PCCharacterManager.ViewModels
 			_characterStore.OnCharacterLevelup += OnCharacterChanged;
 			_characterStore.SelectedCharacterChange += OnCharacterChanged;
 
-			_selectedCharacter ??= new();
-
 			_selectedProperty = AllFeatures.FirstOrDefault();	
 
 			FeaturesListVM = new PropertyListViewModel("Features", dialogService);
 
-			ConditionsListVM = new ConditionListViewModel("Conditions", _selectedCharacter.Conditions, dialogService);
-			MovementTypesListVM = new PropertyListViewModel("Movement", _selectedCharacter.MovementTypes_Speeds, dialogService);
-			LanguagesVM = new StringListViewModel("Languages", _selectedCharacter.Languages, dialogService);
-			CombatActionsVM = new StringListViewModel("Actions", _selectedCharacter.CombatActions, dialogService);
-			ToolProfsVM = new StringListViewModel("Tool Profs", _selectedCharacter.ToolProficiences, dialogService);
-			ArmorProfsVM = new StringListViewModel("Armor Profs", _selectedCharacter.ArmorProficiencies, dialogService);
-			OtherProfsVM = new StringListViewModel("Other Profs", _selectedCharacter.OtherProficiences, dialogService);
-			WeaponProfsVM = new StringListViewModel("Weapon Profs", _selectedCharacter.WeaponProficiencies, dialogService);
+			ConditionsListVM = new ConditionListViewModel("Conditions", dialogService);
+			MovementTypesListVM = new PropertyListViewModel("Movement", dialogService);
+			LanguagesVM = new StringListViewModel("Languages", dialogService);
+			CombatActionsVM = new StringListViewModel("Actions", dialogService);
+			ToolProfsVM = new StringListViewModel("Tool Profs", dialogService);
+			ArmorProfsVM = new StringListViewModel("Armor Profs", dialogService);
+			OtherProfsVM = new StringListViewModel("Other Profs", dialogService);
+			WeaponProfsVM = new StringListViewModel("Weapon Profs", dialogService);
 			LevelCharacterCommand = new LevelCharacterCommand(_characterStore, dialogService);
 			AdjustExperienceCommand = new RelayCommand(AdjustExperience);
 			AdjustHealthCommand = new RelayCommand(AddHealth);
@@ -193,49 +191,65 @@ namespace PCCharacterManager.ViewModels
 		/// What to do when the selectedCharacter changes
 		/// </summary>
 		/// <param name="newCharacter">the newly selected character</param>
-		protected virtual void OnCharacterChanged(DnD5eCharacter newCharacter)
+		protected virtual void OnCharacterChanged(CharacterBase newCharacter)
 		{
-			if (SelectedCharacter is not null)
+			if (_selectedCharacter is not null)
 			{
-				SelectedCharacter.CharacterClass.Features.CollectionChanged -= UpdateFeatures;
+				_selectedCharacter.CharacterClass.Features.CollectionChanged -= UpdateFeatures;
+				_selectedCharacter.Health.PropertyChanged -= UpdateHealth;
+			}
+
+
+			if (CharacterTypeHelper.IsValidCharacterType(newCharacter, CharacterType.DnD5e)
+				&& newCharacter is DnD5eCharacter c)
+			{
+				SelectedCharacter = c;
 			}
 			else
 			{
+				SelectedCharacter = null;
 				return;
 			}
 
-			SelectedCharacter = newCharacter;
-
+			SelectedCharacter.Health.PropertyChanged += UpdateHealth;
 			SelectedCharacter.CharacterClass.Features.CollectionChanged += UpdateFeatures;
 
 			//FeaturesListVM.UpdateCollection(null);
-			ConditionsListVM.UpdateCollection(_selectedCharacter.Conditions);
-			MovementTypesListVM.UpdateCollection( _selectedCharacter.MovementTypes_Speeds);
-			LanguagesVM.UpdateCollection(_selectedCharacter.Languages);
-			CombatActionsVM.UpdateCollection(_selectedCharacter.CombatActions);
-			ToolProfsVM.UpdateCollection(_selectedCharacter.ToolProficiences);
-			ArmorProfsVM.UpdateCollection(_selectedCharacter.ArmorProficiencies);
-			OtherProfsVM.UpdateCollection(_selectedCharacter.OtherProficiences);
-			WeaponProfsVM.UpdateCollection(_selectedCharacter.WeaponProficiencies);
+			ConditionsListVM.UpdateCollection(SelectedCharacter.Conditions);
+			MovementTypesListVM.UpdateCollection( SelectedCharacter.MovementTypes_Speeds);
+			LanguagesVM.UpdateCollection(SelectedCharacter.Languages);
+			CombatActionsVM.UpdateCollection(SelectedCharacter.CombatActions);
+			ToolProfsVM.UpdateCollection(SelectedCharacter.ToolProficiences);
+			ArmorProfsVM.UpdateCollection(SelectedCharacter.ArmorProficiencies);
+			OtherProfsVM.UpdateCollection(SelectedCharacter.OtherProficiences);
+			WeaponProfsVM.UpdateCollection(SelectedCharacter.WeaponProficiencies);
 
-			Race = _selectedCharacter.Race.RaceVariant.Name;
+			Race = SelectedCharacter.Race.Name + " " + SelectedCharacter.Race.RaceVariant.Name;
 
-			Health characterHealth = _selectedCharacter.Health;
+			Health characterHealth = SelectedCharacter.Health;
 			Health = characterHealth.CurrHealth.ToString() + '/' + characterHealth.MaxHealth + " (" + 
 				characterHealth.TempHitPoints + " temp)";
 
-			DnD5eCharacterClass characterClass = _selectedCharacter.CharacterClass;
-			CharacterClass = characterClass.Name + "(total: " + _selectedCharacter.Level.Level 
-				+ ", PB: " + _selectedCharacter.Level.ProficiencyBonus + ")";
+			DnD5eCharacterClass characterClass = SelectedCharacter.CharacterClass;
+			CharacterClass = characterClass.Name + "(total: " + SelectedCharacter.Level.Level 
+				+ ", PB: " + SelectedCharacter.Level.ProficiencyBonus + ")";
 
-			ArmorClass = _selectedCharacter.ArmorClass.TotalArmorClass;
+			ArmorClass = SelectedCharacter.ArmorClass.TotalArmorClass;
 
 			UpdateFeatures(null, null);
 			SelectedProperty = AllFeatures.FirstOrDefault();
 		}
 
+		protected void UpdateHealth(object? sender, PropertyChangedEventArgs e)
+		{
+			UpdateHealth();
+		}
+
 		private void LongRest()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			int maxNumberOfRegainedHitDie = Math.Max(1, _selectedCharacter.Level.Level / 2);
 			int spentHitDie = _selectedCharacter.SpentHitDie;
 			int regainedHitDie = Math.Clamp(_selectedCharacter.Level.Level - spentHitDie, 1, maxNumberOfRegainedHitDie);
@@ -250,6 +264,9 @@ namespace PCCharacterManager.ViewModels
 
 		private void ShortRest()
 		{
+			if (_selectedCharacter is null) 
+				return;
+			
 			DialogWindowShortRestViewModel vm = new(_selectedCharacter);
 			string result = string.Empty;
 			_dialogService.ShowDialog<ShortRestDialogWindow, DialogWindowShortRestViewModel>(vm, r =>
@@ -268,6 +285,9 @@ namespace PCCharacterManager.ViewModels
 
 		private void EndEncounter()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			_selectedCharacter.CombatRound = 0;
 			_selectedCharacter.IsInCombat = false;
 			_selectedCharacter.Status = CharacterStatus.IDLE;
@@ -275,13 +295,19 @@ namespace PCCharacterManager.ViewModels
 
 		private void StartEncounter()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			_selectedCharacter.CombatRound = 0;
 			_selectedCharacter.IsInCombat = true;
 			_selectedCharacter.Status = CharacterStatus.COMBAT;
 		}
 
 		private void NextCombatRound()
-		{ 
+		{
+			if (_selectedCharacter is null)
+				return;
+
 			_selectedCharacter.CombatRound += 1;
 
 			if (_selectedCharacter.Conditions.Count <= 0)
@@ -302,8 +328,11 @@ namespace PCCharacterManager.ViewModels
 			}
 		}
 
-		private void EditArmorClass()
+		protected virtual void EditArmorClass()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			DialogWindowEditArmorClassViewModel dataContext = new(_selectedCharacter.ArmorClass);
 
 			string result = string.Empty;
@@ -323,8 +352,11 @@ namespace PCCharacterManager.ViewModels
 			ArmorClass = _selectedCharacter.ArmorClass.TotalArmorClass;
 		}
 
-		private void AdjustExperience()
+		protected virtual void AdjustExperience()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			DialogWindowStringInputViewModel dataContext = new("Enter amount to add or remove.");
 
 			string result = string.Empty;
@@ -353,8 +385,11 @@ namespace PCCharacterManager.ViewModels
 			// NOTE: check if they can level up, if they can, ask if they want to. 
 		}
 
-		private void AddHealth()
+		protected virtual void AddHealth()
 		{
+			if (_selectedCharacter is null)
+				return;
+
 			DialogWindowChangeHealthViewModel dataContext = new();
 			string result = string.Empty;
 			_dialogService.ShowDialog<ChangeHealthDialogWindow, DialogWindowChangeHealthViewModel>(dataContext, r =>
@@ -381,12 +416,16 @@ namespace PCCharacterManager.ViewModels
 			UpdateHealth();
 		}
 
-		private void UpdateHealth()
+		protected virtual void UpdateHealth()
 		{
-			Health = _selectedCharacter.Health.CurrHealth.ToString() + '/' + _selectedCharacter.Health.MaxHealth.ToString() + " (" + _selectedCharacter.Health.TempHitPoints + " temp)";
+			if (_selectedCharacter is null)
+				return;
+
+			Health = _selectedCharacter.Health.CurrHealth.ToString() + '/' + _selectedCharacter.Health.MaxHealth.ToString() 
+				+ " (" + _selectedCharacter.Health.TempHitPoints + " temp)";
 		}
 
-		private void AddFeature()
+		protected virtual void AddFeature()
 		{
 			DialogWindowAddFeatureViewModel windowVM = new(this);
 			string result = string.Empty;
@@ -401,7 +440,7 @@ namespace PCCharacterManager.ViewModels
 			FeatureTypeSortCommand?.Execute(null);
 		}
 
-		private void RemoveFeature()
+		protected virtual void RemoveFeature()
 		{
 			if (_selectedProperty == null || _selectedCharacter == null)
 				return;
@@ -431,12 +470,12 @@ namespace PCCharacterManager.ViewModels
 			_selectedProperty = AllFeatures.FirstOrDefault();
 		}
 
-		private void EditCharacter()
+		protected virtual void EditCharacter()
 		{
-			if (_characterStore.SelectedCharacter == null)
+			if (SelectedCharacter == null)
 				return;
 
-			DialogWindowEditCharacterViewModel windowVM = new(_characterStore.SelectedCharacter, _dialogService);
+			DialogWindowEditCharacterViewModel windowVM = new(SelectedCharacter, _dialogService);
 
 			string result = string.Empty;
 			_dialogService.ShowDialog<EditCharacterDialogWindow, DialogWindowEditCharacterViewModel>(windowVM, r =>

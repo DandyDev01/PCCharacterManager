@@ -1,15 +1,41 @@
-﻿using System;
+﻿using Newtonsoft.Json.Converters;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace PCCharacterManager.Models
 {
-	public class StarfinderCharacter : DnD5eCharacter
+	public class StarfinderCharacter : CharacterBase
 	{
-		private new StarfinderAbility[] abilities;
+		private int _initiative;
+		public int Initiative
+		{
+			get { return _initiative; }
+			set
+			{
+				OnPropertyChanged(ref _initiative, value);
+				OnCharacterChangedAction?.Invoke(this);
+			}
+		}
+
+		private StarfinderAbility[] _abilities;
+		public StarfinderAbility[] Abilities
+		{
+			get { return _abilities; }
+			set { _abilities = value; }
+		}
+
+		public ObservableCollection<Property> MovementTypes_Speeds { get; protected set; }
+		public ObservableCollection<string> WeaponProficiencies { get; protected set; }
+		public ObservableCollection<string> ArmorProficiencies { get; protected set; }
+		public ObservableCollection<string> OtherProficiences { get; protected set; }
+		public ObservableCollection<string> ToolProficiences { get; protected set; }
+		public ObservableCollection<string> Languages { get; protected set; }
 
 		public Property StaminaPoints { get; set; }
 		public Property ResolvePoints { get; set; }
@@ -22,18 +48,25 @@ namespace PCCharacterManager.Models
 		public StarfinderStatBlock SavingThrowFortitude { get; set; }
 		public ObservableCollection<StarfinderAugmentation> Augmentations { get; set; }
 		public new StarfinderArmorClass ArmorClass { get; set; }
-		public new StarfinderAbility[] Abilities
-		{
-			get { return abilities; }
-			set { abilities = value; }
-		}
 
 		public string HomeWorld { get; set; }
 		public string KeyAbilityScore { get; set; }
 		public override int CarryWeight => Abilities.Where(x => x.Name == "Strength").First().Score / 2;
 
+		[JsonProperty(nameof(Size))]
+		[JsonConverter(typeof(StringEnumConverter))]
+		public CreatureSize Size { get; set; }
+
+		[JsonProperty(nameof(Alignment))]
+		[JsonConverter(typeof(StringEnumConverter))]
+		public Alignment Alignment { get; set; }
+
+
 		public StarfinderCharacter() : base()
 		{
+			if (Directory.Exists(StarfinderResources.Root) == false)
+				return;
+
 			HomeWorld = string.Empty;
 			KeyAbilityScore = string.Empty;
 			CharacterType = CharacterType.starfinder;
@@ -48,12 +81,15 @@ namespace PCCharacterManager.Models
 			SavingThrowFortitude = new StarfinderStatBlock();
 			Augmentations = new ObservableCollection<StarfinderAugmentation>();
 			Theme = new StarfinderTheme();
-			abilities = ReadWriteJsonCollection<StarfinderAbility>.ReadCollection(StarfinderResources.AbilitiesJson).ToArray();
+			_abilities = ReadWriteJsonCollection<StarfinderAbility>.ReadCollection(StarfinderResources.AbilitiesJson).ToArray();
 		}
 
 		public StarfinderCharacter(StarfinderClassData classData, StarfinderRaceData raceData, 
 			DnD5eBackgroundData backgroundData) : base(classData, raceData, backgroundData)
 		{
+			if (Directory.Exists(StarfinderResources.Root) == false)
+				return;
+
 			HomeWorld = string.Empty;
 			KeyAbilityScore = string.Empty;
 			CharacterType = CharacterType.starfinder;
@@ -68,11 +104,14 @@ namespace PCCharacterManager.Models
 			SavingThrowFortitude = new StarfinderStatBlock();
 			Augmentations = new ObservableCollection<StarfinderAugmentation>();
 			Theme = new StarfinderTheme();
-			abilities = ReadWriteJsonCollection<StarfinderAbility>.ReadCollection(StarfinderResources.AbilitiesJson).ToArray();
+			_abilities = ReadWriteJsonCollection<StarfinderAbility>.ReadCollection(StarfinderResources.AbilitiesJson).ToArray();
 		}
 
 		public StarfinderCharacter(StarfinderClassData classData, StarfinderRaceData raceData, StarfinderThemeData themeData)
 		{
+			if (Directory.Exists(StarfinderResources.Root) == false)
+				return;
+
 			HomeWorld = string.Empty;
 			KeyAbilityScore = string.Empty;
 			CharacterClass = new DnD5eCharacterClass(classData);
@@ -90,7 +129,7 @@ namespace PCCharacterManager.Models
 			SavingThrowReflex = new StarfinderStatBlock();
 			Augmentations = new ObservableCollection<StarfinderAugmentation>();
 			SavingThrowFortitude = new StarfinderStatBlock();
-			abilities = ReadWriteJsonCollection<StarfinderAbility>.ReadCollection(StarfinderResources.AbilitiesJson).ToArray();
+			_abilities = ReadWriteJsonCollection<StarfinderAbility>.ReadCollection(StarfinderResources.AbilitiesJson).ToArray();
 
 
 			Languages = new ObservableCollection<string>(raceData.Languages);

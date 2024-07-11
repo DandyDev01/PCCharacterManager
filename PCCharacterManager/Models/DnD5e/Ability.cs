@@ -11,6 +11,14 @@ namespace PCCharacterManager.Models
 {
 	public class Ability : ObservableObject
 	{
+		public static Ability[] Default =
+		{
+			new Ability(1, 1, 1, false, 1, "", "", new AbilitySkill[]
+			{
+
+			}),
+		};
+
 		private int _score;
 		private int _modifier;
 		private int _save;
@@ -98,8 +106,6 @@ namespace PCCharacterManager.Models
 			Skills = skills;
 			UpdateProfSaveCommand = new RelayCommand(SetProfSave);
 		}
-
-
 
 		/// <summary>
 		/// set the proficiency bonus and update associated skill info and ability save info

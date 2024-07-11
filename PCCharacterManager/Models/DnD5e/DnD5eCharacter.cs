@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,31 +21,18 @@ namespace PCCharacterManager.Models
 	public enum CharacterType { DnD5e, starfinder, dark_souls }
 	public enum CharacterStatus { COMBAT, IDLE }
 
-	public class DnD5eCharacter : ObservableObject
+	public class DnD5eCharacter : CharacterBase
 	{
 		public static DnD5eCharacter Default => new();
 
-		protected Ability[] _abilities;
-
-		protected string _name;
-		public string Name
+		private Ability[] _abilities;
+		public Ability[] Abilities
 		{
-			get { return _name; }
-			set 
-			{ 
-				OnPropertyChanged(ref _name, value);
-				OnCharacterChangedAction?.Invoke(this);
-			}
+			get { return _abilities; }
+			set { _abilities = value; }
 		}
 
-		protected string _id;
-		public string Id
-		{
-			get => _id;
-			set => OnPropertyChanged(ref _id, value);
-		}
-
-		protected string _background;
+		private string _background;
 		public string Background
 		{
 			get { return _background; }
@@ -55,17 +43,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 		
-		protected string _dateModified;
-		public string DateModified
-		{
-			get { return _dateModified; }	
-			set 
-			{ 
-				OnPropertyChanged(ref _dateModified, value);
-			}
-		}
-		
-		protected int _initiative;
+		private int _initiative;
 		public int Initiative
 		{
 			get { return _initiative; }
@@ -76,7 +54,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 		
-		protected int _passivePerception;
+		private int _passivePerception;
 		public int PassivePerception
 		{
 			get { return _passivePerception; }
@@ -87,7 +65,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 		
-		protected int _passiveInsight;
+		private int _passiveInsight;
 		public int PassiveInsight
 		{
 			get { return _passiveInsight; }
@@ -113,7 +91,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		protected int _combatRound;
+		private int _combatRound;
 		public int CombatRound
 		{
 			get
@@ -127,7 +105,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		protected bool _isInCombat;
+		private bool _isInCombat;
 		public bool IsInCombat
 		{
 			get
@@ -156,21 +134,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		public virtual int CarryWeight => Abilities.Where(x => x.Name == "Strength").First().Score * 15;
-
-		public DnD5eCharacterClass CharacterClass { get; set; }
-		public DnD5eCharacterRace Race { get; set; }
-		public ArmorClass ArmorClass { get; set; }
-		public CharacterLevel Level { get; set; }
-		public NoteBook NoteManager { get; set; }
-		public Inventory Inventory { get; set; }
-		public SpellBook SpellBook { get; set; }
-		public Health Health { get; set; }
-		public Ability[] Abilities
-		{
-			get { return _abilities; }
-			set { _abilities = value; }
-		}
+		public override int CarryWeight => Abilities.Where(x => x.Name == "Strength").First().Score * 15;
 
 		public ObservableCollection<Condition> Conditions { get; protected set; }
 		public ObservableCollection<Property> MovementTypes_Speeds { get; protected set; }
@@ -185,20 +149,14 @@ namespace PCCharacterManager.Models
 		[JsonConverter(typeof(StringEnumConverter))]
 		public CreatureSize Size { get; set; }
 
-		[JsonProperty(nameof(CharacterType))]
-		[JsonConverter(typeof(StringEnumConverter))]
-		public CharacterType CharacterType { get; set; }
-
 		[JsonProperty(nameof(Alignment))]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public Alignment Alignment { get; set; }
 
-		[JsonIgnore]
-		public Action<DnD5eCharacter>? OnCharacterChangedAction { get; set; }
-
-		public DnD5eCharacter()
+		[JsonConstructor]
+		private DnD5eCharacter() : base()
 		{
-			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
+			_abilities = Ability.Default;
 
 			_status = CharacterStatus.IDLE;
 
@@ -211,32 +169,6 @@ namespace PCCharacterManager.Models
 			ToolProficiences = new ObservableCollection<string>();
 			Languages = new ObservableCollection<string>();
 
-			CharacterClass = new DnD5eCharacterClass();
-			Race = new DnD5eCharacterRace();
-			ArmorClass = new ArmorClass();
-			Level = new CharacterLevel();
-			NoteManager = new NoteBook();
-			SpellBook = new SpellBook();
-			Inventory = new Inventory();
-			Health = new Health(1);
-
-			CharacterClass.PropertyChanged += OnCharacterChanged;
-			ArmorClass.PropertyChanged += OnCharacterChanged;
-			Level.PropertyChanged += OnCharacterChanged;
-			Health.PropertyChanged += OnCharacterChanged;
-			SpellBook.PropertyChanged += OnCharacterChanged;
-			SpellBook.CantripsKnown.CollectionChanged += OnCharacterChanged;
-			SpellBook.PreparedSpells.CollectionChanged += OnCharacterChanged;
-
-			foreach (var item in SpellBook.SpellsKnown)
-			{
-				item.Value.CollectionChanged += OnCharacterChanged;
-			}
-
-			foreach (var item in Inventory.Items)
-			{
-				item.Value.CollectionChanged += OnCharacterChanged;
-			}
 
 			Conditions.CollectionChanged += OnCharacterChanged;
 			MovementTypes_Speeds.CollectionChanged += OnCharacterChanged;
@@ -246,19 +178,15 @@ namespace PCCharacterManager.Models
 			ToolProficiences.CollectionChanged += OnCharacterChanged;
 			Languages.CollectionChanged += OnCharacterChanged;
 
-			_id = string.Empty;
-			_name = string.Empty;
-			_dateModified = string.Empty;
 			_background = string.Empty;
-			CharacterType = CharacterType.DnD5e;
 		}
 
 		
 
 		public DnD5eCharacter(DnD5eCharacterClassData classData, DnD5eCharacterRaceData raceData, 
-			DnD5eBackgroundData backgroundData)
+			DnD5eBackgroundData backgroundData, Ability[] abilities)
 		{
-			_abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
+			_abilities = abilities;
 
 			Conditions = new ObservableCollection<Condition>();
 			MovementTypes_Speeds = new ObservableCollection<Property>();
@@ -316,21 +244,6 @@ namespace PCCharacterManager.Models
 
 			AddMovementType(new Property(MovementType.WALK.ToString(), raceData.Speed));
 			AddLanguages(raceData.Languages);
-		}
-
-		/// <summary>
-		/// Used to notify when any aspect of the character changes.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		protected void OnCharacterChanged(object? sender, NotifyCollectionChangedEventArgs? e)
-		{
-			OnCharacterChangedAction?.Invoke(this);
-		}
-
-		protected void OnCharacterChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			OnCharacterChangedAction?.Invoke(this);
 		}
 
 		/// <summary>

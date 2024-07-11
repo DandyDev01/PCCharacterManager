@@ -24,7 +24,12 @@ namespace PCCharacterManager.Models
 		public int MaxHealth
 		{
 			get { return _maxHealth; }
-			set { OnPropertyChanged(ref _maxHealth, value); }
+			set 
+			{ 
+				OnPropertyChanged(ref _maxHealth, value); 
+				if (_currHealth > _maxHealth)
+					CurrHealth = value;	
+			}
 		}
 
 		private int _tempHitPoints;
@@ -54,7 +59,6 @@ namespace PCCharacterManager.Models
 				maxHealth = 1;
 
 			MaxHealth = maxHealth;
-			CurrHealth = this._maxHealth;
 		}
 
 		/// <summary>

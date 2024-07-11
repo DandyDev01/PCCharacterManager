@@ -15,21 +15,17 @@ namespace PCCharacterManager.Services
 		private readonly JsonStarFinderCharacterDataService _starFinderCharacterDataService;
 		private readonly JsonDarkSoulsCharacterDataService _darkSoulsCharacterDataService;
 
-		public JsonCharacterDataService(CharacterStore characterStore)
+		public JsonCharacterDataService(CharacterStore? characterStore)
 		{
-			_dnD5echaracterDataService = new JsonDnD5eCharacterDataService(characterStore);
+			_dnD5echaracterDataService = new JsonDnD5eCharacterDataService();
 			_starFinderCharacterDataService = new JsonStarFinderCharacterDataService();
 			_darkSoulsCharacterDataService = new JsonDarkSoulsCharacterDataService();
 
-			characterStore.CharacterCreate += Add;
+			if (characterStore != null ) 
+				characterStore.CharacterCreate += Add;
 		}
 
-		public JsonCharacterDataService()
-		{
-			
-		}
-
-		public override void Add(DnD5eCharacter characterToAdd)
+		public override void Add(CharacterBase characterToAdd)
 		{
 			if(characterToAdd is StarfinderCharacter starfinderCharacter)
 			{
@@ -39,13 +35,13 @@ namespace PCCharacterManager.Services
 			{
 				_darkSoulsCharacterDataService.Add(darkSoulsCharacter);
 			}
-			else if(characterToAdd is DnD5eCharacter)
+			else if(characterToAdd is DnD5eCharacter dnd5e)
 			{
-				_dnD5echaracterDataService.Add(characterToAdd);
+				_dnD5echaracterDataService.Add(dnd5e);
 			}
 		}
 
-		public override bool Delete(DnD5eCharacter characterToDelete)
+		public override bool Delete(CharacterBase characterToDelete)
 		{
 			if (characterToDelete is StarfinderCharacter starfinderCharacter)
 			{
@@ -56,9 +52,9 @@ namespace PCCharacterManager.Services
 			{
 				_darkSoulsCharacterDataService.Delete(darkSoulsCharacter);
 			}
-			else if (characterToDelete is DnD5eCharacter)
+			else if (characterToDelete is DnD5eCharacter dnd5e)
 			{
-				_dnD5echaracterDataService.Delete(characterToDelete);
+				_dnD5echaracterDataService.Delete(dnd5e);
 				return true;
 			}
 
@@ -68,68 +64,70 @@ namespace PCCharacterManager.Services
 		public override IEnumerable<string> GetCharacterFilePaths()
 		{
 			List<string> paths = new List<string>();
-			paths.AddRange(Directory.GetFiles(DnD5eResources.CharacterDataDir));
-			paths.AddRange(Directory.GetFiles(StarfinderResources.CharacterDataDir));
-			paths.AddRange(Directory.GetFiles(DarkSoulsResources.CharacterDataDir));
+			paths.AddRange(_dnD5echaracterDataService.GetByFilePaths());
+			paths.AddRange(_starFinderCharacterDataService.GetByFilePaths());
+			paths.AddRange(_darkSoulsCharacterDataService.GetByFilePaths());
 
 			return paths;
 		}
 
-		public override IEnumerable<DnD5eCharacter> GetCharacters()
+		public override IEnumerable<CharacterBase> GetCharacters()
 		{
 			List<StarfinderCharacter> starfinderCharacters = new();
-			string[] starfinderCharacterEntries = Directory.GetFiles(StarfinderResources.CharacterDataDir);
-			foreach (string characterEntry in starfinderCharacterEntries)
+			List<DarkSoulsCharacter> darkSoulsCharacters = new();
+			List<DnD5eCharacter> dnd5eCharacters = new();
+			
+			if (Directory.Exists(StarfinderResources.CharacterDataDir))
 			{
-				var item = ReadWriteJsonFile<StarfinderCharacter>.ReadFile(characterEntry);
-				if (item != null) 
-					starfinderCharacters.Add(item);
+				string[] starfinderCharacterEntries = Directory.GetFiles(StarfinderResources.CharacterDataDir);
+				foreach (string characterEntry in starfinderCharacterEntries)
+				{
+					var item = ReadWriteJsonFile<StarfinderCharacter>.ReadFile(characterEntry);
+					if (item != null) 
+						starfinderCharacters.Add(item);
+				}
 			}
 
-			List<DarkSoulsCharacter> darkSoulsCharacters = new();
-			string[] darkSoulsCharacterEntries = Directory.GetFiles(DarkSoulsResources.CharacterDataDir);
-			foreach (string characterEntry in darkSoulsCharacterEntries)
+			if (Directory.Exists(DarkSoulsResources.CharacterDataDir))
 			{
-				var character = ReadWriteJsonFile<DarkSoulsCharacter>.ReadFile(characterEntry);
-				if (character != null)
-					darkSoulsCharacters.Add(character);
+				string[] darkSoulsCharacterEntries = Directory.GetFiles(DarkSoulsResources.CharacterDataDir);
+				foreach (string characterEntry in darkSoulsCharacterEntries)
+				{
+					var character = ReadWriteJsonFile<DarkSoulsCharacter>.ReadFile(characterEntry);
+					if (character != null)
+						darkSoulsCharacters.Add(character);
+				}
 			}
 			
-			List<DnD5eCharacter> dnd5eCharacters = new();
-			string[] dnd5eCharacterEntries = Directory.GetFiles(DnD5eResources.CharacterDataDir);
-			foreach (string characterEntry in dnd5eCharacterEntries)
+			if (Directory.Exists(DnD5eResources.CharacterDataDir))
 			{
-				var character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterEntry);
-				if (character != null) 
-					dnd5eCharacters.Add(character);
+				string[] dnd5eCharacterEntries = Directory.GetFiles(DnD5eResources.CharacterDataDir);
+				foreach (string characterEntry in dnd5eCharacterEntries)
+				{
+					var character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterEntry);
+					if (character != null) 
+						dnd5eCharacters.Add(character);
+				}
 			}
 
-			dnd5eCharacters.AddRange(starfinderCharacters);
-			dnd5eCharacters.AddRange(darkSoulsCharacters);
+			List<CharacterBase> allCharacters = new();
 
-			return dnd5eCharacters;
+			allCharacters.AddRange(dnd5eCharacters);
+			allCharacters.AddRange(starfinderCharacters);
+			allCharacters.AddRange(darkSoulsCharacters);
+
+			return allCharacters;
 		}
 
-		public override void Save(IEnumerable<DnD5eCharacter> characters)
+		public override void Save(IEnumerable<CharacterBase> characters)
 		{
 			foreach (var item in characters)
 			{
-				if (item is StarfinderCharacter starfinderCharacter)
-				{
-					_starFinderCharacterDataService.Save(starfinderCharacter);
-				}
-				else if (item is DarkSoulsCharacter darkSoulsCharacter)
-				{
-					_darkSoulsCharacterDataService.Save(darkSoulsCharacter);
-				}
-				else if (item is DnD5eCharacter)
-				{
-					_dnD5echaracterDataService.Save(item);
-				}
+				Save(item);
 			}
 		}
 
-		public override void Save(DnD5eCharacter character)
+		public override void Save(CharacterBase character)
 		{
 			if (character is StarfinderCharacter starfinderCharacter)
 			{
@@ -139,9 +137,9 @@ namespace PCCharacterManager.Services
 			{
 				_darkSoulsCharacterDataService.Save(darkSoulsCharacter);
 			}
-			else if (character is DnD5eCharacter)
+			else if (character is DnD5eCharacter dnd5e)
 			{
-				_dnD5echaracterDataService.Save(character);
+				_dnD5echaracterDataService.Save(dnd5e);
 			}
 
 			OnSave?.Invoke();

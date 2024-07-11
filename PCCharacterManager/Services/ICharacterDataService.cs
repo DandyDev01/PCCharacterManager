@@ -12,17 +12,17 @@ namespace PCCharacterManager.Services
 	{
 		public Action? OnSave;
 
-		public abstract IEnumerable<DnD5eCharacter> GetCharacters();
+		public abstract IEnumerable<CharacterBase> GetCharacters();
 
 		public abstract IEnumerable<string> GetCharacterFilePaths();
 
-		public abstract void Save(IEnumerable<DnD5eCharacter> characters);
+		public abstract void Save(IEnumerable<CharacterBase> characters);
 
-		public abstract void Save(DnD5eCharacter character);
+		public abstract void Save(CharacterBase character);
 
-		public abstract void Add(DnD5eCharacter newCharacter);
+		public abstract void Add(CharacterBase newCharacter);
 
-		public abstract bool Delete(DnD5eCharacter character);
+		public abstract bool Delete(CharacterBase character);
 
 		public bool Delete(string path)
 		{

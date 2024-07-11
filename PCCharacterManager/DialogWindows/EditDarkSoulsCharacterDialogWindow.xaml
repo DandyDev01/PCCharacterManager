@@ -1,5 +1,5 @@
 ﻿<Window
-    x:Class="PCCharacterManager.DialogWindows.EditCharacterDialogWindow"
+    x:Class="PCCharacterManager.DialogWindows.EditDarkSoulsCharacterDialogWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -43,14 +43,6 @@
             <ContentControl
                 Grid.Row="1"
                 Grid.RowSpan="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="1">
-                <v:StringListView DataContext="{Binding LanguagesVM}" />
-            </ContentControl>
-
-            <ContentControl
-                Grid.Row="1"
-                Grid.RowSpan="1"
                 Grid.Column="1"
                 Grid.ColumnSpan="1">
                 <v:PropertyListView DataContext="{Binding MovementTypesListVM}" />
@@ -78,14 +70,6 @@
                 Grid.Column="4"
                 Grid.ColumnSpan="1">
                 <v:StringListView DataContext="{Binding OtherProfsVM}" />
-            </ContentControl>
-
-            <ContentControl
-                Grid.Row="1"
-                Grid.RowSpan="1"
-                Grid.Column="5"
-                Grid.ColumnSpan="1">
-                <v:StringListView DataContext="{Binding ToolProfsVM}" />
             </ContentControl>
 
             <!--#region max health-->
@@ -124,7 +108,7 @@
                 Height="30"
                 VerticalAlignment="Top"
                 ItemsSource="{Binding HitDice}"
-                SelectedItem="{Binding Character.CharacterClass.HitDie}" />
+                SelectedItem="{Binding Character.Origin.HitDie}" />
 
             <!--#endregion-->
 

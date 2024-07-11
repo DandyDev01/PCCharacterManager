@@ -127,7 +127,7 @@ namespace PCCharacterManager.ViewModels
 
 			if (!validName)
 			{
-				MessageBox.Show("Name cannot be empty or only whitespace", "Invalid Name", 
+				_dialogService.ShowMessage("Name cannot be empty or only whitespace", "Invalid Name", 
 					MessageBoxButton.OK, MessageBoxImage.Error);
 
 				return null;
@@ -153,7 +153,8 @@ namespace PCCharacterManager.ViewModels
 			// set class skills
 			foreach (var classSkill in _selectedClassData.ClassSkills)
 			{
-				if (classSkill.Contains("Profession")) continue;
+				if (classSkill.Contains("Profession")) 
+					continue;
 
 				try
 				{
@@ -161,7 +162,7 @@ namespace PCCharacterManager.ViewModels
 				} 
 				catch (Exception e)
 				{
-					MessageBox.Show(e.Message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
+					_dialogService.ShowMessage(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 					return null;
 				}
 			}
@@ -205,7 +206,7 @@ namespace PCCharacterManager.ViewModels
 				}
 				catch (Exception e)
 				{
-					MessageBox.Show(e.Message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
+					_dialogService.ShowMessage(e.Message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
 					return null;
 				}
 			}
@@ -227,7 +228,7 @@ namespace PCCharacterManager.ViewModels
 			}
 			catch(Exception e)
 			{
-				MessageBox.Show(e.Message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
+				_dialogService.ShowMessage(e.Message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
 				return null;
 			}
 
@@ -235,6 +236,8 @@ namespace PCCharacterManager.ViewModels
 			{
 				character.NoteManager.NoteSections[0].Notes.Add(SelectedClassData.Note);
 			}
+
+			character.Id = CharacterIDGenerator.GenerateID();
 
 			return character;
 		}

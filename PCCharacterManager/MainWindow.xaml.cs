@@ -43,6 +43,7 @@ namespace PCCharacterManager
 			DialogServiceBase.RegisterDialog<DialogWindowStringInputViewModel, StringInputDialogWindow>();
 			DialogServiceBase.RegisterDialog<DialogWindowShortRestViewModel, ShortRestDialogWindow>();
 			DialogServiceBase.RegisterDialog<DialogWindowEditArmorClassViewModel, EditArmorClassDialogWindow>();
+			DialogServiceBase.RegisterDialog<DialogWindowEditDarkSoulsCharacterViewModel, EditDarkSoulsCharacterDialogWindow>();
 			InitializeComponent();
 		}
 

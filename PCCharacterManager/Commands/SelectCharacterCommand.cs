@@ -26,7 +26,7 @@ namespace PCCharacterManager.Commands
 
 		public override void Execute(object? parameter)
 		{
-			DnD5eCharacter? selectedCharacter;
+			CharacterBase? selectedCharacter;
 			//Console.WriteLine("selected character is: " + characterToSelect.Name);
 			if (_characterPath.Contains("dnd5e", StringComparison.OrdinalIgnoreCase))
 			{

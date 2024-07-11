@@ -51,6 +51,17 @@ namespace PCCharacterManager.ViewModels
 			_dialogService = dialogService;	
 		}
 
+		public StringListViewModel(string listName, DialogServiceBase dialogService)
+		{
+			_listName = listName;
+			ItemsToDisplay = new();
+
+			AddItemCommand = new RelayCommand(AddItem);
+			RemoveItemCommand = new RelayCommand(RemoveItem);
+			EditItemCommand = new RelayCommand(EditItem);
+			_dialogService = dialogService;
+		}
+
 		public void UpdateCollection(ObservableCollection<string> items)
 		{
 			ItemsToDisplay = items;

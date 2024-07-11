@@ -29,7 +29,7 @@ namespace PCCharacterManager.ViewModels
 			//OnCharacterChanged(_characterStore.SelectedCharacter);
 		}
 
-		private void OnCharacterChanged(DnD5eCharacter newCharacter)
+		private void OnCharacterChanged(CharacterBase newCharacter)
 		{
 			if (newCharacter == null) 
 				return;

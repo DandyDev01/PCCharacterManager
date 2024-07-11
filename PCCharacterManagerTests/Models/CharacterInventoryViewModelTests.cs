@@ -17,9 +17,10 @@ namespace PCCharacterManagerTests.Models
 		[TestMethod()]
 		public void PopulatePropertiesToDisplayTest()
 		{
-			var characterStore = new CharacterStore();
+			var recovery = new SimpleCharacterRecovery();
+			var characterStore = new CharacterStore(recovery);
 			var dialogService = new PassDialogService();
-			CharacterInventoryViewModel vm = new(characterStore, dialogService);
+			CharacterInventoryViewModel vm = new(characterStore, dialogService, recovery);
 
 			Item item = new();
 			Property visibel = new();
@@ -42,10 +43,11 @@ namespace PCCharacterManagerTests.Models
 		[TestMethod()]
 		public void CalculateInventoryWeightTest()
 		{
-			var characterStore = new CharacterStore();
+			var recovery = new SimpleCharacterRecovery();
+			var characterStore = new CharacterStore(recovery);
 			var dialogService = new PassDialogService();
-			CharacterInventoryViewModel vm = new(characterStore, dialogService);
-			DnD5eCharacter character = new();
+			CharacterInventoryViewModel vm = new(characterStore, dialogService, recovery);
+			DnD5eCharacter character = CharacterCreatorViewModel.CreateRandonCharacter();
 			characterStore.BindSelectedCharacter(character);
 
 			Item item = new();
@@ -67,6 +69,7 @@ namespace PCCharacterManagerTests.Models
 		public void OtherConstructor()
 		{
 			var items = ReadWriteJsonCollection<Item>.ReadCollection(DnD5eResources.AllItemsJson);
+			var recovery = new SimpleCharacterRecovery();
 			ObservableCollection<ItemViewModel> itemVMs = new ObservableCollection<ItemViewModel>();
 
 			foreach (var item in items)
@@ -75,7 +78,7 @@ namespace PCCharacterManagerTests.Models
 			}
 
 			var dialogService = new PassDialogService();
-			CharacterInventoryViewModel vm = new(itemVMs, dialogService);
+			CharacterInventoryViewModel vm = new(itemVMs, dialogService, recovery);
 		}
 	}
 }

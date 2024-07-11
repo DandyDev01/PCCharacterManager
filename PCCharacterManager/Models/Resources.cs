@@ -8,6 +8,7 @@ namespace PCCharacterManager.Models
 {
 	public static class DnD5eResources
 	{
+		public const string Root = @"Resources\DnD5e\";
 		public const string CharacterDataDir = @"Resources\DnD5e\CharacterData";
 		public const string CharacterClassDataJson = @"Resources\DnD5e\CharacterClassData.json";
 		public const string BackgroundDataJson = @"Resources\DnD5e\BackgroundData.json";
@@ -20,19 +21,21 @@ namespace PCCharacterManager.Models
 
 	public static class StarfinderResources
 	{
-		public const string CharacterDataDir = @"Resources\starfinder\CharacterData";
-		public const string AllItemsJson = @"Resources\starfinder\Items.json";
-		public const string CharacterClassDataJson = @"Resources\starfinder\CharacterClassData.json";
-		public const string AbilitiesJson = @"Resources\starfinder\Abilities.json";
-		public const string RaceDataJson = @"Resources\starfinder\RaceData.json";
-		public const string BackgroundDataJson = @"Resources\starfinder\BackgroundData.json";
-		public const string SpellsJson = @"Resources\starfinder\Spells.json";
-		public const string LanguagesJson = @"Resources\starfinder\Languages.json";
-		public const string ThemeDataJson = @"Resources\starfinder\ThemeData.json";
+		public const string Root = @"Resources\Starfinder\";
+		public const string CharacterDataDir = @"Resources\Starfinder\CharacterData";
+		public const string AllItemsJson = @"Resources\Starfinder\Items.json";
+		public const string CharacterClassDataJson = @"Resources\Starfinder\CharacterClassData.json";
+		public const string AbilitiesJson = @"Resources\Starfinder\Abilities.json";
+		public const string RaceDataJson = @"Resources\Starfinder\RaceData.json";
+		public const string BackgroundDataJson = @"Resources\Starfinder\BackgroundData.json";
+		public const string SpellsJson = @"Resources\Starfinder\Spells.json";
+		public const string LanguagesJson = @"Resources\Starfinder\Languages.json";
+		public const string ThemeDataJson = @"Resources\Starfinder\ThemeData.json";
 	}
 
 	public static class DarkSoulsResources
 	{
+		public const string Root = @"Resources\DarkSouls\";
 		public const string CharacterDataDir = @"Resources\DarkSouls\CharacterData";
 		public const string CharacterClassDataJson = @"Resources\DarkSouls\CharacterClassData.json";
 		public const string OriginsDataJson = @"Resources\DarkSouls\OriginsData.json";
