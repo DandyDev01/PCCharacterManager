@@ -19,6 +19,19 @@ namespace PCCharacterManager.ViewModels
 	{
 		private readonly CharacterTypeHelper _characterTypeHelper;
 
+		private CharacterInfoViewModel _selectedCharacterInfoViewModel;
+		public CharacterInfoViewModel SelectedCharacterInfoViewModel
+		{
+			get
+			{
+				return _selectedCharacterInfoViewModel;
+			}
+			set
+			{
+				OnPropertyChanged(ref _selectedCharacterInfoViewModel, value);
+			}
+		}
+
 		private CharacterBase _selectedCharacter;
 		public CharacterBase SelectedCharacter 
 		{ 
@@ -58,6 +71,19 @@ namespace PCCharacterManager.ViewModels
 			SelectedCharacter = newCharacter;
 
 			_characterTypeHelper.SetCharacterTypeFlags(newCharacter.CharacterType);
+
+			switch (newCharacter.CharacterType)
+			{
+				case CharacterType.DnD5e:
+					SelectedCharacterInfoViewModel = CharacterInfoViewModel;
+					break;
+				case CharacterType.starfinder:
+					SelectedCharacterInfoViewModel = StarfinderCharacterInfoViewModel;
+					break;
+				case CharacterType.dark_souls:
+					SelectedCharacterInfoViewModel = DarkSoulsCharacterInfoViewModel;
+					break;
+			}
 		}
 	}
 }
