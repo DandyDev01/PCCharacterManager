@@ -19,7 +19,6 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 		private readonly DialogServiceBase _dialogService;
 		private readonly DnD5eCharacter _character;
 
-		private string _startingClasses;
 		private int _numberOfClassesAdded;
 
 		private bool _hasAddedClass = false;
@@ -84,7 +83,6 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			_characterName = character.Name;
 			_maxHealth = _character.Health.MaxHealth;
 
-			_startingClasses = character.CharacterClass.Name;
 			_numberOfClassesAdded = 0;
 
 			WeaponProfsToDisplay = new();
