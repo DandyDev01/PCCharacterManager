@@ -6,24 +6,8 @@
     xmlns:v="clr-namespace:PCCharacterManager.Views"
     xmlns:vm="clr-namespace:PCCharacterManager.ViewModels">
     <!--#region Views-->
-    <DataTemplate DataType="{x:Type vm:CharacterSpellBookViewModel}">
-        <v:CharacterSpellBookView />
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type vm:TabControlViewModel}">
         <v:TabControlView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type vm:CharacterListViewModel}">
-        <v:CharacterListView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type vm:CharacterStatsViewModel}">
-        <v:CharacterStatsView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type vm:CharacterInventoryViewModel}">
-        <v:CharacterInventoryView />
     </DataTemplate>
     <!--#endregion-->
 
