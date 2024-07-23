@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCCharacterManager.ViewModels.DialogWindowViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,11 @@ namespace PCCharacterManager.DialogWindows
 
 		private void Cancel_Button_Click(object sender, RoutedEventArgs e)
 		{
+			var dataContext = DataContext as DialogWindowDnD5eCharacterLevelupViewModel;
+
+			if (dataContext is not null && dataContext.HasAddedClass)
+				dataContext.RemoveAddedClasses();
+
 			Close();
         }
     }

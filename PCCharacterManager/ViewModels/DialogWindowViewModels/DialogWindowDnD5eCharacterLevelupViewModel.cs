@@ -19,7 +19,11 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 		private readonly DialogServiceBase _dialogService;
 		private readonly DnD5eCharacter _character;
 
+		private string _startingClasses;
+		private int _numberOfClassesAdded;
+
 		private bool _hasAddedClass = false;
+		public bool HasAddedClass => _hasAddedClass;
 
 		private DnD5eCharacterClassData _selectedCharacterClass;
 		public DnD5eCharacterClassData SelectedCharacterClass
@@ -79,6 +83,9 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 
 			_characterName = character.Name;
 			_maxHealth = _character.Health.MaxHealth;
+
+			_startingClasses = character.CharacterClass.Name;
+			_numberOfClassesAdded = 0;
 
 			WeaponProfsToDisplay = new();
 			ArmorProfsToDisplay = new();
@@ -227,6 +234,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 
 			ClassesToDisplay.Add(classToAddData);
 			_hasAddedClass = true;
+			_numberOfClassesAdded += 1;
 		}
 
 		/// <summary>
@@ -334,6 +342,19 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			foreach (var ability in _character.Abilities)
 			{
 				ability.SetProfBonus(_character.Level.ProficiencyBonus);
+			}
+		}
+
+		/// <summary>
+		/// Removes any classes that where added to the character.
+		/// </summary>
+		internal void RemoveAddedClasses()
+		{
+			for (int i = 0; i < _numberOfClassesAdded; i++)
+			{
+				string characterClasses = _character.CharacterClass.Name;
+				int lengthOfClassNameToKeep = characterClasses.LastIndexOf('/');
+				_character.CharacterClass.Name = characterClasses.Substring(0, lengthOfClassNameToKeep);
 			}
 		}
 	}
