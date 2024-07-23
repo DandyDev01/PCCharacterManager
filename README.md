@@ -7,6 +7,7 @@ Features:
 - Spellbook management
 - Notebook management
 - Character stat management
+- Charactor creation
 
 Install Instructions:
 1. Clone or download the files as a zip.
