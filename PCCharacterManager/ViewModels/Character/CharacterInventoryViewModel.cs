@@ -286,6 +286,8 @@ namespace PCCharacterManager.ViewModels
 			{
 				_propertyVMPool.Return(propertyEditableVM);
 			}
+
+			PropertiesToDisplay.Clear();
 		}
 
 		public void CalculateInventoryWeight()

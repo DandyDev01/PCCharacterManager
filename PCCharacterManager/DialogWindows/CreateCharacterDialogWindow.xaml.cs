@@ -38,6 +38,7 @@ namespace PCCharacterManager.DialogWindows
 			{
 				vm.Create();
 				DialogResult = true;
+				DataContext = null;
 			}
 
 			Close();

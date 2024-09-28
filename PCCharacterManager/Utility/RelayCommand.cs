@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.Utility
 {
-    public class RelayCommand<T> : ICommand
+    public class RelayCommand<T> : ObservableObject, ICommand
     {
         private readonly Action<T> _execute = null;
         private readonly Func<T, bool> _canExecute = null;

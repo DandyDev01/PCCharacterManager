@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCCharacterManager.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Windows.Input;
 
 namespace PCCharacterManager.Commands
 {
-	public abstract class BaseCommand : ICommand
+	public abstract class BaseCommand : ObservableObject, ICommand
 	{
 		public event EventHandler? CanExecuteChanged;
 

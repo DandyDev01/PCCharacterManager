@@ -57,9 +57,10 @@ namespace PCCharacterManager.Services
 			{
 				callBack(dialog.DialogResult.ToString());
 				dialog.Closed -= closeEventhandler;
+				dialog.DataContext = null;
 			};
-			dialog.Closed += closeEventhandler;
 
+			dialog.Closed += closeEventhandler;
 			dialog.ShowDialog();
 		}
 	}

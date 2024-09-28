@@ -64,6 +64,8 @@ namespace PCCharacterManager.ViewModels
 			StarfinderAbilitiesAndSkillsVM = new StarfinderAbilitiesAndSkillsViewModel(characterStore);
 
 			_characterTypeHelper.SetCharacterTypeFlags(_selectedCharacter.CharacterType);
+			
+			_selectedCharacterInfoViewModel = CharacterInfoViewModel;
 		}
 
 		private void OnCharacterChanged(CharacterBase newCharacter)
