@@ -1,17 +1,8 @@
-﻿using PCCharacterManager.DialogWindows;
-using PCCharacterManager.Models;
+﻿using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using PCCharacterManager.ViewModels.Character;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Printing;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
