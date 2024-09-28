@@ -109,5 +109,16 @@ namespace PCCharacterManager.Models
 			return true;
 		}
 
+		public static T CastToType<T>(CharacterBase character) where T : CharacterBase
+		{
+			T? cast = character as T;
+			
+			if (cast is null)
+			{
+				throw new InvalidCastException($"Cannot cast {character.GetType()} to type {typeof(T)}");
+			}
+
+			return cast;
+		}
 	}
 }

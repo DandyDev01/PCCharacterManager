@@ -19,10 +19,10 @@ namespace PCCharacterManager.Models.Levelers
 
 			string className = character.CharacterClass.Name.Substring(0, character.CharacterClass.Name.IndexOf(" ")).Trim();
 
-			if (UnlockFeatures(character as DarkSoulsCharacter, className) == false)
+			if (UnlockFeatures(CharacterTypeHelper.CastToType<DarkSoulsCharacter>(character), className) == false)
 				return false;
 
-			if (UpdateMaxHealth(character as DarkSoulsCharacter) == false)
+			if (UpdateMaxHealth(CharacterTypeHelper.CastToType<DarkSoulsCharacter>(character)) == false)
 				return false;
 
 			character.Level.LevelUp();
