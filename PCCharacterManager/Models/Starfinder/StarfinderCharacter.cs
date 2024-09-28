@@ -1,12 +1,8 @@
-﻿using Newtonsoft.Json.Converters;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Linq;
 
 namespace PCCharacterManager.Models
 {
@@ -84,7 +80,7 @@ namespace PCCharacterManager.Models
 			_abilities = ReadWriteJsonCollection<StarfinderAbility>.ReadCollection(StarfinderResources.AbilitiesJson).ToArray();
 		}
 
-		public StarfinderCharacter(StarfinderClassData classData, StarfinderRaceData raceData, 
+		public StarfinderCharacter(StarfinderClassData classData, StarfinderRaceData raceData,
 			DnD5eBackgroundData backgroundData) : base(classData, raceData, backgroundData)
 		{
 			if (Directory.Exists(StarfinderResources.Root) == false)

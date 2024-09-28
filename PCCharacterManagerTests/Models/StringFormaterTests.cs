@@ -1,10 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PCCharacterManager.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models.Tests
 {
@@ -17,7 +11,7 @@ namespace PCCharacterManager.Models.Tests
 			int s = StringFormater.FindQuantity("Dexterity x-1");
 			Assert.AreEqual(-1, s);
 		}
-		
+
 		[TestMethod()]
 		public void FindQuantityPosTest()
 		{
@@ -46,7 +40,7 @@ namespace PCCharacterManager.Models.Tests
 			Assert.AreEqual(2, s[0]);
 			Assert.AreEqual(10, s[1]);
 		}
-		
+
 		[TestMethod()]
 		public void FindAllOccurrencesOfCharNoneTest()
 		{

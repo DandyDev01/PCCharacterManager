@@ -111,7 +111,7 @@ namespace PCCharacterManager.ViewModels
 		{
 			CharacterBase? character = SelectedCreator.Create();
 
-			if (character == null) 
+			if (character == null)
 				return;
 
 			character.CharacterType = _selectedCharacterType;

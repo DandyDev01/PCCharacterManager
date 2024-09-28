@@ -1,6 +1,7 @@
 ﻿using PCCharacterManager.Commands;
 using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
+using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using PCCharacterManager.ViewModels.DialogWindowViewModels;
@@ -8,12 +9,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Linq;
 using Condition = PCCharacterManager.Models.Condition;
-using PCCharacterManager.Services;
 
 namespace PCCharacterManager.ViewModels
 {
@@ -166,7 +166,7 @@ namespace PCCharacterManager.ViewModels
 			_characterStore.OnCharacterLevelup += OnCharacterChanged;
 			_characterStore.SelectedCharacterChange += OnCharacterChanged;
 
-			_selectedProperty = AllFeatures.FirstOrDefault();	
+			_selectedProperty = AllFeatures.FirstOrDefault();
 
 			FeaturesListVM = new PropertyListViewModel("Features", dialogService);
 
@@ -186,7 +186,7 @@ namespace PCCharacterManager.ViewModels
 			ShortRestCommand = new RelayCommand(ShortRest);
 			LongRestCommand = new RelayCommand(LongRest);
 		}
-		
+
 		/// <summary>
 		/// What to do when the selectedCharacter changes
 		/// </summary>
@@ -216,7 +216,7 @@ namespace PCCharacterManager.ViewModels
 
 			//FeaturesListVM.UpdateCollection(null);
 			ConditionsListVM.UpdateCollection(SelectedCharacter.Conditions);
-			MovementTypesListVM.UpdateCollection( SelectedCharacter.MovementTypes_Speeds);
+			MovementTypesListVM.UpdateCollection(SelectedCharacter.MovementTypes_Speeds);
 			LanguagesVM.UpdateCollection(SelectedCharacter.Languages);
 			CombatActionsVM.UpdateCollection(SelectedCharacter.CombatActions);
 			ToolProfsVM.UpdateCollection(SelectedCharacter.ToolProficiences);
@@ -227,11 +227,11 @@ namespace PCCharacterManager.ViewModels
 			Race = SelectedCharacter.Race.Name + " " + SelectedCharacter.Race.RaceVariant.Name;
 
 			Health characterHealth = SelectedCharacter.Health;
-			Health = characterHealth.CurrHealth.ToString() + '/' + characterHealth.MaxHealth + " (" + 
+			Health = characterHealth.CurrHealth.ToString() + '/' + characterHealth.MaxHealth + " (" +
 				characterHealth.TempHitPoints + " temp)";
 
 			DnD5eCharacterClass characterClass = SelectedCharacter.CharacterClass;
-			CharacterClass = characterClass.Name + "(total: " + SelectedCharacter.Level.Level 
+			CharacterClass = characterClass.Name + "(total: " + SelectedCharacter.Level.Level
 				+ ", PB: " + SelectedCharacter.Level.ProficiencyBonus + ")";
 
 			ArmorClass = SelectedCharacter.ArmorClass.TotalArmorClass;
@@ -255,7 +255,7 @@ namespace PCCharacterManager.ViewModels
 			int regainedHitDie = Math.Clamp(_selectedCharacter.Level.Level - spentHitDie, 1, maxNumberOfRegainedHitDie);
 			_selectedCharacter.SpentHitDie -= regainedHitDie;
 			_selectedCharacter.SpentHitDie = Math.Clamp(_selectedCharacter.SpentHitDie, 0, _selectedCharacter.Level.Level);
-			
+
 			_selectedCharacter.Health.CurrHealth = _selectedCharacter.Health.MaxHealth;
 			_selectedCharacter.SpellBook.RechargeSpellSlots();
 
@@ -264,9 +264,9 @@ namespace PCCharacterManager.ViewModels
 
 		private void ShortRest()
 		{
-			if (_selectedCharacter is null) 
+			if (_selectedCharacter is null)
 				return;
-			
+
 			DialogWindowShortRestViewModel vm = new(_selectedCharacter);
 			string result = string.Empty;
 			_dialogService.ShowDialog<ShortRestDialogWindow, DialogWindowShortRestViewModel>(vm, r =>
@@ -320,7 +320,7 @@ namespace PCCharacterManager.ViewModels
 
 			Condition[] expiredCondition = _selectedCharacter.Conditions
 				.Where(x => x.RoundsPassed >= x.DurationInRounds).ToArray();
-			
+
 
 			foreach (Condition condition in expiredCondition)
 			{
@@ -373,7 +373,7 @@ namespace PCCharacterManager.ViewModels
 			{
 				temp = int.Parse(dataContext.Answer);
 			}
-			catch 
+			catch
 			{
 				_dialogService.ShowMessage("Must be a whole number", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				AdjustExperience();
@@ -381,7 +381,7 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			_selectedCharacter.Level.ExperiencePoints += temp;
-			
+
 			// NOTE: check if they can level up, if they can, ask if they want to. 
 		}
 
@@ -421,7 +421,7 @@ namespace PCCharacterManager.ViewModels
 			if (_selectedCharacter is null)
 				return;
 
-			Health = _selectedCharacter.Health.CurrHealth.ToString() + '/' + _selectedCharacter.Health.MaxHealth.ToString() 
+			Health = _selectedCharacter.Health.CurrHealth.ToString() + '/' + _selectedCharacter.Health.MaxHealth.ToString()
 				+ " (" + _selectedCharacter.Health.TempHitPoints + " temp)";
 		}
 

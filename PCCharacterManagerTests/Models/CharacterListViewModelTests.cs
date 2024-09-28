@@ -3,12 +3,8 @@ using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.ViewModels;
-using PCCharacterManager.ViewModels.CharacterCreatorViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManagerTests.Models
 {
@@ -85,7 +81,7 @@ namespace PCCharacterManagerTests.Models
 
 		public override IEnumerable<string> GetCharacterFilePaths()
 		{
-			string[] results= new string[characters.Count];
+			string[] results = new string[characters.Count];
 			for (int i = 0; i < results.Length; i++)
 			{
 				results[i] = characters[i].Name;

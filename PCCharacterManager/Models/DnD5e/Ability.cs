@@ -2,9 +2,6 @@
 using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PCCharacterManager.Models
@@ -59,7 +56,8 @@ namespace PCCharacterManager.Models
 		}
 		[JsonProperty] public string Name { get; protected set; }
 		[JsonProperty] public string Description { get; protected set; }
-		[JsonProperty] public int Modifier
+		[JsonProperty]
+		public int Modifier
 		{
 			get { return _modifier; }
 			private set
@@ -67,7 +65,8 @@ namespace PCCharacterManager.Models
 				OnPropertyChanged(ref _modifier, value);
 			}
 		}
-		[JsonProperty] public int Save
+		[JsonProperty]
+		public int Save
 		{
 			get { return _save; }
 			private set
@@ -114,7 +113,7 @@ namespace PCCharacterManager.Models
 		/// <exception cref="Exception">when _profBonus is below 0</exception>
 		public void SetProfBonus(int profBonus)
 		{
-			if (profBonus <= 0) 
+			if (profBonus <= 0)
 				throw new Exception("param _profBonus must be greater than 0");
 
 			if (profBonus < 2)

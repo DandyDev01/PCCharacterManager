@@ -1,14 +1,6 @@
 ﻿using PCCharacterManager.Models;
-using PCCharacterManager.Services;
-using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
 {
@@ -36,7 +28,7 @@ namespace PCCharacterManager.ViewModels
 		}
 
 		private SpellSchool _selectedSchool;
-		public SpellSchool SelectedSchool 
+		public SpellSchool SelectedSchool
 		{
 			set
 			{
@@ -55,7 +47,7 @@ namespace PCCharacterManager.ViewModels
 		public void AddNewSpell()
 		{
 			_newSpell.School = _selectedSchool;
-			if (_spellFilterType == SpellType.CANTRIP) 
+			if (_spellFilterType == SpellType.CANTRIP)
 				_newSpell.IsPrepared = true;
 		}
 	}

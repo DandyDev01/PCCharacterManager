@@ -2,12 +2,7 @@
 using PCCharacterManager.Services;
 using PCCharacterManager.Utility;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
@@ -48,7 +43,7 @@ namespace PCCharacterManager.ViewModels
 			AddItemCommand = new RelayCommand(AddItem);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
 			EditItemCommand = new RelayCommand(EditItem);
-			_dialogService = dialogService;	
+			_dialogService = dialogService;
 		}
 
 		public StringListViewModel(string listName, DialogServiceBase dialogService)

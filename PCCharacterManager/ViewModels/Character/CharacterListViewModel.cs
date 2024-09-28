@@ -1,18 +1,12 @@
 ﻿using PCCharacterManager.Commands;
-using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -31,8 +25,8 @@ namespace PCCharacterManager.ViewModels
 		public ObservableCollection<CharacterItemViewModel> CharacterItems { get; private set; }
 		public ICollectionView CharacterCollectionView { get; }
 
-		public ICommand CreateCharacterCommand {get;}
-		public ICommand DeleteCharacterCommand {get;}
+		public ICommand CreateCharacterCommand { get; }
+		public ICommand DeleteCharacterCommand { get; }
 		public ICommand NameSortCommand { get; }
 		public ICommand LevelSortCommand { get; }
 		public ICommand ClassSortCommand { get; }
@@ -74,17 +68,17 @@ namespace PCCharacterManager.ViewModels
 				CharacterItems.Add(characterItemVM);
 			}
 
-			NameSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort, 
+			NameSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort,
 				nameof(CharacterItemViewModel.CharacterName));
 			LevelSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort,
 				nameof(CharacterItemViewModel.CharacterLevel));
-			ClassSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort, 
+			ClassSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort,
 				nameof(CharacterItemViewModel.CharacterClass));
-			DataModifiedSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort, 
+			DataModifiedSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort,
 				nameof(CharacterItemViewModel.CharacterDateModified));
-			CharacterTypeSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort, 
+			CharacterTypeSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort,
 				nameof(CharacterItemViewModel.CharacterType));
-			CharacterRaceSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort, 
+			CharacterRaceSortCommand = new ItemCollectionViewPropertySortCommand(_collectionViewPropertySort,
 				nameof(CharacterItemViewModel.CharacterRace));
 
 			CharacterItems.OrderBy(x => x.CharacterDateModified).First().SelectCharacterCommand.Execute(null);
@@ -95,7 +89,7 @@ namespace PCCharacterManager.ViewModels
 			_dataService.Delete(path);
 			_characterStore.BindSelectedCharacter(null);
 
-			CharacterItemViewModel? characterItemVM 
+			CharacterItemViewModel? characterItemVM
 				= CharacterItems.Where(c => path.Contains(c.CharacterName)).FirstOrDefault();
 
 			if (characterItemVM == null)
@@ -144,7 +138,7 @@ namespace PCCharacterManager.ViewModels
 
 			characterItem.Update(_characterStore.SelectedCharacter);
 		}
-		
+
 		/// <summary>
 		/// Saves the selected character to the database
 		/// </summary>
@@ -153,7 +147,7 @@ namespace PCCharacterManager.ViewModels
 			if (_characterStore.SelectedCharacter == null)
 				return;
 
-			_dataService.Save(_characterStore.SelectedCharacter); 
+			_dataService.Save(_characterStore.SelectedCharacter);
 			Update();
 			CharacterCollectionView?.Refresh();
 		}

@@ -1,17 +1,11 @@
 ﻿using PCCharacterManager.Commands;
-using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
@@ -30,7 +24,7 @@ namespace PCCharacterManager.ViewModels
 		public Note SelectedNote
 		{
 			get { return _selectedNote; }
-			set 
+			set
 			{
 				OnPropertyChanged(ref _selectedNote, value);
 				selectedNoteChange?.Invoke(value);
@@ -43,7 +37,7 @@ namespace PCCharacterManager.ViewModels
 			get { return selectedSection; }
 			set { OnPropertyChanged(ref selectedSection, value); }
 		}
-		
+
 		private string _searchTerm;
 		public string SearchTerm
 		{
@@ -103,7 +97,7 @@ namespace PCCharacterManager.ViewModels
 		private void FindInNote()
 		{
 			if (_selectedNote == null) return;
-			if(!_selectedNote.Notes.Contains(_highlightTerm)) return;
+			if (!_selectedNote.Notes.Contains(_highlightTerm)) return;
 
 			// open small window in corner area.
 			// window cannot be moved
@@ -129,7 +123,7 @@ namespace PCCharacterManager.ViewModels
 
 			if (_noteBook.NoteSections.Count <= 0 ||
 				NoteSectionsToDisplay.Count <= 0 ||
-				NoteSectionsToDisplay[0].Notes.Count <= 0) 
+				NoteSectionsToDisplay[0].Notes.Count <= 0)
 				return;
 
 			SelectedNote = NoteSectionsToDisplay[0].Notes[0];
@@ -149,7 +143,7 @@ namespace PCCharacterManager.ViewModels
 			{
 				SearchResults.Clear();
 			}
-			else if(term == "*")
+			else if (term == "*")
 			{
 				foreach (var section in _noteBook.NoteSections.OrderBy(x => x.SectionTitle))
 				{

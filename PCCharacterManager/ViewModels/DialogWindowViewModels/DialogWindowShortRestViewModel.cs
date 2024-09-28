@@ -1,17 +1,14 @@
 ﻿using PCCharacterManager.Models;
 using PCCharacterManager.Utility;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 {
 	public class DialogWindowShortRestViewModel : ObservableObject
 	{
-		private readonly DnD5eCharacter _character;		
+		private readonly DnD5eCharacter _character;
 
 		private int _health;
 		public int Health
@@ -67,11 +64,11 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 
 			_health = character.Health.CurrHealth;
 			_spentHitDice = character.SpentHitDie;
-			
+
 			_hasHitDice = character.SpentHitDie < character.Level.Level ? true : false;
 			_canGainHealth = _health < _character.Health.MaxHealth ? true : false;
 			_canRoll = _hasHitDice && _canGainHealth;
-			
+
 			_remainingRolls = "Remaining Rolls: " + (character.Level.Level - character.SpentHitDie) + "/" + character.Level.Level;
 		}
 
@@ -88,7 +85,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			Health = Math.Min(Health, _character.Health.MaxHealth);
 
 			_hasHitDice = _spentHitDice < _character.Level.Level ? true : false;
-			_canGainHealth = Health < _character.Health.MaxHealth ? true : false;	
+			_canGainHealth = Health < _character.Health.MaxHealth ? true : false;
 
 			CanRoll = _hasHitDice && _canGainHealth;
 

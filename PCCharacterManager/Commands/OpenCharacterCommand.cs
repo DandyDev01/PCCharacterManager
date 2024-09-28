@@ -3,10 +3,6 @@ using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PCCharacterManager.Commands
@@ -30,7 +26,7 @@ namespace PCCharacterManager.Commands
 			string path = openFile.FileName;
 			try
 			{
-				DnD5eCharacter? character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(path) 
+				DnD5eCharacter? character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(path)
 					?? throw new Exception("Character with path " + path + " does not exist.");
 
 				_characterStore.BindSelectedCharacter(character);

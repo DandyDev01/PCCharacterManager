@@ -1,9 +1,4 @@
 ﻿using PCCharacterManager.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
@@ -14,13 +9,13 @@ namespace PCCharacterManager.Models
 			get => _property.Name;
 			set => _property.Name = value;
 		}
-		
+
 		public string Description
 		{
 			get => _property.Desc;
 			set => _property.Desc = value;
 		}
-		
+
 		private string _featureType;
 		public string FeatureType
 		{

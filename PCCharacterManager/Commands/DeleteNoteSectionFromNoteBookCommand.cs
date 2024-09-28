@@ -4,11 +4,7 @@ using PCCharacterManager.Services;
 using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace PCCharacterManager.Commands
 {
@@ -36,7 +32,7 @@ namespace PCCharacterManager.Commands
 				sectionTitles[i] = noteBook.NoteSections[i].SectionTitle;
 			}
 
-			DialogWindowListViewSelectItemViewModel dataContext = 
+			DialogWindowListViewSelectItemViewModel dataContext =
 				new(sectionTitles, sectionTitles.Length);
 
 			string results = string.Empty;
@@ -51,7 +47,7 @@ namespace PCCharacterManager.Commands
 			string[] selectedSections = dataContext.SelectedItems.ToArray();
 			List<NoteSection> sectionsToRemove = noteBook.NoteSections.
 				Where(x => selectedSections.Contains(x.SectionTitle)).ToList();
-		
+
 			foreach (var item in sectionsToRemove)
 			{
 				noteBook.NoteSections.Remove(item);

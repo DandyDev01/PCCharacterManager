@@ -1,9 +1,4 @@
 ﻿using PCCharacterManager.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
@@ -13,7 +8,7 @@ namespace PCCharacterManager.Models
 		public string Notes
 		{
 			get { return _notes; }
-			set{ OnPropertyChanged(ref _notes, value); }
+			set { OnPropertyChanged(ref _notes, value); }
 		}
 
 		private string _title;
@@ -23,7 +18,7 @@ namespace PCCharacterManager.Models
 			set { OnPropertyChanged(ref _title, value); }
 		}
 
-		public Note() 
+		public Note()
 		{
 			_notes = string.Empty;
 			_title = string.Empty;

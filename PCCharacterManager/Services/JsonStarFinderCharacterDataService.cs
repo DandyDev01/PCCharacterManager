@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Services
 {
@@ -45,7 +43,7 @@ namespace PCCharacterManager.Services
 			foreach (string characterEntry in characterEntries)
 			{
 				var item = ReadWriteJsonFile<StarfinderCharacter>.ReadFile(characterEntry);
-				if (item != null) 
+				if (item != null)
 					characters.Add(item);
 			}
 
@@ -65,7 +63,7 @@ namespace PCCharacterManager.Services
 				Directory.CreateDirectory(StarfinderResources.CharacterDataDir);
 			}
 
-			if (character == null) 
+			if (character == null)
 				return;
 
 			string[] characterFiles = Directory.GetFiles(StarfinderResources.CharacterDataDir);

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
@@ -13,7 +11,7 @@ namespace PCCharacterManager.Models
 		//		 of the amount of things that can be carried. this item should be hidden and can be toggled active
 		//		 inactive and toggle its visibility too.
 
-	    public Dictionary<char, ObservableCollection<Item>> Items { get; private set; }
+		public Dictionary<char, ObservableCollection<Item>> Items { get; private set; }
 
 		public Inventory()
 		{

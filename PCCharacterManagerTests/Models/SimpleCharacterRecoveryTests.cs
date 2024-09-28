@@ -1,11 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PCCharacterManager.Models;
 using PCCharacterManager.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManagerTests.Models
 {
@@ -56,7 +51,7 @@ namespace PCCharacterManagerTests.Models
 			character = recovery.Undo();
 			character = recovery.Redo();
 
-			Assert.AreEqual("test", character.Name);	
+			Assert.AreEqual("test", character.Name);
 		}
 	}
 }

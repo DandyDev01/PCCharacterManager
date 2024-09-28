@@ -1,10 +1,5 @@
-﻿using Newtonsoft.Json;
-using PCCharacterManager.Utility;
+﻿using PCCharacterManager.Utility;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
@@ -24,11 +19,11 @@ namespace PCCharacterManager.Models
 		public int MaxHealth
 		{
 			get { return _maxHealth; }
-			set 
-			{ 
-				OnPropertyChanged(ref _maxHealth, value); 
+			set
+			{
+				OnPropertyChanged(ref _maxHealth, value);
 				if (_currHealth > _maxHealth)
-					CurrHealth = value;	
+					CurrHealth = value;
 			}
 		}
 

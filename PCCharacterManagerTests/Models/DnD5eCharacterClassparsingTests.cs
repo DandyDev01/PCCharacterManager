@@ -1,12 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PCCharacterManager.Models;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace PCCharacterManagerTests.Models
 {
@@ -84,13 +81,13 @@ namespace PCCharacterManagerTests.Models
 
 				foreach (string itemName in startItems)
 				{
-					if (itemName == "1 of your choice" 
+					if (itemName == "1 of your choice"
 						|| itemName.Contains("any", StringComparison.OrdinalIgnoreCase))
 						continue;
 
 					if (itemName.Contains("^") || itemName.Contains("&"))
 					{
-						string[] otherItems = itemName.Split(new char[] { '^', '&'});
+						string[] otherItems = itemName.Split(new char[] { '^', '&' });
 						foreach (string item in otherItems)
 						{
 							Regex regex = new Regex("x+[0-9]");
@@ -101,8 +98,8 @@ namespace PCCharacterManagerTests.Models
 					else
 					{
 						Regex regex = new Regex("x+[0-9]");
-							int index = regex.Match(itemName).Index != 0 ? regex.Match(itemName).Index : itemName.Length;
-							anyFailed = Check(anyFailed, characterClass, itemName.Substring(0, index).Trim());
+						int index = regex.Match(itemName).Index != 0 ? regex.Match(itemName).Index : itemName.Length;
+						anyFailed = Check(anyFailed, characterClass, itemName.Substring(0, index).Trim());
 					}
 				}
 			}

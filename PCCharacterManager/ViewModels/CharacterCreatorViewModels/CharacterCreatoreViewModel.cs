@@ -1,7 +1,6 @@
 ﻿using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
 using PCCharacterManager.Services;
-using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using PCCharacterManager.ViewModels.CharacterCreatorViewModels;
 using System;
@@ -10,11 +9,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Navigation;
 
 namespace PCCharacterManager.ViewModels
 {
@@ -29,8 +25,8 @@ namespace PCCharacterManager.ViewModels
 		public string Name
 		{
 			get { return _name; }
-			set 
-			{ 
+			set
+			{
 				OnPropertyChanged(ref _name, value);
 				BasicStringFieldValidation(nameof(Name), value);
 			}
@@ -73,7 +69,7 @@ namespace PCCharacterManager.ViewModels
 				SelectedRace.RaceVariant = value;
 			}
 		}
-		
+
 		private DnD5eCharacterClassData _selectedCharacterClass;
 		public DnD5eCharacterClassData SelectedCharacterClass
 		{
@@ -86,7 +82,7 @@ namespace PCCharacterManager.ViewModels
 				UpdateSelectedClassStartEquipment();
 			}
 		}
-		
+
 		private DnD5eCharacterRaceData _selectedRace;
 		public DnD5eCharacterRaceData SelectedRace
 		{
@@ -97,7 +93,7 @@ namespace PCCharacterManager.ViewModels
 				UpdateRaceVariantsToDisplay();
 			}
 		}
-		
+
 		private DnD5eBackgroundData _selectedBackground;
 		public DnD5eBackgroundData SelectedBackground
 		{
@@ -133,7 +129,7 @@ namespace PCCharacterManager.ViewModels
 		public ObservableCollection<ListViewMultiSelectItemsLimitedCountViewModel> SelectedStartingEquipmentVMs { get; private set; }
 		public ObservableCollection<DnD5eCharacterRaceVariant> RaceVariantsToDisplay { get; private set; }
 		public ObservableCollection<int> AbilityScores { get; private set; }
-		
+
 		private readonly List<string> notAnOption;
 
 		public ICommand RollAbilityScoresCommand { get; }
@@ -175,7 +171,7 @@ namespace PCCharacterManager.ViewModels
 			BasicStringFieldValidation(nameof(Name), Name);
 			UpdateSelectedClassStartEquipment();
 		}
-		
+
 		/// <summary>
 		/// builds a new character with inputted data
 		/// </summary>
@@ -277,11 +273,11 @@ namespace PCCharacterManager.ViewModels
 					if (item.Contains(StringConstants.OR))
 					{
 						var options = StringFormater.CreateGroup(item, StringConstants.OR);
-						
+
 						DialogWindowSelectStingValueViewModel windowVM = new(options.ToArray(), 1);
 
 						string result = string.Empty;
-						_dialogService.ShowDialog<SelectStringValueDialogWindow, 
+						_dialogService.ShowDialog<SelectStringValueDialogWindow,
 							DialogWindowSelectStingValueViewModel>(windowVM, r =>
 						{
 							result = r;
@@ -314,7 +310,7 @@ namespace PCCharacterManager.ViewModels
 				// you can choose one of at least 2
 				if (skillName.Contains(StringConstants.OR))
 				{
-					return ChooseSkillToHaveProficiencyInFromBackground(newCharacter,skillName);
+					return ChooseSkillToHaveProficiencyInFromBackground(newCharacter, skillName);
 				}
 				else if (skillName.Contains("your choice", StringComparison.OrdinalIgnoreCase))
 				{
@@ -369,8 +365,8 @@ namespace PCCharacterManager.ViewModels
 				if (_selectedRace.AbilityScoreIncreases[i].Contains("your choice", StringComparison.OrdinalIgnoreCase))
 				{
 					int increaseAmount = StringFormater.FindQuantity(_selectedRace.AbilityScoreIncreases[i]);
-					
-					DialogWindowSelectStingValueViewModel windowVM =new(Ability.GetAbilityNames(newCharacter.Abilities).ToArray(), 1);
+
+					DialogWindowSelectStingValueViewModel windowVM = new(Ability.GetAbilityNames(newCharacter.Abilities).ToArray(), 1);
 
 					string result = string.Empty;
 					_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
@@ -556,7 +552,7 @@ namespace PCCharacterManager.ViewModels
 		private void UpdateRaceVariantsToDisplay()
 		{
 			RaceVariantsToDisplay.Clear();
-			
+
 			RaceVariantsToDisplay.AddRange(_selectedRace.Variants);
 
 			SelectedRaceVariant = RaceVariantsToDisplay[0];
@@ -608,7 +604,7 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			DialogWindowSelectStingValueViewModel windowVM = new(options.ToArray(), 1);
-		
+
 			string result = string.Empty;
 			_dialogService.ShowDialog<SelectStringValueDialogWindow, DialogWindowSelectStingValueViewModel>(windowVM, r =>
 			{
@@ -660,7 +656,7 @@ namespace PCCharacterManager.ViewModels
 
 			IsValid = !HasErrors;
 		}
-	
+
 		public static DnD5eCharacter CreateRandonCharacter()
 		{
 			var characterClassData = ReadWriteJsonCollection<DnD5eCharacterClassData>

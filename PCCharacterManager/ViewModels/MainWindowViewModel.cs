@@ -1,14 +1,10 @@
-﻿using Microsoft.Win32;
-using PCCharacterManager.Commands;
+﻿using PCCharacterManager.Commands;
 using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using System;
-using System.IO;
-using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
@@ -92,9 +88,9 @@ namespace PCCharacterManager.ViewModels
 
 		private void SaveCharacter(CharacterBase? character = null)
 		{
-			if (_tabVM == null) 
+			if (_tabVM == null)
 				return;
-			
+
 			if (character == null)
 				return;
 

@@ -1,15 +1,10 @@
 ﻿using PCCharacterManager.Utility;
-using PCCharacterManager.ViewModels.CharacterCreatorViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-    public class CharacterTypeHelper : ObservableObject
-    {
+	public class CharacterTypeHelper : ObservableObject
+	{
 		private bool _isStarfinder;
 		public bool IsStarfinder
 		{
@@ -75,7 +70,7 @@ namespace PCCharacterManager.Models
 		{
 			string path = "/" + character.Name + character.Id + ".json";
 
-			switch (character.CharacterType) 
+			switch (character.CharacterType)
 			{
 				case CharacterType.DnD5e:
 					return DnD5eResources.CharacterDataDir + path;
@@ -88,7 +83,7 @@ namespace PCCharacterManager.Models
 			}
 		}
 
-		public static bool IsValidCharacterType(CharacterBase character, CharacterType characterType) 
+		public static bool IsValidCharacterType(CharacterBase character, CharacterType characterType)
 		{
 			//if (character.CharacterType == CharacterType.DnD5e && character is not DnD5eCharacter)
 			//	return false;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace PCCharacterManager.Models
 {
@@ -15,11 +10,11 @@ namespace PCCharacterManager.Models
 		public DnD5eCharacterRaceVariant RaceVariant { get; set; }
 		public ObservableCollection<Property> Features { get; set; }
 
-		public DnD5eCharacterRace() 
+		public DnD5eCharacterRace()
 		{
 			Name = string.Empty;
 			RaceVariant = new DnD5eCharacterRaceVariant();
-			Features = new ObservableCollection<Property>();	
+			Features = new ObservableCollection<Property>();
 		}
 
 		public DnD5eCharacterRace(DnD5eCharacterRaceData data)

@@ -1,12 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PCCharacterManager.Models;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace PCCharacterManagerTests.Models
 {
@@ -28,7 +25,7 @@ namespace PCCharacterManagerTests.Models
 				foreach (string abiltyScoreIncrease in abilityScoreIncreases)
 				{
 					Regex regex = new Regex("x+[0-9]");
-					int index = regex.Match(abiltyScoreIncrease).Index != 0 
+					int index = regex.Match(abiltyScoreIncrease).Index != 0
 						? regex.Match(abiltyScoreIncrease).Index : abiltyScoreIncrease.Length;
 					string abiliytName = abiltyScoreIncrease.Substring(0, index);
 

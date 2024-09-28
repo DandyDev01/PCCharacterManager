@@ -1,15 +1,10 @@
 ﻿using PCCharacterManager.Models;
 using PCCharacterManager.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 {
-    public class DialogWindowEditArmorClassViewModel : ObservableObject
-    {
+	public class DialogWindowEditArmorClassViewModel : ObservableObject
+	{
 		private int _armor;
 		public int Armor
 		{
@@ -69,5 +64,5 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			_misc = armorClass.Misc;
 			_temp = armorClass.Temp;
 		}
-    }
+	}
 }

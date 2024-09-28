@@ -1,21 +1,16 @@
 ﻿using PCCharacterManager.Commands;
 using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
+using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
-using PCCharacterManager.ViewModels.DialogWindowViewModels;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows;
-using PCCharacterManager.Services;
 
 namespace PCCharacterManager.ViewModels.Character
 {
@@ -24,7 +19,7 @@ namespace PCCharacterManager.ViewModels.Character
 		private readonly CollectionViewPropertySort _abilitiesCollectionViewPropertySort;
 		private readonly CollectionViewPropertySort _skillsCollectionViewPropertySort;
 		private readonly DialogServiceBase _dialogService;
-		
+
 		private CharacterBase _selectedCharacter;
 		public CharacterBase SelectedCharacter
 		{
@@ -129,7 +124,7 @@ namespace PCCharacterManager.ViewModels.Character
 			}
 			catch
 			{
-				_dialogService.ShowMessage("Could not parse input to whole number", 
+				_dialogService.ShowMessage("Could not parse input to whole number",
 					"Input error. input must be a whole number", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
@@ -187,9 +182,9 @@ namespace PCCharacterManager.ViewModels.Character
 				Abilities.Add(ability);
 			}
 
-			foreach(Ability ability in Abilities)
+			foreach (Ability ability in Abilities)
 			{
-				foreach(AbilitySkill skill in ability.Skills)
+				foreach (AbilitySkill skill in ability.Skills)
 				{
 					Skills.Add(skill);
 					skill.AbilityName = ability.Name;

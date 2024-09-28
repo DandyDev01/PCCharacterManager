@@ -1,7 +1,7 @@
-﻿using PCCharacterManager.ViewModels;
-using PCCharacterManager.DialogWindows;
-using PCCharacterManager.Services;
+﻿using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
+using PCCharacterManager.Services;
+using PCCharacterManager.ViewModels;
 
 namespace PCCharacterManager.Commands
 {
@@ -25,7 +25,7 @@ namespace PCCharacterManager.Commands
 				result = r;
 			});
 
-			if (result == false.ToString() || dialogContext.InventoryVM.SelectedItem == null) 
+			if (result == false.ToString() || dialogContext.InventoryVM.SelectedItem == null)
 				return;
 
 			if (dialogContext.InventoryVM.SelectedItem.BoundItem is not Item item)

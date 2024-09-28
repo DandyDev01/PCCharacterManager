@@ -1,5 +1,4 @@
-﻿using Accessibility;
-using PCCharacterManager.DialogWindows;
+﻿using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Utility;
@@ -7,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -147,12 +144,12 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 
 			foreach (var item in data.Features)
 			{
-				if (item.Level == classLevel+1)
+				if (item.Level == classLevel + 1)
 				{
 					if (item.Name.ToLower().Contains("ability score"))
 					{
 						var message = _dialogService.ShowMessage(item.Desc, "You get an ability score improvement",
-							MessageBoxButton.OK, MessageBoxImage.None); 
+							MessageBoxButton.OK, MessageBoxImage.None);
 						continue;
 					}
 
@@ -222,7 +219,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			var classData = ReadWriteJsonCollection<DnD5eCharacterClassData>.ReadCollection(DnD5eResources.CharacterClassDataJson).ToArray();
 
 			DnD5eCharacterClassData classToAddData = classData.Where(x => x.Name.Equals(classToAddName)).First();
-			
+
 			if (classToAddData == null)
 				throw new Exception("Cannot find data for class " + classToAddName);
 
@@ -325,15 +322,15 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 
 		public void ProcessLevelup()
 		{
-			int newLevel = DnD5eDialogStreamCharacterLeveler.GetCurrentLevelOfClassBeingLeveledUp(_character, 
+			int newLevel = DnD5eDialogStreamCharacterLeveler.GetCurrentLevelOfClassBeingLeveledUp(_character,
 				_selectedCharacterClass.Name, _character.CharacterClass.Name.Split("/"));
-			
+
 			if (_hasAddedClass)
 				AddNewClassProficiences(_character, _selectedCharacterClass.Name);
-			
+
 			UnlockNewClassFeatures(_character, _selectedCharacterClass.Name, newLevel);
 			_character.CharacterClass.UpdateCharacterClassName(_selectedCharacterClass.Name, newLevel);
-			
+
 			_character.Health.MaxHealth = MaxHealth;
 
 			_character.Level.LevelUp();

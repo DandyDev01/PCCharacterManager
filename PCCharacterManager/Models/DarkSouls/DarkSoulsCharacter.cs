@@ -1,14 +1,9 @@
-﻿using Newtonsoft.Json.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using PCCharacterManager.Models.DarkSouls;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Text.Json.Serialization;
 using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 using JsonConverter = Newtonsoft.Json.JsonConverter;
 using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
@@ -23,7 +18,7 @@ namespace PCCharacterManager.Models
 			get { return _abilities; }
 			set { _abilities = value; }
 		}
-	
+
 		private int _spentHitDie;
 		public int SpentHitDie
 		{
@@ -93,14 +88,14 @@ namespace PCCharacterManager.Models
 
 		private DarkSoulsOrigin _origin;
 		public DarkSoulsOrigin Origin { get => _origin; set => OnPropertyChanged(ref _origin, value); }
-		
+
 		public ObservableCollection<Condition> Conditions { get; protected set; }
 		public ObservableCollection<Property> MovementTypes_Speeds { get; protected set; }
 		public ObservableCollection<string> CombatActions { get; protected set; }
 		public ObservableCollection<string> WeaponProficiencies { get; protected set; }
 		public ObservableCollection<string> ArmorProficiencies { get; protected set; }
 		public ObservableCollection<string> OtherProficiences { get; protected set; }
-		
+
 		private CharacterStatus _status;
 		[JsonProperty(nameof(_status))]
 		[JsonConverter(typeof(StringEnumConverter))]
@@ -123,7 +118,7 @@ namespace PCCharacterManager.Models
 		public DarkSoulsCharacter(DnD5eCharacterClassData classData, DarkSoulsOrigin oragin, Ability[] abilities)
 		{
 			CharacterClass = new DnD5eCharacterClass(classData);
-			
+
 			_origin = oragin;
 			_drivePoints = 0;
 
@@ -180,7 +175,7 @@ namespace PCCharacterManager.Models
 			MovementTypes_Speeds.Add(new Property(MovementType.WALK.ToString(), "30ft"));
 		}
 
-		[JsonConstructor] 
+		[JsonConstructor]
 		private DarkSoulsCharacter() : base()
 		{
 			Conditions = new ObservableCollection<Condition>();

@@ -1,5 +1,5 @@
-﻿using PCCharacterManager.DialogWindows;
-using PCCharacterManager.Models;
+﻿using PCCharacterManager.Models;
+using PCCharacterManager.Models.DarkSouls;
 using PCCharacterManager.Services;
 using PCCharacterManager.Utility;
 using System;
@@ -7,14 +7,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows;
-using PCCharacterManager.Models.DarkSouls;
-using System.IO;
 
 namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 {
@@ -354,7 +348,7 @@ namespace PCCharacterManager.ViewModels.CharacterCreatorViewModels
 			var characterRaceData = ReadWriteJsonCollection<DnD5eCharacterRaceData>
 				.ReadCollection(DnD5eResources.RaceDataJson).ToArray().GetRandom();
 			var characterRaceVarient = characterRaceData.Variants.ToArray().GetRandom();
-			
+
 			var abilities = ReadWriteJsonCollection<Ability>.ReadCollection(DnD5eResources.AbilitiesJson).ToArray();
 
 			characterRaceData.RaceVariant = characterRaceVarient;

@@ -2,11 +2,6 @@
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.ViewModels
 {
@@ -18,7 +13,7 @@ namespace PCCharacterManager.ViewModels
 			get { return _selectedCharacter; }
 			set { OnPropertyChanged(ref _selectedCharacter, value); }
 		}
-		
+
 		protected readonly CharacterStore _characterStore;
 		protected readonly ICharacterDataService _dataService;
 

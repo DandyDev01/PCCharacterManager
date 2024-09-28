@@ -1,20 +1,10 @@
-﻿using PCCharacterManager.Models;
-using PCCharacterManager.Utility;
+﻿using PCCharacterManager.Utility;
 using PCCharacterManager.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PCCharacterManager.Views
 {
@@ -36,7 +26,7 @@ namespace PCCharacterManager.Views
 			removeContextButton.Command = new RelayCommand(DeleteSelectedItems);
 			delKeyBinding.Command = new RelayCommand(DeleteSelectedItems);
 			addItemCommand = new RelayCommand(AddItem);
-			
+
 			removeButton.Command = deleteSelectedItemsCommand;
 
 			InputBindings.Add(new KeyBinding(focusSearchCommand, Key.F, ModifierKeys.Control));
@@ -68,7 +58,7 @@ namespace PCCharacterManager.Views
 		{
 			CharacterInventoryViewModel? inventoryVM = DataContext as CharacterInventoryViewModel;
 
-			if (inventoryVM == null || inventoryVM.Inventory == null) 
+			if (inventoryVM == null || inventoryVM.Inventory == null)
 				return;
 
 			string confirmationBoxMessage = "Are you sure you want to remove " +
@@ -91,9 +81,9 @@ namespace PCCharacterManager.Views
 			TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
 			lastItemRemoveTimeInSeconds = timeSpan.TotalSeconds;
 
-			if (inventoryVM.ItemDisplayVms.Count < 1) 
+			if (inventoryVM.ItemDisplayVms.Count < 1)
 				return;
-			
+
 			inventoryVM.SelectedItem = inventoryVM.ItemDisplayVms[0];
 			inventoryVM.CalculateInventoryWeight();
 		}

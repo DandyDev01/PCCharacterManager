@@ -1,12 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
-using PCCharacterManager.Helpers;
+﻿using PCCharacterManager.Helpers;
 using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
@@ -217,7 +213,7 @@ namespace PCCharacterManager.Models
 		/// <param name="slots">Collection of slots</param>
 		private void SpellSlotHelper(int value, ref int numberOfSlots, ObservableCollection<BoolHelper> slots)
 		{
-			if (value < 0) 
+			if (value < 0)
 				value = 0;
 
 			int temp = numberOfSlots;
@@ -266,32 +262,32 @@ namespace PCCharacterManager.Models
 
 			foreach (var item in ThirdLvl)
 			{
-				item.Value = false;			
+				item.Value = false;
 			}
 
 			foreach (var item in FourthLvl)
 			{
-				item.Value = false;				
+				item.Value = false;
 			}
 
 			foreach (var item in FifthLvl)
 			{
-				item.Value = false;					
+				item.Value = false;
 			}
 
 			foreach (var item in SixLvl)
 			{
-				item.Value = false;						
+				item.Value = false;
 			}
 
 			foreach (var item in SeventhLvl)
 			{
-				item.Value = false;							
+				item.Value = false;
 			}
 
 			foreach (var item in EightLvl)
 			{
-				item.Value = false;								
+				item.Value = false;
 			}
 
 			foreach (var item in NinethLvl)
@@ -299,6 +295,6 @@ namespace PCCharacterManager.Models
 				item.Value = false;
 			}
 
-	}
+		}
 	} // end class
 }

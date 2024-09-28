@@ -1,20 +1,15 @@
 ﻿using PCCharacterManager.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-    public class Condition : ObservableObject
+	public class Condition : ObservableObject
 	{
 		private readonly Property _property;
 		private int _durationInRounds;
 
 		public string Name
 		{
-			get => _property.Name; 
+			get => _property.Name;
 			set => _property.Name = value;
 		}
 		public string Desc
@@ -51,5 +46,5 @@ namespace PCCharacterManager.Models
 			RoundsPassed += 1;
 			OnPropertyChanged(nameof(RoundsRemaning));
 		}
-    }
+	}
 }

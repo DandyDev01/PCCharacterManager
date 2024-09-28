@@ -1,19 +1,11 @@
 ﻿using PCCharacterManager.Commands;
-using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -37,7 +29,7 @@ namespace PCCharacterManager.ViewModels
 		public ObservableCollection<SpellItemEditableViewModel> CantripsToDisplay { get; }
 
 		public Array SearchFilters { get; } = Enum.GetValues(typeof(SpellType));
-		public Array OrderByOptions { get; } = Enum.GetValues(typeof(OrderByOption));	
+		public Array OrderByOptions { get; } = Enum.GetValues(typeof(OrderByOption));
 		public SpellSchool[] Filters { get; } = (SpellSchool[])Enum.GetValues(typeof(SpellSchool));
 
 		private SpellItemEditableViewModel? selectedSpell;
@@ -155,8 +147,8 @@ namespace PCCharacterManager.ViewModels
 		public OrderByOption SelectedOrderByOption
 		{
 			get { return _selectedOrderByOption; }
-			set 
-			{ 
+			set
+			{
 				OnPropertyChanged(ref _selectedOrderByOption, value);
 				SpellSortFilter();
 			}
@@ -178,7 +170,7 @@ namespace PCCharacterManager.ViewModels
 				{
 					SpellsCollectionView.Filter = DisplayFilter;
 				}
-				
+
 				SpellsCollectionView.Refresh();
 			}
 		}
@@ -275,7 +267,7 @@ namespace PCCharacterManager.ViewModels
 					_spellPropertySort.Sort(nameof(Spell.School));
 					break;
 				case OrderByOption.PREPARED:
-					_spellPropertySort.Sort(nameof(Spell.IsPrepared));;
+					_spellPropertySort.Sort(nameof(Spell.IsPrepared)); ;
 					break;
 			}
 		}

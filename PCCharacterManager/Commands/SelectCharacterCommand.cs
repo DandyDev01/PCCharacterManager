@@ -1,12 +1,7 @@
 ﻿using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
-using PCCharacterManager.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PCCharacterManager.Commands
@@ -32,11 +27,11 @@ namespace PCCharacterManager.Commands
 			{
 				selectedCharacter = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(_characterPath);
 			}
-			else if(_characterPath.Contains("starfinder", StringComparison.OrdinalIgnoreCase))
+			else if (_characterPath.Contains("starfinder", StringComparison.OrdinalIgnoreCase))
 			{
 				selectedCharacter = ReadWriteJsonFile<StarfinderCharacter>.ReadFile(_characterPath);
 			}
-			else if(_characterPath.Contains("darkSouls", StringComparison.OrdinalIgnoreCase))
+			else if (_characterPath.Contains("darkSouls", StringComparison.OrdinalIgnoreCase))
 			{
 				selectedCharacter = ReadWriteJsonFile<DarkSoulsCharacter>.ReadFile(_characterPath);
 			}
@@ -49,7 +44,7 @@ namespace PCCharacterManager.Commands
 
 			if (selectedCharacter == null)
 			{
-				_dialogService.ShowMessage("There is a problem with the character you wish to select", 
+				_dialogService.ShowMessage("There is a problem with the character you wish to select",
 					"character select problem", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}

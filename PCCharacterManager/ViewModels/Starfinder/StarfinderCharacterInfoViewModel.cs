@@ -3,13 +3,6 @@ using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
@@ -81,8 +74,8 @@ namespace PCCharacterManager.ViewModels
 
 		public PropertyListViewModel ThemeListVM { get; private set; }
 
-		public StarfinderCharacterInfoViewModel(CharacterStore characterStore, DialogServiceBase dialogService, 
-			RecoveryBase recovery) 
+		public StarfinderCharacterInfoViewModel(CharacterStore characterStore, DialogServiceBase dialogService,
+			RecoveryBase recovery)
 			: base(characterStore, dialogService, recovery)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChange;
@@ -125,11 +118,11 @@ namespace PCCharacterManager.ViewModels
 			}
 
 			ThemeListVM = new PropertyListViewModel("Themes", SelectedCharacter.Theme.Features, _dialogService);
-			ClassFeatureListVM = new DnDClassFeatureListViewModel("Class Features", 
+			ClassFeatureListVM = new DnDClassFeatureListViewModel("Class Features",
 				SelectedCharacter.CharacterClass.Features, _dialogService);
-			RaceFeatureListVM = new PropertyListViewModel("Race Features", SelectedCharacter.Race.Features, 
+			RaceFeatureListVM = new PropertyListViewModel("Race Features", SelectedCharacter.Race.Features,
 				_dialogService);
-			
+
 			OnPropertyChanged(nameof(ClassFeatureListVM));
 			OnPropertyChanged(nameof(RaceFeatureListVM));
 			OnPropertyChanged(nameof(ClassFeatureListVM));
@@ -151,7 +144,7 @@ namespace PCCharacterManager.ViewModels
 				return;
 
 			DialogWindowStringInputViewModel viewModel = new("Update description of " + _selectedAugmentation.Name);
-			
+
 			string result = string.Empty;
 			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(viewModel, r =>
 			{
@@ -197,7 +190,7 @@ namespace PCCharacterManager.ViewModels
 				return;
 
 			DialogWindowStringInputViewModel windowVM = new("Feature Name");
-			
+
 			string result = string.Empty;
 			_dialogService.ShowDialog<StringInputDialogWindow, DialogWindowStringInputViewModel>(windowVM, r =>
 			{

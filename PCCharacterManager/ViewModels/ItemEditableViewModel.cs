@@ -1,11 +1,7 @@
 ﻿using PCCharacterManager.Models;
 using PCCharacterManager.Utility;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
@@ -14,7 +10,7 @@ namespace PCCharacterManager.ViewModels
 	{
 		private readonly PropertyEditableVMPool _propertyVMPool;
 
-		public ObservableCollection<PropertyEditableViewModel> DisplayProperties { get; }	
+		public ObservableCollection<PropertyEditableViewModel> DisplayProperties { get; }
 
 		public ICommand EditCommand { get; private set; }
 		public ICommand RemoveCommand { get; private set; }
@@ -92,7 +88,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void RemoveProperty()
 		{
-			if (SelectedProperty == null || BoundItem == null) 
+			if (SelectedProperty == null || BoundItem == null)
 				return;
 
 			BoundItem.RemoveProperty(SelectedProperty.BoundProperty);

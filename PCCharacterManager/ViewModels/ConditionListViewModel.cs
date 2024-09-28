@@ -1,23 +1,17 @@
 ﻿using PCCharacterManager.Commands;
 using PCCharacterManager.DialogWindows;
-using PCCharacterManager.Models;
-using PCCharacterManager.Utility;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Windows;
-using Condition = PCCharacterManager.Models.Condition;
-using PCCharacterManager.ViewModels.DialogWindowViewModels;
 using PCCharacterManager.Services;
+using PCCharacterManager.Utility;
+using PCCharacterManager.ViewModels.DialogWindowViewModels;
+using System;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Condition = PCCharacterManager.Models.Condition;
 
 namespace PCCharacterManager.ViewModels
 {
-    public class ConditionListViewModel : ObservableObject
-    {
+	public class ConditionListViewModel : ObservableObject
+	{
 		private DialogServiceBase _dialogService;
 
 		private string _listName;

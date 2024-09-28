@@ -2,16 +2,12 @@
 using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace PCCharacterManager.Models
 {
 	public class StarfinderAbility : Ability
 	{
-		public new static StarfinderAbility[] Default = 
+		public new static StarfinderAbility[] Default =
 		{
 			new StarfinderAbility(),
 			new StarfinderAbility(),
@@ -145,10 +141,10 @@ namespace PCCharacterManager.Models
 		/// <exception cref="Exception">when there is no ability with the skill skillName</exception>
 		public static StarfinderSkill FindSkill(StarfinderAbility[] abilities, string skillName)
 		{
-			if (string.IsNullOrEmpty(skillName)) 
+			if (string.IsNullOrEmpty(skillName))
 				throw new ArgumentNullException(nameof(skillName), "parameter skillName cannot be null or empty");
 
-			if (string.IsNullOrWhiteSpace(skillName)) 
+			if (string.IsNullOrWhiteSpace(skillName))
 				throw new ArgumentNullException(nameof(skillName), "parameter skillName cannot be null or whiteSpace");
 
 			foreach (var ability in abilities)

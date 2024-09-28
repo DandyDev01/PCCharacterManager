@@ -1,18 +1,12 @@
 ﻿using PCCharacterManager.Commands;
-using PCCharacterManager.DialogWindows;
 using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -54,7 +48,7 @@ namespace PCCharacterManager.ViewModels
 				PopulatePropertiesToDisplay();
 			}
 		}
-		
+
 		private PropertyEditableViewModel? _selectedProperty;
 		public PropertyEditableViewModel? SelectedProperty
 		{
@@ -70,7 +64,7 @@ namespace PCCharacterManager.ViewModels
 				_selectedProperty = null;
 
 				if (_showHiddenProperties) return;
-				
+
 				// property was just marked to be hidden
 				if (PrevSelectedProperty.BoundProperty.Hidden)
 				{
@@ -261,7 +255,7 @@ namespace PCCharacterManager.ViewModels
 
 			PropertiesToDisplay.Clear();
 
-			if (_selectedItem == null || _selectedItem.BoundItem == null) 
+			if (_selectedItem == null || _selectedItem.BoundItem == null)
 				return;
 
 			if (_selectedItem.BoundItem.Properties == null)
@@ -300,10 +294,10 @@ namespace PCCharacterManager.ViewModels
 				foreach (var item in keyValuePair.Value)
 				{
 					length = item.Weight.IndexOf(" ");
-					
+
 					if (length < 0)
 						length = item.Weight.Length;
-					
+
 					number.Clear();
 					number.Append(item.Weight.Substring(0, length));
 					if (int.TryParse(number.ToString(), out length))

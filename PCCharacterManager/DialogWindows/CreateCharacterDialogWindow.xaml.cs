@@ -1,6 +1,4 @@
 ﻿using PCCharacterManager.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Windows;
 
 namespace PCCharacterManager.DialogWindows

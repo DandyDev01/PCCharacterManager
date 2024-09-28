@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.RightsManagement;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
@@ -18,7 +15,7 @@ namespace PCCharacterManager.Models
 		public int numOfSkillProficiences;
 		public string Prerequisites;
 
-		public CharacterMultiClassData(string name, string hitDie, string[] armorProficiencies, 
+		public CharacterMultiClassData(string name, string hitDie, string[] armorProficiencies,
 			string[] toolProficiences, string[] possibleSkillProficiences, int numOfSkillProficiences,
 			string prerequisites, string[] weaponProficiencies)
 		{

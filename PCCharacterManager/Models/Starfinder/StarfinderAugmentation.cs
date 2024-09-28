@@ -1,19 +1,15 @@
 ﻿using PCCharacterManager.Utility;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
 	public enum AugmentationCategory { BIOTECH, CYBERNETICS, MAGITECH, NECROGRAFTS, PERSONAL_UPGRADES, SPECIES_GRAFTS };
-	public enum AugmentationSystem 
-	{ 
+	public enum AugmentationSystem
+	{
 		BRAIN, THROAT, ARM_LEFT, ARM_RIGHT, LEG_LEFT, LEG_RIGHT,
 		LUNGS, HAND_LEFT, HAND_RIGHT, ARMS_ALL, LEGS_ALL, HANDS_ALL,
 		EYES_ALL, EYE_LEFT, EYE_RIGHT, SPINAL_COLUMN, FEET_LEFT, FEET_RIGHT,
-		FEET_ALL, SKIN, HEART, EARS_ALL, EAR_LEFT, EAR_RIGHT 
+		FEET_ALL, SKIN, HEART, EARS_ALL, EAR_LEFT, EAR_RIGHT
 	}
 
 	public class StarfinderAugmentation : ObservableObject

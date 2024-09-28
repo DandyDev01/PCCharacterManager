@@ -1,9 +1,4 @@
 ﻿using PCCharacterManager.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
@@ -62,8 +57,8 @@ namespace PCCharacterManager.Models
 		public bool SkillProficiency
 		{
 			get { return _skillProficiency; }
-			set 
-			{ 
+			set
+			{
 				OnPropertyChanged(ref _skillProficiency, value);
 
 				int score = _skillProficiency ? _abilityModifier + _proficiencyModifier : _abilityModifier;

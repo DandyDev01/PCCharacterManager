@@ -5,11 +5,6 @@ using PCCharacterManager.Stores;
 using PCCharacterManager.ViewModels;
 using PCCharacterManager.ViewModels.DialogWindowViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Printing;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PCCharacterManagerTests.Models
@@ -137,7 +132,7 @@ namespace PCCharacterManagerTests.Models
 		internal ChangeHealthDialogService(int changeAmount, bool tempHealth)
 		{
 			_changeAmount = changeAmount;
-			_tempHealth	= tempHealth;
+			_tempHealth = tempHealth;
 		}
 
 		public override void ShowDialog<TView, TViewModel>(TViewModel dataContext, Action<string> callBack)

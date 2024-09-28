@@ -1,14 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PCCharacterManager.Models;
-using PCCharacterManager.Services;
 using PCCharacterManager.ViewModels;
 using PCCharacterManager.ViewModels.DialogWindowViewModels;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace PCCharacterManagerTests.Models
 {
@@ -47,7 +41,7 @@ namespace PCCharacterManagerTests.Models
 			var character = CharacterCreatorViewModel.CreateRandonCharacter();
 			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
 
-			var features = vm.SelectedCharacterClass.Features.Where(x => x.Level == vm.SelectedCharacterClass.Level.Level+1).ToArray();
+			var features = vm.SelectedCharacterClass.Features.Where(x => x.Level == vm.SelectedCharacterClass.Level.Level + 1).ToArray();
 
 			Assert.AreEqual(features.Length, vm.FeaturesToDisplay.Count);
 			for (int i = 0; i < vm.FeaturesToDisplay.Count; i++)
@@ -58,7 +52,7 @@ namespace PCCharacterManagerTests.Models
 			vm.AddClassCommand.Execute(character);
 			vm.SelectedCharacterClass = vm.ClassesToDisplay[1];
 
-			features = vm.SelectedCharacterClass.Features.Where(x => x.Level == vm.SelectedCharacterClass.Level.Level+1).ToArray();
+			features = vm.SelectedCharacterClass.Features.Where(x => x.Level == vm.SelectedCharacterClass.Level.Level + 1).ToArray();
 
 			Assert.AreEqual(features.Length, vm.FeaturesToDisplay.Count);
 			for (int i = 0; i < vm.FeaturesToDisplay.Count; i++)
@@ -158,7 +152,7 @@ namespace PCCharacterManagerTests.Models
 			var character = CharacterCreatorViewModel.CreateRandonCharacter();
 			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(dialogService, character);
 			var multiClassData = ReadWriteJsonCollection<CharacterMultiClassData>
-				.ReadCollection(DnD5eResources.MultiClassDataJson).ToArray().Where(x => x.Name 
+				.ReadCollection(DnD5eResources.MultiClassDataJson).ToArray().Where(x => x.Name
 				== vm.SelectedCharacterClass.Name).First();
 
 			vm.AddClassCommand.Execute(character);

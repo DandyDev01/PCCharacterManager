@@ -1,9 +1,5 @@
 ﻿using PCCharacterManager.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Stores
 {
@@ -20,7 +16,7 @@ namespace PCCharacterManager.Stores
 		public event Action<CharacterBase>? OnCharacterLevelup;
 
 		public CharacterStore(RecoveryBase recovery)
-		{ 
+		{
 			_selectedCharacter = DnD5eCharacter.Default;
 			_recovery = recovery;
 		}
@@ -64,7 +60,7 @@ namespace PCCharacterManager.Stores
 			SelectedCharacter.OnCharacterChangedAction += _recovery.RegisterChange;
 
 			// only reset if the newly selected character is different from the currently select character.
-			if (oldID != SelectedCharacter.Id) 
+			if (oldID != SelectedCharacter.Id)
 			{
 				_recovery.ClearHistory();
 				_recovery.RegisterChange(SelectedCharacter);

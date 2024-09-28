@@ -1,11 +1,7 @@
 ﻿using PCCharacterManager.Models;
 using PCCharacterManager.Stores;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Services
 {
@@ -21,13 +17,13 @@ namespace PCCharacterManager.Services
 			_starFinderCharacterDataService = new JsonStarFinderCharacterDataService();
 			_darkSoulsCharacterDataService = new JsonDarkSoulsCharacterDataService();
 
-			if (characterStore != null ) 
+			if (characterStore != null)
 				characterStore.CharacterCreate += Add;
 		}
 
 		public override void Add(CharacterBase characterToAdd)
 		{
-			if(characterToAdd is StarfinderCharacter starfinderCharacter)
+			if (characterToAdd is StarfinderCharacter starfinderCharacter)
 			{
 				_starFinderCharacterDataService.Add(starfinderCharacter);
 			}
@@ -35,7 +31,7 @@ namespace PCCharacterManager.Services
 			{
 				_darkSoulsCharacterDataService.Add(darkSoulsCharacter);
 			}
-			else if(characterToAdd is DnD5eCharacter dnd5e)
+			else if (characterToAdd is DnD5eCharacter dnd5e)
 			{
 				_dnD5echaracterDataService.Add(dnd5e);
 			}
@@ -76,14 +72,14 @@ namespace PCCharacterManager.Services
 			List<StarfinderCharacter> starfinderCharacters = new();
 			List<DarkSoulsCharacter> darkSoulsCharacters = new();
 			List<DnD5eCharacter> dnd5eCharacters = new();
-			
+
 			if (Directory.Exists(StarfinderResources.CharacterDataDir))
 			{
 				string[] starfinderCharacterEntries = Directory.GetFiles(StarfinderResources.CharacterDataDir);
 				foreach (string characterEntry in starfinderCharacterEntries)
 				{
 					var item = ReadWriteJsonFile<StarfinderCharacter>.ReadFile(characterEntry);
-					if (item != null) 
+					if (item != null)
 						starfinderCharacters.Add(item);
 				}
 			}
@@ -98,14 +94,14 @@ namespace PCCharacterManager.Services
 						darkSoulsCharacters.Add(character);
 				}
 			}
-			
+
 			if (Directory.Exists(DnD5eResources.CharacterDataDir))
 			{
 				string[] dnd5eCharacterEntries = Directory.GetFiles(DnD5eResources.CharacterDataDir);
 				foreach (string characterEntry in dnd5eCharacterEntries)
 				{
 					var character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterEntry);
-					if (character != null) 
+					if (character != null)
 						dnd5eCharacters.Add(character);
 				}
 			}

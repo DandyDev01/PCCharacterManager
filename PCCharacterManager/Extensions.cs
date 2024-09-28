@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager
 {
-    static class Extensions
-    {
+	static class Extensions
+	{
 
 		public static void AddRange<T>(this ObservableCollection<T> collection, IEnumerable<T> itemsToAdd)
 		{
@@ -46,7 +43,7 @@ namespace PCCharacterManager
 		public static string CapitalizeFirst(this string str)
 		{
 			if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str))
-				return str;	
+				return str;
 
 			string title = string.Empty;
 

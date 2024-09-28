@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PCCharacterManager.Models
+﻿namespace PCCharacterManager.Models
 {
 	public class StarfinderArmorClass : ArmorClass
 	{
@@ -31,7 +25,7 @@ namespace PCCharacterManager.Models
 			get { return acVsCombatManeuversBase + KineticArmorTotal; }
 		}
 
-		private int _energyArmorBonus;	
+		private int _energyArmorBonus;
 		public int EnergyArmorBonus
 		{
 			get

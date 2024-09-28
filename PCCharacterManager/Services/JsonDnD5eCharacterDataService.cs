@@ -1,12 +1,8 @@
-﻿using Newtonsoft.Json;
-using PCCharacterManager.Models;
-using PCCharacterManager.Stores;
+﻿using PCCharacterManager.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Services
 {
@@ -22,12 +18,12 @@ namespace PCCharacterManager.Services
 			if (Directory.Exists(DnD5eResources.CharacterDataDir) == false)
 				return new List<DnD5eCharacter>();
 
-			List<DnD5eCharacter> characters = new();	
+			List<DnD5eCharacter> characters = new();
 			string[] characterEntries = Directory.GetFiles(DnD5eResources.CharacterDataDir);
 			foreach (string characterEntry in characterEntries)
 			{
 				var character = ReadWriteJsonFile<DnD5eCharacter>.ReadFile(characterEntry);
-				if(character != null) characters.Add(character);
+				if (character != null) characters.Add(character);
 			}
 
 			return characters;
@@ -57,16 +53,16 @@ namespace PCCharacterManager.Services
 				Directory.CreateDirectory(DnD5eResources.CharacterDataDir);
 			}
 
-			if (character == null) 
+			if (character == null)
 				return;
 
 			string[] characterFiles = GetByFilePaths().ToArray();
 
 			if (characterFiles.Any())
 			{
-				var test = characterFiles[0].Substring(characterFiles[0].LastIndexOf('\\')+1, characterFiles[0].IndexOf("#") - characterFiles[0].LastIndexOf('\\')-1);
+				var test = characterFiles[0].Substring(characterFiles[0].LastIndexOf('\\') + 1, characterFiles[0].IndexOf("#") - characterFiles[0].LastIndexOf('\\') - 1);
 			}
-			
+
 			if (characterFiles.Contains(x => x.Contains(character.Id)))
 			{
 				string path = characterFiles.Where(x => x.Contains(character.Id)).First();

@@ -2,16 +2,13 @@
 using PCCharacterManager.Services;
 using PCCharacterManager.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PCCharacterManager.Models
 {
-    public class DnD5eDialogStreamCharacterLeveler : CharacterLeveler
-    {
+	public class DnD5eDialogStreamCharacterLeveler : CharacterLeveler
+	{
 		public DnD5eDialogStreamCharacterLeveler(DialogServiceBase dialogService) : base(dialogService)
 		{
 		}
@@ -98,7 +95,7 @@ namespace PCCharacterManager.Models
 
 			string[] proficientSkills = Ability.GetProficientSkillNames(character.Abilities);
 			string[] options = classData.PossibleSkillProficiences.Where(x => proficientSkills.Contains(x) == false).ToArray();
-			
+
 			if (options.Any())
 			{
 				DialogWindowSelectStingValueViewModel vm =
@@ -220,7 +217,7 @@ namespace PCCharacterManager.Models
 				{
 					if (item.Name.ToLower().Contains("ability score"))
 					{
-						var message = _dialogService.ShowMessage(item.Desc, "You get an ability score improvement", 
+						var message = _dialogService.ShowMessage(item.Desc, "You get an ability score improvement",
 							MessageBoxButton.OK, MessageBoxImage.None);
 						continue;
 					}
@@ -251,7 +248,7 @@ namespace PCCharacterManager.Models
 			}
 			else
 			{
-				character.CharacterClass.Name = currentClassName + 
+				character.CharacterClass.Name = currentClassName +
 					" / " + classToAddName + " " + 0;
 			}
 
@@ -261,7 +258,7 @@ namespace PCCharacterManager.Models
 			return helper;
 		}
 
-		
+
 		/// <summary>
 		/// Gets information on the characters classes. Specifically, the class selected if there is
 		/// more than one class. Otherwise, information about the only class the character has.
@@ -315,7 +312,7 @@ namespace PCCharacterManager.Models
 					classNames[i] = classNames[i].Substring(0, classNames[i].IndexOf(" ")).Trim();
 			}
 
-			
+
 			DialogWindowSelectStingValueViewModel vm =
 				new DialogWindowSelectStingValueViewModel(classNames, 1);
 
@@ -387,7 +384,7 @@ namespace PCCharacterManager.Models
 		/// <param name="classNames">Names of the classes the character has at least one level in.</param>
 		/// <returns>The level found in nameOfSelectedClass</returns>
 		/// <exception cref="Exception">When no level is found in nameOfSelectedClass</exception>
-		public static int GetCurrentLevelOfClassBeingLeveledUp(DnD5eCharacter character, 
+		public static int GetCurrentLevelOfClassBeingLeveledUp(DnD5eCharacter character,
 			string nameOfSelectedClass, string[] classNames)
 		{
 			int level = 0;
@@ -420,7 +417,7 @@ namespace PCCharacterManager.Models
 
 		public MultiClass()
 		{
-			
+
 		}
 	}
 }

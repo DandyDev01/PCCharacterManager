@@ -1,15 +1,10 @@
-﻿using Newtonsoft.Json;
-using PCCharacterManager.Utility;
+﻿using PCCharacterManager.Utility;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models.DarkSouls
 {
-    public class DarkSoulsOrigin : ObservableObject
-    {
+	public class DarkSoulsOrigin : ObservableObject
+	{
 		private string _name;
 		public string Name
 		{
@@ -37,7 +32,7 @@ namespace PCCharacterManager.Models.DarkSouls
 		}
 
 		private Property _bloodiedEffect;
-		public Property BloodiedEffect { get => _bloodiedEffect; set => _bloodiedEffect = value; }	
+		public Property BloodiedEffect { get => _bloodiedEffect; set => _bloodiedEffect = value; }
 
 		private string[] _baseStatistics;
 		public string[] BaseStatistics { get => _baseStatistics; set => _baseStatistics = value; }

@@ -3,11 +3,7 @@ using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Utility;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PCCharacterManager.ViewModels
@@ -18,7 +14,7 @@ namespace PCCharacterManager.ViewModels
 
 		public new ObservableCollection<DnD5eCharacterClassFeature> ItemsToDisplay { get; }
 
-		public DnDClassFeatureListViewModel(string _listName, ObservableCollection<DnD5eCharacterClassFeature> _item, 
+		public DnDClassFeatureListViewModel(string _listName, ObservableCollection<DnD5eCharacterClassFeature> _item,
 			DialogServiceBase dialogService) : base(_listName, dialogService)
 		{
 			ItemsToDisplay = _item;

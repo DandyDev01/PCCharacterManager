@@ -1,14 +1,9 @@
-﻿using PCCharacterManager.Models;
-using PCCharacterManager.ViewModels;
-using PCCharacterManager.DialogWindows;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Diagnostics;
+﻿using PCCharacterManager.DialogWindows;
+using PCCharacterManager.Models;
 using PCCharacterManager.Services;
+using PCCharacterManager.ViewModels;
+using System.Linq;
+using System.Windows;
 
 namespace PCCharacterManager.Commands
 {

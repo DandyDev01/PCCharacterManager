@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace PCCharacterManager.Models
 {
@@ -13,11 +11,11 @@ namespace PCCharacterManager.Models
 		public string Name { get; set; }
 		public string Speed { get; set; }
 		public string AgeRange { get; set; }
-	
+
 		[JsonProperty("Size")]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public CreatureSize Size { get; set; }
-		
+
 		public int Age { get; set; }
 		public string[] AbilityScoreIncreases { get; set; }
 		public string[] Languages { get; set; }

@@ -1,22 +1,12 @@
-﻿using PCCharacterManager.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PCCharacterManager.Models;
+using PCCharacterManager.Utility;
+using PCCharacterManager.ViewModels;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using PCCharacterManager.ViewModels;
-using PCCharacterManager.Models;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
+using System.Windows.Media;
 
 namespace PCCharacterManager.Views
 {
@@ -31,24 +21,24 @@ namespace PCCharacterManager.Views
 		public CharacterNoteBookView()
 		{
 			InitializeComponent();
-			
+
 			_focusSearchCommand = new RelayCommand(FocusSearchBox);
 			findButton.Command = new RelayCommand(FindAndHighlightText);
-			
+
 			InputBindings.Add(new KeyBinding(_focusSearchCommand, Key.Q, ModifierKeys.Control));
-			
+
 			DataContextChanged += SetupHelper;
 
 			searchBox.Text = SEARCH;
 
 			richTextBox.Document.LineHeight = 1;
-			
+
 			ExpandNoteTreeView();
 		}
 
 		private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
-			if (DataContext is not CharacterNoteBookViewModel viewModel) 
+			if (DataContext is not CharacterNoteBookViewModel viewModel)
 				return;
 
 			if (treeView.SelectedItem is NoteSection noteSection)
@@ -61,7 +51,7 @@ namespace PCCharacterManager.Views
 				viewModel.SelectedSection = null;
 			}
 		}
-		
+
 		private void UpdateDocument(Note note)
 		{
 			if (note == null)
@@ -118,7 +108,7 @@ namespace PCCharacterManager.Views
 					startPointer = startPointer.GetPositionAtOffset(indexOfParseString);
 
 					if (startPointer == null) break;
-					
+
 					//next pointer will be the length of the search string
 					TextPointer nextPointer = startPointer.GetPositionAtOffset(searchText.Length);
 
@@ -150,7 +140,7 @@ namespace PCCharacterManager.Views
 		/// </summary>
 		private void SetupHelper(object sender, DependencyPropertyChangedEventArgs e)
 		{
-			if (DataContext is not CharacterNoteBookViewModel viewModel) 
+			if (DataContext is not CharacterNoteBookViewModel viewModel)
 				return;
 
 			viewModel.selectedNoteChange += UpdateDocument;
@@ -166,7 +156,7 @@ namespace PCCharacterManager.Views
 
 			string noteContents = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd).Text;
 
-			
+
 			if (viewModel.SelectedNote is null)
 				return;
 

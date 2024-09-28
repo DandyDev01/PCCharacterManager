@@ -1,19 +1,15 @@
-﻿using PCCharacterManager.Models;
+﻿using PCCharacterManager.DialogWindows;
+using PCCharacterManager.Models;
 using PCCharacterManager.Services;
-using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
-using PCCharacterManager.DialogWindows;
+using PCCharacterManager.ViewModels.CharacterCreatorViewModels;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using PCCharacterManager.ViewModels.CharacterCreatorViewModels;
-using System.ComponentModel;
-using System.Collections;
 
 namespace PCCharacterManager.ViewModels
 {
@@ -127,7 +123,7 @@ namespace PCCharacterManager.ViewModels
 
 			if (!validName)
 			{
-				_dialogService.ShowMessage("Name cannot be empty or only whitespace", "Invalid Name", 
+				_dialogService.ShowMessage("Name cannot be empty or only whitespace", "Invalid Name",
 					MessageBoxButton.OK, MessageBoxImage.Error);
 
 				return null;
@@ -153,13 +149,13 @@ namespace PCCharacterManager.ViewModels
 			// set class skills
 			foreach (var classSkill in _selectedClassData.ClassSkills)
 			{
-				if (classSkill.Contains("Profession")) 
+				if (classSkill.Contains("Profession"))
 					continue;
 
 				try
 				{
 					StarfinderAbility.FindSkill(character.Abilities, classSkill).ClassSkill = true;
-				} 
+				}
 				catch (Exception e)
 				{
 					_dialogService.ShowMessage(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -174,12 +170,12 @@ namespace PCCharacterManager.ViewModels
 				string[] options = StringFormater.CreateGroup(item, '^');
 				options[0] = options[0].Substring(options[0].IndexOf('(') + 1);
 				options[options.Length - 1] = options[options.Length - 1].Substring(0, options[options.Length - 1].Length - 1);
-				
-				
+
+
 				DialogWindowSelectStingValueViewModel windowVM = new(options);
 
 				string result = string.Empty;
-				_dialogService.ShowDialog<SelectStringValueDialogWindow, 
+				_dialogService.ShowDialog<SelectStringValueDialogWindow,
 					DialogWindowSelectStingValueViewModel>(windowVM, r =>
 				{
 					result = r;
@@ -226,7 +222,7 @@ namespace PCCharacterManager.ViewModels
 			{
 				Ability.FindAbility(character.Abilities, abilityName).Score += increaseAmount;
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				_dialogService.ShowMessage(e.Message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
 				return null;

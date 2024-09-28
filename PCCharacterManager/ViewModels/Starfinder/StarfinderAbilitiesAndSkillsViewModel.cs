@@ -1,11 +1,7 @@
 ﻿using PCCharacterManager.Models;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.ViewModels
 {
@@ -31,7 +27,7 @@ namespace PCCharacterManager.ViewModels
 
 		private void OnCharacterChanged(CharacterBase newCharacter)
 		{
-			if (newCharacter == null) 
+			if (newCharacter == null)
 				return;
 
 			if (newCharacter is not StarfinderCharacter starFinderCharacter)

@@ -1,10 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PCCharacterManager.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManagerTests.Models
 {
@@ -32,7 +29,7 @@ namespace PCCharacterManagerTests.Models
 			var list = new ListViewMultiSelectItemsLimitedCountViewModel(amountToSelect, options);
 
 
-			foreach ( var item in list.Items)
+			foreach (var item in list.Items)
 			{
 				Assert.IsTrue(options.Contains(item.BoundItem));
 			}

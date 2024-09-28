@@ -1,11 +1,6 @@
 ﻿using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.ViewModels
 {
@@ -17,7 +12,7 @@ namespace PCCharacterManager.ViewModels
 		public CharacterSpellBookViewModel SpellBookVM { get; }
 		public CharacterNoteBookViewModel NotesVM { get; }
 
-		public TabControlViewModel(CharacterStore characterStore, ICharacterDataService dataService, 
+		public TabControlViewModel(CharacterStore characterStore, ICharacterDataService dataService,
 			DialogServiceBase dialogService, RecoveryBase recovery)
 		{
 			CharacterListVM = new CharacterListViewModel(characterStore, dataService, dialogService);

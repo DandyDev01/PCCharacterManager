@@ -1,11 +1,7 @@
 ﻿using PCCharacterManager.Models;
 using PCCharacterManager.Utility;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
@@ -71,7 +67,7 @@ namespace PCCharacterManager.ViewModels
 			set
 			{
 				OnPropertyChanged(ref _castingTime, value);
-				_spell.CastingTime = value;	
+				_spell.CastingTime = value;
 			}
 		}
 
@@ -162,8 +158,8 @@ namespace PCCharacterManager.ViewModels
 		public bool IsPrepared
 		{
 			get { return _isPrepared; }
-			set 
-			{ 
+			set
+			{
 				OnPropertyChanged(ref _isPrepared, value);
 				_spell.IsPrepared = value;
 			}

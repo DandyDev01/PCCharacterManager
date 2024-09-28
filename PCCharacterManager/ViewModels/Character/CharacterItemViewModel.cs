@@ -4,10 +4,6 @@ using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels
@@ -44,7 +40,7 @@ namespace PCCharacterManager.ViewModels
 		public Action<string>? DeleteAction;
 
 		//TODO: get the characterStore from BookVM
-		public CharacterItemViewModel(CharacterStore characterStore, CharacterBase character, string characterPath, 
+		public CharacterItemViewModel(CharacterStore characterStore, CharacterBase character, string characterPath,
 			DialogServiceBase dialogService)
 		{
 			_characterName = character.Name;

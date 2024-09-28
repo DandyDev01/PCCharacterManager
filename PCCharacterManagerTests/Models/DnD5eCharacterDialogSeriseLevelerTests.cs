@@ -3,10 +3,6 @@ using PCCharacterManager.Models;
 using PCCharacterManager.Services;
 using PCCharacterManager.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PCCharacterManagerTests.Models
@@ -17,8 +13,8 @@ namespace PCCharacterManagerTests.Models
 		[TestMethod()]
 		public void CancelLevelupTest()
 		{
-			 DialogServiceBase dialogService = new CancelDialogService();
-			 CharacterLeveler dndCharacterLeveler = new DnD5eDialogStreamCharacterLeveler(dialogService);
+			DialogServiceBase dialogService = new CancelDialogService();
+			CharacterLeveler dndCharacterLeveler = new DnD5eDialogStreamCharacterLeveler(dialogService);
 
 			Assert.IsFalse(dndCharacterLeveler.LevelCharacter(CharacterCreatorViewModel.CreateRandonCharacter()));
 		}
@@ -47,7 +43,8 @@ namespace PCCharacterManagerTests.Models
 			DialogServiceBase dialogService = new CancelDialogService();
 			CharacterLeveler dndCharacterLeveler = new DnD5eDialogStreamCharacterLeveler(dialogService);
 
-			try {
+			try
+			{
 				dndCharacterLeveler.LevelCharacter(null);
 				Assert.Fail();
 			}

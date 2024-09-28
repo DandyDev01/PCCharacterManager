@@ -5,10 +5,7 @@ using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using PCCharacterManager.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PCCharacterManager.Commands
@@ -19,7 +16,7 @@ namespace PCCharacterManager.Commands
 		private readonly CharacterStore _characterStore;
 		private readonly TabControlViewModel _tabControlViewModel;
 
-		public CharacterExportCommand(CharacterStore characterStore, TabControlViewModel tabControlViewModel, 
+		public CharacterExportCommand(CharacterStore characterStore, TabControlViewModel tabControlViewModel,
 			DialogServiceBase dialogService)
 		{
 			_characterStore = characterStore;
@@ -44,7 +41,7 @@ namespace PCCharacterManager.Commands
 			DialogWindowSelectStingValueViewModel dataContext = new(characterNames, characterNames.Length);
 
 			string result = string.Empty;
-			_dialogService.ShowDialog<SelectStringValueDialogWindow, 
+			_dialogService.ShowDialog<SelectStringValueDialogWindow,
 				DialogWindowSelectStingValueViewModel>(dataContext, r =>
 			{
 				result = r;
@@ -59,7 +56,7 @@ namespace PCCharacterManager.Commands
 			// select where to save export files
 			bool? fileDialogResult = saveFile.ShowDialog();
 
-			if (fileDialogResult.GetValueOrDefault() == false) 
+			if (fileDialogResult.GetValueOrDefault() == false)
 				return;
 
 			string savePath = saveFile.FileName;
@@ -67,7 +64,7 @@ namespace PCCharacterManager.Commands
 			var messageBoxResult = _dialogService.ShowMessage("Single file export? (yes) for 1.json file (no) for individual .json files",
 				"single or multiple files", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
-			if (messageBoxResult == MessageBoxResult.Cancel) 
+			if (messageBoxResult == MessageBoxResult.Cancel)
 				return;
 			else if (messageBoxResult == MessageBoxResult.Yes)
 				SingleFileExport(characterItems, savePath, selectedCharacterNames, characterPaths);
@@ -82,17 +79,17 @@ namespace PCCharacterManager.Commands
 		/// <param name="savePath"></param>
 		/// <param name="selectedCharacterNames"></param>
 		/// <param name="characterPaths"></param>
-		private void SingleFileExport(CharacterItemViewModel[] characterItems, string savePath, 
+		private void SingleFileExport(CharacterItemViewModel[] characterItems, string savePath,
 			string[] selectedCharacterNames, string[] characterPaths)
 		{
 			var characters = new CharacterBase[characterPaths.Length];
-			
+
 			// get path's of characters to export
 			for (int i = 0; i < selectedCharacterNames.Length; i++)
 			{
 				foreach (var item in characterItems)
 				{
-					if (item.CharacterName.Equals(selectedCharacterNames[i])) 
+					if (item.CharacterName.Equals(selectedCharacterNames[i]))
 						characterPaths[i] = item.CharacterPath;
 				}
 			}
@@ -107,9 +104,9 @@ namespace PCCharacterManager.Commands
 					continue;
 				}
 
-				var character = ReadWriteJsonFile<CharacterBase>.ReadFile(characterPaths[i]) 
+				var character = ReadWriteJsonFile<CharacterBase>.ReadFile(characterPaths[i])
 					?? throw new Exception("The characater at " + characterPaths[i] + " does not exist.");
-				
+
 				characters[i] = character;
 			}
 
@@ -123,7 +120,7 @@ namespace PCCharacterManager.Commands
 		/// <param name="savePath"></param>
 		/// <param name="selectedCharacterNames"></param>
 		/// <param name="characterPaths"></param>
-		private void MultiFileExport(CharacterItemViewModel[] characterItems, string savePath, 
+		private void MultiFileExport(CharacterItemViewModel[] characterItems, string savePath,
 			string[] selectedCharacterNames, string[] characterPaths)
 		{
 			for (int i = 0; i < selectedCharacterNames.Length; i++)
@@ -139,7 +136,7 @@ namespace PCCharacterManager.Commands
 				savePath = savePath.Substring(0, savePath.IndexOf('.'));
 				if (characterPaths[i].Contains(_characterStore.SelectedCharacter.Name))
 				{
-					ReadWriteJsonFile<CharacterBase>.WriteFile(savePath + "_" + _characterStore.SelectedCharacter.Name 
+					ReadWriteJsonFile<CharacterBase>.WriteFile(savePath + "_" + _characterStore.SelectedCharacter.Name
 						+ ".json", _characterStore.SelectedCharacter);
 					savePath += ".json";
 					continue;

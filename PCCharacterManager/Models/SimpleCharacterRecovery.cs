@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
@@ -58,7 +54,7 @@ namespace PCCharacterManager.Models
 
 			return objectType;
 		}
-		
+
 		public void RegisterChange(CharacterBase state)
 		{
 			string json = JsonConvert.SerializeObject(state);
@@ -67,7 +63,7 @@ namespace PCCharacterManager.Models
 
 
 
-			if (_stateIndex != _stateHistory.Count-1)
+			if (_stateIndex != _stateHistory.Count - 1)
 				_stateHistory.RemoveRange(_stateIndex, _stateHistory.Count - _stateIndex);
 
 		}

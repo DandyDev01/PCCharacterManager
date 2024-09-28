@@ -24,8 +24,8 @@ namespace PCCharacterManager.ViewModels
 		}
 
 		private CharacterBase _selectedCharacter;
-		public CharacterBase SelectedCharacter 
-		{ 
+		public CharacterBase SelectedCharacter
+		{
 			get { return _selectedCharacter; }
 			set { OnPropertyChanged(ref _selectedCharacter, value); }
 		}
@@ -38,7 +38,7 @@ namespace PCCharacterManager.ViewModels
 		public CharacterAbilitiesViewModel CharacterAbilitiesViewModel { get; }
 
 		public CharacterTypeHelper CharacterTypeHelper => _characterTypeHelper;
-		
+
 		public CharacterStatsViewModel(CharacterStore characterStore, DialogServiceBase dialogService, RecoveryBase recovery)
 		{
 			characterStore.SelectedCharacterChange += OnCharacterChanged;
@@ -55,7 +55,7 @@ namespace PCCharacterManager.ViewModels
 			StarfinderAbilitiesAndSkillsVM = new StarfinderAbilitiesAndSkillsViewModel(characterStore);
 
 			_characterTypeHelper.SetCharacterTypeFlags(_selectedCharacter.CharacterType);
-			
+
 			_selectedCharacterInfoViewModel = CharacterInfoViewModel;
 		}
 

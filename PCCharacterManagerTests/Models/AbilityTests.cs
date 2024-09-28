@@ -1,15 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PCCharacterManager.Models;
 using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Diagnostics;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Media.Media3D;
 
 namespace PCCharacterManagerTests.Models
 {
@@ -51,14 +43,14 @@ namespace PCCharacterManagerTests.Models
 		[TestMethod()]
 		public void SetSaveTest()
 		{
-			
+
 		}
 
 		[TestMethod()]
 		public void SetModTest()
 		{
 			Ability ability = new Ability(20, 2, 1, false, 2, "ability", "none", null);
-			
+
 			ability.Score = 1;
 			Assert.IsTrue(ability.Modifier == -5);
 			ability.Score = 2;
@@ -131,7 +123,7 @@ namespace PCCharacterManagerTests.Models
 		{
 			Ability ability = new Ability();
 			Assert.IsFalse(ability.ProfSave);
-			
+
 			ability.ProfSave = true;
 			Assert.IsTrue(ability.ProfSave);
 		}
@@ -269,7 +261,7 @@ namespace PCCharacterManagerTests.Models
 			bool allPassed = true;
 
 			var foundNames = Ability.GetSkillNames();
-			foreach ( var skillName in foundNames)
+			foreach (var skillName in foundNames)
 			{
 				if (skillNames.Contains(skillName) == false)
 					allPassed = false;

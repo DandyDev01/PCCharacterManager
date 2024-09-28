@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PCCharacterManager.ViewModels;
-using PCCharacterManager.Models;
-using System.Windows;
+﻿using PCCharacterManager.Models;
 using PCCharacterManager.Services;
+using PCCharacterManager.ViewModels;
+using System;
+using System.Windows;
 
 namespace PCCharacterManager.Commands
 {
@@ -54,8 +50,8 @@ namespace PCCharacterManager.Commands
 			double timePassed = currTimeSeconds - _lastSpellRemoveTimeInSeconds;
 			if (timePassed > 5)
 			{
-				var messageBox = _dialogService.ShowMessage("Are you sure you want to delete " + 
-					_characterSpellBookViewModel.PrevSelectedSpell.Spell.Name, "Delete Spell", 
+				var messageBox = _dialogService.ShowMessage("Are you sure you want to delete " +
+					_characterSpellBookViewModel.PrevSelectedSpell.Spell.Name, "Delete Spell",
 					MessageBoxButton.YesNo, MessageBoxImage.Question);
 
 				if (messageBox == MessageBoxResult.No)
@@ -82,8 +78,8 @@ namespace PCCharacterManager.Commands
 			double timePassed = currTimeSeconds - _lastSpellRemoveTimeInSeconds;
 			if (timePassed > 5)
 			{
-				var messageBox = _dialogService.ShowMessage("Are you sure you want to delete " + 
-					_characterSpellBookViewModel.PrevSelectedCantrip.Spell.Name, "Delete Spell", 
+				var messageBox = _dialogService.ShowMessage("Are you sure you want to delete " +
+					_characterSpellBookViewModel.PrevSelectedCantrip.Spell.Name, "Delete Spell",
 					MessageBoxButton.YesNo, MessageBoxImage.Question);
 
 				if (messageBox == MessageBoxResult.No)

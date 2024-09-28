@@ -1,19 +1,14 @@
-﻿using Newtonsoft.Json.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using PCCharacterManager.Utility;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
-    public abstract class CharacterBase : ObservableObject
-    {
+	public abstract class CharacterBase : ObservableObject
+	{
 		protected string _name;
 		public string Name
 		{

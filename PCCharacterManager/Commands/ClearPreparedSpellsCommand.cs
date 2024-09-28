@@ -1,10 +1,4 @@
-﻿using PCCharacterManager.Models;
-using PCCharacterManager.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PCCharacterManager.ViewModels;
 
 namespace PCCharacterManager.Commands
 {
@@ -12,7 +6,7 @@ namespace PCCharacterManager.Commands
 	{
 		private readonly CharacterSpellBookViewModel _characterSpellBookViewModel;
 
-		public ClearPreparedSpellsCommand(CharacterSpellBookViewModel characterSpellBookViewModel) 
+		public ClearPreparedSpellsCommand(CharacterSpellBookViewModel characterSpellBookViewModel)
 		{
 			_characterSpellBookViewModel = characterSpellBookViewModel;
 		}

@@ -5,11 +5,8 @@ using PCCharacterManager.Stores;
 using PCCharacterManager.Utility;
 using PCCharacterManager.ViewModels.DialogWindowViewModels;
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -32,7 +29,7 @@ namespace PCCharacterManager.ViewModels
 
 		public ICommand EditDrivePointsCommand { get; }
 
-		public DarkSoulsCharacterInfoViewModel(CharacterStore characterStore, DialogServiceBase dialogService, 
+		public DarkSoulsCharacterInfoViewModel(CharacterStore characterStore, DialogServiceBase dialogService,
 			RecoveryBase recovery) : base(characterStore, dialogService, recovery)
 		{
 			Race = "Unkindled";
@@ -45,7 +42,7 @@ namespace PCCharacterManager.ViewModels
 		/// <param name="newCharacter">the newly selected character</param>
 		protected override void OnCharacterChanged(CharacterBase newCharacter)
 		{
-			if(_selectedCharacter is not null)
+			if (_selectedCharacter is not null)
 			{
 				_selectedCharacter.CharacterClass.Features.CollectionChanged -= UpdateFeatures;
 				_selectedCharacter.Health.PropertyChanged -= UpdateHealth;
@@ -189,7 +186,7 @@ namespace PCCharacterManager.ViewModels
 			if (_selectedCharacter is null)
 				return;
 
-			Health = _selectedCharacter.Health.CurrHealth.ToString() + '/' + _selectedCharacter.Health.MaxHealth.ToString() 
+			Health = _selectedCharacter.Health.CurrHealth.ToString() + '/' + _selectedCharacter.Health.MaxHealth.ToString()
 				+ " (" + _selectedCharacter.Health.TempHitPoints + " temp)";
 		}
 

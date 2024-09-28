@@ -1,9 +1,4 @@
 ﻿using PCCharacterManager.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
@@ -23,7 +18,7 @@ namespace PCCharacterManager.Models
 					return false;
 
 				bool nameContainsSearchTerm = spell.Name.ToLower().Contains(_searchTerm);
-				
+
 				if (!nameContainsSearchTerm)
 					schoolContainsSearchTerm = spell.School.ToString().ToLower().Contains(_searchTerm);
 

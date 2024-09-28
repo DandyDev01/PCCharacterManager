@@ -6,15 +6,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 {
-    public class DialogWindowAddFeatureViewModel : ObservableObject, INotifyDataErrorInfo
+	public class DialogWindowAddFeatureViewModel : ObservableObject, INotifyDataErrorInfo
 	{
 		private readonly CharacterInfoViewModel _characterInfoVM;
 
@@ -93,7 +88,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 		public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 		public bool HasErrors => propertyNameToError.Any();
 
-		public DialogWindowAddFeatureViewModel(CharacterInfoViewModel characterInfoVM) 
+		public DialogWindowAddFeatureViewModel(CharacterInfoViewModel characterInfoVM)
 		{
 			_characterInfoVM = characterInfoVM;
 
@@ -125,7 +120,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			Feature feature = new Feature(property, _featureType, _level);
 			_characterInfoVM.AllFeatures.Add(feature);
 
-			
+
 			if (_featureType == _characterInfoVM.SelectedCharacter.CharacterClass.Name)
 			{
 				DnD5eCharacterClassFeature classFeature = new(feature.Name, feature.Description, int.Parse(feature.Level));
@@ -183,7 +178,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 			List<string> errors = new();
 			propertyNameToError.Add(nameof(Level), errors);
 
-			if (FeatureType == _characterInfoVM.SelectedCharacter.CharacterClass.Name) 
+			if (FeatureType == _characterInfoVM.SelectedCharacter.CharacterClass.Name)
 			{
 				try
 				{

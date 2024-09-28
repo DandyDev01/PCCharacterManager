@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
@@ -143,7 +142,7 @@ namespace PCCharacterManager.Models
 			int space = value.IndexOf(' ');
 			return value.Substring(0, space).Trim();
 		}
-	
+
 	} // end StringFormater
 
 	public static class ReadWriteJsonCollection<T>
@@ -178,7 +177,7 @@ namespace PCCharacterManager.Models
 		/// <param name="collection">Collection of the objects to write in json.</param>
 		public static void WriteCollection(string? filePath, IEnumerable<T> collection)
 		{
-			if (string.IsNullOrEmpty(filePath) || string.IsNullOrWhiteSpace(filePath)) 
+			if (string.IsNullOrEmpty(filePath) || string.IsNullOrWhiteSpace(filePath))
 				return;
 
 			string serializedCollection = JsonConvert.SerializeObject(collection);

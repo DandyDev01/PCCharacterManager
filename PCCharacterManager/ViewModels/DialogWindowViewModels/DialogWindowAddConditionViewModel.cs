@@ -1,14 +1,4 @@
-﻿using PCCharacterManager.Models;
-using PCCharacterManager.Utility;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Windows;
-using Condition = PCCharacterManager.Models.Condition;
+﻿using PCCharacterManager.Utility;
 
 namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 {
@@ -57,7 +47,7 @@ namespace PCCharacterManager.ViewModels.DialogWindowViewModels
 		{
 			_name = string.Empty;
 			_description = string.Empty;
-			
+
 		}
 	}
 }

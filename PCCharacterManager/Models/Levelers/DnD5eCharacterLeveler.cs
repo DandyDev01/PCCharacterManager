@@ -1,11 +1,6 @@
-﻿using PCCharacterManager.Services;
-using PCCharacterManager.DialogWindows;
+﻿using PCCharacterManager.DialogWindows;
+using PCCharacterManager.Services;
 using PCCharacterManager.ViewModels.DialogWindowViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
@@ -27,7 +22,7 @@ namespace PCCharacterManager.Models
 			var vm = new DialogWindowDnD5eCharacterLevelupViewModel(_dialogService, character as DnD5eCharacter);
 
 			string result = string.Empty;
-			_dialogService.ShowDialog<DnD5eLevelupCharacterDialogWindow, 
+			_dialogService.ShowDialog<DnD5eLevelupCharacterDialogWindow,
 				DialogWindowDnD5eCharacterLevelupViewModel>(vm, r =>
 			{
 				result = r;

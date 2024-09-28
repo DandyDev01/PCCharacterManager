@@ -1,10 +1,5 @@
 ﻿using PCCharacterManager.Utility;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
@@ -34,7 +29,7 @@ namespace PCCharacterManager.Models
 		/// <param name="note">note to remove</param>
 		public void Add(Note note)
 		{
-			if (note == null) 
+			if (note == null)
 				return;
 
 			Notes.Add(note);
@@ -46,7 +41,7 @@ namespace PCCharacterManager.Models
 		/// <param name="note">note to remove</param>
 		public void Remove(Note note)
 		{
-			if(note == null || Notes.Contains(note) == false) 
+			if (note == null || Notes.Contains(note) == false)
 				return;
 
 			Notes.Remove(note);

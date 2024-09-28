@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
@@ -69,7 +65,7 @@ namespace PCCharacterManager.Models
 			foreach (NoteSection noteSection in NoteSections)
 			{
 				if (noteSection.SectionTitle.ToLower().Equals(_sectionTitle.ToLower()))
-					return noteSection;	
+					return noteSection;
 			}
 
 			return null;

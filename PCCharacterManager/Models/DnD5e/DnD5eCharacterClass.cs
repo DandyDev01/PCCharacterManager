@@ -4,9 +4,6 @@ using PCCharacterManager.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
@@ -49,7 +46,7 @@ namespace PCCharacterManager.Models
 			set;
 		}
 
-		public DnD5eCharacterClass() 
+		public DnD5eCharacterClass()
 		{
 			_name = string.Empty;
 			_level = new DnD5eCharacterClassLevel();
@@ -81,7 +78,7 @@ namespace PCCharacterManager.Models
 				if (classNames[i].Contains(nameOfClassToUpdate))
 				{
 					int length = nameOfClassToUpdate.IndexOf(" ") == -1 ? nameOfClassToUpdate.Length : nameOfClassToUpdate.IndexOf(" ");
-					classNames[i] = nameOfClassToUpdate.Substring(0, length).Trim() + " " + (level+1);
+					classNames[i] = nameOfClassToUpdate.Substring(0, length).Trim() + " " + (level + 1);
 				}
 
 				classNames[i] = classNames[i].Trim();

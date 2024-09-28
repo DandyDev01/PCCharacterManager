@@ -29,41 +29,41 @@ namespace PCCharacterManager.Models
 		public string Background
 		{
 			get { return _background; }
-			set 
-			{ 
+			set
+			{
 				OnPropertyChanged(ref _background, value);
 				OnCharacterChangedAction?.Invoke(this);
 			}
 		}
-		
+
 		private int _initiative;
 		public int Initiative
 		{
 			get { return _initiative; }
-			set 
-			{ 
-				OnPropertyChanged(ref _initiative, value); 
+			set
+			{
+				OnPropertyChanged(ref _initiative, value);
 				OnCharacterChangedAction?.Invoke(this);
 			}
 		}
-		
+
 		private int _passivePerception;
 		public int PassivePerception
 		{
 			get { return _passivePerception; }
-			set 
+			set
 			{
 				OnPropertyChanged(ref _passivePerception, value);
 				OnCharacterChangedAction?.Invoke(this);
 			}
 		}
-		
+
 		private int _passiveInsight;
 		public int PassiveInsight
 		{
 			get { return _passiveInsight; }
-			set 
-			{ 
+			set
+			{
 				OnPropertyChanged(ref _passiveInsight, value);
 				OnCharacterChangedAction?.Invoke(this);
 			}
@@ -132,8 +132,8 @@ namespace PCCharacterManager.Models
 		public ObservableCollection<Condition> Conditions { get; protected set; }
 		public ObservableCollection<Property> MovementTypes_Speeds { get; protected set; }
 		public ObservableCollection<string> CombatActions { get; protected set; }
-		public ObservableCollection<string> WeaponProficiencies { get;protected set; }
-		public ObservableCollection<string> ArmorProficiencies { get;protected set; }
+		public ObservableCollection<string> WeaponProficiencies { get; protected set; }
+		public ObservableCollection<string> ArmorProficiencies { get; protected set; }
 		public ObservableCollection<string> OtherProficiences { get; protected set; }
 		public ObservableCollection<string> ToolProficiences { get; protected set; }
 		public ObservableCollection<string> Languages { get; protected set; }
@@ -174,9 +174,9 @@ namespace PCCharacterManager.Models
 			_background = string.Empty;
 		}
 
-		
 
-		public DnD5eCharacter(DnD5eCharacterClassData classData, DnD5eCharacterRaceData raceData, 
+
+		public DnD5eCharacter(DnD5eCharacterClassData classData, DnD5eCharacterRaceData raceData,
 			DnD5eBackgroundData backgroundData, Ability[] abilities)
 		{
 			_abilities = abilities;
@@ -189,7 +189,7 @@ namespace PCCharacterManager.Models
 			OtherProficiences = new ObservableCollection<string>();
 			ToolProficiences = new ObservableCollection<string>();
 			Languages = new ObservableCollection<string>();
-			
+
 			CharacterClass = new DnD5eCharacterClass(classData);
 			Race = new DnD5eCharacterRace(raceData);
 			ArmorClass = new ArmorClass();

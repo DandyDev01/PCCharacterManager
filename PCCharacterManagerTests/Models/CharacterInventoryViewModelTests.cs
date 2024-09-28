@@ -2,12 +2,7 @@
 using PCCharacterManager.Models;
 using PCCharacterManager.Stores;
 using PCCharacterManager.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManagerTests.Models
 {
@@ -31,9 +26,9 @@ namespace PCCharacterManagerTests.Models
 			item.AddProperty(hidden);
 
 			vm.SelectedItem = new ItemViewModel(item);
-			
+
 			Assert.AreEqual(2, vm.PropertiesToDisplay.Count);
-			
+
 			vm.ShowPropertiesToDisplayCommand.Execute(vm);
 
 			Assert.AreEqual("Don't show hidden properties", vm.ShowHiddenPropertiesText);

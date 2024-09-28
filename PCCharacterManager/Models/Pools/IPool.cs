@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Models
 {
@@ -18,7 +15,7 @@ namespace PCCharacterManager.Models
 		/// gets an item from the pool
 		/// </summary>
 		/// <returns>item from the pool</returns>
-		public T GetItem() 
+		public T GetItem()
 		{
 			if (_items.Count <= 0)
 			{
@@ -47,6 +44,6 @@ namespace PCCharacterManager.Models
 			_items.Add(item);
 			FreeItems++;
 			AllocatedItems--;
-		}	
+		}
 	}
 }

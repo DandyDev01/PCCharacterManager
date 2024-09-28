@@ -3,10 +3,6 @@ using PCCharacterManager.Models.Levelers;
 using PCCharacterManager.Services;
 using PCCharacterManager.Stores;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCCharacterManager.Commands
 {
@@ -50,7 +46,7 @@ namespace PCCharacterManager.Commands
 				case CharacterType.dark_souls:
 					return _darkSoulsLeveler;
 				default:
-					throw new Exception("Leveler does not exist for character type: " + 
+					throw new Exception("Leveler does not exist for character type: " +
 						_characterStore.SelectedCharacter.CharacterType);
 			}
 		}
