@@ -20,7 +20,7 @@ namespace PCCharacterManager.DialogWindows
 
 		private void Create_Button_Click(object sender, RoutedEventArgs e)
 		{
-			DialogWindowCharacterCreaterViewModel vm = DataContext as DialogWindowCharacterCreaterViewModel;
+			DialogWindowCharacterCreaterViewModel? vm = DataContext as DialogWindowCharacterCreaterViewModel;
 
 			if (vm is not null)
 			{

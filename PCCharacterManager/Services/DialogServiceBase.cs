@@ -47,7 +47,7 @@ namespace PCCharacterManager.Services
 
 			dialog.DataContext = dataContext;
 
-			EventHandler closeEventhandler = null;
+			EventHandler? closeEventhandler = null;
 			closeEventhandler = (s, e) =>
 			{
 				callBack(dialog.DialogResult.ToString());
